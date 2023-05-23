@@ -1,0 +1,823 @@
+{
+  "easycom": {
+    "^u-(.*)": "@/uni_modules/uview-ui/components/u-$1/u-$1.vue"
+  },
+  "pages": [
+    //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+    {
+      "path": "pages/auction/auction",
+      "style": {
+        "navigationBarTitleText": "",
+        "navigationStyle": "custom",
+        "app-plus": {
+          "titleNView": false,
+          "bounce": "none"
+        }
+      }
+    },
+    {
+      "path": "pages/index/index",
+      "style": {
+        "navigationBarTitleText": "",
+        "navigationStyle": "custom"
+        // "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/public/login",
+      "style": {
+        "navigationBarTitleText": "",
+        "navigationStyle": "custom",
+        "navigationBarTextStyle": "black",
+        "app-plus": {
+          "titleNView": false,
+          "bounce": "none"
+        }
+      }
+    },
+    {
+      "path": "pages/public/ownership",
+      "style": {
+        "navigationBarTitleText": "%top.phonegsd%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/public/register",
+      "style": {
+        "navigationBarTitleText": "%top.zhuchezhanghao%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/public/password",
+      "style": {
+        "navigationBarTitleText": "%top.wangjimm%",
+        "enablePullDownRefresh": false
+      }
+    },
+
+    {
+      "path": "pages/index/search",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/index/bargain",
+      "style": {
+        "navigationBarTitleText": "%top.kanjiapintuan%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/class/submit",
+      "style": {
+        "navigationBarTitleText": "%top.tijiaodd%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/index/detail",
+      "style": {
+        "navigationBarTitleText": "%top.shop%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/index/Psuccess",
+      "style": {
+        "navigationBarTitleText": "%top.zhifucg%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/class/class",
+      "style": {
+        "navigationBarTitleText": "",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/class/shop/shop",
+      "style": {
+        "navigationBarTitleText": "",
+        "navigationStyle": "custom",
+        "app-plus": {
+          "titleNView": false,
+          "bounce": "none"
+        }
+      }
+    },
+    {
+      "path": "pages/class/shop/sort",
+      "style": {
+        "navigationBarTitleText": "",
+        "navigationStyle": "custom",
+        "app-plus": {
+          "titleNView": false,
+          "bounce": "none"
+        }
+      }
+    },
+    {
+      "path": "pages/class/shop/goods",
+      "style": {
+        "navigationBarTitleText": "",
+        "navigationStyle": "custom",
+        "app-plus": {
+          "titleNView": false,
+          "bounce": "none"
+        }
+      }
+    },
+    {
+      "path": "pages/class/shop/customer",
+      "style": {
+        "navigationBarTitleText": "%top.kefu%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/class/appraise",
+      "style": {
+        "navigationBarTitleText": "%top.qbpj%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/class/Glist",
+      "style": {
+        "navigationBarTitleText": "%top.phone%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/class/Gdetail",
+      "style": {
+        "navigationBarTitleText": "%top.shop%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/auction/detail",
+      "style": {
+        "navigationBarTitleText": "%top.jpxq%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/cart/cart",
+      "style": {
+        "navigationBarTitleText": "%tab.cart%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/cart/submit",
+      "style": {
+        "navigationBarTitleText": "%top.tjdd%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/mine/mine",
+      "style": {
+        "navigationBarTitleText": "",
+        "navigationStyle": "custom",
+        "app-plus": {
+          "titleNView": false,
+          "bounce": "none"
+        }
+      }
+    },
+    {
+      "path": "pages/mine/profile",
+      "style": {
+        "navigationBarTitleText": "%top.userCont%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/mine/nick",
+      "style": {
+        "navigationBarTitleText": "%top.xgnc%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/mine/phone",
+      "style": {
+        "navigationBarTitleText": "%top.xgsjh%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/mine/email",
+      "style": {
+        "navigationBarTitleText": "%top.xgemail%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/mine/attestation",
+      "style": {
+        "navigationBarTitleText": "%top.grqz%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/mine/Vphone",
+      "style": {
+        "navigationBarTitleText": "%top.sjrz%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/mine/Vid",
+      "style": {
+        "navigationBarTitleText": "%top.smrz%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/mine/Vemail",
+      "style": {
+        "navigationBarTitleText": "%top.yzyxh%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/mine/grade",
+      "style": {
+        "navigationBarTitleText": "%top.yhdj%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/mine/upgrade",
+      "style": {
+        "navigationBarTitleText": "%top.zhsj%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/mine/Sgrade",
+      "style": {
+        "navigationBarTitleText": "%top.zhsj%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/mine/message",
+      "style": {
+        "navigationBarTitleText": "%top.xxzx%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/mine/systemM",
+      "style": {
+        "navigationBarTitleText": "%top.xtxx%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/mine/messageD",
+      "style": {
+        "navigationBarTitleText": "%top.xxxq%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/mine/custom",
+      "style": {
+        "navigationBarTitleText": "%top.kefu%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/mine/Feedback",
+      "style": {
+        "navigationBarTitleText": "%top.yjfk%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/mine/about",
+      "style": {
+        "navigationBarTitleText": "%top.about%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/mine/set",
+      "style": {
+        "navigationBarTitleText": "%top.set%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/mine/language",
+      "style": {
+        "navigationBarTitleText": "%top.lan%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/mine/agreement",
+      "style": {
+        "navigationBarTitleText": "%top.yhxy%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/mine/wallet",
+      "style": {
+        "navigationBarTitleText": "",
+        "navigationStyle": "custom",
+        "app-plus": {
+          "titleNView": false,
+          "bounce": "none"
+        }
+      }
+    },
+    {
+      "path": "pages/mine/Withdrawal",
+      "style": {
+        "navigationBarTitleText": "%top.tixian%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/mine/bindingP",
+      "style": {
+        "navigationBarTitleText": "%top.bangding%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/mine/bindingB",
+      "style": {
+        "navigationBarTitleText": "%top.bdyhzh%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/mine/bank",
+      "style": {
+        "navigationBarTitleText": "%top.yhzhgl%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/mine/payment",
+      "style": {
+        "navigationBarTitleText": "%top.zffs%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/mine/recharge",
+      "style": {
+        "navigationBarTitleText": "%top.cz%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/mine/bank",
+      "style": {
+        "navigationBarTitleText": "%top.yhzhgl%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/mine/coupon",
+      "style": {
+        "navigationBarTitleText": "%top.yhq%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/mine/auctionM",
+      "style": {
+        "navigationBarTitleText": "%top.wdjp%",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/mine/attentionM",
+      "style": {
+        "navigationBarTitleText": "%top.wdgz%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/address/address",
+      "style": {
+        "navigationBarTitleText": "%top.xzshdz%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/address/add",
+      "style": {
+        "navigationBarTitleText": "%top.xinzshdz%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/address/edit",
+      "style": {
+        "navigationBarTitleText": "%top.bjshdz%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/mine/order/order",
+      "style": {
+        "navigationBarTitleText": "%top.MyOrder%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/mine/order/jporder",
+      "style": {
+        "navigationBarTitleText": "%top.jpddxq%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/invite/invite",
+      "style": {
+        "navigationBarTitleText": "",
+        "navigationStyle": "custom",
+        "navigationBarBackgroundColor": "#FFF",
+        "app-plus": {
+          "titleNView": false,
+          "bounce": "none"
+        }
+      }
+    },
+    {
+      "path": "pages/invite/record",
+      "style": {
+        "navigationBarTitleText": "%top.yqjl%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/mine/Wsuccess",
+      "style": {
+        "navigationBarTitleText": "%top.txcg%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/mine/setPassword",
+      "style": {
+        "navigationBarTitleText": "%top.szzfmm%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/mine/refund/refund",
+      "style": {
+        "navigationBarTitleText": "%top.tksh%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/mine/refund/detail",
+      "style": {
+        "navigationBarTitleText": "%top.shxq%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/mine/order/detail",
+      "style": {
+        "navigationBarTitleText": "%top.ddxq%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/mine/order/ptdpt",
+      "style": {
+        "navigationBarTitleText": "%top.ddxq%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/mine/order/ptyfh",
+      "style": {
+        "navigationBarTitleText": "%top.ddxq%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/mine/order/ptqrsh",
+      "style": {
+        "navigationBarTitleText": "%top.ddxq%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/mine/order/ptpj",
+      "style": {
+        "navigationBarTitleText": "%top.ddxq%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/mine/order/evaluate",
+      "style": {
+        "navigationBarTitleText": "%top.tjpj%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/mine/order/ptzcgm",
+      "style": {
+        "navigationBarTitleText": "%top.ddxq%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/mine/order/ptzcpt",
+      "style": {
+        "navigationBarTitleText": "%top.ddxq%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/mine/order/dddqrsh",
+      "style": {
+        "navigationBarTitleText": "%top.ddxq%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/mine/order/ddfh",
+      "style": {
+        "navigationBarTitleText": "%top.ddxq%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/mine/order/sqsh",
+      "style": {
+        "navigationBarTitleText": "%top.sqsh%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/mine/refund/detail",
+      "style": {
+        "navigationBarTitleText": "%top.shxq%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/mine/refund/detailPt",
+      "style": {
+        "navigationBarTitleText": "%top.shxq%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/mine/refund/detailCg",
+      "style": {
+        "navigationBarTitleText": "%top.shxq%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/public/phone",
+      "style": {
+        "navigationBarTitleText": "%top.bdsjh%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/cart/orderpay",
+      "style": {
+        "navigationBarTitleText": "",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/auction/classify",
+      "style": {
+        "navigationBarTitleText": "",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/auction/submit",
+      "style": {
+        "navigationBarTitleText": "%top.tijiaodd%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/mine/ysxy",
+      "style": {
+        "navigationBarTitleText": "%top.ysxy%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/mine/ptfwxy",
+      "style": {
+        "navigationBarTitleText": "%top.ptfwxy%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/mine/newpwd",
+      "style": {
+        "navigationBarTitleText": "%top.xgzfmm%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/mine/jpxy",
+      "style": {
+        "navigationBarTitleText": "%top.jpxy%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/class/search",
+      "style": {
+        "navigationBarTitleText": "%top.search%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/auction/jjks",
+      "style": {
+        "navigationBarTitleText": "",
+        "navigationStyle": "custom",
+        "app-plus": {
+          "titleNView": false,
+          "bounce": "none"
+        }
+      }
+    },
+    {
+      "path": "pages/auction/xyzx",
+      "style": {
+        "navigationBarTitleText": "",
+        "navigationStyle": "custom",
+        "app-plus": {
+          "titleNView": false,
+          "bounce": "none"
+        }
+      }
+    },
+    {
+      "path": "pages/public/logins",
+      "style": {
+        "navigationBarTitleText": "",
+        "navigationStyle": "custom",
+        "app-plus": {
+          "titleNView": false,
+          "bounce": "none"
+        }
+      }
+    },
+    {
+      "path": "pages/invite/webview",
+      "style": {
+        "navigationBarTitleText": "",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/mine/webview",
+      "style": {
+        "navigationBarTitleText": "",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/mine/orderpay",
+      "style": {
+        "navigationBarTitleText": "%top.tjdd%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/mine/order/shenshu",
+      "style": {
+        "navigationBarTitleText": "%zhongpai.shenshu%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/mine/order/shenshuCont",
+      "style": {
+        "navigationBarTitleText": "%zhongpai.shenshu%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/mine/order/zhongpai",
+      "style": {
+        "navigationBarTitleText": "%top.ddxq%",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/mine/kefu",
+      "style": {
+        "navigationBarTitleText": "%top.kefu%",
+        "enablePullDownRefresh": false
+      }
+    },
+	{
+	  "path": "pages/mine/share",
+	  "style": {
+	    "navigationBarTitleText": "",
+	    "navigationStyle": "custom"
+	  }
+	}
+  ],
+  "globalStyle": {
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "%top.dianshang%",
+    "navigationBarBackgroundColor": "#FF4E2F",
+    "backgroundColor": "#fff",
+    "fontSize": "36rpx"
+  },
+  "tabBar": {
+    "color": "#333333",
+    "selectedColor": "#F13243",
+    "backgroundColor": "#FFF",
+    // "fontSize": "24rpx",
+    "borderStyle": "#fff",
+    "list": [
+      // {
+      //   "pagePath": "pages/index/index",
+      //   "text": "%tab.home%",
+      //   "iconPath": "static/images/tab/tab1.png",
+      //   "selectedIconPath": "static/images/tab/tab2.png"
+      // },
+      // {
+      //   "pagePath": "pages/class/class",
+      //   "text": "%tab.class%",
+      //   "iconPath": "static/images/tab/tab3.png",
+      //   "selectedIconPath": "./static/images/tab/tab4.png"
+      // },
+      // {
+      //   "pagePath": "pages/auction/auction",
+      //   "text": "%tab.auction%",
+      //   "iconPath": "static/images/tab/tab5.png",
+      //   "selectedIconPath": "static/images/tab/tab6.png"
+      // },
+      // {
+      //   "pagePath": "pages/cart/cart",
+      //   "text": "%tab.cart%",
+      //   "iconPath": "static/images/tab/tab7.png",
+      //   "selectedIconPath": "static/images/tab/tab8.png"
+      // },
+      {
+        "pagePath": "pages/auction/auction",
+        "text": "%tab.home%",
+        "iconPath": "static/images/tab/home.png",
+        "selectedIconPath": "static/images/tab/home-select.png"
+      },
+      {
+        "pagePath": "pages/auction/jjks",
+        "text": "%auction.jijiangkaishi%",
+        "iconPath": "static/images/tab/all.png",
+        "selectedIconPath": "./static/images/tab/all-select.png"
+      },
+      {
+        "pagePath": "pages/auction/xyzx",
+        "text": "%auction.xyzq%",
+        "iconPath": "static/images/tab/xyzx.png",
+        "selectedIconPath": "static/images/tab/xyzx-select.png"
+      },
+      {
+        "pagePath": "pages/mine/mine",
+        "text": "%tab.mine%",
+        "iconPath": "static/images/tab/my.png",
+        "selectedIconPath": "static/images/tab/my-select.png"
+      }
+    ]
+  },
+  "condition": {
+    //模式配置，仅开发期间生效
+    "current": 0, //当前激活的模式(list 的索引项)
+    "list": [
+      {
+        "name": "", //模式名称
+        "path": "", //启动页面，必选
+        "query": "" //启动参数，在页面的onLoad函数里面得到
+      }
+    ]
+  }
+}
