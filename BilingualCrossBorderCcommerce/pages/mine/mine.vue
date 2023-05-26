@@ -368,7 +368,7 @@
 			padding-top: 10rpx;
 			background: #FFF;
 			border-radius: 16rpx;
-			box-shadow: 0px 0px 20rpx 0px rgba(153, 153, 153, 0.1);
+			box-shadow: 0px 0px 20rpx 0px rgba(255, 198, 188, 0.3);
 
 			image {
 				width: 120rpx;
@@ -389,7 +389,7 @@
 				height: 90rpx;
 				background: #FFF;
 				border-radius: 16rpx;
-				box-shadow: 0px 0px 20rpx 0px rgba(153, 153, 153, 0.1);
+				box-shadow: 0px 0px 20rpx 0px rgba(255, 198, 188, 0.3);
 				display: flex;
 				align-items: center;
 				justify-content: center;
@@ -569,7 +569,7 @@
 		height: 166rpx;
 		padding-top: 20rpx;
 		background: #FFF;
-		box-shadow: 0px 0px 20rpx 0px rgba(153, 153, 153, 0.1);
+		box-shadow: 0px 0px 20rpx 0px rgba(255, 198, 188, 0.3);
 		border-radius: 20rpx;
 		margin: 44rpx 0 0 32rpx;
 		
@@ -610,7 +610,7 @@
 	.mine-order {
 		// position: relative;
 		background: #ffffff;
-		box-shadow: 0px 0px 20rpx 0px rgba(153, 153, 153, 0.1);
+		box-shadow: 0px 0px 20rpx 0px rgba(255, 198, 188, 0.3);
 		border-radius: 20rpx;
 		margin: 0rpx 30rpx 30rpx 30rpx;
 
