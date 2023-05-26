@@ -367,8 +367,8 @@
             <view style="display: flex;">
               <button class="order-btn gray" v-if="item.isShow&&item.is_complain==0" @click.stop="onShenshuClick(item)">{{$t('zhongpai.shenshu')}}</button>
               <button class="order-btn gray" @click.stop="onShenshu(item)" v-if="item.see_complain==1">{{$t('zhongpai.ckss')}}</button>
-              <button v-if="item.status===4" @click.stop="onshopClick(item,2)" class="order-btn red" style="background:#FC0609;color:#fff;border:none">{{$t('zhongpai.qrsh')}}</button>
-              <button v-if="item.status===5" @click.stop="$noMultipleClicks(onquerenClick(item))" class="order-btn red" style="background:#FC0609;color:#fff;border:none">{{$t('zhongpai.queren')}}</button>
+              <button v-if="item.status===4" @click.stop="onshopClick(item,2)" class="order-btn red" style="background:rgb(255, 78, 47);color:#fff;border:none">{{$t('zhongpai.qrsh')}}</button>
+              <button v-if="item.status===5" @click.stop="$noMultipleClicks(onquerenClick(item))" class="order-btn red" style="background:rgb(255, 78, 47);color:#fff;border:none">{{$t('zhongpai.queren')}}</button>
             </view>
           </view>
           <!--order-bd end-->
@@ -1020,11 +1020,11 @@ page {
       line-height: 90rpx;
     }
     .active {
-      color: #fc0609;
+      color: rgb(255, 78, 47);
     }
     .active::after {
       height: 2rpx;
-      background: #fc0609;
+      background: rgb(255, 78, 47);
       display: block;
       width: 100%;
       content: "";
@@ -1064,12 +1064,12 @@ page {
       }
       .active {
         font-weight: 550;
-        color: #fc0609;
+        color: rgb(255, 78, 47);
       }
       .active::after {
         width: 50rpx;
         height: 6rpx;
-        background: #fc0609;
+        background: rgb(255, 78, 47);
         border-radius: 3rpx;
         display: block;
         content: "";
@@ -1111,7 +1111,7 @@ page {
           }
         }
         .status {
-          color: #fc0609;
+          color: rgb(255, 78, 47);
           white-space: nowrap;
         }
         .status.gray {
@@ -1175,13 +1175,13 @@ page {
             }
             .price {
               font-size: 22rpx;
-              color: #fc0609;
+              color: rgb(255, 78, 47);
             }
           }
         }
       }
       .order-price {
-        color: #fc0609;
+        color: rgb(255, 78, 47);
         font-size: 22rpx;
         padding: 0 30rpx 30rpx 30rpx;
         display: flex;
@@ -1219,12 +1219,12 @@ page {
         min-width: 140rpx;
         padding: 0 15rpx;
         height: 50rpx;
-        border: 1px solid #fc0609;
+        border: 1px solid rgb(255, 78, 47);
         border-radius: 25rpx;
         margin: 0 0 0 20rpx;
         line-height: 50rpx;
         font-size: 22rpx;
-        color: #fc0609;
+        color: rgb(255, 78, 47);
       }
       .order-btn.gray {
         border-color: #999999;
@@ -1260,7 +1260,7 @@ page {
   .pay-btn {
     width: 260rpx;
     height: 80rpx;
-    background: #fc0609;
+    background: rgb(255, 78, 47);
     border-radius: 40rpx;
     display: block;
     margin: 0 auto;
@@ -1305,8 +1305,8 @@ page {
         margin-left: 20rpx;
       }
       /deep/ uni-radio .uni-radio-input.uni-radio-input-checked {
-        background: #fc0609 !important;
-        border-color: #fc0609 !important;
+        background: rgb(255, 78, 47) !important;
+        border-color: rgb(255, 78, 47) !important;
       }
     }
   }

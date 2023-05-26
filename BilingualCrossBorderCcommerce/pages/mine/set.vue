@@ -84,7 +84,7 @@
           <view class="pop-c">{{$t('user.xitong.huancun')}}</view>
           <view class="pop-b">
             <button class="pop-btn" @click="toggleClose">{{$t('user.xitong.query')}}</button>
-            <button class="pop-btn red" @click="clearCache">{{$t('user.xitong.btnsub')}}</button>
+            <button class="pop-btn red" style="background: #FF4E2F;" @click="clearCache">{{$t('user.xitong.btnsub')}}</button>
           </view>
         </view>
       </view>
@@ -99,7 +99,7 @@
           <view class="pop-c">{{$t('user.xitong.zhuxiao')}}</view>
           <view class="pop-b">
             <button class="pop-btn" @click="toggle1Close">{{$t('user.xitong.query')}}</button>
-            <button class="pop-btn red" @click.stop="$noMultipleClicks(onMineCancelAccount)">{{$t('user.xitong.btnsub')}}</button>
+            <button class="pop-btn red" style="background: #FF4E2F;" @click.stop="$noMultipleClicks(onMineCancelAccount)">{{$t('user.xitong.btnsub')}}</button>
           </view>
         </view>
       </view>
@@ -114,7 +114,7 @@
           <view class="pop-c">{{$t('user.xitong.onQuery')}}</view>
           <view class="pop-b">
             <button class="pop-btn" @click="onQueryshow">{{$t('user.xitong.query')}}</button>
-            <button class="pop-btn red" @click.stop="$noMultipleClicks(onMineLoginOut)">{{$t('user.xitong.btnsub')}}</button>
+            <button class="pop-btn red" style="background: #FF4E2F;" @click.stop="$noMultipleClicks(onMineLoginOut)">{{$t('user.xitong.btnsub')}}</button>
           </view>
         </view>
       </view>

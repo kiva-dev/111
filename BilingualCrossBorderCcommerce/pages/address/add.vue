@@ -34,12 +34,12 @@
       <view class="add-li">
         <view class="li-fl">{{$t('user.address.swmrshdz')}}</view>
         <view class="switch">
-          <switch :checked="is_default?true:false" color="#FC0609" style="transform:scale(0.7);" @change="switchChange" />
+          <switch :checked="is_default?true:false" color="rgb(255, 78, 47)" style="transform:scale(0.7);" @change="switchChange" />
         </view>
       </view>
       <!--add-bot start-->
       <view class="add-bot">
-        <button class="public-btn" @click.stop="$noMultipleClicks(onAddClick)">{{$t('user.address.baocun')}}</button>
+        <button class="public-btn" style="background: rgb(255, 78, 47);" @click.stop="$noMultipleClicks(onAddClick)">{{$t('user.address.baocun')}}</button>
       </view>
       <!--add-bot end-->
     </view>

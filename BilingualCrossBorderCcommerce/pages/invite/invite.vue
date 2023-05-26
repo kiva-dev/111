@@ -2,7 +2,7 @@
 	<view class="invite-page">
 		<Headers>
 			<template v-slot:header>
-				<view class="header"> 推广分享 </view>
+				<view class="header"> {{$t('share.tit')}} </view>
 			</template>
 			<!-- <template v-slot:right>
 				<view class="queryCont" @click="onQuery" style="margin-right:20rpx;">{{$t('top.yqjl')}}</view>
@@ -81,35 +81,35 @@
 		<view class="share-header">
 			<view class="share-header-info">
 				<image src="../../static/images/new/lj.png"></image>
-				<view class="share-header-info-name">累计访问量</view>
-				<view class="share-header-info-num">1000</view>
+				<view class="share-header-info-name">{{$t('share.leijifangwen')}}</view>
+				<view class="share-header-info-num">{{userCont.click_num}}</view>
 			</view>
 			<view class="share-header-info">
 				<image src="../../static/images/new/zhl.png"></image>
-				<view class="share-header-info-name">注册转化量</view>
-				<view class="share-header-info-num">562</view>
+				<view class="share-header-info-name">{{$t('share.zhuchezhuanhualiang')}}</view>
+				<view class="share-header-info-num">{{userCont.invite_num}}</view>
 			</view>
 		</view>
 		
 		<view class="share-link">
-			<view class="share-link-tit">推广链接：</view>
-			<view class="share-link-info">https://pixso.cn/app/editor/uNEEetOzHTERNps8BZbNMgicon_type=1&page-id=0%3A1&item-id=11%3A1</view>
-			<image src="../../static/images/new/copy.png"></image>
+			<view class="share-link-tit">{{$t('share.tglj')}}：</view>
+			<view class="share-link-info">{{qrUrl}}</view>
+			<image src="../../static/images/new/copy.png" @click="onCopy(qrUrl)"></image>
 		</view>
 		
 		<view class="share-ma">
-			<view class="share-ma-tit">推广码：</view>
-			<view class="share-ma-info">FGAGAG</view>
-			<image src="../../static/images/new/copy.png"></image>
+			<view class="share-ma-tit">{{$t('share.tgm')}}：</view>
+			<view class="share-ma-info">{{invite_code}}</view>
+			<image src="../../static/images/new/copy.png" @click="onCopy(invite_code)"></image>
 		</view>
 		
 		<view class="share-link" style="margin-top: 70rpx;">
-			<view class="share-link-tit">推广二维码：</view>
+			<view class="share-link-tit">{{$t('share.tgewm')}}：</view>
 		</view>
 		
-		<image src="../../static/images/new/ewm.png" class="ewm"></image>
+		<image :src="qrcodeImg" class="ewm"></image>
 		
-		<view class="save">保存到手机</view>
+		<view class="save" @click="onSaveImg">{{$t('share.bcdsj')}}</view>
 		
 		<!--邀请码弹出 start-->
 		<uni-popup ref="popup2" type="center">
@@ -249,6 +249,7 @@
 				// inviteLink:'https://www.facebook.com/sharer/'
 				beinvited_send_money: 0, // 被邀请人金额
 				invite_send_money: 0, // 邀请人金额
+				userCont:{}
 			}
 		},
 		onShow() {
@@ -263,6 +264,7 @@
 				if (res.code == 1) {
 					uni.setStorageSync('userCont', res.data)
 					this.invite_code = res.data.invite_code
+					this.userCont=res.data
 					this.qrUrl = 'https://h5.kolibrimall.com/h5/#/?invite_code=' + res.data.invite_code // 生成二维码的链接
 					// this.qrUrl = 'http://localhost:8081/h5/#/?invite_code=' + res.data.invite_code// 生成二维码的链接
 					this.createQrcode()
@@ -368,8 +370,8 @@
 			// 保存图片
 			async onSaveImg() {
 				let imgUrl = "";
-				if (this.canvasImg) {
-					imgUrl = await this.canvasImg;
+				if (this.qrcodeImg) {
+					imgUrl = await this.qrcodeImg;
 					saveImg(imgUrl)
 				}
 			},
@@ -499,9 +501,14 @@
 			}
 			
 			.share-header-info-name{
+				width: 90%;
 				font-size: 32rpx;
 				color: rgb(44, 44, 44);
-				margin: 20rpx 0 24rpx 0;
+				text-align: center;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				margin: 20rpx auto 24rpx auto;
 			}
 			
 			.share-header-info-num{
@@ -517,6 +524,7 @@
 		display: flex;
 		
 		.share-link-tit{
+			width: 200rpx;
 			font-size: 32rpx;
 			color: rgb(44, 44, 44);
 			margin-left: 40rpx;
@@ -544,6 +552,7 @@
 		margin-top: 20rpx;
 		
 		.share-ma-tit{
+			width: 200rpx;
 			font-size: 32rpx;
 			color: rgb(44, 44, 44);
 			margin-left: 40rpx;
@@ -553,7 +562,7 @@
 			font-size: 32rpx;
 			color: rgb(255, 78, 47);
 			word-break: break-all;
-			margin-left: 30rpx;
+			margin-left: 0rpx;
 		}
 		
 		image{

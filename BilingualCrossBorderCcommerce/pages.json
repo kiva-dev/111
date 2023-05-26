@@ -743,6 +743,20 @@
 	    "navigationBarTitleText": "",
 	    "navigationStyle": "custom"
 	  }
+	},
+	{
+	  "path": "pages/mine/new/collect_products",
+	  "style": {
+	    "navigationBarTitleText": "",
+	    "navigationStyle": "custom"
+	  }
+	},
+	{
+	  "path": "pages/mine/new/subscribe",
+	  "style": {
+	    "navigationBarTitleText": "",
+	    "navigationStyle": "custom"
+	  }
 	}
   ],
   "globalStyle": {

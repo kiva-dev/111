@@ -92,7 +92,7 @@ export default {
 
       .nick-btn {
         font-size: 28rpx;
-        color: #fa1d1d;
+        color: #FF4E2F;
         padding: 0;
       }
       .input {

@@ -13,7 +13,7 @@
 				<uni-swiper-dot class="uni-swiper-dot-box" @clickItem=clickItem :info="shopCont.images"
 					:current="current" :mode="mode" field="content">
 					<swiper class="swiper-box" autoplay="true" :circular="true" @change="change">
-						<swiper-item v-for="item,k in shopCont.images" :key="k">
+						<swiper-item v-for="(item,k) in shopCont.images" :key="k">
 							<view :class="item.colorClass" class="swiper-item">
 								<view class="big-img">
 									<image class="image img" :src="item" mode="aspectFill" :draggable="false"
@@ -33,9 +33,9 @@
 				<view class="title">{{shopCont.goods_name}}</view>
 				<view class="mouch">
 					<view class="left">
-						<view class="qiangpaijia">{{$t('auction.detail.qiangpaijia')}} RM{{shopCont.auction_price}}
+						<view class="qiangpaijia"> RM{{shopCont.auction_price}}
 						</view>
-						<view class="shichangjia">{{$t('auction.detail.shichangjia')}} RM{{shopCont.price}}</view>
+						<view class="shichangjia"> RM{{shopCont.price}}</view>
 					</view>
 					<view class="time" v-if="shopCont.auction_type==2&&shopCont.check_status==2">
 						<u-count-down :time="shopCont.pre_end_time * 1000" format="DD:HH:mm:ss" autoStart millisecond
@@ -78,7 +78,7 @@
 					</view>
 				</template>
 				<view class="li-tags">
-					<block v-for="(item,index) in shopCont.tags" :key="{index}">
+					<block v-for="(item,index) in shopCont.tags" :key="item.tag_id">
 						<!-- <view v-if="item.tag_id==2" class="tag">{{item.name}}</view>
             <block v-if="shopCont.limit==1">
               <view v-if="index==0" class="tag yellow">{{$t('auction.detail.xianpai')}}{{shopCont.limit_num}}{{$t('auction.detail.ci')}}</view>
@@ -104,10 +104,10 @@
 					</view>
 					<view class="title" v-if="shopCont.auction_type==2"></view>
 					<!-- {{$t('auction.detail.yilishi')}}{{shopCont.daytime}} -->
-					<view class="txt" style="color:#fc0609" v-if="shopCont.check_status==3">
-						{{shopCont.lucky_user}}{{$t('auction.detail.renxingyunzhongpai')}}
+					<view class="txt" style="color:#FF4E2F" v-if="shopCont.check_status==3">
+						{{shopCont.lucky_num}}{{$t('auction.detail.renxingyunzhongpai')}}
 					</view>
-					<view class="txt" style="color:#fc0609" v-else-if="shopCont.check_status==4">
+					<view class="txt" style="color:#FF4E2F" v-else-if="shopCont.check_status==4">
 						{{$t('auction.detail.yiliupai')}}
 					</view>
 					<view class="txt" v-else-if="shopCont.auction_type==1">
@@ -151,7 +151,7 @@
 					</view>
 				</view>
 				<view class="shuliang">
-					<view style="color:#fc0609;display:flex">
+					<view style="color:#FF4E2F;display:flex">
 						<block v-if="shopCont.check_status==3||shopCont.check_status==4">
 							{{$t('auction.detail.lishi')}}：{{shopCont.daytime}}
 						</block>
@@ -172,10 +172,113 @@
 				</view>
 			</view>
 			<!-- 参拍人数 end -->
+
+			<!--detail-six start-->
+			<view class="guanzhuCont">
+				<!-- v-if="shopCont.check_status==3||shopCont.check_status==4" -->
+				<!-- <view class="list">
+			  <image src="../../static/images/auc4.png" mode="" />
+			  <view class="num">{{$t('auction.detail.cpl')}}</view>
+			  <view class="txt">{{shopCont.chengpai_rate}}%</view>
+			</view> -->
+				<view class="list">
+					<image src="../../static/images/auc5.png" mode="" />
+					<view>
+						<view class="txt">{{$t('auction.detail.renguanzhu')}}</view>
+						<view class="num">{{shopCont.appear_focus_num}}</view>
+					</view>
+
+				</view>
+				<!-- <view class="list">
+			  <image src="../../static/images/auc6.png" mode="" />
+			  <view class="num">{{shopCont.appear_want_num}}{{$t('auction.detail.ren')}}</view>
+			  <view class="txt">{{$t('auction.detail.feichangxy')}}</view>
+			</view> -->
+				<view class="list" v-if="shopCont.check_status!=1">
+					<image src="../../static/images/auc7.png" mode="" />
+					<view>
+						<view class="txt">{{$t('auction.detail.yixiadanqiang')}}</view>
+						<view class="num">{{shopCont.appear_hot_num}}
+							<!-- {{$t('auction.detail.ren')}} -->
+						</view>
+					</view>
+
+				</view>
+				<view class="list" v-if="shopCont.check_status==1">
+					<image src="../../static/images/new/xd.png" mode="" />
+					<view>
+						<view class="num">{{$t('auction.detail.lishipd')}}</view>
+						<view class="txt">{{shopCont.lucky_user}}</view>
+						
+					</view>
+
+				</view>
+				<view class="list" v-else>
+					<image src="../../static/images/auc9.png" mode="" />
+					<view>
+						<view class="txt">{{$t('auction.detail.weiguan')}}</view>
+						<view class="num">
+							<!-- {{$t('auction.detail.chao')}} -->
+							{{shopCont.appear_watch_num}}
+							<!-- {{$t('auction.detail.ren')}} -->
+						</view>
+						
+					</view>
+
+				</view>
+			</view>
+
 			<!--店铺信息 start-->
 			<view class="detail-five">
 				<view class="five-hd">
-					<view class="logo">
+					<view class="new-shop">
+						<image :src="shopCont.shop.shop_logo" class="new-shop-logo"></image>
+						<view class="new-shop-info">
+							<view class="new-shop-info-des">
+								<view class="new-shop-info-name">{{shopCont.shop.shop_name}}</view>
+								<view class="new-shop-info-nums">
+									<view>{{$t('auction.detail.guanhzuliang')}}:{{shopCont.shop.shop_focus_total}}
+									</view>
+									<!-- <view>{{$t('auction.detail.zongxiaoliang')}}:{{shopCont.shop.shop_sale_total}}</view>
+									<view class="new-shop-info-hp">{{$t('auction.detail.haopingliu')}}：<span>{{shopCont.shop.judge_rate}}%</span></view> -->
+								</view>
+							</view>
+						</view>
+						<view @click="onMineFocus(2)">
+							<view v-if="shopCont.shop.shop_focus == 1" class="new-shop-info-dy" style="background: 	rgb(153,153,153,0.6);">
+								{{$t('auction.detail.querydy')}}
+							</view>
+							<view v-else class="new-shop-info-dy">{{$t('auction.detail.dy')}}</view>
+						</view>
+					</view>
+					<view class="new-shop-line"></view>
+					<view class="conter">
+						<view class="five-head">
+							<view class="hd-fl">
+								<view class="txt">
+									<view class="c" v-if="isShowAll">
+										{{shopCont.shop.shop_info}}
+										<image src="../../static/images/new/shouqi.png" @click="isShowAll=false">
+										</image>
+										<!-- <u-read-more showHeight="120rpx" toggle textIndent="0" :font-size="14"
+											:closeText="$t('user.mine.zk')" :openText="$t('user.mine.sq')"
+											color="#FF4E2F">
+											<rich-text :nodes="shopCont.shop.shop_info"></rich-text>
+										</u-read-more> -->
+									</view>
+
+									<view class="not-all" v-else>
+										<view>{{shopCont.shop.shop_info}}</view>
+										<image src="../../static/images/new/zhankai.png" @click="isShowAll=true" v-show="shopCont.shop.shop_info">
+										</image>
+									</view>
+								</view>
+
+							</view>
+						</view>
+					</view>
+
+					<!-- <view class="logo">
 						<image class="img" :src="shopCont.shop.shop_logo"></image>
 					</view>
 					<view class="conter">
@@ -184,15 +287,13 @@
 								<view class="txt">
 									<view class="t">{{shopCont.shop.shop_name}}</view>
 									<view class="c">
-										<u-read-more showHeight="200rpx" toggle textIndent="0" :font-size="12">
+										<u-read-more showHeight="200rpx" toggle textIndent="0" :font-size="14"
+											:closeText="$t('user.mine.zk')" :openText="$t('user.mine.sq')" color="#FF4E2F">
 											<rich-text :nodes="shopCont.shop.shop_info"></rich-text>
 										</u-read-more>
 									</view>
 								</view>
 							</view>
-							<!-- <view class="more" @click="onshopCont">
-                <image class="img" src="../../static/images/detail3.png"></image>
-              </view> -->
 						</view>
 						<view class="cent">
 							<view class="list">{{$t('auction.detail.guanhzuliang')}}{{shopCont.shop.shop_focus_total}}
@@ -201,9 +302,10 @@
 							</view>
 							<view class="list">{{$t('auction.detail.haopingliu')}}{{shopCont.shop.judge_rate}}%</view>
 						</view>
-					</view>
+					</view> -->
+
 				</view>
-				<view class="five-bd">
+				<!-- <view class="five-bd">
 					<view class="bd-li" @click="onMineFocus(2)">
 						<view class="icon">
 							<image class="img" v-if="shopCont.shop.shop_focus==1" src="../../static/images/detail1.png">
@@ -213,55 +315,10 @@
 						<text v-if="shopCont.shop.shop_focus==1">{{$t('home.shop.queryguanzhu')}}</text>
 						<text v-else>{{$t('home.shop.guanzhu')}}</text>
 					</view>
-					<!-- <view class="bd-li" @click="onshopCont">
-            <view class="icon">
-              <image class="img" src="../../static/images/detail2.png"></image>
-            </view>
-            <text>{{$t('auction.detail.jindiangg')}}</text>
-          </view> -->
-				</view>
+				</view> -->
 			</view>
 			<!--店铺信息 end-->
-			<!--detail-six start-->
-			<view class="guanzhuCont">
-				<!-- v-if="shopCont.check_status==3||shopCont.check_status==4" -->
-				<!-- <view class="list">
-          <image src="../../static/images/auc4.png" mode="" />
-          <view class="num">{{$t('auction.detail.cpl')}}</view>
-          <view class="txt">{{shopCont.chengpai_rate}}%</view>
-        </view> -->
-				<view class="list">
-					<image src="../../static/images/auc5.png" mode="" />
-					<view class="num">{{shopCont.appear_focus_num}}</view>
-					<view class="txt">{{$t('auction.detail.renguanzhu')}}</view>
-				</view>
-				<!-- <view class="list">
-          <image src="../../static/images/auc6.png" mode="" />
-          <view class="num">{{shopCont.appear_want_num}}{{$t('auction.detail.ren')}}</view>
-          <view class="txt">{{$t('auction.detail.feichangxy')}}</view>
-        </view> -->
-				<view class="list" v-if="shopCont.check_status!=1">
-					<image src="../../static/images/auc7.png" mode="" />
-					<view class="num">{{shopCont.appear_hot_num}}
-						<!-- {{$t('auction.detail.ren')}} -->
-					</view>
-					<view class="txt">{{$t('auction.detail.yixiadanqiang')}}</view>
-				</view>
-				<view class="list" v-if="shopCont.check_status==1">
-					<image src="../../static/images/auc8.png" mode="" />
-					<view class="num">{{$t('auction.detail.lishipd')}}</view>
-					<view class="txt">{{shopCont.lucky_user}}{{$t('auction.detail.renci')}}</view>
-				</view>
-				<view class="list" v-else>
-					<image src="../../static/images/auc9.png" mode="" />
-					<view class="num">
-						<!-- {{$t('auction.detail.chao')}} -->
-						{{shopCont.appear_watch_num}}
-						<!-- {{$t('auction.detail.ren')}} -->
-					</view>
-					<view class="txt">{{$t('auction.detail.weiguan')}}</view>
-				</view>
-			</view>
+
 			<!--detail-six end-->
 			<!--商品详情 start-->
 			<view class="detail-six">
@@ -336,76 +393,96 @@
 		<!-- 竞拍记录 -->
 		<block v-if="navId==4">
 			<view class="jingpaiCont">
+
+				<view class="header" style="margin-bottom:10px;">
+					<view class="left">
+						<image src="../../static/images/new/search.png" @click="onSearch" mode="" />
+						<input type="text" v-model="search" :placeholder="$t('dhm')">
+					</view>
+					<!-- <view class="name" @click="onSearch">{{$t('search')}}</view> -->
+				</view>
+
 				<block v-if="goodlucky.length">
-					<view class="max-title">{{$t('xyzx')}}</view>
-					<view class="navCont" style="padding:0">
+					<view class="jingpaiCont-jpjl">
+						<view class="max-title" style="color: #FF4E2F;">获奖名单</view>
+						<!-- <view class="navCont" style="padding:0">
 						<view>{{$t('user.mine.neca')}}</view>
 						<view>{{$t('user.auctionM.xdsj')}}</view>
 						<view>{{$t('user.dingdanhao')}}</view>
-						<!-- <view>订单编号</view> -->
 						<view>{{$t('user.zhongbiaozt')}}</view>
+					</view> -->
+						<view class="conter" style="margin-bottom:50rpx;">
+							<view v-for="item,k in goodlucky" :key="k" class="list">
+								<!-- <view>{{item.nickname}}</view> -->
+								<view class="kuan">
+									<view class="user">
+										<image :src="item.avatar" mode="" />
+										<!-- {{item.nickname}} -->
+									</view>
+								</view>
+
+								<view class="name">{{item.nickname}}</view>
+								<view class="time">{{$filter.to_dateTimes(item.update_time)}}</view>
+								<!-- <view class="pay">RM{{item.pay_price}}</view> -->
+								<view class="order">{{item.num_id}}
+									<image src="../../static/images/new/copy.png" mode="scaleToFill"
+										@click="onnumidClick(item)" />
+								</view>
+								<!-- <view class="win"> -->
+								<!-- <image v-if= src="/static/images/jingpai1.png" mode="" /> -->
+								<!-- <image style="height:44rpx;" src="/static/images/icon-101.png" mode="" /> -->
+								<!-- <image src="/static/images/icon-102.png" mode="" /> -->
+								<!-- </view> -->
+							</view>
+						</view>
 					</view>
-					<view class="conter" style="margin-bottom:50rpx;">
-						<view v-for="item,k in goodlucky" :key="k" class="list">
-							<!-- <view>{{item.nickname}}</view> -->
+
+				</block>
+
+				<view class="jingpaiCont-jpjl" style="margin-top: 20rpx;">
+					<view class="max-title">{{$t('auction.detail.jingpaijilu')}}</view>
+					<!-- <view class="navCont">
+						<view>{{$t('user.mine.neca')}}</view>
+						<view>{{$t('user.auctionM.xdsj')}}</view>
+						<view>{{$t('user.dingdanhao')}}</view>
+						<view>{{$t('user.zhongbiaozt')}}</view>
+					</view> -->
+					<view class="conter">
+						<view v-for="item,k in OrderList" :key="item.num_id" class="list">
 							<view class="user">
 								<image :src="item.avatar" mode="" />
 								<!-- {{item.nickname}} -->
 							</view>
-							<view class="time">{{$filter.to_dateTimes(item.update_time)}}</view>
+							<view class="name">{{item.nickname}}</view>
+							<view class="time">{{$filter.to_dateTimes(item.pay_time)}}</view>
 							<!-- <view class="pay">RM{{item.pay_price}}</view> -->
 							<view class="order">{{item.num_id}}
-								<image src="/static/fuzhi.png" mode="scaleToFill" @click="onnumidClick(item)" />
+								<image src="../../static/images/new/copy.png" mode="scaleToFill"
+									@click="onnumidClick(item)" />
 							</view>
-							<view class="win">
-								<!-- <image v-if= src="/static/images/jingpai1.png" mode="" /> -->
-								<image style="height:44rpx;" src="/static/images/icon-101.png" mode="" />
-								<!-- <image src="/static/images/icon-102.png" mode="" /> -->
-							</view>
-						</view>
-					</view>
-				</block>
-				<view class="header" style="margin-bottom:10px;">
-					<view class="left">
-						<image src="/static/images/search1.png" @click="onSearch" mode="" />
-						<input type="text" v-model="search" :placeholder="$t('dhm')">
-					</view>
-					<view class="name" @click="onSearch">{{$t('search')}}</view>
-				</view>
-				<view class="max-title">{{$t('auction.detail.jingpaijilu')}}</view>
-				<view class="navCont">
-					<view>{{$t('user.mine.neca')}}</view>
-					<view>{{$t('user.auctionM.xdsj')}}</view>
-					<view>{{$t('user.dingdanhao')}}</view>
-					<view>{{$t('user.zhongbiaozt')}}</view>
-				</view>
-				<view class="conter">
-					<view v-for="item,k in OrderList" :key="k" class="list">
-						<view class="user">
-							<image :src="item.avatar" mode="" />
-							<!-- {{item.nickname}} -->
-						</view>
-						<view class="time">{{$filter.to_dateTimes(item.pay_time)}}</view>
-						<!-- <view class="pay">RM{{item.pay_price}}</view> -->
-						<view class="order">{{item.num_id}}
-							<image src="/static/fuzhi.png" mode="scaleToFill" @click="onnumidClick(item)" />
-						</view>
-						<view class="win">
-							<image v-if="item.win==0" src="/static/images/jingpai1.png" mode="" />
-							<image v-if="item.win==1" style="height:44rpx;" src="/static/images/icon-101.png" mode="" />
-							<image v-if="item.win==2" style="height:44rpx;" src="/static/images/icon-102.png" mode="" />
-							<image v-if="item.win==5" style="height:44rpx;" src="/static/images/Frame.png" mode="" />
-							<image v-if="item.win==4||item.win==3" style="height:44rpx;"
-								src="/static/images/Frame-1.png" mode="" />
+							<!-- <view class="win">
+								<image v-if="item.win==0" src="/static/images/jingpai1.png" mode="" />
+								<image v-if="item.win==1" style="height:44rpx;" src="/static/images/icon-101.png"
+									mode="" />
+								<image v-if="item.win==2" style="height:44rpx;" src="/static/images/icon-102.png"
+									mode="" />
+								<image v-if="item.win==5" style="height:44rpx;" src="/static/images/Frame.png"
+									mode="" />
+								<image v-if="item.win==4||item.win==3" style="height:44rpx;"
+									src="/static/images/Frame-1.png" mode="" /> -->
 							<!-- 0待抽奖，1中奖，2未中奖，3流拍待退款，4未达到封盘条件，部分封盘后多出的记录，待退款，5已退回 -->
+							<!-- </view> -->
 						</view>
 					</view>
 				</view>
+
+
+
 			</view>
 		</block>
 		<!--抢拍次数 start-->
 
-		<uni-popup ref="qiangpaiShow" type="center">
+		<view v-if="qiangpaiShow" class="fenxiang">
 			<view class="qiangpaiShow">
 				<image src="../../static/images/new/tck.png" class="kct"></image>
 				<view class="query" @click="onQueryClick">
@@ -413,10 +490,10 @@
 				</view>
 				<view class="qiangpaiCont">
 					<view class="center">
-						<view class="maxtitle">
+						<!-- <view class="maxtitle">
 							<image src="../../static/images/new/cz.png" mode="scaleToFill" />
 							<view class="title">{{$t('user.auctionM.qtxqpcs')}}</view>
-						</view>
+						</view> -->
 						<view class="cent">
 							<!-- <view class="txt">{{$t('user.auctionM.qpcs')}}</view> -->
 							<view class="cont">
@@ -437,7 +514,7 @@
 					</view>
 				</view>
 			</view>
-		</uni-popup>
+		</view>
 
 
 		<!--抢拍次数 end-->
@@ -457,8 +534,9 @@
 		</uni-popup>
 		<!--竞拍次数为0 end-->
 		<!--竞拍次数大于0 start-->
-		<uni-popup ref="jingpaiShow" type="center">
-			<!-- <view class="jingpaiConent" v-if="jingpaiShow"> -->
+		<!-- <uni-popup ref="jingpaiShow" type="center"> -->
+		
+		<view class="fenxiang" v-if="jingpaiShow">
 			<view class="jingpai-ok">
 				<image src="../../static/images/new/tck.png" class="kct"></image>
 				<view class="jingpai-pop">
@@ -488,8 +566,8 @@
 				</view>
 			</view>
 
-			<!-- </view> -->
-		</uni-popup>
+		</view>
+		<!-- </uni-popup> -->
 		<!--竞拍次数大于0 end-->
 		<!--分享弹出 start-->
 		<view class="fenxiang" v-if="onfenxingShow">
@@ -544,16 +622,30 @@
 					<view class="title">{{$t('auction.detail.xuzhufufy')}}</view>
 					<view class="txt"><text>RM</text>{{shopNum}}</view>
 				</view>
-				<view v-for="item in orderPayList" :key="item.id" class="mode-li">
-					<view class="label">
-						{{item.title}}
-						<block v-if="item.id==1">（{{$t('auction.detail.keyongyuer')}}<text
-								class="color-red">RM{{money}}</text>）</block>
+				<block v-if="shopNum>=10">
+					<view v-for="item in orderPayList" :key="item.id" class="mode-li">
+						<view class="label">
+							{{item.title}}
+							<block v-if="item.id==1">（{{$t('auction.detail.keyongyuer')}}<text class="color-red"
+									style="color: #FF4E2F;">RM{{money}}</text>）</block>
+						</view>
+						<view class="li-fr" @click="onQuanClick(item)">
+							<radio :checked="item.isShow?true:false" value="r1" />
+						</view>
 					</view>
-					<view class="li-fr" @click="onQuanClick(item)">
-						<radio :checked="item.isShow?true:false" value="r1" />
+				</block>
+				<block v-else>
+					<view class="mode-li">
+						<view class="label">
+							{{orderPayList[0].title}}
+							<block v-if="orderPayList[0].id==1">（{{$t('auction.detail.keyongyuer')}}<text
+									class="color-red" style="color: #FF4E2F;">RM{{money}}</text>）</block>
+						</view>
+						<view class="li-fr" @click="onQuanClick(orderPayList[0])">
+							<radio :checked="orderPayList[0].isShow?true:false" value="r1" />
+						</view>
 					</view>
-				</view>
+				</block>
 				<view class="mode-bot">
 					<button class="public-btn"
 						@click.stop="$noMultipleClicks(onPayClick)">{{$t('auction.detail.quzhifu')}}</button>
@@ -562,8 +654,23 @@
 		</view>
 		<!--支付方式弹出 end-->
 		<!--支付密码弹出 start-->
-		<view class="zhifummCont" v-if='zhipassShow'>
-			<view class="public-pop">
+		<view class="fenxiang" v-if="zhipassShow">
+			<view class="pay-pwd">
+				<image src="../../static/images/new/tck-my.png" class="pay-pwd-img"></image>
+				<image src="../../static/images/new/close.png" class="pay-pwd-close" @click="onPwdQuery"></image>
+				<view class="pay-pwd-info">
+					<view class="pay-pwd-info-tit">{{$t('auction.detail.qsrzfmm')}}</view>
+					<view class="pay-pwd-info-line"></view>
+					<view class="pay-pwd-info-price">RM{{shopNum}}</view>
+					<view class="pay-pwd-info-input">
+						<input class="input" type="password" placeholder-class="color-999" v-model="pay_pwd"
+							:placeholder="$t('auction.detail.qsrzfmm')" />
+					</view>
+					<view class="pay-pwd-info-btn" @click="onPwdClick">{{$t('auction.detail.btnsub')}}</view>
+				</view>
+			</view>
+
+			<!-- <view class="public-pop">
 				<view class="pop-con">
 					<view class="pop-t">
 						<text>{{$t('auction.detail.qsrzfmm')}}</text>
@@ -581,12 +688,28 @@
 						<button class="pay-btn" @click="onPwdClick">{{$t('auction.detail.btnsub')}}</button>
 					</view>
 				</view>
-			</view>
+			</view> -->
 		</view>
 		<!--支付密码弹出 end-->
 		<!--支付成功弹出 start-->
-		<view class="zhifummCont" v-if='zhichenShow'>
-			<view class="payConter">
+		<view class="fenxiang" v-if='zhichenShow'>
+
+			<view class="pay-pwd">
+				<image src="../../static/images/new/tck-cg.png" class="pay-pwd-img"></image>
+				<image src="../../static/images/new/close.png" class="pay-pwd-close" @click="onpayQuery"></image>
+				<view class="pay-pwd-info">
+					<view class="pay-pwd-info-tit" style="font-size: 32rpx;">{{$t('auction.detail.gxnzfcgznzp')}}</view>
+					<view class="pay-pwd-info-price" style="font-size: 26rpx;margin-top: 30rpx;">
+						{{$t('auction.detail.zpydzpjlgg')}}
+					</view>
+					<view class="pay-pwd-list">
+						<view class="pay-pwd-list-cancel" @click="onpayQuery">{{$t('auction.detail.query')}}</view>
+						<view class="pay-pwd-list-ok" @click="onQiangpai">{{$t('auction.detail.zaipaiyd')}}</view>
+					</view>
+				</view>
+			</view>
+
+			<!-- <view class="payConter">
 				<view class="title">{{$t('auction.detail.gxnzfcgznzp')}}</view>
 				<view class="txt">{{$t('auction.detail.zpydzpjlgg')}}~</view>
 				<view class="name" v-if="auction_num>'-1'">
@@ -608,7 +731,7 @@
 						</block>
 					</view>
 				</view>
-			</view>
+			</view> -->
 		</view>
 		<!--支付成功弹出 end-->
 	</view>
@@ -685,6 +808,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				zhichenShow: false,
 				set_paypwd: '',
 				MineCont: {}, // 实名认证
+				isShowAll: false, //是否显示全部
 			}
 		},
 		watch: {
@@ -762,6 +886,9 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				})
 			}
 		},
+		// mounted() {
+		// 	this.$refs.qiangpaiShow.open()
+		// },
 		methods: {
 			// 某商品幸运之星
 			onAuctionGoodLucky() {
@@ -890,6 +1017,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						const regex3 = new RegExp('data-fail="0" style="', 'gi');
 						richtext2 = richtext2.replace(regex3, 'data-fail="0" style="max-width: 100%;');
 						res.data.english_content = richtext2
+						// console.log('商品详情', res.data)
 						this.shopCont = res.data
 						// 评价列表
 						this.onOrderGoodsJudgeList()
@@ -992,9 +1120,11 @@ NoR+zv3KaEmPSHtooQIDAQAB
 								0) ? res.data.auction_num : (res.data.auction_num === -1) ? this.shopCont
 							.total_least_num : (res.data.auction_num < this.shopCont.total_least_num) ? res.data
 							.auction_num : this.shopCont.total_least_num
+						// this.auction_num = 10
 						if (res.data.auction_num !== 0) {
 							this.qiangpaiShow = true
-							this.$refs.qiangpaiShow.open()
+							console.log(1)
+							// this.$refs.qiangpaiShow.open()
 						} else {
 							this.$refs.pwdPopup.open()
 						}
@@ -1003,7 +1133,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			},
 			onQueryClick() {
 				this.qiangpaiShow = false
-				this.$refs.qiangpaiShow.close()
+				// this.$refs.qiangpaiShow.close()
 			},
 			// 点击提交抢拍次数数据
 			onBtnSub() {
@@ -1037,8 +1167,10 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					title: this.$t('user.auctionM.qtxqpcs')
 				})
 				this.shopNum = (this.shopCont.auction_price * Number(this.isauctionNum)).toFixed(2)
-				this.$refs.qiangpaiShow.close()
-				this.$refs.jingpaiShow.open()
+				// this.$refs.qiangpaiShow.close()
+				this.qiangpaiShow = false
+				this.jingpaiShow=true
+				// this.$refs.jingpaiShow.open()
 			},
 			onQuanClick(item) {
 				if (item.id == 1 && this.set_paypwd != '1') {
@@ -1133,7 +1265,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			},
 			// 点击有剩余次数取消
 			ongoPayQuery() {
-				this.$refs.jingpaiShow.close()
+				this.jingpaiShow=false
+				// this.$refs.jingpaiShow.close()
 			},
 			// 提交订单
 			onOrderReferCartOrder() {
@@ -1149,7 +1282,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					if (res.code == 1) {
 						// this.major_no = res.data.major_no
 						this.order_no = res.data.order_no
-						this.$refs.jingpaiShow.close()
+						// this.$refs.jingpaiShow.close()
+						this.jingpaiShow=false
 						this.zhifushow = true
 					}
 				})
@@ -1169,7 +1303,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				this.zhifushow = false
 				if (isNum == 1) {
 					// 余额支付弹框
-					this.zhipassShow = true
+					this.zhipassShow=true
+					// this.$refs.zhipassShow.open()
 				} else if (isNum == 2) {
 					if (this.MineCont === null) return uni.showToast({
 						icon: 'none',
@@ -1241,12 +1376,14 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			},
 			// 关闭支付密码
 			onPwdQuery() {
-				this.zhipassShow = false
+				this.zhipassShow=false
+				// this.$refs.zhipassShow.close()
 				// uni.navigateBack({ delta: 1 })
 			},
 			// 点击支付成功取消按钮
 			onpayQuery() {
-				this.zhichenShow = false
+				this.zhichenShow=false
+				// this.$refs.zhichenShow.close()
 			},
 			// 点击支付密码
 			onPwdClick() {
@@ -1265,8 +1402,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						setTimeout(() => {
 							this.onMineInfo()
 							this.pay_pwd = ''
-							this.zhipassShow = false
-							this.zhichenShow = true
+							this.zhipassShow=false
+							this.zhichenShow=true
 						}, 500);
 					}
 				})
@@ -1294,16 +1431,15 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				// if (this.shopCont.auction_type == 2) {
 				//   this.onOrderReferCartOrder()
 				// } else {
-				this.zhichenShow = false
+				this.zhichenShow=false
 				this.qiangpaiShow = true
-				this.$refs.qiangpaiShow.open()
+				// this.$refs.qiangpaiShow.open()
 				//   if (this.auction_num) {
 				//     this.onOrderReferCartOrder()
 				//   } else {
-				console.log(this.auction_num)
 				if (this.auction_num || this.shopCont.remain_auction_num) {
 					this.qiangpaiShow = true
-					this.$refs.qiangpaiShow.open()
+					// this.$refs.qiangpaiShow.open()
 				} else {
 					this.$refs.pwdPopup.open()
 				}
@@ -1411,12 +1547,206 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		box-sizing: border-box;
 	}
 
+	//输入密码
+	.pay-pwd {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateY(-60%) translateX(-50%);
+
+		.pay-pwd-img {
+			display: block;
+			width: 600rpx;
+			height: 600rpx;
+			margin: 0 auto -210rpx auto;
+		}
+
+		.pay-pwd-close {
+			position: absolute;
+			top: 410rpx;
+			right: 20rpx;
+			display: block;
+			width: 60rpx;
+			height: 60rpx;
+			z-index: 10;
+		}
+
+		.pay-pwd-info {
+			width: 686rpx;
+			// height: 428rpx;
+			padding: 40rpx 0;
+			background: #FFF;
+			border: 4rpx solid rgb(255, 78, 47);
+			border-radius: 16rpx;
+
+			.pay-pwd-info-tit {
+				width: 80%;
+				font-size: 40rpx;
+				font-weight: bold;
+				text-align: center;
+				margin: 0 auto;
+			}
+
+			.pay-pwd-info-line {
+				width: 600rpx;
+				border-bottom: 2rpx solid rgb(189, 189, 189);
+				margin: 20rpx auto;
+			}
+
+			.pay-pwd-info-price {
+				width: 100%;
+				font-size: 38rpx;
+				color: rgb(255, 78, 47);
+				text-align: center;
+			}
+
+			.pay-pwd-info-input {
+				width: 520rpx;
+				height: 80rpx;
+				background: #f5f5f5;
+				border-radius: 10rpx;
+				padding: 0 20rpx;
+				margin: 20rpx auto;
+
+				.input {
+					width: 100%;
+					height: 80rpx;
+					font-size: 28rpx;
+					text-align: left;
+				}
+			}
+
+			.pay-pwd-info-btn {
+				width: 400rpx;
+				height: 80rpx;
+				line-height: 80rpx;
+				font-size: 32rpx;
+				color: #fff;
+				text-align: center;
+				background: rgb(255, 78, 47);
+				border-radius: 16rpx;
+				margin: 40rpx auto;
+			}
+
+			.pay-pwd-list {
+				width: 100%;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				margin-top: 60rpx;
+
+				view {
+					width: 220rpx;
+					height: 60rpx;
+					line-height: 60rpx;
+					font-size: 28rpx;
+					text-align: center;
+					border-radius: 16rpx;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
+				}
+
+				.pay-pwd-list-cancel {
+					border: 2rpx solid rgb(255, 78, 47);
+				}
+
+				.pay-pwd-list-ok {
+					color: #fff;
+					background: rgb(255, 78, 47);
+					margin-left: 40rpx;
+				}
+			}
+
+		}
+
+	}
+
+
+	//商家信息
+	.new-shop {
+		position: relative;
+		width: 100%;
+		display: flex;
+		align-items: center;
+
+		.new-shop-logo {
+			width: 108rpx;
+			height: 108rpx;
+			border-radius: 50%;
+			margin-right: 30rpx;
+		}
+
+		// .new-shop-info{
+		// 	display: flex;
+		// }
+
+		.new-shop-info-des {
+			width: 300rpx;
+			height: 108rpx;
+			// margin-top: 10rpx;
+			// margin-bottom: 20rpx;
+
+			.new-shop-info-name {
+				width: 100%;
+				font-size: 32rpx;
+				color: rgb(255, 78, 47);
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				// margin-bottom: 20rpx;
+			}
+		}
+
+		.new-shop-info-dy {
+			position: absolute;
+			top: 50%;
+			right: 0rpx;
+			transform: translateY(-50%);
+			min-width: 140rpx;
+			height: 60rpx;
+			line-height: 60rpx;
+			font-size: 32rpx;
+			color: rgb(255, 255, 255);
+			text-align: center;
+			padding: 0 32rpx;
+			background: rgb(255, 78, 47);
+			border-radius: 30rpx;
+		}
+
+		.new-shop-info-nums {
+			max-width: 300rpx;
+			font-size: 24rpx;
+			color: rgb(44, 44, 44);
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			margin-top: 20rpx;
+
+			.new-shop-info-hp {
+
+				span {
+					color: rgb(255, 78, 47);
+				}
+			}
+		}
+	}
+
+	.new-shop-line {
+		width: 690rpx;
+		border-bottom: 2rpx solid rgb(190, 190, 190);
+		margin-top: 20rpx;
+	}
+
 	.agree-box {
 		padding: 30rpx;
 	}
 
 	.qiangpaiShow {
-		position: relative;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateY(-60%) translateX(-50%);
 
 		.kct {
 			position: relative;
@@ -1511,7 +1841,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							justify-content: center;
 							font-size: 24rpx;
 							margin-top: 30rpx;
-							color: #fc0609;
+							color: #FF4E2F;
 						}
 					}
 				}
@@ -1552,9 +1882,14 @@ NoR+zv3KaEmPSHtooQIDAQAB
 	}
 
 	.jingpai-ok {
-		position: relative;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateY(-60%) translateX(-50%);
 
 		.kct {
+			// position: absolute;
+			// top: 0;
 			width: 640rpx;
 			height: 420rpx;
 			display: block;
@@ -1581,7 +1916,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			width: 100%;
 			margin-top: 24rpx;
 			font-size: 24rpx;
-			color: #fc0609;
+			color: #FF4E2F;
 			text-align: center;
 		}
 
@@ -1590,24 +1925,27 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			display: flex;
 			align-items: center;
 			margin-top: 42rpx;
-			// display: flex;
-			// align-items: center;
 			justify-content: center;
 
 			.imgs {
 				width: 26rpx;
 				height: 26rpx;
+				margin-right: 10rpx;
 			}
 
 			.txt1 {
+				max-width: 240rpx;
 				font-size: 24rpx;
 				color: #999;
+				text-align: center;
 				margin: 0 10rpx;
 			}
 
 			.txt2 {
+				max-width: 240rpx;
 				font-size: 24rpx;
 				color: #000;
+				text-align: center;
 			}
 		}
 
@@ -1690,14 +2028,14 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			}
 
 			.active {
-				color: #fc0609;
+				color: #FF4E2F;
 				font-weight: 550;
 			}
 
 			.active::after {
 				width: 32rpx;
 				height: 5rpx;
-				background: #fc0609;
+				background: #FF4E2F;
 				border-radius: 3rpx;
 				position: absolute;
 				bottom: -10rpx;
@@ -1718,10 +2056,12 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			z-index: 11;
 
 			.title {
+				// width: 680rpx;
 				font-size: 28rpx;
 				color: #000;
 				line-height: 48rpx;
 				font-weight: bold;
+				word-break: break-all;
 			}
 
 			.mouch {
@@ -1736,7 +2076,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 					.qiangpaijia {
 						font-size: 24rpx;
-						color: #fc0609;
+						color: #FF4E2F;
 					}
 
 					.shichangjia {
@@ -1751,7 +2091,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					display: flex;
 					align-items: center;
 					font-size: 24rpx;
-					color: #fc0609;
+					color: #FF4E2F;
 				}
 			}
 
@@ -1762,10 +2102,10 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 				.tag {
 					margin: 5rpx;
-					width: 110rpx;
-					height: 30rpx;
+					// width: 110rpx;
+					height: 34rpx;
 					background: #e1ebff;
-					line-height: 30rpx;
+					line-height: 34rpx;
 					text-align: center;
 					overflow: hidden;
 					text-overflow: ellipsis;
@@ -1819,14 +2159,14 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						left: 0;
 						z-index: 1;
 						height: 12rpx;
-						background: #fc0609;
+						background: #FF4E2F;
 						border-radius: 6rpx;
 					}
 				}
 
 				text {
 					font-size: 24rpx;
-					color: #fc0609;
+					color: #FF4E2F;
 					margin-left: 16rpx;
 				}
 			}
@@ -1893,9 +2233,9 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			background: #fff;
 
 			.five-hd {
-				display: flex;
-				// align-items: center;
-				justify-content: space-between;
+				// display: flex;
+				// // align-items: center;
+				// justify-content: space-between;
 
 				.logo {
 					width: 80rpx;
@@ -1908,7 +2248,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				}
 
 				.conter {
-					width: 600rpx;
+					width: 690rpx;
+					margin: 10rpx auto 0 auto;
 
 					.five-head {
 						display: flex;
@@ -1927,11 +2268,37 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 								.c {
 									width: 100%;
-									font-size: 22rpx;
+									font-size: 24rpx;
 									word-break: break-all;
 									margin-top: 10rpx;
+
+									image {
+										display: block;
+										width: 40rpx;
+										height: 40rpx;
+										margin: 0 auto;
+									}
 								}
 							}
+
+							.not-all {
+								word-break: break-all;
+								margin-top: 10rpx;
+
+								view {
+									font-size: 24rpx;
+									max-height: 100rpx;
+									overflow: hidden;
+								}
+
+								image {
+									display: block;
+									width: 40rpx;
+									height: 40rpx;
+									margin: 10rpx auto 0 auto;
+								}
+							}
+
 						}
 
 						.more {
@@ -1948,7 +2315,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						display: flex;
 						align-items: center;
 						font-size: 24rpx;
-						color: #fc0609;
+						color: #FF4E2F;
 
 						.list {
 							margin-right: 20rpx;
@@ -1984,28 +2351,42 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 		//detail-five E
 		.guanzhuCont {
+			width: 710rpx;
 			margin-top: 46rpx;
 			display: flex;
+			margin: 46rpx auto 0 auto;
 
 			.list {
 				width: 33.33%;
-				text-align: center;
+				display: flex;
+				align-items: center;
+				justify-content: center;
 				font-size: 22rpx;
-				color: #fc0609;
+				color: #FF4E2F;
 				font-weight: bold;
+				text-align: center;
 
 				image {
 					width: 80rpx;
 					height: 80rpx;
 					display: block;
-					margin: 0 auto;
+					margin-right: 10rpx;
 				}
 
 				.num {
 					margin-top: 10rpx;
+					max-width: 120rpx;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
 				}
 
-				.txt {}
+				.txt {
+					// width: 100%;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
+				}
 			}
 		}
 
@@ -2050,7 +2431,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						margin-left: 8rpx;
 						width: 74rpx;
 						font-size: 22rpx;
-						color: #fc0609;
+						color: rgb(255, 78, 47);
 					}
 				}
 
@@ -2061,7 +2442,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					.detail-btn {
 						width: 200rpx;
 						height: 75rpx;
-						background: #fc0609;
+						background: rgb(255, 78, 47);
 						border-radius: 38rpx;
 						display: flex;
 						align-items: center;
@@ -2100,7 +2481,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 	// 	.txt {
 	// 		margin-top: 25rpx;
 	// 		font-size: 28rpx;
-	// 		color: #fc0609;
+	// 		color: #FF4E2F;
 	// 	}
 
 	// 	.cent {
@@ -2141,7 +2522,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 	// 			.ljfx {
 	// 				font-size: 32rpx;
-	// 				color: #fc0609;
+	// 				color: #FF4E2F;
 	// 			}
 	// 		}
 	// 	}
@@ -2254,7 +2635,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			.txt {
 				padding-top: 34rpx;
 				padding-bottom: 38rpx;
-				color: #fc0609;
+				color: #FF4E2F;
 				font-size: 46rpx;
 
 				text {
@@ -2281,8 +2662,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				}
 
 				/deep/ uni-radio .uni-radio-input.uni-radio-input-checked {
-					background: #fc0609 !important;
-					border-color: #fc0609 !important;
+					background: #FF4E2F !important;
+					border-color: #FF4E2F !important;
 				}
 			}
 		}
@@ -2321,7 +2702,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		.pay-btn {
 			width: 260rpx;
 			height: 80rpx;
-			background: #fc0609;
+			background: #FF4E2F;
 			border-radius: 40rpx;
 			display: block;
 			margin: 0 auto;
@@ -2353,7 +2734,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 		.name {
 			font-size: 28rpx;
-			color: #fc0609;
+			color: #FF4E2F;
 		}
 
 		.cont {
@@ -2373,7 +2754,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 				.cen {
 					font-size: 32rpx;
-					color: #fc0609;
+					color: #FF4E2F;
 				}
 			}
 		}
@@ -2382,30 +2763,35 @@ NoR+zv3KaEmPSHtooQIDAQAB
 	// 支付成功弹框
 	// 竞拍记录
 	.jingpaiCont {
-		background: #fff;
-		padding: 30rpx;
+		// background: #fff;
+		padding: 30rpx 0;
 
 		.header {
+			width: 686rpx;
 			display: flex;
 			justify-content: space-between;
 			align-items: center;
+			background: #fff;
+			border-radius: 30rpx;
+			margin: 0 auto 30rpx auto;
 
 			.left {
-				width: 608rpx;
-				height: 70rpx;
-				background: #f5f5f5;
+				width: 686rpx;
+				height: 60rpx;
+				background: #fff;
 				border-radius: 35rpx;
 				display: flex;
 				align-items: center;
 
 				image {
-					width: 24rpx;
-					height: 24rpx;
+					width: 40rpx;
+					height: 40rpx;
 					margin: 0 9rpx 0 25rpx;
 				}
 
 				input {
-					font-size: 26rpx;
+					font-size: 24rpx;
+					color: rgb(190, 190, 190);
 				}
 			}
 
@@ -2415,12 +2801,19 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			}
 		}
 
+		.jingpaiCont-jpjl {
+			width: 100%;
+			padding-top: 10rpx;
+			padding-bottom: 30rpx;
+			background: #fff;
+		}
+
 		.navCont {
 			display: flex;
 			justify-content: space-between;
 			align-items: center;
 			font-size: 24rpx;
-			color: #fc0609;
+			color: #FF4E2F;
 			padding: 30rpx 0;
 			text-align: center;
 		}
@@ -2433,20 +2826,51 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				align-items: center;
 				font-size: 24rpx;
 
+				.kuan {
+					position: relative;
+					width: 80rpx;
+					height: 80rpx;
+					background: url('../../static/images/new/kuan.png') no-repeat;
+					background-size: 80rpx 80rpx;
+					margin-left: 30rpx;
+
+					.user {
+						position: absolute;
+						top: 2rpx;
+						left: 8rpx;
+
+						image {
+							width: 64rpx;
+							height: 64rpx;
+							border-radius: 50%;
+							display: block;
+							margin-left: 0;
+						}
+					}
+				}
+
 				.user {
 					display: flex;
 					align-items: center;
 
 					image {
-						width: 40rpx;
-						height: 40rpx;
+						width: 60rpx;
+						height: 60rpx;
 						border-radius: 50%;
 						display: block;
+						margin-left: 40rpx;
 					}
 				}
 
 				.time {
 					color: #999;
+				}
+
+				.name {
+					max-width: 120rpx;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
 				}
 
 				.pay {}
@@ -2457,9 +2881,10 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					align-items: center;
 
 					image {
-						width: 20rpx;
-						height: 20rpx;
+						width: 40rpx;
+						height: 40rpx;
 						margin-left: 5rpx;
+						margin-right: 30rpx;
 					}
 				}
 
@@ -2510,6 +2935,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 		.six-article {
 			padding: 30rpx;
+			word-break: break-all;
 		}
 	}
 
@@ -2605,7 +3031,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						justify-content: center;
 						font-size: 24rpx;
 						margin-top: 30rpx;
-						color: #fc0609;
+						color: #FF4E2F;
 					}
 				}
 			}
@@ -2613,14 +3039,14 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			.btnsub {
 				width: 406rpx;
 				height: 70rpx;
-				background: #fc0609;
+				background: #FF4E2F;
 				border-radius: 16rpx;
 				margin: 0 auto;
 				line-height: 70rpx;
 				text-align: center;
 				font-size: 32rpx;
 				color: #fff;
-				background: #fc0609;
+				background: #FF4E2F;
 			}
 		}
 	}
@@ -2673,8 +3099,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		padding: 30rpx;
 
 		.title {
-			border: 1rpx solid #fc0609;
-			color: #fc0609;
+			border: 1rpx solid #FF4E2F;
+			color: #FF4E2F;
 			padding: 5rpx 10rpx;
 			font-size: 30rpx;
 			border-radius: 10rpx;
@@ -2685,6 +3111,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 	.max-title {
 		font-size: 32rpx;
+		margin-left: 30rpx;
 		margin-bottom: 20rpx;
 	}
 </style>

@@ -34,7 +34,7 @@
       <view class="add-li">
         <view class="li-fl">{{$t('user.address.swmrshdz')}}</view>
         <view class="switch">
-          <switch color="#FC0609" :checked="is_default?true:false" style="transform:scale(0.7);" @change="switchChange" />
+          <switch color="rgb(255, 78, 47)" :checked="is_default?true:false" style="transform:scale(0.7);" @change="switchChange" />
         </view>
       </view>
       <!--add-bot start-->
@@ -43,7 +43,7 @@
           <button class="add-gray" @click="onDel">{{$t('user.address.del')}}</button>
         </view>
         <view class="li">
-          <button class="public-btn" @click.stop="$noMultipleClicks(onAddClick)">{{$t('user.address.baocun')}}</button>
+          <button class="public-btn" style="background: rgb(255, 78, 47);" @click.stop="$noMultipleClicks(onAddClick)">{{$t('user.address.baocun')}}</button>
         </view>
       </view>
       <!--add-bot end-->

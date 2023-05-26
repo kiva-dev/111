@@ -187,6 +187,7 @@
   "auction.qiangpai": "抢拍",
   "auction.yiwancheng": "已完成",
   "auction.jinxingzhong": "进行中",
+  "auction.jpjd":"竞拍进度",
   "auction.jijiangkaishi": "即将开始",
   "auction.lishijingpai": "历史竞拍",
   "auction.lishi": "历时",
@@ -214,6 +215,10 @@
   "auction.shi": "小时",
   "auction.fen": "分",
   "auction.miao": "秒",
+  "auction.shoucang":"收藏",
+  "auction.yishoucang":"已收藏",
+  "auction.login":"登录",
+  "auction.logout":"登出",
 
   "auction.detail.qiangpaijia": "抢拍价",
   "auction.detail.shichangjia": "市场价",
@@ -287,6 +292,8 @@
   "auction.detail.qxzzffs": "请选择支付方式",
   "auction.detail.qingsshumm": "请输入密码",
   "auction.detail.title": "抢拍最多次数为",
+  "auction.detail.dy":"订阅",
+  "auction.detail.querydy":"取消订阅",
 
   "cart.guanli": "管理",
   "cart.wancheng": "完成",
@@ -365,6 +372,9 @@
   "user.myCont.yjfk": "意见反馈",
   "user.myCont.about": "关于我们",
   "user.myCont.yiwanceng": "已完成",
+  "user.myCont.scsp":"收藏商品",
+  "user.myCont.dysp":"订阅商铺",
+  
 
   "user.mine.avaitel": "头像",
   "user.mine.neca": "昵称",
@@ -373,6 +383,10 @@
   "user.mine.grrz": "个人认证",
   "user.mine.yhdj": "用户等级",
   "user.mine.shdz": "收货地址",
+  "user.mine.tgfx":"推广分享",
+  "user.mine.wsm":"未实名",
+  "user.mine.zk":"展开",
+  "user.mine.sq":"收起",
 
   "user.address.edit": "编辑",
   "user.address.zwdz": "暂无地址",
@@ -411,7 +425,7 @@
 
   "user.recharge.dqje": "当前余额",
   "user.recharge.czje": "充值金额",
-  "user.recharge.qsrczje": "请输入充值金额",
+  "user.recharge.qsrczje": "请输入充值金额(单次不能小于RM10)",
   "user.recharge.ljcz": "立即充值",
 
   "user.Vemail.email": "设置邮箱号",
@@ -499,6 +513,8 @@
   "user.nick.zczywsz": "支持2-24位中英文数字，符号-和_",
   "user.nick.nccdw": "昵称长度为2~24位",
   "user.nick.xgcg": "修改成功",
+  "user.nick.ghtx":"更换头像",
+  "user.nick.wbd":"未绑定",
 
   "user.wallet.zhje": "账户金额(MYR)",
   "user.wallet.ktxje": "可提现金额(MYR)",
@@ -597,6 +613,9 @@
   "user.auctionM.ckxq": "查看详情",
   "user.dingdanhao": "兑换码",
   "user.zhongbiaozt": "中标状态",
+  "user.auctionM.shifukuang":"实付款",
+  "user.auctionM.dailingjian":"待领奖",
+  "user.auctionM.lijilingjian":"领取",
 
   "user.attentionM.shangpin": "商品",
   "user.attentionM.dianpu": "店铺",
@@ -1204,5 +1223,17 @@
   "monthNum": "充值金额需大于10",
   "monthNums": "充值金额需大于10并且是整数",
   "djs": "点击数",
-  "yqs": "邀请数"
+  "yqs": "邀请数",
+  
+  "share.tit":"推广分享",
+  "share.leijifangwen":"累计访问量",
+  "share.zhuchezhuanhualiang":"注册转化量",
+  "share.tglj":"推广链接",
+  "share.tgm":"推广码",
+  "share.tgewm":"推广二维码",
+  "share.bcdsj":"保存到手机",
+  
+  "auctionM.qpj":"抢拍价",
+  "order.jpcs":"竞拍次数",
+  "order.jpje":"竞标金额"
 }

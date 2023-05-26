@@ -26,7 +26,7 @@
     <!--address-fixed start-->
     <view class="address-fixed">
       <view class="fixed-con">
-        <button class="public-btn" @click="navClick('add')">{{$t('user.address.addxdz')}}</button>
+        <button class="public-btn" style="background: rgb(255, 78, 47);" @click="navClick('add')">{{$t('user.address.addxdz')}}</button>
       </view>
     </view>
     <!--address-fixed end-->

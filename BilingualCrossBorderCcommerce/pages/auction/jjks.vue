@@ -2,12 +2,24 @@
 	<view class="auct-page">
 		<!--auct-head start-->
 		<view class="auct-head">
-			<view class="head-search">
+			<image src="../../static/images/auction/logo.png" class="logo"></image>
+			<!-- <view class="head-search">
 				<view class="icon">
 					<image class="img" src="../../static/images/search1.png"></image>
 				</view>
 				<view class="c"><input type="text" v-model="keyword" :placeholder="this.$t('auction.search') "></view>
-			</view>
+			</view> -->
+		
+			<image src="../../static/images/new/cn-tit.png" class="hedaer-langes" v-show="!isShopCont"></image>
+			<image src="../../static/images/new/en-tit.png" class="hedaer-langes1" v-show="isShopCont"></image>
+		
+			<image src="../../static/images/new/msg.png" class="auth" @click="navClick('/pages/mine/message')"></image>
+			<image src="../../static/images/auction/zw.png" class="lange" v-show="!isShopCont"
+				@click="onChangeLanuage(locales[0])"></image>
+			<image src="../../static/images/auction/en.png" class="lange" v-show="isShopCont"
+				@click="onChangeLanuage(locales[1])"></image>
+			<view class="header-login" v-if="!isLogin" @click="toLogin()">{{$t('auction.login')}}</view>
+			<view class="header-login" :style="isShopCont?'margin-left: 14rpx;':''" v-else="isLogin" @click="$refs.logout.open()">{{$t('auction.logout')}}</view>
 		</view>
 		<!--auct-head end-->
 		<!--头部导航 start-->
@@ -200,17 +212,17 @@
 						</view>
 						<view class="jping-price">
 							<view class="jping-price-left">
-								<view class="jping-price-new">抢拍价：RM{{item.auction_price}}</view>
-								<view class="jping-price-old">市场价：RM{{item.price}}</view>
+								<view class="jping-price-new">{{$t('auction.jingpaijia')}}：RM{{item.auction_price}}</view>
+								<view class="jping-price-old">{{$t('auction.shichangjia')}}：RM{{item.price}}</view>
 							</view>
 							<view class="jping-price-btn" style="background: rgb(255, 179, 0);"
-								@click.stop="onMineFocus(item)" v-if="item.goods_focus">已收藏</view>
+								@click.stop="onMineFocus(item)" v-if="item.goods_focus">{{$t('auction.yishoucang')}}</view>
 							<view class="jping-price-btn" style="background: rgb(255, 179, 0);"
-								@click.stop="onMineFocus(item)" v-else>收藏</view>
+								@click.stop="onMineFocus(item)" v-else>{{$t('auction.shoucang')}}</view>
 						</view>
 
 						<view class="jping-jd">
-							<view class="jping-jd-name" style="color: rgba(196,196,196);">竞拍进度</view>
+							<view class="jping-jd-name" style="color: rgba(196,196,196);">{{$t('auction.jpjd')}}</view>
 							<view class="jping-jd-data">
 								<progress class="progress" :percent="item.finish_rate*100" stroke-width="5"
 									activeColor="#FF4E2F" backgroundColor="#EBEBEB" />
@@ -689,6 +701,16 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				dateList: [],
 				dateTimePickerTempValue: [0, 0, 1],
 				dateTimePickerValue: [0, 0, 1],
+				locales: [{
+						text: this.$t('locale.en'),
+						code: 'en'
+					},
+					{
+						text: this.$t('locale.zh-hans'),
+						code: 'zh-Hans'
+					}
+				],
+				isLogin: false, //是否登录
 			}
 		},
 		watch: {
@@ -819,6 +841,10 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					this.FirstList = res.data
 				}
 			})
+			
+			if (uni.getStorageSync('token')) {
+				this.isLogin=true
+			}
 			// 最新竞拍
 			this.onAuctionNewGoods()
 			// 最新竞拍
@@ -828,7 +854,58 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			// 幸运之星
 			this.onAuctionLuckyList()
 		},
+		onLoad() {
+			let systemInfo = uni.getSystemInfoSync();
+			this.systemLocale = systemInfo.language;
+			this.applicationLocale = uni.getLocale();
+			this.isAndroid = systemInfo.platform.toLowerCase() === 'android';
+			uni.onLocaleChange((e) => {
+			  this.applicationLocale = e.locale;
+			})
+		},
 		methods: {
+			//退出登录
+			onLogout() {
+				this.$http.post(this.$apiObj.MineLoginOut).then(res => {
+					if (res.code == 1) {
+						uni.showToast({
+							title: this.isShopCont ? 'Exit succeeded' : '退出成功',
+							icon: 'none'
+						})
+						uni.removeStorageSync('token');
+						uni.navigateTo({
+							url: '../public/login'
+						})
+						this.$refs.logout.close()
+					}
+				})
+			},
+			//前往登录
+			toLogin() {
+				uni.navigateTo({
+					url: '/pages/public/login'
+				})
+			},
+			//切换语言
+			onChangeLanuage(e) {
+				uni.setStorageSync('UNI_LOCALE', e.code)
+				uni.setStorageSync('locale', e.code)
+				this.$i18n.locale = e.code;
+				if (this.isAndroid) {
+				  uni.showModal({
+				    content: this.$t('index.language-change-confirm'),
+				    success: (res) => {
+				      if (res.confirm) {
+				        uni.setLocale(e.code);
+				      }
+				    }
+				  })
+				} else {
+				  uni.setLocale(e.code);
+				  this.$i18n.locale = e.code;
+				}
+				location.reload()
+			},
 			// 选择日期时间
 			handleSelectDateTime() {
 				this.$refs.dateTimePopup.open()
@@ -1596,10 +1673,50 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		}
 
 		.auct-head {
+			position: relative;
+			width: 100%;
+			display: flex;
+			align-items: center;
 			background: #FF4E2F;
 			// background: linear-gradient(90deg, #9a3064 0%, #59499b 100%);
-			padding: 80rpx 30rpx 15rpx 30rpx;
-
+			padding: 80rpx 0rpx 15rpx 0rpx;
+		
+			.logo {
+				width: 50rpx;
+				height: 50rpx;
+				margin-left: 40rpx;
+			}
+		
+			.auth {
+				width: 50rpx;
+				height: 50rpx;
+				margin-left: 40rpx;
+			}
+		
+			.hedaer-langes {
+				width: 360rpx;
+				height: 40rpx;
+				margin-left: 16rpx;
+			}
+		
+			.hedaer-langes1 {
+				width: 360rpx;
+				height: 54rpx;
+				margin-left: 16rpx;
+			}
+		
+			.lange {
+				width: 50rpx;
+				height: 50rpx;
+				margin-left: 30rpx;
+			}
+		
+			.header-login {
+				font-size: 26rpx;
+				color: #fff;
+				margin-left: 30rpx;
+			}
+		
 			.head-search {
 				height: 70rpx;
 				background: #ffffff;
@@ -1607,21 +1724,22 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				display: flex;
 				align-items: center;
 				padding: 0 26rpx;
-
+				// margin-left: 40rpx;
+		
 				.icon {
-					width: 23rpx;
-					height: 24rpx;
+					width: 33rpx;
+					height: 34rpx;
 					min-width: 23rpx;
 					margin-right: 15rpx;
 				}
-
+		
 				.c {
 					font-size: 26rpx;
 					color: #999;
 				}
 			}
 		}
-
+		
 		.auct-nav {
 			background: #fff;
 			padding: 30rpx 30rpx;
@@ -1635,14 +1753,14 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			}
 
 			.active {
-				color: #fc0609;
+				color: rgb(255, 78, 47);
 				font-weight: 550;
 			}
 
 			.active::after {
 				width: 32rpx;
 				height: 5rpx;
-				background: #fc0609;
+				background: rgb(255, 78, 47);
 				border-radius: 3rpx;
 				position: absolute;
 				bottom: -10rpx;
@@ -1745,8 +1863,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 				.li-date {
 					height: 40rpx;
-					background: #fc0609;
-					background: linear-gradient(-45deg, #fc0609 0%, #ff4e50 100%);
+					background: rgb(255, 78, 47);
+					background: linear-gradient(-45deg, rgb(255, 78, 47) 0%, #ff4e50 100%);
 					border-radius: 10px 0px 10rpx 0px;
 					position: absolute;
 					left: 0;
@@ -1847,7 +1965,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 						.price-fl {
 							.red {
-								color: #fc0609;
+								color: rgb(255, 78, 47);
 								margin-right: 20rpx;
 							}
 
@@ -1860,7 +1978,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						.price-btn {
 							width: 100rpx;
 							height: 50rpx;
-							background: #fc0609;
+							background: rgb(255, 78, 47);
 							border-radius: 10rpx;
 							min-width: 100rpx;
 							max-width: 100rpx;
@@ -1876,7 +1994,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						display: flex;
 						align-items: center;
 						justify-content: space-between;
-						color: #fc0609;
+						color: rgb(255, 78, 47);
 
 						.w {}
 
@@ -1894,7 +2012,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 								top: 0;
 								height: 100%;
 								border-radius: 6rpx;
-								background: #fc0609;
+								background: rgb(255, 78, 47);
 							}
 						}
 					}
@@ -2030,7 +2148,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 						.price-fl {
 							.red {
-								color: #fc0609;
+								color: rgb(255, 78, 47);
 								margin-right: 20rpx;
 							}
 
@@ -2045,12 +2163,12 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						display: flex;
 						align-items: center;
 						justify-content: flex-end;
-						color: #fc0609;
+						color: rgb(255, 78, 47);
 
 						.price-btn {
 							width: 100rpx;
 							height: 50rpx;
-							background: #fc0609;
+							background: rgb(255, 78, 47);
 							border-radius: 10rpx;
 							min-width: 100rpx;
 							max-width: 100rpx;
@@ -2163,7 +2281,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 						.price-fl {
 							.red {
-								color: #fc0609;
+								color: rgb(255, 78, 47);
 								margin-right: 20rpx;
 							}
 
@@ -2180,7 +2298,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						padding: 0 15rpx;
 						display: flex;
 						font-size: 22rpx;
-						color: #fc0609;
+						color: rgb(255, 78, 47);
 						line-height: 45rpx;
 						margin: 15rpx 0;
 					}
@@ -2324,7 +2442,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			}
 
 			&.active {
-				background: #fc0609;
+				background: rgb(255, 78, 47);
 				color: #fff;
 			}
 		}
@@ -2383,7 +2501,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 					.num {
 						margin-top: 10rpx;
-						color: #fc0609;
+						color: rgb(255, 78, 47);
 					}
 				}
 			}
@@ -2396,7 +2514,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				text-align: center;
 				font-size: 30rpx;
 				color: #fff;
-				background: #fc0609;
+				background: rgb(255, 78, 47);
 				border-radius: 15rpx;
 			}
 		}
@@ -2417,7 +2535,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		.txt {
 			margin-top: 25rpx;
 			font-size: 28rpx;
-			color: #fc0609;
+			color: rgb(255, 78, 47);
 		}
 
 		.cent {
@@ -2458,7 +2576,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 				.ljfx {
 					font-size: 32rpx;
-					color: #fc0609;
+					color: rgb(255, 78, 47);
 				}
 			}
 		}
@@ -2499,7 +2617,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			.txt {
 				padding-top: 34rpx;
 				padding-bottom: 38rpx;
-				color: #fc0609;
+				color: rgb(255, 78, 47);
 				font-size: 46rpx;
 
 				text {
@@ -2526,8 +2644,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				}
 
 				/deep/ uni-radio .uni-radio-input.uni-radio-input-checked {
-					background: #fc0609 !important;
-					border-color: #fc0609 !important;
+					background: rgb(255, 78, 47) !important;
+					border-color: rgb(255, 78, 47) !important;
 				}
 			}
 		}
@@ -2566,7 +2684,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		.pay-btn {
 			width: 260rpx;
 			height: 80rpx;
-			background: #fc0609;
+			background: rgb(255, 78, 47);
 			border-radius: 40rpx;
 			display: block;
 			margin: 0 auto;
@@ -2598,7 +2716,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 		.name {
 			font-size: 28rpx;
-			color: #fc0609;
+			color: rgb(255, 78, 47);
 		}
 
 		.cont {
@@ -2618,7 +2736,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 				.cen {
 					font-size: 32rpx;
-					color: #fc0609;
+					color: rgb(255, 78, 47);
 				}
 			}
 		}

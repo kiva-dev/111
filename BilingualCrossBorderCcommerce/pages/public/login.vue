@@ -3,7 +3,7 @@
 		<view class="login-box">
 			<!--login-logo start-->
 			<view class="login-logo">
-				<image class="img" src="../../static/images/login1.png"></image>
+				<image class="img" src="../../static/images/new/login.png"></image>
 			</view>
 			<!--login-logo end-->
 			<block v-if="isNav==1">
@@ -91,7 +91,7 @@
 				<!--login-flex end-->
 				<!--login-bot start-->
 				<view class="login-bot">
-					<button class="public-btn"
+					<button class="public-btn" style="background: rgb(255, 78, 47);"
 						@click.stop="$noMultipleClicks(onLoginEmailLogin)">{{$t('login.ljdl')}}</button>
 				</view>
 				<!--login-bot end-->
@@ -716,8 +716,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 			.login-logo {
 				padding: 150rpx 0 100rpx 0;
-				width: 343rpx;
-				height: 236rpx;
+				width: 300rpx;
+				height: 300rpx;
 				margin: 0 auto;
 			}
 

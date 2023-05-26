@@ -19,11 +19,11 @@
     <view class="lan-box">
       <view class="li" v-for="(item, index) in locales" :key="index" @click="onLocaleChange(item)">
         <text class="text">{{item.text}}</text>
-        <view class="default-icon">
+        <view class="default-icon" v-if="item.code != applicationLocale">
           <image class="img" src="../../static/images/mine/radio1.png"></image>
         </view>
         <view class="select-icon" v-if="item.code == applicationLocale">
-          <image class="img" src="../../static/images/mine/radio2.png"></image>
+          <image class="img" src="../../static/images/new/select.png"></image>
         </view>
       </view>
     </view>
@@ -113,8 +113,8 @@ export default {
       top: 50%;
       margin-top: -17rpx;
       right: 0;
-      width: 34rpx;
-      height: 34rpx;
+      width: 40rpx;
+      height: 40rpx;
     }
     .default-icon {
       position: absolute;

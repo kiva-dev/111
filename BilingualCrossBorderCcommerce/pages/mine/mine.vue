@@ -5,18 +5,18 @@
 			<view class="head-set" @click="navClick('set')">
 				<image class="img" src="../../static/images/mine/setting.png"></image>
 			</view>
+
+			<!-- <image src="../../static/images/mine/kefu.png" class="head_kf"></image>
 			
-			<image src="../../static/images/mine/kefu.png" class="head_kf"></image>
-			
-			<image src="../../static/images/mine/comment.png" class="head_msg"></image>
-			
+			<image src="../../static/images/mine/comment.png" class="head_msg"></image> -->
+
 			<view class="head-mid" @click="navClick('profile')">
 				<view class="mid-fl">
 					<view class="mid-img">
 						<image class="img" v-if="userCont.avatar" :src="userCont.avatar"></image>
 						<image class="img" v-else src="../../static/images/mine/auth_logo.png"></image>
 					</view>
-					<view class="mid_shiming">未实名</view>
+					<view class="mid_shiming">{{$t('user.mine.wsm')}}</view>
 					<view class="mid-txt">
 						<view class="name">{{userCont.nickname}}</view>
 						<view class="vip">
@@ -31,7 +31,7 @@
 					<image class="img" src="../../static/images/mine/more.png"></image>
 				</view> -->
 			</view>
-			
+
 			<!-- <view class="head-nav">
 				<view class="li" @click="navClick('wallet')">
 					<view class="icon">
@@ -39,13 +39,13 @@
 					</view>
 					<view class="t">{{$t('user.myCont.myqianbao')}}</view>
 				</view> -->
-				<!-- <view class="li" @click="navClick('coupon')">
+			<!-- <view class="li" @click="navClick('coupon')">
           <view class="icon">
             <image class="img" src="../../static/images/mine/mine03.png"></image>
           </view>
           <view class="t">{{$t('user.myCont.yhq')}}</view>
         </view> -->
-				<!-- <view class="li" @click="navClick('auctionM')">
+			<!-- <view class="li" @click="navClick('auctionM')">
 					<view class="icon">
 						<image class="img" src="../../static/images/mine/mine04.png"></image>
 					</view>
@@ -59,52 +59,54 @@
 					<view class="t">{{$t('user.myCont.guanzhu')}}</view>
 				</view>
 			</view> -->
-		
+
 		</view>
 		<!--mine-head end-->
-		
+
 		<!--钱包信息-->
 		<view class="mine-wallet">
 			<view class="mine-wallet-left" @click="navClick('wallet')">
 				<image src="../../static/images/new/wallet.png"></image>
-				<view>我的钱包</view>
+				<view>{{$t('user.myCont.myqianbao')}}</view>
 			</view>
 			<view class="mine-wallet-right">
-				<view class="mine-wallet-info" >
+				<view class="mine-wallet-info" @click="navClick('new/collect_products')">
 					<image src="../../static/images/new/scj.png"></image>
-					<view>我的收藏</view>
+					<view>{{$t('user.myCont.scsp')}}</view>
 				</view>
-				<view class="mine-wallet-info" style="margin-top: 12rpx;" @click="navClick('attentionM')">
+				<view class="mine-wallet-info" style="margin-top: 12rpx;" @click="navClick('new/subscribe')">
 					<image src="../../static/images/new/subject.png"></image>
-					<view>订阅店铺</view>
+					<view>{{$t('user.myCont.dysp')}}</view>
 				</view>
 			</view>
 		</view>
-		
+
 		<!--竞拍-->
 		<view class="mine-jingpai">
-			<view class="mine-jingpai-li" @click="toAuction(1)">
-				<image src="../../static/images/mine/jpz.png"></image>
-				<view>竞拍中</view>
+			<vuew class="mine-jingpai-name">{{$t('user.auctionM.wdjp')}}</vuew>
+			<view class="mine-jingpai-list">
+				<view class="mine-jingpai-li" @click="toAuction(1)">
+					<image src="../../static/images/mine/jpz.png"></image>
+					<view>{{$t('user.auctionM.jpz')}}</view>
+				</view>
+
+				<view class="mine-jingpai-li" @click="toAuction(5)">
+					<image src="../../static/images/mine/jpdd.png"></image>
+					<view>{{$t('user.auctionM.jpdd')}}</view>
+				</view>
+
+				<view class="mine-jingpai-li" @click="toAuction(3)">
+					<image src="../../static/images/mine/zpjl.png"></image>
+					<view>{{$t('user.auctionM.zpjl')}}</view>
+				</view>
+
+				<view class="mine-jingpai-li" @click="toAuction(4)">
+					<image src="../../static/images/mine/jpjl.png"></image>
+					<view>{{$t('user.auctionM.jpjl')}}</view>
+				</view>
 			</view>
-			
-			<view class="mine-jingpai-li" @click="toAuction(5)">
-				<image src="../../static/images/mine/jpdd.png"></image>
-				<view>竞拍订单</view>
-			</view>
-			
-			<view class="mine-jingpai-li" @click="toAuction(3)">
-				<image src="../../static/images/mine/zpjl.png"></image>
-				<view>中拍记录</view>
-			</view>
-			
-			<view class="mine-jingpai-li" @click="toAuction(4)">
-				<image src="../../static/images/mine/jpjl.png"></image>
-				<view>竞拍记录</view>
-			</view>
-			
 		</view>
-		
+
 		<!--mine-order start-->
 		<view class="mine-order">
 			<view class="order-hd">
@@ -116,7 +118,7 @@
 					</view>
 				</view>
 			</view>
-			
+
 			<view class="order-nav">
 				<!-- <view class="li" @click="navClick('/pages/mine/order/order?Inv=2&type=2')">
           <view class="icon">
@@ -171,7 +173,7 @@
 					<view class="icon">
 						<image class="img" src="../../static/images/mine/mine16.png"></image>
 					</view>
-					<text>推广分享</text>
+					<text>{{$t('user.mine.tgfx')}}</text>
 				</view>
 				<view class="more">
 					<image class="img" src="../../static/images/mine/more1.png"></image>
@@ -180,7 +182,7 @@
 			<view class="li" @click="navClick('refund/refund')">
 				<view class="li-fl">
 					<view class="icon">
-						<image class="img" src="../../static/images/mine/mine8.png"></image>
+						<image class="img" src="../../static/images/new/yqhy.png"></image>
 					</view>
 					<text>{{$t('user.myCont.tkshh')}}</text>
 				</view>
@@ -310,9 +312,9 @@
 			})
 		},
 		methods: {
-			toAuction(num){
+			toAuction(num) {
 				uni.navigateTo({
-					url:'/pages/mine/auctionM?num='+num
+					url: '/pages/mine/auctionM?num=' + num
 				})
 			},
 			onkefyu() {
@@ -350,16 +352,16 @@
 		min-height: 100vh;
 		background: #f8f8f8;
 	}
-	
+
 	/*钱包相关*/
-	.mine-wallet{
+	.mine-wallet {
 		width: 100%;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		margin-top: 40rpx;
-		
-		.mine-wallet-left{
+
+		.mine-wallet-left {
 			width: 300rpx;
 			height: 182rpx;
 			text-align: center;
@@ -367,22 +369,22 @@
 			background: #FFF;
 			border-radius: 16rpx;
 			box-shadow: 0px 0px 20rpx 0px rgba(153, 153, 153, 0.1);
-			
-			image{
+
+			image {
 				width: 120rpx;
 				height: 120rpx;
 			}
-			
-			view{
+
+			view {
 				font-size: 32rpx;
 				color: rgb(44, 44, 44);
 			}
 		}
-		
-		.mine-wallet-right{
+
+		.mine-wallet-right {
 			margin-left: 90rpx;
-			
-			.mine-wallet-info{
+
+			.mine-wallet-info {
 				width: 300rpx;
 				height: 90rpx;
 				background: #FFF;
@@ -391,13 +393,13 @@
 				display: flex;
 				align-items: center;
 				justify-content: center;
-				
-				image{
+
+				image {
 					width: 60rpx;
 					height: 60rpx;
 				}
-				
-				view{
+
+				view {
 					width: 180rpx;
 					font-size: 24rpx;
 					color: rgb(44, 44, 44);
@@ -405,9 +407,9 @@
 				}
 			}
 		}
-		
+
 	}
-	
+
 	.mine-head {
 		width: 750rpx;
 		height: 334rpx;
@@ -417,21 +419,21 @@
 
 		.head-set {
 			position: absolute;
-			top: 112rpx;
-			right: 110rpx;
+			top: 82rpx;
+			right: 50rpx;
 			width: 48rpx;
 			height: 48rpx;
 		}
-		
-		.head_kf{
+
+		.head_kf {
 			position: absolute;
 			top: 112rpx;
 			right: 188rpx;
 			width: 48rpx;
 			height: 48rpx;
 		}
-		
-		.head_msg{
+
+		.head_msg {
 			position: absolute;
 			top: 112rpx;
 			right: 32rpx;
@@ -455,9 +457,9 @@
 				left: 202rpx;
 				display: flex;
 				align-items: center;
-				
+
 				.name {
-					width: 200rpx;
+					// max-width: 200rpx;
 					font-size: 40rpx;
 					color: #fff;
 					overflow: hidden;
@@ -470,8 +472,8 @@
 					font-size: 16rpx;
 					color: #FFD844;
 					background: #2C2C2C;
-					padding: 1rpx 4rpx;
-					border-radius: 6rpx;
+					padding: 4rpx 14rpx;
+					border-radius: 18rpx;
 					// margin-top: 20rpx;
 					// height: 26rpx;
 					// background: linear-gradient(90deg, #ffebc0, #ffc479);
@@ -508,12 +510,12 @@
 				min-width: 140rpx;
 				max-width: 140rpx;
 			}
-			
-			.mid_shiming{
+
+			.mid_shiming {
 				position: absolute;
 				top: 240rpx;
-				left: 50rpx;
-				width: 104rpx;
+				left: 30rpx;
+				width: 154rpx;
 				height: 34rpx;
 				line-height: 34rpx;
 				font-size: 16rpx;
@@ -522,7 +524,7 @@
 				background: #2C2C2C;
 				border-radius: 20rpx;
 			}
-			
+
 		}
 
 		.head-nav {
@@ -561,29 +563,50 @@
 			}
 		}
 	}
-	
-	.mine-jingpai{
+
+	.mine-jingpai {
 		width: 686rpx;
-		height: 146rpx;
-		display: flex;
-		align-items: center;
+		height: 166rpx;
+		padding-top: 20rpx;
 		background: #FFF;
 		box-shadow: 0px 0px 20rpx 0px rgba(153, 153, 153, 0.1);
 		border-radius: 20rpx;
 		margin: 44rpx 0 0 32rpx;
 		
-		.mine-jingpai-li{
-			width: 25%;
-			text-align: center;
+		.mine-jingpai-list{
+			display: flex;
+			align-items: center;
+			margin-top: 20rpx;
 		}
 		
-		image{
+		.mine-jingpai-name{
+			font-size: 28rpx;
+			font-weight: 600;
+			margin-left: 30rpx;
+		}
+		
+		.mine-jingpai-li {
+			width: 25%;
+			text-align: center;
+
+			view {
+				width: 80%;
+				height: 60rpx;
+				text-align: center;
+				overflow: hidden;
+				// text-overflow: ellipsis;
+				// white-space: nowrap;
+				margin: 0 auto;
+			}
+		}
+
+		image {
 			width: 56rpx;
 			height: 56rpx;
 		}
-		
+
 	}
-	
+
 	.mine-order {
 		// position: relative;
 		background: #ffffff;
@@ -620,9 +643,14 @@
 
 		.order-nav {
 			text-align: center;
-			padding: 0 30rpx 30rpx 30rpx;
+			padding: 0 0rpx 30rpx 0rpx;
 			display: flex;
 			justify-content: space-between;
+
+			.li {
+				width: 25%;
+				text-align: center;
+			}
 
 			.icon {
 				width: 42rpx;
@@ -633,6 +661,9 @@
 			.t {
 				margin-top: 15rpx;
 				font-size: 24rpx;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
 			}
 		}
 	}

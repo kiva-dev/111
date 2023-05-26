@@ -1,14 +1,18 @@
 <template>
 	<view class="auct-page">
 		<!--auct-head start-->
-		<view class="auct-head">
+		<!-- <view class="auct-head">
 			<view class="head-search">
 				<view class="icon">
 					<image class="img" src="../../static/images/search1.png"></image>
 				</view>
 				<view class="c"><input type="text" v-model="keyword" :placeholder="this.$t('auction.search') "></view>
 			</view>
-		</view>
+		</view> -->
+		
+		<!--头部-->
+		<image src="../../static/images/new/xyzx.png" class="xyzx-header" v-if="!isShopCont"></image>
+		<image src="../../static/images/new/xyzx1.png" class="xyzx-header" v-if="isShopCont"></image>
 		<!--auct-head end-->
 		<!--头部导航 start-->
 		<!-- <view class="auct-nav">
@@ -275,21 +279,24 @@
 									<block v-if="isShopCont">of </block>
 									<block v-else>的</block>{{item.goods_name}}
 								</view>
-								<view class="li-date">{{$filter.to_date_time(item.update_time)}}</view>
+								<view class="li-date-f">
+									<view class="bottom" v-if="navId==5">
+										<view class="li-date">{{$filter.to_date_time(item.update_time)}}</view>
+										<view class="right">
+											<view class="lis" @click.stop="onAuctionFocusLucky(item.id)">
+												<image v-if="item.is_zan==1" src="/static/images/new/dz1.png" mode="" />
+												<image v-else src="/static/images/new/dz.png" mode="" />{{item.zan_num}}
+											</view>
+											<!-- <view class="lis" @click.stop="onFengxiangClick(item.auction_goods_id)">
+												<image src="/static/images/auc3.png" mode="" />{{item.share_num}}
+											</view> -->
+										</view>
+									</view>
+								</view>
+								
 							</view>
 						</view>
-						<view class="bottom" v-if="navId==5">
-							<view></view>
-							<view class="right">
-								<view class="lis" @click.stop="onAuctionFocusLucky(item.id)">
-									<image v-if="item.is_zan==1" src="/static/images/zan-act.png" mode="" />
-									<image v-else src="/static/images/zan.png" mode="" />{{item.zan_num}}
-								</view>
-								<view class="lis" @click.stop="onFengxiangClick(item.auction_goods_id)">
-									<image src="/static/images/auc3.png" mode="" />{{item.share_num}}
-								</view>
-							</view>
-						</view>
+						
 					</navigator>
 				</view>
 				<!--luck-ul end-->
@@ -1450,6 +1457,13 @@ NoR+zv3KaEmPSHtooQIDAQAB
 </style>
 <style lang="less" scoped>
 	.auct-page {
+		
+		.xyzx-header{
+			display: block;
+			width: 100%;
+			height: 348rpx;
+		}
+		
 		.auct-head {
 			background: #FF4E2F;
 			// background: linear-gradient(90deg, #9a3064 0%, #59499b 100%);
@@ -1490,14 +1504,14 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			}
 
 			.active {
-				color: #fc0609;
+				color: rgb(255, 78, 47);
 				font-weight: 550;
 			}
 
 			.active::after {
 				width: 32rpx;
 				height: 5rpx;
-				background: #fc0609;
+				background: rgb(255, 78, 47);
 				border-radius: 3rpx;
 				position: absolute;
 				bottom: -10rpx;
@@ -1600,8 +1614,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 				.li-date {
 					height: 40rpx;
-					background: #fc0609;
-					background: linear-gradient(-45deg, #fc0609 0%, #ff4e50 100%);
+					background: rgb(255, 78, 47);
+					background: linear-gradient(-45deg, rgb(255, 78, 47) 0%, #ff4e50 100%);
 					border-radius: 10px 0px 10rpx 0px;
 					position: absolute;
 					left: 0;
@@ -1702,7 +1716,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 						.price-fl {
 							.red {
-								color: #fc0609;
+								color: rgb(255, 78, 47);
 								margin-right: 20rpx;
 							}
 
@@ -1715,7 +1729,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						.price-btn {
 							width: 100rpx;
 							height: 50rpx;
-							background: #fc0609;
+							background: rgb(255, 78, 47);
 							border-radius: 10rpx;
 							min-width: 100rpx;
 							max-width: 100rpx;
@@ -1731,7 +1745,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						display: flex;
 						align-items: center;
 						justify-content: space-between;
-						color: #fc0609;
+						color: rgb(255, 78, 47);
 
 						.w {}
 
@@ -1749,7 +1763,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 								top: 0;
 								height: 100%;
 								border-radius: 6rpx;
-								background: #fc0609;
+								background: rgb(255, 78, 47);
 							}
 						}
 					}
@@ -1885,7 +1899,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 						.price-fl {
 							.red {
-								color: #fc0609;
+								color: rgb(255, 78, 47);
 								margin-right: 20rpx;
 							}
 
@@ -1900,12 +1914,12 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						display: flex;
 						align-items: center;
 						justify-content: flex-end;
-						color: #fc0609;
+						color: rgb(255, 78, 47);
 
 						.price-btn {
 							width: 100rpx;
 							height: 50rpx;
-							background: #fc0609;
+							background: rgb(255, 78, 47);
 							border-radius: 10rpx;
 							min-width: 100rpx;
 							max-width: 100rpx;
@@ -2018,7 +2032,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 						.price-fl {
 							.red {
-								color: #fc0609;
+								color: rgb(255, 78, 47);
 								margin-right: 20rpx;
 							}
 
@@ -2035,7 +2049,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						padding: 0 15rpx;
 						display: flex;
 						font-size: 22rpx;
-						color: #fc0609;
+						color: rgb(255, 78, 47);
 						line-height: 45rpx;
 						margin: 15rpx 0;
 					}
@@ -2088,8 +2102,12 @@ NoR+zv3KaEmPSHtooQIDAQAB
 									align-items: center;
 
 									.name {
+										max-width: 220rpx;
 										font-size: 28rpx;
 										font-weight: 550;
+										overflow: hidden;
+										text-overflow: ellipsis;
+										white-space: nowrap;
 									}
 
 									.vip {
@@ -2113,6 +2131,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 								margin: 15rpx 0;
 								font-size: 24rpx;
 								line-height: 36rpx;
+								word-break: break-all;
 							}
 
 							.li-date {
@@ -2137,8 +2156,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 								margin-left: 45rpx;
 
 								image {
-									width: 30rpx;
-									height: 30rpx;
+									width: 40rpx;
+									height: 40rpx;
 									margin-right: 13rpx;
 								}
 							}
@@ -2179,7 +2198,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			}
 
 			&.active {
-				background: #fc0609;
+				background: rgb(255, 78, 47);
 				color: #fff;
 			}
 		}
@@ -2238,7 +2257,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 					.num {
 						margin-top: 10rpx;
-						color: #fc0609;
+						color: rgb(255, 78, 47);
 					}
 				}
 			}
@@ -2251,7 +2270,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				text-align: center;
 				font-size: 30rpx;
 				color: #fff;
-				background: #fc0609;
+				background: rgb(255, 78, 47);
 				border-radius: 15rpx;
 			}
 		}
@@ -2272,7 +2291,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		.txt {
 			margin-top: 25rpx;
 			font-size: 28rpx;
-			color: #fc0609;
+			color: rgb(255, 78, 47);
 		}
 
 		.cent {
@@ -2313,7 +2332,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 				.ljfx {
 					font-size: 32rpx;
-					color: #fc0609;
+					color: rgb(255, 78, 47);
 				}
 			}
 		}
@@ -2354,7 +2373,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			.txt {
 				padding-top: 34rpx;
 				padding-bottom: 38rpx;
-				color: #fc0609;
+				color: rgb(255, 78, 47);
 				font-size: 46rpx;
 
 				text {
@@ -2381,8 +2400,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				}
 
 				/deep/ uni-radio .uni-radio-input.uni-radio-input-checked {
-					background: #fc0609 !important;
-					border-color: #fc0609 !important;
+					background: rgb(255, 78, 47) !important;
+					border-color: rgb(255, 78, 47) !important;
 				}
 			}
 		}
@@ -2421,7 +2440,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		.pay-btn {
 			width: 260rpx;
 			height: 80rpx;
-			background: #fc0609;
+			background: rgb(255, 78, 47);
 			border-radius: 40rpx;
 			display: block;
 			margin: 0 auto;
@@ -2453,7 +2472,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 		.name {
 			font-size: 28rpx;
-			color: #fc0609;
+			color: rgb(255, 78, 47);
 		}
 
 		.cont {
@@ -2473,7 +2492,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 				.cen {
 					font-size: 32rpx;
-					color: #fc0609;
+					color: rgb(255, 78, 47);
 				}
 			}
 		}

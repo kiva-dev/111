@@ -131,5 +131,7 @@ let apiObj = {
   AuctionorderConfirmOrder: 'Auctionorder/confirmOrder', // 确认收货
   AuctionorderAutoConfirm: 'Auctionorder/autoConfirm', // 确认完成
   RechargeTocashList: 'Recharge/tocashList', // 提现列表
+  MineFocusProducts: 'Mine/focusProducts', // 我关注的商品
+  MineFocusSubscribe: 'Mine/focusSubscribe', // 我关注的店铺
 }
 export default apiObj

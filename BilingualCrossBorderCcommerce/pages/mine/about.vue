@@ -2,7 +2,7 @@
   <view class="about-page">
     <view class="about-box">
       <view class="about-logo">
-        <image class="img" mode="widthFix" src="../../static/images/mine/mine14.png"></image>
+        <image class="img" mode="widthFix" src="../../static/images/new/login.png"></image>
       </view>
       <view class="about-article" v-if="isShopCont" v-html="e_aboutwe"></view>
       <view class="about-article" v-else v-html="aboutwe"></view>
@@ -48,7 +48,7 @@ export default {
   .about-box {
     padding: 30rpx;
     .about-logo {
-      width: 36%;
+      width: 26%;
       padding: 30rpx 0;
       margin: 0 auto;
     }

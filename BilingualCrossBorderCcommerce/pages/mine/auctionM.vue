@@ -93,10 +93,10 @@
 						</view>
 					</view>
 				</navigator> -->
-				<view class="jping" v-for="(item,i) in jingpaiList" :key="i">
+				<view class="jping" v-for="(item,i) in jingpaiList" :key="i" @click="toDetail(item.auction_goods_id)">
 					<view class="jping-left">
 						<image :src="item.image"></image>
-						<view class="jping-left-q">{{item.stage_num}}期</view>
+						<view class="jping-left-q">{{item.stage_num}}{{$t('auction.qi')}}</view>
 					</view>
 
 					<view class="jping-right">
@@ -107,24 +107,25 @@
 						</view>
 
 						<view class="jping-tags">
-							<block v-for="(item,index) in [1,1,1]" :key="index">
-								<view v-if="(index+1)%3==1" class="lan">稀缺商品</view>
-								<view v-else-if="(index+1)%3==2" class="chen">限拍3次</view>
-								<view v-else="(index+1)%3==0" class="red">爆款</view>
+							<block v-for="(data,index) in item.tags" :key="data.tag_id">
+								<view v-if="(index+1)%3==1" class="lan">{{data.name}}</view>
+								<view v-else-if="(index+1)%3==2" class="chen">{{data.name}}</view>
+								<view v-else="(index+1)%3==0" class="red">{{data.name}}</view>
 							</block>
 						</view>
 						<view class="jping-price">
 							<view class="jping-price-left">
-								<view class="jping-price-new">抢拍价：RM{{item.auction_price}}</view>
-								<view class="jping-price-old">市场价：RM{{item.price}}</view>
+								<view class="jping-price-new">RM{{item.auction_price}}</view>
+								<view class="jping-price-old">RM{{item.price}}</view>
 							</view>
-							<view class="jping-price-btn">抢拍</view>
+							<view class="jping-price-btn">{{$t('auction.qiangpai')}}</view>
 						</view>
 
 						<view class="jping-jd">
-							<view class="jping-jd-name">竞拍进度</view>
+							<!-- <view class="jping-jd-name">{{$t('auction.jpjd')}}</view> -->
 							<view class="jping-jd-data">
-								<progress class="progress" :percent="item.finish_rate*100" stroke-width="5" activeColor="#FF4E2F" backgroundColor="#EBEBEB" />
+								<progress class="progress" :percent="item.finish_rate*100" stroke-width="5"
+									activeColor="#FF4E2F" backgroundColor="#EBEBEB" />
 							</view>
 							<view class="jping-jd-bfb">{{item.finish_rate*100}}%</view>
 						</view>
@@ -176,18 +177,18 @@
 					</view>
 				</navigator> -->
 
-				<view class="order-item" v-for="item in jingpaiorderList" :key="item.id">
+				<view class="order-item" v-for="item in jingpaiorderList" :key="item.id" @click="toDetail(item.auction_goods_id)">
 					<view class="order-item-name">{{item.shop_name}}</view>
 					<view class="order-item-info">
 						<view class="order-item-info-left">
 							<image :src="item.image"></image>
-							<view class="order-item-info-q">{{item.stage_num}}期</view>
+							<view class="order-item-info-q">{{item.stage_num}}{{$t('auction.qi')}}</view>
 						</view>
 						<view class="order-item-info-right">
 							<view class="order-item-info-tit">{{item.goods_name}}</view>
 							<view class="order-item-info-price">
-								<view class="order-item-info-old">市场价：RM4566.00</view>
-								<view class="order-item-info-new">抢拍价：RM{{item.pay_price}}</view>
+								<view class="order-item-info-old">RM4566.00</view>
+								<view class="order-item-info-new">RM{{item.pay_price}}</view>
 							</view>
 							<view class="order-item-info-timeandnum">
 								<view class="order-item-info-time">2023-02-15 18:25:50</view>
@@ -272,15 +273,21 @@
 						<image :src="item.image" class="luck-zpjl-item-img"></image>
 						<view class="luck-zpjl-item-name">{{item.goods_name}}</view>
 
-						<view class="luck-zpjl-item-state" v-show="item.select_way==0">待领奖</view>
+						<!-- 						<view class="luck-zpjl-item-state" v-show="item.select_way==0">{{$t('user.auctionM.dailingjian')}}</view> -->
 
-						<view class="luck-zpjl-item-qiangpaijia">抢拍价：RM{{item.auction_price}}</view>
+						<view class="luck-zpjl-item-qiangpaijia">{{$t('auctionM.qpj')}}：RM{{item.auction_price}}</view>
 
 						<!-- <view class="luck-zpjl-item-num">*5</view> -->
 
-						<view class="luck-zpjl-item-price">实付款：RM{{item.auction_price}}</view>
+						<view class="luck-zpjl-item-price">{{$t('user.auctionM.shifukuang')}}：RM{{item.auction_price}}
+						</view>
 
-						<view class="luck-zpjl-item-btn" v-show="item.select_way==0">立即领奖</view>
+						<view class="luck-zpjl-item-btn" v-if="item.select_way==0" @click.stop="onlingjiangClick(item)">
+							{{$t('zhongpai.lingjiangjiang')}}</view>
+						<view class="luck-zpjl-item-btn" style="background: #999;" v-else-if="item.status==6">
+							{{$t('zhongpai.ylj')}}
+						</view>
+						<view class="luck-zpjl-item-btn" v-else>{{$t('zhongpai.lingjiangjiang')}}</view>
 					</view>
 
 				</view>
@@ -379,7 +386,7 @@
 						</view>
 					</view>
 				</navigator>
-				
+
 			</block>
 			<view v-else class="zanwusju">
 				<image src="/static/images/zanwusju.png" />
@@ -439,19 +446,19 @@
 						</view>
 					</view>
 				</navigator> -->
-			
-				<view class="order-item" v-for="item in recordList" :key="item.id">
+
+				<view class="order-item" v-for="item in recordList" :key="item.id" @click="toDetail(item.auction_goods_id)">
 					<view class="order-item-name">{{item.shop_name}}</view>
 					<view class="order-item-info">
 						<view class="order-item-info-left">
 							<image :src="item.image"></image>
-							<view class="order-item-info-q">{{item.stage_num}}期</view>
+							<view class="order-item-info-q">{{item.stage_num}}{{$t('auction.qi')}}</view>
 						</view>
 						<view class="order-item-info-right">
 							<view class="order-item-info-tit">{{item.goods_name}}</view>
 							<view class="order-item-info-price">
-								<view class="order-item-info-old">市场价：RM{{item.price}}</view>
-								<view class="order-item-info-new">抢拍价：RM{{item.pay_price}}</view>
+								<view class="order-item-info-old">RM{{item.price}}</view>
+								<view class="order-item-info-new">RM{{item.pay_price}}</view>
 							</view>
 							<view class="order-item-info-timeandnum">
 								<view class="order-item-info-time">{{$filter.to_date_time(item.pay_time)}}</view>
@@ -459,13 +466,13 @@
 							</view>
 						</view>
 					</view>
-					
+
 					<!-- <view class="order-item-status">
 						<view class="order-item-status-name">竞拍中</view>
 					</view> -->
-					
+
 				</view>
-				
+
 			</block>
 			<view v-else class="zanwusju">
 				<image src="/static/images/zanwusju.png" />
@@ -481,10 +488,10 @@
 		<uni-popup ref="lingjiangPopup" type="center">
 			<view class="lingjiangCont">
 				<view class="list" @click="onZhexianClick">
-					<image src="../../static/month.png" mode="scaleToFill" />{{$t('zhongpai.zhexia')}}
+					<image src="../../static/images/new/zhexian.png" mode="scaleToFill" />{{$t('zhongpai.zhexia')}}
 				</view>
 				<view class="list" @click="onLingjiang">
-					<image src="../../static/shop.png" mode="scaleToFill" />{{$t('zhongpai.lnighuo')}}
+					<image src="../../static/images/new/jp.png" mode="scaleToFill" />{{$t('zhongpai.lnighuo')}}
 				</view>
 			</view>
 		</uni-popup>
@@ -587,7 +594,7 @@
 			}
 		},
 		onLoad(e) {
-			if(e.num) this.type = e.num
+			if (e.num) this.type = e.num
 		},
 		onShow() {
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
@@ -610,6 +617,11 @@
 			}
 		},
 		methods: {
+			toDetail(id){
+				uni.navigateTo({
+					url:'/pages/auction/detail?id='+id
+				})
+			},
 			tomine() {
 				uni.switchTab({
 					url: '/pages/mine/mine'
@@ -786,6 +798,13 @@
 						})
 						this.totalPageNum = res.data.total
 						this.jingpaiList = this.page == 1 ? res.data.data : [...this.jingpaiList, ...res.data.data]
+						this.jingpaiList.forEach(item => {
+							item.tags.forEach(data => {
+								let arr = data.name.split('|')
+								if (!this.isShopCont) data.name = arr[0]
+								else data.name = arr[1]
+							})
+						})
 					}
 				})
 			},
@@ -1068,7 +1087,7 @@
 		.auct-tab {
 			position: relative;
 			width: 750rpx;
-			padding-top: 110rpx;
+			padding-top: 80rpx;
 			height: 92rpx;
 			background: #fff;
 			// padding: 30rpx;
@@ -1090,6 +1109,9 @@
 				position: relative;
 				text-align: center;
 				font-weight: 550;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
 
 				.icon {
 					width: 41rpx;
@@ -1153,8 +1175,8 @@
 
 				.li-date {
 					height: 40rpx;
-					background: #fc0609;
-					background: linear-gradient(-45deg, #fc0609 0%, #ff4e50 100%);
+					background: rgb(255, 78, 47);
+					background: linear-gradient(-45deg, rgb(255, 78, 47) 0%, #ff4e50 100%);
 					border-radius: 10px 0px 10rpx 0px;
 					position: absolute;
 					left: 0;
@@ -1255,7 +1277,7 @@
 
 						.price-fl {
 							.red {
-								color: #fc0609;
+								color: rgb(255, 78, 47);
 								margin-right: 20rpx;
 							}
 
@@ -1268,7 +1290,7 @@
 						.price-btn {
 							width: 100rpx;
 							height: 50rpx;
-							background: #fc0609;
+							background: rgb(255, 78, 47);
 							border-radius: 10rpx;
 							min-width: 100rpx;
 							max-width: 100rpx;
@@ -1286,7 +1308,7 @@
 						padding: 0 15rpx;
 						display: inline-flex;
 						font-size: 22rpx;
-						color: #fc0609;
+						color: rgb(255, 78, 47);
 						line-height: 45rpx;
 						margin: 15rpx 0;
 					}
@@ -1295,7 +1317,7 @@
 						display: flex;
 						align-items: center;
 						justify-content: space-between;
-						color: #fc0609;
+						color: rgb(255, 78, 47);
 
 						.w {}
 
@@ -1313,7 +1335,7 @@
 								top: 0;
 								height: 100%;
 								border-radius: 6rpx;
-								background: #fc0609;
+								background: rgb(255, 78, 47);
 							}
 						}
 					}
@@ -1339,7 +1361,7 @@
 							width: 100rpx;
 							height: 50rpx;
 							line-height: 50rpx;
-							background: #fc0609;
+							background: rgb(255, 78, 47);
 							color: #fff;
 							font-size: 16rpx;
 							text-align: center;
@@ -1432,7 +1454,7 @@
 
 									&.active {
 										color: #fff;
-										background: #fc0609;
+										background: rgb(255, 78, 47);
 									}
 								}
 							}
@@ -1514,7 +1536,7 @@
 					position: absolute;
 					top: 80rpx;
 					left: 230rpx;
-					font-size: 16rpx;
+					font-size: 24rpx;
 					color: rgb(44, 44, 44);
 				}
 
@@ -1522,7 +1544,7 @@
 					position: absolute;
 					top: 110rpx;
 					left: 230rpx;
-					font-size: 16rpx;
+					font-size: 24rpx;
 					color: rgb(44, 44, 44);
 				}
 
@@ -1553,15 +1575,15 @@
 			//
 		}
 	}
-	
+
 	/deep/.uni-progress-inner-bar {
 		border-radius: 6rpx !important;
 	}
-	
-	/deep/.uni-progress-bar{
+
+	/deep/.uni-progress-bar {
 		border-radius: 6rpx !important;
 	}
-	
+
 	//竞拍中
 	.jping {
 		width: 710rpx;
@@ -1612,22 +1634,22 @@
 				display: flex;
 				align-items: center;
 				justify-content: space-between;
-				
-				.jping-name{
+
+				.jping-name {
 					width: 220rpx;
 					overflow: hidden;
 					text-overflow: ellipsis;
 					white-space: nowrap;
 				}
-				
-				.jping-prouct-name{
+
+				.jping-prouct-name {
 					width: 150rpx;
 					text-align: center;
 					overflow: hidden;
 					text-overflow: ellipsis;
 					white-space: nowrap;
 				}
-				
+
 			}
 
 			.jping-tags {
@@ -1638,13 +1660,13 @@
 				margin-top: 16rpx;
 
 				view {
-					width: 120rpx;
 					height: 34rpx;
 					line-height: 34rpx;
 					font-size: 16rpx;
 					text-align: center;
 					border-radius: 10rpx;
 					margin-bottom: 6rpx;
+					margin-right: 10rpx;
 				}
 
 				.lan {
@@ -1655,7 +1677,6 @@
 				.chen {
 					background: rgba(255, 221, 175, 0.5);
 					color: rgb(255, 78, 47);
-					margin: 0 10rpx;
 				}
 
 				.red {
@@ -1663,30 +1684,30 @@
 					color: rgb(255, 0, 0);
 				}
 			}
-			
-			.jping-price{
+
+			.jping-price {
 				width: 100%;
 				display: flex;
 				align-items: center;
 				justify-content: space-between;
-				margin-top: 30rpx;
-				
-				.jping-price-left{
-					
-					.jping-price-new{
+				margin-top: 20rpx;
+
+				.jping-price-left {
+
+					.jping-price-new {
 						font-size: 26rpx;
 						color: rgb(255, 0, 0);
 					}
-					
-					.jping-price-old{
+
+					.jping-price-old {
 						font-size: 16rpx;
 						color: rgb(190, 190, 190);
 						text-decoration: line-through;
 					}
-					
+
 				}
-				
-				.jping-price-btn{
+
+				.jping-price-btn {
 					width: 100rpx;
 					height: 50rpx;
 					line-height: 50rpx;
@@ -1696,20 +1717,20 @@
 					background: rgb(255, 78, 47);
 					border-radius: 16rpx;
 				}
-				
+
 			}
-			
-			.jping-jd{
+
+			.jping-jd {
 				width: 100%;
 				font-size: 24rpx;
 				color: rgb(255, 78, 47);
 				display: flex;
 				align-items: center;
 				justify-content: space-between;
-				margin-top: 30rpx;
-				
-				.jping-jd-data{
-					width: 200rpx;
+				margin-top: 10rpx;
+
+				.jping-jd-data {
+					width: 300rpx;
 				}
 			}
 		}
@@ -1767,6 +1788,9 @@
 					background: rgba(255, 78, 47, 0.3);
 					border-radius: 0 0 16rpx 16rpx;
 					z-index: 10;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
 				}
 
 			}
@@ -1791,7 +1815,6 @@
 					width: 100%;
 					display: flex;
 					align-items: center;
-					justify-content: space-between;
 					margin-top: 30rpx;
 
 					.order-item-info-old {
@@ -1803,6 +1826,7 @@
 					.order-item-info-new {
 						font-size: 24rpx;
 						color: rgb(44, 44, 44);
+						margin-left: 30rpx;
 					}
 
 				}
@@ -1889,7 +1913,7 @@
 			}
 
 			.status {
-				color: #fc0609;
+				color: rgb(255, 78, 47);
 				white-space: nowrap;
 			}
 
@@ -1964,14 +1988,14 @@
 
 					.price {
 						font-size: 22rpx;
-						color: #fc0609;
+						color: rgb(255, 78, 47);
 					}
 				}
 			}
 		}
 
 		.order-price {
-			color: #fc0609;
+			color: rgb(255, 78, 47);
 			font-size: 22rpx;
 			padding: 0 30rpx 30rpx 30rpx;
 			display: flex;
@@ -1997,12 +2021,12 @@
 		.order-btn {
 			width: 140rpx;
 			height: 50rpx;
-			border: 1px solid #fc0609;
+			border: 1px solid rgb(255, 78, 47);
 			border-radius: 25rpx;
 			margin: 0 0 0 20rpx;
 			line-height: 50rpx;
 			font-size: 22rpx;
-			color: #fc0609;
+			color: rgb(255, 78, 47);
 			padding: 0;
 		}
 
@@ -2035,7 +2059,7 @@
 			}
 
 			&:nth-child(2) {
-				background: #fc0609;
+				background: rgb(255, 78, 47);
 				color: #fff;
 				margin-top: 60rpx;
 			}
@@ -2069,7 +2093,7 @@
 			text-align: center;
 
 			text {
-				color: #fc0609;
+				color: rgb(255, 78, 47);
 			}
 		}
 
@@ -2096,7 +2120,7 @@
 				height: 80rpx;
 				line-height: 80rpx;
 				text-align: center;
-				background: #fc0609;
+				background: rgb(255, 78, 47);
 				border-radius: 40rpx;
 				color: #fff;
 			}

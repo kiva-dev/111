@@ -6,7 +6,7 @@
         <textarea class="text" v-model="content" placeholder-class="color-999" :placeholder="$t('user.Feedback.qsrnr')"></textarea>
       </view>
       <view class="feed-bot">
-        <button class="public-btn" @click.stop="$noMultipleClicks(onMineFeedback)">{{$t('user.Feedback.ljtj')}}</button>
+        <button class="public-btn" style="background: #FF4E2F;" @click.stop="$noMultipleClicks(onMineFeedback)">{{$t('user.Feedback.ljtj')}}</button>
       </view>
     </view>
   </view>

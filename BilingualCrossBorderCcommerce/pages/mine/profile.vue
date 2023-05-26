@@ -17,9 +17,10 @@
       </view> -->
 	  
 	  
-	  <view class="person-auth">
-		  <image src="../../static/images/mine/auth_logo.png"></image>
-		  <view>更换头像</view>
+	  <view class="person-auth" @click="upLoadLunimg">
+		  <image v-if="userCont.avatar" :src="userCont.avatar"></image>
+		  <image v-else src="../../static/images/mine/auth_logo.png"></image>
+		  <view>{{$t('user.nick.ghtx')}}</view>
 	  </view>
 	  
       <!--person-li end-->
@@ -47,9 +48,9 @@
       <!--person-li end-->
 	  
 	  <view class="person-li">
-	    <text class="label">手机号</text>
+	    <text class="label">{{$t('user.mine.phone')}}</text>
 	    <view class="li-r" @click="navClick('email')">
-	      <view class="r-t">未绑定</view>
+	      <view class="r-t">{{$t('user.nick.wbd')}}</view>
 	      <view class="icon">
 	        <image class="img" src="../../static/images/mine/more1.png"></image>
 	      </view>
@@ -71,7 +72,7 @@
       <view class="person-li" @click="navClick('attestation')">
         <text class="label">{{$t('user.mine.grrz')}}</text>
         <view class="li-r">
-          <view class="r-t r-m">未认证</view>
+         <!-- <view class="r-t r-m">未认证</view> -->
           <view class="icon">
             <image class="img" src="../../static/images/mine/more1.png"></image>
           </view>
