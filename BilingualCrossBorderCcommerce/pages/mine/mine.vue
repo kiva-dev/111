@@ -16,16 +16,17 @@
 						<image class="img" v-if="userCont.avatar" :src="userCont.avatar"></image>
 						<image class="img" v-else src="../../static/images/mine/auth_logo.png"></image>
 					</view>
-					<view class="mid_shiming">{{$t('user.mine.wsm')}}</view>
+					<view class="mid_shiming">LV{{userCont.level}}</view>
 					<view class="mid-txt">
 						<view class="name">{{userCont.nickname}}</view>
-						<view class="vip">
+						<!-- <view class="vip">
 							<view class="icon">
 								<image class="img" src="../../static/images/mine/mine0.png"></image>
 							</view>
-							<text>LV{{userCont.level}}</text>
-						</view>
+						</view> -->
 					</view>
+					<view class="vip" v-if="!MineCont">{{$t('user.mine.wsm')}}</view>
+					<view class="vip" v-else>{{$t('user.mine.ysm')}}</view>
 				</view>
 				<!-- <view class="more">
 					<image class="img" src="../../static/images/mine/more.png"></image>
@@ -83,7 +84,7 @@
 
 		<!--竞拍-->
 		<view class="mine-jingpai">
-			<vuew class="mine-jingpai-name">{{$t('user.auctionM.wdjp')}}</vuew>
+			<view class="mine-jingpai-name">{{$t('user.auctionM.wdjp')}}</view>
 			<view class="mine-jingpai-list">
 				<view class="mine-jingpai-li" @click="toAuction(1)">
 					<image src="../../static/images/mine/jpz.png"></image>
@@ -213,10 +214,10 @@
 				</view>
 				<view class="dian" v-if="noSelect=='1'"></view>
 			</view>
-			<view class="li" @click="onkefyu">
+			<view class="li" @click="showContact=true">
 				<view class="li-fl">
 					<view class="icon">
-						<image class="img" src="../../static/images/mine/mine11.png"></image>
+						<image class="img" src="/static/images/new/contact.png"></image>
 					</view>
 					<text>{{$t('user.myCont.ptkf')}}</text>
 				</view>
@@ -272,8 +273,58 @@
 				</view>
 			</view>
 		</uni-popup>
+
+		<u-popup :show="showContact" mode="center" bgColor="transparent">
+			<view class="contact">
+				<image src="../../static/images/new/tck-xy.png" class="contact-head"></image>
+				<image src="../../static/images/new/close.png" class="contact-info-close" @click="showContact=false">
+				</image>
+				<view class="contact-info">
+					<view class="contact-info-tit">Contact Us</view>
+
+					<a href="https://facebook.com/Kolibrimall" target="_blank">
+						<view class="contact-info-des">
+							<image src="../../static/images/new/face book.png"></image>
+							<view>Face book</view>
+						</view>
+					</a>
+
+					<a href="https://www.facebook.com/Kolibrimal" target="_blank">
+						<view class="contact-info-des" id="twitter">
+							<image src="../../static/images/share21.png"></image>
+							<view>Twitter</view>
+						</view>
+					</a>
+
+					<a href="http://t.me/Kolibrimall" target="_blank">
+						<view class="contact-info-des">
+							<image src="../../static/images/new/Telegram.png"></image>
+							<view>Telegram</view>
+						</view>
+					</a>
+
+					<a href="https://wa.me/message/NAZMJSVWAJ3XA1" target="_blank">
+						<view class="contact-info-des">
+							<image src="../../static/images/new/WhatsAPP.png"></image>
+							<view>WhatsAPP</view>
+						</view>
+					</a>
+
+				</view>
+			</view>
+		</u-popup>
+
 	</view>
 </template>
+
+<script src="https://cdn.ronghub.com/RongIMLib-5.5.5.prod.js"></script>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="./jssocials-1.4.0/jssocials.min.js"></script>
+<script>
+	// $("#twitter").jsSocials({
+	// 	shares: ["twitter"]
+	// });
+</script>
 
 <script>
 	export default {
@@ -283,6 +334,8 @@
 				noSelect: 0,
 				isShopCont: false, // 商品详情显示中文还是英文
 				userCont: '', // 个人信息
+				MineCont: '',
+				showContact: false
 			}
 		},
 		onShow() {
@@ -294,6 +347,14 @@
 					this.userCont = res.data
 				}
 			})
+
+			// 实名认证
+			this.$http.post(this.$apiObj.MineAuthDetail).then(res => {
+				if (res.code == 1) {
+					this.MineCont = res.data
+				}
+			})
+
 			this.$http.post(this.$apiObj.MineWinAuction, {
 				page: '1',
 				pagenum: '1'
@@ -353,22 +414,88 @@
 		background: #f8f8f8;
 	}
 
+	/*关于我们*/
+	.contact {
+		position: relative;
+		width: 686rpx;
+
+		.contact-head {
+			display: block;
+			width: 686rpx;
+			height: 426rpx;
+			margin-bottom: -56rpx;
+			z-index: 9;
+		}
+
+		.contact-info-close {
+			position: absolute;
+			top: 390rpx;
+			right: 20rpx;
+			width: 60rpx;
+			height: 60rpx;
+			z-index: 10;
+		}
+
+		.contact-info {
+			padding: 46rpx 0;
+			border: 4rpx solid rgb(255, 78, 47);
+			background: #fff;
+			border-radius: 16rpx;
+
+			.contact-info-tit {
+				width: 100%;
+				font-size: 40rpx;
+				font-weight: 700;
+				text-align: center;
+			}
+
+			a {
+				text-decoration: none;
+			}
+
+			.contact-info-des {
+				width: 434rpx;
+				height: 100rpx;
+				font-size: 32rpx;
+				color: rgb(44, 44, 44);
+				display: flex;
+				align-items: center;
+				border-radius: 50rpx;
+				box-shadow: 0rpx 0rpx 8rpx rgba(255, 78, 47, 0.3);
+				margin: 40rpx auto 0 auto;
+
+				image {
+					width: 100rpx;
+					height: 100rpx;
+					border-radius: 50%;
+				}
+
+				view {
+					margin-left: 40rpx;
+				}
+			}
+		}
+	}
+
 	/*钱包相关*/
 	.mine-wallet {
-		width: 100%;
+		width: 686rpx;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		margin-top: 40rpx;
+		background: #FFF;
+		border-radius: 16rpx;
+		margin: 40rpx auto;
+		box-shadow: 0px 0px 20rpx 0px rgba(255, 198, 188, 0.3);
 
 		.mine-wallet-left {
 			width: 300rpx;
 			height: 182rpx;
 			text-align: center;
 			padding-top: 10rpx;
-			background: #FFF;
-			border-radius: 16rpx;
-			box-shadow: 0px 0px 20rpx 0px rgba(255, 198, 188, 0.3);
+			// background: #FFF;
+			// border-radius: 16rpx;
+			// box-shadow: 0px 0px 20rpx 0px rgba(255, 198, 188, 0.3);
 
 			image {
 				width: 120rpx;
@@ -387,9 +514,9 @@
 			.mine-wallet-info {
 				width: 300rpx;
 				height: 90rpx;
-				background: #FFF;
-				border-radius: 16rpx;
-				box-shadow: 0px 0px 20rpx 0px rgba(255, 198, 188, 0.3);
+				// background: #FFF;
+				// border-radius: 16rpx;
+				// box-shadow: 0px 0px 20rpx 0px rgba(255, 198, 188, 0.3);
 				display: flex;
 				align-items: center;
 				justify-content: center;
@@ -451,6 +578,21 @@
 				align-items: center;
 			}
 
+			.vip {
+				position: absolute;
+				top: 208rpx;
+				left: 200rpx;
+				font-size: 16rpx;
+				color: rgb(255, 255, 255);
+				background: #2C2C2C;
+				padding: 4rpx 14rpx;
+				border-radius: 18rpx;
+			}
+
+			.yishiming {
+				color: rgb(255, 216, 68);
+			}
+
 			.mid-txt {
 				position: absolute;
 				top: 152rpx;
@@ -466,30 +608,6 @@
 					text-overflow: ellipsis;
 					white-space: nowrap;
 					margin-right: 10rpx;
-				}
-
-				.vip {
-					font-size: 16rpx;
-					color: #FFD844;
-					background: #2C2C2C;
-					padding: 4rpx 14rpx;
-					border-radius: 18rpx;
-					// margin-top: 20rpx;
-					// height: 26rpx;
-					// background: linear-gradient(90deg, #ffebc0, #ffc479);
-					// border-radius: 11rpx;
-					// font-size: 18rpx;
-					// color: #6c2a09;
-					// display: flex;
-					// align-items: center;
-
-					// .icon {
-					// 	width: 38rpx;
-					// 	height: 35rpx;
-					// 	margin-right: 10rpx;
-					// 	position: relative;
-					// 	top: -4rpx;
-					// }
 				}
 			}
 
@@ -514,8 +632,8 @@
 			.mid_shiming {
 				position: absolute;
 				top: 240rpx;
-				left: 30rpx;
-				width: 154rpx;
+				left: 60rpx;
+				width: 84rpx;
 				height: 34rpx;
 				line-height: 34rpx;
 				font-size: 16rpx;
@@ -572,19 +690,19 @@
 		box-shadow: 0px 0px 20rpx 0px rgba(255, 198, 188, 0.3);
 		border-radius: 20rpx;
 		margin: 44rpx 0 0 32rpx;
-		
-		.mine-jingpai-list{
+
+		.mine-jingpai-list {
 			display: flex;
 			align-items: center;
 			margin-top: 20rpx;
 		}
-		
-		.mine-jingpai-name{
+
+		.mine-jingpai-name {
 			font-size: 28rpx;
 			font-weight: 600;
 			margin-left: 30rpx;
 		}
-		
+
 		.mine-jingpai-li {
 			width: 25%;
 			text-align: center;
@@ -618,7 +736,7 @@
 			display: flex;
 			justify-content: space-between;
 			align-items: center;
-			padding: 30rpx;
+			padding: 20rpx;
 			// border-bottom: 1px solid #f5f5f5;
 			margin-top: 44rpx;
 

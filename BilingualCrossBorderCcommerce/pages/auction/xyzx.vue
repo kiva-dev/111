@@ -12,7 +12,7 @@
 		
 		<!--头部-->
 		<image src="../../static/images/new/xyzx.png" class="xyzx-header" v-if="!isShopCont"></image>
-		<image src="../../static/images/new/xyzx1.png" class="xyzx-header" v-if="isShopCont"></image>
+		<image src="../../static/images/new/xyzx2.png" class="xyzx-header" v-if="isShopCont"></image>
 		<!--auct-head end-->
 		<!--头部导航 start-->
 		<!-- <view class="auct-nav">
@@ -263,40 +263,40 @@
 						<view class="cent">
 							<view class="li-img">
 								<image class="img" :src="item.avatar"></image>
+								<view class="vip">LV{{item.level}}</view>
 							</view>
 							<view class="li-txt">
 								<view class="li-h">
 									<view class="h-fl">
 										<text class="name">{{item.nickname}}</text>
-										<view class="vip">LV{{item.level}}</view>
 									</view>
-									<view class="h-c">{{item.stage_num}}{{$t('auction.qi')}}</view>
+									<view class="right">
+										<view class="lis" @click.stop="onAuctionFocusLucky(item.id)">
+											<image v-if="item.is_zan==1" src="/static/images/new/dz1.png" mode="" />
+											<image v-else src="/static/images/new/dz.png" mode="" />{{item.zan_num}}
+										</view>
+										<!-- <view class="lis" @click.stop="onFengxiangClick(item.auction_goods_id)">
+											<image src="/static/images/auc3.png" mode="" />{{item.share_num}}
+										</view> -->
+									</view>
 								</view>
 								<view class="li-c">
 									{{$t('auction.zaiyiu')}}<text class="color-purse">{{item.shop_name}}</text>
-									{{$t('auction.tigdjphd')}}<text class="color-red">RM{{item.pay_price}}</text>
-									{{$t('auction.jzxypzjz')}}<text class="color-red">RM{{item.price}}</text>
+									{{$t('auction.tigdjphd')}}<text class="color-red" style="color: rgb(255, 78, 47);">RM{{item.pay_price}}</text>
+									{{$t('auction.jzxypzjz')}}<text class="color-red" style="color: rgb(255, 78, 47);">RM{{item.price}}</text>
 									<block v-if="isShopCont">of </block>
 									<block v-else>的</block>{{item.goods_name}}
 								</view>
 								<view class="li-date-f">
 									<view class="bottom" v-if="navId==5">
 										<view class="li-date">{{$filter.to_date_time(item.update_time)}}</view>
-										<view class="right">
-											<view class="lis" @click.stop="onAuctionFocusLucky(item.id)">
-												<image v-if="item.is_zan==1" src="/static/images/new/dz1.png" mode="" />
-												<image v-else src="/static/images/new/dz.png" mode="" />{{item.zan_num}}
-											</view>
-											<!-- <view class="lis" @click.stop="onFengxiangClick(item.auction_goods_id)">
-												<image src="/static/images/auc3.png" mode="" />{{item.share_num}}
-											</view> -->
-										</view>
+										<view class="h-c" style="color: rgb(190,190,190);">{{item.stage_num}}{{$t('auction.qi')}}</view>
 									</view>
 								</view>
 								
 							</view>
 						</view>
-						
+						<view class="luck-li-line" v-if="(k+1) < LuckyList.length"></view>
 					</navigator>
 				</view>
 				<!--luck-ul end-->
@@ -417,7 +417,7 @@
 					<view class="label">
 						{{item.title}}
 						<block v-if="item.id==1">（{{$t('auction.detail.keyongyuer')}}<text
-								class="color-red">RM{{money}}</text>）</block>
+								class="color-red" style="color: rgb(255, 78, 47);">RM{{money}}</text>）</block>
 					</view>
 					<view class="li-fr" @click="onQuanClick(item)">
 						<radio :checked="item.isShow?true:false" value="r1" />
@@ -2072,10 +2072,18 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			.luck-ul {
 				background: #fff;
 				padding: 0 30rpx;
+				
+				.luck-li-line{
+					width: 750rpx;
+					border-bottom: 1px solid rgb(190, 190, 190);
+					margin-left: -30rpx;
+					margin-top: 32rpx;
+				}
 
 				.luck-li {
+					position: relative;
 					padding: 30rpx 0;
-					border-bottom: 1px solid #f5f5f5;
+					// border-bottom: 1px solid #f5f5f5;
 
 					.cent {
 						display: flex;
@@ -2087,6 +2095,19 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							border-radius: 100%;
 							min-width: 80rpx;
 							margin-right: 20rpx;
+						}
+						
+						.vip {
+							position: absolute;
+							top: 102rpx;
+							height: 25rpx;
+							background: #000000;
+							padding: 0 10rpx;
+							font-size: 22rpx;
+							color: #ffc263;
+							margin-left: 10rpx;
+							line-height: 25rpx;
+							border-radius: 12rpx;
 						}
 
 						.li-txt {
@@ -2102,7 +2123,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 									align-items: center;
 
 									.name {
-										max-width: 220rpx;
+										// max-width: 220rpx;
 										font-size: 28rpx;
 										font-weight: 550;
 										overflow: hidden;
@@ -2110,27 +2131,19 @@ NoR+zv3KaEmPSHtooQIDAQAB
 										white-space: nowrap;
 									}
 
-									.vip {
-										height: 25rpx;
-										background: #000000;
-										padding: 0 10rpx;
-										font-size: 22rpx;
-										color: #ffc263;
-										margin-left: 10rpx;
-										line-height: 25rpx;
-									}
+									
 								}
 
 								.h-c {
 									font-size: 24rpx;
-									color: #999;
+									color: rgb(190, 190, 190);
 								}
 							}
 
 							.li-c {
 								margin: 15rpx 0;
 								font-size: 24rpx;
-								line-height: 36rpx;
+								line-height: 40rpx;
 								word-break: break-all;
 							}
 
@@ -2140,28 +2153,30 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							}
 						}
 					}
-
+					
+					.right {
+						display: flex;
+						align-items: center;
+					
+						.lis {
+							display: flex;
+							align-items: center;
+							margin-left: 45rpx;
+					
+							image {
+								width: 40rpx;
+								height: 40rpx;
+								margin-right: 13rpx;
+							}
+						}
+					}
+					
 					.bottom {
 						margin-top: 25rpx;
 						display: flex;
 						justify-content: space-between;
 
-						.right {
-							display: flex;
-							align-items: center;
-
-							.lis {
-								display: flex;
-								align-items: center;
-								margin-left: 45rpx;
-
-								image {
-									width: 40rpx;
-									height: 40rpx;
-									margin-right: 13rpx;
-								}
-							}
-						}
+						
 					}
 				}
 

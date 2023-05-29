@@ -267,7 +267,8 @@
 						</view>
 					</navigator> -->
 
-					<image src="../../static/images/auction/gxzj.png" class="luck-zjtp"></image>
+					<image src="../../static/images/auction/gxzj.png" class="luck-zjtp" v-if="!isShopCont"></image>
+					<image src="../../static/images/new/xyzx1.png" class="luck-zjtp" v-else></image>
 
 					<view class="luck-zpjl-item" v-for="(item,index) in LuckyList" :key="item.id">
 						<image :src="item.image" class="luck-zpjl-item-img"></image>

@@ -210,6 +210,7 @@ page {
 			display: block;
 			width: 200rpx;
 			height: 200rpx;
+			border-radius: 50%;
 			margin: 0rpx auto 25rpx auto;
 		}
 		

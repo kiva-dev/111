@@ -381,7 +381,7 @@
 			<view class="agree-box" v-else v-html="auction_rule"></view>
 		</block>
 		<!-- 评价列表 -->
-		<block v-if="navId==3">
+		<!-- <block v-if="navId==3">
 			<view class="detail-four" v-if="JudgeList.length">
 				<JudgeList :JudgeList="JudgeList"></JudgeList>
 			</view>
@@ -389,7 +389,7 @@
 				<image src="/static/images/zanwusju.png" />
 				<view class="title">~{{$t('home.zanwushuju')}}~</view>
 			</view>
-		</block>
+		</block> -->
 		<!-- 竞拍记录 -->
 		<block v-if="navId==4">
 			<view class="jingpaiCont">
@@ -704,7 +704,7 @@
 					</view>
 					<view class="pay-pwd-list">
 						<view class="pay-pwd-list-cancel" @click="onpayQuery">{{$t('auction.detail.query')}}</view>
-						<view class="pay-pwd-list-ok" @click="onQiangpai">{{$t('auction.detail.zaipaiyd')}}</view>
+						<view class="pay-pwd-list-ok" @click="onQiangpai" v-if="auction_num > isauctionNum">{{$t('auction.detail.zaipaiyd')}}</view>
 					</view>
 				</view>
 			</view>
@@ -761,9 +761,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				}, {
 					id: 2,
 					title: this.$t('auction.detail.jingpaigze')
-				}, {
-					id: 3,
-					title: this.$t('auction.detail.pingjia')
 				}, {
 					id: 4,
 					title: this.$t('auction.detail.jingpaijilu')

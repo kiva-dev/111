@@ -60,7 +60,7 @@
 			<!--1级分类 start-->
 			<view class="banner-list">
 				<scroll-view :scroll-x="true" style="width: 100%;white-space: nowrap;">
-					<view v-for="item in FirstList" :key="item.id" class="banner-item">
+					<view v-for="item in FirstList" :key="item.id" class="banner-item" @click="toClassify(item)">
 						<image :src="item.image"></image>
 						<view class="t">{{item.name}}</view>
 					</view>
@@ -99,8 +99,6 @@
 					<view class="jping-left">
 						<image :src="item.image"></image>
 						<view class="jping-left-q">
-							<!-- {{item.djs}} -->
-							<!-- {{$filter.to_date_time(item.pre_end_time)}} -->
 							<image src="../../static/images/new/time.png"></image>
 							<u-count-down :time="item.djs" format="DD:HH:mm:ss"></u-count-down>
 						</view>
@@ -114,10 +112,6 @@
 						</view>
 
 						<view class="jping-tags">
-							<!-- <view class="lan">Recommended.</view>
-							<view class="lan">New Arrivals.</view>
-							<view class="lan">Cash out.</view>
-							<view class="lan">Van Cleef & Arpels.</view> -->
 							<block v-for="(data,index) in item.tags" :key="data.tag_id">
 								<view v-if="(index+1)%3==1" class="lan">{{data.name}}</view>
 								<view v-else-if="(index+1)%3==2" class="chen">{{data.name}}</view>
@@ -135,7 +129,6 @@
 						</view>
 						<view class="jping-sjm">{{item.shop_name}}</view>
 						<view class="jping-jd">
-							<!-- <view class="jping-jd-name">{{$t('auction.jpjd')}}</view> -->
 							<view class="jping-jd-data">
 								<progress class="progress" :percent="item.finish_rate*100" stroke-width="5"
 									activeColor="#FF4E2F" backgroundColor="#EBEBEB" />
@@ -359,7 +352,8 @@
 					<view class="jping-left" style="border: 4rpx solid rgb(196, 196, 196);">
 						<image :src="item.image"></image>
 						<view class="jping-left-q" style="background: rgba(196, 196, 196,0.5);">
-							<image src="../../static/images/new/bkx.png"></image>
+							<image src="../../static/images/new/jpcg.png" v-if="item.check_status==3"></image>
+							<image src="../../static/images/new/bkx.png" v-if="item.check_status==4"></image>
 							<!-- {{handleDateDjs(item.pre_end_time)}} -->
 						</view>
 					</view>
@@ -683,7 +677,7 @@
 					<view class="pay-pwd-info-price" style="font-size: 26rpx;margin-top: 30rpx;">{{$t('auction.detail.zpydzpjlgg')}}</view>
 					<view class="pay-pwd-list">
 						<view class="pay-pwd-list-cancel" @click="onpayQuery">{{$t('auction.detail.query')}}</view>
-						<view class="pay-pwd-list-ok" @click="onQiangpai">{{$t('auction.detail.zaipaiyd')}}</view>
+						<view class="pay-pwd-list-ok" @click="onQiangpai" v-if="auction_num > isauctionNum">{{$t('auction.detail.zaipaiyd')}}</view>
 					</view>
 				</view>
 			</view>
@@ -1197,6 +1191,11 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			this.onAuctionLuckyList()
 		},
 		methods: {
+			toClassify(item){
+				uni.navigateTo({
+					url:'/pages/auction/classify?id='+item.id+'&name='+item.name
+				})
+			},
 			//退出登录
 			onLogout() {
 				this.$http.post(this.$apiObj.MineLoginOut).then(res => {
@@ -1705,6 +1704,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				this.$http.post(this.$apiObj.MineInfo, {
 					auction_goods_id: e.auction_goods_id
 				}).then(res => {
+					console.log(res)
 					if (res.code == 1) {
 						this.money = res.data.money
 						this.auction_num = (e.auction_type == 2 && e.total_least_num == 0) ? res.data.auction_num :
@@ -3243,7 +3243,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		padding: 0 20rpx;
 
 		.li {
-			width: auto;
+			width: 20%;
 			height: 45rpx;
 			line-height: 45rpx;
 			background: #f5f5f5;
@@ -3252,6 +3252,9 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			color: #000;
 			margin-right: 20rpx;
 			padding: 0 18rpx;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
 
 			&:nth-child(5) {
 				margin-right: 0;

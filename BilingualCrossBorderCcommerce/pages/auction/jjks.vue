@@ -3,32 +3,50 @@
 		<!--auct-head start-->
 		<view class="auct-head">
 			<image src="../../static/images/auction/logo.png" class="logo"></image>
-			<!-- <view class="head-search">
-				<view class="icon">
-					<image class="img" src="../../static/images/search1.png"></image>
-				</view>
-				<view class="c"><input type="text" v-model="keyword" :placeholder="this.$t('auction.search') "></view>
-			</view> -->
-		
+
 			<image src="../../static/images/new/cn-tit.png" class="hedaer-langes" v-show="!isShopCont"></image>
 			<image src="../../static/images/new/en-tit.png" class="hedaer-langes1" v-show="isShopCont"></image>
-		
+
 			<image src="../../static/images/new/msg.png" class="auth" @click="navClick('/pages/mine/message')"></image>
 			<image src="../../static/images/auction/zw.png" class="lange" v-show="!isShopCont"
 				@click="onChangeLanuage(locales[0])"></image>
 			<image src="../../static/images/auction/en.png" class="lange" v-show="isShopCont"
 				@click="onChangeLanuage(locales[1])"></image>
 			<view class="header-login" v-if="!isLogin" @click="toLogin()">{{$t('auction.login')}}</view>
-			<view class="header-login" :style="isShopCont?'margin-left: 14rpx;':''" v-else="isLogin" @click="$refs.logout.open()">{{$t('auction.logout')}}</view>
+			<view class="header-login" :style="isShopCont?'margin-left: 14rpx;':''" v-else="isLogin"
+				@click="$refs.logout.open()">{{$t('auction.logout')}}</view>
 		</view>
-		<!--auct-head end-->
-		<!--头部导航 start-->
-		<!-- <view class="auct-nav">
-      <view v-for="item in navList" :key="item.id" class="li" :class="item.id==navId?'active':''" @click="onNavClick(item.id)">{{item.title}}</view>
-    </view> -->
+
+		<!-- <view class="banner-list">
+			<scroll-view :scroll-x="true" style="width: 100%;white-space: nowrap;">
+				<view v-for="item in FirstList" :key="item.id" class="banner-item" @click="toClassify(item)">
+					<image :src="item.image"></image>
+					<view class="t">{{item.name}}</view>
+				</view>
+			</scroll-view>
+		</view> -->
+
+		<!-- <view class="products-list">
+			<view class="products-item" v-for="item in [1,1,1]">
+				<image src="/static/images/new/banner.png"></image>
+				<view class="products-item-name">Xiaomi 33W Power Bank 10000mAh Pocket Edition Pro</view>
+				<view class="products-item-tags" >
+					<view v-for="(data,i) in [1,1,1,1]">
+						<view v-if="i%3==0" class="lan">xiaomi</view>
+						<view v-else-if="i%3==1" class="red">Convertible into cash</view>
+						<view v-else="i%3==2" class="chen">Recommended Goods</view>
+					</view>
+
+				</view>
+				<view class="products-item-price">RM<span>1000.00</span></view>
+			</view>
+		</view> -->
+
+
+
+
 		<!--头部导航 end-->
 		<block v-if="navId==1">
-			<!--轮播图 start-->
 			<view class="auct-banner">
 				<swiper class="swiper" circular :indicator-dots="indicatorDots" :autoplay="autoplay"
 					:interval="interval" :duration="duration">
@@ -147,43 +165,43 @@
 			<view class="auct-start">
 				<!--new-li start-->
 				<!-- <view class="new-li" v-for="item in newsjingpaiList" :key="item.id" @click="onJingPai(item)">
-					<view class="li-img">
-						<image class="img" :src="item.image"></image>
-						<view class="li-date">
-							<u-count-down :time="item.datetime" format="HH:mm:ss"></u-count-down>
-						</view>
-						<view class="li-t">{{item.stage_num}}{{$t('auction.qi')}}</view>
-					</view>
-					<view class="li-txt">
-						<view class="li-h">
-							<view class="name">{{item.goods_name}}</view>
-							<view class="s">{{item.shop_name}}{{$t('auction.tigong')}}</view>
-						</view>
-						<view class="t">{{item.goods_mark}}</view>
-						<view class="li-tags">
-							<block v-for="(items,index) in item.tags" :key="{index}">
-								<view v-if="items.tag_id==2" class="tag">{{items.name}}</view>
-								<block v-if="item.limit==1">
-									<view v-if="index==0" class="tag yellow">
-										{{$t('auction.xianpai')}}{{item.limit_num}}{{$t('auction.ci')}}</view>
-								</block>
-								<view v-if="items.tag_id==1" class="tag red">{{$t('auction.baokuan')}}</view>
-							</block>
-						</view>
-						<view class="li-price">
-							<view class="price-fl">
-								<text class="red">{{$t('auction.qiangpaijia')}}RM{{item.auction_price}}</text>
-								<text class="gray">{{$t('auction.shichangjia')}}RM{{item.price}}</text>
+							<view class="li-img">
+								<image class="img" :src="item.image"></image>
+								<view class="li-date">
+									<u-count-down :time="item.datetime" format="HH:mm:ss"></u-count-down>
+								</view>
+								<view class="li-t">{{item.stage_num}}{{$t('auction.qi')}}</view>
 							</view>
-						</view>
-						<view class="li-b">
-							<button class="price-btn" @click.stop="onMineFocus(item)"
-								v-if="item.goods_focus">{{$t('home.shop.yiguanzhu')}}</button>
-							<button class="price-btn" @click.stop="onMineFocus(item)"
-								v-else>{{$t('home.shop.guanzhu')}}</button>
-						</view>
-					</view>
-				</view> -->
+							<view class="li-txt">
+								<view class="li-h">
+									<view class="name">{{item.goods_name}}</view>
+									<view class="s">{{item.shop_name}}{{$t('auction.tigong')}}</view>
+								</view>
+								<view class="t">{{item.goods_mark}}</view>
+								<view class="li-tags">
+									<block v-for="(items,index) in item.tags" :key="{index}">
+										<view v-if="items.tag_id==2" class="tag">{{items.name}}</view>
+										<block v-if="item.limit==1">
+											<view v-if="index==0" class="tag yellow">
+												{{$t('auction.xianpai')}}{{item.limit_num}}{{$t('auction.ci')}}</view>
+										</block>
+										<view v-if="items.tag_id==1" class="tag red">{{$t('auction.baokuan')}}</view>
+									</block>
+								</view>
+								<view class="li-price">
+									<view class="price-fl">
+										<text class="red">{{$t('auction.qiangpaijia')}}RM{{item.auction_price}}</text>
+										<text class="gray">{{$t('auction.shichangjia')}}RM{{item.price}}</text>
+									</view>
+								</view>
+								<view class="li-b">
+									<button class="price-btn" @click.stop="onMineFocus(item)"
+										v-if="item.goods_focus">{{$t('home.shop.yiguanzhu')}}</button>
+									<button class="price-btn" @click.stop="onMineFocus(item)"
+										v-else>{{$t('home.shop.guanzhu')}}</button>
+								</view>
+							</view>
+						</view> -->
 				<!--new-li end-->
 
 				<view class="jping" v-for="(item,i) in newsjingpaiList" :key="item.id" @click="onJingPai(item)">
@@ -212,11 +230,13 @@
 						</view>
 						<view class="jping-price">
 							<view class="jping-price-left">
-								<view class="jping-price-new">{{$t('auction.jingpaijia')}}：RM{{item.auction_price}}</view>
+								<view class="jping-price-new">{{$t('auction.jingpaijia')}}：RM{{item.auction_price}}
+								</view>
 								<view class="jping-price-old">{{$t('auction.shichangjia')}}：RM{{item.price}}</view>
 							</view>
 							<view class="jping-price-btn" style="background: rgb(255, 179, 0);"
-								@click.stop="onMineFocus(item)" v-if="item.goods_focus">{{$t('auction.yishoucang')}}</view>
+								@click.stop="onMineFocus(item)" v-if="item.goods_focus">{{$t('auction.yishoucang')}}
+							</view>
 							<view class="jping-price-btn" style="background: rgb(255, 179, 0);"
 								@click.stop="onMineFocus(item)" v-else>{{$t('auction.shoucang')}}</view>
 						</view>
@@ -232,7 +252,6 @@
 						</view>
 					</view>
 				</view>
-
 			</view>
 		</block>
 		<!--即将开始 end-->
@@ -253,7 +272,8 @@
 		</block>
 		<block v-if="navId==4">
 			<view class="zxjpCont">
-				<view class="li" :class="date_start?'active':''" @click="onopenClick">{{$t('auction.xuanzerqi')}}</view>
+				<view class="li" :class="date_start?'active':''" @click="onopenClick">{{$t('auction.xuanzerqi')}}
+				</view>
 				<view v-for="item,k in lishiList" :key="k" class="li" :class="item.id==lishiId?'active':''"
 					@click="onlishiClick(item.id)">{{item.title}}</view>
 			</view>
@@ -358,13 +378,17 @@
 			</view>
 			<!--auct-luck end-->
 		</block>
+
+
+
 		<!-- 日期时间选择器弹框 -->
 		<uni-popup ref="dateTimePopup" type="bottom" :is-mask-click="false">
 			<view class="custom-popup date-time-popup">
 				<view class="popup-header">
 					<view class="popup-cancel" @click="handleDateTimePopupCancel">{{$t('user.order.query')}}</view>
 					<view class="popup-title"> </view>
-					<view class="popup-confirm" @click="handleDateTimePopupConfirm">{{$t('user.order.btnsub')}}</view>
+					<view class="popup-confirm" @click="handleDateTimePopupConfirm">{{$t('user.order.btnsub')}}
+					</view>
 				</view>
 				<view class="popup-body">
 					<picker-view class="date-time-picker-view f-32" indicator-class="date-time-picker-center"
@@ -415,7 +439,8 @@
 		<!--竞拍次数为0 start-->
 		<uni-popup ref="pwdPopup3" type="center">
 			<view class="jingpai-pop">
-				<view class="title">{{$t('auction.detail.nsydjpcsw')}}{{auction_num}}{{$t('auction.detail.ci')}}</view>
+				<view class="title">{{$t('auction.detail.nsydjpcsw')}}{{auction_num}}{{$t('auction.detail.ci')}}
+				</view>
 				<view class="txt">{{$t('auction.detail.cgfxhyqhykhdjpcs')}}</view>
 				<view class="cont">
 					<view></view>
@@ -444,7 +469,8 @@
 					<image class="imgs" src="../../static/images/radio2.png" mode="aspectFit|aspectFill|widthFix">
 					</image>
 					<view class="txt1">{{$t('auction.detail.brywqydbty')}}</view>
-					<navigator url="../mine/jpxy" hover-class="none" class="txt2">{{$t('auction.detail.jphdgommzxy')}}
+					<navigator url="../mine/jpxy" hover-class="none" class="txt2">
+						{{$t('auction.detail.jphdgommzxy')}}
 					</navigator>
 				</view>
 				<view class="cont">
@@ -577,6 +603,7 @@
 			</view>
 		</uni-popup>
 		<!--分享弹出 end-->
+		<view style="height: 20rpx;"></view>
 	</view>
 </template>
 
@@ -841,9 +868,9 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					this.FirstList = res.data
 				}
 			})
-			
+
 			if (uni.getStorageSync('token')) {
-				this.isLogin=true
+				this.isLogin = true
 			}
 			// 最新竞拍
 			this.onAuctionNewGoods()
@@ -860,10 +887,15 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			this.applicationLocale = uni.getLocale();
 			this.isAndroid = systemInfo.platform.toLowerCase() === 'android';
 			uni.onLocaleChange((e) => {
-			  this.applicationLocale = e.locale;
+				this.applicationLocale = e.locale;
 			})
 		},
 		methods: {
+			toClassify(item) {
+				uni.navigateTo({
+					url: '/pages/auction/classify?id=' + item.id + '&name=' + item.name
+				})
+			},
 			//退出登录
 			onLogout() {
 				this.$http.post(this.$apiObj.MineLoginOut).then(res => {
@@ -892,17 +924,17 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				uni.setStorageSync('locale', e.code)
 				this.$i18n.locale = e.code;
 				if (this.isAndroid) {
-				  uni.showModal({
-				    content: this.$t('index.language-change-confirm'),
-				    success: (res) => {
-				      if (res.confirm) {
-				        uni.setLocale(e.code);
-				      }
-				    }
-				  })
+					uni.showModal({
+						content: this.$t('index.language-change-confirm'),
+						success: (res) => {
+							if (res.confirm) {
+								uni.setLocale(e.code);
+							}
+						}
+					})
 				} else {
-				  uni.setLocale(e.code);
-				  this.$i18n.locale = e.code;
+					uni.setLocale(e.code);
+					this.$i18n.locale = e.code;
 				}
 				location.reload()
 			},
@@ -1508,6 +1540,117 @@ NoR+zv3KaEmPSHtooQIDAQAB
 <style lang="less" scoped>
 	.auct-page {
 
+		//头部列表
+		.banner-list {
+			width: 750rpx;
+			height: 170rpx;
+			padding-top: 20rpx;
+			background: #fff;
+
+
+			.banner-item {
+				display: inline-block;
+				width: 164rpx;
+				height: 170rpx;
+				font-size: 24rpx;
+				text-align: center;
+
+				image {
+					width: 86rpx;
+					height: 94rpx;
+				}
+
+				.t {
+					width: 130rpx;
+					height: 66rpx;
+					white-space: normal;
+					overflow: hidden;
+					// text-overflow: ellipsis;
+					word-break: break-all;
+					margin: 0 auto;
+				}
+			}
+
+		}
+
+		//商品列表
+		.products-list {
+			width: 720rpx;
+			display: flex;
+			flex-wrap: wrap;
+			margin-top: 40rpx;
+			margin-left: 15rpx;
+
+			.products-item {
+				width: 320rpx;
+				padding-bottom: 10rpx;
+				background: #fff;
+				border-radius: 16rpx;
+				box-shadow: 0px 2rpx 10rpx rgba(255, 78, 47, 0.3);
+				margin: 0 20rpx 30rpx 20rpx;
+
+				image {
+					display: block;
+					width: 320rpx;
+					height: 320rpx;
+					border-radius: 16rpx 16rpx 0 0;
+				}
+
+				.products-item-name {
+					width: 300rpx;
+					font-size: 20rpx;
+					color: rgb(44, 44, 44);
+					margin: 10rpx auto;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					display: -webkit-box;
+					-webkit-box-orient: vertical;
+					-webkit-line-clamp: 2;
+				}
+
+				.products-item-tags {
+					width: 300rpx;
+					display: flex;
+					flex-wrap: wrap;
+					align-items: center;
+					margin: 10rpx auto;
+
+					view {
+						font-size: 16rpx;
+						padding: 6rpx 10rpx;
+						border-radius: 6rpx;
+					}
+
+					.lan {
+						color: rgb(0, 169, 255);
+						background: rgba(93, 191, 254, 0.3);
+					}
+
+					.red {
+						color: rgb(255, 0, 0);
+						background: rgba(255, 198, 188, 0.5);
+					}
+
+					.chen {
+						color: rgb(255, 78, 47);
+						background: rgba(255, 221, 175, 0.5);
+					}
+
+				}
+
+				.products-item-price {
+					font-size: 24rpx;
+					color: rgb(255, 78, 47);
+					margin-left: 10rpx;
+
+					span {
+						font-size: 32rpx;
+					}
+				}
+
+			}
+		}
+
 		//竞拍中
 		.jping {
 			width: 710rpx;
@@ -1680,43 +1823,43 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			background: #FF4E2F;
 			// background: linear-gradient(90deg, #9a3064 0%, #59499b 100%);
 			padding: 80rpx 0rpx 15rpx 0rpx;
-		
+
 			.logo {
 				width: 50rpx;
 				height: 50rpx;
 				margin-left: 40rpx;
 			}
-		
+
 			.auth {
 				width: 50rpx;
 				height: 50rpx;
 				margin-left: 40rpx;
 			}
-		
+
 			.hedaer-langes {
 				width: 360rpx;
 				height: 40rpx;
 				margin-left: 16rpx;
 			}
-		
+
 			.hedaer-langes1 {
 				width: 360rpx;
 				height: 54rpx;
 				margin-left: 16rpx;
 			}
-		
+
 			.lange {
 				width: 50rpx;
 				height: 50rpx;
 				margin-left: 30rpx;
 			}
-		
+
 			.header-login {
 				font-size: 26rpx;
 				color: #fff;
 				margin-left: 30rpx;
 			}
-		
+
 			.head-search {
 				height: 70rpx;
 				background: #ffffff;
@@ -1725,21 +1868,21 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				align-items: center;
 				padding: 0 26rpx;
 				// margin-left: 40rpx;
-		
+
 				.icon {
 					width: 33rpx;
 					height: 34rpx;
 					min-width: 23rpx;
 					margin-right: 15rpx;
 				}
-		
+
 				.c {
 					font-size: 26rpx;
 					color: #999;
 				}
 			}
 		}
-		
+
 		.auct-nav {
 			background: #fff;
 			padding: 30rpx 30rpx;

@@ -11,6 +11,7 @@
   "tab.auction": "竞拍",
   "tab.cart": "购物车",
   "tab.mine": "我的",
+  "tab.all":"所有商品",
 
   "top.lan": "语言切换",
   "top.set": "系统设置",
@@ -368,7 +369,7 @@
   "user.myCont.tkshh": "退款/售后",
   "user.myCont.zhj": "账号升级",
   "user.myCont.xxzx": "消息中心",
-  "user.myCont.ptkf": "平台客服",
+  "user.myCont.ptkf": "联系我们",
   "user.myCont.yjfk": "意见反馈",
   "user.myCont.about": "关于我们",
   "user.myCont.yiwanceng": "已完成",
@@ -385,6 +386,7 @@
   "user.mine.shdz": "收货地址",
   "user.mine.tgfx":"推广分享",
   "user.mine.wsm":"未实名",
+  "user.mine.ysm":"已实名",
   "user.mine.zk":"展开",
   "user.mine.sq":"收起",
 
