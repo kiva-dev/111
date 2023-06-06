@@ -17,7 +17,7 @@
       </view>
     </view>
     <view class="phone-bot">
-      <button class="public-btn" @click.stop="$noMultipleClicks(onMineChangeEmail)">{{$t('user.Vemail.qrxg')}}</button>
+      <button class="public-btn" style="background: rgb(255, 78, 47);" @click.stop="$noMultipleClicks(onMineChangeEmail)">{{$t('user.Vemail.qrxg')}}</button>
     </view>
   </view>
 </template>
@@ -106,7 +106,7 @@ page {
         margin-top: -20rpx;
         line-height: 40rpx;
         font-size: 24rpx;
-        color: #fc0609;
+        color: rgb(255, 78, 47);
         padding: 0;
       }
       .li-right {

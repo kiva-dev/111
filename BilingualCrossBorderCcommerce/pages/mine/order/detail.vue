@@ -47,7 +47,7 @@
             <block v-if="shopCont.buy_type==1||shopCont.buy_type==2||shopCont.buy_type==3">
               <block v-if="shopCont.status==3&&item.back_num==0">
                 <view class="shopcont">
-                  <view class="price color-red f-22">
+                  <view class="price color-red f-22" style="color: rgb(255, 78, 47);">
                     RM<text class="f-34">{{$filter.formatValue(item.goods_price, 'split')[0]}}</text>.{{$filter.formatValue(item.goods_price, 'split')[1] ? $filter.formatValue(item.goods_price, 'split')[1] : '00'}}
                   </view>
                   <button @click.stop="onSengqing(item)" class="order-btn gray">{{$t('user.order.detail.sqsh')}}</button>
@@ -83,7 +83,7 @@
       </view> -->
       <view class="sec3-li" v-if="shopCont.buy_type!=2">
         <view class="label">{{$t('user.order.detail.yhq')}}</view>
-        <view class="price f-22 color-red">
+        <view class="price f-22" style="color: rgb(255, 78, 47);">
           -RM<text class="f-26">{{$filter.formatValue(shopCont.coupon_price, 'split')[0]}}</text>.{{$filter.formatValue(shopCont.coupon_price, 'split')[1] ? $filter.formatValue(shopCont.coupon_price, 'split')[1] : '00'}}
         </view>
       </view>
@@ -91,7 +91,7 @@
         <view class="price">
           <text class="color-999 f-26">{{$t('user.order.detail.gong')}}{{num}}{{$t('user.order.detail.jian')}}</text>
           <text class="f-228">{{$t('user.order.detail.xiaoji')}}：</text>
-          <text class="color-red f-22">RM<text class="f-28">{{$filter.formatValue(shopCont.pay_price, 'split')[0]}}</text>.{{$filter.formatValue(shopCont.pay_price, 'split')[1] ? $filter.formatValue(shopCont.pay_price, 'split')[1] : '00'}}</text>
+          <text class="color-red f-22" style="color: rgb(255, 78, 47);">RM<text class="f-28">{{$filter.formatValue(shopCont.pay_price, 'split')[0]}}</text>.{{$filter.formatValue(shopCont.pay_price, 'split')[1] ? $filter.formatValue(shopCont.pay_price, 'split')[1] : '00'}}</text>
         </view>
       </view>
     </view>
@@ -113,7 +113,7 @@
           <view class="label">{{$t('user.order.detail.fhfs')}}：</view>
           <view class="c">{{shopCont.express_company}} {{shopCont.express_no}}</view>
         </view>
-        <view class="copy-btn color-red f-26 m-l-40" @click="onCopy(shopCont.express_no)">{{$t('user.order.detail.fuzhi')}}</view>
+        <view class="copy-btn color-red f-26 m-l-40" style="color: rgb(255, 78, 47);" @click="onCopy(shopCont.express_no)">{{$t('user.order.detail.fuzhi')}}</view>
       </view>
       <view class="sec4-li">
         <view class="label">{{$t('user.order.detail.changjiansj')}}：</view>
@@ -140,9 +140,9 @@
     <!--order-fixed start-->
     <view class="order-fixed">
       <view class="fixed-con">
-        <view class="fixed-fl color-red f-26" style="display:flex;align-items: center;" v-if="shopCont.status==1">{{$t('user.order.detail.syptsj')}}：<u-count-down :time="shopCont.remain_group_time * 1000" format="HH:mm:ss"></u-count-down>
+        <view class="fixed-fl color-red f-26" style="display:flex;align-items: center;color: rgb(255, 78, 47);" v-if="shopCont.status==1">{{$t('user.order.detail.syptsj')}}：<u-count-down :time="shopCont.remain_group_time * 1000" format="HH:mm:ss"></u-count-down>
         </view>
-        <view class="fixed-fl color-red f-26" style="display:flex;align-items: center;" v-if="shopCont.status==3">
+        <view class="fixed-fl color-red f-26" style="display:flex;align-items: center;color: rgb(255, 78, 47);" v-if="shopCont.status==3">
           <u-count-down :time="shopCont.remain_receipt_time * 1000" format="HH:mm:ss"></u-count-down>{{$t('user.order.detail.hzdsh')}}
         </view>
         <view class="fixed-fr">
@@ -191,7 +191,7 @@
         </view>
         <view v-for="item,k in orderPayList" :key="item.id" class="mode-li">
           <view class="label">
-            {{item.title}} <block v-if="item.id==1">（{{$t('user.order.detail.keyongyuer')}}<text class="color-red">RM{{userCont.money}}</text>）</block>
+            {{item.title}} <block v-if="item.id==1">（{{$t('user.order.detail.keyongyuer')}}<text class="color-red" style="color: rgb(255, 78, 47);">RM{{userCont.money}}</text>）</block>
           </view>
           <view class="li-fr" @click="onQuanClick(item,k)">
             <radio :checked="item.isShow?true:false" value="r1" />
@@ -662,7 +662,7 @@ page {
           }
         }
         .status {
-          color: #fc0609;
+          color: rgb(255, 78, 47);
           white-space: nowrap;
         }
         .status.gray {
@@ -704,7 +704,7 @@ page {
           }
           .price {
             font-size: 22rpx;
-            color: #fc0609;
+            color: rgb(255, 78, 47);
             font-weight: 550;
           }
           .b-flex {
@@ -815,7 +815,7 @@ page {
     .order-btn {
       width: 180rpx;
       height: 70rpx;
-      background: #fc0609;
+      background: rgb(255, 78, 47);
       border-radius: 35rpx;
       font-size: 26rpx;
       color: #fff;
@@ -872,8 +872,8 @@ page {
           margin-left: 20rpx;
         }
         /deep/ uni-radio .uni-radio-input.uni-radio-input-checked {
-          background: #fc0609 !important;
-          border-color: #fc0609 !important;
+          background: rgb(255, 78, 47) !important;
+          border-color: rgb(255, 78, 47) !important;
         }
       }
     }
@@ -907,7 +907,7 @@ page {
     .pay-btn {
       width: 260rpx;
       height: 80rpx;
-      background: #fc0609;
+      background: rgb(255, 78, 47);
       border-radius: 40rpx;
       display: block;
       margin: 0 auto;
@@ -919,7 +919,7 @@ page {
   //支付密码弹出 E
 }
 /deep/.u-count-down__text {
-  color: #fc0609 !important;
+  color: rgb(255, 78, 47) !important;
   font-size: 26rpx !important;
 }
 .order-head {
@@ -934,12 +934,12 @@ page {
   .order-btn {
     width: 140rpx;
     height: 50rpx;
-    border: 1px solid #fc0609;
+    border: 1px solid rgb(255, 78, 47);
     border-radius: 25rpx;
     margin: 0 0 0 20rpx;
     line-height: 50rpx;
     font-size: 22rpx;
-    color: #fc0609;
+    color: rgb(255, 78, 47);
     padding: 0;
   }
   .order-btn.gray {

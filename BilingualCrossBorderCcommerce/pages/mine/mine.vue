@@ -19,47 +19,12 @@
 					<view class="mid_shiming">LV{{userCont.level}}</view>
 					<view class="mid-txt">
 						<view class="name">{{userCont.nickname}}</view>
-						<!-- <view class="vip">
-							<view class="icon">
-								<image class="img" src="../../static/images/mine/mine0.png"></image>
-							</view>
-						</view> -->
 					</view>
-					<view class="vip" v-if="!MineCont">{{$t('user.mine.wsm')}}</view>
+					<view class="vip" v-if="MineCont.length<1">{{$t('user.mine.wsm')}}</view>
 					<view class="vip" v-else>{{$t('user.mine.ysm')}}</view>
 				</view>
-				<!-- <view class="more">
-					<image class="img" src="../../static/images/mine/more.png"></image>
-				</view> -->
-			</view>
 
-			<!-- <view class="head-nav">
-				<view class="li" @click="navClick('wallet')">
-					<view class="icon">
-						<image class="img" src="../../static/images/mine/mine2.png"></image>
-					</view>
-					<view class="t">{{$t('user.myCont.myqianbao')}}</view>
-				</view> -->
-			<!-- <view class="li" @click="navClick('coupon')">
-          <view class="icon">
-            <image class="img" src="../../static/images/mine/mine03.png"></image>
-          </view>
-          <view class="t">{{$t('user.myCont.yhq')}}</view>
-        </view> -->
-			<!-- <view class="li" @click="navClick('auctionM')">
-					<view class="icon">
-						<image class="img" src="../../static/images/mine/mine04.png"></image>
-					</view>
-					<view class="t">{{$t('user.myCont.myjingpai')}}</view>
-					<view class="dian" v-if="no_select=='1'"></view>
-				</view>
-				<view class="li" @click="navClick('attentionM')">
-					<view class="icon">
-						<image class="img" src="../../static/images/mine/mine05.png"></image>
-					</view>
-					<view class="t">{{$t('user.myCont.guanzhu')}}</view>
-				</view>
-			</view> -->
+			</view>
 
 		</view>
 		<!--mine-head end-->
@@ -115,24 +80,12 @@
 				<view class="more" @click="navClick('/pages/mine/order/order')">
 					<text>{{$t('user.myCont.ckqb')}}</text>
 					<view class="icon">
-						<image class="img" src="../../static/images/mine/more1.png"></image>
+						<image class="img" src="/static/images/products/new-more.png"></image>
 					</view>
 				</view>
 			</view>
 
 			<view class="order-nav">
-				<!-- <view class="li" @click="navClick('/pages/mine/order/order?Inv=2&type=2')">
-          <view class="icon">
-            <image class="img" src="../../static/images/mine/mine06.png"></image>
-          </view>
-          <view class="t">{{$t('user.myCont.dafk')}}</view>
-        </view> -->
-				<!-- <view class="li" @click="navClick('/pages/mine/order/order?Inv=1&type=3')">
-          <view class="icon">
-            <image class="img" src="../../static/images/mine/mine3.png"></image>
-          </view>
-          <view class="t">{{$t('user.myCont.daipt')}}</view>
-        </view> -->
 				<view class="li" @click="navClick('/pages/mine/order/order?Inv=2&type=2')">
 					<view class="icon">
 						<image class="img" src="../../static/images/mine/mine4.png"></image>
@@ -161,94 +114,50 @@
 			</view>
 		</view>
 		<!--mine-order end-->
+		
 		<!--分享广告位 start-->
 		<!-- <view class="mine-asd" @click="navClick('/pages/invite/invite')">
       <image v-if="isShopCont" class="img" mode="widthFix" src="../../static/yaoqing.png"></image>
       <image v-else class="img" mode="widthFix" src="../../static/images/mine/mine7.png"></image>
     </view> -->
 		<!--mine-asd end-->
-		<!--mine-list start-->
-		<view class="mine-list">
-			<view class="li" @click="navClick('/pages/invite/invite')">
-				<view class="li-fl">
-					<view class="icon">
-						<image class="img" src="../../static/images/mine/mine16.png"></image>
-					</view>
-					<text>{{$t('user.mine.tgfx')}}</text>
-				</view>
-				<view class="more">
-					<image class="img" src="../../static/images/mine/more1.png"></image>
-				</view>
-			</view>
-			<view class="li" @click="navClick('refund/refund')">
-				<view class="li-fl">
-					<view class="icon">
-						<image class="img" src="../../static/images/new/yqhy.png"></image>
-					</view>
-					<text>{{$t('user.myCont.tkshh')}}</text>
-				</view>
-				<view class="more">
-					<image class="img" src="../../static/images/mine/more1.png"></image>
+		
+		<view class="mine-share" @click="navClick('/pages/invite/invite')">
+			<image src="../../static/images/products/mine-tkfx.png"></image>
+			<view>{{$t('user.mine.tgfx')}}</view>
+		</view>
+		<view class="service">
+			<view class="service-head">
+				<view class="service-head-left">My Service</view>
+				<view class="service-head-right" @click="toAddress('/pages/mine/new/service')">
+					<view>{{$t('user.myCont.ckqb')}}</view>
+					<image src="/static/images/products/new-more.png"></image>
 				</view>
 			</view>
-			<view class="li" @click="navClick('upgrade')">
-				<view class="li-fl">
-					<view class="icon">
-						<image class="img" src="../../static/images/mine/mine9.png"></image>
-					</view>
-					<text>{{$t('user.myCont.zhj')}}</text>
+			
+			<view class="service-list">
+				<view class="service-item" @click="navClick('refund/refund')">
+					<image src="../../static/images/products/sales.png"></image>
+					<view>{{$t('user.myCont.tkshh')}}</view>
 				</view>
-				<view class="more">
-					<image class="img" src="../../static/images/mine/more1.png"></image>
+				
+				<view class="service-item" @click="toAddress('/pages/address/address')">
+					<image src="../../static/images/products/address.png"></image>
+					<view>{{$t('new.dz')}}</view>
 				</view>
-			</view>
-			<view class="li" @click="navClick('message')">
-				<view class="li-fl">
-					<view class="icon">
-						<image class="img" src="../../static/images/mine/mine10.png"></image>
-					</view>
-					<text>{{$t('user.myCont.xxzx')}}</text>
+				
+				<view class="service-item" @click="showContact=true">
+					<image src="../../static/images/products/yjfk.png"></image>
+					<view>{{$t('user.myCont.ptkf')}}</view>
 				</view>
-				<view class="more">
-					<image class="img" src="../../static/images/mine/more1.png"></image>
-				</view>
-				<view class="dian" v-if="noSelect=='1'"></view>
-			</view>
-			<view class="li" @click="showContact=true">
-				<view class="li-fl">
-					<view class="icon">
-						<image class="img" src="/static/images/new/contact.png"></image>
-					</view>
-					<text>{{$t('user.myCont.ptkf')}}</text>
-				</view>
-				<view class="more">
-					<image class="img" src="../../static/images/mine/more1.png"></image>
-				</view>
-			</view>
-			<view class="li" @click="navClick('Feedback')">
-				<view class="li-fl">
-					<view class="icon">
-						<image class="img" src="../../static/images/mine/mine12.png"></image>
-					</view>
-					<text>{{$t('user.myCont.yjfk')}}</text>
-				</view>
-				<view class="more">
-					<image class="img" src="../../static/images/mine/more1.png"></image>
-				</view>
-			</view>
-			<view class="li" @click="navClick('about')">
-				<view class="li-fl">
-					<view class="icon">
-						<image class="img" src="../../static/images/mine/mine13.png"></image>
-					</view>
-					<text>{{$t('user.myCont.about')}}</text>
-				</view>
-				<view class="more">
-					<image class="img" src="../../static/images/mine/more1.png"></image>
+				
+				<view class="service-item" @click="navClick('upgrade')">
+					<image src="../../static/images/products/mine-sj.png"></image>
+					<view>{{$t('new.sh')}}</view>
 				</view>
 			</view>
 		</view>
-		<!--mine-list end-->
+		
 		<!--联系客服弹出 start-->
 		<uni-popup ref="popup2" type="center">
 			<view class="email-cont">
@@ -280,7 +189,7 @@
 				<image src="../../static/images/new/close.png" class="contact-info-close" @click="showContact=false">
 				</image>
 				<view class="contact-info">
-					<view class="contact-info-tit">Contact Us</view>
+					<view class="contact-info-tit">{{$t('user.myCont.ptkf')}}</view>
 
 					<a href="https://facebook.com/Kolibrimall" target="_blank">
 						<view class="contact-info-des">
@@ -334,7 +243,7 @@
 				noSelect: 0,
 				isShopCont: false, // 商品详情显示中文还是英文
 				userCont: '', // 个人信息
-				MineCont: '',
+				MineCont: [],
 				showContact: false
 			}
 		},
@@ -373,19 +282,21 @@
 			})
 		},
 		methods: {
+			
 			toAuction(num) {
 				uni.navigateTo({
 					url: '/pages/mine/auctionM?num=' + num
+				})
+			},
+			toAddress(url){
+				uni.navigateTo({
+					url
 				})
 			},
 			onkefyu() {
 				uni.navigateTo({
 					url: './kefu'
 				})
-				// this.$refs.popup2.open()
-				// uni.navigateTo({
-				//   url: 'custom?uuid=1&avatar=' + uni.getStorageSync('userCont').avatar
-				// })
 			},
 			onQuery() {
 				this.$refs.popup2.close()
@@ -412,6 +323,89 @@
 	.mine-page {
 		min-height: 100vh;
 		background: #f8f8f8;
+	}
+	
+	.mine-share{
+		width: 498rpx;
+		height: 80rpx;
+		font-size: 24rpx;
+		color: rgb(44, 44, 44);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: #FFF;
+		border-radius: 16rpx 16rpx 0 0;
+		box-shadow: 0px 0px 10rpx rgba(255, 198, 188, 0.3);
+		margin: 0 auto;
+		
+		image{
+			width: 60rpx;
+			height: 60rpx;
+			margin-right: 18rpx;
+		}
+		
+	}
+	
+	.service{
+		width: 686rpx;
+		height: 160rpx;
+		padding: 20rpx 0;
+		background: #FFF;
+		border-radius: 16rpx;
+		box-shadow: 0px 4rpx 10rpx rgba(255, 198, 188, 0.3);
+		margin: 0 auto;
+		
+		.service-head{
+			position: relative;
+			width: 100%;
+			display: flex;
+			align-items: center;
+			
+			.service-head-left{
+				font-size: 32rpx;
+				color: rgb(44, 44, 44);
+				font-weight: bold;
+				margin-left: 20rpx;
+			}
+			
+			.service-head-right{
+				position: absolute;
+				right: 20rpx;
+				font-size: 24rpx;
+				color: rgb(44, 44, 44);
+				display: flex;
+				align-items: center;
+				
+				image{
+					width: 32rpx;
+					height: 32rpx;
+					margin-left: 10rpx;
+				}
+				
+			}
+			
+		}
+	
+		.service-list{
+			width: 100%;
+			display: flex;
+			align-items: center;
+			margin-top: 22rpx;
+			
+			.service-item{
+				width: 25%;
+				font-size: 24rpx;
+				color: rgb(44, 44, 44);
+				text-align: center;
+				
+				image{
+					width: 60rpx;
+					height: 60rpx;
+					// margin-bottom: 12rpx;
+				}
+			}
+		}
+		
 	}
 
 	/*关于我们*/
@@ -485,7 +479,7 @@
 		justify-content: center;
 		background: #FFF;
 		border-radius: 16rpx;
-		margin: 40rpx auto;
+		margin: 60rpx auto 0 auto;
 		box-shadow: 0px 0px 20rpx 0px rgba(255, 198, 188, 0.3);
 
 		.mine-wallet-left {
@@ -684,7 +678,7 @@
 
 	.mine-jingpai {
 		width: 686rpx;
-		height: 166rpx;
+		height: 180rpx;
 		padding-top: 20rpx;
 		background: #FFF;
 		box-shadow: 0px 0px 20rpx 0px rgba(255, 198, 188, 0.3);
@@ -699,7 +693,7 @@
 
 		.mine-jingpai-name {
 			font-size: 28rpx;
-			font-weight: 600;
+			font-weight: bold;
 			margin-left: 30rpx;
 		}
 
@@ -719,14 +713,15 @@
 		}
 
 		image {
-			width: 56rpx;
-			height: 56rpx;
+			width: 60rpx;
+			height: 60rpx;
 		}
 
 	}
 
 	.mine-order {
 		// position: relative;
+		height: 200rpx;
 		background: #ffffff;
 		box-shadow: 0px 0px 20rpx 0px rgba(255, 198, 188, 0.3);
 		border-radius: 20rpx;
@@ -742,19 +737,20 @@
 
 			.t {
 				font-size: 28rpx;
-				font-weight: 600;
+				font-weight: bold;
 			}
 
 			.more {
-				font-size: 26rpx;
-				color: #999;
+				font-size: 24rpx;
+				color: rgb(44, 44, 44);
 				display: flex;
 				align-items: center;
 
 				.icon {
-					width: 10rpx;
-					height: 18rpx;
-					margin-left: 15rpx;
+					width: 32rpx;
+					height: 32rpx;
+					margin-left: 10rpx;
+					
 				}
 			}
 		}
@@ -771,8 +767,8 @@
 			}
 
 			.icon {
-				width: 42rpx;
-				height: 42rpx;
+				width: 60rpx;
+				height: 60rpx;
 				margin: 0 auto;
 			}
 

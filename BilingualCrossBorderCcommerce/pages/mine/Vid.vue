@@ -92,9 +92,9 @@
     <!--id-fixed start-->
     <view class="id-fixed">
       <view class="fixed-con">
-        <button class="public-btn" v-if="status==='0'">{{$t('user.vid.dsh')}}</button>
+        <button class="public-btn" style="background: rgb(255, 78, 47);" v-if="status==='0'">{{$t('user.vid.dsh')}}</button>
         <template v-else-if="status==='1'"></template>
-        <button class="public-btn" v-else @click.stop="$noMultipleClicks(onBtnSub)">{{$t('user.vid.qrtj')}}</button>
+        <button class="public-btn" style="background: rgb(255, 78, 47);" v-else @click.stop="$noMultipleClicks(onBtnSub)">{{$t('user.vid.qrtj')}}</button>
       </view>
     </view>
     <!--id-fixed end-->
@@ -286,7 +286,7 @@ export default {
         }
         .red {
           font-size: 28rpx;
-          color: #fc0609;
+          color: rgb(255, 78, 47);
         }
         .more {
           width: 12rpx;

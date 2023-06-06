@@ -51,7 +51,7 @@
       <!--login-ul end-->
       <!--register-bot start-->
       <view class="register-bot">
-        <button class="public-btn" @click.stop="$noMultipleClicks(onLoginMobileRegister)">{{$t('login.ljzc')}}</button>
+        <button class="public-btn" style="background: rgb(255, 78, 47);" @click.stop="$noMultipleClicks(onLoginMobileRegister)">{{$t('login.ljzc')}}</button>
       </view>
       <!--register-bot end-->
     </view>
@@ -96,7 +96,7 @@
       <!--login-ul end-->
       <!--register-bot start-->
       <view class="register-bot">
-        <button class="public-btn" @click.stop="$noMultipleClicks(onLoginEmailRegister)">{{$t('login.qd')}}</button>
+        <button class="public-btn" style="background: rgb(255, 78, 47);" @click.stop="$noMultipleClicks(onLoginEmailRegister)">{{$t('login.qd')}}</button>
       </view>
       <!--register-bot end-->
     </view>
@@ -356,12 +356,12 @@ export default {
       text-align: center;
     }
     .active {
-      color: #fc0609;
+      color: rgb(255, 78, 47);
     }
     .active::after {
       width: 68rpx;
       height: 5rpx;
-      background: #fc0609;
+      background: rgb(255, 78, 47);
       border-radius: 3rpx;
       position: absolute;
       left: 50%;
@@ -451,7 +451,7 @@ export default {
             }
           }
           .yzm {
-            color: #fa1d1d;
+            color: rgb(255, 78, 47);
             font-size: 28rpx;
           }
         }
@@ -466,8 +466,8 @@ export default {
   border-color: #d1d1d1;
 }
 /deep/ uni-checkbox .uni-checkbox-input.uni-checkbox-input-checked {
-  background: #fc0609;
+  background: rgb(255, 78, 47);
   color: #fff !important;
-  border-color: #fc0609;
+  border-color: rgb(255, 78, 47);
 }
 </style>

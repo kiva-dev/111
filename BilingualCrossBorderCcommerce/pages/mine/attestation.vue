@@ -104,7 +104,7 @@ page {
         }
         .red {
           font-size: 28rpx;
-          color: #fc0609;
+          color:  rgb(255, 78, 47);
         }
         .more {
           width: 12rpx;

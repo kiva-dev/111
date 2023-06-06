@@ -1,42 +1,42 @@
 <template>
 	<view class="share">
 		<view class="share-head">
-			<image src="../../static/images/mine/index.png" class="share-head-index" @click="toindex"></image>
-			<image src="../../static/images/mine/share.png" class="share-head-share" @click="open"></image>
-			<image src="../../static/images/mine/but.png" class="share-head-btn" @click="toregister"></image>
+			<image src="/static/images/mine/index.png" class="share-head-index" @click="toindex"></image>
+			<image src="/static/images/mine/share.png" class="share-head-share" @click="open"></image>
+			<image src="/static/images/mine/but.png" class="share-head-btn" @click="toregister"></image>
 		</view>
 
 		<view class="share-content">
 			<!-- <view style="height: 120rpx;"></view> -->
-			<image class="share-content-head" src="../../static/images/mine/share/title.png"></image>
+			<image class="share-content-head" src="/static/images/mine/share/title.png"></image>
 
 			<view class="share-buzou">
 				<view class="share-buzou-left">setp 01</view>
 				<view class="share-buzou-right">Registration, login,<br /> and real-name authentication</view>
 			</view>
 
-			<image class="share-img" src="../../static/images/mine/share/content1.png"></image>
+			<image class="share-img" src="/static/images/mine/share/content1.png"></image>
 
 			<view class="share-buzou">
 				<view class="share-buzou-left">setp 02</view>
 				<view class="share-buzou-right">Recharge</view>
 			</view>
 			
-			<image class="share-img2" src="../../static/images/mine/share/content2.png"></image>
+			<image class="share-img2" src="/static/images/mine/share/content2.png"></image>
 			
 			<view class="share-buzou">
 				<view class="share-buzou-left">setp 03</view>
 				<view class="share-buzou-right">Place an order to participate <br/>in the auction</view>
 			</view>
 			
-			<image class="share-img3" src="../../static/images/mine/share/content3.png"></image>
+			<image class="share-img3" src="/static/images/mine/share/content3.png"></image>
 			
 			<view class="share-buzou">
 				<view class="share-buzou-left">setp 04</view>
 				<view class="share-buzou-right">Receveid Reward</view>
 			</view>
 			
-			<image class="share-img4" src="../../static/images/mine/share/content4.png"></image>
+			<image class="share-img4" src="/static/images/mine/share/content4.png"></image>
 			
 			<view class="share-buzou">
 				<view class="share-buzou-left">setp 05</view>
@@ -55,17 +55,17 @@
 				
 				<view class="mine-share-list">
 					<view class="mine-share-item">
-						<image src="../../static/images/share21.png"></image>
+						<image src="/static/images/share21.png"></image>
 						<view class="mine-share-name">Twitter</view>
 					</view>
 					
 					<view class="mine-share-item mine-share-center">
-						<image src="../../static/images/share23.png"></image>
+						<image src="/static/images/share23.png"></image>
 						<view class="mine-share-name">Facebook</view>
 					</view>
 					
 					<view class="mine-share-item">
-						<image src="../../static/images/share25.png"></image>
+						<image src="/static/images/share25.png"></image>
 						<view class="mine-share-name">Copy Link</view>
 					</view>
 				</view>
@@ -119,7 +119,7 @@
 			position: relative;
 			width: 750rpx;
 			height: 684rpx;
-			background: url('../../static/images/mine/banner.png') no-repeat;
+			background: url('/static/images/mine/banner.png') no-repeat;
 			background-size: 750rpx 684rpx;
 
 			.share-head-index {

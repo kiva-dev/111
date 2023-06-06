@@ -7,18 +7,18 @@ import axios from 'axios';
 var Fly = require("flyio/dist/npm/wx");
 var request = new Fly();
 // Vue.prototype.$baseUrl = 线上：h5.kolibrimall.com 测试：kjtest.ysxrj.cn
-Vue.prototype.$baseUrl = 'https://h5.kolibrimall.com/'
+Vue.prototype.$baseUrl = 'https://kjtest.ysxrj.cn/'
 if (process.env.NODE_ENV === 'development') {
 	// request.config.baseURL = 'https://kuajing.ysxrj.cn/api/';
-	request.config.baseURL = 'https://h5.kolibrimall.com/api/';
+	request.config.baseURL = 'https://kjtest.ysxrj.cn/api/';
 } else {
 	// request.config.baseURL = 'https://kuajing.ysxrj.cn/api/';
-	request.config.baseURL = 'https://h5.kolibrimall.com/api/';
+	request.config.baseURL = 'https://kjtest.ysxrj.cn/api/';
 }
 
 Vue.prototype.$Fly = request
 // Vue.prototype.$url = 'https://kuajing.ysxrj.cn/api/'
-Vue.prototype.$url = 'https://h5.kolibrimall.com/api/'
+Vue.prototype.$url = 'https://kjtest.ysxrj.cn/api/'
 request.interceptors.request.use((request) => {
 	const token = uni.getStorageSync('token')
 	// request.headers['Content-Type'] = 'multipart/form-data'

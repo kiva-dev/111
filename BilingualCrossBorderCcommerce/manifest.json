@@ -2,7 +2,7 @@
     "name" : "Kolibri mall",
     "appid" : "__UNI__1C93860",
     "description" : "",
-    "versionName" : "1.0.1",
+    "versionName" : "1.0.2",
     "versionCode" : 2023042501,
     "transformPx" : false,
     /* 5+App特有相关 */
@@ -73,7 +73,7 @@
                     "xhdpi" : "unpackage/res/720x1242.png",
                     "xxhdpi" : "unpackage/res/1080x1920.png"
                 },
-                "useOriginalMsgbox" : true
+                "useOriginalMsgbox" : false
             },
             "icons" : {
                 "android" : {

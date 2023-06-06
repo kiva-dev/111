@@ -281,7 +281,7 @@
 									</view>
 								</view>
 								<view class="li-c">
-									{{$t('auction.zaiyiu')}}<text class="color-purse">{{item.shop_name}}</text>
+									{{$t('auction.zaiyiu')}}<text class="color-purse" style="color: rgb(93, 191, 254);">{{item.shop_name}}</text>
 									{{$t('auction.tigdjphd')}}<text class="color-red" style="color: rgb(255, 78, 47);">RM{{item.pay_price}}</text>
 									{{$t('auction.jzxypzjz')}}<text class="color-red" style="color: rgb(255, 78, 47);">RM{{item.price}}</text>
 									<block v-if="isShopCont">of </block>
@@ -2099,11 +2099,15 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						
 						.vip {
 							position: absolute;
-							top: 102rpx;
+							top: 106rpx;
+							// left: -10rpx;
+							width: 60rpx;
+							// left: 0rpx;
 							height: 25rpx;
+							text-align: center;
 							background: #000000;
-							padding: 0 10rpx;
-							font-size: 22rpx;
+							// padding: 0 10rpx;
+							font-size: 16rpx;
 							color: #ffc263;
 							margin-left: 10rpx;
 							line-height: 25rpx;

@@ -241,8 +241,8 @@
 
 				.li-date {
 					height: 40rpx;
-					background: #fc0609;
-					background: linear-gradient(-45deg, #fc0609 0%, #ff4e50 100%);
+					background: #FF4E2F;
+					background: linear-gradient(-45deg, #FF4E2F 0%, #ff4e50 100%);
 					border-radius: 10px 0px 10rpx 0px;
 					position: absolute;
 					left: 0;
@@ -343,7 +343,7 @@
 
 						.price-fl {
 							.red {
-								color: #fc0609;
+								color: #FF4E2F;
 								margin-right: 20rpx;
 							}
 
@@ -356,7 +356,7 @@
 						.price-btn {
 							width: 100rpx;
 							height: 50rpx;
-							background: #fc0609;
+							background: #FF4E2F;
 							border-radius: 10rpx;
 							min-width: 100rpx;
 							max-width: 100rpx;
@@ -372,7 +372,7 @@
 						display: flex;
 						align-items: center;
 						justify-content: space-between;
-						color: #fc0609;
+						color: #FF4E2F;
 
 						.w {}
 
@@ -390,7 +390,7 @@
 								top: 0;
 								height: 100%;
 								border-radius: 6rpx;
-								background: #fc0609;
+								background: #FF4E2F;
 							}
 						}
 					}
@@ -490,7 +490,7 @@
 
 				.price-fl {
 					.red {
-						color: #fc0609;
+						color: #FF4E2F;
 						margin-right: 20rpx;
 					}
 
@@ -507,7 +507,7 @@
 				padding: 0 15rpx;
 				display: flex;
 				font-size: 22rpx;
-				color: #fc0609;
+				color: #FF4E2F;
 				line-height: 45rpx;
 				margin: 15rpx 0;
 			}
@@ -541,9 +541,12 @@
 			color: #000;
 			margin-right: 20rpx;
 			padding: 0 22rpx;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
 
 			&.active {
-				background: #fc0609;
+				background: #FF4E2F;
 				color: #fff;
 			}
 		}

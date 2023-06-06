@@ -162,8 +162,7 @@
     {
       "path": "pages/auction/detail",
       "style": {
-        "navigationBarTitleText": "%top.jpxq%",
-        "enablePullDownRefresh": false
+        "navigationStyle": "custom"
       }
     },
     {
@@ -738,7 +737,7 @@
       }
     },
 	{
-	  "path": "pages/mine/share",
+	  "path": "pages/topromote/activity/usual",
 	  "style": {
 	    "navigationBarTitleText": "",
 	    "navigationStyle": "custom"
@@ -753,6 +752,27 @@
 	},
 	{
 	  "path": "pages/mine/new/subscribe",
+	  "style": {
+	    "navigationBarTitleText": "",
+	    "navigationStyle": "custom"
+	  }
+	},
+	{
+	  "path": "pages/auction/comment",
+	  "style": {
+	    "navigationBarTitleText": "",
+	    "navigationStyle": "custom"
+	  }
+	},
+	{
+	  "path": "pages/auction/product_info",
+	  "style": {
+	    "navigationBarTitleText": "",
+	    "navigationStyle": "custom"
+	  }
+	},
+	{
+	  "path": "pages/mine/new/service",
 	  "style": {
 	    "navigationBarTitleText": "",
 	    "navigationStyle": "custom"
@@ -805,7 +825,8 @@
       },
       {
         "pagePath": "pages/auction/jjks",
-        "text": "%auction.jijiangkaishi%",
+        "text": "%tab.all%",
+		// "text": "%auction.jijiangkaishi%",
         "iconPath": "static/images/tab/all.png",
         "selectedIconPath": "./static/images/tab/all-select.png"
       },

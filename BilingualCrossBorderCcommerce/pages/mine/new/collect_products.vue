@@ -5,53 +5,39 @@
 			<view>{{$t('user.myCont.scsp')}}</view>
 		</view>
 
-		<view class="auct-new">
-
-			<view class="jping" v-for="(item,i) in jingpaiList" :key="i" @click="onJingPai(item)">
-				<view class="jping-left">
-					<image :src="item.image"></image>
-					<view class="jping-left-q">
-						<image src="../../../static/images/new/time.png"></image>
-						<u-count-down :time="item.djs" format="DD:HH:mm:ss"></u-count-down>
-					</view>
-				</view>
-
-				<view class="jping-right">
-					<view style="height: 20rpx;"></view>
-					<view class="jping-header">
-						<view class="jping-name">{{item.goods_name}}</view>
-
-					</view>
-
-					<view class="jping-tags">
-						<block v-for="(data,index) in item.tags" :key="data.tag_id">
-							<view v-if="(index+1)%3==1" class="lan">{{data.name}}</view>
-							<view v-else-if="(index+1)%3==2" class="chen">{{data.name}}</view>
-							<view v-else="(index+1)%3==0" class="red">{{data.name}}</view>
-						</block>
-					</view>
-					<view class="jping-price">
-						<view class="jping-price-left">
-							<view class="jping-price-new">RM{{item.auction_price}}
-							</view>
-							<view class="jping-price-old">RM{{item.price}}</view>
-						</view>
-						<view class="jping-price-btn" @click.stop="onMineInfo(item)">{{$t('auction.qiangpai')}}
-						</view>
-					</view>
-					<view class="jping-sjm">{{item.shop_name}}</view>
-					<view class="jping-jd">
-						<!-- <view class="jping-jd-name">{{$t('auction.jpjd')}}</view> -->
-						<view class="jping-jd-data">
-							<progress class="progress" :percent="item.finish_rate*100" stroke-width="5"
-								activeColor="#FF4E2F" backgroundColor="#EBEBEB" />
-						</view>
-						<view class="jping-jd-bfb">{{item.finish_rate*100}}%</view>
-					</view>
-				</view>
-
+		<block v-if="jingpaiList.length<1">
+			<view class="not-data">
+				<image src="/static/images/new//zwdd.png"></image>
+				<view>{{$t('new.zwxgnr')}}</view>
 			</view>
-		</view>
+		</block>
+		<block v-else>
+			<view class="collect-product" v-for="item in jingpaiList" :key="item.goods_id"
+				@click="toProductInfo(item.goods_id)">
+				<image :src="item.image" class="collect-product-img"></image>
+				<view class="collect-product-info">
+					<view class="collect-product-info-tit">{{item.goods_name}}</view>
+					<view class="collect-product-info-price">RM{{item.goods_price}}</view>
+					<view class="collect-product-info-list">
+						<view class="collect-product-info-item" style="margin-right: 20rpx;" v-if="item.new_auction">
+							<view style="background: rgba(255, 78, 47, 0.3);color: rgb(255, 78, 47);">{{$t('new.zzjp')}}
+							</view>
+							<view style="background: rgb(255, 78, 47);">RM{{item.new_auction}}</view>
+						</view>
+						<view class="collect-product-info-item" v-if="item.ready_begin">
+							<view style="background: rgba(255, 179, 0, 0.2);color: rgb(255, 179, 0);">{{$t('new.jjks')}}
+							</view>
+							<view style="background: rgb(255, 179, 0);">RM{{item.ready_begin}}</view>
+						</view>
+					</view>
+					<view class="collect-product-info-btm">
+						<image src="/static/images/products/sj.png"></image>
+						<view>{{item.shop_name}}</view>
+					</view>
+				</view>
+			</view>
+		</block>
+
 
 		<!--抢拍次数 start-->
 		<uni-popup ref="pwdPopup" type="center">
@@ -204,10 +190,13 @@
 				<view class="pay-pwd-info" style="height: 308rpx;">
 					<view class="pay-pwd-info-tit" style="font-size: 32rpx;">{{$t('auction.detail.gxnzfcgznzp')}}</view>
 					<view class="pay-pwd-info-price" style="font-size: 26rpx;margin-top: 30rpx;">
-						{{$t('auction.detail.zpydzpjlgg')}}</view>
+						{{$t('auction.detail.zpydzpjlgg')}}
+					</view>
 					<view class="pay-pwd-list">
 						<view class="pay-pwd-list-cancel" @click="onpayQuery">{{$t('auction.detail.query')}}</view>
-						<view class="pay-pwd-list-ok" @click="onQiangpai" v-if="auction_num > isauctionNum">{{$t('auction.detail.zaipaiyd')}}</view>
+						<view class="pay-pwd-list-ok" @click="onQiangpai" v-if="auction_num > isauctionNum">
+							{{$t('auction.detail.zaipaiyd')}}
+						</view>
 					</view>
 				</view>
 			</view>
@@ -295,7 +284,7 @@
 <script>
 	import jsencrypt from '@/common/jsencrypt-Rsa/jsencrypt/jsencrypt.vue';
 	//公钥.
-		const publiukey = `-----BEGIN PUBLIC KEY-----
+	const publiukey = `-----BEGIN PUBLIC KEY-----
 	MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCSjs8JJr/Nyb+nOG77agUDf7uT
 	c+kswdVEXbU8v5EL98brAw7fu4dQc1vkh1KSXqiC9EC7YmJzkkFoXUzTH2pvvDlq
 	UuCwtdmXOsq/b1JWKyEXzQlPIiwdHnAUjGbmHOEMAY3jKEy2dY2I6J+giJqo8B2H
@@ -351,6 +340,11 @@
 			}
 		},
 		methods: {
+			toProductInfo(id) {
+				uni.navigateTo({
+					url: '/pages/auction/product_info?goodsId=' + id
+				})
+			},
 			// 点击竞拍列表
 			onJingPai(item) {
 				uni.navigateTo({
@@ -364,55 +358,13 @@
 			},
 			// 关注商品
 			onAuctionNewGoods() {
-				this.$http.post(this.$apiObj.MineFocusProducts, {
+				this.$http.post(this.$apiObj.MineFocusList, {
 					page: this.page,
-					pagenum: this.pagenum
+					pagenum: this.pagenum,
+					type: 1
 				}).then(res => {
 					if (res.code == 1) {
-						// if (this.isShopCont) {
-						// 	res.data.data.map(item => {
-						// 		item.tags.map(items => {
-						// 			items.name = this.getCaption(items.name, 1) ? this.getCaption(
-						// 				items.name, 1) : items.name
-						// 		})
-						// 		item.goods_mark = this.getCaption(item.goods_mark, 1) ? this.getCaption(
-						// 			item.goods_mark, 1) : item.goods_mark
-						// 		item.goods_name = this.getCaption(item.goods_name, 1) ? this.getCaption(
-						// 			item.goods_name, 1) : item.goods_name
-						// 	})
-						// } else {
-						// 	res.data.data.map(item => {
-						// 		item.tags.map(items => {
-						// 			items.name = this.getCaption(items.name, 0) ? this.getCaption(
-						// 				items.name, 0) : items.name
-						// 		})
-						// 		item.goods_mark = this.getCaption(item.goods_mark, 0) ? this.getCaption(
-						// 			item.goods_mark, 0) : item.goods_mark
-						// 		item.goods_name = this.getCaption(item.goods_name, 0) ? this.getCaption(
-						// 			item.goods_name, 0) : item.goods_name
-						// 	})
-						// }
-						res.data.data.map(item => {
-							item.remain_time = item.remain_time * 1000
-						})
-						this.totalPageNum = res.data.total
-						this.jingpaiList = this.page == 1 ? res.data.data : [...this.jingpaiList, ...res.data
-								.data
-							],
-							this.jingpaiList.forEach(item => {
-								this.$set(item, 'djs', (item.pre_end_time - Date.parse(new Date()) / 1000) *
-									1000)
-							})
-						console.log(this.jingpaiList)
-						this.jingpaiList.forEach(item => {
-							item.tags.forEach(data => {
-								let arr = data.name.split('|')
-								if (this.lanuage == 'en') data.name = arr[1]
-								else data.name = arr[0]
-							})
-						})
-
-
+						this.jingpaiList = res.data.data
 					}
 				})
 			},
@@ -629,7 +581,7 @@
 				}
 				item.isShow = true
 			},
-			
+
 			// 点击支付密码
 			onPwdClick() {
 				if (!this.pay_pwd) return uni.showToast({
@@ -679,11 +631,113 @@
 </script>
 
 <style lang="less" scoped>
+	.not-data {
+		padding-top: 200rpx;
+
+		image {
+			display: block;
+			width: 360rpx;
+			height: 390rpx;
+			margin: 0 auto;
+		}
+
+		view {
+			width: 100%;
+			font-size: 32rpx;
+			color: rgb(190, 190, 190);
+			text-align: center;
+		}
+	}
+
 	.collect-page {
 		width: 100%;
 		min-height: 100vh;
 		background: rgb(248, 248, 248);
 	}
+
+	.collect-product {
+		position: relative;
+		width: 710rpx;
+		height: 240rpx;
+		display: flex;
+		align-items: center;
+		background: #FFF;
+		border-radius: 16rpx;
+		margin: 0 auto;
+
+		.collect-product-img {
+			width: 240rpx;
+			height: 240rpx;
+			border-radius: 16rpx;
+		}
+
+		.collect-product-info {
+
+			.collect-product-info-tit {
+				position: absolute;
+				top: 20rpx;
+				left: 260rpx;
+				width: 430rpx;
+				font-size: 24rpx;
+				color: rgb(44, 44, 44);
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+			}
+
+			.collect-product-info-price {
+				position: absolute;
+				top: 70rpx;
+				left: 260rpx;
+				font-size: 32rpx;
+				color: rgb(255, 0, 0);
+			}
+
+			.collect-product-info-list {
+				position: absolute;
+				top: 126rpx;
+				left: 260rpx;
+				display: flex;
+				align-items: center;
+
+				.collect-product-info-item {
+					width: 200rpx;
+					height: 36rpx;
+					font-size: 20rpx;
+					color: rgb(255, 255, 255);
+					display: flex;
+					align-items: center;
+
+					view {
+						width: 50%;
+						height: 36rpx;
+						line-height: 36rpx;
+						text-align: center;
+						white-space: nowrap;
+					}
+				}
+			}
+
+			.collect-product-info-btm {
+				position: absolute;
+				left: 260rpx;
+				bottom: 20rpx;
+				font-size: 24rpx;
+				color: rgb(44, 44, 44);
+				display: flex;
+				align-items: center;
+
+				image {
+					width: 40rpx;
+					height: 40rpx;
+					margin-right: 10rpx;
+				}
+			}
+
+		}
+
+	}
+
 
 	//头部
 	.collect-header {
@@ -727,7 +781,7 @@
 	//竞拍中
 	.jping {
 		width: 710rpx;
-		// height: 280rpx;
+		height: 280rpx;
 		display: flex;
 		align-items: center;
 		background: #fff;
@@ -774,10 +828,14 @@
 		}
 
 		.jping-right {
+			position: relative;
+			height: 100%;
 			width: 388rpx;
 			margin-left: 20rpx;
 
 			.jping-header {
+				position: absolute;
+				top: 20rpx;
 				width: 100%;
 				font-size: 24rpx;
 				color: rgb(44, 44, 44);
@@ -803,11 +861,14 @@
 			}
 
 			.jping-tags {
+				position: absolute;
+				top: 60rpx;
 				width: 100%;
+				height: 70rpx;
 				display: flex;
 				flex-wrap: wrap;
 				align-items: center;
-				margin-top: 16rpx;
+				// margin-top: 16rpx;
 
 				view {
 					// width: 120rpx;
@@ -838,11 +899,13 @@
 			}
 
 			.jping-price {
+				position: absolute;
+				top: 134rpx;
 				width: 100%;
 				display: flex;
 				align-items: center;
 				justify-content: space-between;
-				margin-top: 30rpx;
+				// margin-top: 30rpx;
 
 				.jping-price-left {
 
@@ -868,18 +931,31 @@
 					text-align: center;
 					background: rgb(255, 78, 47);
 					border-radius: 16rpx;
+					margin-right: 10rpx;
 				}
 
 			}
 
+			.jping-sjm {
+				position: absolute;
+				bottom: 54rpx;
+				width: 300rpx;
+				// text-align: center;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+			}
+
 			.jping-jd {
+				position: absolute;
+				bottom: 14rpx;
 				width: 100%;
 				font-size: 24rpx;
 				color: rgb(255, 78, 47);
 				display: flex;
 				align-items: center;
 				justify-content: space-between;
-				margin-top: 30rpx;
+				// margin-top: 30rpx;
 
 				.jping-jd-data {
 					width: 300rpx;
@@ -965,18 +1041,18 @@
 			padding: 50rpx 30rpx 50rpx 30rpx;
 		}
 	}
-	
+
 	//输入密码
 	.pay-pwd {
 		position: relative;
-	
+
 		.pay-pwd-img {
 			display: block;
 			width: 600rpx;
 			height: 600rpx;
 			margin: 0 auto -210rpx auto;
 		}
-	
+
 		.pay-pwd-close {
 			position: absolute;
 			top: 420rpx;
@@ -986,7 +1062,7 @@
 			height: 60rpx;
 			z-index: 10;
 		}
-	
+
 		.pay-pwd-info {
 			width: 686rpx;
 			height: 428rpx;
@@ -994,7 +1070,7 @@
 			background: #FFF;
 			border: 4rpx solid rgb(255, 78, 47);
 			border-radius: 16rpx;
-	
+
 			.pay-pwd-info-tit {
 				width: 80%;
 				font-size: 40rpx;
@@ -1002,20 +1078,20 @@
 				text-align: center;
 				margin: 0 auto;
 			}
-	
+
 			.pay-pwd-info-line {
 				width: 600rpx;
 				border-bottom: 2rpx solid rgb(189, 189, 189);
 				margin: 20rpx auto;
 			}
-	
+
 			.pay-pwd-info-price {
 				width: 100%;
 				font-size: 38rpx;
 				color: rgb(255, 78, 47);
 				text-align: center;
 			}
-	
+
 			.pay-pwd-info-input {
 				width: 520rpx;
 				height: 80rpx;
@@ -1023,6 +1099,7 @@
 				border-radius: 10rpx;
 				padding: 0 20rpx;
 				margin: 20rpx auto;
+
 				.input {
 					width: 100%;
 					height: 80rpx;
@@ -1030,8 +1107,8 @@
 					text-align: left;
 				}
 			}
-			
-			.pay-pwd-info-btn{
+
+			.pay-pwd-info-btn {
 				width: 400rpx;
 				height: 80rpx;
 				line-height: 80rpx;
@@ -1042,15 +1119,15 @@
 				border-radius: 16rpx;
 				margin: 40rpx auto;
 			}
-		
-			.pay-pwd-list{
+
+			.pay-pwd-list {
 				width: 100%;
 				display: flex;
 				align-items: center;
 				justify-content: center;
 				margin-top: 60rpx;
-				
-				view{
+
+				view {
 					width: 220rpx;
 					height: 60rpx;
 					line-height: 60rpx;
@@ -1058,12 +1135,12 @@
 					text-align: center;
 					border-radius: 16rpx;
 				}
-				
-				.pay-pwd-list-cancel{
+
+				.pay-pwd-list-cancel {
 					border: 2rpx solid rgb(255, 78, 47);
 				}
-				
-				.pay-pwd-list-ok{
+
+				.pay-pwd-list-ok {
 					// width: 100%;
 					color: #fff;
 					background: rgb(255, 78, 47);
@@ -1073,11 +1150,11 @@
 					white-space: nowrap;
 				}
 			}
-			
+
 		}
-	
+
 	}
-	
+
 
 	/deep/.uni-progress-inner-bar {
 		border-radius: 6rpx !important;

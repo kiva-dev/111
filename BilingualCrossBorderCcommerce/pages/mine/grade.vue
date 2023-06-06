@@ -204,7 +204,7 @@ export default {
       .grade-btn {
         width: 150rpx;
         height: 55rpx;
-        background: #fc0609;
+        background: rgb(255, 78, 47);
         border-radius: 28rpx;
         line-height: 55rpx;
         text-align: center;
