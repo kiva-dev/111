@@ -52,7 +52,7 @@
 		<view class="notice">
 			<image src="../../static/images/products/notice.png"></image>
 			<view class="notice-txt">
-				<view class="notice-list" id="notice" :style="`height:${noticeList.length*60}rpx;`">
+				<view class="notice-list" :style="`height:${noticeList.length*60}rpx;`">
 					<view class="notice-item" v-for="item in noticeList" @click="onOnticeShow(item)">
 						<view class="notice-tit">{{item.title}}</view>
 						<view class="notice-time">{{item.createtime}}</view>
@@ -204,7 +204,7 @@
 
 				<block v-else>
 					<view class="auct-his">
-						<view class="jping" v-for="(item,i) in historyList" :key="item.auction_goods_id"
+						<view class="jping" v-for="(item,i) in historyList" :key="i"
 							@click="onJingPai(item)">
 							<view class="jping-left" style="border: 4rpx solid rgb(196, 196, 196);">
 								<image :src="item.image"></image>
@@ -886,17 +886,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
 			this.cancelText = uni.getStorageSync('locale') == 'en' ? 'cancel' : '取消'
 			this.confirmText = uni.getStorageSync('locale') == 'en' ? 'confirm' : '确认'
-			// this.page = 1
-			// this.newsjpId = 1
-			// this.jijiangId = 1
-			// this.lishiId = 1
-			// this.jingpaiList = []
-			// this.newsjingpaiList = []
-			// this.historyList = []
-			// this.LuckyList = []
-			// this.keyword = ''
-			// this.date_start = ''
-			// this.navId = 1
 
 			//获取
 
@@ -942,41 +931,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						this.FirstList = res.data
 					}
 				})
-				// 优惠券列表
-				// if (uni.getStorageSync('token')) {
-				//   this.$http.post(this.$apiObj.OrderNotgetCouponList).then(res => {
-				//     if (res.code == 1) {
-				//       let arr = []
-				//       for (let i in res.data) {
-				//         let addTime = this.addDate(this.$filter.to_date_time(res.data[i].addtime), res.data[i].days);//当前时间加到期天数 
-				//         // 获取当前时间
-				//         let date = new Date();
-				//         let year = date.getFullYear();
-				//         let month = date.getMonth() + 1;
-				//         let strDate = date.getDate();
-				//         if (month >= 1 && month <= 9) {
-				//           month = "0" + month;
-				//         }
-				//         if (strDate >= 0 && strDate <= 9) {
-				//           strDate = "0" + strDate;
-				//         }
-				//         let hours = date.getHours();//取小时
-				//         let minutes = date.getMinutes();//取分钟
-				//         let seconds = date.getSeconds();//取秒 
-				//         let currentdate = year + "-" + month + "-" + strDate + " " + (hours < 10 ? '0' + hours : hours) + ":" + (minutes < 10 ? '0' + minutes : minutes) + ":" + (seconds < 10 ? '0' + seconds : seconds);
-				//         // 比较时间大小
-				//         let isShow = this.compareDate(addTime, currentdate)
-				//         if (isShow) {
-				//           arr.push(res.data[i])
-				//         }
-				//       }
-				//       this.CouponList = arr
-				//       if (this.CouponList.length > 0) {
-				//         this.show1 = true
-				//       }
-				//     }
-				//   })
-				// }
 			}, 1200);
 			// 最新竞拍
 			this.onAuctionNewGoods()
@@ -989,11 +943,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			//公告
 			this.getNotice()
 		},
-		mounted() {
-			// const query = uni.createSelectorQuery().in(this)
-			// query.select(".notice-list").boundingClientRect(data=>{
-			// 	console.log(data)
-			// }).exec()
+		onHide() {
+			
 		},
 		methods: {
 			//查看公告信息
@@ -1438,10 +1389,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							item.continue_time = this.daojishi(item.continue_time)
 						})
 						this.totalPageNum = res.data.total
-						this.historyList = this.page == 1 ? res.data.data : [...this.historyList, ...res
-							.data
-							.data
-						]
+						this.historyList = this.page == 1 ? res.data.data : [...this.historyList, ...res.data.data]
 					}
 				})
 			},
@@ -1773,7 +1721,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		},
 		// 页面滑动到底部
 		onReachBottom() {
-			console.log(this.navId);
 			// 判断是否还有数据
 			if (this.navId == 1) {
 				// 最新竞拍

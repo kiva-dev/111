@@ -777,6 +777,13 @@
 	    "navigationBarTitleText": "",
 	    "navigationStyle": "custom"
 	  }
+	},
+	{
+	  "path": "pages/mine/new/commission",
+	  "style": {
+	    "navigationBarTitleText": "",
+	    "navigationStyle": "custom"
+	  }
 	}
   ],
   "globalStyle": {

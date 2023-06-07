@@ -113,51 +113,43 @@
 				</view>
 			</view>
 		</view>
-		<!--mine-order end-->
-		
-		<!--分享广告位 start-->
-		<!-- <view class="mine-asd" @click="navClick('/pages/invite/invite')">
-      <image v-if="isShopCont" class="img" mode="widthFix" src="../../static/yaoqing.png"></image>
-      <image v-else class="img" mode="widthFix" src="../../static/images/mine/mine7.png"></image>
-    </view> -->
-		<!--mine-asd end-->
-		
+
 		<view class="mine-share" @click="navClick('/pages/invite/invite')">
 			<image src="../../static/images/products/mine-tkfx.png"></image>
 			<view>{{$t('user.mine.tgfx')}}</view>
 		</view>
 		<view class="service">
 			<view class="service-head">
-				<view class="service-head-left">My Service</view>
+				<view class="service-head-left">{{$t('new.wdfw')}}</view>
 				<view class="service-head-right" @click="toAddress('/pages/mine/new/service')">
 					<view>{{$t('user.myCont.ckqb')}}</view>
 					<image src="/static/images/products/new-more.png"></image>
 				</view>
 			</view>
-			
+
 			<view class="service-list">
 				<view class="service-item" @click="navClick('refund/refund')">
 					<image src="../../static/images/products/sales.png"></image>
 					<view>{{$t('user.myCont.tkshh')}}</view>
 				</view>
-				
+
 				<view class="service-item" @click="toAddress('/pages/address/address')">
 					<image src="../../static/images/products/address.png"></image>
 					<view>{{$t('new.dz')}}</view>
 				</view>
-				
+
 				<view class="service-item" @click="showContact=true">
 					<image src="../../static/images/products/yjfk.png"></image>
 					<view>{{$t('user.myCont.ptkf')}}</view>
 				</view>
-				
+
 				<view class="service-item" @click="navClick('upgrade')">
 					<image src="../../static/images/products/mine-sj.png"></image>
 					<view>{{$t('new.sh')}}</view>
 				</view>
 			</view>
 		</view>
-		
+
 		<!--联系客服弹出 start-->
 		<uni-popup ref="popup2" type="center">
 			<view class="email-cont">
@@ -282,13 +274,13 @@
 			})
 		},
 		methods: {
-			
+
 			toAuction(num) {
 				uni.navigateTo({
 					url: '/pages/mine/auctionM?num=' + num
 				})
 			},
-			toAddress(url){
+			toAddress(url) {
 				uni.navigateTo({
 					url
 				})
@@ -324,8 +316,8 @@
 		min-height: 100vh;
 		background: #f8f8f8;
 	}
-	
-	.mine-share{
+
+	.mine-share {
 		width: 498rpx;
 		height: 80rpx;
 		font-size: 24rpx;
@@ -337,16 +329,16 @@
 		border-radius: 16rpx 16rpx 0 0;
 		box-shadow: 0px 0px 10rpx rgba(255, 198, 188, 0.3);
 		margin: 0 auto;
-		
-		image{
+
+		image {
 			width: 60rpx;
 			height: 60rpx;
 			margin-right: 18rpx;
 		}
-		
+
 	}
-	
-	.service{
+
+	.service {
 		width: 686rpx;
 		height: 160rpx;
 		padding: 20rpx 0;
@@ -354,58 +346,58 @@
 		border-radius: 16rpx;
 		box-shadow: 0px 4rpx 10rpx rgba(255, 198, 188, 0.3);
 		margin: 0 auto;
-		
-		.service-head{
+
+		.service-head {
 			position: relative;
 			width: 100%;
 			display: flex;
 			align-items: center;
-			
-			.service-head-left{
+
+			.service-head-left {
 				font-size: 32rpx;
 				color: rgb(44, 44, 44);
 				font-weight: bold;
 				margin-left: 20rpx;
 			}
-			
-			.service-head-right{
+
+			.service-head-right {
 				position: absolute;
 				right: 20rpx;
 				font-size: 24rpx;
 				color: rgb(44, 44, 44);
 				display: flex;
 				align-items: center;
-				
-				image{
+
+				image {
 					width: 32rpx;
 					height: 32rpx;
 					margin-left: 10rpx;
 				}
-				
+
 			}
-			
+
 		}
-	
-		.service-list{
+
+		.service-list {
 			width: 100%;
 			display: flex;
 			align-items: center;
 			margin-top: 22rpx;
-			
-			.service-item{
+
+			.service-item {
 				width: 25%;
 				font-size: 24rpx;
 				color: rgb(44, 44, 44);
 				text-align: center;
-				
-				image{
+
+				image {
 					width: 60rpx;
 					height: 60rpx;
 					// margin-bottom: 12rpx;
 				}
 			}
 		}
-		
+
 	}
 
 	/*关于我们*/
@@ -750,7 +742,7 @@
 					width: 32rpx;
 					height: 32rpx;
 					margin-left: 10rpx;
-					
+
 				}
 			}
 		}

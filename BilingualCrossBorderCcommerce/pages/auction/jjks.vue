@@ -53,10 +53,6 @@
 			</view>
 		</view>
 
-
-
-
-
 		<!-- 日期时间选择器弹框 -->
 		<uni-popup ref="dateTimePopup" type="bottom" :is-mask-click="false">
 			<view class="custom-popup date-time-popup">
@@ -280,6 +276,22 @@
 		</uni-popup>
 		<!--分享弹出 end-->
 		<view style="height: 20rpx;"></view>
+		
+		<!--退出登录弹框-->
+		<uni-popup ref="logout" type="center">
+			<view class="loginout">
+				<image src="../../static/images/new/tck-jy.png"></image>
+				<view class="loginout-info">
+					<view class="loginout-info-tit">{{$t('user.xitong.onQuery')}}</view>
+					<view class="loginout-info-btn">
+						<view class="loginout-info-btn-cancel" @click="$refs.logout.close()">{{$t('user.xitong.query')}}
+						</view>
+						<view class="loginout-info-btn-ok" @click="onLogout()">{{$t('user.xitong.btnsub')}}</view>
+					</view>
+				</view>
+			</view>
+		</uni-popup>
+		
 	</view>
 </template>
 
@@ -1252,7 +1264,65 @@ NoR+zv3KaEmPSHtooQIDAQAB
 	}
 
 	.auct-page {
-
+		
+		//退出登录
+		.loginout {
+		
+			image {
+				display: block;
+				width: 600rpx;
+				height: 372rpx;
+				margin: 0 auto -46rpx auto;
+			}
+		
+			.loginout-info {
+				width: 686rpx;
+				// height: 228rpx;
+				padding-top: 80rpx;
+				padding-bottom: 20rpx;
+				background: #fff;
+				border: 4rpx solid rgb(255, 78, 47);
+				border-radius: 16rpx;
+		
+				.loginout-info-tit {
+					width: 100%;
+					font-size: 40rpx;
+					color: rgb(44, 44, 44);
+					text-align: center;
+				}
+		
+				.loginout-info-btn {
+					width: 100%;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					margin-top: 60rpx;
+		
+					view {
+						width: 240rpx;
+						height: 60rpx;
+						line-height: 60rpx;
+						font-size: 32rpx;
+						text-align: center;
+						border-radius: 16rpx;
+					}
+		
+					.loginout-info-btn-cancel {
+						color: rgb(44, 44, 44);
+						border: 2rpx solid rgb(255, 78, 47);
+					}
+		
+					.loginout-info-btn-ok {
+						color: #fff;
+						padding: 2rpx;
+						background: rgb(255, 78, 47);
+						margin-left: 40rpx;
+					}
+				}
+			}
+		}
+		
+		
 		//新的头部
 		.head-list {
 			width: 100%;
@@ -1637,7 +1707,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				}
 			}
 		}
-
+		
 		.auct-head {
 			position: relative;
 			width: 100%;

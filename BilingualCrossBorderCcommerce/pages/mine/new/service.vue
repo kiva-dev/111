@@ -2,7 +2,7 @@
 	<view class="service-page">
 		<view class="comment-head">
 			<image src="/static/images/new/left.png" @click="onReturn()"></image>
-			<view>Service</view>
+			<view>{{$t('new.fuwu')}}</view>
 		</view>
 		<view class="service-list">
 			<view class="service-item" @click="onToInfo('/pages/mine/Feedback')">

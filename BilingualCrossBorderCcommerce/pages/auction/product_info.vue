@@ -23,11 +23,10 @@
 			<uni-swiper-dot class="uni-swiper-dot-box" @clickItem=clickItem :info="shopCont.images" :current="current"
 				:mode="mode" field="content">
 				<swiper class="swiper-box" autoplay="true" :circular="true" @change="change">
-					<swiper-item v-for="(item,k) in shopCont.images" :key="k">
+					<swiper-item v-for="(item,k) in shopCont.images" :key="k" @click="previewImgList()">
 						<view :class="item.colorClass" class="swiper-item">
 							<view class="big-img">
-								<image class="image img" :src="item" mode="aspectFill" :draggable="false"
-									@click="onBanner(index)" />
+								<image class="image img" :src="item" mode="aspectFill" :draggable="false" />
 							</view>
 						</view>
 					</swiper-item>
@@ -35,236 +34,230 @@
 			</uni-swiper-dot>
 		</view>
 
-		<!--商品价格时间-->
-		<!-- <view class="detail-price">
-			<view class="detail-price-left">
-				<view class="detail-price-new">RM{{shopCont.auction_price}}</view>
-				<view class="detail-price-old">RM{{shopCont.price}}</view>
-			</view>
-			<view class="detail-price-time">
-				Distance End：{{hour}}:{{minute}}:{{second}}
-				
-			</view>
-		</view> -->
+		<block v-if="status">
+			<view class="detail-money">RM{{shopCont.litestore_goods_spec[0].goods_price}}</view>
+			<view class="detail-title">{{shopCont.goods_name}}</view>
 
-		<view class="detail-money">RM{{shopCont.litestore_goods_spec[0].goods_price}}</view>
-		<view class="detail-title">{{shopCont.goods_name}}</view>
-
-		<!--标签-->
-		<view class="li-tags">
-			<block v-for="(item,index) in shopCont.litestore_tag" :key="item.id">
-				<view v-if="index%3==0" class="tag">{{item.name}}</view>
-				<view v-else-if="index%3==1" class="tag yellow">{{item.name}}</view>
-				<view v-else class="tag red">{{item.name}}</view>
-			</block>
-		</view>
-
-		<!--评论-->
-		<view class="detail-comment">
-			<div id="div2"></div>
-			<view class="detail-comment-head">
-				<view class="detail-comment-tit">{{$t('newDetail.pinglun')}} <span>（{{JudgeList.length}}）</span></view>
-				<view class="detail-comment-more" @click="toComment()">
-					<view>{{$t('user.myCont.ckqb')}}</view>
-					<image src="../../static/images/products/right.png"></image>
-				</view>
+			<!--标签-->
+			<view class="li-tags">
+				<block v-for="(item,index) in shopCont.litestore_tag" :key="item.id">
+					<view v-if="index%3==0" class="tag">{{item.name}}</view>
+					<view v-else-if="index%3==1" class="tag yellow">{{item.name}}</view>
+					<view v-else class="tag red">{{item.name}}</view>
+				</block>
 			</view>
 
-			<view class="detail-comment-line"></view>
-
-			<block v-if="JudgeList.length > 0">
-				<view class="detail-comment-item" v-for="(item,i) in JudgeList.slice(0,2)" :key="i">
-					<view class="detail-comment-item-head">
-						<image :src="item.user.avatar" class="auth"></image>
-						<view>{{item.user.nickname}}</view>
+			<!--评论-->
+			<view class="detail-comment">
+				<div id="div2"></div>
+				<view class="detail-comment-head">
+					<view class="detail-comment-tit">{{$t('newDetail.pinglun')}} <span>（{{JudgeList.length}}）</span>
 					</view>
-					<view class="detail-comment-item-info">
-						{{item.comment}}
+					<view class="detail-comment-more" @click="toComment()">
+						<view>{{$t('user.myCont.ckqb')}}</view>
+						<image src="../../static/images/products/right.png"></image>
 					</view>
-					<view class="detail-comment-line" v-if="i%2==0 && JudgeList.length>1"></view>
 				</view>
-			</block>
-			<block v-else>
-				<view class="detail-comment-not">{{$t('newDetail.not')}}</view>
-			</block>
 
-		</view>
+				<view class="detail-comment-line"></view>
 
-		<!--店铺信息-->
-		<view class="detail-five">
-			<view class="five-hd">
-				<view class="new-shop">
-					<image :src="shopCont.shop.shop_logo" class="new-shop-logo"></image>
-					<view class="new-shop-info">
-						<view class="new-shop-info-des">
-							<view class="new-shop-info-name">{{shopCont.shop.shop_name}}</view>
-							<view class="new-shop-info-nums">
-								<view>{{$t('auction.detail.guanhzuliang')}}:{{shopCont.shop.shop_focus_total}}
+				<block v-if="JudgeList.length > 0">
+					<view class="detail-comment-item" v-for="(item,i) in JudgeList.slice(0,2)" :key="i">
+						<view class="detail-comment-item-head">
+							<image :src="item.user.avatar" class="auth"></image>
+							<view>{{item.user.nickname}}</view>
+						</view>
+						<view class="detail-comment-item-info">
+							{{item.comment}}
+						</view>
+						<view class="detail-comment-line" v-if="i%2==0 && JudgeList.length>1"></view>
+					</view>
+				</block>
+				<block v-else>
+					<view class="detail-comment-not">{{$t('newDetail.not')}}</view>
+				</block>
+
+			</view>
+
+			<!--店铺信息-->
+			<view class="detail-five">
+				<view class="five-hd">
+					<view class="new-shop">
+						<image :src="shopCont.shop.shop_logo" class="new-shop-logo"></image>
+						<view class="new-shop-info">
+							<view class="new-shop-info-des">
+								<view class="new-shop-info-name">{{shopCont.shop.shop_name}}</view>
+								<view class="new-shop-info-nums">
+									<view>{{$t('auction.detail.guanhzuliang')}}:{{shopCont.shop.shop_focus_total}}
+									</view>
 								</view>
 							</view>
 						</view>
-					</view>
-					<view @click="onMineFocus(2)">
-						<view v-if="shopCont.shop.shop_focus == 1" class="new-shop-info-dy"
-							style="background: 	rgb(153,153,153,0.6);">
-							{{$t('auction.detail.querydy')}}
+						<view @click="onMineFocus(2)">
+							<view v-if="shopCont.shop.shop_focus == 1" class="new-shop-info-dy"
+								style="background: 	rgb(153,153,153,0.6);">
+								{{$t('auction.detail.querydy')}}
+							</view>
+							<view v-else class="new-shop-info-dy">{{$t('auction.detail.dy')}}</view>
 						</view>
-						<view v-else class="new-shop-info-dy">{{$t('auction.detail.dy')}}</view>
 					</view>
-				</view>
-				<view class="new-shop-line"></view>
-				<view class="conter">
-					<view class="five-head">
-						<view class="hd-fl">
-							<view class="txt">
-								<view class="c" v-if="isShowAll">
-									{{shopCont.shop.shop_info}}
-									<image src="../../static/images/new/shouqi.png" @click="isShowAll=false">
-									</image>
+					<view class="new-shop-line"></view>
+					<view class="conter">
+						<view class="five-head">
+							<view class="hd-fl">
+								<view class="txt">
+									<view class="c" v-if="isShowAll">
+										{{shopCont.shop.shop_info}}
+										<image src="../../static/images/new/shouqi.png" @click="isShowAll=false">
+										</image>
+									</view>
+
+									<view class="not-all" v-else>
+										<view>{{shopCont.shop.shop_info}}</view>
+										<image src="../../static/images/new/zhankai.png" @click="isShowAll=true"
+											v-show="shopCont.shop.shop_info">
+										</image>
+									</view>
 								</view>
 
-								<view class="not-all" v-else>
-									<view>{{shopCont.shop.shop_info}}</view>
-									<image src="../../static/images/new/zhankai.png" @click="isShowAll=true"
-										v-show="shopCont.shop.shop_info">
-									</image>
+							</view>
+						</view>
+					</view>
+				</view>
+			</view>
+
+			<!--商品详情-->
+			<view class="detail-six">
+				<div id="div3"></div>
+				<view class="six-tit">
+					<view class="line">
+						<image class="img" src="/static/images/products/line.png"></image>
+					</view>
+					<text>{{$t('home.shop.title')}}</text>
+					<view class="line">
+						<image class="img" src="/static/images/products/line.png"></image>
+					</view>
+				</view>
+				<view class="six-article" v-if="isShopCont" v-html="shopCont.english_content">
+					<!-- <u-parse :content="shopCont.english_content"></u-parse> -->
+				</view>
+				<view class="six-article" v-else v-html="shopCont.content">
+					<!-- <u-parse :content="shopCont.content"></u-parse> -->
+				</view>
+			</view>
+
+			<!--竞拍记录-->
+			<view class="product-jilu">
+				<div id="div4"></div>
+				<view class="six-tit">
+					<view class="line">
+						<image class="img" src="/static/images/products/line.png"></image>
+					</view>
+					<text>Related Auction</text>
+					<view class="line">
+						<image class="img" src="/static/images/products/line.png"></image>
+					</view>
+				</view>
+
+				<!--最新竞拍-->
+				<view class="product-jilu-new">
+					<view class="product-jilu-new-tit">{{$t('new.zzjp')}}</view>
+					<view class="product-item" v-for="item in newGoodsList" :key="item.auction_goods_id">
+						<image :src="item.image" class="product-item-img"></image>
+						<view class="product-item-info">
+							<view class="products-item-info-time">
+								<image src="/static/images/products/sysj.png"></image>
+								<view>
+									<u-count-down :time="item.djs" format="HH:mm:ss"></u-count-down>
 								</view>
 							</view>
+							<view class="product-item-qi">{{item.stage_num}}{{$t('shop.qi')}}</view>
+						</view>
 
+						<view class="progressBox">
+							<Mprogress :percent="item.finish_rate*100" :size="100" id='a'></Mprogress>
+							<view class="centerTxt">{{item.finish_rate*100}}%</view>
+						</view>
+
+
+						<view class="product-item-btn" @click="toDrawInfo(item.auction_goods_id)">
+							<view class="product-item-btn-name">{{$t('shop.qiangpai')}}</view>
+							<view class="product-item-btn-price">RM{{item.auction_price}}</view>
 						</view>
 					</view>
 				</view>
-			</view>
-		</view>
 
-		<!--商品详情-->
-		<view class="detail-six">
-			<div id="div3"></div>
-			<view class="six-tit">
-				<view class="line">
-					<image class="img" src="/static/images/products/line.png"></image>
-				</view>
-				<text>{{$t('home.shop.title')}}</text>
-				<view class="line">
-					<image class="img" src="/static/images/products/line.png"></image>
-				</view>
-			</view>
-			<view class="six-article" v-if="isShopCont" v-html="shopCont.english_content">
-				<!-- <u-parse :content="shopCont.english_content"></u-parse> -->
-			</view>
-			<view class="six-article" v-else v-html="shopCont.content">
-				<!-- <u-parse :content="shopCont.content"></u-parse> -->
-			</view>
-		</view>
-
-		<!--竞拍记录-->
-		<view class="product-jilu">
-			<div id="div4"></div>
-			<view class="six-tit">
-				<view class="line">
-					<image class="img" src="/static/images/products/line.png"></image>
-				</view>
-				<text>Related Auction</text>
-				<view class="line">
-					<image class="img" src="/static/images/products/line.png"></image>
-				</view>
-			</view>
-
-			<!--最新竞拍-->
-			<view class="product-jilu-new">
-				<view class="product-jilu-new-tit">{{$t('new.zzjp')}}</view>
-				<view class="product-item" v-for="item in newGoodsList" :key="item.auction_goods_id">
-					<image :src="item.image" class="product-item-img"></image>
-					<view class="product-item-info">
-						<view class="products-item-info-time">
-							<image src="/static/images/products/sysj.png"></image>
-							<view>
-								<u-count-down :time="item.djs" format="HH:mm:ss"></u-count-down>
+				<!--即将开始-->
+				<view class="product-start">
+					<view class="product-start-tit">{{$t('new.jjks')}}</view>
+					<view class="product-start-list">
+						<view class="product-start-item" v-for="item in startGoodsList"
+							@click="toDrawInfo(item.auction_goods_id)">
+							<view class="product-start-time">
+								<image src="../../static/images/products/jjks.png"></image>
+								<view>
+									<u-count-down :time="item.djs" format="HH:mm:ss"></u-count-down>
+								</view>
 							</view>
+							<view class="product-start-qi">{{item.stage_num}}{{$t('shop.qi')}}</view>
+							<view class="product-start-price">RM<span>{{item.auction_price}}</span></view>
 						</view>
-						<view class="product-item-qi">{{item.stage_num}}{{$t('shop.qi')}}</view>
-					</view>
-
-					<view class="progressBox">
-						<Mprogress :percent="item.finish_rate*100" :size="100" id='a'></Mprogress>
-						<view class="centerTxt">{{item.finish_rate*100}}%</view>
-					</view>
-
-
-					<view class="product-item-btn" @click="toDrawInfo(item.auction_goods_id)">
-						<view class="product-item-btn-name">{{$t('shop.qiangpai')}}</view>
-						<view class="product-item-btn-price">RM{{item.auction_price}}</view>
 					</view>
 				</view>
-			</view>
 
-			<!--即将开始-->
-			<view class="product-start">
-				<view class="product-start-tit">{{$t('new.jjks')}}</view>
-				<view class="product-start-list">
-					<view class="product-start-item" v-for="item in startGoodsList"
+				<!--历史记录-->
+				<view class="historical">
+					<view class="historical-tit">{{$t('new.lsjl')}}</view>
+					<view class="historical-item" v-for="item in historyList"
 						@click="toDrawInfo(item.auction_goods_id)">
-						<view class="product-start-time">
-							<image src="../../static/images/products/jjks.png"></image>
-							<view>
-								<u-count-down :time="item.djs" format="HH:mm:ss"></u-count-down>
-							</view>
+						<view class="historical-item-qi">{{item.stage_num}}{{$t('shop.qi')}}</view>
+						<view class="historical-item-price">RM{{item.auction_price}}</view>
+						<image :src="item.user_info.avatar" class="historical-item-auth" v-if="item.check_status==3">
+						</image>
+						<image src="/static/images/products/star.png" class="historical-item-star"></image>
+						<image src="../../static/images/new/yihan.png" v-if="item.check_status==4"></image>
+						<view class="historical-item-name" v-if="item.check_status==3">{{item.user_info.nickname}}
 						</view>
-						<view class="product-start-qi">{{item.stage_num}}{{$t('shop.qi')}}</view>
-						<view class="product-start-price">RM<span>{{item.auction_price}}</span></view>
+						<view class="historical-item-name" v-if="item.check_status==4">{{$t('new.yhlp')}}</view>
 					</view>
 				</view>
+
 			</view>
 
-			<!--历史记录-->
-			<view class="historical">
-				<view class="historical-tit">{{$t('new.lsjl')}}</view>
-				<view class="historical-item" v-for="item in historyList" @click="toDrawInfo(item.auction_goods_id)">
-					<view class="historical-item-qi">{{item.stage_num}}{{$t('shop.qi')}}</view>
-					<view class="historical-item-price">RM{{item.auction_price}}</view>
-					<image :src="item.user_info.avatar" class="historical-item-auth" v-if="item.check_status==3">
-					</image>
-					<image src="/static/images/products/star.png" class="historical-item-star"></image>
-					<image src="../../static/images/new/yihan.png" v-if="item.check_status==4"></image>
-					<view class="historical-item-name" v-if="item.check_status==3">{{item.user_info.nickname}}</view>
-					<view class="historical-item-name" v-if="item.check_status==4">{{$t('new.yhlp')}}</view>
-				</view>
-			</view>
-
-		</view>
-
-		<!--底部 start-->
-		<view class="detail-fixed">
-			<view class="fixed-con">
-				<view class="fixed-fl">
-					<!-- <view class="li" @click="onFengxiangClick" style="margin-right:0;">
+			<!--底部 start-->
+			<view class="detail-fixed">
+				<view class="fixed-con">
+					<view class="fixed-fl">
+						<!-- <view class="li" @click="onFengxiangClick" style="margin-right:0;">
 						<view class="icon">
 							<image class="img" src="/static/images/products/fenxiang.png"></image>
 						</view>
 					</view> -->
-					<view class="li" style="margin-left: 10rpx;">
-						<view class="icon">
-							<image class="img" src="/static/images/new/shoucang.png" v-if="shopCont.goods_focus==0">
-							</image>
-							<image class="img" src="/static/images/new/yishoucang.png" v-else></image>
-							<span>{{shopCont.goods_focus_total}}</span>
+						<view class="li" style="margin-left: 10rpx;">
+							<view class="icon">
+								<image class="img" src="/static/images/new/shoucang.png" v-if="shopCont.goods_focus==0">
+								</image>
+								<image class="img" src="/static/images/new/yishoucang.png" v-else></image>
+								<span>{{shopCont.goods_focus_total}}</span>
+							</view>
 						</view>
-					</view>
 
-				</view>
-				<view class="fixed-fr">
-					<view class="detail-btn" style="font-size: 40rpx;color:#fff;background:rgb(255, 179, 0)"
-						@click="onFocusProduct()" v-if="shopCont.goods_focus==0">
-						{{$t('auction.shoucang')}}
 					</view>
-					<view class="detail-btn" style="font-size: 40rpx;color:#fff;background:rgb(255, 179, 0)"
-						@click="onFocusProduct()" v-else>
-						{{$t('auction.yishoucang')}}
+					<view class="fixed-fr">
+						<view class="detail-btn" style="font-size: 40rpx;color:#fff;background:rgb(255, 179, 0)"
+							@click="onFocusProduct()" v-if="shopCont.goods_focus==0">
+							{{$t('auction.shoucang')}}
+						</view>
+						<view class="detail-btn" style="font-size: 40rpx;color:#fff;background:rgb(255, 179, 0)"
+							@click="onFocusProduct()" v-else>
+							{{$t('auction.yishoucang')}}
+						</view>
 					</view>
 				</view>
 			</view>
-		</view>
-		<!--底部 end-->
+			<!--底部 end-->
+		</block>
+
 
 		<!--分享弹出 start-->
 		<view class="fenxiang" v-if="onfenxingShow">
@@ -318,6 +311,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		},
 		data() {
 			return {
+				status: false,
 				noClick: true, // 防止重复点击 
 				id: '',
 				navList: [{
@@ -357,7 +351,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				myOpacity: 0,
 				heightList: [], //存储每个锚点对应顶部的高度
 				isClick: false,
-				timer:''
+				timer: ''
 			}
 		},
 		watch: {
@@ -398,13 +392,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				this.qrUrl = 'https://h5.kolibrimall.com/h5/#/pages/auction/detail?id=' + e.id // 生成二维码的链接
 			}
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
-			// 竞拍规则
-			this.$http.post(this.$apiObj.IndexSetting).then(res => {
-				if (res.code == 1) {
-					this.auction_rule = this.onHtmlcont(res.data.auction_rule)
-					this.e_auction_rule = this.onHtmlcont(res.data.e_auction_rule)
-				}
-			})
+
 			this.id = e.goodsId
 			// 商品详情
 			this.getProductInfo()
@@ -417,16 +405,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 			//获取历史竞拍列表
 			this.getHistoryList()
-
-			// 某商品幸运之星
-			// this.onAuctionGoodLucky()
-			// setTimeout(() => {
-			// 	// 竞拍记录
-			// 	this.onAuctionorderOrderList()
-			// }, 1000);
-			// if (e.type) {
-			// 	this.navId = e.type
-			// }
 		},
 		onShow() {},
 		onHide() {
@@ -459,13 +437,19 @@ NoR+zv3KaEmPSHtooQIDAQAB
 								.boundingClientRect(res => {
 									let num = data.top > 0 ? data.top - 100 : data.top
 									this.heightList.push(num)
-									console.log(this.heightList)
 								}).exec();
 						}).exec();
 				}
-			}, 3000)
+			}, 2000)
 		},
 		methods: {
+			//预览图片
+			previewImgList(){
+				console.log(1)
+				uni.previewImage({
+					urls:this.shopCont.images
+				})
+			},
 			//前往竞拍详情
 			toDrawInfo(id) {
 				uni.navigateTo({
@@ -655,9 +639,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 								else item.name = arr[1]
 							}
 						})
-
+						this.status=true
 						this.shopCont = res.data
-
 						// 评价列表
 						this.getCommentList()
 					}
@@ -738,11 +721,11 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			},
 			onNavClick(e) {
 				this.navId = e
-				this.isClick=true
+				this.isClick = true
 				clearTimeout(this.timer)
-				this.timer=setTimeout(()=>{
-					this.isClick=false
-				},2000)
+				this.timer = setTimeout(() => {
+					this.isClick = false
+				}, 2000)
 				this.onScrollIntoView(e)
 				this.getProductInfo()
 			},
