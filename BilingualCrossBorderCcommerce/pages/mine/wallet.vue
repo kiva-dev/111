@@ -11,13 +11,14 @@
 			<view class="head-card">
 				<view class="t">{{$t('new.zhye')}}（RM）</view>
 				<view class="money">{{money}}</view>
-				<view class="cont">
+				<!-- <view class="cont">
 					<view class="cont-t">{{$t('new.ktxye')}}：</view>
 					<view class="cont-money">{{tocash_money}}</view>
-				</view>
+				</view> -->
 				<view class="head-card-price">
-					<view class="head-card-zsje">{{$t('new.zsje')}}：<br/><span>1000.00</span></view>
-					<view class="head-card-fyje">{{$t('new.fyje')}}：<br/><span>342.00</span></view>
+					<!-- <view class="head-card-zsje">{{$t('new.zsje')}}<br/><span>1000.00</span></view> -->
+					<view class="head-card-fyje">{{$t('new.fyje')}}<br /><span>{{rebate_money_total}}</span></view>
+					<view>{{$t('new.ktxye')}}<br /><span>{{tocash_money}}</span></view>
 				</view>
 			</view>
 			<view class="head-ul">
@@ -95,6 +96,7 @@
 			return {
 				money: 0, // 账户余额
 				tocash_money: 0, // 可提现金额
+				rebate_money_total: 0, //返佣金额
 				page: 1, // 页码
 				pagenum: 6, // 每页显示商品数目
 				totalPageNum: 0, // 总条数
@@ -110,6 +112,7 @@
 				if (res.code == 1) {
 					this.money = res.data.money
 					this.tocash_money = res.data.tocash_money
+					this.rebate_money_total = res.data.rebate_money_total
 				}
 			})
 			this.onMineMoneyList()
@@ -355,7 +358,7 @@
 					}
 				}
 
-				.head-card-price{
+				.head-card-price {
 					position: absolute;
 					bottom: 20rpx;
 					width: 100%;
@@ -363,16 +366,17 @@
 					color: rgb(255, 255, 255);
 					display: flex;
 					align-items: center;
-					
-					view{
+
+					view {
 						width: 50%;
 						text-align: center;
 					}
-					
-					span{
+
+					span {
+						display: block;
 						font-size: 32rpx;
 					}
-					
+
 				}
 
 				.t {
@@ -385,7 +389,7 @@
 				.money {
 					font-size: 76rpx;
 					font-weight: 600;
-					margin-top: 30rpx;
+					margin-top: 0rpx;
 				}
 			}
 
@@ -393,7 +397,7 @@
 				padding: 24rpx 30rpx;
 				display: flex;
 				background: #fff;
-				
+
 
 				.li {
 					text-align: center;

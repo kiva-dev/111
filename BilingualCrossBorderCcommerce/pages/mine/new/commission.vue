@@ -1,42 +1,42 @@
 <template>
 	<view class="commission-page">
 		<view class="commission-head">
-			<image src="/static/images/new/left.png"></image>
-			<view>佣金返现</view>
+			<image src="/static/images/new/left.png" @click="toBack()"></image>
+			<view>{{$t('new.yjfx')}}</view>
 		</view>
 
 		<view class="commission-center">
-			<view class="commission-center-tit">返佣金额（RM）</view>
-			<view class="commission-center-price">1000.00</view>
-			<view class="commission-center-jjdz">即将到账金额(RM)：45.00</view>
+			<view class="commission-center-tit">{{$t('new.fyje')}}（RM）</view>
+			<view class="commission-center-price">{{info.rebate_money_total}}</view>
+			<view class="commission-center-jjdz">{{$t('new.jjdzje')}}(RM)：{{info.pre_entry_rebate}}</view>
 		</view>
 
 		<view class="commission-info">
-			<view class="commission-info-left">返佣明细</view>
-			<view class="commission-info-right">
-				<view>查看返拥规则</view>
+			<view class="commission-info-left">{{$t('new.fymx')}}</view>
+			<view class="commission-info-right" @click="toRule()">
+				<view>{{$t('new.fygz')}}</view>
 				<image src="../../../static/images/products/right.png"></image>
 			</view>
 		</view>
-		<block v-if="list.length>0">
+		<block v-if="moneyList.length>0">
 			<scroll-view scroll-y style="height: 890rpx;">
-				<view class="commission-item" v-for="(item,i) in [1,1,1,1,1,1,1,1,1]">
+				<view class="commission-item" v-for="(item,i) in moneyList" :key="item.id">
 					<image src="/static/images/new/chonzhi.png"></image>
 					<image src="/static/images/new/xiaofei.png" v-show="false"></image>
 					<view class="commission-item-info">
-						<view class="commission-item-info-tit">好友充值返佣</view>
-						<view class="commission-item-info-time">2023/02/15 14:58:03</view>
+						<view class="commission-item-info-tit">{{item.memo}}</view>
+						<view class="commission-item-info-time">{{$filter.to_date_time(item.addtime)}}</view>
 					</view>
-					<view class="commission-item-price">+100.00</view>
+					<view class="commission-item-price">{{item.money}}</view>
 				</view>
 			</scroll-view>
 		</block>
 		<block v-else>
 			<view class="not-data">
 				<image src="/static/images/new/zwsj.png"></image>
-				<view class="not-view">暂无返佣明细</view>
-				<view class="not-data-yaoqin">立即邀请好友赚佣金吧~</view>
-				<view class="not-data-btn">立即参与</view>
+				<view class="not-view">{{$t('new.zwfy')}}</view>
+				<view class="not-data-yaoqin">{{$t('new.ljyqhy')}}</view>
+				<view class="not-data-btn" @click="toRule()">{{$t('new.ljcy')}}</view>
 			</view>
 		</block>
 
@@ -49,7 +49,39 @@
 	export default {
 		data() {
 			return {
-				list: [1]
+				list: [1],
+				moneyList:[],
+				page:1,
+				pagenum:10,
+				info:{}
+			}
+		},
+		onShow() {
+			this.getMoneyList()
+			this.getRebate()
+		},
+		methods:{
+			getMoneyList(){
+				this.$http.post(this.$apiObj.MineMoneyList,{
+					is_rebate:1,
+					page: this.page,
+					pagenum: this.pagenum
+				}).then(res=>{
+					this.moneyList=res.data.data
+				})
+			},
+			getRebate(){
+				this.$http.post(this.$apiObj.MineRebateInfo).then(res=>{
+					this.info=res.data
+				})
+			},
+			toBack(){
+				uni.navigateBack()
+			},
+			toRule(){
+				uni.navigateTo({
+					url:"/pages/mine/new/commission_rule"
+				})
 			}
 		}
 	}
@@ -205,10 +237,11 @@
 		}
 		
 		.not-view{
-			width: 100%;
+			width: 686rpx;
 			font-size: 24rpx;
 			color: rgb(190, 190, 190);
 			text-align: center;
+			margin: 0 auto;
 		}
 		
 		.not-data-yaoqin{
@@ -216,6 +249,7 @@
 			font-size: 34rpx;
 			color: rgb(255, 78, 47);
 			text-align: center;
+			word-break: break-all;
 			margin-top: 40rpx;
 		}
 		

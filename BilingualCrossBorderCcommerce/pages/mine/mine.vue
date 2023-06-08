@@ -46,7 +46,13 @@
 				</view>
 			</view>
 		</view>
-
+		
+		<view class="commission" @click="toAddress('/pages/mine/new/commission')">
+			<view style="height: 14rpx;"></view>
+			<view>{{$t('new.yqfy')}}</view>
+		</view>
+		
+		
 		<!--竞拍-->
 		<view class="mine-jingpai">
 			<view class="mine-jingpai-name">{{$t('user.auctionM.wdjp')}}</view>
@@ -522,7 +528,22 @@
 		}
 
 	}
-
+	
+	.commission{
+		width: 686rpx;
+		height: 140rpx;
+		line-height: 140rpx;
+		font-size: 32rpx;
+		font-weight: bold;
+		color: rgb(255, 78, 47);
+		text-align: center;
+		text-indent: 100rpx;
+		background: url('/static/images/new/yqfy.png') no-repeat;
+		background-size: 686rpx 140rpx;
+		margin: 20rpx auto 0 auto;
+		
+	}
+	
 	.mine-head {
 		width: 750rpx;
 		height: 334rpx;

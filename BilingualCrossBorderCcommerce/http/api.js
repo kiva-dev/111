@@ -143,10 +143,13 @@ let apiObj = {
 	SendComment: '/Mine/comment', //发布评论
 	getSelectCommentList: '/Litestoregoods/getSubComment', //获取子列表
 	SendLike: '/Litestoregoods/like', //点赞或取消
-	MineFocusList:'/Mine/focusList',//关注商品
+	MineFocusList: '/Mine/focusList', //关注商品
 
 	//公告
 	NoticeIndex: "Notice/index", //获取所有公告信息
+
+	//返佣
+	MineRebateInfo: "/Mine/rebateInfo",//返佣信息
 
 }
 export default apiObj

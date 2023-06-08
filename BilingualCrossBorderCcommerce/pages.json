@@ -784,6 +784,20 @@
 	    "navigationBarTitleText": "",
 	    "navigationStyle": "custom"
 	  }
+	},
+	{
+	  "path": "pages/mine/new/commission_rule",
+	  "style": {
+	    "navigationBarTitleText": "",
+	    "navigationStyle": "custom"
+	  }
+	},
+	{
+	  "path": "pages/mine/new/new-register",
+	  "style": {
+	    "navigationBarTitleText": "",
+	    "navigationStyle": "custom"
+	  }
 	}
   ],
   "globalStyle": {
