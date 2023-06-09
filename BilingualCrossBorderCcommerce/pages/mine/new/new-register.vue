@@ -1,8 +1,8 @@
 <template>
 	<view class="new-register">
 		<image src="/static/images/new/jiarubaoxian.png" class="new-register-head"></image>
-		<image src="/static/images/products/auth.png" class="new-register-auth"></image>
-		<view class="new-register-tit">Your friend <span>XXX</span> invites you to pick up the gift together!</view>
+		<image :src="userCont.avatar" class="new-register-auth"></image>
+		<view class="new-register-tit">Your friend [<span>{{userCont.nickname}}</span>] invites you to pick up the gift together!</view>
 
 		<view class="new-register-input">
 			<image src="/static/images/new/new-yx.png"></image>
@@ -89,13 +89,26 @@
 					name: 'select'
 				}],
 				isShopCont: false, // 中文还是英文
-				codeTxt: this.$t('login.getcode')
+				codeTxt: this.$t('login.getcode'),
+				userCont:{}
 			}
 		},
-		onLoad() {
+		onLoad(e) {
+			if(e.invite_code) this.yqCode=e.invite_code
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
 		},
+		onShow() {
+			this.getInfo()
+		},
 		methods: {
+			//获取用户信息
+			getInfo(){
+				this.$http.post(this.$apiObj.GetCodeInfo,{
+					code:this.yqCode
+				}).then(res=>{
+					this.userCont=res.data
+				})
+			},
 			// 获取邮箱验证码
 			onLoginSendEmailCode() {
 				if (!this.email) return uni.showToast({

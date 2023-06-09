@@ -21,8 +21,8 @@
 		<block v-if="moneyList.length>0">
 			<scroll-view scroll-y style="height: 890rpx;">
 				<view class="commission-item" v-for="(item,i) in moneyList" :key="item.id">
-					<image src="/static/images/new/chonzhi.png"></image>
-					<image src="/static/images/new/xiaofei.png" v-show="false"></image>
+					<image src="/static/images/new/chonzhi.png" v-if="item.type==20"></image>
+					<image src="/static/images/new/xiaofei.png" v-else></image>
 					<view class="commission-item-info">
 						<view class="commission-item-info-tit">{{item.memo}}</view>
 						<view class="commission-item-info-time">{{$filter.to_date_time(item.addtime)}}</view>
@@ -50,37 +50,37 @@
 		data() {
 			return {
 				list: [1],
-				moneyList:[],
-				page:1,
-				pagenum:10,
-				info:{}
+				moneyList: [],
+				page: 1,
+				pagenum: 10,
+				info: {}
 			}
 		},
 		onShow() {
 			this.getMoneyList()
 			this.getRebate()
 		},
-		methods:{
-			getMoneyList(){
-				this.$http.post(this.$apiObj.MineMoneyList,{
-					is_rebate:1,
+		methods: {
+			getMoneyList() {
+				this.$http.post(this.$apiObj.MineMoneyList, {
+					is_rebate: 1,
 					page: this.page,
 					pagenum: this.pagenum
-				}).then(res=>{
-					this.moneyList=res.data.data
+				}).then(res => {
+					this.moneyList = res.data.data
 				})
 			},
-			getRebate(){
-				this.$http.post(this.$apiObj.MineRebateInfo).then(res=>{
-					this.info=res.data
+			getRebate() {
+				this.$http.post(this.$apiObj.MineRebateInfo).then(res => {
+					this.info = res.data
 				})
 			},
-			toBack(){
+			toBack() {
 				uni.navigateBack()
 			},
-			toRule(){
+			toRule() {
 				uni.navigateTo({
-					url:"/pages/mine/new/commission_rule"
+					url: "/pages/mine/new/commission_rule"
 				})
 			}
 		}
@@ -225,26 +225,26 @@
 		}
 
 	}
-	
-	.not-data{
+
+	.not-data {
 		padding-top: 200rpx;
-		
-		image{
+
+		image {
 			display: block;
 			width: 256rpx;
 			height: 160rpx;
 			margin: 0 auto 10rpx auto;
 		}
-		
-		.not-view{
+
+		.not-view {
 			width: 686rpx;
 			font-size: 24rpx;
 			color: rgb(190, 190, 190);
 			text-align: center;
 			margin: 0 auto;
 		}
-		
-		.not-data-yaoqin{
+
+		.not-data-yaoqin {
 			width: 100%;
 			font-size: 34rpx;
 			color: rgb(255, 78, 47);
@@ -252,8 +252,8 @@
 			word-break: break-all;
 			margin-top: 40rpx;
 		}
-		
-		.not-data-btn{
+
+		.not-data-btn {
 			width: 400rpx;
 			height: 80rpx;
 			line-height: 80rpx;
@@ -264,8 +264,6 @@
 			border-radius: 40rpx;
 			margin: 60rpx auto 0 auto;
 		}
-		
-	}
-	
 
+	}
 </style>

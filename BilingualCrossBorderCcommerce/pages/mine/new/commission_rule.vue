@@ -36,16 +36,25 @@
 				</view>
 			</view>
 		</view>
-
+		
+		<view class="commission-rule-yqm">
+			<view style="max-width: 160rpx;">{{$t('new.yqlj')}}：</view>
+			<span style="font-size: 24rpx;">{{qrUrl}}</span>
+			<image src="/static/images/new/copy-black.png" @click="copy(qrUrl)"></image>
+		</view>
+		
 		<view class="commission-rule-yqm">
 			<view>{{$t('new.ndyqm')}}：</view>
 			<span>{{code}}</span>
 			<image src="/static/images/new/copy-black.png" @click="copy(code)"></image>
 		</view>
-
+		
 		<!-- -->
-		<view class="commission-ewm">
-			<image :src="qrcodeImg"></image> 
+		<view class="commission-rule-ewm">
+			<view class="commission-rule-ewm-tit">{{$t('new.yqewm')}}：</view>
+			<view class="commission-ewm">
+				<image :src="qrcodeImg" class="commission-ewm-img"></image>
+			</view>
 		</view>
 
 		<view class="commission-btn" @click="showyq=true">{{$t('new.ljyq')}}</view>
@@ -56,24 +65,24 @@
 					<view class="showyq-ewm">
 						<image :src="qrcodeImg"></image>
 					</view>
-					
-					<image src="/static/images/products/auth.png" class="showyq-auth"></image>
-					<view class="showyq-hy">{{$t('new.ndhy')}}XXX</view>
+
+					<image :src="userCont.avatar" class="showyq-auth"></image>
+					<view class="showyq-hy">{{$t('new.ndhy')}}[{{userCont.nickname}}]</view>
 					<view class="showyq-yq">{{$t('new.hnyql')}}</view>
 				</view>
 				<view class="showyq-btn">
 					<image src="/static/images/new/save-img.png"></image>
-					<view>{{$t('new.bctp')}}</view>
+					<view @click="capture()">{{$t('new.bctp')}}</view>
 				</view>
 			</view>
 
 		</u-popup>
-		
+
 		<view class="commission-canvas">
-			<canvas class="f__canvas" style="width:300px;height:300px;" canvas-id="qrcode" id="qrcode" ></canvas>
+			<canvas class="f__canvas" style="width:140px;height:140px;" canvas-id="qrcode" id="qrcode"></canvas>
 		</view>
-		
-		
+
+
 	</view>
 </template>
 
@@ -86,14 +95,15 @@
 		data() {
 			return {
 				showyq: false,
-				code:'',
-				qrUrl:'',
-				qrcodeImg:'',
-				lange:''
+				code: '',
+				qrUrl: '',
+				qrcodeImg: '',
+				lange: '',
+				userCont:{}
 			}
 		},
 		onLoad() {
-			this.lange=uni.getStorageSync('locale')
+			this.lange = uni.getStorageSync('locale')
 		},
 		onShow() {
 			// 获取个人信息
@@ -101,18 +111,49 @@
 				if (res.code == 1) {
 					// uni.setStorageSync('userCont', res.data)
 					// this.invite_code = res.data.invite_code
-					// this.userCont=res.data
-					this.code=res.data.invite_code
-					this.qrUrl = 'https://h5.kolibrimall.com/h5/#/?invite_code=' + res.data.invite_code // 生成二维码的链接
+					this.userCont=res.data
+					console.log(this.userCont)
+					this.code = res.data.invite_code
+					this.qrUrl = 'https://kjtest.ysxrj.cn/pages/mine/new/new-register?invite_code=' + res.data.invite_code // 生成二维码的链接
 					// this.qrUrl = 'http://localhost:8081/h5/#/?invite_code=' + res.data.invite_code// 生成二维码的链接
 					this.createQrcode()
 				}
 			})
 		},
 		methods: {
-			copy(val){
+			capture() {
+				// 获取APP的所有页面列表
+				const pages = getCurrentPages();
+
+				// 获取到当前页面
+				const page = pages[pages.length - 1];
+				const currentWebview = page.$getAppWebview();
+				let bitmap = new plus.nativeObj.Bitmap('amway_img');
+				// 将webview内容绘制到Bitmap对象中
+				currentWebview.draw(bitmap, function() {
+					console.log('截屏绘制图片成功');
+					let fileName = '_doc/' + new Date().getTime() + '.png'
+					bitmap.save(fileName, {}, function(i) {
+						console.log('bitmap保存图片成功：' + JSON.stringify(i));
+						// 将图片保存到相册
+						uni.saveImageToPhotosAlbum({
+							filePath: i.target,
+							success: function() {
+								bitmap.clear(); //销毁Bitmap图片
+								uni.$u.toast('保存图片成功')
+							}
+						});
+					}, function(e) {
+						console.log('保存图片失败：' + JSON.stringify(e));
+					});
+				}, function(e) {
+					console.log('截屏绘制图片失败：' + JSON.stringify(e));
+				});
+				//currentWebview.append(amway_bit);
+			},
+			copy(val) {
 				uni.setClipboardData({
-					data:val,
+					data: val,
 					success: () => {
 						uni.showToast({
 							icon: 'none',
@@ -126,12 +167,14 @@
 			},
 			createQrcode() {
 				var that = this
-				qrcodeCanvas('qrcode', that.qrUrl, 600, 600);
+				qrcodeCanvas('qrcode', that.qrUrl, 280, 280);
 				const ctx = uni.createCanvasContext('qrcode');
+				ctx.fillStyle = "#fff"
 				ctx.draw(true, function() {
 					uni.canvasToTempFilePath({
-						width: 600,
-						height: 600,
+						width: 280,
+						height: 280,
+						// fileType:'jpg',
 						canvasId: 'qrcode',
 						success(res) {
 							// 二维码本地图
@@ -240,12 +283,17 @@
 		font-size: 32rpx;
 		color: rgb(44, 44, 44);
 		display: flex;
-		align-items: center;
-		justify-content: center;
-
+		margin-bottom: 20rpx;
+		
+		view{
+			margin-left: 40rpx;
+		}
+		
 		span {
 			display: block;
+			max-width: 450rpx;
 			color: rgb(255, 78, 47);
+			word-break: break-all;
 			margin: 0 20rpx;
 		}
 
@@ -255,17 +303,33 @@
 		}
 
 	}
+	
+	.commission-rule-ewm{
+		display: flex;
+		font-size: 32rpx;
+		color: rgb(44, 44, 44);
+		
+		.commission-rule-ewm-tit{
+			width: 200rpx;
+			margin-left: 40rpx;
+		}
+		
+	}
 
 	.commission-ewm {
-		display: block;
-		width: 280rpx;
-		height: 280rpx;
+		position: relative;
+		width: 200rpx;
+		height: 200rpx;
 		background: #fff;
-		margin: 30rpx auto;
-		
-		image{
-			width: 280rpx;
-			height: 280rpx;
+		margin: 30rpx 0 30rpx 44rpx;
+
+		.commission-ewm-img {
+			position: absolute;
+			top: 50%;
+			left: 4rpx;
+			transform: translate(0,-50%);
+			width: 180rpx;
+			height: 180rpx;
 		}
 	}
 
@@ -296,10 +360,14 @@
 			width: 154rpx;
 			height: 154rpx;
 			background: #fff;
-			
-			image{
-				width: 160rpx;
-				height: 160rpx;
+
+			image {
+				position: absolute;
+				top: 50%;
+				left: 4rpx;
+				transform: translate(0,-50%);
+				width: 144rpx;
+				height: 144rpx;
 			}
 		}
 
@@ -341,8 +409,8 @@
 		align-items: center;
 		background: rgb(255, 78, 47);
 		border-radius: 40rpx;
-		margin:20rpx auto 0 auto;
-		
+		margin: 20rpx auto 0 auto;
+
 		image {
 			display: block;
 			width: 60rpx;
@@ -350,9 +418,9 @@
 			margin: 0 20rpx 0 30rpx;
 		}
 	}
-	
-	.commission-canvas{
-		position: fixed;top: -1000000;
+
+	.commission-canvas {
+		position: fixed;
+		top: -1000000;
 	}
-	
 </style>

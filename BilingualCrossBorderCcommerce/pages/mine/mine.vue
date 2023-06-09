@@ -32,8 +32,14 @@
 		<!--钱包信息-->
 		<view class="mine-wallet">
 			<view class="mine-wallet-left" @click="navClick('wallet')">
-				<image src="../../static/images/new/wallet.png"></image>
-				<view>{{$t('user.myCont.myqianbao')}}</view>
+				<view class="mine-wallet-left-one">
+					<image src="../../static/images/new/wallet.png"></image>
+					<view>{{$t('user.myCont.myqianbao')}}</view>
+				</view>
+				<view class="mine-wallet-left-two">
+					<view class="mine-wallet-left-two-tit">{{$t('user.wallet.zhje')}}<span>（RM）</span></view>
+					<view class="mine-wallet-left-two-num">{{userCont.money}}</view>
+				</view>
 			</view>
 			<view class="mine-wallet-right">
 				<view class="mine-wallet-info" @click="navClick('new/collect_products')">
@@ -46,13 +52,13 @@
 				</view>
 			</view>
 		</view>
-		
+
 		<view class="commission" @click="toAddress('/pages/mine/new/commission')">
 			<view style="height: 14rpx;"></view>
 			<view>{{$t('new.yqfy')}}</view>
 		</view>
-		
-		
+
+
 		<!--竞拍-->
 		<view class="mine-jingpai">
 			<view class="mine-jingpai-name">{{$t('user.auctionM.wdjp')}}</view>
@@ -120,10 +126,10 @@
 			</view>
 		</view>
 
-		<view class="mine-share" @click="navClick('/pages/invite/invite')">
+		<!-- <view class="mine-share" @click="navClick('/pages/invite/invite')">
 			<image src="../../static/images/products/mine-tkfx.png"></image>
 			<view>{{$t('user.mine.tgfx')}}</view>
-		</view>
+		</view> -->
 		<view class="service">
 			<view class="service-head">
 				<view class="service-head-left">{{$t('new.wdfw')}}</view>
@@ -475,61 +481,85 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		background: #FFF;
+		// background: #FFF;
 		border-radius: 16rpx;
 		margin: 60rpx auto 0 auto;
-		box-shadow: 0px 0px 20rpx 0px rgba(255, 198, 188, 0.3);
+		// box-shadow: 0px 0px 20rpx 0px rgba(255, 198, 188, 0.3);
 
 		.mine-wallet-left {
-			width: 300rpx;
-			height: 182rpx;
+			width: 400rpx;
+			height: 200rpx;
 			text-align: center;
-			padding-top: 10rpx;
-			// background: #FFF;
-			// border-radius: 16rpx;
-			// box-shadow: 0px 0px 20rpx 0px rgba(255, 198, 188, 0.3);
+			display: flex;
+			align-items: center;
+			background: #FFF;
+			border-radius: 16rpx;
+			box-shadow: 0px 0px 20rpx 0px rgba(255, 198, 188, 0.3);
 
 			image {
-				width: 120rpx;
-				height: 120rpx;
+				width: 100rpx;
+				height: 100rpx;
+				margin-bottom: 10rpx;
+			}
+			
+			.mine-wallet-left-one{
+				width: 164rpx;
+				text-align: center;
+			}
+			
+			.mine-wallet-left-two{
+				width: 236rpx;
+				.mine-wallet-left-two-tit{
+					margin-bottom: 30rpx;
+					
+					span{
+						font-size: 16rpx;
+					}
+				}
 			}
 
 			view {
-				font-size: 32rpx;
+				font-size: 24rpx;
 				color: rgb(44, 44, 44);
 			}
 		}
 
 		.mine-wallet-right {
-			margin-left: 90rpx;
+			width: 260rpx;
+			height: 200rpx;
+			background: #FFF;
+			margin-left: 26rpx;
+			border-radius: 16rpx;
+			box-shadow: 0px 0px 20rpx 0px rgba(255, 198, 188, 0.3);
 
 			.mine-wallet-info {
-				width: 300rpx;
-				height: 90rpx;
+				width: 100%;
+				height: 100rpx;
 				// background: #FFF;
 				// border-radius: 16rpx;
 				// box-shadow: 0px 0px 20rpx 0px rgba(255, 198, 188, 0.3);
 				display: flex;
 				align-items: center;
-				justify-content: center;
+				// justify-content: center;
 
 				image {
 					width: 60rpx;
 					height: 60rpx;
+					margin-left: 32rpx;
 				}
 
 				view {
-					width: 180rpx;
+					// width: 180rpx;
 					font-size: 24rpx;
 					color: rgb(44, 44, 44);
-					margin-left: 20rpx;
+					margin-left: 16rpx;
 				}
 			}
 		}
 
 	}
-	
-	.commission{
+
+	.commission {
 		width: 686rpx;
 		height: 140rpx;
 		line-height: 140rpx;
@@ -541,9 +571,9 @@
 		background: url('/static/images/new/yqfy.png') no-repeat;
 		background-size: 686rpx 140rpx;
 		margin: 20rpx auto 0 auto;
-		
+
 	}
-	
+
 	.mine-head {
 		width: 750rpx;
 		height: 334rpx;

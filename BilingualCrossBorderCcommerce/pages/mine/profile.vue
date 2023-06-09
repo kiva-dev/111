@@ -47,7 +47,7 @@
       </view> -->
 			<!--person-li end-->
 
-			<view class="person-li">
+			<view class="person-li" @click="navClick('phone')">
 				<text class="label">{{$t('user.mine.phone')}}</text>
 				<view class="li-r" >
 					<view class="r-t r-m">{{$t('user.nick.wbd')}}</view>

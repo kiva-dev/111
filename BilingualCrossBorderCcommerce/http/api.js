@@ -149,7 +149,9 @@ let apiObj = {
 	NoticeIndex: "Notice/index", //获取所有公告信息
 
 	//返佣
-	MineRebateInfo: "/Mine/rebateInfo",//返佣信息
+	MineRebateInfo: "/Mine/rebateInfo", //返佣信息
+
+	GetCodeInfo: "/index/inviteCodeGetInfo",//根据用户邀请码获取信息
 
 }
 export default apiObj

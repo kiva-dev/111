@@ -374,8 +374,8 @@
 	"user.myCont.yjfk": "Feedback",
 	"user.myCont.about": "About Us",
 	"user.myCont.yiwanceng": "Completed",
-	"user.myCont.scsp": "Collect Products",
-	"user.myCont.dysp": "Subscription Store",
+	"user.myCont.scsp": "Collected",
+	"user.myCont.dysp": "Subscribed",
 
 	"user.mine.avaitel": "Profile",
 	"user.mine.neca": "Nickname",
@@ -518,7 +518,7 @@
 	"user.nick.ghtx": "Change the avatar",
 	"user.nick.wbd": "Unbound",
 
-	"user.wallet.zhje": "Account amount (MYR)",
+	"user.wallet.zhje": "Account amount",
 	"user.wallet.ktxje": "Withdrawable amount(MYR)",
 	"user.wallet.chongzhi": "Recharge",
 	"user.wallet.tixian": "Withdrawal",
@@ -1292,5 +1292,7 @@
 	"new.yqfy":"Invitation Rebate",
 	"new.ndhy":"Your friends",
 	"new.hnyql":"Let's call you to play together~",
-	"new.bctp":"Save Picture"
+	"new.bctp":"Save Picture",
+	"new.yqlj":"Invitation Link",
+	"new.yqewm":"Invitation QR code"
 }

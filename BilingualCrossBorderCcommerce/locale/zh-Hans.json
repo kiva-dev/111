@@ -519,7 +519,7 @@
 	"user.nick.ghtx": "更换头像",
 	"user.nick.wbd": "未绑定",
 
-	"user.wallet.zhje": "账户金额(MYR)",
+	"user.wallet.zhje": "账户金额",
 	"user.wallet.ktxje": "可提现金额(MYR)",
 	"user.wallet.chongzhi": "充值",
 	"user.wallet.tixian": "提现",
@@ -1293,5 +1293,7 @@
 	"new.yqfy": "邀请返佣",
 	"new.ndhy": "您的好友",
 	"new.hnyql": "喊你一起来玩啦~",
-	"new.bctp": "保存图片"
+	"new.bctp": "保存图片",
+	"new.yqlj":"邀请链接",
+	"new.yqewm":"邀请二维码"
 }

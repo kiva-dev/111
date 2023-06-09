@@ -22,17 +22,17 @@
 				</view>
 			</view>
 			<view class="head-ul">
-				<view class="li" @click="navClick('recharge')" style="border-right: 2rpx solid rgba(44, 44, 44, 0.1);">
-					<!-- <view class="icon">
-						<image class="img" src="../../static/images/wallet1.png"></image>
-					</view> -->
+				<view class="li" @click="navClick('recharge')" style="">
+					<view class="icon">
+						<image class="img" src="/static/images/new/lv-cz.png"></image>
+					</view>
 					<text style="color: rgb(8, 195, 84);">{{$t('user.wallet.chongzhi')}}</text>
 				</view>
-				<view class="li" @click="navClick('Withdrawal')">
-					<!-- <view class="icon">
-						<image class="img" src="../../static/images/wallet2.png"></image>
-					</view> -->
-					<text style="color: rgb(0, 169, 255);">{{$t('user.wallet.tixian')}}</text>
+				<view class="li" @click="navClick('Withdrawal')" style="background: rgba(75, 192, 254, 0.2);">
+					<view class="icon">
+						<image class="img" src="/static/images/new/tx.png"></image>
+					</view>
+					<text style="color: rgb(75, 192, 254);">{{$t('user.wallet.tixian')}}</text>
 				</view>
 			</view>
 		</view>
@@ -41,8 +41,14 @@
 			<view class="wallet-box-shouzhi">{{$t('new.shouzhi')}}</view>
 			<view class="wallet-ul" v-if="navId===1">
 				<view class="commission-item" v-for="(item,i) in MoneyList">
-					<image src="/static/images/new/chentixin.png"></image>
-					<image src="/static/images/new/lutixin.png" v-show="false"></image>
+					
+					<image src="/static/images/new/chonzhi.png" v-if="item.type==20"></image>
+					<image src="/static/images/new/tx-mx.png" v-else-if="item.type==12"></image>
+					<image src="/static/images/new/liupai.png" v-else-if="item.type==6 || item.type==16"></image>
+					<image src="/static/images/new/xiaofei.png" v-else-if="item.type==21"></image>
+					<image src="/static/images/new/cz-mx.png" v-else-if="item.type==5"></image>
+					<image src="/static/images/new/gouwu.png" v-else></image>
+					
 					<view class="commission-item-info">
 						<view class="commission-item-info-tit">{{item.memo}}</view>
 						<view class="commission-item-info-time">{{$filter.to_date_time(item.addtime)}}</view>
@@ -80,7 +86,7 @@
 				</view>
 			</view>
 		</view>
-
+		<view style="height: 40rpx;"></view>
 	</view>
 </template>
 
@@ -98,7 +104,7 @@
 				tocash_money: 0, // 可提现金额
 				rebate_money_total: 0, //返佣金额
 				page: 1, // 页码
-				pagenum: 6, // 每页显示商品数目
+				pagenum: 10, // 每页显示商品数目
 				totalPageNum: 0, // 总条数
 				MoneyList: [],
 				navId: 1,
@@ -316,15 +322,15 @@
 		}
 
 		.wallet-head {
-			background: #f9f9f9;
+			// background: #f9f9f9;
 			border-radius: 25rpx;
 			margin: 36rpx 30rpx;
 			overflow: hidden;
-			box-shadow: 0px 4rpx 5rpx rgba(44, 44, 44, 0.1);
+			// box-shadow: 0px 4rpx 5rpx rgba(44, 44, 44, 0.1);
 
 			.head-card {
 				position: relative;
-				background: linear-gradient(135.00deg, rgba(255, 56, 56, 1.00), rgba(255, 134, 58, 1.00) 100%);
+				width: 686rpx;
 				height: 320rpx;
 				display: flex;
 				align-items: center;
@@ -333,6 +339,8 @@
 				color: #fff;
 				text-align: center;
 				flex-direction: column;
+				background: url('/static/images/new/card.png') no-repeat;
+				background-size: 686rpx 320rpx;
 
 				.cont {
 					position: absolute;
@@ -394,24 +402,27 @@
 			}
 
 			.head-ul {
-				padding: 24rpx 30rpx;
+				width: 686rpx;
 				display: flex;
-				background: #fff;
-
+				align-items: center;
+				justify-content: space-between;
+				margin-top: 20rpx;
 
 				.li {
+					width:320rpx;
+					height: 80rpx;
 					text-align: center;
 					display: flex;
-					width: 50%;
 					align-items: center;
 					justify-content: center;
-					font-size: 40rpx;
-					// font-weight: 550;
+					font-size: 32rpx;
+					color: rgb(44, 220, 115);
+					background: rgba(44, 220, 115, 0.2);
+					border-radius: 16rpx;
 
 					.icon {
-						width: 44rpx;
-						height: 44rpx;
-						min-width: 44rpx;
+						width: 60rpx;
+						height: 60rpx;
 						margin-right: 20rpx;
 					}
 				}

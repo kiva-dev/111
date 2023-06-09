@@ -268,7 +268,7 @@
 					this.qrUrl = 'https://h5.kolibrimall.com/h5/#/?invite_code=' + res.data.invite_code // 生成二维码的链接
 					// this.qrUrl = 'http://localhost:8081/h5/#/?invite_code=' + res.data.invite_code// 生成二维码的链接
 					this.createQrcode()
-					// this.createGoodsPoster()
+					this.createGoodsPoster()
 				}
 			})
 			// 邀请金额
