@@ -100,26 +100,26 @@
 			<view class="order-nav">
 				<view class="li" @click="navClick('/pages/mine/order/order?Inv=2&type=2')">
 					<view class="icon">
-						<image class="img" src="../../static/images/mine/mine4.png"></image>
+						<image class="img" src="/static/images/new/dfh.png"></image>
 					</view>
 					<view class="t">{{$t('user.myCont.dfh')}}</view>
 				</view>
 				<view class="li" @click="navClick('/pages/mine/order/order?Inv=2&type=3')">
 					<view class="icon">
-						<image class="img" src="../../static/images/mine/mine5.png"></image>
+						<image class="img" src="../../static/images/new/dsh.png"></image>
 					</view>
 					<view class="t">{{$t('user.myCont.dsh')}}</view>
 				</view>
 				<view class="li" @click="navClick('/pages/mine/order/order?Inv=2&type=4')">
 					<view class="icon">
-						<image class="img" src="../../static/images/mine/mine6.png"></image>
+						<image class="img" src="../../static/images/new/dqr.png"></image>
 					</view>
 					<!-- <view class="t">{{$t('user.myCont.dpj')}}</view> -->
 					<view class="t">{{$t('zhongpai.daiqueren')}}</view>
 				</view>
 				<view class="li" @click="navClick('/pages/mine/order/order?Inv=2&type=6')">
 					<view class="icon">
-						<image class="img" src="../../static/images/mine/mine15.png"></image>
+						<image class="img" src="../../static/images/new/ywc.png"></image>
 					</view>
 					<view class="t">{{$t('user.myCont.yiwanceng')}}</view>
 				</view>

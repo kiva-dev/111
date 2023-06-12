@@ -318,16 +318,16 @@
 
 	.commission-ewm {
 		position: relative;
-		width: 200rpx;
-		height: 200rpx;
-		background: #fff;
+		width: 180rpx;
+		height: 180rpx;
+		// background: #fff;
 		margin: 30rpx 0 30rpx 44rpx;
 
 		.commission-ewm-img {
 			position: absolute;
 			top: 50%;
-			left: 4rpx;
-			transform: translate(0,-50%);
+			left: 50%;
+			transform: translate(-50%,-50%);
 			width: 180rpx;
 			height: 180rpx;
 		}
@@ -359,7 +359,7 @@
 			left: 152rpx;
 			width: 154rpx;
 			height: 154rpx;
-			background: #fff;
+			// background: #fff;
 
 			image {
 				position: absolute;

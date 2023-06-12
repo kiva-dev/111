@@ -2652,8 +2652,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					left: 0;
 					bottom: -4rpx;
 					width: 260rpx;
-					height: 56rpx;
-					line-height: 56rpx;
+					height: 60rpx;
+					line-height: 60rpx;
 					font-size: 24rpx;
 					color: rgb(255, 255, 255);
 					text-align: center;
