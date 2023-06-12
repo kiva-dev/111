@@ -426,7 +426,11 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 		},
 		mounted() {
-			setTimeout(() => {
+			
+			
+		},
+		methods: {
+			getTopNum(){
 				for (var i = 0; i < this.navList.length; i++) {
 					uni.createSelectorQuery()
 						.select('#div' + (i + 1))
@@ -440,9 +444,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 								}).exec();
 						}).exec();
 				}
-			}, 2000)
-		},
-		methods: {
+			},
 			//预览图片
 			previewImgList(){
 				console.log(1)
@@ -643,6 +645,10 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						this.shopCont = res.data
 						// 评价列表
 						this.getCommentList()
+						
+						setTimeout(()=>{
+							this.getTopNum()
+						},2000)
 					}
 				})
 			},

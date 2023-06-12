@@ -482,7 +482,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				// 侦听开始之后立即调用
 				immediate: true,
 				handler(newValue) {
-					console.log(newValue);
 					this.yearList = [
 						new Date().getFullYear() - 1,
 						new Date().getFullYear(),

@@ -36,19 +36,19 @@
 				</view>
 			</view>
 		</view>
-		
+
 		<view class="commission-rule-yqm">
 			<view style="max-width: 160rpx;">{{$t('new.yqlj')}}：</view>
 			<span style="font-size: 24rpx;">{{qrUrl}}</span>
 			<image src="/static/images/new/copy-black.png" @click="copy(qrUrl)"></image>
 		</view>
-		
+
 		<view class="commission-rule-yqm">
 			<view>{{$t('new.ndyqm')}}：</view>
 			<span>{{code}}</span>
 			<image src="/static/images/new/copy-black.png" @click="copy(code)"></image>
 		</view>
-		
+
 		<!-- -->
 		<view class="commission-rule-ewm">
 			<view class="commission-rule-ewm-tit">{{$t('new.yqewm')}}：</view>
@@ -57,24 +57,22 @@
 			</view>
 		</view>
 
-		<view class="commission-btn" @click="showyq=true">{{$t('new.ljyq')}}</view>
+		<view class="commission-btn" @click="capture()">{{$t('new.ljyq')}}</view>
 
 		<u-popup :show="showyq" mode="center" @close="showyq=false" bgColor="transparent">
-			<view>
-				<view class="showyq">
-					<view class="showyq-ewm">
-						<image :src="qrcodeImg"></image>
-					</view>
-
-					<image :src="userCont.avatar" class="showyq-auth"></image>
-					<view class="showyq-hy">{{$t('new.ndhy')}}[{{userCont.nickname}}]</view>
-					<view class="showyq-yq">{{$t('new.hnyql')}}</view>
+			<view class="showyq">
+				<view class="showyq-ewm">
+					<image :src="qrcodeImg"></image>
 				</view>
-				<view class="showyq-btn">
+
+				<image :src="userCont.avatar" class="showyq-auth"></image>
+				<view class="showyq-hy">{{$t('new.ndhy')}}[{{userCont.nickname}}]</view>
+				<view class="showyq-yq">{{$t('new.hnyql')}}</view>
+			</view>
+			<!-- <view class="showyq-btn">
 					<image src="/static/images/new/save-img.png"></image>
 					<view @click="capture()">{{$t('new.bctp')}}</view>
-				</view>
-			</view>
+				</view> -->
 
 		</u-popup>
 
@@ -99,7 +97,7 @@
 				qrUrl: '',
 				qrcodeImg: '',
 				lange: '',
-				userCont:{}
+				userCont: {}
 			}
 		},
 		onLoad() {
@@ -111,10 +109,10 @@
 				if (res.code == 1) {
 					// uni.setStorageSync('userCont', res.data)
 					// this.invite_code = res.data.invite_code
-					this.userCont=res.data
-					console.log(this.userCont)
+					this.userCont = res.data
 					this.code = res.data.invite_code
-					this.qrUrl = 'https://kjtest.ysxrj.cn/pages/mine/new/new-register?invite_code=' + res.data.invite_code // 生成二维码的链接
+					this.qrUrl = 'https://kjtest.ysxrj.cn/pages/mine/new/new-register?invite_code=' + res.data
+						.invite_code // 生成二维码的链接
 					// this.qrUrl = 'http://localhost:8081/h5/#/?invite_code=' + res.data.invite_code// 生成二维码的链接
 					this.createQrcode()
 				}
@@ -122,6 +120,8 @@
 		},
 		methods: {
 			capture() {
+				this.showyq=true
+				let that=this
 				// 获取APP的所有页面列表
 				const pages = getCurrentPages();
 
@@ -130,25 +130,34 @@
 				const currentWebview = page.$getAppWebview();
 				let bitmap = new plus.nativeObj.Bitmap('amway_img');
 				// 将webview内容绘制到Bitmap对象中
-				currentWebview.draw(bitmap, function() {
-					console.log('截屏绘制图片成功');
-					let fileName = '_doc/' + new Date().getTime() + '.png'
-					bitmap.save(fileName, {}, function(i) {
-						console.log('bitmap保存图片成功：' + JSON.stringify(i));
-						// 将图片保存到相册
-						uni.saveImageToPhotosAlbum({
-							filePath: i.target,
-							success: function() {
-								bitmap.clear(); //销毁Bitmap图片
-								uni.$u.toast('保存图片成功')
-							}
+				setTimeout(()=>{
+					currentWebview.draw(bitmap, function() {
+						console.log('截屏绘制图片成功');
+						let fileName = '_doc/' + new Date().getTime() + '.png'
+						bitmap.save(fileName, {}, function(i) {
+							// 将图片保存到相册
+							uni.saveImageToPhotosAlbum({
+								filePath: i.target,
+								success: function() {
+									bitmap.clear(); //销毁Bitmap图片
+									uni.showToast({
+										title: '保存图片成功',
+										duration: 2000,
+										icon:'none'
+									});
+									setTimeout(()=>{
+										that.showyq=false
+									},1000)
+								}
+							});
+						}, function(e) {
+							console.log('保存图片失败：' + JSON.stringify(e));
 						});
 					}, function(e) {
-						console.log('保存图片失败：' + JSON.stringify(e));
+						console.log('截屏绘制图片失败：' + JSON.stringify(e));
 					});
-				}, function(e) {
-					console.log('截屏绘制图片失败：' + JSON.stringify(e));
-				});
+				},1000)
+				
 				//currentWebview.append(amway_bit);
 			},
 			copy(val) {
@@ -284,11 +293,11 @@
 		color: rgb(44, 44, 44);
 		display: flex;
 		margin-bottom: 20rpx;
-		
-		view{
+
+		view {
 			margin-left: 40rpx;
 		}
-		
+
 		span {
 			display: block;
 			max-width: 450rpx;
@@ -303,17 +312,17 @@
 		}
 
 	}
-	
-	.commission-rule-ewm{
+
+	.commission-rule-ewm {
 		display: flex;
 		font-size: 32rpx;
 		color: rgb(44, 44, 44);
-		
-		.commission-rule-ewm-tit{
+
+		.commission-rule-ewm-tit {
 			width: 200rpx;
 			margin-left: 40rpx;
 		}
-		
+
 	}
 
 	.commission-ewm {
@@ -327,7 +336,7 @@
 			position: absolute;
 			top: 50%;
 			left: 50%;
-			transform: translate(-50%,-50%);
+			transform: translate(-50%, -50%);
 			width: 180rpx;
 			height: 180rpx;
 		}
@@ -347,53 +356,55 @@
 
 	.showyq {
 		position: relative;
-		width: 460rpx;
-		height: 796rpx;
+		width: 750rpx;
+		min-height: 100vh;
 		background: url('/static/images/new/yjyq.png') no-repeat;
-		background-size: 460rpx 796rpx;
+		background-size: 100% 100vh;
 		margin-top: 100rpx;
 
 		.showyq-ewm {
 			position: absolute;
-			top: 406rpx;
-			left: 152rpx;
-			width: 154rpx;
-			height: 154rpx;
+			bottom: 506rpx;
+			left: 50%;
+			transform: translate(-50%, 0);
+			width: 300rpx;
+			height: 300rpx;
 			// background: #fff;
 
 			image {
 				position: absolute;
 				top: 50%;
 				left: 4rpx;
-				transform: translate(0,-50%);
-				width: 144rpx;
-				height: 144rpx;
+				transform: translate(0, -50%);
+				width: 300rpx;
+				height: 300rpx;
 			}
 		}
 
 		.showyq-auth {
 			position: absolute;
-			top: 570rpx;
-			left: 190rpx;
-			width: 80rpx;
-			height: 80rpx;
+			bottom: 300rpx;
+			left: 50%;
+			transform: translate(-50%, 0);
+			width: 160rpx;
+			height: 160rpx;
 			border-radius: 50%;
 		}
 
 		.showyq-hy {
 			position: absolute;
-			bottom: 106rpx;
+			bottom: 206rpx;
 			width: 100%;
-			font-size: 20rpx;
+			font-size: 32rpx;
 			color: rgb(255, 255, 255);
 			text-align: center;
 		}
 
 		.showyq-yq {
 			position: absolute;
-			bottom: 48rpx;
+			bottom: 148rpx;
 			width: 100%;
-			font-size: 24rpx;
+			font-size: 32rpx;
 			color: rgb(255, 255, 255);
 			text-align: center;
 		}
