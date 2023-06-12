@@ -141,7 +141,7 @@
 								success: function() {
 									bitmap.clear(); //销毁Bitmap图片
 									uni.showToast({
-										title: '保存图片成功',
+										title: that.$t('new.bctpcg'),
 										duration: 2000,
 										icon:'none'
 									});
