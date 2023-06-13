@@ -224,7 +224,7 @@
 						})
 						setTimeout(() => {
 							uni.navigateTo({
-								url: './login'
+								url: '/pages/public/login'
 							})
 						}, 1000);
 						if (sessionStorage.getItem("invite_code")) {
