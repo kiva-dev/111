@@ -22,7 +22,8 @@
         /* 模块配置 */
         "modules" : {
             "OAuth" : {},
-            "Camera" : {}
+            "Camera" : {},
+            "Push" : {}
         },
         /* 应用发布信息 */
         "distribute" : {
@@ -63,7 +64,22 @@
                     }
                 },
                 "share" : {},
-                "ad" : {}
+                "ad" : {},
+                "push" : {
+                    "unipush" : {
+                        "version" : "2",
+                        "offline" : false,
+                        "icons" : {
+                            "small" : {
+                                "ldpi" : "unpackage/res/icons/20x20.png",
+                                "xxhdpi" : "unpackage/res/icons/72x72.png",
+                                "xhdpi" : "unpackage/res/icons/58x58.png",
+                                "hdpi" : "unpackage/res/icons/40x40.png",
+                                "mdpi" : "unpackage/res/icons/29x29.png"
+                            }
+                        }
+                    }
+                }
             },
             "splashscreen" : {
                 "androidStyle" : "default",
