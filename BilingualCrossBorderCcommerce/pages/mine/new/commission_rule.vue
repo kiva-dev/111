@@ -60,7 +60,7 @@
 		<view class="commission-btn" @click="capture()">{{$t('new.ljyq')}}</view>
 
 		<u-popup :show="showyq" mode="center" @close="showyq=false" bgColor="transparent">
-			<view class="showyq">
+			<view class="showyq" :style="lange=='en'?`background: url('/static/images/new/yjyq-en.png') no-repeat;background-size: 100% 100vh;`:''">
 				<view class="showyq-ewm">
 					<image :src="qrcodeImg"></image>
 				</view>
