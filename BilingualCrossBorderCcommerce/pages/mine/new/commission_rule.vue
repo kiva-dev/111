@@ -112,7 +112,7 @@
 					// this.invite_code = res.data.invite_code
 					this.userCont = res.data
 					this.code = res.data.invite_code
-					this.qrUrl = this.$baseUrl +'/pages/mine/new/new-register?invite_code=' + res.data
+					this.qrUrl = this.$baseUrl +'pages/mine/new/new-register?invite_code=' + res.data
 						.invite_code // 生成二维码的链接
 					// this.qrUrl = 'http://localhost:8081/h5/#/?invite_code=' + res.data.invite_code// 生成二维码的链接
 					this.createQrcode()
