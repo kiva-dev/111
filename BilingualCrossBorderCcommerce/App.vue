@@ -13,7 +13,6 @@
 				uni.setStorageSync('locale', 'en')
 			}
 			if (!uni.getStorageSync('phoneCont')) {
-				console.log('App Launch')
 				if (this.isAndroid) {
 					uni.showModal({
 						content: this.$t('index.language-change-confirm'),
@@ -29,12 +28,6 @@
 				}
 			}
 		},
-		onShow: function() {
-			console.log('App Show')
-		},
-		onHide: function() {
-			console.log('App Hide')
-		}
 	}
 </script>
 
