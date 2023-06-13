@@ -1295,5 +1295,9 @@
 	"new.bctp":"Save Picture",
 	"new.yqlj":"Invitation Link",
 	"new.yqewm":"Invitation QR code",
-	"new.bctpcg":"Successfully saved image"
+	"new.bctpcg":"Successfully saved image",
+	"new.wdyq":"My invitation",
+	"new.yqrs":"Number of invitees",
+	"new.tdfy":"TA's rebate",
+	"new.bctpsb":"Failed to save image"
 }

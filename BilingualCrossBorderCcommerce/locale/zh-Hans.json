@@ -1296,5 +1296,9 @@
 	"new.bctp": "保存图片",
 	"new.yqlj":"邀请链接",
 	"new.yqewm":"邀请二维码",
-	"new.bctpcg":"保存图片成功"
+	"new.bctpcg":"保存图片成功",
+	"new.wdyq":"我的邀请",
+	"new.yqrs":"邀请人数",
+	"new.tdfy":"Ta的返佣",
+	"new.bctpsb":"保存图片失败"
 }

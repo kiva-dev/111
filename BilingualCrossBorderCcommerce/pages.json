@@ -812,6 +812,13 @@
 	    "navigationBarTitleText": "",
 	    "navigationStyle": "custom"
 	  }
+	},
+	{
+	  "path": "pages/mine/new/yqlist",
+	  "style": {
+	    "navigationBarTitleText": "",
+	    "navigationStyle": "custom"
+	  }
 	}
   ],
   "globalStyle": {

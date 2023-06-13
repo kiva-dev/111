@@ -1,8 +1,12 @@
 <template>
 	<view class="commission-page">
 		<view class="commission-head">
-			<image src="/static/images/new/left.png" @click="toBack()"></image>
-			<view>{{$t('new.yjfx')}}</view>
+			<image class="commission-head-img" src="/static/images/new/left.png" @click="toBack()"></image>
+			<view class="commission-head-txt">{{$t('new.yjfx')}}</view>
+			<view class="commission-head-right" @click="toRule('/pages/mine/new/yqlist')">
+				<view>{{$t('new.wdyq')}}</view>
+				<!-- <image src="/static/images/new/yq.png"></image> -->
+			</view>
 		</view>
 
 		<view class="commission-center">
@@ -36,7 +40,7 @@
 				<image src="/static/images/new/zwsj.png"></image>
 				<view class="not-view">{{$t('new.zwfy')}}</view>
 				<view class="not-data-yaoqin">{{$t('new.ljyqhy')}}</view>
-				<view class="not-data-btn" @click="toRule()">{{$t('new.ljcy')}}</view>
+				<view class="not-data-btn" @click="toRule('/pages/mine/new/commission_rule')">{{$t('new.ljcy')}}</view>
 			</view>
 		</block>
 
@@ -126,9 +130,9 @@
 			toBack() {
 				uni.navigateBack()
 			},
-			toRule() {
+			toRule(url) {
 				uni.navigateTo({
-					url: "/pages/mine/new/commission_rule"
+					url
 				})
 			}
 		}
@@ -151,7 +155,7 @@
 		align-items: center;
 		background: rgb(255, 255, 255);
 
-		image {
+		.commission-head-img {
 			position: absolute;
 			left: 20rpx;
 			width: 60rpx;
@@ -159,13 +163,32 @@
 			z-index: 10;
 		}
 
-		view {
+		.commission-head-txt {
 			width: 100%;
 			font-size: 40rpx;
 			color: rgb(255, 78, 47);
 			text-align: center;
 		}
-
+		
+		.commission-head-right{
+			position: absolute;
+			right: 20rpx;
+			display: flex;
+			align-items: center;
+			
+			image{
+				width: 48rpx;
+				height: 48rpx;
+			}
+			
+			view{
+				font-size: 20rpx;
+				color: rgb(44, 44, 44);
+				margin-right: 16rpx;
+			}
+			
+		}
+		
 	}
 
 	.commission-center {

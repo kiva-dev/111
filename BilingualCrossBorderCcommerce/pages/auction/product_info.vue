@@ -214,8 +214,8 @@
 						<view class="historical-item-price">RM{{item.auction_price}}</view>
 						<image :src="item.user_info.avatar" class="historical-item-auth" v-if="item.check_status==3">
 						</image>
-						<image src="/static/images/products/star.png" class="historical-item-star"></image>
-						<image src="../../static/images/new/yihan.png" v-if="item.check_status==4"></image>
+						<image src="/static/images/products/star.png" class="historical-item-star" v-if="item.check_status!=4"></image>
+						<image src="../../static/images/new/yihan.png" class="historical-item-auth" v-if="item.check_status==4"></image>
 						<view class="historical-item-name" v-if="item.check_status==3">{{item.user_info.nickname}}
 						</view>
 						<view class="historical-item-name" v-if="item.check_status==4">{{$t('new.yhlp')}}</view>
@@ -1432,6 +1432,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			width: 670rpx;
 			height: 60rpx;
 			display: flex;
+			align-items: center;
 			border-bottom: 2rpx dashed rgb(190, 190, 190);
 			margin: 0 auto;
 
@@ -1468,8 +1469,11 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			.historical-item-name {
 				position: absolute;
 				left: 508rpx;
+				width: 160rpx;
 				font-size: 20rpx;
 				color: rgb(44, 44, 44);
+				overflow: hidden;
+				text-overflow: ellipsis;
 				white-space: nowrap;
 			}
 

@@ -60,7 +60,8 @@
 		<view class="commission-btn" @click="capture()">{{$t('new.ljyq')}}</view>
 
 		<u-popup :show="showyq" mode="center" @close="showyq=false" bgColor="transparent">
-			<view class="showyq" :style="lange=='en'?`background: url('/static/images/new/yjyq-en.png') no-repeat;background-size: 100% 100vh;`:''">
+			<view class="showyq"
+				:style="lange=='en'?`background: url('/static/images/new/yjyq-en.png') no-repeat;background-size: 100% 100vh;`:''">
 				<view class="showyq-ewm">
 					<image :src="qrcodeImg"></image>
 				</view>
@@ -69,11 +70,6 @@
 				<view class="showyq-hy">{{$t('new.ndhy')}}[{{userCont.nickname}}]</view>
 				<view class="showyq-yq">{{$t('new.hnyql')}}</view>
 			</view>
-			<!-- <view class="showyq-btn">
-					<image src="/static/images/new/save-img.png"></image>
-					<view @click="capture()">{{$t('new.bctp')}}</view>
-				</view> -->
-
 		</u-popup>
 
 		<view class="commission-canvas">
@@ -112,7 +108,7 @@
 					// this.invite_code = res.data.invite_code
 					this.userCont = res.data
 					this.code = res.data.invite_code
-					this.qrUrl = this.$baseUrl +'pages/mine/new/new-register?invite_code=' + res.data
+					this.qrUrl = this.$baseUrl + 'pages/mine/new/new-register?invite_code=' + res.data
 						.invite_code // 生成二维码的链接
 					// this.qrUrl = 'http://localhost:8081/h5/#/?invite_code=' + res.data.invite_code// 生成二维码的链接
 					this.createQrcode()
@@ -128,7 +124,7 @@
 
 				// 获取到当前页面
 				const page = pages[pages.length - 1];
-				try{
+				try {
 					const currentWebview = page.$getAppWebview();
 					let bitmap = new plus.nativeObj.Bitmap('amway_img');
 					// 将webview内容绘制到Bitmap对象中
@@ -156,22 +152,22 @@
 								console.log('保存图片失败：' + JSON.stringify(e));
 							});
 						}, function(e) {
-							that.showyq=false
+							that.showyq = false
 							console.log('截屏绘制图片失败：' + JSON.stringify(e));
 						});
 					}, 1000)
-				}catch{
+				} catch {
 					uni.showToast({
-						title: `保存图片失败`,
+						title: that.$t('new.bctpsb'),
 						duration: 2000,
 						icon: 'none'
 					});
-					setTimeout(()=>{
-						that.showyq=false
-					},1000)
-					
+					setTimeout(() => {
+						that.showyq = false
+					}, 1000)
+
 				}
-				
+
 
 				//currentWebview.append(amway_bit);
 			},
@@ -447,6 +443,6 @@
 
 	.commission-canvas {
 		position: fixed;
-		top: -1000000;
+		top: -1000000rpx;
 	}
 </style>

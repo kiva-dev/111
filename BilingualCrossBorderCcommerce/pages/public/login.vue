@@ -412,6 +412,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 									key: 'login_front'
 								});
 							} else {
+								console.log(1111)
 								uni.switchTab({
 									url: '/pages/auction/auction'
 								});

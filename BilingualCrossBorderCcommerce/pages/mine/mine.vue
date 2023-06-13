@@ -195,21 +195,21 @@
 				<view class="contact-info">
 					<view class="contact-info-tit">{{$t('user.myCont.ptkf')}}</view>
 
-					<a href="https://facebook.com/Kolibrimall" target="_blank">
+					<a href="fb://page/%{Kolibrimall}s/info" target="_blank">
 						<view class="contact-info-des">
 							<image src="../../static/images/new/face book.png"></image>
 							<view>Face book</view>
 						</view>
 					</a>
 
-					<a href="https://www.facebook.com/Kolibrimal" target="_blank">
+					<a href="twitter://user?screen_name=Kolibrimall2023" target="_blank">
 						<view class="contact-info-des" id="twitter">
 							<image src="../../static/images/share21.png"></image>
 							<view>Twitter</view>
 						</view>
 					</a>
 
-					<a href="http://t.me/Kolibrimall" target="_blank">
+					<a href="https://oia.zhihu.com/questions/64966868" target="_blank">
 						<view class="contact-info-des">
 							<image src="../../static/images/new/Telegram.png"></image>
 							<view>Telegram</view>
