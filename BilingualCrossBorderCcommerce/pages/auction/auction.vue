@@ -851,6 +851,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			//     const visitorId = result.visitorId
 			//     console.log(visitorId)
 			// })
+			console.log(111);
 			let systemInfo = uni.getSystemInfoSync();
 			this.systemLocale = systemInfo.language;
 			this.applicationLocale = uni.getLocale();
