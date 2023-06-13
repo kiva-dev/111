@@ -97,7 +97,8 @@
 				qrUrl: '',
 				qrcodeImg: '',
 				lange: '',
-				userCont: {}
+				userCont: {},
+				isShopCont: false, // 中文还是英文
 			}
 		},
 		onLoad() {
@@ -111,7 +112,7 @@
 					// this.invite_code = res.data.invite_code
 					this.userCont = res.data
 					this.code = res.data.invite_code
-					this.qrUrl = 'https://kjtest.ysxrj.cn/pages/mine/new/new-register?invite_code=' + res.data
+					this.qrUrl = this.$baseUrl +'/pages/mine/new/new-register?invite_code=' + res.data
 						.invite_code // 生成二维码的链接
 					// this.qrUrl = 'http://localhost:8081/h5/#/?invite_code=' + res.data.invite_code// 生成二维码的链接
 					this.createQrcode()
@@ -120,44 +121,58 @@
 		},
 		methods: {
 			capture() {
-				this.showyq=true
-				let that=this
+				this.showyq = true
+				let that = this
 				// 获取APP的所有页面列表
 				const pages = getCurrentPages();
 
 				// 获取到当前页面
 				const page = pages[pages.length - 1];
-				const currentWebview = page.$getAppWebview();
-				let bitmap = new plus.nativeObj.Bitmap('amway_img');
-				// 将webview内容绘制到Bitmap对象中
-				setTimeout(()=>{
-					currentWebview.draw(bitmap, function() {
-						console.log('截屏绘制图片成功');
-						let fileName = '_doc/' + new Date().getTime() + '.png'
-						bitmap.save(fileName, {}, function(i) {
-							// 将图片保存到相册
-							uni.saveImageToPhotosAlbum({
-								filePath: i.target,
-								success: function() {
-									bitmap.clear(); //销毁Bitmap图片
-									uni.showToast({
-										title: that.$t('new.bctpcg'),
-										duration: 2000,
-										icon:'none'
-									});
-									setTimeout(()=>{
-										that.showyq=false
-									},1000)
-								}
+				try{
+					const currentWebview = page.$getAppWebview();
+					let bitmap = new plus.nativeObj.Bitmap('amway_img');
+					// 将webview内容绘制到Bitmap对象中
+					setTimeout(() => {
+						currentWebview.draw(bitmap, function() {
+							console.log('截屏绘制图片成功');
+							let fileName = '_doc/' + new Date().getTime() + '.png'
+							bitmap.save(fileName, {}, function(i) {
+								// 将图片保存到相册
+								uni.saveImageToPhotosAlbum({
+									filePath: i.target,
+									success: function() {
+										bitmap.clear(); //销毁Bitmap图片
+										uni.showToast({
+											title: that.$t('new.bctpcg'),
+											duration: 2000,
+											icon: 'none'
+										});
+										setTimeout(() => {
+											that.showyq = false
+										}, 1000)
+									}
+								});
+							}, function(e) {
+								console.log('保存图片失败：' + JSON.stringify(e));
 							});
 						}, function(e) {
-							console.log('保存图片失败：' + JSON.stringify(e));
+							that.showyq=false
+							console.log('截屏绘制图片失败：' + JSON.stringify(e));
 						});
-					}, function(e) {
-						console.log('截屏绘制图片失败：' + JSON.stringify(e));
+					}, 1000)
+				}catch{
+					uni.showToast({
+						title: `保存图片失败`,
+						duration: 2000,
+						icon: 'none'
 					});
-				},1000)
+					setTimeout(()=>{
+						that.showyq=false
+					},1000)
+					
+				}
 				
+
 				//currentWebview.append(amway_bit);
 			},
 			copy(val) {

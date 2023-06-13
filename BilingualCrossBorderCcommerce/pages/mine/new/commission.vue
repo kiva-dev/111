@@ -46,6 +46,8 @@
 </template>
 
 <script>
+	import md5 from 'js-md5';
+	import $ from '@/common/jquery-3.6.1.min.js'
 	export default {
 		data() {
 			return {
@@ -62,11 +64,57 @@
 		},
 		methods: {
 			getMoneyList() {
+				let isShopCont = uni.getStorageSync('locale') == 'en' ? true : false // 中文还是英文
 				this.$http.post(this.$apiObj.MineMoneyList, {
 					is_rebate: 1,
 					page: this.page,
 					pagenum: this.pagenum
 				}).then(res => {
+					res.data.data.map(item => {
+						let zhStr = item.memo
+						let appid = '20220914001342711'
+						let userkey = 'QzytrtrDkXeAeaEp_yW3'
+						let salt = (new Date).getTime()
+						const str = `${appid}${zhStr}${salt}${userkey}`;
+						const sign = md5(str); /* md5加密，生成签名 */
+						const params = {
+							q: zhStr,
+							from: 'zh',
+							to: 'en',
+							appid: appid,
+							sign,
+							salt: salt
+						}
+
+						//#ifdef H5
+						// console.log($, "======uni-app的H5模式引入JQuery=====");
+						if (isShopCont) {
+							$.ajax({
+								url: 'https://api.fanyi.baidu.com/api/trans/vip/translate',
+								type: 'get',
+								dataType: 'jsonp',
+								data: params,
+								success: function(data) {
+									item.memo = data.trans_result[0].dst
+								}
+							});
+						}
+						//#endif
+						// #ifdef APP-PLUS
+						if (isShopCont) {
+							uni.request({
+								url: 'https://api.fanyi.baidu.com/api/trans/vip/translate', //仅为示例，并非真实接口地址。
+								data: params,
+								header: {
+									'custom-header': 'hello' //自定义请求头信息
+								},
+								success: (res) => {
+									item.memo = res.data.trans_result[0].dst
+								}
+							});
+						}
+						// #endif
+					})
 					this.moneyList = res.data.data
 				})
 			},

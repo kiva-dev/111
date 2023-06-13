@@ -177,7 +177,8 @@
 					</view>
 				</navigator> -->
 
-				<view class="order-item" v-for="item in jingpaiorderList" :key="item.id" @click="toDetail(item.auction_goods_id)">
+				<view class="order-item" v-for="item in jingpaiorderList" :key="item.id"
+					@click="toDetail(item.auction_goods_id)">
 					<view class="order-item-name">{{item.shop_name}}</view>
 					<view class="order-item-info">
 						<view class="order-item-info-left">
@@ -284,11 +285,17 @@
 						</view>
 
 						<view class="luck-zpjl-item-btn" v-if="item.select_way==0" @click.stop="onlingjiangClick(item)">
-							{{$t('zhongpai.lingjiangjiang')}}</view>
-						<view class="luck-zpjl-item-btn" style="background: #999;" v-else-if="item.status==6">
-							{{$t('zhongpai.ylj')}}
+							{{$t('zhongpai.lingjiangjiang')}}
 						</view>
-						<view class="luck-zpjl-item-btn" v-else>{{$t('zhongpai.lingjiangjiang')}}</view>
+						<!--@click="shareShow=true;midshotId=item.id"-->
+						<view class="luck-zpjl-item-btn"
+							style="color: rgb(255, 78, 47);background: #fff;border: 2rpx solid rgb(255, 78, 47);box-sizing: border-box;"
+							v-else-if="item.status==6" >
+							{{$t('auction.detail.lijifenxiang')}}
+						</view>
+						<view class="luck-zpjl-item-btn" v-else-if="item.select_way==2 && item.status==2">待发货</view>
+						<view class="luck-zpjl-item-btn" v-else-if="item.select_way==2 && item.status==3">待收货</view>
+						<view class="luck-zpjl-item-btn" v-else-if="item.select_way==2 && item.status==4">待确认</view>
 					</view>
 
 				</view>
@@ -448,7 +455,8 @@
 					</view>
 				</navigator> -->
 
-				<view class="order-item" v-for="item in recordList" :key="item.id" @click="toDetail(item.auction_goods_id)">
+				<view class="order-item" v-for="item in recordList" :key="item.id"
+					@click="toDetail(item.auction_goods_id)">
 					<view class="order-item-name">{{item.shop_name}}</view>
 					<view class="order-item-info">
 						<view class="order-item-info-left">
@@ -563,6 +571,19 @@
 		</view>
 		<!--分享弹出 end-->
 
+		<u-popup :show="shareShow" mode="center" bgColor="transparent">
+			<view class="shareShow">
+				<image src="../../static/images/auth/tck-xr.png" class="shareShow-img"></image>
+				<view class="shareShow-info">
+					<view class="shareShow-info-des">恭喜您在由XX商家提供的竞拍活动中以RMXX的价格幸运拍中价值RMXX的XX</view>
+					<view class="shareShow-info-btn">
+						<view class="shareShow-info-btn-cancel" @click="shareShow=false">跳过</view>
+						<view class="shareShow-info-btn-ok" @click="toMidShot(midshotId)">立即分享</view>
+					</view>
+				</view>
+			</view>
+		</u-popup>
+
 		<view style="height: 30rpx;"></view>
 	</view>
 </template>
@@ -575,6 +596,8 @@
 		},
 		data() {
 			return {
+				midshotId:0,
+				shareShow:false,
 				onfenxingShow: false,
 				no_select: 0, // 是否有
 				navId: 1, // 大分类
@@ -618,9 +641,15 @@
 			}
 		},
 		methods: {
-			toDetail(id){
+			toMidShot(id){
+				this.shareShow=false
 				uni.navigateTo({
-					url:'/pages/auction/detail?id='+id
+					url:'/pages/mine/mid-shot?id='+id
+				})
+			},
+			toDetail(id) {
+				uni.navigateTo({
+					url: '/pages/auction/detail?id=' + id
 				})
 			},
 			tomine() {
@@ -1050,6 +1079,68 @@
 </style>
 <style lang="less" scoped>
 	.auct-page {
+		
+		.shareShow{
+			width: 686rpx;
+			
+			.shareShow-img{
+				display: block;
+				width: 600rpx;
+				height: 372rpx;
+				margin: 0 auto -50rpx auto;
+			}
+			
+			.shareShow-info{
+				width: 686rpx;
+				padding: 80rpx 0 40rpx 0; 
+				background: rgb(255, 255, 255);
+				border-radius: 16rpx;
+				box-sizing: border-box;
+				border: 2rpx solid rgb(255, 78, 47);
+				
+				.shareShow-info-des{
+					width: 606rpx;
+					font-size:28rpx;
+					font-weight: bold;
+					color: rgb(44, 44, 44);
+					text-align: center;
+					margin: 0 auto;
+				}
+				
+				.shareShow-info-btn{
+					width: 100%;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					margin-top: 40rpx;
+					
+					view{
+						width: 240rpx;
+						height: 60rpx;
+						line-height: 60rpx;
+						font-size: 32rpx;
+						text-align: center;
+						border-radius: 30rpx;
+						margin: 0 20rpx;
+					}
+					
+					.shareShow-info-btn-cancel{
+						color: rgb(44, 44, 44);
+						box-sizing: border-box;
+						border: 2rpx solid rgb(255, 78, 47);
+					}
+					
+					.shareShow-info-btn-ok{
+						color: #fff;
+						background: rgb(255, 78, 47);
+					}
+					
+				}
+				
+			}
+			
+		}
+		
 		.header-tab {
 			// padding: 30rpx;
 			display: flex;

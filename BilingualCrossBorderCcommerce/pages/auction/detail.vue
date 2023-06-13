@@ -22,7 +22,7 @@
 				<swiper class="swiper-box" autoplay="true" :circular="true" @change="change">
 					<swiper-item v-for="(item,k) in shopCont.images" :key="k" @click="previewImgList()">
 						<view class="swiper-item">
-							<view class="big-img" >
+							<view class="big-img">
 								<image class="image img" :src="item" mode="aspectFill" :draggable="false" />
 							</view>
 						</view>
@@ -759,11 +759,11 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 		},
 		mounted() {
-			
+
 		},
 		methods: {
 			//计算距离
-			getTopNum(){
+			getTopNum() {
 				for (var i = 0; i < this.navList.length; i++) {
 					uni.createSelectorQuery()
 						.select('#div' + (i + 1))
@@ -779,10 +779,10 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				}
 			},
 			//预览图片
-			previewImgList(){
+			previewImgList() {
 				console.log(1)
 				uni.previewImage({
-					urls:this.shopCont.images
+					urls: this.shopCont.images
 				})
 			},
 			//获取评论
@@ -973,10 +973,10 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 						// 评价列表
 						this.getCommentList()
-						setTimeout(()=>{
+						setTimeout(() => {
 							this.getTopNum()
-						},2000)
-						
+						}, 2000)
+
 					}
 				})
 			},

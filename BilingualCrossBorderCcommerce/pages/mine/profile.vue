@@ -2,20 +2,6 @@
 	<view class="person-page">
 		<!--person-box start-->
 		<view class="person-box">
-			<!--person-li start-->
-			<!-- <view class="person-li">
-        <text class="label">{{$t('user.mine.avaitel')}}</text>
-        <view class="li-r" @click="upLoadLunimg">
-          <view class="r-img">
-            <image class="img" v-if="userCont.avatar" :src="userCont.avatar"></image>
-            <image class="img" v-else src="/static/userimg.png"></image>
-          </view>
-          <view class="icon">
-            <image class="img" src="../../static/images/mine/more1.png"></image>
-          </view>
-        </view>
-      </view> -->
-
 
 			<view class="person-auth" @click="upLoadLunimg">
 				<image v-if="userCont.avatar" :src="userCont.avatar"></image>
@@ -34,22 +20,10 @@
 					</view>
 				</view>
 			</view>
-			<!--person-li end-->
-			<!--person-li start-->
-			<!-- <view class="person-li">
-        <text class="label">{{$t('user.mine.phone')}}</text>
-        <view class="li-r" @click="navClick('phone')">
-          <view class="r-t">{{mobile}}</view>
-          <view class="icon">
-            <image class="img" src="../../static/images/mine/more1.png"></image>
-          </view>
-        </view>
-      </view> -->
-			<!--person-li end-->
 
 			<view class="person-li" @click="navClick('phone')">
 				<text class="label">{{$t('user.mine.phone')}}</text>
-				<view class="li-r" >
+				<view class="li-r">
 					<view class="r-t r-m">{{$t('user.nick.wbd')}}</view>
 					<view class="icon">
 						<image class="img" src="../../static/images/mine/more1.png"></image>
@@ -90,28 +64,16 @@
 				</view>
 			</view>
 
-
-			<!-- <view class="person-li" @click="navClick('../address/address')">
-        <text class="label">{{$t('user.mine.shdz')}}</text>
-        <view class="li-r">
-          <view class="icon">
-            <image class="img" src="../../static/images/mine/more1.png"></image>
-          </view>
-        </view>
-      </view> -->
-			<!--person-li end-->
 		</view>
-		<!--person-box end-->
-		<!-- 底部弹窗 -->
-		<!-- <uni-popup ref="popup" @change="change">
-      <view class="popup-content personal-pop" :class="{ 'popup-height': type === 'left' || type === 'right' }">
-        <view class="personal-pop-box">
-          <button class="pop-box-btn">从手机相机选择</button>
-          <button class="pop-box-btn">拍一张</button>
-        </view>
-        <button class="personal-pop-btn" @click="toggleClose">取消</button>
-      </view>
-    </uni-popup> -->
+
+		<!-- <view class="btm">
+			<view class="btm-head">
+				<view>个人积分</view>
+				<view @click="navClick('/pages/mine/points-detail')">积分明细</view>
+			</view>
+			<view class="btm-txt">00127</view>
+		</view> -->
+
 	</view>
 </template>
 
@@ -340,4 +302,36 @@
 			line-height: 100rpx;
 		}
 	}
+
+	.btm {
+		position: fixed;
+		bottom: 68rpx;
+		left: 32rpx;
+		width: 686rpx;
+		height: 246rpx;
+		padding-top: 30rpx;
+		background: url('/static/images/auth/jf-k.png') no-repeat;
+		background-size: 686rpx 276rpx;
+		
+		.btm-head{
+			width: 626rpx;
+			font-size: 32rpx;
+			color: rgb(255, 255, 255);
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			margin: 0 auto;
+		}
+		
+		.btm-txt{
+			width: 100%;
+			font-size: 72rpx;
+			font-weight: bold;
+			color: rgb(255, 255, 255);
+			text-align: center;
+			margin-top: 60rpx;
+		}
+	}
+	
+	
 </style>

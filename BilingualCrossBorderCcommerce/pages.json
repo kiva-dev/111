@@ -798,6 +798,20 @@
 	    "navigationBarTitleText": "",
 	    "navigationStyle": "custom"
 	  }
+	},
+	{
+	  "path": "pages/mine/points-detail",
+	  "style": {
+	    "navigationBarTitleText": "",
+	    "navigationStyle": "custom"
+	  }
+	},
+	{
+	  "path": "pages/mine/mid-shot",
+	  "style": {
+	    "navigationBarTitleText": "",
+	    "navigationStyle": "custom"
+	  }
 	}
   ],
   "globalStyle": {

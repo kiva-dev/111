@@ -575,8 +575,12 @@
 			.commission-item-info {
 
 				.commission-item-info-tit {
+					max-width: 420rpx;
 					font-size: 24rpx;
 					color: rgb(44, 44, 44);
+					overflow: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
 				}
 
 				.commission-item-info-time {

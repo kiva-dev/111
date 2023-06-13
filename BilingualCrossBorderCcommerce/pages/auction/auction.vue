@@ -52,12 +52,21 @@
 		<view class="notice">
 			<image src="../../static/images/products/notice.png"></image>
 			<view class="notice-txt">
-				<view class="notice-list" :style="`height:${noticeList.length*60}rpx;`">
+				<swiper class="swiper" circular :autoplay="true"
+					:interval="3000" :duration="1500" vertical style="height: 60rpx;">
+					<swiper-item  v-for="item in noticeList" @click="onOnticeShow(item)">
+						<view class="notice-item">
+							<view class="notice-tit">{{item.title}}</view>
+							<view class="notice-time">{{item.createtime}}</view>
+						</view>
+					</swiper-item>
+				</swiper>
+				<!-- <view class="notice-list" :style="`height:${noticeList.length*60}rpx;`">
 					<view class="notice-item" v-for="item in noticeList" @click="onOnticeShow(item)">
 						<view class="notice-tit">{{item.title}}</view>
 						<view class="notice-time">{{item.createtime}}</view>
 					</view>
-				</view>
+				</view> -->
 			</view>
 		</view>
 
@@ -204,8 +213,7 @@
 
 				<block v-else>
 					<view class="auct-his">
-						<view class="jping" v-for="(item,i) in historyList" :key="i"
-							@click="onJingPai(item)">
+						<view class="jping" v-for="(item,i) in historyList" :key="i" @click="onJingPai(item)">
 							<view class="jping-left" style="border: 4rpx solid rgb(196, 196, 196);">
 								<image :src="item.image"></image>
 								<view class="jping-left-q" style="background: rgba(196, 196, 196,0.5);">
@@ -944,7 +952,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			this.getNotice()
 		},
 		onHide() {
-			
+
 		},
 		methods: {
 			//查看公告信息
@@ -1842,16 +1850,18 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					animation: noticeAnimation 4.5s linear 2s infinite normal;
 					// margin-top: 6rpx;
 
-					.notice-item {
-						width: 100%;
-						height: 60rpx;
-						line-height: 60rpx;
-						display: flex;
-						align-items: center;
-
-						.notice-tit {
-							width: 500rpx;
-						}
+					
+				}
+				
+				.notice-item {
+					width: 100%;
+					height: 60rpx;
+					line-height: 60rpx;
+					display: flex;
+					align-items: center;
+				
+					.notice-tit {
+						width: 500rpx;
 					}
 				}
 

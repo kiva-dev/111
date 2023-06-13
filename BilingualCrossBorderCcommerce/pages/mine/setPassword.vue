@@ -15,7 +15,7 @@
       </view>
     </view>
     <view class="phone-bot">
-      <button class="public-btn" @click="onPwd">{{$t('user.pwd.qrsz')}}</button>
+      <button class="public-btn" style="background: rgb(255, 78, 47);" @click="onPwd">{{$t('user.pwd.qrsz')}}</button>
     </view>
   </view>
 </template>

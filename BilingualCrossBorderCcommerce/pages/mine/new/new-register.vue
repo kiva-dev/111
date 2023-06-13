@@ -1,8 +1,9 @@
 <template>
 	<view class="new-register">
-		<image src="/static/images/new/jiarubaoxian.png" class="new-register-head"></image>
+		<image src="/static/images/new/jiarubaoxian.png" class="new-register-head" v-if="!isShopCont"></image>
+		<image src="/static/images/new/jiarubaoxian-en.png" class="new-register-head" v-else></image>
 		<image :src="userCont.avatar" class="new-register-auth"></image>
-		<view class="new-register-tit">Your friend [<span>{{userCont.nickname}}</span>] invites you to pick up the gift together!</view>
+		<view class="new-register-tit">{{$t('new.ndhy')}} [<span>{{userCont.nickname}}</span>] {{$t('new.hnyql')}}</view>
 
 		<view class="new-register-input">
 			<image src="/static/images/new/new-yx.png"></image>
@@ -57,7 +58,9 @@
 					:name="item.id"></u-checkbox>
 			</u-checkbox-group>
 			<view class="new-register-xieyi-txt">
-				{{$t('login.shcg')}}<span>《{{$t('user.xitong.yonghuxyi')}}》</span><span>《{{$t('user.xitong.Privacyagreement')}}》</span><span>《{{$t('top.yhxy')}}》</span>
+				{{$t('login.shcg')}}<span @click="navClick('/pages/mine/ptfwxy')">《{{$t('login.ptfwxy')}}》</span><span
+					@click="navClick('/pages/mine/ysxy')">《{{$t('user.xitong.Privacyagreement')}}》</span><span
+					@click="navClick('/pages/mine/agreement')">《{{$t('top.yhxy')}}》</span>
 			</view>
 		</view>
 
@@ -90,23 +93,28 @@
 				}],
 				isShopCont: false, // 中文还是英文
 				codeTxt: this.$t('login.getcode'),
-				userCont:{}
+				userCont: {}
 			}
 		},
 		onLoad(e) {
-			if(e.invite_code) this.yqCode=e.invite_code
+			if (e.invite_code) this.yqCode = e.invite_code
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
 		},
 		onShow() {
 			this.getInfo()
 		},
 		methods: {
+			navClick(url) {
+				uni.navigateTo({
+					url
+				})
+			},
 			//获取用户信息
-			getInfo(){
-				this.$http.post(this.$apiObj.GetCodeInfo,{
-					code:this.yqCode
-				}).then(res=>{
-					this.userCont=res.data
+			getInfo() {
+				this.$http.post(this.$apiObj.GetCodeInfo, {
+					code: this.yqCode
+				}).then(res => {
+					this.userCont = res.data
 				})
 			},
 			// 获取邮箱验证码
@@ -192,7 +200,7 @@
 					title: this.$t('login.lcmmbyzqcxsr'),
 					icon: 'none'
 				})
-				if (this.select.length<1) return uni.showToast({
+				if (this.select.length < 1) return uni.showToast({
 					title: this.$t('login.qydxybty'),
 					icon: 'none'
 				})
