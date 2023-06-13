@@ -809,7 +809,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							})
 						} else {
 							uni.navigateTo({
-								url: '/pages/mine/order/order?Inv=0&type=2'
+								url: '/pages/mine/order/order?Inv=0&type=3'
 							})
 						}
 					}
