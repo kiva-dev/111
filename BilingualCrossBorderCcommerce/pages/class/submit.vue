@@ -798,6 +798,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							title: this.$t('order.zfcg'),
 							icon: 'none'
 						})
+						console.log(this.buy_type)
 						this.$refs.pwdPopup.close()
 						// pages/index/Psuccess
 						if (this.buy_type == 2) {
@@ -808,7 +809,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							})
 						} else {
 							uni.navigateTo({
-								url: '/pages/mine/order/order'
+								url: '/pages/mine/order/order?Inv=0&type=2'
 							})
 						}
 					}
