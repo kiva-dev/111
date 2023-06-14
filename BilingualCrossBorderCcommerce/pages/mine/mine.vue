@@ -230,7 +230,7 @@
 						<view>Telegram</view>
 					</view>
 
-					<a href="whatsapp://send?phone=+86 13227163010" target="_blank" v-if="isWhatsApp">
+					<a href="whatsapp://send?phone=+60 11-14338082" target="_blank" v-if="isWhatsApp">
 						<view class="contact-info-des">
 							<image src="../../static/images/new/WhatsAPP.png"></image>
 							<view>WhatsAPP</view>
