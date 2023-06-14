@@ -195,33 +195,51 @@
 				<view class="contact-info">
 					<view class="contact-info-tit">{{$t('user.myCont.ptkf')}}</view>
 
-					<a href="fb://page/%{Kolibrimall}s/info" target="_blank">
+					<!--fb://profile/100089663415703-->
+					<a href="fb://profile/100089663415703" target="_blank" v-if="isFacebookApp">
 						<view class="contact-info-des">
 							<image src="../../static/images/new/face book.png"></image>
 							<view>Face book</view>
 						</view>
 					</a>
+					<view class="contact-info-des" v-else @click="checkApp()">
+						<image src="../../static/images/new/face book.png"></image>
+						<view>Face book</view>
+					</view>
+					
 
-					<a href="twitter://user?screen_name=Kolibrimall2023" target="_blank">
+					<a href="twitter://user?screen_name=Kolibrimall2023" target="_blank" v-if="isTwitterApp">
 						<view class="contact-info-des" id="twitter">
 							<image src="../../static/images/share21.png"></image>
 							<view>Twitter</view>
 						</view>
 					</a>
-
-					<a href="https://oia.zhihu.com/questions/64966868" target="_blank">
+					<view class="contact-info-des" v-else @click="checkApp()">
+						<image src="../../static/images/share21.png"></image>
+						<view>Twitter</view>
+					</view>
+					
+					<a href="tg://openmessage?user_id=13227163010" target="_blank" v-if="isTelegramApp">
 						<view class="contact-info-des">
 							<image src="../../static/images/new/Telegram.png"></image>
 							<view>Telegram</view>
 						</view>
 					</a>
+					<view class="contact-info-des" v-else @click="checkApp()">
+						<image src="../../static/images/new/Telegram.png"></image>
+						<view>Telegram</view>
+					</view>
 
-					<a href="https://wa.me/message/NAZMJSVWAJ3XA1" target="_blank">
+					<a href="whatsapp://send?phone=15551234567" target="_blank" v-if="isWhatsApp">
 						<view class="contact-info-des">
 							<image src="../../static/images/new/WhatsAPP.png"></image>
 							<view>WhatsAPP</view>
 						</view>
 					</a>
+					<view class="contact-info-des" v-else @click="checkApp()">
+						<image src="../../static/images/new/WhatsAPP.png"></image>
+						<view>WhatsAPP</view>
+					</view>
 
 				</view>
 			</view>
@@ -248,8 +266,31 @@
 				isShopCont: false, // 商品详情显示中文还是英文
 				userCont: '', // 个人信息
 				MineCont: [],
-				showContact: false
+				showContact: false,
+				isTwitterApp: false,
+				isFacebookApp: false,
+				isWhatsApp: false,
+				isTelegramApp:false
 			}
+		},
+		onLoad() {
+			this.isTwitterApp = plus.runtime.isApplicationExist({
+				pname: 'com.twitter.android'
+			})
+
+			this.isFacebookApp = plus.runtime.isApplicationExist({
+				pname: 'org.chromium.webapk.a045f375fc2f55b23_v2'
+			})
+
+			this.isWhatsApp = plus.runtime.isApplicationExist({
+				pname: 'com.whatsapp'
+			})
+			
+			this.isTelegramApp = plus.runtime.isApplicationExist({
+				pname: 'org.telegram.messenger'
+			})
+			
+
 		},
 		onShow() {
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
@@ -286,7 +327,18 @@
 			})
 		},
 		methods: {
-
+			checkApp() {
+				uni.showToast({
+					title: "未安装应用,即将跳转至应用商店",
+					icon: "none"
+				})
+				setTimeout(() => {
+					plus.runtime.launchApplication({
+						//打开app
+						pname: "com.android.vending",
+					})
+				}, 1000);
+			},
 			toAuction(num) {
 				uni.navigateTo({
 					url: '/pages/mine/auctionM?num=' + num
@@ -501,18 +553,19 @@
 				height: 100rpx;
 				margin-bottom: 10rpx;
 			}
-			
-			.mine-wallet-left-one{
+
+			.mine-wallet-left-one {
 				width: 164rpx;
 				text-align: center;
 			}
-			
-			.mine-wallet-left-two{
+
+			.mine-wallet-left-two {
 				width: 236rpx;
-				.mine-wallet-left-two-tit{
+
+				.mine-wallet-left-two-tit {
 					margin-bottom: 30rpx;
-					
-					span{
+
+					span {
 						font-size: 16rpx;
 					}
 				}

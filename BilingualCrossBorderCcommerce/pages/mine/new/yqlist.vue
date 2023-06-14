@@ -1,39 +1,42 @@
 <template>
 	<view class="yqlist">
-		<view class="yqlist-head">
-			<image src="/static/images/new/left.png" @click="toBack()"></image>
-			<view>{{$t('new.wdyq')}}</view>
-		</view>
-
-		<view class="yqlist-info">
-			<view class="yqlist-info-head">
-				<view>{{$t('new.yqrs')}}：<span style="font-weight: bold;">5</span></view>
-				<view>{{$t('new.tdfy')}}</view>
+		<view class="yalist-content">
+			<view class="yqlist-head">
+				<image src="/static/images/new/left.png" @click="toBack()"></image>
+				<view>{{$t('new.wdyq')}}</view>
 			</view>
-
-			<view class="yqlist-item" v-for="(item,i) in [1,1,1,1]">
-				<view class="yqlist-item-left">
-					<image src="/static/images/products/auth.png"></image>
-					<view>Carlos Mobley</view>
+			
+			<view class="yqlist-info">
+				<view class="yqlist-info-head">
+					<view>{{$t('new.yqrs')}}：<span style="font-weight: bold;">5</span></view>
+					<view>{{$t('new.tdfy')}}</view>
 				</view>
-				<view class="yqlist-item-right">4.50RM</view>
-			</view>
-		</view>
-
-		<view class="yqlist-btn" @click="capture()">{{$t('new.ljyq')}}</view>
-
-		<u-popup :show="showyq" mode="center" @close="showyq=false" bgColor="transparent">
-			<view class="showyq"
-				:style="lange=='en'?`background: url('/static/images/new/yjyq-en.png') no-repeat;background-size: 100% 100vh;`:''">
-				<view class="showyq-ewm">
-					<image :src="qrcodeImg"></image>
+			
+				<view class="yqlist-item" v-for="(item,i) in [1,1,1,1]">
+					<view class="yqlist-item-left">
+						<image src="/static/images/products/auth.png"></image>
+						<view>Carlos Mobley</view>
+					</view>
+					<view class="yqlist-item-right">4.50RM</view>
 				</view>
-
-				<image :src="userCont.avatar" class="showyq-auth"></image>
-				<view class="showyq-hy">{{$t('new.ndhy')}}[{{userCont.nickname}}]</view>
-				<view class="showyq-yq">{{$t('new.hnyql')}}</view>
 			</view>
-		</u-popup>
+			
+			<view class="yqlist-btn" @click="capture()">{{$t('new.ljyq')}}</view>
+			
+			<u-popup :show="showyq" mode="center" @close="showyq=false" bgColor="transparent">
+				<view class="showyq"
+					:style="lange=='en'?`background: url('/static/images/new/yjyq-en.png') no-repeat;background-size: 100% 100vh;`:''">
+					<view class="showyq-ewm">
+						<image :src="qrcodeImg"></image>
+					</view>
+			
+					<image :src="userCont.avatar" class="showyq-auth"></image>
+					<view class="showyq-hy">{{$t('new.ndhy')}}[{{userCont.nickname}}]</view>
+					<view class="showyq-yq">{{$t('new.hnyql')}}</view>
+				</view>
+			</u-popup>
+			
+		</view>
 
 		<view class="commission-canvas">
 			<canvas class="f__canvas" style="width:140px;height:140px;" canvas-id="qrcode" id="qrcode"></canvas>
@@ -163,6 +166,10 @@
 		min-height: 100vh;
 		padding-bottom: 40rpx;
 		background: rgb(248, 248, 248);
+		
+		.yqlist-content{
+			
+		}
 
 		.yqlist-head {
 			position: relative;
@@ -171,7 +178,6 @@
 			padding-top: 88rpx;
 			display: flex;
 			align-items: center;
-			background: #fff;
 
 			image {
 				position: absolute;
