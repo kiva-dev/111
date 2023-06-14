@@ -1,47 +1,35 @@
 <template>
 	<view class="yqlist">
-		<view class="yalist-content">
+		<view class="yqlist-content">
+			<div class="yqlist-bg"></div>
 			<view class="yqlist-head">
 				<image src="/static/images/new/left.png" @click="toBack()"></image>
 				<view>{{$t('new.wdyq')}}</view>
 			</view>
-			
-			<view class="yqlist-info">
-				<view class="yqlist-info-head">
-					<view>{{$t('new.yqrs')}}：<span style="font-weight: bold;">5</span></view>
-					<view>{{$t('new.tdfy')}}</view>
-				</view>
-			
-				<view class="yqlist-item" v-for="(item,i) in [1,1,1,1]">
-					<view class="yqlist-item-left">
-						<image src="/static/images/products/auth.png"></image>
-						<view>Carlos Mobley</view>
+			<view class="yqlist-container">
+				<view class="container-box">
+					<view class="cb-left">
+						<span>{{$t('new.total')}}</span>
+						<span>9</span>
 					</view>
-					<view class="yqlist-item-right">4.50RM</view>
+					<view class="cb-right" @click="capture()">{{$t('new.ljyq')}}</view>
 				</view>
 			</view>
-			
-			<view class="yqlist-btn" @click="capture()">{{$t('new.ljyq')}}</view>
-			
 			<u-popup :show="showyq" mode="center" @close="showyq=false" bgColor="transparent">
 				<view class="showyq"
 					:style="lange=='en'?`background: url('/static/images/new/yjyq-en.png') no-repeat;background-size: 100% 100vh;`:''">
 					<view class="showyq-ewm">
 						<image :src="qrcodeImg"></image>
 					</view>
-			
 					<image :src="userCont.avatar" class="showyq-auth"></image>
 					<view class="showyq-hy">{{$t('new.ndhy')}}[{{userCont.nickname}}]</view>
 					<view class="showyq-yq">{{$t('new.hnyql')}}</view>
 				</view>
 			</u-popup>
-			
 		</view>
-
 		<view class="commission-canvas">
 			<canvas class="f__canvas" style="width:140px;height:140px;" canvas-id="qrcode" id="qrcode"></canvas>
 		</view>
-
 	</view>
 </template>
 
@@ -53,6 +41,7 @@
 	export default {
 		data() {
 			return {
+				level: 1,
 				showyq: false,
 				code: '',
 				qrUrl: '',
@@ -165,164 +154,146 @@
 		width: 100%;
 		min-height: 100vh;
 		padding-bottom: 40rpx;
-		background: rgb(248, 248, 248);
+		// background: rgb(248, 248, 248);
 		
 		.yqlist-content{
+			position: relative;
 			
-		}
-
-		.yqlist-head {
-			position: relative;
-			width: 100%;
-			height: 88rpx;
-			padding-top: 88rpx;
-			display: flex;
-			align-items: center;
-
-			image {
+			.yqlist-bg {
 				position: absolute;
-				left: 20rpx;
-				width: 60rpx;
-				height: 60rpx;
-				z-index: 10;
-			}
-
-			view {
 				width: 100%;
-				font-size: 40rpx;
-				font-weight: bold;
-				color: rgb(255, 78, 47);
-				text-align: center;
+				height: 800rpx;
+				left: 0;
+				right: 0;
+				top: 0;
+				background: linear-gradient(180.00deg, rgba(255,121,99,1.00),rgba(255,255,255,0.00) 100%);
 			}
-
-		}
-
-		.yqlist-info {
-			width: 710rpx;
-			padding: 20rpx 0 40rpx 0;
-			background: rgb(255, 255, 255);
-			border-radius: 16rpx;
-			margin: 50rpx auto 0 auto;
-
-			.yqlist-info-head {
+			
+			.yqlist-head {
+				position: relative;
 				width: 100%;
+				height: 88rpx;
+				padding-top: 88rpx;
 				display: flex;
+				justify-content: center;
 				align-items: center;
-				margin-bottom: 40rpx;
-
-				view {
-					width: 50%;
-					font-size: 28rpx;
-					color: rgb(255, 78, 47);
-					text-align: center;
-				}
-			}
-
-			.yqlist-item {
-				width: 100%;
-				display: flex;
-				align-items: center;
-				margin-bottom: 20rpx;
-
-				.yqlist-item-left {
-					width: 50%;
-					display: flex;
-					align-items: center;
-					justify-content: center;
-
-					image {
-						width: 60rpx;
-						height: 60rpx;
-						border-radius: 50%;
-					}
-
-					view {
-						font-size: 24rpx;
-						color: rgb(44, 44, 44);
-						margin-left: 20rpx;
-					}
-				}
-
-				.yqlist-item-right {
-					width: 50%;
-					font-size: 32rpx;
-					color: rgb(44, 44, 44);
-					text-align: center;
-				}
-
-			}
-
-		}
-
-		.yqlist-btn {
-			width: 398rpx;
-			height: 80rpx;
-			line-height: 80rpx;
-			font-size: 40rpx;
-			color: rgb(255, 255, 255);
-			text-align: center;
-			background: rgb(255, 78, 47);
-			border-radius: 40rpx;
-			margin: 100rpx auto 0 auto;
-		}
-		
-		.showyq {
-			position: relative;
-			width: 750rpx;
-			min-height: 100vh;
-			background: url('/static/images/new/yjyq.png') no-repeat;
-			background-size: 100% 100vh;
-			margin-top: 100rpx;
-		
-			.showyq-ewm {
-				position: absolute;
-				bottom: 506rpx;
-				left: 50%;
-				transform: translate(-50%, 0);
-				width: 300rpx;
-				height: 300rpx;
-				// background: #fff;
-		
+			
 				image {
 					position: absolute;
-					top: 50%;
-					left: 4rpx;
-					transform: translate(0, -50%);
-					width: 300rpx;
-					height: 300rpx;
+					left: 20rpx;
+					width: 60rpx;
+					height: 60rpx;
+				}
+			
+				view {
+					font-size: 40rpx;
+					font-weight: bold;
+					color: rgb(255, 78, 47);
 				}
 			}
-		
-			.showyq-auth {
-				position: absolute;
-				bottom: 300rpx;
-				left: 50%;
-				transform: translate(-50%, 0);
-				width: 160rpx;
-				height: 160rpx;
-				border-radius: 50%;
-			}
-		
-			.showyq-hy {
-				position: absolute;
-				bottom: 206rpx;
+			
+			.yqlist-container {
 				width: 100%;
-				font-size: 32rpx;
-				color: rgb(255, 255, 255);
-				text-align: center;
+				margin-top: 20rpx;
+				padding: 0 32rpx;
+				box-sizing: border-box;
+				
+				.container-box {
+					width: 100%;
+					background: rgb(255, 255, 255);
+					border-radius:40rpx;
+					display: flex;
+					justify-content: space-between;
+					
+					.cb-left {
+						padding-left: 40rpx;
+						box-sizing: border-box;
+						display: flex;
+						justify-content: flex-start;
+						align-items: center;
+						
+						span {
+							color: rgb(255, 78, 47);
+							font-size: 28rpx;
+							font-weight: 700;
+							
+							&:last-child {
+								margin-left: 15rpx;
+								font-size: 40rpx;
+							}
+						}
+					}
+					
+					.cb-right {
+						width: 200rpx;
+						height: 80rpx;
+						background: rgb(255, 78, 47);
+						border-radius:40rpx;
+						line-height: 80rpx;
+						font-size: 28rpx;
+						color: rgb(255, 255, 255);
+						text-align: center;
+					}
+				}
 			}
-		
-			.showyq-yq {
-				position: absolute;
-				bottom: 148rpx;
-				width: 100%;
-				font-size: 32rpx;
-				color: rgb(255, 255, 255);
-				text-align: center;
+			
+			.showyq {
+				position: relative;
+				width: 750rpx;
+				min-height: 100vh;
+				background: url('/static/images/new/yjyq.png') no-repeat;
+				background-size: 100% 100vh;
+				margin-top: 100rpx;
+			
+				.showyq-ewm {
+					position: absolute;
+					bottom: 506rpx;
+					left: 50%;
+					transform: translate(-50%, 0);
+					width: 300rpx;
+					height: 300rpx;
+					// background: #fff;
+			
+					image {
+						position: absolute;
+						top: 50%;
+						left: 4rpx;
+						transform: translate(0, -50%);
+						width: 300rpx;
+						height: 300rpx;
+					}
+				}
+			
+				.showyq-auth {
+					position: absolute;
+					bottom: 300rpx;
+					left: 50%;
+					transform: translate(-50%, 0);
+					width: 160rpx;
+					height: 160rpx;
+					border-radius: 50%;
+				}
+			
+				.showyq-hy {
+					position: absolute;
+					bottom: 206rpx;
+					width: 100%;
+					font-size: 32rpx;
+					color: rgb(255, 255, 255);
+					text-align: center;
+				}
+			
+				.showyq-yq {
+					position: absolute;
+					bottom: 148rpx;
+					width: 100%;
+					font-size: 32rpx;
+					color: rgb(255, 255, 255);
+					text-align: center;
+				}
+			
 			}
-		
 		}
-		
 	}
 	
 	.commission-canvas {
