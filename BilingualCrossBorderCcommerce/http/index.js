@@ -161,7 +161,6 @@ request.interceptors.response.use(function(response) { //不要使用箭头函�
 	}
 	return response.data; //只返回业务数据部分
 }, function(err) {
-	console.log(err)
 	let errmsg = err.message;
 	switch (err.status) {
 		case 0:
