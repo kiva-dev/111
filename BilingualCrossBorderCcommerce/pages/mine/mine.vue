@@ -219,7 +219,7 @@
 						<view>Twitter</view>
 					</view>
 					
-					<a href="tg://openmessage?user_id=13227163010" target="_blank" v-if="isTelegramApp">
+					<a href="tg://resolve?domain=Kolibrimall" target="_blank" v-if="isTelegramApp">
 						<view class="contact-info-des">
 							<image src="../../static/images/new/Telegram.png"></image>
 							<view>Telegram</view>
@@ -230,7 +230,7 @@
 						<view>Telegram</view>
 					</view>
 
-					<a href="whatsapp://send?phone=15551234567" target="_blank" v-if="isWhatsApp">
+					<a href="whatsapp://send?phone=+86 13227163010" target="_blank" v-if="isWhatsApp">
 						<view class="contact-info-des">
 							<image src="../../static/images/new/WhatsAPP.png"></image>
 							<view>WhatsAPP</view>
