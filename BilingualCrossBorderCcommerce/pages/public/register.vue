@@ -98,16 +98,17 @@
 							:placeholder="$t('login.qsrqrmm')" />
 					</view>
 				</view>
-				<!-- <view class="login-li">
-          <view class="label">{{$t('login.yqm')}}</view>
-          <view class="li-input">
-            <input class="input" placeholder-class="color-999" v-model="invite_code" :placeholder="$t('login.qsryqm')" />
-          </view>
-        </view> -->
 				<view class="login-li">
-					<view class="label">推广码</view>
+					<view class="label">{{$t('login.yqm')}}</view>
 					<view class="li-input">
-						<input class="input" placeholder-class="color-999" v-model="share_code" placeholder="请输入推广码" />
+						<input class="input" placeholder-class="color-999" v-model="invite_code"
+							:placeholder="$t('login.qsryqm')" />
+					</view>
+				</view>
+				<view class="login-li">
+					<view class="label">{{$t('share.tgm')}}</view>
+					<view class="li-input">
+						<input class="input" placeholder-class="color-999" v-model="share_code" :placeholder="$t('new.qsrtgm')" />
 					</view>
 				</view>
 			</view>
@@ -403,7 +404,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					pwd: pwd, // 密码
 					pwd2: pwd, // 再次输入的密码
 					invite_code: this.invite_code, // 邀请码
-					promotion_code: this.share_code,//推广码
+					promotion_code: this.share_code, //推广码
 					email: this.email, // 邮箱
 					email_code: this.email_code, // 邮箱验证码
 				}).then(res => {
