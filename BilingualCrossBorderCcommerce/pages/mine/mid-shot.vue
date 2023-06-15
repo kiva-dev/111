@@ -32,8 +32,11 @@
 				<view>上传视频{{videoList.length}}/1</view>
 			</view>
 		</view>
-
-		<view class="mid-shot-btn" @click="showSuccess=true">提交</view>
+		
+		<a :href="`twitter://post?message=${des}&image=${urlList}`" style="text-decoration: none;">
+			<view class="mid-shot-btn" >提交</view>
+		</a>
+		
 
 		<u-popup :show="showSuccess" mode="center" bgColor="transparent" @close="showSuccess=false">
 			<view class="shareShow">
@@ -85,7 +88,6 @@
 										url: res.data.fullurl,
 										id: that.urlList.length + 1
 									})
-									console.log(that.urlList)
 								}
 							})
 						})

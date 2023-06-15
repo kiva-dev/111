@@ -202,11 +202,11 @@
 							<view>Face book</view>
 						</view>
 					</a>
-					<view class="contact-info-des" v-else @click="checkApp()">
+					<view class="contact-info-des" v-else @click="showContact=false;showConfirm=true">
 						<image src="../../static/images/new/face book.png"></image>
 						<view>Face book</view>
 					</view>
-					
+
 
 					<a href="twitter://user?screen_name=Kolibrimall2023" target="_blank" v-if="isTwitterApp">
 						<view class="contact-info-des" id="twitter">
@@ -214,18 +214,18 @@
 							<view>Twitter</view>
 						</view>
 					</a>
-					<view class="contact-info-des" v-else @click="checkApp()">
+					<view class="contact-info-des" v-else @click="showContact=false;showConfirm=true">
 						<image src="../../static/images/share21.png"></image>
 						<view>Twitter</view>
 					</view>
-					
+
 					<a href="tg://resolve?domain=Kolibrimall" target="_blank" v-if="isTelegramApp">
 						<view class="contact-info-des">
 							<image src="../../static/images/new/Telegram.png"></image>
 							<view>Telegram</view>
 						</view>
 					</a>
-					<view class="contact-info-des" v-else @click="checkApp()">
+					<view class="contact-info-des" v-else @click="showContact=false;showConfirm=true">
 						<image src="../../static/images/new/Telegram.png"></image>
 						<view>Telegram</view>
 					</view>
@@ -236,11 +236,21 @@
 							<view>WhatsAPP</view>
 						</view>
 					</a>
-					<view class="contact-info-des" v-else @click="checkApp()">
+					<view class="contact-info-des" v-else @click="showContact=false;showConfirm=true">
 						<image src="../../static/images/new/WhatsAPP.png"></image>
 						<view>WhatsAPP</view>
 					</view>
 
+				</view>
+			</view>
+		</u-popup>
+
+		<u-popup :show="showConfirm" mode="center" bgColor="transparent">
+			<view class="showConfirm">
+				<view class="showConfirm-txt">{{$t('new.wazyy')}}</view>
+				<view class="showConfirm-btn">
+					<view class="showConfirm-btn-cancel" @click="showConfirm=false">{{$t('home.search.query')}}</view>
+					<view class="showConfirm-btn-ok" @click="checkApp()">{{$t('auction.detail.btnsub')}}</view>
 				</view>
 			</view>
 		</u-popup>
@@ -267,13 +277,15 @@
 				userCont: '', // 个人信息
 				MineCont: [],
 				showContact: false,
+				showConfirm: false,
 				isTwitterApp: false,
 				isFacebookApp: false,
 				isWhatsApp: false,
-				isTelegramApp:false
+				isTelegramApp: false
 			}
 		},
 		onLoad() {
+			// #ifdef APP-PLUS
 			this.isTwitterApp = plus.runtime.isApplicationExist({
 				pname: 'com.twitter.android'
 			})
@@ -285,12 +297,11 @@
 			this.isWhatsApp = plus.runtime.isApplicationExist({
 				pname: 'com.whatsapp'
 			})
-			
+
 			this.isTelegramApp = plus.runtime.isApplicationExist({
 				pname: 'org.telegram.messenger'
 			})
-			
-
+			// #endif
 		},
 		onShow() {
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
@@ -328,16 +339,10 @@
 		},
 		methods: {
 			checkApp() {
-				uni.showToast({
-					title: "未安装应用,即将跳转至应用商店",
-					icon: "none"
+				plus.runtime.launchApplication({
+					//打开app
+					pname: "com.android.vending",
 				})
-				setTimeout(() => {
-					plus.runtime.launchApplication({
-						//打开app
-						pname: "com.android.vending",
-					})
-				}, 1000);
 			},
 			toAuction(num) {
 				uni.navigateTo({
@@ -379,6 +384,55 @@
 	.mine-page {
 		min-height: 100vh;
 		background: #f8f8f8;
+	}
+
+	.showConfirm {
+		width: 686rpx;
+		padding: 40rpx;
+		background: #FFF;
+		box-sizing: border-box;
+		border-radius: 16rpx;
+		border: 2rpx solid rgb(255, 78, 47);
+
+		.showConfirm-txt {
+			width: 80%;
+			font-size: 28rpx;
+			font-weight: bold;
+			color: rgb(44, 44, 44);
+			text-align: center;
+			margin: 0 auto;
+		}
+
+		.showConfirm-btn {
+			width: 100%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin-top: 40rpx;
+
+			view {
+				width: 240rpx;
+				height: 60rpx;
+				line-height: 60rpx;
+				font-size: 32rpx;
+				text-align: center;
+				box-sizing: border-box;
+				border-radius: 16rpx;
+				margin: 0 20rpx;
+			}
+
+			.showConfirm-btn-cancel {
+				color: rgb(44, 44, 44);
+				border: 2rpx solid rgb(255, 78, 47);
+			}
+
+			.showConfirm-btn-ok {
+				color: #fff;
+				background: rgb(255, 78, 47);
+			}
+
+		}
+
 	}
 
 	.mine-share {
