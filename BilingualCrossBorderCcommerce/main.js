@@ -12,6 +12,9 @@ const i18n = new VueI18n(i18nConfig)
 uni.setStorageSync('locale', i18n.locale)
 import uView from '@/uni_modules/uview-ui'
 Vue.use(uView)
+
+Vue.prototype.$bus=new Vue()
+
 // 防止多次点击
 import common from './common/common.js'
 Vue.prototype.$noMultipleClicks = common.noMultipleClicks;

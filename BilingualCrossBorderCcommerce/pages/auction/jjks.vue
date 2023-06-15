@@ -37,21 +37,7 @@
 		</view>
 
 		<!--商品展示区域-->
-		<view class="products-list">
-			<view class="products-item" v-for="item in productList" :key="item.goods_id"
-				@click="toProductInfo(item.goods_id)">
-				<image :src="item.image"></image>
-				<view class="products-item-name">{{item.goods_name}}</view>
-				<view class="products-item-tags">
-					<block v-for="(data,index) in item.litestore_tag">
-						<view v-if="(index+1)%3==1" class="lan" >{{data.name}}</view>
-						<view v-else-if="(index+1)%3==2" class="chen" :style="(index+1)%3==2?'margin-right: 0rpx;':''">{{data.name}}</view>
-						<view v-else="(index+1)%3==0" class="red">{{data.name}}</view>
-					</block>
-				</view>
-				<view class="products-item-price">RM<span>{{item.litestore_goods_spec[0].goods_price}}</span></view>
-			</view>
-		</view>
+		<Mywaterfall @switchSelection="switchSelection"/>
 
 		<!-- 日期时间选择器弹框 -->
 		<uni-popup ref="dateTimePopup" type="bottom" :is-mask-click="false">
@@ -276,7 +262,7 @@
 		</uni-popup>
 		<!--分享弹出 end-->
 		<view style="height: 20rpx;"></view>
-		
+
 		<!--退出登录弹框-->
 		<uni-popup ref="logout" type="center">
 			<view class="loginout">
@@ -291,13 +277,14 @@
 				</view>
 			</view>
 		</uni-popup>
-		
+
 	</view>
 </template>
 
 <script>
 	import jsencrypt from '@/common/jsencrypt-Rsa/jsencrypt/jsencrypt.vue';
 	import apiObj from '../../http/api';
+	import Mywaterfall from '@/components/Mywaterfall.vue';
 	//公钥.
 	const publiukey = `-----BEGIN PUBLIC KEY-----
 MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCSjs8JJr/Nyb+nOG77agUDf7uT
@@ -306,6 +293,9 @@ UuCwtdmXOsq/b1JWKyEXzQlPIiwdHnAUjGbmHOEMAY3jKEy2dY2I6J+giJqo8B2H
 NoR+zv3KaEmPSHtooQIDAQAB
 -----END PUBLIC KEY-----`
 	export default {
+		components: {
+			Mywaterfall
+		},
 		data() {
 			return {
 				selectProductsId: 0,
@@ -572,7 +562,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			// this.onAuctionLuckyList()
 
 			//获取首页数据
-			this.getAllProducts(0)
+			this.$bus.$emit('switchSelect',0)
 		},
 		onHide() {
 			this.selectProductsId = 0
@@ -587,6 +577,9 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			})
 		},
 		methods: {
+			switchSelection(){
+				this.$on.switchSelection()
+			},
 			toProductInfo(id) {
 				uni.navigateTo({
 					url: '/pages/auction/product_info?goodsId=' + id
@@ -595,10 +588,11 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			//切换选择分类
 			switchSelect(id) {
 				this.selectProductsId = id
-				this.productList = []
-				this.page = 1
-				this.pagenum = 10
-				this.getAllProducts(id)
+				// this.productList = []
+				// this.page = 1
+				// this.pagenum = 10
+				// this.getAllProducts(id)
+				this.$bus.$emit('switchSelect',id)
 			},
 			//获取首页数据
 			getAllProducts(id) {
@@ -616,7 +610,11 @@ NoR+zv3KaEmPSHtooQIDAQAB
 								else data.name = arr[1]
 							})
 						})
-						this.productList = this.page == 1 ? res.data.data : [...this.productList, ...res.data.data]
+						this.productList = this.page == 1 ? res.data.data : [...this.productList, ...res.data
+						.data];
+						console.log(this.productList);
+
+						// console.log(this.$refs.Mywaterfall.productList);
 					}
 				})
 			},
@@ -1242,9 +1240,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		onReachBottom() {
 			// 判断是否还有数据
 			// 最新竞拍
-			if (this.totalPageNum <= this.page * this.pagenum) return
-			this.page++
-			this.getAllProducts(this.selectProductsId)
+			this.$bus.$emit('onReachBottom',this.selectProductsId)
 		}
 	}
 </script>
@@ -1263,17 +1259,17 @@ NoR+zv3KaEmPSHtooQIDAQAB
 	}
 
 	.auct-page {
-		
+
 		//退出登录
 		.loginout {
-		
+
 			image {
 				display: block;
 				width: 600rpx;
 				height: 372rpx;
 				margin: 0 auto -46rpx auto;
 			}
-		
+
 			.loginout-info {
 				width: 686rpx;
 				// height: 228rpx;
@@ -1282,21 +1278,21 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				background: #fff;
 				border: 4rpx solid rgb(255, 78, 47);
 				border-radius: 16rpx;
-		
+
 				.loginout-info-tit {
 					width: 100%;
 					font-size: 40rpx;
 					color: rgb(44, 44, 44);
 					text-align: center;
 				}
-		
+
 				.loginout-info-btn {
 					width: 100%;
 					display: flex;
 					align-items: center;
 					justify-content: center;
 					margin-top: 60rpx;
-		
+
 					view {
 						width: 240rpx;
 						height: 60rpx;
@@ -1305,12 +1301,12 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						text-align: center;
 						border-radius: 16rpx;
 					}
-		
+
 					.loginout-info-btn-cancel {
 						color: rgb(44, 44, 44);
 						border: 2rpx solid rgb(255, 78, 47);
 					}
-		
+
 					.loginout-info-btn-ok {
 						color: #fff;
 						padding: 2rpx;
@@ -1320,8 +1316,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				}
 			}
 		}
-		
-		
+
+
 		//新的头部
 		.head-list {
 			width: 100%;
@@ -1706,7 +1702,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				}
 			}
 		}
-		
+
 		.auct-head {
 			position: relative;
 			width: 100%;
