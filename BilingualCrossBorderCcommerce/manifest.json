@@ -3,7 +3,7 @@
     "appid" : "__UNI__1C93860",
     "description" : "",
     "versionName" : "1.0.2",
-    "versionCode" : 2023042501,
+    "versionCode" : 2023042503,
     "transformPx" : false,
     /* 5+App特有相关 */
     "app-plus" : {
@@ -22,8 +22,7 @@
         /* 模块配置 */
         "modules" : {
             "OAuth" : {},
-            "Camera" : {},
-            "Push" : {}
+            "Camera" : {}
         },
         /* 应用发布信息 */
         "distribute" : {

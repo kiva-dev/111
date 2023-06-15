@@ -1301,5 +1301,12 @@
 	"new.tdfy":"TA's rebate",
 	"new.bctpsb":"Failed to save image",
 	"new.qsrtgm":"Please enter the promotion code",
-	"new.wazyy":"The app is not installed. Do you want to jump to the app store?"
+	"new.wazyy":"The app is not installed. Do you want to jump to the app store?",
+	"new.total":"Total number of people:",
+	"new.member":"My first level member",
+	"new.people":"people",
+	"new.rebate":"Rebate amount",
+	"new.Invitations":"Number of Invitations",
+	"new.multistage":"Secondary members invited",
+	"new.noMoment":"No invitation at the moment"
 }

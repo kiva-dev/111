@@ -1,19 +1,54 @@
 <template>
 	<view class="yqlist">
 		<view class="yqlist-content">
-			<div class="yqlist-bg"></div>
 			<view class="yqlist-head">
 				<image src="/static/images/new/left.png" @click="toBack()"></image>
 				<view>{{$t('new.wdyq')}}</view>
 			</view>
-			<view class="yqlist-container">
-				<view class="container-box">
-					<view class="cb-left">
-						<span>{{$t('new.total')}}</span>
-						<span>9</span>
+			<template v-if="level === 1 && memberArr.length > 0">
+				<view class="yqlist-container">
+					<view class="container-box">
+						<view class="cb-left">
+							<span>{{$t('new.total')}}</span>
+							<span>9</span>
+						</view>
+						<view class="cb-right" @click="capture()">{{$t('new.ljyq')}}</view>
 					</view>
-					<view class="cb-right" @click="capture()">{{$t('new.ljyq')}}</view>
 				</view>
+				<view class="yqlist-title">{{$t('new.member')}} (4{{$t('new.people')}})</view>
+			</template>
+			<template v-if="level > 1 && memberArr.length > 0">
+				<view class="yqlist-illustrate">
+					<view class="yl-avatar">
+						<image src="@/static/images/products/auth.png" mode="aspectFill"></image>
+					</view>
+					<view class="yl-text">Carlos Mobley {{$t('new.multistage')}} (2{{$t('new.people')}})</view>
+				</view>
+			</template>
+			<view class="yqlist-layout">
+				<template v-if="memberArr && memberArr.length > 0">
+					<view class="yl-item" v-for="(item,index) in memberArr" :key="index">
+						<view class="yl-item-avatar">
+							<image :src="item.img" mode="aspectFill"></image>
+						</view>
+						<view class="yl-item-info">
+							<view class="info-name">{{item.name}}</view>
+							<view class="info-amount">{{$t('new.rebate')}}：<span>{{'RM' + item.amount}}</span></view>
+							<view class="info-people">{{$t('new.Invitations')}}({{$t('new.people')}})：{{item.people}}</view>
+						</view>
+					</view>
+					<view style="padding-top: 1px;">
+						<u-loadmore :status="status" />
+					</view>
+				</template>
+				<template v-else>
+					<view class="yl-empty">
+						<image src="@/static/images/new/member_null.png" mode="widthFix"></image>
+						<p class="yl-empty-null">{{$t('new.noMoment')}}</p>
+						<p class="yl-empty-text">{{$t('new.ljyqhy')}}</p>
+						<view class="yl-empty-btn" @click="capture()">{{$t('new.ljyq')}}</view>
+					</view>
+				</template>
 			</view>
 			<u-popup :show="showyq" mode="center" @close="showyq=false" bgColor="transparent">
 				<view class="showyq"
@@ -42,6 +77,34 @@
 		data() {
 			return {
 				level: 1,
+				status: 'loading',
+				page: 1,
+				memberArr: [{
+					img: '/static/images/products/auth.png',
+					name: 'Carlos Mobley',
+					amount: 4.5,
+					people: 2
+				},{
+					img: '/static/images/products/auth.png',
+					name: 'Carlos Mobley',
+					amount: 4.5,
+					people: 2
+				},{
+					img: '/static/images/products/auth.png',
+					name: 'Carlos Mobley',
+					amount: 4.5,
+					people: 2
+				},{
+					img: '/static/images/products/auth.png',
+					name: 'Carlos Mobley',
+					amount: 4.5,
+					people: 2
+				},{
+					img: '/static/images/products/auth.png',
+					name: 'Carlos Mobley',
+					amount: 4.5,
+					people: 2
+				}],
 				showyq: false,
 				code: '',
 				qrUrl: '',
@@ -68,6 +131,10 @@
 					this.createQrcode()
 				}
 			})
+		},
+		onReachBottom() {
+			this.status = 'more';
+			this.page++;
 		},
 		methods: {
 			toBack() {
@@ -154,20 +221,12 @@
 		width: 100%;
 		min-height: 100vh;
 		padding-bottom: 40rpx;
-		// background: rgb(248, 248, 248);
+		background: rgb(248, 248, 248);
 		
 		.yqlist-content{
-			position: relative;
-			
-			.yqlist-bg {
-				position: absolute;
-				width: 100%;
-				height: 800rpx;
-				left: 0;
-				right: 0;
-				top: 0;
-				background: linear-gradient(180.00deg, rgba(255,121,99,1.00),rgba(255,255,255,0.00) 100%);
-			}
+			width: 100%;
+			height: 600rpx;
+			background: linear-gradient(180.00deg, rgba(255,121,99,0.5),rgba(255,255,255,0.00) 100%);
 			
 			.yqlist-head {
 				position: relative;
@@ -200,7 +259,7 @@
 				
 				.container-box {
 					width: 100%;
-					background: rgb(255, 255, 255);
+					background: #FFFFFF;
 					border-radius:40rpx;
 					display: flex;
 					justify-content: space-between;
@@ -227,12 +286,146 @@
 					.cb-right {
 						width: 200rpx;
 						height: 80rpx;
-						background: rgb(255, 78, 47);
+						background: #FF4E2F;
 						border-radius:40rpx;
 						line-height: 80rpx;
 						font-size: 28rpx;
 						color: rgb(255, 255, 255);
 						text-align: center;
+					}
+				}
+			}
+			
+			.yqlist-title {
+				margin-top: 40rpx;
+				padding: 0 60rpx;
+				box-sizing: border-box;
+				color: rgb(44, 44, 44);
+				font-size: 28rpx;
+				font-weight: 400;
+			}
+			
+			.yqlist-illustrate {
+				width: 100%;
+				margin-top: 20rpx;
+				padding: 0 50rpx;
+				box-sizing: border-box;
+				display: flex;
+				align-items: center;
+				
+				.yl-avatar {
+					width: 80rpx;
+					height: 80rpx;
+					border: 1rpx solid rgb(255, 255, 255);
+					box-sizing: border-box;
+					border-radius:50rpx;
+					
+					image {
+						width: 100%;
+						height: 100%;
+						border-radius:50rpx;
+					}
+				}
+				
+				.yl-text {
+					flex: 1;
+					margin-left: 20rpx;
+					color: rgb(44, 44, 44);
+					font-size: 28rpx;
+					font-weight: 400;
+				}
+			}
+			
+			.yqlist-layout {
+				margin-top: 30rpx;
+				padding: 0 32rpx 30rpx;
+				box-sizing: border-box;
+				
+				.yl-item {
+					width: 100%;
+					margin-bottom: 30rpx;
+					background: rgb(255, 255, 255);
+					box-shadow: 0rpx 0rpx 8rpx rgba(190, 190, 190, 0.3);
+					border-radius:8px;
+					padding: 20rpx 60rpx;
+					box-sizing: border-box;
+					display: flex;
+					align-items: center;
+					
+					.yl-item-avatar {
+						width: 200rpx;
+						height: 200rpx;
+						
+						image {
+							width: 100%;
+							height: 100%;
+							border-radius: 50%;
+							box-shadow: 0rpx 2rpx 4rpx rgba(190, 190, 190, 0.3);
+						}
+					}
+					
+					.yl-item-info {
+						flex: 1;
+						margin-left: 80rpx;
+						
+						.info-name {
+							color: rgb(44, 44, 44);
+							font-size:  28rpx;
+							font-weight: 400;
+						}
+						
+						.info-amount {
+							margin: 26rpx 0;
+							color: rgb(44, 44, 44);
+							font-size: 24rpx;
+							font-weight: 400;
+							
+							span {
+								color: #FF4E2F;
+							}
+						}
+						
+						.info-people {
+							color: rgb(44, 44, 44);
+							font-size: 24rpx;
+							font-weight: 400;
+						}
+					}
+				}
+				
+				.yl-empty {
+					width: 100%;
+					margin-top: 300rpx;
+					text-align: center;
+					
+					image {
+						width: 256rpx;
+					}
+					
+					.yl-empty-null {
+						margin: 20rpx 0 40rpx;
+						color: rgb(190, 190, 190);
+						font-size: 24rpx;
+						font-weight: 400;
+					}
+					
+					.yl-empty-text {
+						color: rgb(255, 78, 47);
+						font-size: 40rpx;
+						font-weight: 400;
+					}
+					
+					.yl-empty-btn {
+						width: 400rpx;
+						height: 80rpx;
+						margin: 60rpx auto 0;
+						background: rgb(255, 78, 47);
+						border-radius:40rpx;
+						color: rgb(255, 255, 255);
+						font-size: 40rpx;
+						font-weight: 400;
+						text-align: center;
+						line-height: 80rpx;
 					}
 				}
 			}
