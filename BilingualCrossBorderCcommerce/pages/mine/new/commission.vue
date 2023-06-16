@@ -17,7 +17,7 @@
 
 		<view class="commission-info">
 			<view class="commission-info-left">{{$t('new.fymx')}}</view>
-			<view class="commission-info-right" @click="toRule()">
+			<view class="commission-info-right" @click="toRule('/pages/mine/new/commission_rule')">
 				<view>{{$t('new.fygz')}}</view>
 				<image src="../../../static/images/products/right.png"></image>
 			</view>
