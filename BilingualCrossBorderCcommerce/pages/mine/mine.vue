@@ -196,7 +196,13 @@
 					<view class="contact-info-tit">{{$t('user.myCont.ptkf')}}</view>
 
 					<!--fb://profile/100089663415703-->
-					<a href="fb://page/119896577745123" target="_blank" v-if="isFacebookApp">
+					<a href="fb://page/119896577745123" target="_blank" v-if="isFacebookApp && device=='android'">
+						<view class="contact-info-des">
+							<image src="../../static/images/new/face book.png"></image>
+							<view>Face book</view>
+						</view>
+					</a>
+					<a href="fb://page?id=119896577745123" target="_blank" v-else-if="isFacebookApp && device=='ios'">
 						<view class="contact-info-des">
 							<image src="../../static/images/new/face book.png"></image>
 							<view>Face book</view>
@@ -219,6 +225,7 @@
 						<view>Twitter</view>
 					</view>
 
+
 					<a href="tg://resolve?domain=Kolibrimall" target="_blank" v-if="isTelegramApp">
 						<view class="contact-info-des">
 							<image src="../../static/images/new/Telegram.png"></image>
@@ -229,6 +236,7 @@
 						<image src="../../static/images/new/Telegram.png"></image>
 						<view>Telegram</view>
 					</view>
+
 
 					<a href="whatsapp://send?phone=+60 11-14338082" target="_blank" v-if="isWhatsApp">
 						<view class="contact-info-des">
@@ -281,7 +289,8 @@
 				isTwitterApp: false,
 				isFacebookApp: false,
 				isWhatsApp: false,
-				isTelegramApp: false
+				isTelegramApp: false,
+				device: ''
 			}
 		},
 		onLoad() {
@@ -301,6 +310,9 @@
 			this.isTelegramApp = plus.runtime.isApplicationExist({
 				pname: 'org.telegram.messenger'
 			})
+
+			this.device = uni.getSystemInfoSync().platform
+			console.log(this.device)
 			// #endif
 		},
 		onShow() {
@@ -337,13 +349,13 @@
 				}
 			})
 		},
-		onHide(){
-			this.showContact=false
-			this.showConfirm=false
+		onHide() {
+			this.showContact = false
+			this.showConfirm = false
 		},
 		methods: {
 			checkApp() {
-				
+
 				plus.runtime.launchApplication({
 					//打开app
 					pname: "com.android.vending",
