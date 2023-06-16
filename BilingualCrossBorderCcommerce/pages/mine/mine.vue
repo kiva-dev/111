@@ -196,7 +196,7 @@
 					<view class="contact-info-tit">{{$t('user.myCont.ptkf')}}</view>
 
 					<!--fb://profile/100089663415703-->
-					<a href="fb://profile/100089663415703" target="_blank" v-if="isFacebookApp">
+					<a href="fb://page/119896577745123" target="_blank" v-if="isFacebookApp">
 						<view class="contact-info-des">
 							<image src="../../static/images/new/face book.png"></image>
 							<view>Face book</view>
@@ -291,7 +291,7 @@
 			})
 
 			this.isFacebookApp = plus.runtime.isApplicationExist({
-				pname: 'org.chromium.webapk.a045f375fc2f55b23_v2'
+				pname: 'com.facebook.katana'
 			})
 
 			this.isWhatsApp = plus.runtime.isApplicationExist({
@@ -337,8 +337,13 @@
 				}
 			})
 		},
+		onHide(){
+			this.showContact=false
+			this.showConfirm=false
+		},
 		methods: {
 			checkApp() {
+				
 				plus.runtime.launchApplication({
 					//打开app
 					pname: "com.android.vending",
