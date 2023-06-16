@@ -115,7 +115,6 @@ request.interceptors.response.use(function(response) { //不要使用箭头函�
 		if (code === 2) {
 			const pages = getCurrentPages()
 			const page = pages[pages.length - 1].$page.fullPath
-			// console.log(decodeURIComponent(page));
 			uni.setStorageSync("login_front", decodeURIComponent(page))
 			uni.removeStorageSync('token');
 			uni.navigateTo({

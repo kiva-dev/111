@@ -389,37 +389,40 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							}
 						})
 						setTimeout(() => {
-							if (this.login_front) {
-								if (this.login_front === '/pages/auction/auction' || this.login_front ===
-									'/pages/auction/jjks' || this.login_front === '/pages/auction/xyzx' ||
-									this.login_front === '/pages/mine/mine') {
-									uni.switchTab({
-										url: this.login_front
-									});
-								} else {
-									let val = "invite_code";
-									if (this.login_front.includes(val)) {
-										uni.switchTab({
-											url: this.login_front
-										});
-									} else {
-										uni.navigateTo({
-											url: this.login_front
-										});
-									}
-								}
-								uni.removeStorage({
-									key: 'login_front'
-								});
-							} else {
-								console.log(1111)
-								uni.switchTab({
-									url: '/pages/auction/auction'
-								});
-							}
-							if (sessionStorage.getItem("invite_code")) {
-								sessionStorage.removeItem("invite_code")
-							}
+							uni.switchTab({
+								url: '/pages/auction/auction'
+							});
+							// if (this.login_front) {
+							// 	if (this.login_front === '/pages/auction/auction' || this.login_front ===
+							// 		'/pages/auction/jjks' || this.login_front === '/pages/auction/xyzx' ||
+							// 		this.login_front === '/pages/mine/mine') {
+							// 		uni.switchTab({
+							// 			url: this.login_front
+							// 		});
+							// 	} else {
+							// 		let val = "invite_code";
+							// 		if (this.login_front.includes(val)) {
+							// 			uni.switchTab({
+							// 				url: this.login_front
+							// 			});
+							// 		} else {
+							// 			uni.navigateTo({
+							// 				url: this.login_front
+							// 			});
+							// 		}
+							// 	}
+							// 	uni.removeStorage({
+							// 		key: 'login_front'
+							// 	});
+							// } else {
+							// 	console.log(1111)
+							// 	uni.switchTab({
+							// 		url: '/pages/auction/auction'
+							// 	});
+							// }
+							// if (sessionStorage.getItem("invite_code")) {
+							// 	sessionStorage.removeItem("invite_code")
+							// }
 						}, 1000);
 					}
 				})
