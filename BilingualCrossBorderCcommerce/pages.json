@@ -4,6 +4,15 @@
 	},
 	"pages": [
 		//pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		
+		{
+			"path": "pages/auction/new_index",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+				// "enablePullDownRefresh": true
+			}
+		},
 		{
 			"path": "pages/auction/auction",
 			"style": {
@@ -13,14 +22,6 @@
 					"titleNView": false,
 					"bounce": "none"
 				}
-			}
-		},
-		{
-			"path": "pages/auction/new_index",
-			"style": {
-				"navigationBarTitleText": "",
-				"navigationStyle": "custom"
-				// "enablePullDownRefresh": true
 			}
 		},
 		{
@@ -176,8 +177,7 @@
 		{
 			"path": "pages/cart/cart",
 			"style": {
-				"navigationBarTitleText": "%tab.cart%",
-				"enablePullDownRefresh": false
+				"navigationStyle": "custom"
 			}
 		},
 		{
@@ -868,7 +868,7 @@
 			//   "selectedIconPath": "static/images/tab/tab8.png"
 			// },
 			{
-				"pagePath": "pages/auction/auction",
+				"pagePath": "pages/auction/new_index",
 				"text": "%tab.home%",
 				"iconPath": "static/images/tab/home.png",
 				"selectedIconPath": "static/images/tab/home-select.png"

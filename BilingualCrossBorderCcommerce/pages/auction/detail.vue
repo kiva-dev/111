@@ -3,7 +3,9 @@
 
 		<view class="detail-header" :style="`background: rgba(255,255,255,${myOpacity});`">
 			<view class="detail-head">
-				<image src="/static/images/new/left.png" @click="toIndex()"></image>
+				<image src="/static/images/new-index/left.png" class="return" @click="toIndex()"></image>
+				<image src="/static/images/new-index/gwc_info.png" class="gwc" ></image>
+				<image src="/static/images/new-index/fx.png" class="fx" ></image>
 				<view :style="`opacity: ${myOpacity};`">{{$t('top.jpxq')}}</view>
 			</view>
 
@@ -184,6 +186,56 @@
 				</view>
 			</view>
 
+			<!--猜你喜欢-->
+			<view class="detail-like">
+				<view class="head">
+					<image src="/static/images/new-index/like.png" class="head_img"></image>
+					<view class="head_tit">Guess you like</view>
+					<view class="more">
+						<view>View More</view>
+						<image src="/static/images/products/right.png"></image>
+					</view>
+				</view>
+
+				<scroll-view scroll-x style="width: 686rpx;white-space: nowrap;margin: 0 auto;">
+					<view class="all_list" v-for="data in likeList">
+						<view class="list">
+							<view class="item" v-for="(item,i) in data.list">
+								<image src="../../static/fxtu.png"></image>
+								<view class="item_tit">Xiaomi 33WRH Power Bank 10000mAh Por...</view>
+								<view class="item_price">RM<span>199.00</span></view>
+							</view>
+						</view>
+					</view>
+
+				</scroll-view>
+			</view>
+			
+			<!--热门推荐-->
+			<view class="detail-like" style="margin-top: 24rpx;">
+				<view class="head">
+					<image src="/static/images/new-index/hot.png" class="head_img"></image>
+					<view class="head_tit">Hot recommend</view>
+					<view class="more">
+						<view>View More</view>
+						<image src="/static/images/products/right.png"></image>
+					</view>
+				</view>
+			
+				<scroll-view scroll-x style="width: 686rpx;white-space: nowrap;margin: 0 auto;">
+					<view class="all_list" v-for="data in likeList">
+						<view class="list">
+							<view class="item" v-for="(item,i) in data.list">
+								<image src="../../static/fxtu.png"></image>
+								<view class="item_tit">Xiaomi 33WRH Power Bank 10000mAh Por...</view>
+								<view class="item_price">RM<span>199.00</span></view>
+							</view>
+						</view>
+					</view>
+			
+				</scroll-view>
+			</view>
+
 			<div id="div3"></div>
 			<!--商品详情-->
 			<view class="detail-six">
@@ -248,7 +300,6 @@
 								</view>
 								<view class="name">{{item.nickname}}</view>
 								<view class="time">{{$filter.to_dateTimes(item.pay_time)}}</view>
-								<!-- <view class="pay">RM{{item.pay_price}}</view> -->
 								<view class="order">{{item.num_id}}
 									<image src="../../static/images/new/copy.png" mode="scaleToFill"
 										@click="onnumidClick(item)" />
@@ -281,13 +332,6 @@
 			<view class="detail-fixed">
 				<view class="fixed-con">
 					<view class="fixed-fl">
-						<!-- <view class="li" @click="onMineFocus(3)">
-							<view class="icon">
-								<image class="img" v-if="shopCont.goods_focus==1" src="../../static/images/auc1.png"
-									mode="" />
-								<image class="img" v-else src="../../static/images/xin.png" mode="" />
-							</view>
-						</view> -->
 						<view class="li" @click="onFengxiangClick" style="margin-right:0;">
 							<view class="icon">
 								<image class="img" src="/static/images/products/fenxiang.png"></image>
@@ -329,7 +373,6 @@
 
 
 		<!--抢拍次数 start-->
-
 		<view v-if="qiangpaiShow" class="fenxiang">
 			<view class="qiangpaiShow">
 				<image src="../../static/images/new/tck.png" class="kct"></image>
@@ -338,12 +381,7 @@
 				</view>
 				<view class="qiangpaiCont">
 					<view class="center">
-						<!-- <view class="maxtitle">
-							<image src="../../static/images/new/cz.png" mode="scaleToFill" />
-							<view class="title">{{$t('user.auctionM.qtxqpcs')}}</view>
-						</view> -->
 						<view class="cent">
-							<!-- <view class="txt">{{$t('user.auctionM.qpcs')}}</view> -->
 							<view class="cont">
 								<input type="number" :placeholder="$t('user.auctionM.qsrqpcs')" v-model="isauctionNum">
 								<view class="num">
@@ -365,7 +403,6 @@
 		</view>
 
 
-		<!--抢拍次数 end-->
 		<!--竞拍次数为0 start-->
 		<uni-popup ref="pwdPopup" :mask-click="false" type="center">
 			<view class="jingpai-pop">
@@ -380,9 +417,7 @@
 				</view>
 			</view>
 		</uni-popup>
-		<!--竞拍次数为0 end-->
-		<!--竞拍次数大于0 start-->
-		<!-- <uni-popup ref="jingpaiShow" type="center"> -->
+
 
 		<view class="fenxiang" v-if="jingpaiShow">
 			<view class="jingpai-ok">
@@ -415,8 +450,7 @@
 			</view>
 
 		</view>
-		<!-- </uni-popup> -->
-		<!--竞拍次数大于0 end-->
+
 		<!--分享弹出 start-->
 		<view class="fenxiang" v-if="onfenxingShow">
 			<view class="share-pop">
@@ -446,7 +480,7 @@
 				</view>
 			</view>
 		</view>
-		<!--分享弹出 end-->
+
 		<!--支付方式弹出 start-->
 		<view class="zhifuCont" v-if="zhifushow">
 			<view class="mode-pop">
@@ -488,7 +522,7 @@
 				</view>
 			</view>
 		</view>
-		<!--支付方式弹出 end-->
+
 		<!--支付密码弹出 start-->
 		<view class="fenxiang" v-if="zhipassShow">
 			<view class="pay-pwd">
@@ -505,28 +539,8 @@
 					<view class="pay-pwd-info-btn" @click="onPwdClick">{{$t('auction.detail.btnsub')}}</view>
 				</view>
 			</view>
-
-			<!-- <view class="public-pop">
-				<view class="pop-con">
-					<view class="pop-t">
-						<text>{{$t('auction.detail.qsrzfmm')}}</text>
-						<view class="pay-close" @click="onPwdQuery">
-							<image class="img" src="../../static/images/close1.png"></image>
-						</view>
-					</view>
-					<view class="pop-c">
-						<view class="pay-input">
-							<input class="input" type="password" placeholder-class="color-999" v-model="pay_pwd"
-								:placeholder="$t('auction.detail.qsrzfmm')" />
-						</view>
-					</view>
-					<view class="pay-bot">
-						<button class="pay-btn" @click="onPwdClick">{{$t('auction.detail.btnsub')}}</button>
-					</view>
-				</view>
-			</view> -->
 		</view>
-		<!--支付密码弹出 end-->
+
 		<!--支付成功弹出 start-->
 		<view class="fenxiang" v-if='zhichenShow'>
 
@@ -591,6 +605,11 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		},
 		data() {
 			return {
+				likeList: [{
+					list: [1, 1, 1, 1, 1, 1]
+				}, {
+					list: [1, 1, 1, 1]
+				}],
 				status: false,
 				myOpacity: 0,
 				heightList: [], //存储每个锚点对应顶部的高度
@@ -739,7 +758,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				})
 			}
 		},
-		onHide() {
+		beforeDestroy() {
 			clearInterval(this.timer)
 		},
 		onPageScroll(res) {
@@ -1011,7 +1030,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							this.minute--
 							this.second = 59
 							if (this.minute < 10) this.minute = '0' + this.minute
-
 						}
 					}
 				}, 1000)
@@ -1580,6 +1598,99 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		text-decoration: none;
 	}
 
+	//猜你喜欢
+	.detail-like {
+		width: 750rpx;
+		height: 832rpx;
+		padding: 20rpx 0;
+		background: #fff;
+
+		.head {
+			position: relative;
+			width: 686rpx;
+			display: flex;
+			align-items: center;
+			margin: 0 auto 24rpx auto;
+
+			.head_img {
+				width: 40rpx;
+				height: 40rpx;
+			}
+
+			.head_tit {
+				font-size: 32rpx;
+				color: rgb(51, 51, 51);
+				margin-left: 12rpx;
+			}
+
+			.more {
+				position: absolute;
+				right: 0;
+				font-size: 20rpx;
+				color: rgb(51, 51, 51);
+				display: flex;
+				align-items: center;
+
+				image {
+					width: 16rpx;
+					height: 16rpx;
+					margin-top: 4rpx;
+					margin-left: 4rpx;
+				}
+			}
+		}
+		
+		.all_list{
+			display: inline-block;
+		}
+		
+		.list {
+			width: 686rpx;
+			display: flex;
+			flex-wrap: wrap;
+			align-items: center;
+			margin: 0 auto;
+
+			.item {
+				width: 220rpx;
+				height: 352rpx;
+				margin: 0 4rpx 24rpx 4rpx;
+
+				image {
+					display: block;
+					width: 220rpx;
+					height: 220rpx;
+					border-radius: 16rpx;
+				}
+
+				.item_tit {
+					width: 216rpx;
+					font-size: 20rpx;
+					color: rgb(51, 51, 51);
+					word-break: break-all;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					display: -webkit-box;
+					-webkit-box-orient: vertical;
+					-webkit-line-clamp: 2;
+					margin: 12rpx auto 20rpx auto;
+				}
+
+				.item_price {
+					font-size: 20rpx;
+					font-weight: bold;
+					color: rgb(255, 57, 57);
+
+					span {
+						font-size: 32rpx;
+					}
+				}
+			}
+
+		}
+
+	}
+
 	.detail-header {
 		position: fixed;
 		top: 0;
@@ -1599,13 +1710,24 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		display: flex;
 		align-items: center;
 		// background: #fff;
-
-		image {
+		
+		image{
 			position: absolute;
-			left: 20rpx;
-			width: 60rpx;
-			height: 60rpx;
+			width: 56rpx;
+			height: 56rpx;
 			z-index: 10;
+		}
+		
+		.return {
+			left: 20rpx;
+		}
+		
+		.gwc{
+			right: 112rpx;
+		}
+		
+		.fx{
+			right: 32rpx;
 		}
 
 		view {
@@ -2549,7 +2671,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 		//detail-five S
 		.detail-five {
-			margin: 20rpx 0 60rpx 0;
+			margin: 20rpx 0 24rpx 0;
 			padding: 30rpx;
 			background: #fff;
 
