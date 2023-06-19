@@ -808,6 +808,13 @@
 			}
 		},
 		{
+			"path": "pages/mine/newMine",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		},
+		{
 			"path": "pages/mine/points-detail",
 			"style": {
 				"navigationBarTitleText": "",
@@ -832,7 +839,7 @@
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "%top.dianshang%",
-		"navigationBarBackgroundColor": "#FF4E2F",
+		"navigationBarBackgroundColor": "#1DD181",
 		"backgroundColor": "#fff",
 		"fontSize": "36rpx"
 	},

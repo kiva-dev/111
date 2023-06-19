@@ -4,9 +4,10 @@
 		<view class="person-box">
 
 			<view class="person-auth" @click="upLoadLunimg">
-				<image v-if="userCont.avatar" :src="userCont.avatar"></image>
-				<image v-else src="../../static/images/mine/auth_logo.png"></image>
-				<view>{{$t('user.nick.ghtx')}}</view>
+				<view class="person-auth-box">
+					<image :src="userCont.avatar || require('@/static/images/mine/auth_logo.png')" mode="aspectFill"></image>
+					<image class="box-icon" src="@/static/images/mine/profile_set_avatar.png" mode="widthFix"></image>
+				</view>
 			</view>
 
 			<!--person-li end-->
@@ -57,7 +58,12 @@
 			<view class="person-li" @click="navClick('grade')">
 				<text class="label">{{$t('user.mine.yhdj')}}</text>
 				<view class="li-r">
-					<view class="rank">LV{{userCont.level}}</view>
+					<view class="box-name-level" v-if="userCont.level > 0">
+						<view class="level-icon">
+							<image src="@/static/images/mine/mine_icon_vip.png" mode="widthFix"></image>
+						</view>
+						<view class="level-num">Lv.{{userCont.level}}</view>
+					</view>
 					<view class="icon">
 						<image class="img" src="../../static/images/mine/more1.png"></image>
 					</view>
@@ -176,21 +182,26 @@
 				width: 100%;
 				padding-top: 25rpx;
 				margin-bottom: 10rpx;
-
-				image {
-					display: block;
+				position: relative;
+				
+				.person-auth-box {
 					width: 200rpx;
 					height: 200rpx;
-					border-radius: 50%;
-					margin: 0rpx auto 25rpx auto;
-				}
-
-				view {
-					width: 100%;
-					font-size: 32rpx;
-					font-weight: 400;
-					color: #2C2C2C;
-					text-align: center;
+					margin: 0 auto 25rpx;
+					position: relative;
+					
+					image {
+						width: 100%;
+						height: 100%;
+						border-radius: 50%;
+					}
+					
+					.box-icon {
+						width: 60rpx;
+						position: absolute;
+						bottom: 0;
+						right: 0;
+					}
 				}
 			}
 
@@ -210,6 +221,31 @@
 				.li-r {
 					display: flex;
 					align-items: center;
+					
+					.box-name-level {
+						width: 100rpx;
+						height: 40rpx;
+						margin-left: 20rpx;
+						background: rgb(253, 240, 226);
+						border-radius: 100rpx;
+						display: flex;
+					
+						.level-icon {
+							width: 40rpx;
+							height: 40rpx;
+					
+							image {
+								width: 100%;
+							}
+						}
+					
+						.level-num {
+							margin-left: 8rpx;
+							color: rgb(219, 132, 37);
+							font-size: 20rpx;
+							line-height: 40rpx;
+						}
+					}
 
 					.icon {
 						width: 12rpx;

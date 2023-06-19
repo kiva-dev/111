@@ -112,6 +112,7 @@ let apiObj = {
 	ShopIndex: 'Shop/index', // 店铺首页
 	MineFeedback: 'Mine/feedback', // 意见反馈
 	IndexInviteMoney: 'Index/inviteMoney', // 邀请金额
+	InvitationList: 'Mine/getRebateUserList', // 邀请列表
 	// 银行卡
 	MineAddBankCard: 'Mine/addBankCard', // 新增绑定
 	MineDelBankCard: 'Mine/delBankCard', // 解除绑定
@@ -135,7 +136,6 @@ let apiObj = {
 	RechargeTocashList: 'Recharge/tocashList', // 提现列表
 	MineFocusProducts: 'Mine/focusProducts', // 我关注的商品
 	MineFocusSubscribe: 'Mine/focusSubscribe', // 我关注的店铺
-
 	//所有商品
 	LitestoregoodsIndex: "/Litestoregoods/index", //所有商家商品数据列表
 	ProductInfo: '/Litestoregoods/detail', //商品详情
@@ -144,14 +144,10 @@ let apiObj = {
 	getSelectCommentList: '/Litestoregoods/getSubComment', //获取子列表
 	SendLike: '/Litestoregoods/like', //点赞或取消
 	MineFocusList: '/Mine/focusList', //关注商品
-
 	//公告
 	NoticeIndex: "Notice/index", //获取所有公告信息
-
 	//返佣
 	MineRebateInfo: "/Mine/rebateInfo", //返佣信息
-
 	GetCodeInfo: "/index/inviteCodeGetInfo",//根据用户邀请码获取信息
-
 }
 export default apiObj

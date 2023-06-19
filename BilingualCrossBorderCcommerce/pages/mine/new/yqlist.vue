@@ -2,7 +2,7 @@
 	<view class="yqlist">
 		<view class="yqlist-content">
 			<view class="yqlist-head">
-				<image src="/static/images/new/left.png" @click="toBack()"></image>
+				<image src="/static/images/new/left.png" @click="onBack"></image>
 				<view>{{$t('new.wdyq')}}</view>
 			</view>
 			<template v-if="level === 1 && memberArr.length > 0">
@@ -15,26 +15,34 @@
 						<view class="cb-right" @click="capture()">{{$t('new.ljyq')}}</view>
 					</view>
 				</view>
-				<view class="yqlist-title">{{$t('new.member')}} (4{{$t('new.people')}})</view>
+				<view class="yqlist-title">{{$t('new.my')}}{{level || 1}}{{$t('new.members')}}
+					({{memberArr.length || 0}}{{$t('new.people')}})</view>
 			</template>
 			<template v-if="level > 1 && memberArr.length > 0">
 				<view class="yqlist-illustrate">
 					<view class="yl-avatar">
-						<image src="@/static/images/products/auth.png" mode="aspectFill"></image>
+						<image :src="memberInfo.avatar" mode="aspectFill"></image>
 					</view>
-					<view class="yl-text">Carlos Mobley {{$t('new.multistage')}} (2{{$t('new.people')}})</view>
+					<view class="yl-text">{{memberInfo.nickname || ''}}
+						{{$t('new.multistage')}}{{level || 1}}{{$t('new.members')}}
+						({{memberArr.length || 0}}{{$t('new.people')}})
+					</view>
 				</view>
 			</template>
 			<view class="yqlist-layout">
 				<template v-if="memberArr && memberArr.length > 0">
-					<view class="yl-item" v-for="(item,index) in memberArr" :key="index">
+					<view class="yl-item" v-for="(item,index) in memberArr" :key="index"
+						@click="onViewInvitation(item)">
 						<view class="yl-item-avatar">
-							<image :src="item.img" mode="aspectFill"></image>
+							<image :src="item.avatar" mode="aspectFill"></image>
 						</view>
 						<view class="yl-item-info">
-							<view class="info-name">{{item.name}}</view>
-							<view class="info-amount">{{$t('new.rebate')}}：<span>{{'RM' + item.amount}}</span></view>
-							<view class="info-people">{{$t('new.Invitations')}}({{$t('new.people')}})：{{item.people}}</view>
+							<view class="info-name">{{item.nickname}}</view>
+							<view class="info-amount">{{$t('new.rebate')}}：<span>{{'RM' + item.rebate_money}}</span>
+							</view>
+							<view class="info-people">
+								{{$t('new.Invitations')}}({{$t('new.people')}})：{{item.invite_count}}
+							</view>
 						</view>
 					</view>
 					<view style="padding-top: 1px;">
@@ -73,38 +81,16 @@
 		saveImg,
 		qrcodeCanvas
 	} from '@/uni_modules/fan-canvas/plugins/utils';
+	import tool from '@/utils/tool.js';
 	export default {
 		data() {
 			return {
 				level: 1,
-				status: 'loading',
+				status: 'loadmore',
 				page: 1,
-				memberArr: [{
-					img: '/static/images/products/auth.png',
-					name: 'Carlos Mobley',
-					amount: 4.5,
-					people: 2
-				},{
-					img: '/static/images/products/auth.png',
-					name: 'Carlos Mobley',
-					amount: 4.5,
-					people: 2
-				},{
-					img: '/static/images/products/auth.png',
-					name: 'Carlos Mobley',
-					amount: 4.5,
-					people: 2
-				},{
-					img: '/static/images/products/auth.png',
-					name: 'Carlos Mobley',
-					amount: 4.5,
-					people: 2
-				},{
-					img: '/static/images/products/auth.png',
-					name: 'Carlos Mobley',
-					amount: 4.5,
-					people: 2
-				}],
+				cuid: 0,
+				memberArr: [],
+				memberInfo: {},
 				showyq: false,
 				code: '',
 				qrUrl: '',
@@ -114,10 +100,20 @@
 				isShopCont: false, // 中文还是英文
 			}
 		},
-		onLoad() {
-			this.lange = uni.getStorageSync('locale')
+		onLoad(option) {
+			this.lange = uni.getStorageSync('locale');
+			this.level = parseInt(option.level) || 1;
+			this.cuid = parseInt(option.cuid) || 0;
+			this.memberInfo = option.info ? JSON.parse(decodeURIComponent(option.info)) : {};
+			console.log(this.level, this.cuid, this.memberInfo);
+			this.getInvitationList();
+			uni.$on('refreshData', () => {
+				this.level = parseInt(option.level) || 1;
+				this.cuid = parseInt(option.cuid) || 0;
+				this.memberInfo = option.info ? JSON.parse(decodeURIComponent(option.info)) : {};
+			})
 		},
-		onShow() {
+		onShow(option) {
 			// 获取个人信息
 			this.$http.post(this.$apiObj.MineInfo).then(res => {
 				if (res.code == 1) {
@@ -133,12 +129,39 @@
 			})
 		},
 		onReachBottom() {
-			this.status = 'more';
 			this.page++;
+			this.getInvitationList();
 		},
 		methods: {
-			toBack() {
-				uni.navigateBack()
+			onBack() {
+				uni.$emit('refreshData');
+				uni.navigateBack();
+			},
+			getInvitationList() {
+				this.status = 'loading';
+				let req = {
+					token: uni.getStorageSync('token'),
+					page: this.page,
+					pagenum: 10,
+				}
+				if (this.cuid !== 0) {
+					req.cuid = this.cuid;
+				}
+				this.$http.post(this.$apiObj.InvitationList, req).then(res => {
+					console.log(res);
+					if (res.code === 1) {
+						let arr = res.data.data || [];
+						this.memberArr = this.memberArr.concat(arr);
+						arr.length < 10 ? this.status = 'nomore' : this.status = 'loadmore';
+					}
+				})
+			},
+			onViewInvitation(item) {
+				this.level++;
+				let info = encodeURIComponent(JSON.stringify(item));
+				uni.navigateTo({
+					url: '/pages/mine/new/yqlist?level=' + this.level + '&cuid=' + item.id + '&info=' + info
+				})
 			},
 			capture() {
 				this.showyq = true
@@ -192,7 +215,7 @@
 
 				}
 			},
-			
+
 			createQrcode() {
 				var that = this
 				qrcodeCanvas('qrcode', that.qrUrl, 280, 280);
@@ -211,7 +234,7 @@
 					}, that)
 				})
 			},
-			
+
 		}
 	}
 </script>
@@ -222,12 +245,12 @@
 		min-height: 100vh;
 		padding-bottom: 40rpx;
 		background: rgb(248, 248, 248);
-		
-		.yqlist-content{
+
+		.yqlist-content {
 			width: 100%;
 			height: 600rpx;
-			background: linear-gradient(180.00deg, rgba(255,121,99,0.5),rgba(255,255,255,0.00) 100%);
-			
+			background: linear-gradient(180.00deg, rgba(255, 121, 99, 0.5), rgba(255, 255, 255, 0.00) 100%);
+
 			.yqlist-head {
 				position: relative;
 				width: 100%;
@@ -236,58 +259,58 @@
 				display: flex;
 				justify-content: center;
 				align-items: center;
-			
+
 				image {
 					position: absolute;
 					left: 20rpx;
 					width: 60rpx;
 					height: 60rpx;
 				}
-			
+
 				view {
 					font-size: 40rpx;
 					font-weight: bold;
 					color: rgb(255, 78, 47);
 				}
 			}
-			
+
 			.yqlist-container {
 				width: 100%;
 				margin-top: 20rpx;
 				padding: 0 32rpx;
 				box-sizing: border-box;
-				
+
 				.container-box {
 					width: 100%;
 					background: #FFFFFF;
-					border-radius:40rpx;
+					border-radius: 40rpx;
 					display: flex;
 					justify-content: space-between;
-					
+
 					.cb-left {
 						padding-left: 40rpx;
 						box-sizing: border-box;
 						display: flex;
 						justify-content: flex-start;
 						align-items: center;
-						
+
 						span {
 							color: rgb(255, 78, 47);
 							font-size: 28rpx;
 							font-weight: 700;
-							
+
 							&:last-child {
 								margin-left: 15rpx;
 								font-size: 40rpx;
 							}
 						}
 					}
-					
+
 					.cb-right {
 						width: 200rpx;
 						height: 80rpx;
 						background: #FF4E2F;
-						border-radius:40rpx;
+						border-radius: 40rpx;
 						line-height: 80rpx;
 						font-size: 28rpx;
 						color: rgb(255, 255, 255);
@@ -295,7 +318,7 @@
 					}
 				}
 			}
-			
+
 			.yqlist-title {
 				margin-top: 40rpx;
 				padding: 0 60rpx;
@@ -304,7 +327,7 @@
 				font-size: 28rpx;
 				font-weight: 400;
 			}
-			
+
 			.yqlist-illustrate {
 				width: 100%;
 				margin-top: 20rpx;
@@ -312,21 +335,21 @@
 				box-sizing: border-box;
 				display: flex;
 				align-items: center;
-				
+
 				.yl-avatar {
 					width: 80rpx;
 					height: 80rpx;
 					border: 1rpx solid rgb(255, 255, 255);
 					box-sizing: border-box;
-					border-radius:50rpx;
-					
+					border-radius: 50rpx;
+
 					image {
 						width: 100%;
 						height: 100%;
-						border-radius:50rpx;
+						border-radius: 50rpx;
 					}
 				}
-				
+
 				.yl-text {
 					flex: 1;
 					margin-left: 20rpx;
@@ -335,27 +358,27 @@
 					font-weight: 400;
 				}
 			}
-			
+
 			.yqlist-layout {
 				margin-top: 30rpx;
 				padding: 0 32rpx 30rpx;
 				box-sizing: border-box;
-				
+
 				.yl-item {
 					width: 100%;
 					margin-bottom: 30rpx;
 					background: rgb(255, 255, 255);
 					box-shadow: 0rpx 0rpx 8rpx rgba(190, 190, 190, 0.3);
-					border-radius:8px;
+					border-radius: 8px;
 					padding: 20rpx 60rpx;
 					box-sizing: border-box;
 					display: flex;
 					align-items: center;
-					
+
 					.yl-item-avatar {
 						width: 200rpx;
 						height: 200rpx;
-						
+
 						image {
 							width: 100%;
 							height: 100%;
@@ -363,28 +386,28 @@
 							box-shadow: 0rpx 2rpx 4rpx rgba(190, 190, 190, 0.3);
 						}
 					}
-					
+
 					.yl-item-info {
 						flex: 1;
 						margin-left: 80rpx;
-						
+
 						.info-name {
 							color: rgb(44, 44, 44);
-							font-size:  28rpx;
+							font-size: 28rpx;
 							font-weight: 400;
 						}
-						
+
 						.info-amount {
 							margin: 26rpx 0;
 							color: rgb(44, 44, 44);
 							font-size: 24rpx;
 							font-weight: 400;
-							
+
 							span {
 								color: #FF4E2F;
 							}
 						}
-						
+
 						.info-people {
 							color: rgb(44, 44, 44);
 							font-size: 24rpx;
@@ -392,35 +415,35 @@
 						}
 					}
 				}
-				
+
 				.yl-empty {
 					width: 100%;
 					margin-top: 300rpx;
 					text-align: center;
-					
+
 					image {
 						width: 256rpx;
 					}
-					
+
 					.yl-empty-null {
 						margin: 20rpx 0 40rpx;
 						color: rgb(190, 190, 190);
 						font-size: 24rpx;
 						font-weight: 400;
 					}
-					
+
 					.yl-empty-text {
 						color: rgb(255, 78, 47);
 						font-size: 40rpx;
 						font-weight: 400;
 					}
-					
+
 					.yl-empty-btn {
 						width: 400rpx;
 						height: 80rpx;
 						margin: 60rpx auto 0;
 						background: rgb(255, 78, 47);
-						border-radius:40rpx;
+						border-radius: 40rpx;
 						color: rgb(255, 255, 255);
 						font-size: 40rpx;
 						font-weight: 400;
@@ -429,7 +452,7 @@
 					}
 				}
 			}
-			
+
 			.showyq {
 				position: relative;
 				width: 750rpx;
@@ -437,7 +460,7 @@
 				background: url('/static/images/new/yjyq.png') no-repeat;
 				background-size: 100% 100vh;
 				margin-top: 100rpx;
-			
+
 				.showyq-ewm {
 					position: absolute;
 					bottom: 506rpx;
@@ -446,7 +469,7 @@
 					width: 300rpx;
 					height: 300rpx;
 					// background: #fff;
-			
+
 					image {
 						position: absolute;
 						top: 50%;
@@ -456,7 +479,7 @@
 						height: 300rpx;
 					}
 				}
-			
+
 				.showyq-auth {
 					position: absolute;
 					bottom: 300rpx;
@@ -466,7 +489,7 @@
 					height: 160rpx;
 					border-radius: 50%;
 				}
-			
+
 				.showyq-hy {
 					position: absolute;
 					bottom: 206rpx;
@@ -475,7 +498,7 @@
 					color: rgb(255, 255, 255);
 					text-align: center;
 				}
-			
+
 				.showyq-yq {
 					position: absolute;
 					bottom: 148rpx;
@@ -484,11 +507,11 @@
 					color: rgb(255, 255, 255);
 					text-align: center;
 				}
-			
+
 			}
 		}
 	}
-	
+
 	.commission-canvas {
 		position: fixed;
 		top: -1000000rpx;

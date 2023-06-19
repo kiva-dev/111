@@ -1304,10 +1304,13 @@
 	"new.qsrtgm":"请输入推广码",
 	"new.wazyy":"未安装该应用,是否跳转至应用商店？",
 	"new.total":"各级总人数(人):",
-	"new.member":"我的一级成员",
+	"new.my":"我的 ",
+	"new.members":" 级成员",
 	"new.people":"人",
 	"new.rebate":"返佣金额",
 	"new.Invitations":"邀请人数",
-	"new.multistage":"邀请的二级成员",
-	"new.noMoment":"暂无邀请"
+	"new.multistage":"邀请的 ",
+	"new.noMoment":"暂无邀请",
+	"mine.tip":"温馨提示",
+	"mine.prompt":"您暂未登录，请登陆后访问"
 }

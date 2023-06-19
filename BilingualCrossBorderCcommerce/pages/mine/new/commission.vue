@@ -3,9 +3,9 @@
 		<view class="commission-head">
 			<image class="commission-head-img" src="/static/images/new/left.png" @click="toBack()"></image>
 			<view class="commission-head-txt">{{$t('new.yjfx')}}</view>
-			<!-- <view class="commission-head-right" @click="toRule('/pages/mine/new/yqlist')">
+			<view class="commission-head-right" @click="toRule('/pages/mine/new/yqlist')">
 				<view>{{$t('new.wdyq')}}</view>
-			</view> -->
+			</view>
 		</view>
 
 		<view class="commission-center">
