@@ -105,15 +105,12 @@
 			this.level = parseInt(option.level) || 1;
 			this.cuid = parseInt(option.cuid) || 0;
 			this.memberInfo = option.info ? JSON.parse(decodeURIComponent(option.info)) : {};
-			console.log(this.level, this.cuid, this.memberInfo);
 			this.getInvitationList();
 			uni.$on('refreshData', () => {
 				this.level = parseInt(option.level) || 1;
-				this.cuid = parseInt(option.cuid) || 0;
-				this.memberInfo = option.info ? JSON.parse(decodeURIComponent(option.info)) : {};
 			})
 		},
-		onShow(option) {
+		onShow() {
 			// 获取个人信息
 			this.$http.post(this.$apiObj.MineInfo).then(res => {
 				if (res.code == 1) {
@@ -148,7 +145,6 @@
 					req.cuid = this.cuid;
 				}
 				this.$http.post(this.$apiObj.InvitationList, req).then(res => {
-					console.log(res);
 					if (res.code === 1) {
 						let arr = res.data.data || [];
 						this.memberArr = this.memberArr.concat(arr);

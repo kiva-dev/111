@@ -1186,6 +1186,7 @@
 	"zhongpai.daishuohuo": "待收货",
 	"zhongpai.daiqueren": "待确认",
 	"zhongpai.yiqueren": "已确认",
+	"zhongpai.yiwancheng": "已完成",
 	"zhongpai.zhexian": "折现",
 	"zhongpai.linghuo": "领货",
 	"zhongpai.shenshu": "申诉",
@@ -1312,5 +1313,10 @@
 	"new.multistage":"邀请的 ",
 	"new.noMoment":"暂无邀请",
 	"mine.tip":"温馨提示",
-	"mine.prompt":"您暂未登录，请登陆后访问"
+	"mine.prompt":"您暂未登录，请登陆后访问",
+	"mine.welcome":"免费登录或加入",
+	"mine.subscribed":"订阅",
+	"mine.collected":"收藏",
+	"mine.loginBtn":"登录/注册",
+	"mine.gift":"赠送金额"
 }

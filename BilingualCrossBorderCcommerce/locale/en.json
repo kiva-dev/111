@@ -43,7 +43,7 @@
 	"top.yjfk": "Feedback",
 	"top.about": "About us",
 	"top.yhxy": "Registration Related Agreement",
-	"top.wdqb": "My wallet",
+	"top.wdqb": "My Wallet",
 	"top.yhklb": "Bank card list",
 	"top.tixian": "Withdrawal",
 	"top.bangding": "Bind paypal",
@@ -107,7 +107,7 @@
 
 	"home.detail.ptcg": "Success in group competition",
 	"home.detail.rzzptkzjcy": "People are working together, and can participate directly",
-	"home.detail.more": "See more",
+	"home.detail.more": "View More",
 	"home.detail.shengyu": "surplus",
 	"home.detail.qupt": "Go to fight for a group",
 	"home.detail.qxgz": "Cancel Follow",
@@ -1185,6 +1185,7 @@
 	"zhongpai.daishuohuo": "Goods to be received",
 	"zhongpai.daiqueren": "To be confirmed",
 	"zhongpai.yiqueren": "Confirmed",
+	"zhongpai.yiwancheng": "Completed",
 	"zhongpai.zhexian": "discount",
 	"zhongpai.linghuo": "Picking",
 	"zhongpai.shenshu": "appeal",
@@ -1306,10 +1307,15 @@
 	"new.my":"My ",
 	"new.members":" level member",
 	"new.people":"people",
-	"new.rebate":"Rebate amount",
+	"new.rebate":"Rebate Amount",
 	"new.Invitations":"Number of Invitations",
 	"new.multistage":"Invited ",
 	"new.noMoment":"No invitation at the moment",
 	"mine.tip":"Tips",
-	"mine.prompt":"You have not logged in yet. Please log in and visit"
+	"mine.prompt":"You have not logged in yet. Please log in and visit",
+	"mine.welcome":"Sign in or Join Free",
+	"mine.subscribed":"Subscribed",
+	"mine.collected":"Collected",
+	"mine.loginBtn":"LOGEN / SIGNUP",
+	"mine.gift":"Gift Amount"
 }

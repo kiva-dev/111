@@ -17,7 +17,7 @@
       </view>
     </view>
     <view class="phone-bot">
-      <button class="public-btn" style="background: rgb(255, 78, 47);" @click.stop="$noMultipleClicks(onMineChangeEmail)">{{$t('user.Vemail.qrxg')}}</button>
+      <button class="public-btn" style="background: rgb(10, 198, 142);" @click.stop="$noMultipleClicks(onMineChangeEmail)">{{$t('user.Vemail.qrxg')}}</button>
     </view>
   </view>
 </template>

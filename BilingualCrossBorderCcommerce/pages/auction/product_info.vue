@@ -1,22 +1,18 @@
 <template>
 	<view class="detail-page">
-
 		<view class="detail-header" :style="`background: rgba(255,255,255,${myOpacity});`">
 			<view class="detail-head">
-				<image src="/static/images/new/left.png" class="right" @click="toIndex()"></image>
-				<view class="detail-tit" :style="`opacity: ${myOpacity};`">{{$t('top.shop')}}</view>
-				<view class="detail-head-fenx" @click="onFengxiangClick">
-					<image src="/static/images/products/fenxiang.png"></image>
-				</view>
+				<image src="@/static/images/new-index/detail_btn_back.png" class="return" @click="toIndex()"></image>
+				<image src="@/static/images/new-index/detail_btn_car.png" class="gwc"></image>
+				<image src="@/static/images/new-index/detail_btn_share.png" class="fx"></image>
+				<view :style="`opacity: ${myOpacity};`">{{$t('top.shop')}}</view>
 			</view>
-
 			<!--头部导航 start-->
 			<view class="auct-nav" :style="`opacity: ${myOpacity};`">
 				<view v-for="item in navList" :key="item.id" class="li" :class="item.id==navId?'active':''"
 					@click="onNavClick(item.id)">{{item.title}}</view>
 			</view>
 		</view>
-
 		<!--轮播图 start-->
 		<view class="detail-big">
 			<div id="div1"></div>
@@ -33,21 +29,75 @@
 				</swiper>
 			</uni-swiper-dot>
 		</view>
-
 		<block v-if="status">
 			<view class="detail-money">RM{{shopCont.litestore_goods_spec[0].goods_price}}</view>
 			<view class="detail-title">{{shopCont.goods_name}}</view>
-
-			<!--标签-->
 			<view class="li-tags">
-				<block v-for="(item,index) in shopCont.litestore_tag" :key="item.id">
-					<view v-if="index%3==0" class="tag">{{item.name}}</view>
-					<view v-else-if="index%3==1" class="tag yellow">{{item.name}}</view>
-					<view v-else class="tag red">{{item.name}}</view>
-				</block>
+				<!-- <block v-for="(item,index) in shopCont.litestore_tag" :key="item.id">
+					<view class="tag">{{item.name}}</view>
+				</block> -->
+				<view class="li-icon">
+					<image src="@/static/images/new-index/kzx.png" mode="widthFix"></image>
+				</view>
+				<view class="li-icon">
+					<image src="@/static/images/new-index/xpss.png" mode="widthFix"></image>
+				</view>
+				<view class="li-icon">
+					<image src="@/static/images/new-index/tjsp.png" mode="widthFix"></image>
+				</view>
+				<view class="li-icon">
+					<image src="@/static/images/new-index/rmsp.png" mode="widthFix"></image>
+				</view>
 			</view>
-
-			<!--评论-->
+			<view class="operate-layout">
+				<view class="ol-container" @click="onFocusProduct">
+					<image :src="shopCont.goods_focus == 0 ? require('@/static/images/new-index/detail_icon_collect.png') : require('@/static/images/new-index/detail_icon_iscollect.png')" mode="widthFix"></image>
+					<p>7.9k</p>
+				</view>
+				<view class="ol-container">
+					<image src="@/static/images/new-index/detail_icon_clap.png" mode="widthFix"></image>
+					<p>878</p>
+				</view>
+				<view class="ol-container">
+					<image src="@/static/images/new-index/detail_icon_share.png" mode="widthFix"></image>
+					<p>1.3k</p>
+				</view>
+			</view>
+			<view class="select-layout">
+				<view class="sl-category" @click="$refs.specsPopup.open()">
+					<view class="sl-category-left">
+						<view class="left-name">Select</view>
+						<view class="left-option">256GB,10000mAh,Pro,White,Yellow,Black fashioWhite,Yellow,Black
+							fashioWhite,Yellow,Black fashio</view>
+					</view>
+					<view class="sl-category-right">
+						<image src="@/static/images/new-index/detail_btn_arrow.png" mode="widthFix"></image>
+					</view>
+				</view>
+				<view class="sl-address">
+					<view class="sl-address-choose">
+						<view class="choose-left">
+							<view class="choose-left-name">Address</view>
+							<view class="choose-left-content">
+								<image src="@/static/images/new-index/detail_icon_address.png" mode="widthFix"></image>
+								<template v-if="false">
+									<p>Eason Chan</p>
+									<p>586512355</p>
+								</template>
+								<template v-else>
+									<p>Add New Address</p>
+								</template>
+							</view>
+						</view>
+						<view class="choose-right">
+							<image src="@/static/images/new-index/detail_btn_arrow.png" mode="widthFix"></image>
+						</view>
+					</view>
+					<view class="sl-address-info" v-if="false">
+						A-15-09 Tower Suite,No8,Jalan Kerinci Bangsar South, Wp KLaKuala,No8,Jalan Kerinci Bangsar South
+					</view>
+				</view>
+			</view>
 			<view class="detail-comment">
 				<div id="div2"></div>
 				<view class="detail-comment-head">
@@ -58,27 +108,27 @@
 						<image src="../../static/images/products/right.png"></image>
 					</view>
 				</view>
-
-				<view class="detail-comment-line"></view>
-
 				<block v-if="JudgeList.length > 0">
 					<view class="detail-comment-item" v-for="(item,i) in JudgeList.slice(0,2)" :key="i">
 						<view class="detail-comment-item-head">
-							<image :src="item.user.avatar" class="auth"></image>
-							<view>{{item.user.nickname}}</view>
+							<image :src="item.user.avatar" mode="aspectFill"></image>
+							<p>{{item.user.nickname}}</p>
+							<view class="head-level">
+								<view class="head-level-icon">
+									<image src="@/static/images/mine/mine_icon_vip.png" mode="widthFix"></image>
+								</view>
+								<view class="head-level-num">Lv.2</view>
+							</view>
 						</view>
 						<view class="detail-comment-item-info">
 							{{item.comment}}
 						</view>
-						<view class="detail-comment-line" v-if="i%2==0 && JudgeList.length>1"></view>
 					</view>
 				</block>
 				<block v-else>
 					<view class="detail-comment-not">{{$t('newDetail.not')}}</view>
 				</block>
-
 			</view>
-
 			<!--店铺信息-->
 			<view class="detail-five">
 				<view class="five-hd">
@@ -111,7 +161,6 @@
 										<image src="../../static/images/new/shouqi.png" @click="isShowAll=false">
 										</image>
 									</view>
-
 									<view class="not-all" v-else>
 										<view>{{shopCont.shop.shop_info}}</view>
 										<image src="../../static/images/new/zhankai.png" @click="isShowAll=true"
@@ -125,18 +174,103 @@
 					</view>
 				</view>
 			</view>
-
+			<view class="guess-layout">
+				<view class="gl-title">
+					<view class="gl-title-left">
+						<image src="@/static/images/new-index/detail_icon_guess.png" mode="widthFix"></image>
+						<p>Guess you like</p>
+					</view>
+				</view>
+				<view class="gl-content">
+					<u-grid :border="false" @click="click">
+						<u-grid-item>
+							<view class="gl-content-item">
+								<view class="item-cover">
+									<image src="@/static/images/new-index/detail_demo_cover.png" mode="aspectFill">
+									</image>
+								</view>
+								<view class="item-text">Xiaomi 33WRH Power Bank 10000mAh Por apple bannana</view>
+								<view class="item-price">
+									<span>RM</span>
+									<span>199.00</span>
+								</view>
+							</view>
+						</u-grid-item>
+						<u-grid-item>
+							<view class="gl-content-item">
+								<view class="item-cover">
+									<image src="@/static/images/new-index/detail_demo_cover.png" mode="aspectFill">
+									</image>
+								</view>
+								<view class="item-text">Xiaomi 33WRH Power Bank 10000mAh Por apple bannana</view>
+								<view class="item-price">
+									<span>RM</span>
+									<span>199.00</span>
+								</view>
+							</view>
+						</u-grid-item>
+						<u-grid-item>
+							<view class="gl-content-item">
+								<view class="item-cover">
+									<image src="@/static/images/new-index/detail_demo_cover.png" mode="aspectFill">
+									</image>
+								</view>
+								<view class="item-text">Xiaomi 33WRH Power Bank 10000mAh Por apple bannana</view>
+								<view class="item-price">
+									<span>RM</span>
+									<span>199.00</span>
+								</view>
+							</view>
+						</u-grid-item>
+						<u-grid-item>
+							<view class="gl-content-item">
+								<view class="item-cover">
+									<image src="@/static/images/new-index/detail_demo_cover.png" mode="aspectFill">
+									</image>
+								</view>
+								<view class="item-text">Xiaomi 33WRH Power Bank 10000mAh Por apple bannana</view>
+								<view class="item-price">
+									<span>RM</span>
+									<span>199.00</span>
+								</view>
+							</view>
+						</u-grid-item>
+						<u-grid-item>
+							<view class="gl-content-item">
+								<view class="item-cover">
+									<image src="@/static/images/new-index/detail_demo_cover.png" mode="aspectFill">
+									</image>
+								</view>
+								<view class="item-text">Xiaomi 33WRH Power Bank 10000mAh Por apple bannana</view>
+								<view class="item-price">
+									<span>RM</span>
+									<span>199.00</span>
+								</view>
+							</view>
+						</u-grid-item>
+						<u-grid-item>
+							<view class="gl-content-item">
+								<view class="item-cover">
+									<image src="@/static/images/new-index/detail_demo_cover.png" mode="aspectFill">
+									</image>
+								</view>
+								<view class="item-text">Xiaomi 33WRH Power Bank 10000mAh Por apple bannana</view>
+								<view class="item-price">
+									<span>RM</span>
+									<span>199.00</span>
+								</view>
+							</view>
+						</u-grid-item>
+					</u-grid>
+				</view>
+			</view>
 			<!--商品详情-->
 			<view class="detail-six">
 				<div id="div3"></div>
 				<view class="six-tit">
-					<view class="line">
-						<image class="img" src="/static/images/products/line.png"></image>
-					</view>
+					<view class="line"></view>
 					<text>{{$t('home.shop.title')}}</text>
-					<view class="line">
-						<image class="img" src="/static/images/products/line.png"></image>
-					</view>
+					<view class="line"></view>
 				</view>
 				<view class="six-article" v-if="isShopCont" v-html="shopCont.english_content">
 					<!-- <u-parse :content="shopCont.english_content"></u-parse> -->
@@ -145,9 +279,8 @@
 					<!-- <u-parse :content="shopCont.content"></u-parse> -->
 				</view>
 			</view>
-
 			<!--竞拍记录-->
-			<view class="product-jilu">
+			<view class="product-jilu" v-if="false">
 				<div id="div4"></div>
 				<view class="six-tit">
 					<view class="line">
@@ -158,7 +291,6 @@
 						<image class="img" src="/static/images/products/line.png"></image>
 					</view>
 				</view>
-
 				<!--最新竞拍-->
 				<view class="product-jilu-new">
 					<view class="product-jilu-new-tit">{{$t('new.zzjp')}}</view>
@@ -173,20 +305,16 @@
 							</view>
 							<view class="product-item-qi">{{item.stage_num}}{{$t('shop.qi')}}</view>
 						</view>
-
 						<view class="progressBox">
 							<Mprogress :percent="item.finish_rate*100" :size="100" id='a'></Mprogress>
 							<view class="centerTxt">{{item.finish_rate*100}}%</view>
 						</view>
-
-
 						<view class="product-item-btn" @click="toDrawInfo(item.auction_goods_id)">
 							<view class="product-item-btn-name">{{$t('shop.qiangpai')}}</view>
 							<view class="product-item-btn-price">RM{{item.auction_price}}</view>
 						</view>
 					</view>
 				</view>
-
 				<!--即将开始-->
 				<view class="product-start">
 					<view class="product-start-tit">{{$t('new.jjks')}}</view>
@@ -204,7 +332,6 @@
 						</view>
 					</view>
 				</view>
-
 				<!--历史记录-->
 				<view class="historical">
 					<view class="historical-tit">{{$t('new.lsjl')}}</view>
@@ -214,51 +341,36 @@
 						<view class="historical-item-price">RM{{item.auction_price}}</view>
 						<image :src="item.user_info.avatar" class="historical-item-auth" v-if="item.check_status==3">
 						</image>
-						<image src="/static/images/products/star.png" class="historical-item-star" v-if="item.check_status!=4"></image>
-						<image src="../../static/images/new/yihan.png" class="historical-item-auth" v-if="item.check_status==4"></image>
+						<image src="/static/images/products/star.png" class="historical-item-star"
+							v-if="item.check_status!=4"></image>
+						<image src="../../static/images/new/yihan.png" class="historical-item-auth"
+							v-if="item.check_status==4"></image>
 						<view class="historical-item-name" v-if="item.check_status==3">{{item.user_info.nickname}}
 						</view>
 						<view class="historical-item-name" v-if="item.check_status==4">{{$t('new.yhlp')}}</view>
 					</view>
 				</view>
-
 			</view>
-
 			<!--底部 start-->
-			<view class="detail-fixed">
-				<view class="fixed-con">
-					<view class="fixed-fl">
-						<!-- <view class="li" @click="onFengxiangClick" style="margin-right:0;">
-						<view class="icon">
-							<image class="img" src="/static/images/products/fenxiang.png"></image>
-						</view>
-					</view> -->
-						<view class="li" style="margin-left: 10rpx;">
-							<view class="icon">
-								<image class="img" src="/static/images/new/shoucang.png" v-if="shopCont.goods_focus==0">
-								</image>
-								<image class="img" src="/static/images/new/yishoucang.png" v-else></image>
-								<span>{{shopCont.goods_focus_total}}</span>
-							</view>
-						</view>
-
+			<view class="bottom-layout">
+				<view class="bl-left">
+					<view class="bl-left-box">
+						<image src="@/static/images/new-index/detail_btn_car2.png" mode="widthFix"></image>
+						<p>My Cart</p>
 					</view>
-					<view class="fixed-fr">
-						<view class="detail-btn" style="font-size: 40rpx;color:#fff;background:rgb(255, 179, 0)"
-							@click="onFocusProduct()" v-if="shopCont.goods_focus==0">
-							{{$t('auction.shoucang')}}
-						</view>
-						<view class="detail-btn" style="font-size: 40rpx;color:#fff;background:rgb(255, 179, 0)"
-							@click="onFocusProduct()" v-else>
-							{{$t('auction.yishoucang')}}
-						</view>
+				</view>
+				<view class="bl-right">
+					<view class="bl-right-buy">
+						<p class="buy-name">Buy Now</p>
+						<p class="buy-info"><span>RM</span> 4888.00</p>
+					</view>
+					<view class="bl-right-add">
+						<p>Buy Now</p>
 					</view>
 				</view>
 			</view>
 			<!--底部 end-->
 		</block>
-
-
 		<!--分享弹出 start-->
 		<view class="fenxiang" v-if="onfenxingShow">
 			<view class="share-pop">
@@ -289,7 +401,41 @@
 			</view>
 		</view>
 		<!--分享弹出 end-->
-
+		<!-- 选择规格 star-->
+		<uni-popup ref="specsPopup" type="bottom">
+			<view class="specs-layout">
+				<view class="sl-info">
+					
+				</view>
+			</view>
+		</uni-popup>
+		<!-- 选择规格 end -->
+		<!-- 选择地址 star-->
+		<uni-popup ref="popupAddress" type="bottom">
+			<view class="showaddress">
+				<view class="top">
+					<view>Shipping Address</view>
+					<image src="../../static/images/close1.png"></image>
+				</view>
+				<scroll-view scroll-y style="height: 900rpx;">
+					<view class="addresslist">
+						<view class="address-item" v-for="(item,i) in [1,1,1,1]">
+							<view class="item-head">
+								<image src="../../static/images/new-index/address.png"></image>
+								<view class="item-name">Eason Chan</view>
+								<view class="item-phone">586512355</view>
+							</view>
+							<view class="item-info">A-15-09 Tower AVertical Business Suite,No8,Jalan Kerinci Bangsar
+								South, Wp KualaLumKuKualaKualaKualaKuala rhKualaLumKuala59200</view>
+							<view class="item-default">Default Address</view>
+							<view class="item-line" v-show="(i+1)%4!=0"></view>
+						</view>
+					</view>
+				</scroll-view>
+				<view class="address-btn">Add New Address</view>
+			</view>
+		</uni-popup>
+		<!-- 选择地址 end -->
 	</view>
 </template>
 
@@ -351,7 +497,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				myOpacity: 0,
 				heightList: [], //存储每个锚点对应顶部的高度
 				isClick: false,
-				timer: ''
+				timer: '',
+				isBottoming: false,
 			}
 		},
 		watch: {
@@ -426,11 +573,11 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 		},
 		mounted() {
-			
-			
+
+
 		},
 		methods: {
-			getTopNum(){
+			getTopNum() {
 				for (var i = 0; i < this.navList.length; i++) {
 					uni.createSelectorQuery()
 						.select('#div' + (i + 1))
@@ -446,10 +593,10 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				}
 			},
 			//预览图片
-			previewImgList(){
+			previewImgList() {
 				console.log(1)
 				uni.previewImage({
-					urls:this.shopCont.images
+					urls: this.shopCont.images
 				})
 			},
 			//前往竞拍详情
@@ -641,14 +788,14 @@ NoR+zv3KaEmPSHtooQIDAQAB
 								else item.name = arr[1]
 							}
 						})
-						this.status=true
+						this.status = true
 						this.shopCont = res.data
 						// 评价列表
 						this.getCommentList()
-						
-						setTimeout(()=>{
+
+						setTimeout(() => {
 							this.getTopNum()
-						},2000)
+						}, 2000)
 					}
 				})
 			},
@@ -1481,12 +1628,81 @@ NoR+zv3KaEmPSHtooQIDAQAB
 	}
 
 	.detail-header {
+		width: 100%;
 		position: fixed;
 		top: 0;
-		width: 100%;
-		background: rgba(255, 255, 255, 0);
-		// box-shadow: 0px 4rpx 14rpx rgba(190, 190, 190, 0.3);
-		z-index: 100;
+		left: 0;
+		z-index: 99;
+		
+		.detail-head {
+			position: relative;
+			widows: 100%;
+			height: 88rpx;
+			padding-top: 88rpx;
+			display: flex;
+			align-items: center;
+		
+			image {
+				position: absolute;
+				width: 56rpx;
+				height: 56rpx;
+				z-index: 10;
+			}
+		
+			.return {
+				left: 20rpx;
+			}
+		
+			.gwc {
+				right: 112rpx;
+			}
+		
+			.fx {
+				right: 32rpx;
+			}
+		
+			view {
+				width: 100%;
+				font-size: 40rpx;
+				font-weight: 700;
+				color: rgb(10, 198, 142);
+				text-align: center;
+			}
+		}
+		
+		.auct-nav {
+			width: 100%;
+			padding: 40rpx 0 30rpx 0;
+			display: flex;
+			justify-content: space-between;
+			text-align: center;
+		
+			.li {
+				width: 25%;
+				font-size: 26rpx;
+				text-align: center;
+				position: relative;
+				text-align: center;
+			}
+		
+			.active {
+				color: #1DD181;
+				font-weight: 550;
+			}
+		
+			.active::after {
+				width: 32rpx;
+				height: 5rpx;
+				background: #1DD181;
+				border-radius: 3rpx;
+				position: absolute;
+				bottom: -10rpx;
+				left: 50%;
+				margin-left: -16rpx;
+				display: block;
+				content: "";
+			}
+		}
 	}
 
 	.progressBox {
@@ -1503,45 +1719,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			color: rgb(255, 78, 47);
 		}
 	}
-
-	/*新的头部*/
-	.detail-head {
-		position: relative;
-		widows: 100%;
-		height: 88rpx;
-		padding-top: 88rpx;
-		display: flex;
-		align-items: center;
-		background: rgba(255, 255, 255, 0);
-
-		.right {
-			position: absolute;
-			left: 20rpx;
-			width: 60rpx;
-			height: 60rpx;
-			z-index: 10;
-		}
-
-		.detail-tit {
-			width: 100%;
-			font-size: 40rpx;
-			font-weight: 700;
-			color: rgb(255, 78, 47);
-			text-align: center;
-		}
-
-		.detail-head-fenx {
-			position: absolute;
-			right: 30rpx;
-
-			image {
-				width: 50rpx;
-				height: 50rpx;
-			}
-		}
-	}
-
-
 
 	//价格与时间
 	.detail-price {
@@ -1580,15 +1757,23 @@ NoR+zv3KaEmPSHtooQIDAQAB
 	}
 
 	.detail-money {
+		width: 100%;
+		height: 92rpx;
+		background: rgb(255, 57, 57);
+		padding: 0 32rpx;
+		box-sizing: border-box;
+		line-height: 92rpx;
+		color: rgb(255, 255, 255);
 		font-size: 40rpx;
 		font-weight: 700;
-		color: rgb(255, 78, 47);
-		margin-top: 16rpx;
-		margin-left: 30rpx;
 	}
 
 	.detail-title {
-		width: 690rpx;
+		width: 100%;
+		background: rgb(255, 255, 255);
+		padding: 24rpx 32rpx 20rpx;
+		box-sizing: border-box;
+		line-height: 48rpx;
 		font-size: 32rpx;
 		color: rgb(44, 44, 44);
 		overflow: hidden;
@@ -1597,41 +1782,164 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		display: -webkit-box;
 		-webkit-box-orient: vertical;
 		-webkit-line-clamp: 2;
-		margin: 20rpx 0 10rpx 30rpx;
 	}
 
-	//标签
 	.li-tags {
-		width: 690rpx;
+		width: 100%;
+		background: rgb(255, 255, 255);
+		padding: 0 32rpx;
+		box-sizing: border-box;
 		display: flex;
 		flex-wrap: wrap;
-		margin: 0 30rpx 0 30rpx;
 
 		.tag {
-			// width: 110rpx;
-			height: 34rpx;
-			padding: 0 10rpx;
-			background: rgba(138, 212, 251, 0.5);
+			margin: 0 12rpx 12rpx 0;
+			padding: 4rpx 10rpx;
+			box-sizing: border-box;
+			border: 1rpx solid rgb(204, 204, 204);
 			border-radius: 10rpx;
-			line-height: 34rpx;
-			text-align: center;
-			overflow: hidden;
-			text-overflow: ellipsis;
-			white-space: nowrap;
-			font-size: 22rpx;
-			color: rgb(0, 169, 255);
-			margin-right: 10rpx;
-			margin-bottom: 10rpx;
+			color: rgb(102, 102, 102);
+			font-size: 16rpx;
+		}
+		
+		.li-icon {
+			width: 38rpx;
+			height: 38rpx;
+			margin: 0 20rpx 12rpx 0;
+			
+			image {
+				width: 100%;
+			}
+		}
+	}
+
+	.operate-layout {
+		width: 100%;
+		background: rgb(255, 255, 255);
+		padding: 20rpx 0 32rpx;
+		box-sizing: border-box;
+		display: flex;
+		justify-content: center;
+
+		.ol-container {
+			margin: 0 64rpx;
+			display: flex;
+			align-items: center;
+
+			image {
+				width: 32rpx;
+			}
+
+			p {
+				margin-left: 12rpx;
+				color: rgb(102, 102, 102);
+				font-size: 24rpx;
+			}
+		}
+	}
+
+	.select-layout {
+		width: 100%;
+		margin: 24rpx 0;
+		background-color: #ffffff;
+
+		.sl-category {
+			width: 100%;
+			padding: 24rpx 32rpx 0;
+			box-sizing: border-box;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+
+			.sl-category-left {
+				display: flex;
+				align-items: center;
+
+				.left-name {
+					width: 120rpx;
+					color: rgb(102, 102, 102);
+					font-size: 24rpx;
+				}
+
+				.left-option {
+					width: 510rpx;
+					color: rgb(51, 51, 51);
+					font-size: 24rpx;
+					overflow: hidden;
+					white-space: nowrap;
+					text-overflow: ellipsis;
+					-o-text-overflow: ellipsis;
+				}
+			}
+
+			.sl-category-right {
+				width: 24rpx;
+				height: 24rpx;
+
+				image {
+					width: 100%;
+				}
+			}
 		}
 
-		.yellow {
-			background: rgba(255, 221, 175, 0.5);
-			color: rgb(255, 78, 47);
-		}
+		.sl-address {
+			width: 100%;
+			padding: 24rpx 32rpx;
+			box-sizing: border-box;
 
-		.red {
-			background: rgba(255, 175, 175, 0.5);
-			color: rgb(255, 0, 0);
+			.sl-address-choose {
+				width: 100%;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+
+				.choose-left {
+					display: flex;
+					align-items: center;
+
+					.choose-left-name {
+						width: 120rpx;
+						color: rgb(102, 102, 102);
+						font-size: 24rpx;
+					}
+
+					.choose-left-content {
+						width: 510rpx;
+						display: flex;
+						align-items: center;
+
+						image {
+							width: 28rpx;
+						}
+
+						p {
+							margin-left: 16rpx;
+							color: rgb(51, 51, 51);
+							font-size: 24rpx;
+
+							&:first-child {
+								font-weight: bold;
+							}
+						}
+					}
+				}
+
+				.choose-right {
+					width: 24rpx;
+					height: 24rpx;
+
+					image {
+						width: 100%;
+					}
+				}
+			}
+
+			.sl-address-info {
+				width: 100%;
+				margin-top: 24rpx;
+				padding: 0 88rpx 24rpx 120rpx;
+				box-sizing: border-box;
+			}
 		}
 	}
 
@@ -1728,35 +2036,35 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 	}
 
-	//评论
 	.detail-comment {
 		width: 710rpx;
-		padding: 20rpx 0;
+		padding: 24rpx 32rpx;
+		box-sizing: border-box;
 		background: #fff;
 		border-radius: 16rpx;
-		margin: 40rpx auto 40rpx auto;
+		margin: 24rpx auto;
 
 		.detail-comment-head {
-			position: relative;
 			width: 100%;
 			display: flex;
+			justify-content: space-between;
 			align-items: center;
+			padding-bottom: 24rpx;
+			box-sizing: border-box;
+			border-bottom: 1rpx solid rgb(204, 204, 204);
 
 			.detail-comment-tit {
-				font-size: 32rpx;
+				font-size: 28rpx;
 				font-weight: 700;
-				color: rgb(255, 78, 47);
-				margin-left: 30rpx;
+				color: rgb(51, 51, 51);
 
 				span {
 					font-size: 24rpx;
-					color: rgb(190, 190, 190);
+					color: rgb(102, 102, 102);
 				}
 			}
 
 			.detail-comment-more {
-				position: absolute;
-				right: 40rpx;
 				font-size: 24rpx;
 				color: rgb(44, 44, 44);
 				display: flex;
@@ -1765,64 +2073,183 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				image {
 					width: 30rpx;
 					height: 30rpx;
-					margin-left: 22rpx;
+					margin-left: 8rpx;
 				}
 			}
 
 		}
 
-		.detail-comment-line {
-			width: 686rpx;
-			border-bottom: 1rpx solid rgb(190, 190, 190);
-			margin: 24rpx auto;
-		}
-
 		.detail-comment-item {
 			width: 100%;
+			margin-top: 32rpx;
 
 			.detail-comment-item-head {
 				width: 100%;
 				display: flex;
 				align-items: center;
-				margin-bottom: 20rpx;
 
-				.auth {
+				image {
 					width: 60rpx;
 					height: 60rpx;
 					border-radius: 50%;
-					margin-left: 30rpx;
 				}
 
-				view {
+				p {
+					margin-left: 16rpx;
 					font-size: 24rpx;
-					color: rgb(44, 44, 44);
-					margin-left: 20rpx;
+					color: rgb(51, 51, 51);
 				}
 
+				.head-level {
+					width: 100rpx;
+					height: 35rpx;
+					margin-left: 20rpx;
+					background: rgb(253, 240, 226);
+					border-radius: 100rpx;
+					display: flex;
+
+					.head-level-icon {
+						width: 35rpx;
+						height: 35rpx;
+
+						image {
+							width: 100%;
+						}
+					}
+
+					.head-level-num {
+						margin-left: 8rpx;
+						color: rgb(219, 132, 37);
+						font-size: 20rpx;
+						line-height: 35rpx;
+					}
+				}
 			}
 
 			.detail-comment-item-info {
-				width: 650rpx;
-				line-height: 30rpx;
-				font-size: 24rpx;
+				width: 100%;
+				margin-top: 24rpx;
+				line-height: 36rpx;
 				color: rgb(44, 44, 44);
+				font-size: 24rpx;
 				overflow: hidden;
 				text-overflow: ellipsis;
 				display: -webkit-box;
 				-webkit-box-orient: vertical;
 				-webkit-line-clamp: 2;
-				margin: 0 auto;
 			}
 		}
 
 		.detail-comment-not {
-			width: 650rpx;
+			width: 100%;
+			margin-top: 24rpx;
 			font-size: 24rpx;
 			color: #999;
 			text-align: center;
-			margin: 0 auto;
 		}
 
+	}
+
+	.guess-layout {
+		width: 100%;
+		margin: 24rpx 0;
+		padding: 24rpx 32rpx;
+		box-sizing: border-box;
+		background: #ffffff;
+
+		.gl-title {
+			width: 100%;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+
+			.gl-title-left {
+				display: flex;
+				align-items: center;
+
+				image {
+					width: 40rpx;
+				}
+
+				p {
+					margin-left: 12rpx;
+					color: rgb(51, 51, 51);
+					font-size: 32rpx;
+				}
+			}
+		}
+
+		.gl-content {
+			width: 100%;
+			margin-top: 26rpx;
+
+			.gl-content-item {
+				width: 220rpx;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: flex-start;
+				margin-bottom: 28rpx;
+
+				.item-cover {
+					width: 220rpx;
+					height: 220rpx;
+
+					image {
+						width: 100%;
+						height: 100%;
+						border-radius: 16rpx;
+					}
+				}
+
+				.item-text {
+					width: 100%;
+					margin: 12rpx 0;
+					box-sizing: border-box;
+					color: rgb(51, 51, 51);
+					font-size: 20rpx;
+					line-height: 32rpx;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					display: -webkit-box;
+					-webkit-line-clamp: 2;
+					overflow: hidden;
+					-webkit-box-orient: vertical;
+				}
+
+				.item-price {
+
+					span {
+						color: rgb(255, 57, 57);
+						font-size: 32rpx;
+
+						&:first-child {
+							font-size: 20rpx;
+						}
+					}
+				}
+			}
+		}
+
+		.gl-line {
+			margin: 20rpx auto 0;
+			width: 36rpx;
+			height: 6rpx;
+			background: #E8E8E8;
+			position: relative;
+			border-radius: 40rpx;
+
+			.gl-line-bg {
+				width: 22rpx;
+				height: 6rpx;
+				background: rgb(10, 198, 142);
+				border-radius: 40rpx;
+				position: absolute;
+				left: 0;
+				top: 0;
+				transition: left .5s;
+			}
+		}
 	}
 
 	//输入密码
@@ -1955,24 +2382,18 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			margin-right: 30rpx;
 		}
 
-		// .new-shop-info{
-		// 	display: flex;
-		// }
-
 		.new-shop-info-des {
 			width: 300rpx;
 			height: 108rpx;
-			// margin-top: 10rpx;
-			// margin-bottom: 20rpx;
 
 			.new-shop-info-name {
 				width: 100%;
+				color: rgb(51, 51, 51);
 				font-size: 32rpx;
-				color: rgb(255, 78, 47);
+				font-weight: bold;
 				overflow: hidden;
 				text-overflow: ellipsis;
 				white-space: nowrap;
-				// margin-bottom: 20rpx;
 			}
 		}
 
@@ -1984,11 +2405,11 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			min-width: 140rpx;
 			height: 60rpx;
 			line-height: 60rpx;
-			font-size: 32rpx;
+			font-size: 24rpx;
 			color: rgb(255, 255, 255);
 			text-align: center;
 			padding: 0 32rpx;
-			background: rgb(255, 78, 47);
+			background: rgb(10, 198, 142);
 			border-radius: 30rpx;
 		}
 
@@ -2289,42 +2710,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				background: rgba(0, 0, 0, 0.4);
 				text-align: center;
 				border-radius: 18rpx;
-			}
-		}
-
-		//auct-nav S
-		.auct-nav {
-			width: 100%;
-			padding: 40rpx 0 30rpx 0;
-			display: flex;
-			justify-content: space-between;
-			text-align: center;
-
-
-			.li {
-				width: 25%;
-				font-size: 26rpx;
-				text-align: center;
-				position: relative;
-				text-align: center;
-			}
-
-			.active {
-				color: #FF4E2F;
-				font-weight: 550;
-			}
-
-			.active::after {
-				width: 32rpx;
-				height: 5rpx;
-				background: #FF4E2F;
-				border-radius: 3rpx;
-				position: absolute;
-				bottom: -10rpx;
-				left: 50%;
-				margin-left: -16rpx;
-				display: block;
-				content: "";
 			}
 		}
 
@@ -2643,15 +3028,86 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				}
 			}
 		}
-
-		//detail-fixed S
-		.detail-fixed {
+		
+		.bottom-layout {
+			width: 100%;
+			padding: 6rpx 32rpx;
+			box-sizing: border-box;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
 			position: fixed;
 			left: 0;
 			bottom: 0;
-			width: 100%;
 			background: #fff;
 			z-index: 99;
+			
+			.bl-left {
+				display: flex;
+				align-items: center;
+				
+				.bl-left-box {
+					text-align: center;
+					
+					image {
+						width: 40rpx;
+					}
+					
+					p {
+						color: rgb(51, 51, 51);
+						font-size: 20rpx;
+					}
+				}
+			}
+			
+			.bl-right {
+				display: flex;
+				align-items: center;
+				
+				.bl-right-buy {
+					width: 212rpx;
+					height: 88rpx;
+					margin: 0 12rpx;
+					background: rgb(10, 198, 142);
+					border-radius: 200rpx;
+					display: flex;
+					flex-direction: column;
+					justify-content: center;
+					align-items: center;
+					
+					.buy-name {
+						color: rgb(255, 255, 255);
+						font-size: 24rpx;
+					}
+					
+					.buy-info {
+						color: rgb(255, 255, 255);
+						font-size: 28rpx;
+						
+						span {
+							color: rgb(255, 255, 255);
+							font-size: 16rpx;
+						}
+					}
+				}
+				
+				.bl-right-add {
+					width: 212rpx;
+					height: 88rpx;
+					margin: 0 12rpx;
+					background: rgb(10, 185, 198);
+					border-radius: 200rpx;
+					display: flex;
+					flex-direction: column;
+					justify-content: center;
+					align-items: center;
+					
+					p {
+						color: rgb(255, 255, 255);
+						font-size: 24rpx;
+					}
+				}
+			}
 
 			.fixed-con {
 				padding: 15rpx 30rpx;
@@ -2726,6 +3182,129 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				}
 			}
 		}
+		
+		// 选择规格 star
+		
+		// 选择规格end
+		.specs-layout {
+			width: 100%;
+			background: #ffffff;
+			padding: 32rpx;
+			box-sizing: border-box;
+			border-radius: 16rpx 16rpx 0 0;
+			
+			.sl-info {
+				
+			}
+		}
+		// 选择地址 star
+		.showaddress {
+			width: 750rpx;
+			padding-bottom: 24rpx;
+			background: #fff;
+			border-radius: 24rpx 24rpx 0 0;
+
+			.top {
+				position: relative;
+				width: 100%;
+				height: 96rpx;
+				display: flex;
+				align-items: center;
+
+				view {
+					width: 100%;
+					font-size: 40rpx;
+					color: rgb(51, 51, 51);
+					text-align: center;
+				}
+
+				image {
+					position: absolute;
+					right: 32rpx;
+					width: 32rpx;
+					height: 32rpx;
+					z-index: 5;
+				}
+			}
+
+			.addresslist {
+				width: 100%;
+				margin-top: 46rpx;
+
+				.address-item {
+					width: 100%;
+
+					.item-head {
+						width: 100%;
+						display: flex;
+						align-items: center;
+
+						image {
+							width: 48rpx;
+							height: 48rpx;
+							margin-left: 32rpx;
+						}
+
+						.item-name {
+							font-size: 32rpx;
+							font-weight: bold;
+							color: rgb(51, 51, 51);
+							margin: 0 20rpx 0 24rpx;
+						}
+
+						.item-phone {
+							font-size: 28rpx;
+							color: rgb(102, 102, 102);
+						}
+
+					}
+
+					.item-info {
+						width: 594rpx;
+						line-height: 44rpx;
+						font-size: 24rpx;
+						color: rgb(102, 102, 102);
+						word-break: break-all;
+						margin-left: 104rpx;
+					}
+
+					.item-default {
+						width: 150rpx;
+						height: 36rpx;
+						line-height: 36rpx;
+						font-size: 20rpx;
+						color: rgb(10, 198, 142);
+						text-align: center;
+						box-sizing: border-box;
+						border: 1rpx solid rgb(10, 198, 142);
+						border-radius: 8rpx;
+						margin: 20rpx 0 32rpx 104rpx;
+					}
+				}
+
+				.item-line {
+					width: 686rpx;
+					border-bottom: 1rpx solid rgb(204, 204, 204);
+					margin: 0 auto 32rpx auto;
+				}
+
+			}
+
+			.address-btn {
+				width: 686rpx;
+				height: 88rpx;
+				line-height: 88rpx;
+				font-size: 40rpx;
+				font-weight: bold;
+				color: rgb(255, 255, 255);
+				text-align: center;
+				background: rgb(10, 198, 142);
+				border-radius: 88rpx;
+				margin: 20rpx auto 0 auto;
+			}
+		}
+
+		// 选择地址 end
 
 		//detail-fixed E
 	}
@@ -3195,13 +3774,16 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		justify-content: center;
 		font-size: 32rpx;
 		font-weight: 700;
-		color: rgb(255, 78, 47);
-		margin: 30rpx 0;
+		color: rgb(51, 51, 51);
 
 		.line {
 			width: 200rpx;
 			height: 1rpx;
-			margin: 0 20rpx;
+			background: rgb(204, 204, 204);
+		}
+		
+		text {
+			margin: 0 32rpx;
 		}
 	}
 

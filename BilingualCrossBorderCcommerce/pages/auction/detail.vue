@@ -1,21 +1,18 @@
 <template>
 	<view class="detail-page">
-
 		<view class="detail-header" :style="`background: rgba(255,255,255,${myOpacity});`">
 			<view class="detail-head">
-				<image src="/static/images/new-index/left.png" class="return" @click="toIndex()"></image>
-				<image src="/static/images/new-index/gwc_info.png" class="gwc" ></image>
-				<image src="/static/images/new-index/fx.png" class="fx" ></image>
+				<image src="@/static/images/new-index/detail_btn_back.png" class="return" @click="toIndex()"></image>
+				<image src="@/static/images/new-index/detail_btn_car.png" class="gwc"></image>
+				<image src="@/static/images/new-index/detail_btn_share.png" class="fx"></image>
 				<view :style="`opacity: ${myOpacity};`">{{$t('top.jpxq')}}</view>
 			</view>
-
 			<!--头部导航 start-->
 			<view class="auct-nav" :style="`opacity: ${myOpacity};`">
 				<view v-for="item in navList" :key="item.id" class="li" :class="item.id==navId?'active':''"
 					@click="onNavClick(item.id)">{{item.title}}</view>
 			</view>
 		</view>
-
 		<!--轮播图 start-->
 		<view class="detail-big">
 			<div id="div1"></div>
@@ -32,7 +29,6 @@
 				</swiper>
 			</uni-swiper-dot>
 		</view>
-
 		<block v-if="status">
 			<!--商品价格时间-->
 			<view class="detail-price">
@@ -47,18 +43,32 @@
 					{{$t('new.jljs')}}：{{hour}}:{{minute}}:{{second}}
 				</view>
 			</view>
-
 			<view class="detail-title">{{shopCont.goods_name}}</view>
-
 			<!--标签-->
 			<view class="li-tags">
 				<block v-for="(item,index) in shopCont.tags" :key="item.tag_id">
-					<view v-if="index%3==0" class="tag">{{item.name}}</view>
-					<view v-else-if="index%3==1" class="tag yellow">{{item.name}}</view>
-					<view v-else class="tag red">{{item.name}}</view>
+					<view class="tag">{{item.name}}</view>
 				</block>
 			</view>
-
+			<view class="progress-layout">
+				<view class="pl-box">
+					<span :style="{'width': 50 + '%'}"></span>
+				</view>
+			</view>
+			<view class="operate-layout">
+				<view class="ol-container">
+					<image src="@/static/images/new-index/detail_icon_collect.png" mode="widthFix"></image>
+					<p>7.9k</p>
+				</view>
+				<view class="ol-container">
+					<image src="@/static/images/new-index/detail_icon_clap.png" mode="widthFix"></image>
+					<p>878</p>
+				</view>
+				<view class="ol-container">
+					<image src="@/static/images/new-index/detail_icon_share.png" mode="widthFix"></image>
+					<p>1.3k</p>
+				</view>
+			</view>
 			<!--幸运之星-->
 			<view class="detail-luck-star" v-if="shopCont.auction_type!=2">
 				<view class="detail-luck-star-name">{{$t('xejp')}}</view>
@@ -67,7 +77,6 @@
 					{{$t('xyzx')}}：{{shopCont.lucky_num}}{{$t('ge')}}
 				</view>
 			</view>
-
 			<!--参与竞拍人数-->
 			<view class="detail-canyu">
 				<view class="detail-canyu-name">{{$t('new.canyurenshu')}}：{{shopCont.order_user.length}}
@@ -98,7 +107,6 @@
 							<image :src="item.avatar"></image>
 						</view>
 					</block>
-
 				</view>
 				<!-- 最后参与人的时间 -->
 				<view class="detail-canyu-zuihou" :style="shopCont.order_user.length==0?'margin-top:20rpx;':''"
@@ -106,7 +114,6 @@
 					{{shopCont.last_pay_time}}
 				</view>
 			</view>
-
 			<div id="div2"></div>
 			<!--评论-->
 			<view class="detail-comment">
@@ -136,9 +143,7 @@
 				<block v-else>
 					<view class="detail-comment-not">{{$t('newDetail.not')}}</view>
 				</block>
-
 			</view>
-
 			<!--店铺信息-->
 			<view class="detail-five">
 				<view class="five-hd">
@@ -185,7 +190,6 @@
 					</view>
 				</view>
 			</view>
-
 			<!--猜你喜欢-->
 			<view class="detail-like">
 				<view class="head">
@@ -196,7 +200,6 @@
 						<image src="/static/images/products/right.png"></image>
 					</view>
 				</view>
-
 				<scroll-view scroll-x style="width: 686rpx;white-space: nowrap;margin: 0 auto;">
 					<view class="all_list" v-for="data in likeList">
 						<view class="list">
@@ -210,7 +213,6 @@
 
 				</scroll-view>
 			</view>
-			
 			<!--热门推荐-->
 			<view class="detail-like" style="margin-top: 24rpx;">
 				<view class="head">
@@ -221,7 +223,6 @@
 						<image src="/static/images/products/right.png"></image>
 					</view>
 				</view>
-			
 				<scroll-view scroll-x style="width: 686rpx;white-space: nowrap;margin: 0 auto;">
 					<view class="all_list" v-for="data in likeList">
 						<view class="list">
@@ -232,10 +233,8 @@
 							</view>
 						</view>
 					</view>
-			
 				</scroll-view>
 			</view>
-
 			<div id="div3"></div>
 			<!--商品详情-->
 			<view class="detail-six">
@@ -251,7 +250,6 @@
 				<view class="six-article" v-if="isShopCont" v-html="shopCont.english_content"></view>
 				<view class="six-article" v-else v-html="shopCont.content"></view>
 			</view>
-
 			<div id="div4"></div>
 			<!--竞拍记录-->
 			<view class="jingpaiCont">
@@ -264,7 +262,6 @@
 						<image class="img" src="/static/images/products/line.png"></image>
 					</view>
 				</view>
-
 				<block v-if="goodlucky.length">
 					<view class="jingpaiCont-jpjl">
 						<view class="max-title" style="color: #FF4E2F;">获奖名单</view>
@@ -276,7 +273,6 @@
 										<image :src="item.avatar" mode="" />
 									</view>
 								</view>
-
 								<view class="name">{{item.nickname}}</view>
 								<view class="time">{{$filter.to_dateTimes(item.update_time)}}</view>
 								<!-- <view class="pay">RM{{item.pay_price}}</view> -->
@@ -287,9 +283,7 @@
 							</view>
 						</view>
 					</view>
-
 				</block>
-
 				<block v-if="OrderList.length">
 					<view class="jingpaiCont-jpjl" style="margin-top: 20rpx;">
 						<view class="max-title">{{$t('auction.detail.jingpaijilu')}}</view>
@@ -309,7 +303,6 @@
 					</view>
 				</block>
 			</view>
-
 			<!--竞拍规则-->
 			<view>
 				<div id="div5"></div>
@@ -327,7 +320,6 @@
 					<view class="agree-box" v-else v-html="auction_rule"></view>
 				</view>
 			</view>
-
 			<!--底部 start-->
 			<view class="detail-fixed">
 				<view class="fixed-con">
@@ -344,7 +336,6 @@
 								<span>{{shopCont.appear_watch_num}}</span>
 							</view>
 						</view>
-
 					</view>
 					<view class="fixed-fr">
 						<view class="detail-btn" v-if="shopCont.check_status==3||shopCont.check_status==4"
@@ -370,8 +361,6 @@
 			</view>
 			<!--底部 end-->
 		</block>
-
-
 		<!--抢拍次数 start-->
 		<view v-if="qiangpaiShow" class="fenxiang">
 			<view class="qiangpaiShow">
@@ -396,13 +385,10 @@
 						<view class="qiangpai-btn">
 							<view class="btnsub" @click="onBtnSub">{{$t('user.auctionM.queding')}}</view>
 						</view>
-
 					</view>
 				</view>
 			</view>
 		</view>
-
-
 		<!--竞拍次数为0 start-->
 		<uni-popup ref="pwdPopup" :mask-click="false" type="center">
 			<view class="jingpai-pop">
@@ -417,8 +403,6 @@
 				</view>
 			</view>
 		</uni-popup>
-
-
 		<view class="fenxiang" v-if="jingpaiShow">
 			<view class="jingpai-ok">
 				<image src="../../static/images/new/tck.png" class="kct"></image>
@@ -448,9 +432,7 @@
 					</view>
 				</view>
 			</view>
-
 		</view>
-
 		<!--分享弹出 start-->
 		<view class="fenxiang" v-if="onfenxingShow">
 			<view class="share-pop">
@@ -480,7 +462,6 @@
 				</view>
 			</view>
 		</view>
-
 		<!--支付方式弹出 start-->
 		<view class="zhifuCont" v-if="zhifushow">
 			<view class="mode-pop">
@@ -522,7 +503,6 @@
 				</view>
 			</view>
 		</view>
-
 		<!--支付密码弹出 start-->
 		<view class="fenxiang" v-if="zhipassShow">
 			<view class="pay-pwd">
@@ -540,10 +520,8 @@
 				</view>
 			</view>
 		</view>
-
 		<!--支付成功弹出 start-->
 		<view class="fenxiang" v-if='zhichenShow'>
-
 			<view class="pay-pwd">
 				<image src="../../static/images/new/tck-cg.png" class="pay-pwd-img"></image>
 				<image src="../../static/images/new/close.png" class="pay-pwd-close" @click="onpayQuery"></image>
@@ -560,7 +538,6 @@
 					</view>
 				</view>
 			</view>
-
 			<!-- <view class="payConter">
 				<view class="title">{{$t('auction.detail.gxnzfcgznzp')}}</view>
 				<view class="txt">{{$t('auction.detail.zpydzpjlgg')}}~</view>
@@ -1639,11 +1616,11 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				}
 			}
 		}
-		
-		.all_list{
+
+		.all_list {
 			display: inline-block;
 		}
-		
+
 		.list {
 			width: 686rpx;
 			display: flex;
@@ -1710,23 +1687,23 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		display: flex;
 		align-items: center;
 		// background: #fff;
-		
-		image{
+
+		image {
 			position: absolute;
 			width: 56rpx;
 			height: 56rpx;
 			z-index: 10;
 		}
-		
+
 		.return {
 			left: 20rpx;
 		}
-		
-		.gwc{
+
+		.gwc {
 			right: 112rpx;
 		}
-		
-		.fx{
+
+		.fx {
 			right: 32rpx;
 		}
 
@@ -1741,15 +1718,16 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 	//价格与时间
 	.detail-price {
-		position: relative;
-		width: 750rpx;
+		width: 100%;
 		height: 90rpx;
+		background: rgb(255, 57, 57);
+		padding: 0 32rpx;
+		box-sizing: border-box;
 		display: flex;
+		justify-content: space-between;
 		align-items: center;
-		background: rgba(255, 78, 47, 0.5);
 
 		.detail-price-left {
-			margin-left: 30rpx;
 
 			.detail-price-new {
 				font-size: 40rpx;
@@ -1759,24 +1737,23 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 			.detail-price-old {
 				font-size: 24rpx;
-				color: rgb(255, 78, 47);
+				color: rgb(248, 248, 248);
 				text-decoration: line-through;
 			}
 		}
 
 		.detail-price-time {
-			position: absolute;
-			right: 30rpx;
 			font-size: 32rpx;
 			color: rgb(255, 255, 255);
-			display: flex;
-			align-items: center;
 		}
-
 	}
 
 	.detail-title {
-		width: 690rpx;
+		width: 100%;
+		background: rgb(255, 255, 255);
+		padding: 24rpx 32rpx 20rpx;
+		box-sizing: border-box;
+		line-height: 48rpx;
 		font-size: 32rpx;
 		color: rgb(44, 44, 44);
 		overflow: hidden;
@@ -1785,41 +1762,77 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		display: -webkit-box;
 		-webkit-box-orient: vertical;
 		-webkit-line-clamp: 2;
-		margin: 20rpx 0 10rpx 30rpx;
 	}
 
 	//标签
 	.li-tags {
-		width: 690rpx;
+		width: 100%;
+		background: rgb(255, 255, 255);
+		padding: 0 32rpx;
+		box-sizing: border-box;
 		display: flex;
 		flex-wrap: wrap;
-		margin: 0 30rpx 0 30rpx;
 
 		.tag {
-			// width: 110rpx;
-			height: 34rpx;
-			padding: 0 10rpx;
-			background: rgba(138, 212, 251, 0.5);
+			margin: 0 12rpx 12rpx 0;
+			padding: 4rpx 10rpx;
+			box-sizing: border-box;
+			border: 1rpx solid rgb(204, 204, 204);
 			border-radius: 10rpx;
-			line-height: 34rpx;
-			text-align: center;
+			color: rgb(102, 102, 102);
+			font-size: 16rpx;
+		}
+	}
+	
+	.progress-layout {
+		width: 100%;
+		background: rgb(255, 255, 255);
+		padding: 12rpx 32rpx;
+		box-sizing: border-box;
+		display: flex;
+		align-items: center;
+		
+		.pl-box {
+			width: 400rpx;
+			height: 32rpx;
+			box-sizing: border-box;
+			background: rgba(255, 0, 0, 0.1);
+			border: 2rpx solid rgb(255, 197, 182);
+			border-radius: 100rpx;
 			overflow: hidden;
-			text-overflow: ellipsis;
-			white-space: nowrap;
-			font-size: 22rpx;
-			color: rgb(0, 169, 255);
-			margin-right: 10rpx;
-			margin-bottom: 10rpx;
+			display: flex;
+			align-items: center;
+			
+			span {
+				height: 32rpx;
+				background: linear-gradient(270.00deg, rgba(234,155,68,1.00),rgba(255,86.53,48.68,1.00) 100%);
+				border-radius: 50px;
+			}
 		}
-
-		.yellow {
-			background: rgba(255, 221, 175, 0.5);
-			color: rgb(255, 78, 47);
-		}
-
-		.red {
-			background: rgba(255, 175, 175, 0.5);
-			color: rgb(255, 0, 0);
+	}
+	
+	.operate-layout {
+		width: 100%;
+		background: rgb(255, 255, 255);
+		padding: 20rpx 0 32rpx;
+		box-sizing: border-box;
+		display: flex;
+		justify-content: center;
+		
+		.ol-container {
+			margin: 0 64rpx;
+			display: flex;
+			align-items: center;
+			
+			image {
+				width: 32rpx;
+			}
+			
+			p {
+				margin-left: 12rpx;
+				color: rgb(102, 102, 102);
+				font-size: 24rpx;
+			}
 		}
 	}
 

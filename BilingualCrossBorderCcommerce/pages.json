@@ -752,6 +752,13 @@
 			}
 		},
 		{
+			"path": "pages/mine/new/collect",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		},
+		{
 			"path": "pages/mine/new/collect_products",
 			"style": {
 				"navigationBarTitleText": "",
@@ -808,7 +815,7 @@
 			}
 		},
 		{
-			"path": "pages/mine/newMine",
+			"path": "pages/mine/oldmine",
 			"style": {
 				"navigationBarTitleText": "",
 				"navigationStyle": "custom"

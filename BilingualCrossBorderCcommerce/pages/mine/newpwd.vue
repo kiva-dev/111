@@ -49,7 +49,7 @@
 			<!--login-ul end-->
 			<!--register-bot start-->
 			<view class="register-bot">
-				<button class="public-btn" style="background: #FF4E2F;"
+				<button class="public-btn" style="background: #1DD181;"
 					@click.stop="$noMultipleClicks(onLoginForgetPwdByMobile)">{{$t('login.qrzh')}}</button>
 			</view>
 			<!--register-bot end-->
@@ -93,7 +93,7 @@
 			<!--login-ul end-->
 			<!--register-bot start-->
 			<view class="register-bot">
-				<button class="public-btn" style="background: #FF4E2F;"
+				<button class="public-btn" style="background: #1DD181;"
 					@click.stop="$noMultipleClicks(onLoginForgetPwdByEmail)">{{$t('login.qrzh')}}</button>
 			</view>
 			<!--register-bot end-->

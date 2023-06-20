@@ -566,7 +566,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						id: 1,
 						name: this.$t('user.order.qbdd')
 					},
-					// { id: 2, name: this.$t('user.order.daifuk') },
 					{
 						id: 2,
 						name: this.$t('user.order.daifahuo')

@@ -25,7 +25,7 @@
 			</view>
 		</view>
 		<view class="phone-bot">
-			<button class="public-btn" style="background: rgb(255, 78, 47);"
+			<button class="public-btn" style="background: rgb(10, 198, 142);"
 				@click="onMineChangeMobile">{{$t('user.phone.qrxg')}}</button>
 		</view>
 	</view>
