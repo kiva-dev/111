@@ -48,7 +48,7 @@
 								<view class="price">RM<span>{{data.goods_price}}</span></view>
 								<view class="btn">
 									<view class="jian" @click="changNum('jian',data)">
-										<image src="../../static/images/new-index/jian1.png" v-if="num==1"></image>
+										<image src="../../static/images/new-index/jian1.png" v-if="data.num==1"></image>
 										<image src="/static/images/new-index/jian.png" v-else></image>
 									</view>
 									<view class="myinput">
@@ -222,13 +222,16 @@
 				this.deleteNum = 0
 				this.selectNum = 0
 				if (num == 1) {
+					let id = 0
 					info.select = !info.select
 					this.productList.forEach(item => {
 						item.goods.forEach(data => {
-							data.select = info.select
-							if (data.select) {
-								this.deleteNum++
-								this.selectNum++
+							if (item.select) {
+								data.select = info.select
+								if (data.select) {
+									this.deleteNum++
+									this.selectNum++
+								}
 							}
 						})
 					})
