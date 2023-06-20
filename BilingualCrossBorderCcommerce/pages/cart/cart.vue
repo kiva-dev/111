@@ -3,87 +3,142 @@
 		<view class="head">
 			<image src="/static/images/new-index/return.png" class="return" @click="toBack()"></image>
 			<view class="txt">My Cart</view>
-			<view class="right">
+			<view class="right" v-show="showBtm" @click="switchBtm()">
 				<image src="/static/images/new-index/edit.png"></image>
 				<view>Edit</view>
 			</view>
+			<view class="right" v-show="showEditbtm" @click="switchBtm()">Complete</view>
 		</view>
 
 		<!--购物车商品列表-->
-		<view class="list" v-for="item in [1,1]">
+		<view class="list" v-for="item in productList" :key="item.admin_id">
+
 			<view class="head_info">
-				<image src="../../static/images/new-index/wxz.png" class="head_logo"></image>
-				<image src="../../static/images/new-index/xz.png" class="head_logo" v-show="false"></image>
-				<view class="head_txt">Best Household</view>
+				<image src="../../static/images/new-index/wxz.png" class="head_logo" v-show="!item.select"
+					@click="switchSelect(1,item)"></image>
+				<image src="../../static/images/new-index/xz.png" class="head_logo" v-show="item.select"
+					@click="switchSelect(1,item)"></image>
+				<view class="head_txt">{{item.shop_name}}</view>
 				<image src="../../static/images/products/right.png" class="head_more"></image>
 			</view>
 
-			<view class="item" v-for="(data,i) in [1,1]">
-				<view class="detail">
-					<image src="/static/images/new-index/wxz.png" class="logo"></image>
-					<image src="../../static/images/new-index/xz.png" class="logo" v-show="false"></image>
-					<image src="../../static/fxtu.png" class="img"></image>
-					<view class="info">
-						<view class="name">Xiaomi 33W Power Bank 10000mA Pock EditiPock3 Power Bank</view>
-						<view class="guige">
-							<view>256GB,10000mAh,Pro</view>
-							<image src="/static/images/new-index/btm.png"></image>
+			<block v-for="(data,i) in item.goods" :key="data.id">
+				<scroll-view scroll-x style="width: 750rpx;">
+					<view class="item">
+						<view class="item-info">
+							<view class="detail">
+								<image src="/static/images/new-index/wxz.png" class="logo" v-show="!data.select"
+									@click="switchSelect(2,data)"></image>
+								<image src="../../static/images/new-index/xz.png" class="logo" v-show="data.select"
+									@click="switchSelect(2,data)">
+								</image>
+								<image :src="data.spec_image" class="img"></image>
+								<view class="info">
+									<view class="name">{{data.goods_name}}</view>
+									<view class="guige" @click="getProductSpec(data)">
+										<view>{{data.attrs}}</view>
+										<image src="/static/images/new-index/btm.png"></image>
+									</view>
+									<view class="tags">
+										<view>xiaomi</view>
+									</view>
+								</view>
+							</view>
+							<view class="price-info">
+								<view class="price">RM<span>{{data.goods_price}}</span></view>
+								<view class="btn">
+									<view class="jian" @click="changNum('jian',data)">
+										<image src="../../static/images/new-index/jian1.png" v-if="num==1"></image>
+										<image src="/static/images/new-index/jian.png" v-else></image>
+									</view>
+									<view class="myinput">
+										<input type="number" v-model="data.num" @confirm="inspectNum(data)" />
+									</view>
+									<view class="jia" @click="changNum('jia',data)">
+										<image src="../../static/images/new-index/jia.png"></image>
+									</view>
+								</view>
+							</view>
 						</view>
-						<view class="tags">
-							<view>xiaomi</view>
+
+						<view class="item-other">
+							<!-- <view class="item-other-info">
+								<image src="../../static/images/new-index/sc.png"></image>
+							</view> -->
+							<view class="item-other-info" style="background: rgb(135, 138, 155);"
+								@click="switchDelete(1,data.id)">
+								<image src="../../static/images/new-index/del.png"></image>
+							</view>
 						</view>
+
 					</view>
-				</view>
-				<view class="price-info">
-					<view class="price">RM<span>1990.00</span></view>
-					<view class="btn">
-						<view class="jian" @click="changNum('jian')">
-							<image src="../../static/images/new-index/jian1.png" v-if="num==1"></image>
-							<image src="/static/images/new-index/jian.png" v-else></image>
-						</view>
-						<view class="myinput">
-							<input type="number" v-model="num" @confirm="inspectNum()" />
-						</view>
-						<view class="jia" @click="changNum('jia')">
-							<image src="../../static/images/new-index/jia.png"></image>
-						</view>
-					</view>
-				</view>
-			</view>
+
+				</scroll-view>
+			</block>
+
+
 
 		</view>
 
-		<view class="btm">
-			<image src="../../static/images/new-index/wxz.png"></image>
-			<image src="../../static/images/new-index/xz.png" v-show="false"></image>
+		<!--常规支付底部-->
+		<view class="btm" v-show="showBtm">
+			<image src="../../static/images/new-index/wxz.png" @click="selectAll()" v-show="!isSelectAll"></image>
+			<image src="../../static/images/new-index/xz.png" @click="selectAll()" v-show="isSelectAll"></image>
 			<view class="btm-all">All</view>
-			<view class="btm-price">Total:<span>RM</span><span style="font-size: 36rpx;">13069.00</span></view>
-			<view class="btm-btn">Check Out(4)</view>
+			<view class="btm-price">Total:<span>RM</span><span style="font-size: 36rpx;">{{totalPrice}}</span></view>
+			<view class="btm-btn" @click="toPay()">Check Out({{selectNum}})</view>
+		</view>
+
+		<!--编辑底部-->
+		<view class="edit-btm" v-show="showEditbtm">
+			<image src="../../static/images/new-index/wxz.png" @click="selectAll()" v-show="!isSelectAll"></image>
+			<image src="../../static/images/new-index/xz.png" @click="selectAll()" v-show="isSelectAll"></image>
+			<view class="edit-btm-all">All</view>
+			<!-- <view class="edit-btm-favorite" @click="$refs.popsc.open()">Add Favorite</view> -->
+			<view class="edit-btm-delete" @click="switchDelete(2,0)">Delete</view>
 		</view>
 
 		<!--规格选择-->
 		<uni-popup ref="popup" type="bottom">
 			<view class="showgg">
 				<view class="top">
-					<image src="../../static/fxtu.png" class="product-img"></image>
-					<image src="/static/images/close1.png" class="close"></image>
-					<view class="name">White,256GB,5G</view>
-					<view class="price">RM<span>1990.00</span></view>
+					<image :src="info.url" class="product-img"></image>
+					<image src="/static/images/close1.png" class="close" @click="closeShowgg()"></image>
+					<view class="name">{{info.tags}}</view>
+					<view class="price">RM<span>{{info.price}}</span></view>
 				</view>
 
 				<view class="line"></view>
 
-				<view class="info" v-for="item in list" :key="item.id">
-					<view class="info-name">{{item.name}}</view>
+				<view class="info" v-for="item in info.list" :key="item.id">
+					<view class="info-name">{{item.spec_name}}</view>
 					<view class="info-tags">
-						<view class="info-tag" v-for="data in item.tags" :key="data.id"
-							:class="data.select ?'select':''">{{data.name}}</view>
+						<view class="info-tag" v-for="data in item.attr" :key="data.id"
+							:class="data.select ?'select':''">{{data.spec_value}}</view>
 					</view>
 				</view>
-				
-				<view class="confirm">Confirm</view>
+
+				<view class="confirm" @click="editProductSpec()">Confirm</view>
 
 			</view>
+		</uni-popup>
+
+		<!--收藏-->
+		<uni-popup ref="popsc" type="bottom">
+			<view class="favorite">
+				<view class="favorite-top">2 products moved into favorites?</view>
+				<view class="favorite-ok">Confirm</view>
+			</view>
+			<view class="cancel" @click="$refs.popsc.close()">Cancel</view>
+		</uni-popup>
+
+		<!--删除-->
+		<uni-popup ref="popdel" type="bottom">
+			<view class="favorite">
+				<view class="favorite-top">Delete these {{deleteNum}} products?</view>
+				<view class="favorite-ok" @click="confirmDelete()">Delete</view>
+			</view>
+			<view class="cancel" @click="$refs.popdel.close()">Cancel</view>
 		</uni-popup>
 
 		<view style="height: 136rpx;"></view>
@@ -94,91 +149,243 @@
 	export default {
 		data() {
 			return {
+				isSelectAll: false, //是否全选
+				showEditbtm: false, //显示编辑
+				showBtm: true, //显示购买
 				num: 1,
-				list: [{
-						id: 1,
-						name: "Color",
-						tags: [{
-							id: 11,
-							select: true,
-							name: 'White'
-						}, {
-							id: 12,
-							select: false,
-							name: 'Red'
-						}, {
-							id: 13,
-							select: false,
-							name: 'Black'
-						}, {
-							id: 14,
-							select: false,
-							name: 'Yellow'
-						}, {
-							id: 15,
-							select: false,
-							name: 'Blue'
-						}, {
-							id: 16,
-							select: false,
-							name: 'Green'
-						}]
-					}, {
-						id: 2,
-						name: "Memory",
-						tags: [{
-							id: 21,
-							select: true,
-							name: '128GB'
-						}, {
-							id: 22,
-							select: false,
-							name: '256GB'
-						}, {
-							id: 23,
-							select: false,
-							name: '512GB'
-						}, {
-							id: 24,
-							select: false,
-							name: '1TB'
-						}]
-					},
-					{
-						id: 3,
-						name: "Network",
-						tags: [{
-							id: 31,
-							select: true,
-							name: '4G'
-						}, {
-							id: 32,
-							select: false,
-							name: '5G'
-						}]
-					}
-				]
+				deleteId: 0, //右滑删除时的id
+				deleteNum: 0, //删除数量
+				selectNum: 0, //选中商品数量
+				timer: '', //定时器
+				productList: [], //商品列表
+				productInfo: {}, //商品详情
+				info: {}, //页面显示数据
+				totalPrice: 0, //总价值
 			}
 		},
-		mounted() {
-			this.$refs.popup.open()
+		onShow() {
+			this.getCartList()
 		},
 		methods: {
+			//获取所有购物车数据
+			getCartList() {
+				this.totalPrice = 0
+				this.$http.post(this.$apiObj.CartList).then(res => {
+					res.data.data.forEach(item => {
+						this.$set(item, 'select', false)
+						item.goods.forEach(data => {
+							data.attrs = data.attrs.toString()
+							this.$set(data, 'select', false)
+							this.totalPrice += (data.goods_price * 1) * data.num
+						})
+					})
+					this.productList = res.data.data
+				})
+			},
+			//修改购物车商品数量
+			editCartProductNum(data) {
+				this.$http.post(this.$apiObj.CartEdit, {
+					cart_id: data.id,
+					goods_spec_id: data.goods_spec_id,
+					num: data.num
+				}).then(res => {
+					if (res.code != 1) {
+						uni.showToast({
+							icon: 'none',
+							title: res.msg
+						})
+					}
+				})
+			},
+			//获取商品详情规格
+			getProductSpec(data) {
+				this.$http.post(this.$apiObj.IndexGoodsDetail, {
+					goods_id: data.goods_id
+				}).then(res => {
+					let data = {
+						url: res.data.now_sku.spec_image,
+						tags: res.data.now_sku.attrs.toString(),
+						price: res.data.now_sku.goods_price,
+						list: res.data.spec_list
+					}
+					this.productInfo = res.data
+					this.info = data
+					this.$refs.popup.open()
+				})
+			},
+			//修改商品规格
+			editProductSpec() {
+
+			},
+			//切换是否选中;1：店铺 2：商品
+			switchSelect(num, info) {
+				this.deleteNum = 0
+				this.selectNum = 0
+				if (num == 1) {
+					info.select = !info.select
+					this.productList.forEach(item => {
+						item.goods.forEach(data => {
+							data.select = info.select
+							if (data.select) {
+								this.deleteNum++
+								this.selectNum++
+							}
+						})
+					})
+				} else {
+					//如果是商品，先把选中取反，然后遍历数组，如果全选中了店铺变为选中，否则为未选中
+					info.select = !info.select
+					let flag = true
+					let id = 0
+					this.productList.forEach(item => {
+						id = item.admin_id
+						item.goods.forEach(data => {
+							if (!data.select) flag = false
+							else {
+								this.deleteNum++
+								this.selectNum++
+							}
+						})
+					})
+
+					this.productList.forEach(item => {
+						if (id == item.admin_id) item.select = flag ? true : false
+					})
+
+				}
+
+				//如果全部选中了
+				let isAll = true
+				this.productList.forEach(item => {
+					if (!item.select) isAll = false
+				})
+				this.isSelectAll = isAll
+			},
+			//全选
+			selectAll() {
+				this.isSelectAll = !this.isSelectAll
+				this.deleteNum = 0
+				this.selectNum = 0
+				this.productList.forEach(item => {
+					item.select = this.isSelectAll ? true : false
+					item.goods.forEach(data => {
+						data.select = this.isSelectAll ? true : false
+						if (data.select) {
+							this.deleteNum++
+							this.selectNum++
+						}
+					})
+				})
+			},
+			switchDelete(num, id) {
+				this.$refs.popdel.open()
+				if (num == 1) {
+					this.deleteId = id
+				}
+			},
+			confirmDelete() {
+				if (this.deleteId > 0) this.deleteById(this.deleteId)
+				else this.deleteProductById()
+			},
+			//右滑删除
+			deleteById(id) {
+				this.$http.post(this.$apiObj.CartDelete, {
+					cart_ids: id
+				}).then(res => {
+					if (res.code == 1) this.getCartList()
+
+					uni.showToast({
+						icon: 'none',
+						title: res.msg
+					})
+
+					this.$refs.popdel.close()
+				})
+			},
+			//删除购物车商品
+			deleteProductById() {
+				let arr = []
+				this.productList.forEach(item => {
+					item.goods.forEach(data => {
+						if (data.select) arr.push(data.id)
+					})
+				})
+
+				if (arr.length < 1) {
+					uni.showToast({
+						icon: 'none',
+						title: '请选择要删除的商品'
+					})
+					this.$refs.popdel.close()
+					return
+				}
+				this.$http.post(this.$apiObj.CartDelete, {
+					cart_ids: arr.toString()
+				}).then(res => {
+					if (res.code == 1) this.getCartList()
+
+					uni.showToast({
+						icon: 'none',
+						title: res.msg
+					})
+
+					this.$refs.popdel.close()
+				})
+			},
+
+			//支付结算
+			toPay() {
+				let arr = []
+				this.productList.forEach(item => {
+					item.goods.forEach(data => {
+						if (data.select) arr.push(data.id)
+					})
+				})
+
+				if (arr.length < 1) {
+					uni.showToast({
+						icon: 'none',
+						title: '请选择商品'
+					})
+					return
+				}
+
+				uni.navigateTo({
+					url: "/pages/cart/submit?cart_ids=" + arr.toString()
+				})
+			},
+
+			//切换底部
+			switchBtm() {
+				this.showBtm = !this.showBtm
+				this.showEditbtm = !this.showEditbtm
+			},
+
 			toBack() {
 				uni.navigateBack()
 			},
 			//加减数字
-			changNum(type) {
+			changNum(type, data) {
 				if (type == 'jia') {
-					this.num++
+					data.num++
 				} else {
-					if (this.num == 1) return
-					this.num--
+					if (data.num == 1) return
+					data.num--
 				}
+				clearTimeout(this.timer)
+				this.timer = setTimeout(() => {
+					this.editCartProductNum(data)
+				}, 1000)
 			},
 			//验证数据是否合法
-			inspectNum() {
-				if (this.num < 1) this.num = 1
+			inspectNum(data) {
+				if (data.num < 1) data.num = 1
+			},
+			showggPop() {
+				this.$refs.popup.open()
+			},
+			closeShowgg() {
+				this.$refs.popup.close()
 			}
 		}
 	}
@@ -283,6 +490,57 @@
 
 		}
 
+		.edit-btm {
+			position: fixed;
+			bottom: 0;
+			width: 100%;
+			height: 96rpx;
+			display: flex;
+			align-items: center;
+			background: rgb(255, 255, 255);
+
+			image {
+				width: 40rpx;
+				height: 40rpx;
+				margin-left: 32rpx;
+			}
+
+			.edit-btm-all {
+				font-size: 28rpx;
+				color: rgb(102, 102, 102);
+				margin-left: 24rpx;
+			}
+
+			.edit-btm-favorite {
+				position: absolute;
+				right: 188rpx;
+				width: 200rpx;
+				height: 64rpx;
+				line-height: 64rpx;
+				font-size: 28rpx;
+				color: rgb(51, 51, 51);
+				text-align: center;
+				box-sizing: border-box;
+				border: 1rpx solid rgb(204, 204, 204);
+				border-radius: 62rpx;
+			}
+
+			.edit-btm-delete {
+				position: absolute;
+				right: 32rpx;
+				width: 124rpx;
+				height: 64rpx;
+				line-height: 64rpx;
+				font-size: 28rpx;
+				color: rgb(255, 255, 255);
+				text-align: center;
+				background: rgb(10, 198, 142);
+				border-radius: 64rpx;
+			}
+
+
+		}
+
 		.list {
 			width: 100%;
 			padding-top: 32rpx;
@@ -314,8 +572,11 @@
 			}
 
 			.item {
-				width: 100%;
+				width: 906rpx;
 				height: 260rpx;
+				padding-bottom: 10rpx;
+				display: flex;
+				align-items: center;
 			}
 
 			.detail {
@@ -404,14 +665,15 @@
 
 			.price-info {
 				position: relative;
-				width: 100%;
+				width: 750rpx;
+				height: 48rpx;
 				display: flex;
 				align-items: center;
-				margin-top: 50rpx;
+				// margin-top: 16rpx;
 
 				.price {
 					position: absolute;
-					right: 312rpx;
+					left: 292rpx;
 					font-size: 20rpx;
 					font-weight: bold;
 					color: rgb(255, 57, 57);
@@ -469,14 +731,35 @@
 				}
 			}
 
+			.item-other {
+				display: flex;
+				align-items: center;
+
+				.item-other-info {
+					position: relative;
+					width: 156rpx;
+					height: 270rpx;
+					background: rgb(236, 118, 132);
+
+					image {
+						position: absolute;
+						top: 50%;
+						left: 50%;
+						transform: translate(-50%, -50%);
+						width: 44rpx;
+						height: 44rpx;
+					}
+				}
+			}
 		}
 
 		//规格选择
 		.showgg {
 			position: relative;
 			width: 750rpx;
-			height: 1276rpx;
+			// height: 1276rpx;
 			padding-top: 32rpx;
+			padding-bottom: 40rpx;
 			background: #fff;
 			border-radius: 24rpx 24rpx 0 0;
 
@@ -563,11 +846,8 @@
 					}
 				}
 			}
-			
-			.confirm{
-				position: absolute;
-				left: 32rpx;
-				bottom: 40rpx;
+
+			.confirm {
 				width: 686rpx;
 				height: 88rpx;
 				line-height: 88rpx;
@@ -577,8 +857,52 @@
 				text-align: center;
 				background: rgb(10, 198, 142);
 				border-radius: 88rpx;
+				margin-left: 32rpx;
 			}
-			
+
+		}
+
+		//收藏
+		.favorite {
+			width: 710rpx;
+			background: #fff;
+			border-radius: 28rpx;
+			margin: 0 auto;
+
+			.favorite-top {
+				height: 84rpx;
+				line-height: 84rpx;
+				font-size: 28rpx;
+				color: rgb(153, 153, 153);
+				text-align: center;
+				border-radius: 28rpx 28rpx 0 0;
+			}
+
+			.favorite-ok {
+				height: 114rpx;
+				line-height: 114rpx;
+				font-size: 40rpx;
+				font-weight: bold;
+				color: rgb(255, 57, 57);
+				text-align: center;
+				box-sizing: border-box;
+				border-top: 1rpx solid rgb(239, 239, 239);
+				border-radius: 0 0 28rpx 28rpx;
+			}
+
+		}
+
+		.cancel {
+			width: 710rpx;
+			height: 114rpx;
+			line-height: 114rpx;
+			font-size: 40rpx;
+			font-weight: bold;
+			color: rgb(10, 198, 142);
+			text-align: center;
+			background: #fff;
+			border-radius: 28rpx;
+			margin: 20rpx auto;
 		}
 
 	}
