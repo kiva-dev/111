@@ -75,7 +75,7 @@
 					</view>
 				</view>
 				<view class="sl-address">
-					<view class="sl-address-choose">
+					<view class="sl-address-choose" @click="$refs.popupAddress.open()">
 						<view class="choose-left">
 							<view class="choose-left-name">Address</view>
 							<view class="choose-left-content">
@@ -365,7 +365,7 @@
 						<p class="buy-info"><span>RM</span> 4888.00</p>
 					</view>
 					<view class="bl-right-add">
-						<p>Buy Now</p>
+						<p>Add Cart</p>
 					</view>
 				</view>
 			</view>
@@ -405,8 +405,46 @@
 		<uni-popup ref="specsPopup" type="bottom">
 			<view class="specs-layout">
 				<view class="sl-info">
-					
+					<view class="sl-info-cover">
+						<image src="@/static/images/new-index/detail_demo_cover.png" mode="aspectFill"></image>
+					</view>
+					<view class="sl-info-text">
+						<p class="text-specs">White,256GB,5G</p>
+						<p class="text-price"><span>RM</span> 7999.00</p>
+					</view>
+					<view class="sl-info-close" @click="$refs.specsPopup.close()">
+						<image src="@/static/images/close1.png" mode="widthFix"></image>
+					</view>
 				</view>
+				<scroll-view class="sl-scroll" scroll-y>
+					<view class="sl-option">
+						<view class="sl-option-title">Color</view>
+						<view class="sl-option-content">
+							<view class="c-item active">White</view>
+							<view class="c-item">Red</view>
+							<view class="c-item">black</view>
+							<view class="c-item">Yellow</view>
+							<view class="c-item">Blue</view>
+						</view>
+					</view>
+					<view class="sl-option">
+						<view class="sl-option-title">Memory</view>
+						<view class="sl-option-content">
+							<view class="c-item">128GB</view>
+							<view class="c-item">256GB</view>
+							<view class="c-item">512GB</view>
+							<view class="c-item">1TB</view>
+						</view>
+					</view>
+					<view class="sl-option">
+						<view class="sl-option-title">Network</view>
+						<view class="sl-option-content">
+							<view class="c-item">4G</view>
+							<view class="c-item">5G</view>
+						</view>
+					</view>
+				</scroll-view>
+				<view class="sl-button">Confirm</view>
 			</view>
 		</uni-popup>
 		<!-- 选择规格 end -->
@@ -3184,8 +3222,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		}
 		
 		// 选择规格 star
-		
-		// 选择规格end
 		.specs-layout {
 			width: 100%;
 			background: #ffffff;
@@ -3194,9 +3230,113 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			border-radius: 16rpx 16rpx 0 0;
 			
 			.sl-info {
+				width: 100%;
+				padding-bottom: 32rpx;
+				box-sizing: border-box;
+				border-bottom: 1rpx solid rgb(204, 204, 204);
+				display: flex;
+				align-items: flex-end;
+				position: relative;
 				
+				.sl-info-cover {
+					width: 240rpx;
+					height: 240rpx;
+					
+					image {
+						width: 100%;
+						height: 100%;
+					}
+				}
+				
+				.sl-info-text {
+					flex: 1;
+					margin-left: 24rpx;
+					
+					.text-specs {
+						color: rgb(153, 153, 153);
+						font-size: 24rpx;
+						margin-bottom: 24rpx;
+					}
+					
+					.text-price {
+						color: rgb(255, 57, 57);
+						font-size: 32rpx;
+						font-weight: bold;
+						
+						span {
+							font-size: 20rpx;
+						}
+					}
+				}
+				
+				.sl-info-close {
+					width: 32rpx;
+					height: 32rpx;
+					position: absolute;
+					right: 0;
+					top: 0;
+					
+					image {
+						width: 100%;
+					}
+				}
+			}
+			
+			.sl-scroll {
+				width: 100%;
+				height: 900rpx;
+				padding-bottom: 32rpx;
+				box-sizing: border-box;
+				
+				.sl-option {
+					width: 100%;
+					
+					.sl-option-title {
+						width: 100%;
+						padding: 32rpx 32rpx 0 32rpx;
+						box-sizing: border-box;
+						color: rgb(51, 51, 51);
+						font-size: 28rpx;
+						font-weight: bold;
+					}
+					
+					.sl-option-content {
+						width: 100%;
+						margin-top: 22rpx;
+						display: flex;
+						flex-wrap: wrap;
+						
+						.c-item {
+							margin: 0 24rpx 24rpx 0;
+							padding: 20rpx 40rpx;
+							box-sizing: border-box;
+							background: rgb(245, 245, 245);
+							border-radius: 50rpx;
+							color: rgb(102, 102, 102);
+							font-size: 26rpx;
+						}
+						
+						.active {
+							background: rgba(10, 198, 142, 0.1);
+							border: 2rpx solid rgb(10, 198, 142);
+							color: rgb(10, 198, 142);
+						}
+					}
+				}
+			}
+			
+			.sl-button {
+				width: 100%;
+				height: 88rpx;
+				background: rgb(10, 198, 142);
+				border-radius: 100rpx;
+				text-align: center;
+				line-height: 88rpx;
+				color: rgb(255, 255, 255);
+				font-size: 40rpx;
 			}
 		}
+		// 选择规格end
 		// 选择地址 star
 		.showaddress {
 			width: 750rpx;
