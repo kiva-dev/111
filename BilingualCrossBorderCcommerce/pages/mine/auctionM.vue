@@ -83,30 +83,45 @@
 						<!-- <view class="jping-left-q">{{item.stage_num}}{{$t('auction.qi')}}</view> -->
 					</view>
 					<view class="jping-right">
-						<view style="height: 20rpx;"></view>
 						<view class="jping-header">
 							<view class="jping-name">{{item.goods_name}}</view>
-							<view class="jping-prouct-name">{{item.shop_name}}</view>
 						</view>
-						<view class="jping-tags">
+						<!-- <view class="jping-tags">
 							<block v-for="(data,index) in item.tags" :key="data.tag_id">
 								<view v-if="(index+1)%3==1" class="lan">{{data.name}}</view>
 								<view v-else-if="(index+1)%3==2" class="chen">{{data.name}}</view>
 								<view v-else="(index+1)%3==0" class="red">{{data.name}}</view>
 							</block>
+						</view> -->
+						<view class="jping-icon">
+							<view class="li-icon">
+								<image src="@/static/images/new-index/kzx.png" mode="widthFix"></image>
+							</view>
+							<view class="li-icon">
+								<image src="@/static/images/new-index/xpss.png" mode="widthFix"></image>
+							</view>
+							<view class="li-icon">
+								<image src="@/static/images/new-index/tjsp.png" mode="widthFix"></image>
+							</view>
+							<view class="li-icon">
+								<image src="@/static/images/new-index/rmsp.png" mode="widthFix"></image>
+							</view>
 						</view>
 						<view class="jping-price">
 							<view class="jping-price-left">
-								<view class="jping-price-new">RM{{item.auction_price}}</view>
+								<view class="jping-price-new"><span>RM</span>{{item.auction_price}}</view>
 								<view class="jping-price-old">RM{{item.price}}</view>
 							</view>
-							<view class="jping-price-btn">{{$t('auction.qiangpai')}}</view>
+							<view class="jping-price-btn">
+								<image src="@/static/images/mine/auctionm_icon_auction.png" mode="widthFix"></image>
+								<p>{{$t('auction.qiangpai')}}</p>
+							</view>
 						</view>
 						<view class="jping-jd">
 							<!-- <view class="jping-jd-name">{{$t('auction.jpjd')}}</view> -->
 							<view class="jping-jd-data">
 								<progress class="progress" :percent="item.finish_rate*100" stroke-width="5"
-									activeColor="#FF4E2F" backgroundColor="#EBEBEB" />
+									activeColor="rgb(10, 198, 142)" backgroundColor="#EBEBEB" />
 							</view>
 							<view class="jping-jd-bfb">{{item.finish_rate*100}}%</view>
 						</view>
@@ -160,30 +175,25 @@
 
 				<view class="order-item" v-for="item in jingpaiorderList" :key="item.id"
 					@click="toDetail(item.auction_goods_id)">
-					<view class="order-item-name">{{item.shop_name}}</view>
+					<view class="order-item-cover">
+						<image :src="item.image" mode="aspectFill"></image>
+						<view class="designated">{{item.stage_num}}{{$t('auction.qi')}}</view>
+					</view>
 					<view class="order-item-info">
-						<view class="order-item-info-left">
-							<image :src="item.image"></image>
-							<view class="order-item-info-q">{{item.stage_num}}{{$t('auction.qi')}}</view>
+						<view class="info-name">{{item.goods_name}}</view>
+						<view class="info-box">
+							<view class="info-box-left">
+								<p class="left-price"><span>RM</span>4566</p>
+								<p class="left-original">RM{{item.pay_price}}</p>
+							</view>
+							<view class="info-box-right">x{{item.total_num}}</view>
 						</view>
-						<view class="order-item-info-right">
-							<view class="order-item-info-tit">{{item.goods_name}}</view>
-							<view class="order-item-info-price">
-								<view class="order-item-info-old">RM4566.00</view>
-								<view class="order-item-info-new">RM{{item.pay_price}}</view>
-							</view>
-							<view class="order-item-info-timeandnum">
-								<view class="order-item-info-time">2023-02-15 18:25:50</view>
-								<view class="order-item-info-num">*{{item.total_num}}</view>
-							</view>
+						<view class="info-detail">
+							<view class="info-detail-left">{{item.shop_name}}</view>
+							<view class="info-detail-right">2023-02-15 18:25:50</view>
 						</view>
 					</view>
-
-					<!-- <view class="order-item-status">
-						<view class="order-item-status-name">竞拍中</view>
-					</view> -->
 				</view>
-
 			</view>
 			<view v-else class="zanwusju">
 				<image src="/static/images/zanwusju.png" />
@@ -267,9 +277,7 @@
 							{{$t('zhongpai.lingjiangjiang')}}
 						</view>
 						<!--@click="shareShow=true;midshotId=item.id"-->
-						<view class="luck-zpjl-item-btn"
-							style="color: rgb(255, 78, 47);background: #fff;border: 2rpx solid rgb(255, 78, 47);box-sizing: border-box;"
-							v-else-if="item.status==6">
+						<view class="luck-zpjl-item-btn" v-else-if="item.status==6">
 							{{$t('auction.detail.lijifenxiang')}}
 						</view>
 						<view class="luck-zpjl-item-btn" v-else-if="item.select_way==2 && item.status==2">待发货</view>
@@ -432,34 +440,28 @@
 						</view>
 					</view>
 				</navigator> -->
-
 				<view class="order-item" v-for="item in recordList" :key="item.id"
 					@click="toDetail(item.auction_goods_id)">
-					<view class="order-item-name">{{item.shop_name}}</view>
+					<view class="order-item-cover">
+						<image :src="item.image" mode="aspectFill"></image>
+						<view class="designated">{{item.stage_num}}{{$t('auction.qi')}}</view>
+					</view>
 					<view class="order-item-info">
-						<view class="order-item-info-left">
-							<image :src="item.image"></image>
-							<view class="order-item-info-q">{{item.stage_num}}{{$t('auction.qi')}}</view>
+						<view class="info-name">{{item.goods_name}}</view>
+						<view class="info-box">
+							<view class="info-box-left">
+								<p class="left-price"><span>RM</span>{{item.pay_price}}</p>
+								<p class="left-original">RM{{item.price}}</p>
+							</view>
+							<!-- <view class="info-box-right">x{{item.total_num}}</view> -->
 						</view>
-						<view class="order-item-info-right">
-							<view class="order-item-info-tit">{{item.goods_name}}</view>
-							<view class="order-item-info-price">
-								<view class="order-item-info-old">RM{{item.price}}</view>
-								<view class="order-item-info-new">RM{{item.pay_price}}</view>
-							</view>
-							<view class="order-item-info-timeandnum">
-								<view class="order-item-info-time">{{$filter.to_date_time(item.pay_time)}}</view>
-								<!-- <view class="order-item-info-num">*{{item.total_num}}</view> -->
-							</view>
+						<view class="info-detail">
+							<view class="info-detail-left">{{item.shop_name}}</view>
+							<view class="info-detail-right">{{$filter.to_date_time(item.pay_time)}}</view>
 						</view>
 					</view>
-
-					<!-- <view class="order-item-status">
-						<view class="order-item-status-name">竞拍中</view>
-					</view> -->
-
 				</view>
-
+				
 			</block>
 			<view v-else class="zanwusju">
 				<image src="/static/images/zanwusju.png" />
@@ -1568,18 +1570,19 @@
 
 			.luck-zjtp {
 				display: block;
-				width: 710rpx;
+				width: 100%;
 				height: 296rpx;
-				margin: 0 auto 40rpx auto;
+				margin-bottom: 24rpx;
 			}
 
 			.luck-zpjl-item {
 				position: relative;
-				width: 710rpx;
-				height: 200rpx;
+				width: 100%;
+				margin-bottom: 24rpx;
+				padding: 16rpx;
+				box-sizing: border-box;
 				background: #FFF;
-				border-radius: 16rpx;
-				margin: 0 auto 20rpx auto;
+				border-radius: 20rpx;
 
 				.luck-zpjl-item-img {
 					width: 200rpx;
@@ -1641,7 +1644,7 @@
 					font-size: 24rpx;
 					color: rgb(255, 255, 255);
 					text-align: center;
-					background: rgb(255, 78, 47);
+					background: rgb(10, 198, 142);
 					border-radius: 16rpx;
 				}
 			}
@@ -1691,32 +1694,20 @@
 		}
 
 		.jping-right {
-			width: 388rpx;
-			margin-left: 20rpx;
+			flex: 1;
+			padding: 20rpx 24rpx;
+			box-sizing: border-box;
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
 
 			.jping-header {
 				width: 100%;
-				font-size: 24rpx;
-				color: rgb(44, 44, 44);
-				display: flex;
-				align-items: center;
-				justify-content: space-between;
-
-				.jping-name {
-					width: 220rpx;
-					overflow: hidden;
-					text-overflow: ellipsis;
-					white-space: nowrap;
-				}
-
-				.jping-prouct-name {
-					width: 150rpx;
-					text-align: center;
-					overflow: hidden;
-					text-overflow: ellipsis;
-					white-space: nowrap;
-				}
-
+				color: rgb(51, 51, 51);
+				font-size: 28rpx;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
 			}
 
 			.jping-tags {
@@ -1751,6 +1742,20 @@
 					color: rgb(255, 0, 0);
 				}
 			}
+			
+			.jping-icon {
+				display: flex;
+				
+				.li-icon {
+					width: 30rpx;
+					height: 30rpx;
+					margin-right: 16rpx;
+					
+					image {
+						width: 100%;
+					}
+				}
+			}
 
 			.jping-price {
 				width: 100%;
@@ -1762,27 +1767,44 @@
 				.jping-price-left {
 
 					.jping-price-new {
-						font-size: 26rpx;
-						color: rgb(255, 0, 0);
+						color: rgb(255, 57, 57);
+						font-size: 32rpx;
+						font-weight: bold;
+						
+						span {
+							font-size: 20rpx;
+						}
 					}
 
 					.jping-price-old {
 						font-size: 16rpx;
-						color: rgb(190, 190, 190);
+						color: rgb(153, 153, 153);
 						text-decoration: line-through;
 					}
-
 				}
 
 				.jping-price-btn {
-					width: 100rpx;
-					height: 50rpx;
-					line-height: 50rpx;
-					font-size: 24rpx;
-					color: #fff;
+					width: 124rpx;
+					height: 48rpx;
+					box-sizing: border-box;
+					border: 2rpx solid rgb(10, 198, 142);
+					border-radius: 100rpx;
 					text-align: center;
-					background: rgb(255, 78, 47);
-					border-radius: 16rpx;
+					line-height: 48rpx;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					
+					image {
+						width: 28rpx;
+						transform: translateY(2rpx);
+					}
+					
+					p {
+						margin-left: 8rpx;
+						font-size: 24rpx;
+						color: rgb(10, 198, 142);
+					}
 				}
 
 			}
@@ -1790,7 +1812,7 @@
 			.jping-jd {
 				width: 100%;
 				font-size: 24rpx;
-				color: rgb(255, 78, 47);
+				color: rgb(10, 198, 142);
 				display: flex;
 				align-items: center;
 				justify-content: space-between;
@@ -1806,21 +1828,109 @@
 	//竞拍订单
 	.order-item {
 		position: relative;
-		width: 710rpx;
-		height: 250rpx;
-		padding-top: 10rpx;
-		background: #fff;
-		border-radius: 16rpx;
-		margin: 0 auto 20rpx auto;
-
-		.order-item-name {
-			width: 100%;
-			font-size: 24rpx;
-			color: rgb(44, 44, 44);
-			text-indent: 30rpx;
+		width: 100%;
+		background: rgb(255, 255, 255);
+		border-radius: 20rpx;
+		margin-bottom: 24rpx;
+		padding: 16rpx;
+		box-sizing: border-box;
+		display: flex;
+		justify-content: center;
+		
+		.order-item-cover {
+			width: 206rpx;
+			height: 206rpx;
+			border-radius: 16rpx;
+			overflow: hidden;
+			position: relative;
+			
+			image {
+				width: 100%;
+				height: 100%;
+			}
+			
+			.designated {
+				width: 100%;
+				background: rgba(0, 0, 0, 0.4);
+				border-radius: 0 0 16rpx 16rpx;
+				padding: 12rpx 16rpx;
+				box-sizing: border-box;
+				text-align: center;
+				color: rgb(255, 255, 255);
+				font-size: 18rpx;
+				position: absolute;
+				left: 0;
+				bottom: 0;
+			}
+		}
+		
+		.order-item-info {
+			flex: 1;
+			padding: 8rpx 16rpx;
+			box-sizing: border-box;
+			
+			.info-name {
+				width: 400rpx;
+				color: rgb(51, 51, 51);
+				font-size: 24rpx;
+				line-height: 36rpx;
+				overflow:hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				-o-text-overflow:ellipsis;
+			}
+			
+			.info-box {
+				margin-top: 16rpx;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				
+				.info-box-left {
+					
+					.left-price {
+						color: rgb(255, 57, 57);
+						font-size: 32rpx;
+						font-weight: bold;
+						
+						span {
+							font-size: 20rpx;
+						}
+					}
+					
+					.left-original {
+						font-size: 16rpx;
+						color: rgb(153, 153, 153);
+						text-decoration: line-through;
+					}
+				}
+				
+				.info-box-right {
+					color: rgb(153, 153, 153);
+					font-size: 16rpx;
+				}
+			}
+			
+			.info-detail {
+				margin-top: 16rpx;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				
+				.info-detail-left {
+					color: rgb(51, 51, 51);
+					font-size: 20rpx;
+					font-weight: bold;
+				}
+				
+				.info-detail-right {
+					color: rgb(153, 153, 153);
+					font-size: 16rpx;
+				}
+			}
 		}
 
-		.order-item-info {
+		.order-item-info1 {
 			width: 100%;
 			display: flex;
 			align-items: center;

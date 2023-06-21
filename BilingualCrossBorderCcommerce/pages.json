@@ -278,15 +278,17 @@
 		{
 			"path": "pages/mine/message",
 			"style": {
-				"navigationBarTitleText": "%top.xxzx%",
-				"enablePullDownRefresh": false
+				"enablePullDownRefresh": false,
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
 			}
 		},
 		{
 			"path": "pages/mine/systemM",
 			"style": {
-				"navigationBarTitleText": "%top.xtxx%",
-				"enablePullDownRefresh": false
+				"enablePullDownRefresh": false,
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
 			}
 		},
 		{

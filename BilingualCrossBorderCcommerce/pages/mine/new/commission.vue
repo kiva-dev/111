@@ -13,12 +13,12 @@
 				</view>
 			</view>
 			<view class="commission-center-price">{{info.rebate_money_total}}</view>
-			<view class="commission-center-jjdz">
+			<!-- <view class="commission-center-jjdz">
 				<view class="jjdz-icon">
 					<image src="@/static/images/mine/commission_icon_account.png" mode="widthFix"></image>
 				</view>
 				<view class="jjdz-text">{{$t('new.jjdzje')}}(RM)：{{info.pre_entry_rebate}}</view>
-			</view>
+			</view> -->
 		</view>
 		<view class="commission-layout">
 			<view class="cl-title">

@@ -1,10 +1,10 @@
 <template>
 	<view class="order-page">
 		<!-- <view class="order-tab">
-      <view :class="['li',Inv==0?'active':'']" @click="onInvClick(0)">{{$t('user.order.putdd')}}</view>
-      <view :class="['li',Inv==1?'active':'']" @click="onInvClick(1)">{{$t('user.order.pintdd')}}</view>
-      <view :class="['li',Inv==2?'active':'']" @click="onInvClick(2)">{{$t('user.order.jpdd')}}</view>
-    </view> -->
+			<view :class="['li',Inv==0?'active':'']" @click="onInvClick(0)">{{$t('user.order.putdd')}}</view>
+			<view :class="['li',Inv==1?'active':'']" @click="onInvClick(1)">{{$t('user.order.pintdd')}}</view>
+			<view :class="['li',Inv==2?'active':'']" @click="onInvClick(2)">{{$t('user.order.jpdd')}}</view>
+		</view> -->
 		<!--普通订单 order-box start-->
 		<view class="order-box" v-if="Inv == 0">
 			<view class="order-nav">
@@ -1229,23 +1229,17 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 			.order-nav {
 				width: 100%;
-				//#ifdef APP-PLUS
-				// top: 90rpx;
 				top: 0rpx;
-				//#endif
-				//#ifdef H5
-				// top: 178rpx;
 				top: 88rpx;
-				//#endif
 				position: fixed;
 				left: 0;
-				// width: 690rpx;
 				background: #f9f9f9;
 				z-index: 99;
-				display: -webkit-box;
-				// justify-content: space-between;
 				padding: 30rpx 30rpx 40rpx 30rpx;
-				overflow-x: scroll;
+				box-sizing: border-box;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
 
 				.li {
 					padding: 0 15rpx;
@@ -1256,13 +1250,13 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 				.active {
 					font-weight: 550;
-					color: rgb(255, 78, 47);
+					color: rgb(10, 198, 142);
 				}
 
 				.active::after {
 					width: 50rpx;
 					height: 6rpx;
-					background: rgb(255, 78, 47);
+					background: rgba(10, 198, 142, 0.3);
 					border-radius: 3rpx;
 					display: block;
 					content: "";
