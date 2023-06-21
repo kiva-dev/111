@@ -1,8 +1,8 @@
 <template>
 	<view class="auct-page">	
 		<!--头部-->
-		<image src="../../static/images/new/xyzx.png" class="xyzx-header" v-if="!isShopCont"></image>
-		<image src="../../static/images/new/xyzx2.png" class="xyzx-header" v-if="isShopCont"></image>
+		<image src="/static/images/new-index/luckstar-cn.png" class="xyzx-header" v-if="!isShopCont"></image>
+		<image src="/static/images/new-index/luckstar-en.png" class="xyzx-header" v-if="isShopCont"></image>
 		<!--auct-head end-->
 		<!--头部导航 end-->
 		<block v-if="navId==1">

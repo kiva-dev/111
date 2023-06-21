@@ -279,9 +279,10 @@
 					<!-- <u-parse :content="shopCont.content"></u-parse> -->
 				</view>
 			</view>
+			
+			<div id="div4"></div>
 			<!--竞拍记录-->
 			<view class="product-jilu" v-if="false">
-				<div id="div4"></div>
 				<view class="six-tit">
 					<view class="line">
 						<image class="img" src="/static/images/products/line.png"></image>
@@ -353,7 +354,7 @@
 			</view>
 			<!--底部 start-->
 			<view class="bottom-layout">
-				<view class="bl-left">
+				<view class="bl-left" @click="toMyCart()">
 					<view class="bl-left-box">
 						<image src="@/static/images/new-index/detail_btn_car2.png" mode="widthFix"></image>
 						<p>My Cart</p>
@@ -364,7 +365,7 @@
 						<p class="buy-name">Buy Now</p>
 						<p class="buy-info"><span>RM</span> 4888.00</p>
 					</view>
-					<view class="bl-right-add">
+					<view class="bl-right-add" @click="addCart()">
 						<p>Add Cart</p>
 					</view>
 				</view>
@@ -612,9 +613,26 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		},
 		mounted() {
 
-
 		},
 		methods: {
+			addCart(){
+				this.$http.post(this.$apiObj.CartAdd, {
+					goods_spec_id: this.goods_spec_id,
+					num: 1
+				}).then(res => {
+					if (res.code == 1) {
+						uni.showToast({
+							icon: 'none',
+							title: this.isShopCont ? 'Successfully added to shopping cart' : '加入购物车成功'
+						})
+					}
+				})
+			},
+			toMyCart(){
+				uni.navigateTo({
+					url:'/pages/cart/cart'
+				})
+			},
 			getTopNum() {
 				for (var i = 0; i < this.navList.length; i++) {
 					uni.createSelectorQuery()

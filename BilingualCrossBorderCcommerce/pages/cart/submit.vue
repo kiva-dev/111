@@ -21,7 +21,7 @@
 		<!--商品列表-->
 		<view class="list" v-for="item in OrderList" :key="item.admin_id">
 			<view class="list-head">
-				<image src="../../static/fxtu.png"></image>
+				<image :src="item.shop_logo"></image>
 				<view>{{item.shop_name}}</view>
 			</view>
 			<view class="item" v-for="(data,index) in item.list" :key="">
@@ -47,27 +47,29 @@
 		</view>
 
 		<!--支付方式-->
-		<view class="pay-type">
+		<!-- <view class="pay-type">
 			<view class="pay-head">Payment method</view>
-			<view class="pay-info" v-for="item,k in orderPayList.slice(0,2)" :key="item.id">
-				<image src="/static/images/new-index/balance.png" class="pay-info-logo"></image>
+			<view class="pay-info" v-for="(item,k) in orderPayList" :key="item.id">
+				<image :src="item.img" class="pay-info-logo"></image>
 				<view class="pay-info-name">{{item.title}}</view>
-				<image src="/static/images/new-index/wxz.png" class="pay-info-xz" v-show="!item.isShow"></image>
-				<image src="/static/images/new-index/xz.png" class="pay-info-xz" v-show="item.isShow"></image>
+				<image src="/static/images/new-index/wxz.png" class="pay-info-xz" v-show="!item.isShow"
+					@click="selectPayType(item)"></image>
+				<image src="/static/images/new-index/xz.png" class="pay-info-xz" v-show="item.isShow"
+					@click="selectPayType(item)"></image>
 			</view>
 
 			<view class="pay-all" @click="payAll=true">
 				<view>All</view>
 				<image src="../../static/images/new-index/btm.png"></image>
 			</view>
-		</view>
+		</view> -->
 
 
 		<view class="sub-fixed">
 			<view class="price">RM<span>{{total}}</span></view>
-			<view class="btn">payment</view>
+			<view class="btn" @click="onOrderReferCartOrder()">payment</view>
 		</view>
-		
+
 		<!--优惠券选择弹出 start-->
 		<uni-popup ref="CouponPopup" type="bottom">
 			<view class="you-pop">
@@ -169,6 +171,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		components: {},
 		data() {
 			return {
+				selectNum: 0, //选择支付方式
 				payAll: false,
 				noClick: true, // 防止重复点击 
 				userCont: '', // 用户信息
@@ -189,12 +192,19 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				orderPayList: [{
 					id: 1,
 					title: this.$t('order.yezf'),
-					isShow: false
+					isShow: false,
+					img: '/static/images/new-index/balance.png'
 				}, {
 					id: 2,
 					title: this.$t('order.sfzf'),
-					isShow: false
-				}, ],
+					isShow: false,
+					img: '/static/images/new-index/cards.png'
+				}, {
+					id: 3,
+					title: 'Apple Pay',
+					isShow: false,
+					img: '/static/images/new-index/apple.png'
+				}],
 				orderCont: '',
 				isShopCont: false, // 中文还是英文
 				set_paypwd: '',
@@ -252,6 +262,19 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			}
 		},
 		methods: {
+			//切换支付方式
+			selectPayType(item) {
+				item.isShow = !item.isShow
+				if (item.isShow) {
+					this.orderPayList.forEach(data => {
+						if (item.id != data.id) data.isShow = false
+					})
+				}
+			},
+			//支付
+			payProduct() {
+
+			},
 			getCaption(str, state) {
 				if (state == 1) {
 					var indexs = str.indexOf("|")
@@ -346,9 +369,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			},
 			// 修改购物车数量
 			onCartEdit(num, items) {
-				console.log(items.goods_id,num,items.cart_id)
 				this.$http.post(this.$apiObj.CartEdit, {
-					goods_spec_id: items.goods_id,
+					goods_spec_id: items.goods_spec_id,
 					num: num,
 					cart_id: items.cart_id
 				}).then(res => {
@@ -398,20 +420,21 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			},
 			// 购物车提交订单
 			onOrderReferCartOrder() {
+				// console.log(111)
 				if (!this.addCont) return uni.showToast({
 					icon: 'none',
 					title: this.$t('order.addContXuanze')
 				})
-				let isNum
-				for (let i in this.orderPayList) {
-					if (this.orderPayList[i].isShow) {
-						isNum = this.orderPayList[i].id
-					}
-				}
-				if (!isNum) return uni.showToast({
-					icon: 'none',
-					title: this.$t('order.qxzzffs')
-				})
+				// let isNum
+				// for (let i in this.orderPayList) {
+				// 	if (this.orderPayList[i].isShow) {
+				// 		isNum = this.orderPayList[i].id
+				// 	}
+				// }
+				// if (!isNum) return uni.showToast({
+				// 	icon: 'none',
+				// 	title: this.$t('order.qxzzffs')
+				// })
 				this.$http.post(this.$apiObj.OrderReferCartOrder, {
 					data: JSON.stringify(this.OrderList),
 					address_id: this.address_id,
@@ -420,6 +443,17 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					if (res.code == 1) {
 						this.major_no = res.data.major_no
 						this.order_no = res.data.order_no
+						
+						uni.showToast({
+							icon: 'none',
+							title: '暂未开放支付'
+						})
+						setTimeout(() => {
+							uni.navigateBack({
+								delta: 1
+							})
+						}, 2000);
+						/**
 						if (isNum == 1) {
 							// 余额支付弹框
 							this.$refs.pwdPopup.open()
@@ -477,7 +511,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 									//  #endif
 								}
 							})
-						}
+						}**/
 					}
 				})
 			},
@@ -1095,18 +1129,18 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			align-items: center;
 			background: #fff;
 
-			.price{
+			.price {
 				font-size: 20rpx;
 				font-weight: bold;
 				color: rgb(255, 57, 57);
 				margin-left: 32rpx;
-				
-				span{
+
+				span {
 					font-size: 36rpx;
 				}
 			}
-			
-			.btn{
+
+			.btn {
 				position: absolute;
 				right: 32rpx;
 				width: 200rpx;
@@ -1118,7 +1152,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				background: rgb(10, 198, 142);
 				border-radius: 72rpx;
 			}
-			
+
 		}
 
 		//支付方式弹出 S

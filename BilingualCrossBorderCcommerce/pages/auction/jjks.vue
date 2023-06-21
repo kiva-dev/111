@@ -1,95 +1,494 @@
 <template>
 	<view class="auct-page">
-		<!--auct-head start-->
-		<view class="auct-head">
-			<image src="../../static/images/auction/logo.png" class="logo"></image>
 
-			<image src="../../static/images/new/cn-tit.png" class="hedaer-langes" v-show="!isShopCont"></image>
-			<image src="../../static/images/new/en-tit.png" class="hedaer-langes1" v-show="isShopCont"></image>
+		<block v-if="productId==2">
+			<view class="product-head">
+				<view>Products</view>
+				<image src="../../static/images/auction/zw.png" class="lange" v-show="!isShopCont"
+					@click="onChangeLanuage(locales[0])"></image>
+				<image src="/static/images/new-index/lange.png" class="lange" v-show="isShopCont"
+					@click="onChangeLanuage(locales[1])"></image>
 
-			<image src="../../static/images/products/msg.png" class="auth" @click="navClick('/pages/mine/message')">
-			</image>
-			<image src="../../static/images/auction/zw.png" class="lange" v-show="!isShopCont"
-				@click="onChangeLanuage(locales[0])"></image>
-			<image src="../../static/images/auction/en.png" class="lange" v-show="isShopCont"
-				@click="onChangeLanuage(locales[1])"></image>
-			<view class="header-login" v-if="!isLogin" @click="toLogin()">{{$t('auction.login')}}</view>
-			<view class="header-login" :style="isShopCont?'margin-left: 14rpx;':''" v-else="isLogin"
-				@click="$refs.logout.open()">{{$t('auction.logout')}}</view>
-		</view>
-
-		<!--头部导航栏-->
-		<view class="head-list">
-			<view class="head-left" :class="selectProductsId==0?'select-product':''" @click="switchSelect(0)">
-				<image src="../../static/images/products/all.png"></image>
-				<view>{{$t('tab.all')}}</view>
+				<image src="/static/images/new-index/msg.png" class="auth" @click="navClick('/pages/mine/message')">
+				</image>
 			</view>
-			<view class="head-line"></view>
-			<view class="head-right">
+
+			<view class="switch-logo">
 				<scroll-view :scroll-x="true" style="width: 100%;white-space: nowrap;">
-					<view v-for="item in FirstList" :key="item.id" class="head-right-item"
-						:class="selectProductsId==item.id?'select-product':''" @click="switchSelect(item.id)">
-						<image :src="item.image" class="head-right-img"></image>
-						<view class="t">{{item.name}}</view>
+					<view class="switch-logo-info" v-for="item in FirstList" :key="item.id"
+						@click="getAllProducts(item.id)">
+						<image :src="item.image"></image>
+						<view>{{item.name}}</view>
 					</view>
 				</scroll-view>
 			</view>
-		</view>
 
-		<!--商品展示区域-->
-		<Mywaterfall @switchSelection="switchSelection"/>
+			<!--商品展示区域-->
+			<!-- <Mywaterfall @switchSelection="switchSelection"/> -->
+			<!--正在抢拍的数据-->
+			<view class="new-list" style="margin-top: 20rpx;">
+				<view class="new-list-head">
+					<block>
+						<view class="new-list-head-product">{{$t('newDetail.shangpin')}}</view>
+					</block>
 
-		<!-- 日期时间选择器弹框 -->
-		<uni-popup ref="dateTimePopup" type="bottom" :is-mask-click="false">
-			<view class="custom-popup date-time-popup">
-				<view class="popup-header">
-					<view class="popup-cancel" @click="handleDateTimePopupCancel">{{$t('user.order.query')}}</view>
-					<view class="popup-title"> </view>
-					<view class="popup-confirm" @click="handleDateTimePopupConfirm">{{$t('user.order.btnsub')}}
+					<image src="/static/images/new-index/sx.png" class="new-list-head-sx" @click="selectId=1"
+						v-if="selectId!=1"></image>
+					<image src="/static/images/new-index/sx1.png" class="new-list-head-sx" v-else></image>
+
+					<image src="/static/images/new-index/mf.png" class="new-list-head-mf" @click="selectId=2"
+						v-if="selectId!=2"></image>
+					<image src="/static/images/new-index/mf1.png" class="new-list-head-mf" v-else></image>
+
+					<image src="/static/images/new-index/p.png" class="new-list-head-p" @click="selectId=3"
+						v-if="selectId!=3"></image>
+					<image src="/static/images/new-index/p1.png" class="new-list-head-p" v-else></image>
+					<view class="new-list-head-line"></view>
+				</view>
+
+				<!--单行显示-->
+				<block v-if="selectId==1">
+					<view class="new-list-item" v-for="(item,i) in productList" :key="i"
+						@click="toProductInfo(item.goods_id)" @longpress="item.isMask=true">
+						<image :src="item.image" class="new-list-item-left"></image>
+						<view class="new-list-item-right">
+							<view class="new-list-item-right-txt">{{item.goods_name}}</view>
+							<view class="new-list-item-right-tags">
+								<image src="/static/images/new-index/kzx.png"></image>
+								<image src="/static/images/new-index/xpss.png"></image>
+								<image src="/static/images/new-index/tjsp.png"></image>
+								<image src="/static/images/new-index/rmsp.png"></image>
+							</view>
+
+							<view class="new-list-item-right-start">
+								<view class="new-list-item-right-start-info">
+									<image src="../../static/images/new-index/xx.png"></image>
+									<view>7.9k</view>
+								</view>
+								<view class="new-list-item-right-start-info">
+									<image src="../../static/images/new-index/xcz.png"></image>
+									<view>868</view>
+								</view>
+								<view class="new-list-item-right-start-info">
+									<view>868 Sold</view>
+								</view>
+							</view>
+
+							<view class="new-list-item-btm">
+								<view class="new-list-item-btm-price">
+									<view class="new">RM<span>{{item.litestore_goods_spec[0].goods_price}}</span></view>
+								</view>
+
+								<view class="add_gwc"></view>
+							</view>
+
+							<view class="mask" v-show="item.isMask">
+								<image src="/static/images/new-index/close.png" class="close"
+									@click.stop="item.isMask=false"></image>
+								<view style="height: 46rpx;"></view>
+								<view class="mask-info">
+									<image src="../../static/images/new-index/kzx.png"></image>
+									<view>Here is the product label description</view>
+								</view>
+								<view class="mask-info">
+									<image src="../../static/images/new-index/xpss.png"></image>
+									<view>Here is the product label description</view>
+								</view>
+								<view class="mask-info">
+									<image src="../../static/images/new-index/tjsp.png"></image>
+									<view>Here is the product label description</view>
+								</view>
+								<view class="mask-info">
+									<image src="../../static/images/new-index/rmsp.png"></image>
+									<view>Here is the product label description</view>
+								</view>
+							</view>
+
+						</view>
 					</view>
-				</view>
-				<view class="popup-body">
-					<picker-view class="date-time-picker-view f-32" indicator-class="date-time-picker-center"
-						:value="dateTimePickerValue" @change="handleDateTimePickerChange">
-						<picker-view-column class="date-time-picker-item picker-month">
-							<view class="picker-item"
-								:class="{ active: dateTimePickerTempValue[0] === index, 'f-bold': dateTimePickerTempValue[0] === index }"
-								v-for="(item, index) in monthList" :key="item">{{ item }}</view>
-						</picker-view-column>
-						<picker-view-column class="date-time-picker-item picker-date">
-							<view class="picker-item"
-								:class="{ active: dateTimePickerTempValue[1] === index, 'f-bold': dateTimePickerTempValue[1] === index }"
-								v-for="(item, index) in dateList" :key="item">{{ item }}</view>
-						</picker-view-column>
-						<picker-view-column class="date-time-picker-item picker-year">
-							<view class="picker-item"
-								:class="{ active: dateTimePickerTempValue[2] === index, 'f-bold': dateTimePickerTempValue[2] === index }"
-								v-for="(item, index) in yearList" :key="item">{{ item }}</view>
-						</picker-view-column>
-					</picker-view>
-				</view>
-			</view>
-		</uni-popup>
-		<!--抢拍次数 start-->
-		<uni-popup ref="pwdPopup" type="center">
-			<view class="qiangpaiCont">
-				<view class="query" @click="onQueryClick">
-					<image class="" src="../../static/images/close1.png"> </image>
-				</view>
-				<view class="center">
-					<view class="title">{{$t('user.auctionM.qtxqpcs')}}</view>
-					<view class="cent">
-						<view class="txt">{{$t('user.auctionM.qpcs')}}</view>
-						<view class="cont">
-							<input type="number" :placeholder="$t('user.auctionM.qsrqpcs')" v-model="isauctionNum">
-							<view class="num">{{$t('user.auctionM.syqpcs')}}：<block v-if="auction_num=='-1'">
-									{{$t('Unlimited sho')}}
-								</block>
-								<block v-else>{{auction_num}}</block>
+				</block>
+
+				<!--一行双列显示-->
+				<block v-else-if="selectId==2">
+					<view class="new-list-item-two">
+						<view class="info" v-for="(item,i) in productList" :key="i"
+							@click="toProductInfo(item.goods_id)">
+							<image :src="item.image" class="info-img"></image>
+							<view class="info-tit">{{item.goods_name}}</view>
+
+							<view class="info-tags">
+								<view class="info-tag">
+									<image src="/static/images/new-index/xx.png"></image>
+									<view>7.9k</view>
+								</view>
+
+								<view class="info-tag">
+									<image src="/static/images/new-index/xx.png"></image>
+									<view>868</view>
+								</view>
+
+								<view class="info-tag">
+									<view>868 Sold</view>
+								</view>
+							</view>
+
+
+							<view class="info-btm" style="margin-top: 32rpx;">
+
+								<view class="info-price">
+									<view class="new">RM<span>{{item.litestore_goods_spec[0].goods_price}}</span></view>
+								</view>
+
+								<view class="add_gwc"></view>
 							</view>
 						</view>
 					</view>
-					<view class="btnsub" @click="onBtnSub">{{$t('user.auctionM.queding')}}</view>
+				</block>
+
+				<!--竖向单行显示-->
+				<block v-else>
+					<view class="new-list-line" v-for="(item,i) in productList" :key="i"
+						@click="toProductInfo(item.goods_id)">
+						<image :src="item.image" class="product_img"></image>
+						<view class="product_txt">{{item.goods_name}}</view>
+
+						<view class="info">
+							<view class="info-left">
+								<view class="info_price">
+									<view class="new">RM<span>{{item.litestore_goods_spec[0].goods_price}}</span></view>
+								</view>
+							</view>
+
+							<view class="add_gwc" style="width: 64rpx;height: 64rpx;background-size: 64rpx 64rpx;">
+							</view>
+						</view>
+
+					</view>
+				</block>
+
+			</view>
+
+		</block>
+
+		<block v-else>
+			<view class="head-img">
+				<view class="more-head">
+					<view class="head-input">
+						<image src="../../static/images/new/search.png"></image>
+						<input type="text" style="font-size: 24rpx;color: rgb(153, 153, 153);"
+							placeholder="Search for products" />
+					</view>
+					<view class="right-btn">
+						<image src="/static/images/new-index/chen-cz.png"></image>
+						<view>My Auction</view>
+					</view>
+				</view>
+				<!--抢拍分类框-->
+				<view class="ongoing-type">
+					<!--正在竞拍小框-->
+					<view class="ongoing-type-left" v-if="id!=1">
+						<view class="ongoing-type-left-head"
+							style="background: linear-gradient(180.00deg, rgba(255,198.2,198.2,1.00),rgba(255,254.75,254.75,0.00) 98.871%);">
+							<image src="/static/images/new-index/ongoing.png" class="ongoing-type-left-head-logo">
+							</image>
+							<view class="ongoing-type-left-txt">
+								<view>{{$t('new.zzjp')}}</view> <span style="rgba(255, 64, 41, 0.4)"></span>
+							</view>
+							<view class="ongoing-type-left-more" @click="switchJinpai(1)">
+								<view>More</view>
+								<image src="/static/images/products/right.png"></image>
+							</view>
+						</view>
+						<view class="ongoing-type-left-info">
+							<view class="ongoing-type-left-info-des" v-for="item in jingpaiList.slice(0,2)"
+								:key="item.id" @click="onJingPai(item)">
+								<image :src="item.image" class="ongoing-type-left-info-des-product"></image>
+								<view class="jping-jd-data">
+									<progress class="progress" :percent="item.finish_rate*100" stroke-width="5"
+										activeColor="#FF4E2F" backgroundColor="#EBEBEB" />
+								</view>
+								<view class="old_price">RM{{item.price}}</view>
+								<view class="new_price">RM<span>{{item.auction_price}}</span></view>
+							</view>
+						</view>
+					</view>
+
+					<!--即将开始小框-->
+					<view class="ongoing-type-left" v-if="id!=2">
+						<view class="ongoing-type-left-head"
+							style="background: linear-gradient(180.00deg, rgba(253.86,225.53,151.16,1.00),rgba(255,254.75,254.75,0.00) 98.871%);">
+							<image src="/static/images/new-index/start-soon.png" class="ongoing-type-left-head-logo">
+							</image>
+							<view class="ongoing-type-left-txt">
+								<view>{{$t('new.jjks')}}</view> <span></span>
+							</view>
+							<view class="ongoing-type-left-more" @click="switchJinpai(2)">
+								<view>More</view>
+								<image src="/static/images/products/right.png"></image>
+							</view>
+						</view>
+						<view class="ongoing-type-left-info">
+							<view class="ongoing-type-left-info-des" v-for="item in newsjingpaiList.slice(0,2)"
+								:key="item.id" @click="onJingPai(item)">
+								<image :src="item.image" class="ongoing-type-left-info-des-product"></image>
+								<view class="ongoing-type-left-info-des-time">
+									<image src="/static/images/new-index/time.png"></image>
+									<view>
+										<u-count-down :time="item.datetime" format="HH:mm:ss"></u-count-down>
+									</view>
+								</view>
+								<view class="ongoing-type-left-info-des-price">RM<span>{{item.auction_price}}</span>
+								</view>
+							</view>
+						</view>
+					</view>
+
+					<!--历史竞拍小框-->
+					<view class="ongoing-type-left" v-if="id!=3">
+						<view class="ongoing-type-left-head">
+							<image src="/static/images/new-index/historical.png" class="ongoing-type-left-head-logo">
+							</image>
+							<view class="ongoing-type-left-txt">
+								<view>{{$t('new.lsjl')}}</view> <span
+									style="background: rgba(99, 97, 250, 0.4);"></span>
+							</view>
+							<view class="ongoing-type-left-more" @click="switchJinpai(3)">
+								<view>More</view>
+								<image src="/static/images/products/right.png"></image>
+							</view>
+						</view>
+						<view class="ongoing-type-left-info">
+							<view class="ongoing-type-left-info-des" v-for="item in historyList.slice(0,2)"
+								:key="item.id" @click="onJingPai(item)">
+								<image :src="item.image" class="ongoing-type-left-info-des-product"></image>
+								<view class="ongoing-type-left-info-des-auth">
+									<image :src="item.user_info.avatar"></image>
+									<view>Lucky Star</view>
+								</view>
+								<view class="ongoing-type-left-info-des-price">RM<span>{{item.auction_price}}</span>
+								</view>
+							</view>
+						</view>
+					</view>
+				</view>
+			</view>
+
+
+			<!--正在抢拍的数据-->
+			<view class="new-list">
+				<view class="new-list-head">
+					<block>
+						<image src="/static/images/new-index/ongoing.png" class="new-list-head-logo" v-if="id==1">
+						</image>
+						<image src="/static/images/new-index/start-soon.png" class="new-list-head-logo"
+							v-else-if="id==2">
+						</image>
+						<image src="/static/images/new-index/historical.png" class="new-list-head-logo" v-else></image>
+						<view class="new-list-head-txt">
+							<view>{{title}}</view>
+							<span v-if="id==1"></span>
+							<span style="background: rgb(254, 204, 171);" v-else-if="id==2"></span>
+							<span style="background: rgba(99, 97, 250, 0.4);" v-else></span>
+						</view>
+					</block>
+
+					<image src="/static/images/new-index/sx.png" class="new-list-head-sx" @click="selectId=1"
+						v-if="selectId!=1"></image>
+					<image src="/static/images/new-index/sx1.png" class="new-list-head-sx" v-else></image>
+
+					<image src="/static/images/new-index/mf.png" class="new-list-head-mf" @click="selectId=2"
+						v-if="selectId!=2"></image>
+					<image src="/static/images/new-index/mf1.png" class="new-list-head-mf" v-else></image>
+
+					<image src="/static/images/new-index/p.png" class="new-list-head-p" @click="selectId=3"
+						v-if="selectId!=3"></image>
+					<image src="/static/images/new-index/p1.png" class="new-list-head-p" v-else></image>
+					<view class="new-list-head-line"></view>
+				</view>
+
+				<!--单行显示-->
+				<block v-if="selectId==1">
+					<view class="new-list-item" v-for="(item,i) in productList" :key="i" @click="onJingPai(item)"
+						@longpress="item.isMask=true">
+						<image :src="item.image" class="new-list-item-left"></image>
+						<view class="new-list-item-right">
+							<view class="new-list-item-right-txt">{{item.goods_name}}</view>
+							<view class="new-list-item-right-tags">
+								<image src="/static/images/new-index/kzx.png"></image>
+								<image src="/static/images/new-index/xpss.png"></image>
+								<image src="/static/images/new-index/tjsp.png"></image>
+								<image src="/static/images/new-index/rmsp.png"></image>
+								<!-- <block v-for="(data,index) in item.tags" :key="data.tag_id">
+									<view>{{data.name}}</view>
+								</block> -->
+							</view>
+
+							<view class="new-list-item-right-start">
+								<view class="new-list-item-right-start-info">
+									<image src="../../static/images/new-index/xx.png"></image>
+									<view>7.9k</view>
+								</view>
+								<view class="new-list-item-right-start-info">
+									<image src="../../static/images/new-index/xcz.png"></image>
+									<view>868</view>
+								</view>
+								<view class="new-list-item-right-start-info">
+									<view>868 Sold</view>
+								</view>
+							</view>
+
+							<view class="new-list-item-right-jd" v-if="id==1">
+								<view class="new-list-item-right-jd-data">
+									<view>{{(item.finish_rate*100).toFixed(0)}}%</view>
+									<image src="../../static/images/new-index/select-jd.png"></image>
+								</view>
+								<view class="new-list-item-right-jd-auth">
+									<image src="../../static/images/products/auth.png"></image>
+									<image src="../../static/images/products/auth.png"></image>
+									<image src="../../static/images/products/auth.png"></image>
+								</view>
+							</view>
+
+							<view class="new-list-item-btm">
+								<view class="new-list-item-btm-price">
+									<view class="new">RM<span>{{item.auction_price}}</span></view>
+									<view class="old">RM{{item.price}}</view>
+								</view>
+
+
+								<view class="new-list-item-btm-btn" v-if="id==1">
+									<image src="../../static/images/new-index/lvxcz.png"></image>
+									<view @click.stop="onMineInfo(item)">{{$t('shop.qiangpai')}}</view>
+								</view>
+							</view>
+
+							<view class="mask" v-show="item.isMask">
+								<image src="/static/images/new-index/close.png" class="close"
+									@click.stop="item.isMask=false"></image>
+								<view style="height: 46rpx;"></view>
+								<view class="mask-info">
+									<image src="../../static/images/new-index/kzx.png"></image>
+									<view>Here is the product label description</view>
+								</view>
+								<view class="mask-info">
+									<image src="../../static/images/new-index/xpss.png"></image>
+									<view>Here is the product label description</view>
+								</view>
+								<view class="mask-info">
+									<image src="../../static/images/new-index/tjsp.png"></image>
+									<view>Here is the product label description</view>
+								</view>
+								<view class="mask-info">
+									<image src="../../static/images/new-index/rmsp.png"></image>
+									<view>Here is the product label description</view>
+								</view>
+							</view>
+
+						</view>
+					</view>
+				</block>
+
+				<!--一行双列显示-->
+				<block v-else-if="selectId==2">
+					<view class="new-list-item-two">
+						<view class="info" v-for="(item,i) in productList" :key="i" @click="onJingPai(item)">
+							<image :src="item.image" class="info-img"></image>
+							<view class="info-tit">{{item.goods_name}}</view>
+
+							<view class="info-tags">
+								<view class="info-tag">
+									<image src="/static/images/new-index/xx.png"></image>
+									<view>7.9k</view>
+								</view>
+
+								<view class="info-tag">
+									<image src="/static/images/new-index/xx.png"></image>
+									<view>868</view>
+								</view>
+
+								<view class="info-tag">
+									<view>868 Sold</view>
+								</view>
+							</view>
+
+							<view class="info-jd" v-if="id==1">
+								<image src="/static/images/new-index/select-jd.png"></image>
+								<view>{{(item.finish_rate*100).toFixed(0)}}%</view>
+							</view>
+
+							<view class="info-btm">
+								<view class="info-price">
+									<view class="new">RM<span>{{item.auction_price}}</span></view>
+									<view class="old">RM{{item.price}}</view>
+								</view>
+
+								<view class="info-btn" v-if="id==1">
+									<image src="/static/images/new-index/lvxcz.png"></image>
+									<view @click.stop="onMineInfo(item)">{{$t('shop.qiangpai')}}</view>
+								</view>
+							</view>
+						</view>
+					</view>
+				</block>
+
+				<!--竖向单行显示-->
+				<block v-else>
+					<view class="new-list-line" v-for="(item,i) in productList" :key="i" @click="onJingPai(item)">
+						<image :src="item.image" class="product_img"></image>
+						<view class="product_txt">{{item.goods_name}}</view>
+
+						<view class="info">
+							<view class="info-left">
+								<view class="info_jd" v-if="id==1">
+									<image src="/static/images/new-index/select-jd.png"></image>
+									<view>{{(item.finish_rate*100).toFixed(0)}}%</view>
+								</view>
+								<view class="info_price">
+									<view class="new">RM<span>{{item.auction_price}}</span></view>
+									<view class="old">RM{{item.price}}</view>
+								</view>
+							</view>
+
+							<view class="info-right" v-if="id==1">
+								<image src="/static/images/new-index/lvxcz.png"></image>
+								<view @click.stop="onMineInfo(item)">{{$t('shop.qiangpai')}}</view>
+							</view>
+						</view>
+
+					</view>
+				</block>
+
+			</view>
+
+		</block>
+
+
+		<!--抢拍次数 start-->
+		<uni-popup ref="pwdPopup" type="center">
+			<view class="qiangpaiShow">
+				<image src="../../static/images/new/tck.png" class="kct"></image>
+				<view class="query" @click="onQueryClick">
+					<image class="" src="../../static/images/close1.png"> </image>
+				</view>
+				<view class="qiangpaiCont">
+					<view class="center">
+						<view class="cent">
+							<view class="cont">
+								<input type="number" :placeholder="$t('user.auctionM.qsrqpcs')" v-model="isauctionNum">
+								<view class="num">
+									<view style="color:#2c2c2c">{{$t('user.auctionM.syqpcs')}}</view>：<block
+										v-if="auction_num=='-1'">
+										{{$t('Unlimited sho')}}
+									</block>
+									<block v-else>{{auction_num}}</block>
+								</view>
+							</view>
+						</view>
+						<view class="qiangpai-btn">
+							<view class="btnsub" @click="onBtnSub">{{$t('user.auctionM.queding')}}</view>
+						</view>
+
+					</view>
 				</view>
 			</view>
 		</uni-popup>
@@ -97,8 +496,7 @@
 		<!--竞拍次数为0 start-->
 		<uni-popup ref="pwdPopup3" type="center">
 			<view class="jingpai-pop">
-				<view class="title">{{$t('auction.detail.nsydjpcsw')}}{{auction_num}}{{$t('auction.detail.ci')}}
-				</view>
+				<view class="title">{{$t('auction.detail.nsydjpcsw')}}{{auction_num}}{{$t('auction.detail.ci')}}</view>
 				<view class="txt">{{$t('auction.detail.cgfxhyqhykhdjpcs')}}</view>
 				<view class="cont">
 					<view></view>
@@ -112,30 +510,34 @@
 		<!--竞拍次数为0 end-->
 		<!--竞拍次数大于0 start-->
 		<uni-popup ref="pwdPopup2" type="center">
-			<view class="jingpai-pop">
-				<view class="title">
-					{{$t('auction.detail.sfqr')}}RM{{shopNum}}{{$t('auction.detail.gmygjpme')}}{{isauctionNum}}{{$t('auction.detail.gmygjpmenum')}}
-				</view>
-				<view class="txt" v-if="auction_num>='-1'">
-					<block v-if="auction_num=='-1'">
-						{{$t('Unlimited sho')}}
-					</block>
-					<block v-else>{{$t('auction.detail.nishengyu')}}{{auction_num}}{{$t('auction.detail.cijpjh')}}
-					</block>
-				</view>
-				<view class="cent">
-					<image class="imgs" src="../../static/images/radio2.png" mode="aspectFit|aspectFill|widthFix">
-					</image>
-					<view class="txt1">{{$t('auction.detail.brywqydbty')}}</view>
-					<navigator url="../mine/jpxy" hover-class="none" class="txt2">
-						{{$t('auction.detail.jphdgommzxy')}}
-					</navigator>
-				</view>
-				<view class="cont">
-					<view></view>
-					<view class="right">
-						<view class="name" @click="ongoPayQuery">{{$t('auction.detail.query')}}</view>
-						<view class="ljfx" @click="onOrderReferCartOrder">{{$t('auction.detail.btnsub')}}</view>
+			<view class="jingpai-ok">
+				<image src="../../static/images/new/tck.png" class="kct"></image>
+				<view class="jingpai-pop">
+					<view class="title">
+						{{$t('auction.detail.sfqr')}}RM{{shopNum}}{{$t('auction.detail.gmygjpme')}}{{isauctionNum}}{{$t('auction.detail.gmygjpmenum')}}
+					</view>
+					<view class="txt" v-if="auction_num>='-1'">
+						<block v-if="auction_num=='-1'">
+							{{$t('Unlimited sho')}}
+						</block>
+						<block v-else>{{$t('auction.detail.nishengyu')}}{{auction_num}}{{$t('auction.detail.cijpjh')}}
+						</block>
+					</view>
+					<view class="cent">
+						<image class="imgs" src="../../static/images/new/select.png"
+							mode="aspectFit|aspectFill|widthFix">
+						</image>
+						<view class="txt1">{{$t('auction.detail.brywqydbty')}}</view>
+						<navigator url="../mine/jpxy" hover-class="none" class="txt2">
+							{{$t('auction.detail.jphdgommzxy')}}
+						</navigator>
+					</view>
+					<view class="cont">
+						<view></view>
+						<view class="right">
+							<view class="name" @click="ongoPayQuery">{{$t('auction.detail.query')}}</view>
+							<view class="ljfx" @click="onOrderReferCartOrder">{{$t('auction.detail.btnsub')}}</view>
+						</view>
 					</view>
 				</view>
 			</view>
@@ -152,18 +554,23 @@
 					<view class="title">{{$t('auction.detail.xuzhufufy')}}</view>
 					<view class="txt"><text>RM</text>{{shopNum}}</view>
 				</view>
-				<view v-for="item in orderPayList" :key="item.id" class="mode-li">
-					<view class="label">
-						{{item.title}}
-						<block v-if="item.id==1">（{{$t('auction.detail.keyongyuer')}}<text
-								class="color-red">RM{{money}}</text>）</block>
+				<block>
+					<view v-for="item in orderPayList" :key="item.id" class="mode-li">
+						<view class="label">
+							{{item.title}}
+							<block v-if="item.id==1">（{{$t('auction.detail.keyongyuer')}}<text class="color-red"
+									style="color: #FF4E2F;">RM{{money}}</text>）</block>
+							<block v-if="item.id==2">（<text class="color-red"
+									style="color: #FF4E2F;">RM{{balance}}</text>）</block>
+						</view>
+						<view class="li-fr" @click="onQuanClick(item)">
+							<radio :checked="item.isShow?true:false" value="r1" />
+						</view>
 					</view>
-					<view class="li-fr" @click="onQuanClick(item)">
-						<radio :checked="item.isShow?true:false" value="r1" />
-					</view>
-				</view>
+				</block>
+
 				<view class="mode-bot">
-					<button class="public-btn"
+					<button class="public-btn" style="background: #FF4E2F;"
 						@click.stop="$noMultipleClicks(onPayClick)">{{$t('auction.detail.quzhifu')}}</button>
 				</view>
 			</view>
@@ -171,112 +578,45 @@
 		<!--支付方式弹出 end-->
 		<!--支付密码弹出 start-->
 		<uni-popup ref="pwdsPopup" type="center">
-			<view class="public-pop">
-				<view class="pop-con">
-					<view class="pop-t">
-						<text>{{$t('auction.detail.qsrzfmm')}}</text>
-						<view class="pay-close" @click="onPwdQuery">
-							<image class="img" src="../../static/images/close1.png"></image>
-						</view>
+
+			<view class="pay-pwd">
+				<image src="../../static/images/new/tck-my.png" class="pay-pwd-img"></image>
+				<image src="../../static/images/new/close.png" class="pay-pwd-close" @click="onPwdQuery"></image>
+				<view class="pay-pwd-info">
+					<view class="pay-pwd-info-tit">{{$t('auction.detail.qsrzfmm')}}</view>
+					<view class="pay-pwd-info-line"></view>
+					<view class="pay-pwd-info-price">RM{{shopNum}}</view>
+					<view class="pay-pwd-info-input">
+						<input class="input" type="password" placeholder-class="color-999" v-model="pay_pwd"
+							:placeholder="$t('auction.detail.qsrzfmm')" />
 					</view>
-					<view class="pop-c">
-						<view class="pay-input">
-							<input class="input" type="password" placeholder-class="color-999" v-model="pay_pwd"
-								:placeholder="$t('auction.detail.qsrzfmm')" />
-						</view>
-					</view>
-					<view class="pay-bot">
-						<button class="pay-btn" @click="onPwdClick">{{$t('auction.detail.btnsub')}}</button>
-					</view>
+					<view class="pay-pwd-info-btn" @click="onPwdClick">{{$t('auction.detail.btnsub')}}</view>
 				</view>
 			</view>
+
 		</uni-popup>
 		<!--支付密码弹出 end-->
 		<!--支付成功弹出 start-->
 		<uni-popup ref="payPopup" type="center">
-			<view class="payConter">
-				<view class="title">{{$t('auction.detail.gxnzfcgznzp')}}</view>
-				<view class="txt">{{$t('auction.detail.zpydzpjlgg')}}~</view>
-				<view class="name" v-if="auction_num>'-1'">
-					{{$t('auction.detail.nishengyu')}}{{auction_num}}{{$t('auction.detail.cijpjh')}}
-				</view>
-				<view class="cont">
-					<view></view>
-					<view class="right">
-						<view class="query" @click="onpayQuery">{{$t('auction.detail.query')}}</view>
-						<block v-if="shopCont.total_least_num&&shopCont.auction_type==1">
-							<view class="cen" v-if="auction_num!=0" @click="onQiangpai">
-								{{$t('auction.detail.zaipaiyd')}}
-							</view>
-						</block>
-						<block v-if="shopCont.auction_type==2">
-							<view class="cen" v-if="auction_num!=0" @click="onQiangpai">
-								{{$t('auction.detail.zaipaiyd')}}
-							</view>
-						</block>
+
+			<view class="pay-pwd">
+				<image src="../../static/images/new/tck-cg.png" class="pay-pwd-img"></image>
+				<!-- <image src="../../static/images/new/close.png" class="pay-pwd-close" @click="onPwdQuery"></image> -->
+				<view class="pay-pwd-info" style="height: 308rpx;">
+					<view class="pay-pwd-info-tit" style="font-size: 32rpx;">{{$t('auction.detail.gxnzfcgznzp')}}</view>
+					<view class="pay-pwd-info-price" style="font-size: 26rpx;margin-top: 30rpx;">
+						{{$t('auction.detail.zpydzpjlgg')}}
+					</view>
+					<view class="pay-pwd-list">
+						<view class="pay-pwd-list-cancel" @click="onpayQuery">{{$t('auction.detail.query')}}</view>
+						<view class="pay-pwd-list-ok" @click="onQiangpai" v-if="isShowAegin">
+							{{$t('auction.detail.zaipaiyd')}}
+						</view>
 					</view>
 				</view>
 			</view>
 		</uni-popup>
 		<!--支付成功弹出 end-->
-		<!--分享弹出 start-->
-		<uni-popup ref="popup2" type="bottom">
-			<view class="share-pop">
-				<view class="share-t">{{$t('auction.detail.fengxiangdao')}}</view>
-				<view class="share-ul">
-					<view class="share-li" @click="ontweet">
-						<view class="icon">
-							<image class="img" src="../../static/images/share21.png"></image>
-						</view>
-						<view class="t">twitter</view>
-					</view>
-					<!-- <view class="share-li">
-            <view class="icon">
-              <image class="img" src="../../static/images/share22.png"></image>
-            </view>
-            <view class="t">Google</view>
-          </view> -->
-					<view class="share-li" @click="onfacebook">
-						<view class="icon">
-							<image class="img" src="../../static/images/share23.png"></image>
-						</view>
-						<view class="t">Facebook</view>
-					</view>
-					<!-- <view class="share-li">
-            <view class="icon">
-              <image class="img" src="../../static/images/share24.png"></image>
-            </view>
-            <view class="t">微信</view>
-          </view> -->
-					<view class="share-li">
-						<view class="icon">
-							<image class="img" src="../../static/images/share25.png"></image>
-						</view>
-						<view class="t">{{$t('auction.detail.fuzhilianjie')}}</view>
-					</view>
-				</view>
-				<view class="share-bot">
-					<button class="share-btn" @click="toggle2Close">{{$t('auction.detail.query')}}</button>
-				</view>
-			</view>
-		</uni-popup>
-		<!--分享弹出 end-->
-		<view style="height: 20rpx;"></view>
-
-		<!--退出登录弹框-->
-		<uni-popup ref="logout" type="center">
-			<view class="loginout">
-				<image src="../../static/images/new/tck-jy.png"></image>
-				<view class="loginout-info">
-					<view class="loginout-info-tit">{{$t('user.xitong.onQuery')}}</view>
-					<view class="loginout-info-btn">
-						<view class="loginout-info-btn-cancel" @click="$refs.logout.close()">{{$t('user.xitong.query')}}
-						</view>
-						<view class="loginout-info-btn-ok" @click="onLogout()">{{$t('user.xitong.btnsub')}}</view>
-					</view>
-				</view>
-			</view>
-		</uni-popup>
 
 	</view>
 </template>
@@ -285,6 +625,7 @@
 	import jsencrypt from '@/common/jsencrypt-Rsa/jsencrypt/jsencrypt.vue';
 	import apiObj from '../../http/api';
 	import Mywaterfall from '@/components/Mywaterfall.vue';
+	import More from '@/pages/auction/more.vue'
 	//公钥.
 	const publiukey = `-----BEGIN PUBLIC KEY-----
 MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCSjs8JJr/Nyb+nOG77agUDf7uT
@@ -294,11 +635,18 @@ NoR+zv3KaEmPSHtooQIDAQAB
 -----END PUBLIC KEY-----`
 	export default {
 		components: {
-			Mywaterfall
+			Mywaterfall,
+			More
 		},
 		data() {
 			return {
+				id: 1, //决定当前页面展示那个竞拍数据
+				title: 'Ongoing', //标题显示
+				selectId: 1, //不同的显示形式
+				productId: 0,
+				balanceOrOther: 0,
 				selectProductsId: 0,
+				isShowAegin: true,
 				indicatorDots: true,
 				autoplay: true,
 				interval: 2000,
@@ -395,9 +743,14 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					id: 2,
 					title: this.$t('auction.detail.sfzfu'),
 					isShow: false
+				}, {
+					id: 3,
+					title: '组合支付(余额+赠送金额)',
+					isShow: false
 				}],
 				pay_pwd: '', // 支付密码
 				money: '', // 总金额
+				balance: '', //赠送金额
 				noClick: true, // 防止重复点击 
 				dateTimePickerShow: false,
 				// 年列表
@@ -454,6 +807,10 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							id: 1,
 							title: this.$t('auction.detail.yuerzhifu'),
 							isShow: false
+						}, {
+							id: 2,
+							title: '赠送/活动金额支付',
+							isShow: false
 						}]
 					} else {
 						this.orderPayList = [{
@@ -462,7 +819,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							isShow: false
 						}, {
 							id: 2,
-							title: this.$t('auction.detail.sfzfu'),
+							title: '赠送/活动金额支付',
 							isShow: false
 						}]
 					}
@@ -525,6 +882,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			this.keyword = ''
 			this.date_start = ''
 			this.navId = 3
+
 			// 轮播图
 			this.$http.post(this.$apiObj.AuctionBanner).then(res => {
 				if (res.code == 1) {
@@ -552,17 +910,11 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			if (uni.getStorageSync('token')) {
 				this.isLogin = true
 			}
-			// 最新竞拍
-			// this.onAuctionNewGoods()
-			// 最新竞拍
-			// this.onAuctionNotbeginGoods()
-			// 历史竞拍
-			// this.onAuctionHistoryGoods()
-			// 幸运之星
-			// this.onAuctionLuckyList()
+			this.id = 1
+			this.title = "Ongoing"
 
-			//获取首页数据
-			this.$bus.$emit('switchSelect',0)
+			this.getProductOrJinpai()
+
 		},
 		onHide() {
 			this.selectProductsId = 0
@@ -577,7 +929,69 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			})
 		},
 		methods: {
-			switchSelection(){
+			//获取当前展示普通商品还是竞拍商品
+			getProductOrJinpai() {
+				//如果有值说明是从首页点击更多进入
+				let product = uni.getStorageSync('productId')
+				if (product==2) {
+					this.productId = 2
+					this.getAllProducts(0)
+					uni.removeStorageSync('productId')
+					return
+				}else if(product==1){
+					this.productId = 1
+					// 最新竞拍
+					this.onAuctionNewGoods()
+					// 最新竞拍
+					this.onAuctionNotbeginGoods()
+					// 历史竞拍
+					this.onAuctionHistoryGoods()
+					uni.removeStorageSync('productId')
+					return
+				}
+
+				this.$http.post(this.$apiObj.IndexSetting, {
+					fields: 'whether_to_enable_ordinary_mall'
+				}).then(res => {
+					//如果开启了普通商品，当前页面展示竞拍数据，否则展示普通商品数据
+					if (res.data.whether_to_enable_ordinary_mall == 1) {
+						this.productId = 1
+						// 最新竞拍
+						this.onAuctionNewGoods()
+						// 最新竞拍
+						this.onAuctionNotbeginGoods()
+						// 历史竞拍
+						this.onAuctionHistoryGoods()
+					} else {
+						this.productId = 2
+						this.getAllProducts(0)
+					}
+					
+					let id = uni.getStorageSync('jinpaiId')
+					if (id) {
+						this.id = id
+						this.switchJinpai(id)
+						uni.removeStorageSync('jinpaiId')
+					}
+				})
+			},
+
+			//数据切换
+			switchJinpai(id) {
+				this.id = id
+				if (this.id == 1) {
+					this.title = 'Ongoing'
+					this.onAuctionNewGoods()
+				} else if (this.id == 2) {
+					this.title = 'Start Soon'
+					this.onAuctionNotbeginGoods()
+				} else {
+					this.title = 'Historical'
+					this.onAuctionHistoryGoods()
+				}
+			},
+
+			switchSelection() {
 				this.$on.switchSelection()
 			},
 			toProductInfo(id) {
@@ -588,11 +1002,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			//切换选择分类
 			switchSelect(id) {
 				this.selectProductsId = id
-				// this.productList = []
-				// this.page = 1
-				// this.pagenum = 10
-				// this.getAllProducts(id)
-				this.$bus.$emit('switchSelect',id)
+				this.$bus.$emit('switchSelect', id)
 			},
 			//获取首页数据
 			getAllProducts(id) {
@@ -611,10 +1021,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							})
 						})
 						this.productList = this.page == 1 ? res.data.data : [...this.productList, ...res.data
-						.data];
-						console.log(this.productList);
-
-						// console.log(this.$refs.Mywaterfall.productList);
+							.data
+						];
 					}
 				})
 			},
@@ -862,6 +1270,9 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						})
 						this.totalPageNum = res.data.total
 						this.jingpaiList = this.page == 1 ? res.data.data : [...this.jingpaiList, ...res.data.data]
+						
+						if (this.id == 1) this.productList = this.jingpaiList
+
 					}
 				})
 			},
@@ -905,13 +1316,15 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							})
 						}
 						res.data.data.map(item => {
-							// item.remain_time = item.remain_time * 1000
-							item.datetime = (item.start_time - +Date.parse(new Date()) / 1000) * 1000
+							let time = (item.start_time - Date.parse(new Date()) / 1000) *
+								1000
+							this.$set(item, 'datetime', time)
 						})
 						this.totalPageNum = res.data.total
 						this.newsjingpaiList = this.page == 1 ? res.data.data : [...this.newsjingpaiList, ...res
 							.data.data
 						]
+						if (this.id == 2) this.productList = this.newsjingpaiList
 					}
 				})
 			},
@@ -958,7 +1371,11 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							item.continue_time = this.daojishi(item.continue_time)
 						})
 						this.totalPageNum = res.data.total
-						this.historyList = this.page == 1 ? res.data.data : [...this.historyList, ...res.data.data]
+						this.historyList = this.page == 1 ? res.data.data : [...this.historyList, ...res.data
+							.data
+						]
+						if (this.id == 3) this.productList = this.historyList
+
 					}
 				})
 			},
@@ -1040,7 +1457,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					auction_goods_id: e.auction_goods_id
 				}).then(res => {
 					if (res.code == 1) {
-						this.money = res.data.money
+						this.money = res.data.invite_money_balance
+						this.balance = res.data.recharge_money_balance
 						this.auction_num = res.data.auction_num
 						if (res.data.auction_num !== 0) {
 							this.$refs.pwdPopup.open()
@@ -1094,21 +1512,25 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			},
 			// 点击竞拍去支付
 			onPayClick() {
-				let isNum
+				let isNum = []
 				for (let i in this.orderPayList) {
 					if (this.orderPayList[i].isShow) {
-						isNum = this.orderPayList[i].id
+						isNum.push(this.orderPayList[i].id)
 					}
 				}
-				if (!isNum) return uni.showToast({
+				if (isNum.length < 1) return uni.showToast({
 					icon: 'none',
 					title: this.$t('auction.detail.qxzzffs')
 				})
 				this.$refs.popup1.close()
-				if (isNum == 1) {
+				if (isNum.length > 1) {
 					// 余额支付弹框
 					this.$refs.pwdsPopup.open()
-				} else if (isNum == 2) {
+				} else if (isNum.length > 5) {
+					this.balanceOrOther = 2
+					this.$refs.pwdsPopup.open()
+
+					/**
 					// 3方支付
 					this.$http.post(this.$apiObj.AuctionorderReferOrder, {
 						auction_type: 2, // 1竞拍商品原价购买，2参与竞拍价购买
@@ -1170,7 +1592,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							})
 
 						}
-					})
+					})**/
 				}
 			},
 			// 关闭支付密码
@@ -1189,10 +1611,17 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					icon: 'none'
 				})
 				const pay_pwd = jsencrypt.setEncrypt(publiukey, String(this.pay_pwd))
+				let arr = []
+				this.orderPayList.forEach(item => {
+					if (item.isShow) arr.push(item.id)
+					else arr.push(10)
+				})
 				this.$http.post(this.$apiObj.AuctionorderBalancePay, {
 					order_no: this.order_no, // 小订单号
 					money: this.shopNum, // 支付总金额
 					pay_pwd: pay_pwd, // rsa加密后的支付密码
+					is_use_recharge: arr[0] == 1 ? 1 : 2,
+					is_use_invite: arr[1] == 2 ? 1 : 2
 				}).then(res => {
 					if (res.code == 1) {
 						this.$http.post(this.$apiObj.MineInfo, {
@@ -1212,10 +1641,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			},
 
 			onQuanClick(item) {
-				for (let i in this.orderPayList) {
-					this.orderPayList[i].isShow = false
-				}
-				item.isShow = true
+				item.isShow = !item.isShow
 			},
 			toggle1Close() {
 				this.$refs.popup1.close()
@@ -1240,7 +1666,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		onReachBottom() {
 			// 判断是否还有数据
 			// 最新竞拍
-			this.$bus.$emit('onReachBottom',this.selectProductsId)
+			this.$bus.$emit('onReachBottom', this.selectProductsId)
 		}
 	}
 </script>
@@ -1259,6 +1685,899 @@ NoR+zv3KaEmPSHtooQIDAQAB
 	}
 
 	.auct-page {
+
+		.more-head {
+			position: relative;
+			width: 100%;
+			height: 88rpx;
+			padding-top: 88rpx;
+			display: flex;
+			align-items: center;
+
+			.head-input {
+				width: 510rpx;
+				height: 64rpx;
+				display: flex;
+				align-items: center;
+				background: #fff;
+				border-radius: 64rpx;
+				margin-left: 32rpx;
+
+				image {
+					width: 36rpx;
+					height: 36rpx;
+					margin: 0 20rpx;
+				}
+
+			}
+
+			.right-btn {
+				position: absolute;
+				right: 24rpx;
+				width: 160rpx;
+				height: 64rpx;
+				font-size: 20rpx;
+				font-weight: bold;
+				color: rgb(255, 57, 57);
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				background: rgb(255, 255, 255);
+				border-radius: 64rpx;
+
+				image {
+					width: 24rpx;
+					height: 24rpx;
+					margin-right: 6rpx;
+				}
+
+			}
+
+		}
+
+		.product-head {
+			position: relative;
+			width: 750rpx;
+			height: 88rpx;
+			padding-top: 88rpx;
+			display: flex;
+			align-items: center;
+			background: rgb(10, 198, 142);
+
+			view {
+				width: 100%;
+				font-size: 32rpx;
+				font-weight: bold;
+				color: rgb(255, 255, 255);
+				text-align: center;
+			}
+
+			.lange {
+				position: absolute;
+				right: 108rpx;
+				width: 44rpx;
+				height: 44rpx;
+				z-index: 5;
+			}
+
+			.auth {
+				position: absolute;
+				right: 32rpx;
+				width: 44rpx;
+				height: 44rpx;
+				z-index: 5;
+			}
+
+		}
+
+		//一级分类图标
+		.switch-logo {
+			width: 100%;
+			height: 216rpx;
+			background: #fff;
+			display: flex;
+			align-items: center;
+			margin-top: 20rpx;
+
+			.switch-logo-info {
+				display: inline-block;
+				width: 120rpx;
+				text-align: center;
+				margin: 0 32rpx;
+
+				image {
+					width: 88rpx;
+					height: 88rpx;
+				}
+
+				view {
+					width: 100%;
+					height: 54rpx;
+					font-size: 20rpx;
+					color: rgb(51, 51, 51);
+					text-align: center;
+					word-break: break-all;
+					overflow: hidden;
+					white-space: normal;
+				}
+
+			}
+
+		}
+
+		//抢拍商品展示
+		.new-list {
+			width: 100%;
+			min-height: 800rpx;
+			padding: 24rpx 0;
+			background: #fff;
+			border-radius: 16rpx 16rpx 0 0;
+			margin-top: -64rpx;
+
+			//头部切换
+			.new-list-head {
+				position: relative;
+				width: 100%;
+				display: flex;
+				align-items: center;
+				margin-bottom: 36rpx;
+
+				.new-list-head-logo {
+					width: 48rpx;
+					height: 48rpx;
+					margin-left: 32rpx;
+				}
+
+				.new-list-head-txt {
+					position: relative;
+					font-size: 32rpx;
+					color: rgb(51, 51, 51);
+					margin-left: 8rpx;
+
+					view {
+						position: relative;
+						z-index: 2;
+					}
+
+					span {
+						position: relative;
+						display: block;
+						width: 92rpx;
+						height: 8rpx;
+						background: rgba(255, 64, 41, 0.4);
+						border-radius: 100rpx;
+						margin: -8rpx auto 0 auto;
+						z-index: 1;
+					}
+				}
+
+				.new-list-head-product {
+					font-size: 32rpx;
+					font-weight: bold;
+					color: rgb(51, 51, 51);
+					margin-left: 32rpx;
+				}
+
+				.new-list-head-sx {
+					position: absolute;
+					right: 150rpx;
+					width: 32rpx;
+					height: 32rpx;
+				}
+
+				.new-list-head-mf {
+					position: absolute;
+					right: 100rpx;
+					width: 32rpx;
+					height: 32rpx;
+				}
+
+				.new-list-head-p {
+					position: absolute;
+					right: 50rpx;
+					width: 32rpx;
+					height: 32rpx;
+				}
+
+				.new-list-head-more {
+					position: absolute;
+					right: 32rpx;
+					display: flex;
+					align-items: center;
+
+					image {
+						width: 16rpx;
+						height: 16rpx;
+						margin: 4rpx 0 0 4rpx;
+					}
+				}
+
+			}
+
+			//单行显示
+			.new-list-item {
+				width: 686rpx;
+				height: 272rpx;
+				display: flex;
+				align-items: center;
+				background: #fff;
+				box-shadow: 0px 4rpx 12rpx rgba(198, 198, 198, 0.3);
+				border-radius: 20rpx;
+				margin: 0 auto 16rpx auto;
+
+				.new-list-item-left {
+					width: 272rpx;
+					height: 272rpx;
+					border-radius: 20rpx 0 0 20rpx;
+				}
+
+				.new-list-item-right {
+					position: relative;
+					width: 352rpx;
+					height: 100%;
+					margin-left: 24rpx;
+
+					.new-list-item-right-txt {
+						position: absolute;
+						top: 20rpx;
+						width: 352rpx;
+						font-size: 28rpx;
+						font-weight: bold;
+						color: rgb(51, 51, 51);
+						overflow: hidden;
+						text-overflow: ellipsis;
+						white-space: nowrap;
+					}
+
+					.new-list-item-right-tags {
+						position: absolute;
+						top: 64rpx;
+						width: 100%;
+						font-size: 16rpx;
+						color: rgb(102, 102, 102);
+						display: flex;
+						align-items: center;
+
+						view {
+							padding: 4rpx 8rpx;
+							box-sizing: border-box;
+							border: 1rpx solid rgb(204, 204, 204);
+							border-radius: 4rpx;
+							margin-right: 12rpx;
+						}
+
+						image {
+							width: 28rpx;
+							height: 28rpx;
+							margin-right: 16rpx;
+						}
+
+					}
+
+					.new-list-item-right-start {
+						position: absolute;
+						top: 110rpx;
+						width: 100%;
+						display: flex;
+						align-items: center;
+
+						.new-list-item-right-start-info {
+							min-width: 86rpx;
+							font-size: 16rpx;
+							color: rgb(102, 102, 102);
+							text-align: center;
+							display: flex;
+							align-items: center;
+							justify-content: center;
+
+							image {
+								width: 16rpx;
+								height: 16rpx;
+								margin-right: 4rpx;
+							}
+						}
+
+						.new-list-item-right-start-info:nth-child(2) {
+							border: 1rpx solid rgb(204, 204, 204);
+							border-top: none;
+							border-bottom: none;
+						}
+
+					}
+
+					.new-list-item-right-jd {
+						position: absolute;
+						top: 146rpx;
+						width: 100%;
+						display: flex;
+						align-items: center;
+
+						.new-list-item-right-jd-data {
+							position: relative;
+							width: 280rpx;
+							height: 32rpx;
+							background: url('/static/images/new-index/jd-bj.png') no-repeat;
+							background-size: 280rpx 32rpx;
+
+							view {
+								position: absolute;
+								top: 50%;
+								left: 50%;
+								transform: translate(-50%, -50%);
+								font-size: 20rpx;
+								color: rgb(255, 255, 255);
+								z-index: 2;
+							}
+
+							image {
+								position: absolute;
+								top: 50%;
+								left: 2rpx;
+								transform: translate(0, -50%);
+								width: 228rpx;
+								height: 28rpx;
+								z-index: 1;
+							}
+
+						}
+
+						.new-list-item-right-jd-auth {
+							display: flex;
+							align-items: center;
+
+							image {
+								position: relative;
+								width: 32rpx;
+								height: 32rpx;
+								border-radius: 50%;
+								margin-left: 4rpx;
+								z-index: 3;
+							}
+
+							image:nth-child(2) {
+								position: relative;
+								margin-left: -14rpx;
+								z-index: 2;
+							}
+
+							image:nth-child(3) {
+								position: relative;
+								margin-left: -14rpx;
+								z-index: 1;
+							}
+						}
+
+					}
+
+					.new-list-item-btm {
+						position: absolute;
+						bottom: 24rpx;
+						width: 100%;
+						display: flex;
+						align-items: center;
+						justify-content: space-between;
+
+						.new-list-item-btm-price {
+
+							.new {
+								font-size: 20rpx;
+								font-weight: bold;
+								color: rgb(255, 57, 57);
+
+								span {
+									font-size: 32rpx;
+								}
+							}
+
+							.old {
+								font-size: 16rpx;
+								color: rgb(153, 153, 153);
+								text-decoration: line-through;
+							}
+						}
+
+						.new-list-item-btm-btn {
+							width: 124rpx;
+							height: 48rpx;
+							font-size: 24rpx;
+							color: rgb(10, 198, 142);
+							box-sizing: border-box;
+							border: 1rpx solid rgb(10, 198, 142);
+							border-radius: 100rpx;
+							display: flex;
+							align-items: center;
+							justify-content: center;
+
+							image {
+								width: 24rpx;
+								height: 24rpx;
+								margin-right: 8rpx;
+							}
+						}
+
+					}
+
+					.mask {
+						position: absolute;
+						width: 100%;
+						height: 100%;
+						background: rgba(0, 0, 0, 0.86);
+						border-radius: 0 20rpx 20rpx 0;
+						z-index: 15;
+
+						.close {
+							position: absolute;
+							right: 16rpx;
+							top: 16rpx;
+							width: 24rpx;
+							height: 24rpx;
+						}
+
+						.mask-info {
+							width: 100%;
+							font-size: 16rpx;
+							color: rgb(255, 255, 255);
+							display: flex;
+							align-items: center;
+							margin-bottom: 20rpx;
+
+							image {
+								width: 36rpx;
+								height: 36rpx;
+								margin: 0 8rpx 0 20rpx;
+							}
+						}
+
+					}
+
+				}
+
+			}
+
+			//一行多列显示
+			.new-list-item-two {
+				width: 686rpx;
+				display: flex;
+				flex-wrap: wrap;
+				align-items: center;
+				justify-content: space-between;
+				margin: 0 auto;
+
+				.info {
+					width: 336rpx;
+					min-height: 524rpx;
+					max-height: 578rpx;
+					background: rgb(255, 255, 255);
+					box-shadow: 0px 4rpx 12rpx rgba(198, 198, 198, 0.3);
+					border-radius: 20rpx;
+					margin-bottom: 20rpx;
+
+					.info-img {
+						display: block;
+						width: 336rpx;
+						height: 336rpx;
+						border-radius: 20rpx 20rpx 0 0;
+					}
+
+					.info-tit {
+						width: 302rpx;
+						font-size: 24rpx;
+						color: rgb(51, 51, 51);
+						overflow: hidden;
+						text-overflow: ellipsis;
+						white-space: nowrap;
+						margin: 16rpx auto;
+					}
+
+					.info-tags {
+						min-width: 302rpx;
+						display: flex;
+						align-items: center;
+
+						.info-tag {
+							display: flex;
+							align-items: center;
+							padding: 0 16rpx;
+
+							image {
+								width: 16rpx;
+								height: 16rpx;
+							}
+
+							view {
+								font-size: 16rpx;
+								color: rgb(102, 102, 102);
+								margin-left: 8rpx;
+							}
+						}
+
+						.info-tag:nth-child(2) {
+							border: 1rpx solid rgb(204, 204, 204);
+							border-top: none;
+							border-bottom: none;
+						}
+
+					}
+
+					.info-jd {
+						position: relative;
+						width: 296rpx;
+						height: 32rpx;
+						background: url('/static/images/new-index/jd-bj.png') no-repeat;
+						background-size: 296rpx 32rpx;
+						margin: 24rpx auto 28rpx auto;
+
+						image {
+							position: absolute;
+							top: 50%;
+							left: 2rpx;
+							transform: translate(0, -50%);
+							width: 228rpx;
+							height: 28rpx;
+						}
+
+						view {
+							position: absolute;
+							top: 50%;
+							left: 50%;
+							transform: translate(-50%, -50%);
+							font-size: 20rpx;
+							color: rgb(255, 255, 255);
+						}
+
+					}
+
+					.info-btm {
+						width: 302rpx;
+						display: flex;
+						align-items: center;
+						justify-content: space-between;
+						margin: 0 auto;
+
+						.info-price {
+							.new {
+								font-size: 20rpx;
+								font-weight: bold;
+								color: rgb(255, 57, 57);
+
+								span {
+									font-size: 32rpx;
+								}
+							}
+
+							.old {
+								font-size: 16rpx;
+								color: rgb(153, 153, 153);
+								text-decoration: line-through;
+							}
+
+						}
+
+						.info-btn {
+							width: 124rpx;
+							height: 48rpx;
+							display: flex;
+							align-items: center;
+							justify-content: center;
+							box-sizing: border-box;
+							border: 2rpx solid rgb(10, 198, 142);
+							border-radius: 100rpx;
+
+							image {
+								width: 24rpx;
+								height: 24rpx;
+							}
+
+							view {
+								font-size: 24rpx;
+								color: rgb(10, 198, 142);
+								margin-left: 8rpx;
+							}
+						}
+					}
+
+				}
+
+			}
+
+			//竖向单行显示
+			.new-list-line {
+				width: 686rpx;
+				padding-bottom: 24rpx;
+				background: rgb(255, 255, 255);
+				border-radius: 20rpx;
+				box-shadow: 0px 4rpx 12rpx rgba(198, 198, 198, 0.3);
+				margin: 0 auto 20rpx auto;
+
+				.product_img {
+					display: block;
+					width: 686rpx;
+					height: 686rpx;
+					border-radius: 20rpx 20rpx 0 0;
+				}
+
+				.product_txt {
+					width: 628rpx;
+					font-size: 28rpx;
+					color: rgb(51, 51, 51);
+					margin: 16rpx auto 24rpx auto;
+				}
+
+				.info {
+					width: 628rpx;
+					display: flex;
+					align-items: center;
+					justify-content: space-between;
+					margin: 0 auto;
+
+					.info-left {
+
+						.info_jd {
+							position: relative;
+							width: 386rpx;
+							height: 32rpx;
+							background: url('/static/images/new-index/jd-bj.png') no-repeat;
+							background-size: 386rpx 32rpx;
+
+							image {
+								position: absolute;
+								top: 50%;
+								left: 2rpx;
+								transform: translate(0, -50%);
+								width: 308rpx;
+								height: 28rpx;
+							}
+
+							view {
+								position: absolute;
+								top: 50%;
+								left: 50%;
+								transform: translate(-50%, -50%);
+								font-size: 20rpx;
+								color: rgb(255, 255, 255);
+							}
+						}
+
+						.info_price {
+							display: flex;
+							align-items: flex-end;
+							margin-top: 14rpx;
+
+							.new {
+								font-size: 24rpx;
+								font-weight: bold;
+								color: rgb(255, 57, 57);
+								margin-right: 8rpx;
+
+								span {
+									font-size: 40rpx;
+								}
+							}
+
+							.old {
+								font-size: 16rpx;
+								color: rgb(153, 153, 153);
+								text-decoration: line-through;
+							}
+						}
+
+					}
+
+					.info-right {
+						width: 176rpx;
+						height: 68rpx;
+						box-sizing: border-box;
+						border: 4rpx solid rgb(10, 198, 142);
+						border-radius: 140rpx;
+						display: flex;
+						align-items: center;
+						justify-content: center;
+
+						image {
+							width: 36rpx;
+							height: 36rpx;
+							margin-right: 8rpx;
+						}
+
+						view {
+							font-size: 32rpx;
+							color: rgb(10, 198, 142);
+						}
+					}
+
+				}
+
+			}
+
+			//加入购物车
+			.add_gwc {
+				width: 48rpx;
+				height: 48rpx;
+				background: url('/static/images/new-index/add_gwc.png') no-repeat;
+				background-size: 48rpx 48rpx;
+			}
+
+		}
+
+		.head-img {
+			width: 750rpx;
+			height: 560rpx;
+			background: url('/static/images/new-index/head-img.png') no-repeat;
+			background-size: 750rpx 560rpx;
+		}
+
+		//抢拍分类框
+		.ongoing-type {
+			width: 100%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin-top: 20rpx;
+
+			.ongoing-type-left {
+				width: 332rpx;
+				height: 274rpx;
+				background: #fff;
+				border-radius: 16rpx;
+				margin: 0 10rpx;
+
+				.ongoing-type-left-head {
+					position: relative;
+					width: 100%;
+					height: 60rpx;
+					display: flex;
+					align-items: center;
+					background: linear-gradient(180.00deg, rgba(194.37, 193.57, 255, 1.00), rgba(255, 254.75, 254.75, 0.00) 98.871%);
+					border-radius: 16rpx 16rpx 0 0;
+
+					.ongoing-type-left-head-logo {
+						width: 36rpx;
+						height: 36rpx;
+						margin-left: 20rpx;
+					}
+
+					.ongoing-type-left-txt {
+						position: relative;
+						font-size: 24rpx;
+						color: rgb(51, 51, 51);
+						margin-left: 8rpx;
+
+						view {
+							position: relative;
+							z-index: 2;
+						}
+
+						span {
+							position: relative;
+							display: block;
+							width: 72rpx;
+							height: 8rpx;
+							background: rgb(254, 204, 171);
+							border-radius: 100rpx;
+							margin: -8rpx auto 0 auto;
+							z-index: 1;
+						}
+
+					}
+
+					.ongoing-type-left-more {
+						position: absolute;
+						right: 20rpx;
+						font-size: 20rpx;
+						color: rgb(102, 102, 102);
+						display: flex;
+						align-items: center;
+
+						image {
+							display: block;
+							width: 16rpx;
+							height: 16rpx;
+							margin-top: 4rpx;
+							margin-left: 4rpx;
+						}
+					}
+
+				}
+
+				.ongoing-type-left-info {
+					width: 100%;
+					display: flex;
+					align-items: center;
+
+					.ongoing-type-left-info-des {
+						width: 50%;
+
+						.jping-jd-data {
+							width: 108rpx;
+							margin: 4rpx auto 8rpx auto;
+						}
+
+						.ongoing-type-left-info-des-product {
+							display: block;
+							width: 132rpx;
+							height: 132rpx;
+							margin: 0 auto;
+						}
+
+						.ongoing-type-left-info-des-time {
+							display: flex;
+							align-items: center;
+							justify-content: center;
+							width: 112rpx;
+							height: 26rpx;
+							font-size: 14rpx;
+							color: rgb(255, 57, 57);
+							padding: 2rpx 8rpx;
+							border: 1px solid rgba(255, 57, 57, 0.4);
+							border-radius: 20rpx;
+							margin: 4rpx auto 8rpx auto;
+
+							image {
+								width: 14rpx;
+								height: 14rpx;
+								margin-right: 6rpx;
+							}
+
+						}
+
+						.ongoing-type-left-info-des-auth {
+							width: 100%;
+							height: 30rpx;
+							font-size: 16rpx;
+							color: rgb(51, 51, 51);
+							display: flex;
+							align-items: center;
+							justify-content: center;
+							margin: 4rpx 0 8rpx 0;
+
+							image {
+								width: 24rpx;
+								height: 24rpx;
+								border-radius: 50%;
+								margin-right: 8rpx;
+							}
+						}
+
+						.ongoing-type-left-info-des-price {
+							width: 100%;
+							font-size: 16rpx;
+							color: rgb(255, 57, 57);
+							text-align: center;
+
+							span {
+								font-size: 28rpx;
+								font-weight: bold;
+							}
+						}
+
+						.old_price {
+							width: 100%;
+							font-size: 16rpx;
+							color: rgb(153, 153, 153);
+							text-decoration: line-through;
+							text-align: center;
+						}
+
+						.new_price {
+							width: 100%;
+							font-size: 16rpx;
+							font-weight: bold;
+							color: rgb(255, 57, 57);
+							text-align: center;
+
+							span {
+								font-size: 28rpx;
+							}
+						}
+
+					}
+
+				}
+
+			}
+
+		}
+
 
 		//退出登录
 		.loginout {
@@ -1512,6 +2831,422 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 			}
 		}
+
+
+		.qiangpaiShow {
+			position: relative;
+
+			.kct {
+				position: relative;
+				width: 640rpx;
+				height: 420rpx;
+				display: block;
+				margin: 0 auto -60rpx auto;
+				z-index: 10;
+			}
+		}
+
+		.query {
+			position: absolute;
+			top: 390rpx;
+			right: 30rpx;
+			width: 20rpx;
+			height: 20rpx;
+			border-radius: 50%;
+			border: 1rpx solid #000;
+			padding: 10rpx;
+			z-index: 20;
+
+			image {
+				position: absolute;
+				width: 20rpx;
+				height: 20rpx;
+				// top: 10rpx;
+			}
+		}
+
+		.qiangpaiCont {
+			width: 686rpx;
+			background: #fff;
+			position: relative;
+			padding: 50rpx 0;
+			border: 4rpx solid rgb(255, 78, 47);
+			border-radius: 16rpx;
+			z-index: 9;
+
+			.center {
+				.maxtitle {
+					position: relative;
+					display: flex;
+					align-items: center;
+
+					image {
+						position: absolute;
+						left: 62rpx;
+						width: 72rpx;
+						height: 72rpx;
+					}
+
+					.title {
+						width: 100%;
+						text-align: center;
+						font-size: 36rpx;
+						color: #000;
+						font-weight: bold;
+						margin-left: 20rpx;
+					}
+				}
+
+				.cent {
+					margin: 30rpx auto 40rpx;
+					display: flex;
+
+					.txt {
+						margin-top: 5rpx;
+						font-size: 30rpx;
+						font-weight: bold;
+						margin-right: 10rpx;
+						max-width: 180rpx;
+					}
+
+					.cont {
+						width: 566rpx;
+						margin: 26rpx auto 0;
+						text-align: center;
+
+						input {
+							width: 566rpx;
+							height: 80rpx;
+							border-radius: 16rpx;
+							border: 2rpx solid rgb(255, 78, 47);
+							font-size: 28rpx;
+						}
+
+						.num {
+							display: flex;
+							align-items: center;
+							justify-content: center;
+							font-size: 24rpx;
+							margin-top: 30rpx;
+							color: rgb(255, 78, 47);
+						}
+					}
+				}
+
+				.qiangpai-btn {
+					width: 100%;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+
+					.qiangpai-cancel {
+						width: 206rpx;
+						height: 70rpx;
+						border-radius: 16rpx;
+						line-height: 70rpx;
+						text-align: center;
+						font-size: 32rpx;
+						color: #fff;
+						background: rgb(255, 78, 47);
+						margin-right: 30rpx;
+					}
+
+				}
+
+				.btnsub {
+					width: 406rpx;
+					height: 70rpx;
+					border-radius: 16rpx;
+					line-height: 70rpx;
+					text-align: center;
+					font-size: 32rpx;
+					color: #fff;
+					background: rgb(255, 78, 47);
+				}
+			}
+		}
+
+		.jingpai-pop {
+			width: 686rpx;
+			background: #ffffff;
+			border-radius: 20rpx;
+			padding: 45rpx 0;
+			border: 4rpx solid rgb(255, 78, 47);
+
+			.title {
+				width: 100%;
+				font-size: 32rpx;
+				color: #000;
+				font-weight: bold;
+				text-align: center;
+			}
+
+			.txt {
+				width: 100%;
+				margin-top: 24rpx;
+				font-size: 24rpx;
+				color: rgb(255, 78, 47);
+				text-align: center;
+			}
+
+			.cent {
+				width: 100%;
+				display: flex;
+				align-items: center;
+				margin-top: 42rpx;
+				// display: flex;
+				// align-items: center;
+				justify-content: center;
+
+				.imgs {
+					width: 26rpx;
+					height: 26rpx;
+					margin-right: 10rpx;
+				}
+
+				.txt1 {
+					max-width: 240rpx;
+					font-size: 24rpx;
+					color: #999;
+					text-align: center;
+					margin: 0 10rpx;
+				}
+
+				.txt2 {
+					max-width: 288rpx;
+					font-size: 24rpx;
+					color: #000;
+					text-align: center;
+				}
+			}
+
+			.cont {
+				margin-top: 50rpx;
+				display: flex;
+				justify-content: center;
+
+				.right {
+					display: flex;
+
+					view {
+						width: 240rpx;
+						height: 60rpx;
+						line-height: 60rpx;
+						font-size: 32rpx;
+						text-align: center;
+						border-radius: 16rpx;
+					}
+
+					.name {
+						font-size: 32rpx;
+						color: #999;
+						border: 1rpx solid rgb(255, 78, 47);
+						margin-right: 97rpx;
+					}
+
+					.ljfx {
+						color: #fff;
+						background: rgb(255, 78, 47);
+
+					}
+				}
+			}
+		}
+
+		.jingpai-ok {
+			position: relative;
+
+			.kct {
+				width: 640rpx;
+				height: 420rpx;
+				display: block;
+				margin: 0 auto -60rpx auto;
+			}
+		}
+
+		//支付方式弹出 S
+		.mode-pop {
+			background: #ffffff;
+			border-radius: 20rpx 20rpx 0px 0px;
+
+			.mode-tit {
+				padding: 38rpx 30rpx;
+				line-height: 1;
+				font-size: 32rpx;
+				font-weight: 550;
+				border-bottom: 1px solid #f5f5f5;
+				position: relative;
+				text-align: center;
+
+				.cancel {
+					position: absolute;
+					right: 30rpx;
+					top: 38rpx;
+					color: #999;
+					font-size: 26rpx;
+				}
+			}
+
+			.cent {
+				padding-top: 43rpx;
+				text-align: center;
+
+				.title {
+					font-size: 26rpx;
+					color: #222;
+				}
+
+				.txt {
+					padding-top: 34rpx;
+					padding-bottom: 38rpx;
+					color: #FF4E2F;
+					font-size: 46rpx;
+
+					text {
+						font-size: 24rpx;
+					}
+				}
+			}
+
+			.mode-li {
+				padding: 36rpx 0;
+				margin: 0 30rpx;
+				border-bottom: 1px solid #f5f5f5;
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				font-size: 28rpx;
+
+				.li-fr {
+					display: flex;
+					align-items: center;
+
+					/deep/ uni-radio {
+						margin-left: 20rpx;
+					}
+
+					/deep/ uni-radio .uni-radio-input.uni-radio-input-checked {
+						background: #FF4E2F !important;
+						border-color: #FF4E2F !important;
+					}
+				}
+			}
+
+			.mode-bot {
+				padding: 50rpx 30rpx 50rpx 30rpx;
+			}
+		}
+
+		//输入密码
+		.pay-pwd {
+			position: relative;
+
+			.pay-pwd-img {
+				display: block;
+				width: 600rpx;
+				height: 600rpx;
+				margin: 0 auto -210rpx auto;
+			}
+
+			.pay-pwd-close {
+				position: absolute;
+				top: 420rpx;
+				right: 30rpx;
+				display: block;
+				width: 60rpx;
+				height: 60rpx;
+				z-index: 10;
+			}
+
+			.pay-pwd-info {
+				width: 686rpx;
+				// height: 428rpx;
+				padding-top: 40rpx;
+				padding-bottom: 20rpx;
+				background: #FFF;
+				border: 4rpx solid rgb(255, 78, 47);
+				border-radius: 16rpx;
+
+				.pay-pwd-info-tit {
+					width: 80%;
+					font-size: 40rpx;
+					font-weight: bold;
+					text-align: center;
+					margin: 0 auto;
+				}
+
+				.pay-pwd-info-line {
+					width: 600rpx;
+					border-bottom: 2rpx solid rgb(189, 189, 189);
+					margin: 20rpx auto;
+				}
+
+				.pay-pwd-info-price {
+					width: 100%;
+					font-size: 38rpx;
+					color: rgb(255, 78, 47);
+					text-align: center;
+				}
+
+				.pay-pwd-info-input {
+					width: 520rpx;
+					height: 80rpx;
+					background: #f5f5f5;
+					border-radius: 10rpx;
+					padding: 0 20rpx;
+					margin: 20rpx auto;
+
+					.input {
+						width: 100%;
+						height: 80rpx;
+						font-size: 28rpx;
+						text-align: left;
+					}
+				}
+
+				.pay-pwd-info-btn {
+					width: 400rpx;
+					height: 80rpx;
+					line-height: 80rpx;
+					font-size: 32rpx;
+					color: #fff;
+					text-align: center;
+					background: rgb(255, 78, 47);
+					border-radius: 16rpx;
+					margin: 40rpx auto;
+				}
+
+				.pay-pwd-list {
+					width: 100%;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					margin-top: 60rpx;
+
+					view {
+						width: 220rpx;
+						height: 60rpx;
+						line-height: 60rpx;
+						font-size: 28rpx;
+						text-align: center;
+						border-radius: 16rpx;
+					}
+
+					.pay-pwd-list-cancel {
+						border: 2rpx solid rgb(255, 78, 47);
+					}
+
+					.pay-pwd-list-ok {
+						color: #fff;
+						background: rgb(255, 78, 47);
+						margin-left: 40rpx;
+					}
+				}
+
+			}
+
+		}
+
 
 		//竞拍中
 		.jping {
@@ -2448,7 +4183,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 	}
 
 	/deep/.u-count-down__text {
-		color: #fff !important;
+		color: rgb(255, 57, 57) !important;
 		font-size: 22rpx !important;
 	}
 

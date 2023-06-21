@@ -55,7 +55,7 @@
 					<view class="ongoing-type-left-txt">
 						<view>{{$t('new.zzjp')}}</view> <span style="rgba(255, 64, 41, 0.4)"></span>
 					</view>
-					<view class="ongoing-type-left-more">
+					<view class="ongoing-type-left-more" @click="toMore(1)">
 						<view>More</view>
 						<image src="/static/images/products/right.png"></image>
 					</view>
@@ -82,7 +82,7 @@
 					<view class="ongoing-type-left-txt">
 						<view>{{$t('new.jjks')}}</view> <span></span>
 					</view>
-					<view class="ongoing-type-left-more">
+					<view class="ongoing-type-left-more" @click="toMore(2)">
 						<view>More</view>
 						<image src="/static/images/products/right.png"></image>
 					</view>
@@ -109,7 +109,7 @@
 					<view class="ongoing-type-left-txt">
 						<view>{{$t('new.lsjl')}}</view> <span style="background: rgba(99, 97, 250, 0.4);"></span>
 					</view>
-					<view class="ongoing-type-left-more">
+					<view class="ongoing-type-left-more" @click="toMore(3)">
 						<view>More</view>
 						<image src="/static/images/products/right.png"></image>
 					</view>
@@ -154,7 +154,7 @@
 					v-if="selectId!=3"></image>
 				<image src="/static/images/new-index/p1.png" class="new-list-head-p" v-else></image>
 				<view class="new-list-head-line"></view>
-				<view class="new-list-head-more">
+				<view class="new-list-head-more" @click="productMore()">
 					<view>View More</view>
 					<image src="/static/images/products/right.png"></image>
 				</view>
@@ -168,9 +168,13 @@
 					<view class="new-list-item-right">
 						<view class="new-list-item-right-txt">{{item.goods_name}}</view>
 						<view class="new-list-item-right-tags">
-							<block v-for="(data,index) in item.tags" :key="data.tag_id">
+							<image src="/static/images/new-index/kzx.png"></image>
+							<image src="/static/images/new-index/xpss.png"></image>
+							<image src="/static/images/new-index/tjsp.png"></image>
+							<image src="/static/images/new-index/rmsp.png"></image>
+							<!-- <block v-for="(data,index) in item.tags" :key="data.tag_id">
 								<view>{{data.name}}</view>
-							</block>
+							</block> -->
 						</view>
 
 						<view class="new-list-item-right-start">
@@ -993,6 +997,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					this.navId = Number(e.tab)
 				}
 			}, 100);
+			this.getProductOrJinpai()
 		},
 		onShow() {
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
@@ -1065,6 +1070,32 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 		},
 		methods: {
+			getProductOrJinpai(){
+				this.$http.post(this.$apiObj.IndexSetting,{
+					fields:'whether_to_enable_ordinary_mall'
+				}).then(res=>{
+					if(res.data.whether_to_enable_ordinary_mall==1) this.productId=1
+					else this.productId=2
+				})
+			},
+			productMore(){
+				if(this.productId==1){
+					uni.setStorageSync('productId',2)
+					uni.switchTab({
+						url:'/pages/auction/jjks'
+					})
+				}else{
+					this.toMore(1)
+				}
+			},
+			//查看更多
+			toMore(id){
+				uni.setStorageSync('productId',1)
+				uni.setStorageSync('jinpaiId',id)
+				uni.switchTab({
+					url:'/pages/auction/jjks'
+				})
+			},
 			//普通商品或竞拍商品跳转
 			toProductOrJinpai(item) {
 				if (this.productId == 2) this.onJingPai(item)
@@ -1077,6 +1108,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			},
 			//获取普通商品列表
 			getProductList(id) {
+				if(this.productId == 2) return
 				this.$http.post(this.$apiObj.LitestoregoodsIndex, {
 					page: this.page,
 					pagenum: this.pagenum,
@@ -2359,6 +2391,12 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							border: 1rpx solid rgb(204, 204, 204);
 							border-radius: 4rpx;
 							margin-right: 12rpx;
+						}
+						
+						image{
+							width: 28rpx;
+							height: 28rpx;
+							margin-right: 16rpx;
 						}
 
 					}
@@ -4301,12 +4339,10 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					.cent {
 						display: flex;
 
-						.li-img {
+						image {
 							width: 80rpx;
 							height: 80rpx;
-							// overflow: hidden;
-							border-radius: 100%;
-							min-width: 80rpx;
+							border-radius: 50%;
 							margin-right: 20rpx;
 						}
 

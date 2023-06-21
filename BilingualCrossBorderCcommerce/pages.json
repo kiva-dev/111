@@ -841,6 +841,13 @@
 				"navigationBarTitleText": "",
 				"navigationStyle": "custom"
 			}
+		},
+		{
+			"path": "pages/auction/more",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
 		}
 	],
 	"globalStyle": {
@@ -851,8 +858,8 @@
 		"fontSize": "36rpx"
 	},
 	"tabBar": {
-		"color": "#333333",
-		"selectedColor": "#F13243",
+		"color": "rgb(153, 153, 153)",
+		"selectedColor": "rgb(10, 198, 142)",
 		"backgroundColor": "#FFF",
 		// "fontSize": "24rpx",
 		"borderStyle": "#fff",
@@ -884,27 +891,27 @@
 			{
 				"pagePath": "pages/auction/new_index",
 				"text": "%tab.home%",
-				"iconPath": "static/images/tab/home.png",
-				"selectedIconPath": "static/images/tab/home-select.png"
+				"iconPath": "/static/images/new-index/Home.png",
+				"selectedIconPath": "/static/images/new-index/Home1.png"
 			},
 			{
 				"pagePath": "pages/auction/jjks",
 				"text": "%tab.all%",
 				// "text": "%auction.jijiangkaishi%",
-				"iconPath": "static/images/tab/all.png",
-				"selectedIconPath": "./static/images/tab/all-select.png"
+				"iconPath": "/static/images/new-index/Products.png",
+				"selectedIconPath": "/static/images/new-index/Products1.png"
 			},
 			{
 				"pagePath": "pages/auction/xyzx",
 				"text": "%auction.xyzq%",
-				"iconPath": "static/images/tab/xyzx.png",
-				"selectedIconPath": "static/images/tab/xyzx-select.png"
+				"iconPath": "/static/images/new-index/Lucky.png",
+				"selectedIconPath": "/static/images/new-index/Lucky1.png"
 			},
 			{
 				"pagePath": "pages/mine/mine",
 				"text": "%tab.mine%",
-				"iconPath": "static/images/tab/my.png",
-				"selectedIconPath": "static/images/tab/my-select.png"
+				"iconPath": "/static/images/new-index/Me.png",
+				"selectedIconPath": "/static/images/new-index/Me1.png"
 			}
 		]
 	},

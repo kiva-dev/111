@@ -56,7 +56,7 @@
 
 	/deep/uni-tabbar,
 	uni-tabbar .uni-tabbar {
-		box-shadow: 0px -2px 7px rgba(255, 198, 188, 0.3) !important;
+		box-shadow: 0px -4rpx 14rpx rgba(29, 209, 129, 0.11) !important;
 	}
 
 	/*每个页面公共css */
