@@ -489,10 +489,10 @@
 					</view>
 				</view>
 				<view class="bl-right">
-					<view class="bl-right-buy">
+					<!-- <view class="bl-right-buy" @click="toPay()">
 						<p class="buy-name">Buy Now</p>
 						<p class="buy-info"><span>RM</span> 4888.00</p>
-					</view>
+					</view> -->
 					<view class="bl-right-add" style="color: #FFF; background: rgb(190, 190, 190)"
 						v-if="shopCont.check_status==3||shopCont.check_status==4">
 						<p>{{$t('auction.detail.yijs')}}</p>
@@ -891,6 +891,20 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 		},
 		methods: {
+			toPay() {
+				this.$http.post(this.$apiObj.CartAdd, {
+					goods_spec_id: this.shopCont.litestore_goods_spec[0].goods_spec_id,
+					num: 1
+				}).then(res => {
+					if (res.code == 1) {
+						this.$http.post(this.$apiObj.CartList).then(data => {
+							uni.navigateTo({
+								url: "/pages/cart/submit?cart_ids=" + data.data.data[0].goods[0].id
+							})
+						})
+					}
+				})
+			},
 			toMyCart(){
 				uni.navigateTo({
 					url:'/pages/cart/cart'

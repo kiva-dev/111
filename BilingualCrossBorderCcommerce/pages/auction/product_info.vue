@@ -365,7 +365,7 @@
 				<view class="bl-right">
 					<view class="bl-right-buy" @click="toPay()">
 						<p class="buy-name">Buy Now</p>
-						<p class="buy-info"><span>RM</span> 4888.00</p>
+						<p class="buy-info"><span>RM</span>{{shopCont.litestore_goods_spec[0].goods_price}}</p>
 					</view>
 					<view class="bl-right-add" @click="addCart()">
 						<p>Add Cart</p>
