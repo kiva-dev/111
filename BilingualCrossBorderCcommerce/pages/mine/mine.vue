@@ -32,12 +32,12 @@
 							<template v-else>
 								<view class="box-data-detail">
 									<view class="detail-container" @click="navClick('new/collect_products')">
-										<span>0</span>
+										<span>{{collectGoodsTotal || 0}}</span>
 										<p>{{$t('mine.collected')}}</p>
 									</view>
 									<view class="detail-dot"></view>
 									<view class="detail-container" @click="navClick('new/subscribe')">
-										<span>0</span>
+										<span>{{collectStoreTotal || 0}}</span>
 										<p>{{$t('mine.subscribed')}}</p>
 									</view>
 								</view>
@@ -59,7 +59,7 @@
 						</view>
 						<view class="ct-left-name">{{$t('top.wdqb')}}</view>
 					</view>
-					<view class="ct-right">
+					<view class="ct-right" @click="navClick('wallet')">
 						<view class="ct-right-name">{{$t('home.detail.more')}}</view>
 						<view class="ct-right-icon">
 							<image src="@/static/images/mine/mine_icon_right.png" mode="widthFix"></image>
@@ -69,9 +69,7 @@
 				<view class="container-content">
 					<view class="cc-box">
 						<view class="cc-box-num">
-							<span>0</span>
-							.
-							<span>00</span>
+							<span>{{userCont.money || 0.00}}</span>
 						</view>
 						<view class="cc-box-amount">
 							<p>(RM)</p>
@@ -81,18 +79,19 @@
 					<view class="cc-border"></view>
 					<view class="cc-box">
 						<view class="cc-box-rebate">
-							<view><span>0</span>.<span>00</span></view>
-							<p>{{$t('user.recharge.czje')}}</p>
+							<view><span>{{userCont.tocash_money || 0.00}}</span></view>
+							<p>{{$t('new.ktxye')}}</p>
 						</view>
 						<view class="cc-box-rebate">
-							<view><span>0</span>.<span>00</span></view>
-							<p>{{$t('mine.gift')}}</p>
+							<view><span>{{userCont.rebate_money_total || 0.00}}</span></view>
+							<p>{{$t('new.fyje')}}</p>
 						</view>
 					</view>
 				</view>
 				<view class="container-btn">
-					<view class="container-btn-withdrawal">{{$t('user.wallet.tixian')}}</view>
-					<view class="container-btn-recharge">{{$t('top.cz')}}</view>
+					<view class="container-btn-withdrawal" @click="navClick('Withdrawal')">{{$t('user.wallet.tixian')}}
+					</view>
+					<view class="container-btn-recharge" @click="navClick('recharge')">{{$t('top.cz')}}</view>
 				</view>
 			</view>
 		</view>
@@ -104,12 +103,12 @@
 		<view class="ml-auction">
 			<view class="ml-auction-top">
 				<view class="top-name">{{$t('top.wdjp')}}</view>
-				<!-- <view class="top-more">
+				<view class="top-more" @click="toAuction(1)">
 					<p>{{$t('user.myCont.ckqb')}}</p>
 					<view class="top-more-icon">
 						<image src="@/static/images/mine/mine_icon_right.png" mode="widthFix"></image>
 					</view>
-				</view> -->
+				</view>
 			</view>
 			<view class="ml-auction-content">
 				<view class="content-box" @click="toAuction(1)">
@@ -233,7 +232,8 @@
 		<u-popup :show="showContact" mode="center" bgColor="transparent">
 			<view class="contact">
 				<image src="../../static/images/new/tck-xy.png" class="contact-head"></image>
-				<image src="../../static/images/new/close.png" class="contact-info-close" @click="showContact = false"></image>
+				<image src="../../static/images/new/close.png" class="contact-info-close" @click="showContact = false">
+				</image>
 				<view class="contact-info">
 					<view class="contact-info-tit">{{$t('user.myCont.ptkf')}}</view>
 					<!--fb://profile/100089663415703-->
@@ -319,6 +319,8 @@
 				device: '',
 				isLogin: false,
 				isBottoming: false,
+				collectGoodsTotal: 0,
+				collectStoreTotal: 0,
 			}
 		},
 		onLoad() {
@@ -346,6 +348,8 @@
 				this.getMineAuth();
 				this.getMineWinAuction();
 				this.getMineSysmsgList();
+				this.getCollectGoods();
+				this.getCollectStore();
 			}
 		},
 		onHide() {
@@ -448,6 +452,27 @@
 				}).then(res => {
 					if (res.code == 1) {
 						this.noSelect = res.data.no_read;
+					}
+				})
+			},
+			getCollectGoods() {
+				this.$http.post(this.$apiObj.MineFocusList, {
+					page: 1,
+					pagenum: 10,
+					type: 1
+				}).then(res => {
+					if (res.code == 1) {
+						this.collectGoodsTotal = res.data.total;
+					}
+				})
+			},
+			getCollectStore() {
+				this.$http.post(this.$apiObj.MineFocusSubscribe, {
+					page: 1,
+					pagenum: 10
+				}).then(res => {
+					if (res.code == 1) {
+						this.collectStoreTotal = res.data.total;
 					}
 				})
 			},
@@ -675,8 +700,10 @@
 					display: flex;
 					justify-content: center;
 					align-items: center;
+					position: relative;
 
 					.cc-box {
+						width: 50%;
 						display: flex;
 						flex-direction: column;
 						justify-content: center;
@@ -691,14 +718,6 @@
 								color: rgb(51, 51, 51);
 								font-size: 32rpx;
 								font-weight: bold;
-								
-								&:first-child {
-									transform: translateY(2rpx);
-								}
-
-								&:last-child {
-									font-size: 24rpx;
-								}
 							}
 						}
 
@@ -735,13 +754,9 @@
 									color: rgb(51, 51, 51);
 									font-size: 32rpx;
 									font-weight: bold;
-
-									&:last-child {
-										font-size: 24rpx;
-									}
 								}
 							}
-							
+
 							p {
 								color: rgb(102, 102, 102);
 								font-size: 20rpx;
@@ -753,9 +768,11 @@
 					.cc-border {
 						width: 1rpx;
 						height: 160rpx;
-						margin: 0 80rpx;
 						background: rgb(204, 204, 204);
-						transform: translateY(10rpx);
+						position: absolute;
+						left: 50%;
+						top: 50%;
+						transform: translate(-50%, -50%);
 					}
 				}
 
@@ -976,12 +993,12 @@
 				}
 			}
 		}
-		
+
 		// 联系我们
 		.contact {
 			position: relative;
 			width: 686rpx;
-		
+
 			.contact-head {
 				display: block;
 				width: 686rpx;
@@ -989,7 +1006,7 @@
 				margin-bottom: -56rpx;
 				z-index: 9;
 			}
-		
+
 			.contact-info-close {
 				position: absolute;
 				top: 390rpx;
@@ -998,24 +1015,24 @@
 				height: 60rpx;
 				z-index: 10;
 			}
-		
+
 			.contact-info {
 				padding: 46rpx 0;
 				border: 4rpx solid rgb(255, 78, 47);
 				background: #fff;
 				border-radius: 16rpx;
-		
+
 				.contact-info-tit {
 					width: 100%;
 					font-size: 40rpx;
 					font-weight: 700;
 					text-align: center;
 				}
-		
+
 				a {
 					text-decoration: none;
 				}
-		
+
 				.contact-info-des {
 					width: 434rpx;
 					height: 100rpx;
@@ -1026,19 +1043,20 @@
 					border-radius: 50rpx;
 					box-shadow: 0rpx 0rpx 8rpx rgba(255, 78, 47, 0.3);
 					margin: 40rpx auto 0 auto;
-		
+
 					image {
 						width: 100rpx;
 						height: 100rpx;
 						border-radius: 50%;
 					}
-		
+
 					view {
 						margin-left: 40rpx;
 					}
 				}
 			}
 		}
+
 		// 确认弹框
 		.showConfirm {
 			width: 686rpx;
@@ -1047,7 +1065,7 @@
 			box-sizing: border-box;
 			border-radius: 16rpx;
 			border: 2rpx solid rgb(10, 198, 142);
-		
+
 			.showConfirm-txt {
 				width: 80%;
 				font-size: 28rpx;
@@ -1056,14 +1074,14 @@
 				text-align: center;
 				margin: 0 auto;
 			}
-		
+
 			.showConfirm-btn {
 				width: 100%;
 				display: flex;
 				align-items: center;
 				justify-content: center;
 				margin-top: 40rpx;
-		
+
 				view {
 					width: 240rpx;
 					height: 60rpx;
@@ -1074,19 +1092,19 @@
 					border-radius: 16rpx;
 					margin: 0 20rpx;
 				}
-		
+
 				.showConfirm-btn-cancel {
 					color: rgb(44, 44, 44);
 					border: 2rpx solid rgb(10, 198, 142);
 				}
-		
+
 				.showConfirm-btn-ok {
 					color: #fff;
 					background: rgb(10, 198, 142);
 				}
-		
+
 			}
-		
+
 		}
 	}
 </style>

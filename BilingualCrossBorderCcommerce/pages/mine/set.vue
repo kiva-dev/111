@@ -114,7 +114,7 @@
           <view class="pop-c">{{$t('user.xitong.onQuery')}}</view>
           <view class="pop-b">
             <button class="pop-btn" @click="onQueryshow">{{$t('user.xitong.query')}}</button>
-            <button class="pop-btn red" style="background: #FF4E2F;" @click.stop="$noMultipleClicks(onMineLoginOut)">{{$t('user.xitong.btnsub')}}</button>
+            <button class="pop-btn red" style="background: #1DD181;" @click.stop="$noMultipleClicks(onMineLoginOut)">{{$t('user.xitong.btnsub')}}</button>
           </view>
         </view>
       </view>
@@ -225,10 +225,10 @@ export default {
         if (res.code == 1) {
           uni.showToast({ title: this.isShopCont ? 'Exit succeeded' : '退出成功', icon: 'none' })
           uni.removeStorageSync('token');
-          uni.navigateTo({
-            url: '../public/login'
-          })
-          this.$refs.popup3.close()
+		  this.$refs.popup3.close()
+          uni.reLaunch({
+          	url: '/pages/public/login'
+          });
         }
       })
     },

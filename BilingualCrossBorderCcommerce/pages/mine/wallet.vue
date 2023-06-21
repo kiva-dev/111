@@ -1,70 +1,48 @@
 <template>
 	<view class="wallet-page">
-
 		<view class="commission-head">
-			<image src="/static/images/new/left.png" class="commission-head-left" @click="onReturn()"></image>
+			<image src="@/static/images/mine/collect_icon_back.png" class="commission-head-left" @click="onReturn()"></image>
 			<view>{{$t('top.wdqb')}}</view>
-			<image src="/static/images/new/yhk.png" class="commission-head-right" @click="onQuery()"></image>
+			<image src="@/static/images/mine/wallet_btn_card.png" class="commission-head-right" @click="onQuery()"></image>
 		</view>
-
 		<view class="wallet-head">
 			<view class="head-card">
 				<view class="t">{{$t('new.zhye')}}（RM）</view>
-				<view class="money">{{money}}</view>
-				<!-- <view class="cont">
-					<view class="cont-t">{{$t('new.ktxye')}}：</view>
-					<view class="cont-money">{{tocash_money}}</view>
-				</view> -->
+				<view class="money">{{money || 0.0000}}</view>
 				<view class="head-card-price">
-					<!-- <view class="head-card-zsje">{{$t('new.zsje')}}<br/><span>1000.00</span></view> -->
 					<view class="head-card-fyje">{{$t('new.fyje')}}<br /><span>{{rebate_money_total}}</span></view>
-					<view>{{$t('new.ktxye')}}<br /><span>{{tocash_money}}</span></view>
+					<view>{{$t('new.ktxye')}}<br /><span>{{tocash_money || 0.0000}}</span></view>
 				</view>
-			</view>
-			<view class="head-ul">
-				<view class="li" @click="navClick('recharge')" style="">
-					<view class="icon">
-						<image class="img" src="/static/images/new/lv-cz.png"></image>
-					</view>
-					<text style="color: rgb(8, 195, 84);">{{$t('user.wallet.chongzhi')}}</text>
-				</view>
-				<view class="li" @click="navClick('Withdrawal')" style="background: rgba(75, 192, 254, 0.2);">
-					<view class="icon">
-						<image class="img" src="/static/images/new/tx.png"></image>
-					</view>
-					<text style="color: rgb(75, 192, 254);">{{$t('user.wallet.tixian')}}</text>
+				<view class="card-btns">
+					<view class="card-btns-withdrawal" @click="navClick('Withdrawal')">{{$t('user.wallet.tixian')}}</view>
+					<view class="card-btns-Recharge" @click="navClick('recharge')">{{$t('user.wallet.chongzhi')}}</view>
 				</view>
 			</view>
 		</view>
-
 		<view class="wallet-box">
 			<view class="wallet-box-shouzhi">{{$t('new.shouzhi')}}</view>
 			<view class="wallet-ul" v-if="navId===1">
 				<view class="commission-item" v-for="(item,i) in MoneyList">
-					
-					<image src="/static/images/new/chonzhi.png" v-if="item.type==20"></image>
-					<image src="/static/images/new/tx-mx.png" v-else-if="item.type==12"></image>
-					<image src="/static/images/new/liupai.png" v-else-if="item.type==6 || item.type==16"></image>
-					<image src="/static/images/new/xiaofei.png" v-else-if="item.type==21"></image>
-					<image src="/static/images/new/cz-mx.png" v-else-if="item.type==5"></image>
-					<image src="/static/images/new/gouwu.png" v-else></image>
-					
-					<view class="commission-item-info">
-						<view class="commission-item-info-tit">{{item.memo}}</view>
-						<view class="commission-item-info-time">{{$filter.to_date_time(item.addtime)}}</view>
+					<view class="ci-left">
+						<view class="ci-left-icon">
+							<!-- <image src="/static/images/new/chonzhi.png" v-if="item.type==20"></image>
+							<image src="/static/images/new/tx-mx.png" v-else-if="item.type==12"></image>
+							<image src="/static/images/new/liupai.png" v-else-if="item.type==6 || item.type==16"></image>
+							<image src="/static/images/new/xiaofei.png" v-else-if="item.type==21"></image>
+							<image src="/static/images/new/cz-mx.png" v-else-if="item.type==5"></image>
+							<image src="/static/images/new/gouwu.png" v-else></image> -->
+							<image v-if="(item.money*1) > 0" src="@/static/images/mine/wallet_icon_income.png" mode="widthFix"></image>
+							<image v-else src="@/static/images/mine/wallet_icon_expenditure.png" mode="widthFix"></image>
+						</view>
+						<view class="ci-left-info">
+							<view class="info-tit">{{item.memo}}</view>
+							<view class="info-time">{{$filter.to_date_time(item.addtime)}}</view>
+						</view>
 					</view>
-					<view class="commission-item-price" :style="(item.money*1)<0?'color: rgb(255, 78, 47);':''">
-						{{item.money}}
+					<view class="ci-right" :style="(item.money*1) > 0?'color: rgb(255, 57, 57);':''">
+						{{(item.money*1) > 0 ? '+' + item.money : item.money}}
 					</view>
 				</view>
-
-				<!-- <view class="li" v-for="item in MoneyList" :key="item.id">
-					<view class="li-fl">
-						<view class="t">{{item.memo}}</view>
-						<view class="c">{{$filter.to_date_time(item.addtime)}}</view>
-					</view>
-					<view class="num"><text class="f-34">{{item.money}}</text></view>
-				</view> -->
 			</view>
 			<view class="wallet-ul" v-if="navId===2">
 				<view class="li active" v-for="item in MoneyList" :key="item.id">
@@ -86,7 +64,6 @@
 				</view>
 			</view>
 		</view>
-		<view style="height: 40rpx;"></view>
 	</view>
 </template>
 
@@ -285,7 +262,7 @@
 	.wallet-page {
 		width: 100%;
 		min-height: 100vh;
-		background: rgb(248, 248, 248);
+		background: #F8F8F8;
 
 		.commission-head {
 			position: relative;
@@ -299,77 +276,43 @@
 			.commission-head-left {
 				position: absolute;
 				left: 20rpx;
-				width: 60rpx;
-				height: 60rpx;
+				width: 40rpx;
+				height: 40rpx;
 				z-index: 10;
 			}
 
 			.commission-head-right {
 				position: absolute;
 				right: 30rpx;
-				width: 60rpx;
-				height: 60rpx;
+				width: 50rpx;
+				height: 50rpx;
 				z-index: 10;
 			}
 
 			view {
 				width: 100%;
 				font-size: 40rpx;
-				color: rgb(255, 78, 47);
+				color: rgb(51, 51, 51);
 				text-align: center;
 			}
 
 		}
 
 		.wallet-head {
-			// background: #f9f9f9;
-			border-radius: 25rpx;
-			margin: 36rpx 30rpx;
-			overflow: hidden;
-			// box-shadow: 0px 4rpx 5rpx rgba(44, 44, 44, 0.1);
+			width: 100%;
+			padding: 24rpx 32rpx;
+			box-sizing: border-box;
 
 			.head-card {
-				position: relative;
-				width: 686rpx;
-				height: 320rpx;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				position: relative;
-				color: #fff;
-				text-align: center;
-				flex-direction: column;
+				width: 100%;
 				background: url('/static/images/new/card.png') no-repeat;
-				background-size: 686rpx 320rpx;
-
-				.cont {
-					position: absolute;
-					top: 20rpx;
-					right: 0rpx;
-					height: 58rpx;
-					padding: 0 10rpx;
-					display: flex;
-					align-items: center;
-					color: rgb(255, 78, 47);
-					text-align: center;
-					background: #fff;
-					border-radius: 34rpx 0 0 34rpx;
-
-					.cont-t {
-						font-size: 24rpx;
-					}
-
-					.cont-money {
-						font-size: 26rpx;
-						margin-top: 0;
-						// margin-left: 20rpx;
-					}
-				}
+				background-size: 100% 100%;
+				padding: 24rpx 40rpx 34rpx;
+				box-sizing: border-box;
 
 				.head-card-price {
-					position: absolute;
-					bottom: 20rpx;
 					width: 100%;
+					margin-top: 24rpx;
 					font-size: 24rpx;
 					color: rgb(255, 255, 255);
 					display: flex;
@@ -388,42 +331,47 @@
 				}
 
 				.t {
-					position: absolute;
-					top: 30rpx;
-					left: 40rpx;
-					font-size: 32rpx;
+					color: rgb(255, 255, 255);
+					font-size: 28rpx;
 				}
 
 				.money {
-					font-size: 76rpx;
-					font-weight: 600;
-					margin-top: 0rpx;
-				}
-			}
-
-			.head-ul {
-				width: 686rpx;
-				display: flex;
-				align-items: center;
-				justify-content: space-between;
-				margin-top: 20rpx;
-
-				.li {
-					width:320rpx;
-					height: 80rpx;
+					margin-top: 32rpx;
 					text-align: center;
+					font-weight: 600;
+					color: rgb(255, 255, 255);
+					font-size: 64rpx;
+				}
+				
+				.card-btns {
+					margin-top: 32rpx;
 					display: flex;
-					align-items: center;
 					justify-content: center;
-					font-size: 32rpx;
-					color: rgb(44, 220, 115);
-					background: rgba(44, 220, 115, 0.2);
-					border-radius: 16rpx;
-
-					.icon {
-						width: 60rpx;
-						height: 60rpx;
-						margin-right: 20rpx;
+					align-items: center;
+					
+					.card-btns-withdrawal {
+						width: 160rpx;
+						height: 56rpx;
+						margin: 0 20rpx;
+						border: 2rpx solid rgb(255, 255, 255);
+						box-sizing: border-box;
+						border-radius: 100rpx;
+						text-align: center;
+						line-height: 56rpx;
+						color: rgb(255, 255, 255);
+						font-size: 20rpx;
+					}
+					
+					.card-btns-Recharge {
+						width: 160rpx;
+						height: 56rpx;
+						margin: 0 20rpx;
+						background: rgb(255, 255, 255);
+						border-radius: 100rpx;
+						text-align: center;
+						line-height: 56rpx;
+						color: rgb(255, 57, 57);
+						font-size: 20rpx;
 					}
 				}
 			}
@@ -431,17 +379,20 @@
 
 		//wallet-head E
 		.wallet-box {
-			margin: 40rpx 30rpx;
+			width: 100%;
+			background: rgb(255, 255, 255);
+			border-radius: 24rpx 24rpx 0px 0px;
+			padding: 32rpx;
+			box-sizing: border-box;
 
 			.wallet-box-shouzhi {
-				font-size: 32rpx;
-				color: rgb(255, 78, 47);
+				color: rgb(51, 51, 51);
+				font-size: 28rpx;
 			}
 
 			.wallet-t {
 				margin: 0 130rpx;
 				font-size: 28rpx;
-				// font-weight: 550;
 				display: flex;
 				justify-content: space-between;
 
@@ -466,7 +417,8 @@
 			}
 
 			.wallet-ul {
-				margin-top: 30rpx;
+				width: 100%;
+				margin-top: 32rpx;
 
 				.li {
 					background: #ffffff;
@@ -555,47 +507,53 @@
 		}
 
 		.commission-item {
-			position: relative;
-			width: 686rpx;
-			height: 100rpx;
+			width: 100%;
+			margin-bottom: 32rpx;
+			padding-bottom: 32rpx;
+			box-sizing: border-box;
+			border-bottom: 1rpx solid rgb(204, 204, 204);
 			display: flex;
+			justify-content: space-between;
 			align-items: center;
-			background: #fff;
-			border-radius: 12rpx;
-			box-shadow: 0px 4rpx 10rpx rgba(44, 44, 44, 0.1);
-			margin: 0 auto 20rpx auto;
-
-			image {
-				display: block;
-				width: 60rpx;
-				height: 60rpx;
-				margin: 0 30rpx;
+			
+			.ci-left {
+				display: flex;
+				align-items: center;
+				
+				.ci-left-icon {
+					width: 80rpx;
+					height: 80rpx;
+					
+					image {
+						width: 100%;
+						height: 100%;
+					}
+				}
+				
+				.ci-left-info {
+					margin-left: 32rpx;
+					
+					.info-tit {
+						max-width: 420rpx;
+						margin: 9rpx 0;
+						color: rgb(51, 51, 51);
+						font-size: 28rpx;
+						overflow: hidden;
+						text-overflow: ellipsis;
+						white-space: nowrap;
+					}
+					
+					.info-time {
+						margin: 9rpx 0;
+						color: rgb(153, 153, 153);
+						font-size: 24rpx;
+					}
+				}
 			}
 
-			.commission-item-info {
-
-				.commission-item-info-tit {
-					max-width: 420rpx;
-					font-size: 24rpx;
-					color: rgb(44, 44, 44);
-					overflow: hidden;
-					text-overflow: ellipsis;
-					white-space: nowrap;
-				}
-
-				.commission-item-info-time {
-					font-size: 20rpx;
-					color: rgb(190, 190, 190);
-					margin-top: 10rpx;
-				}
-
-			}
-
-			.commission-item-price {
-				position: absolute;
-				right: 30rpx;
+			.ci-right {
 				font-size: 32rpx;
-				color: rgb(44, 44, 44);
+				color: rgb(153, 153, 153);
 			}
 
 		}

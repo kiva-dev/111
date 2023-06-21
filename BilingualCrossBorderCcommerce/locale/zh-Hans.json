@@ -1318,5 +1318,8 @@
 	"mine.subscribed":"订阅",
 	"mine.collected":"收藏",
 	"mine.loginBtn":"登录/注册",
-	"mine.gift":"赠送金额"
+	"mine.gift":"赠送金额",
+	"mine.auction":"我的竞拍",
+	"detail.guess":"猜你喜欢",
+	"detail.hot":"热门推荐"
 }

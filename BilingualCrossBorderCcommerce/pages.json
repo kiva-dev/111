@@ -851,15 +851,15 @@
 		}
 	],
 	"globalStyle": {
-		"navigationBarTextStyle": "white",
+		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "%top.dianshang%",
-		"navigationBarBackgroundColor": "#1DD181",
-		"backgroundColor": "#fff",
+		"navigationBarBackgroundColor": "#ffffff",
+		"backgroundColor": "#ffffff",
 		"fontSize": "36rpx"
 	},
 	"tabBar": {
-		"color": "rgb(153, 153, 153)",
-		"selectedColor": "rgb(10, 198, 142)",
+		"color": "#999999",
+		"selectedColor": "#1DD181",
 		"backgroundColor": "#FFF",
 		// "fontSize": "24rpx",
 		"borderStyle": "#fff",

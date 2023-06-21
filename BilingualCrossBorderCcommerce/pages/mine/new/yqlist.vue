@@ -1,8 +1,8 @@
 <template>
-	<view class="yqlist">
+	<view class="yqlist-layout">
 		<view class="yqlist-content">
 			<view class="yqlist-head">
-				<image src="/static/images/new/left.png" @click="onBack"></image>
+				<image src="@/static/images/mine/collect_icon_back.png" @click="onBack"></image>
 				<view>{{$t('new.wdyq')}}</view>
 			</view>
 			<template v-if="level === 1 && memberArr.length > 0">
@@ -23,9 +23,9 @@
 					<view class="yl-avatar">
 						<image :src="memberInfo.avatar" mode="aspectFill"></image>
 					</view>
-					<view class="yl-text">{{memberInfo.nickname || ''}}
-						{{$t('new.multistage')}}{{level || 1}}{{$t('new.members')}}
-						({{memberArr.length || 0}}{{$t('new.people')}})
+					<view class="yl-text">
+						<p class="yl-text-name">{{memberInfo.nickname || ''}}</p>
+						<p class="yl-text-info">{{$t('new.multistage')}}{{level || 1}}{{$t('new.members')}}</p>
 					</view>
 				</view>
 			</template>
@@ -33,16 +33,24 @@
 				<template v-if="memberArr && memberArr.length > 0">
 					<view class="yl-item" v-for="(item,index) in memberArr" :key="index"
 						@click="onViewInvitation(item)">
-						<view class="yl-item-avatar">
-							<image :src="item.avatar" mode="aspectFill"></image>
+						<view class="yl-item-box">
+							<view class="yl-item-avatar">
+								<image :src="item.avatar" mode="aspectFill"></image>
+							</view>
+							<view class="yl-item-info">
+								<view class="info-name">{{item.nickname}}</view>
+								<view class="info-people">
+									{{$t('new.Invitations')}}：({{item.invite_count}})
+								</view>
+								<view class="info-amount">
+									<span>{{$t('new.rebate')}}：</span>
+									<span>RM</span>
+									<span>{{item.rebate_money}}</span>
+								</view>
+							</view>
 						</view>
-						<view class="yl-item-info">
-							<view class="info-name">{{item.nickname}}</view>
-							<view class="info-amount">{{$t('new.rebate')}}：<span>{{'RM' + item.rebate_money}}</span>
-							</view>
-							<view class="info-people">
-								{{$t('new.Invitations')}}({{$t('new.people')}})：{{item.invite_count}}
-							</view>
+						<view class="yl-item-right">
+							<image src="@/static/images/mine/mine_icon_right.png" mode="widthFix"></image>
 						</view>
 					</view>
 					<view style="padding-top: 1px;">
@@ -236,7 +244,7 @@
 </script>
 
 <style lang="less" scoped>
-	.yqlist {
+	.yqlist-layout {
 		width: 100%;
 		min-height: 100vh;
 		padding-bottom: 40rpx;
@@ -244,13 +252,12 @@
 
 		.yqlist-content {
 			width: 100%;
-			height: 600rpx;
-			background: linear-gradient(180.00deg, rgba(255, 121, 99, 0.5), rgba(255, 255, 255, 0.00) 100%);
 
 			.yqlist-head {
 				position: relative;
 				width: 100%;
 				height: 88rpx;
+				background: rgb(255, 255, 255);
 				padding-top: 88rpx;
 				display: flex;
 				justify-content: center;
@@ -259,14 +266,13 @@
 				image {
 					position: absolute;
 					left: 20rpx;
-					width: 60rpx;
-					height: 60rpx;
+					width: 40rpx;
+					height: 40rpx;
 				}
 
 				view {
 					font-size: 40rpx;
-					font-weight: bold;
-					color: rgb(255, 78, 47);
+					color: rgb(51, 51, 51);
 				}
 			}
 
@@ -279,7 +285,10 @@
 				.container-box {
 					width: 100%;
 					background: #FFFFFF;
-					border-radius: 40rpx;
+					border-radius: 50rpx;
+					padding: 8rpx;
+					box-sizing: border-box;
+					border: 1rpx solid rgb(10, 198, 142);
 					display: flex;
 					justify-content: space-between;
 
@@ -291,11 +300,12 @@
 						align-items: center;
 
 						span {
-							color: rgb(255, 78, 47);
+							color: rgb(51, 51, 51);
 							font-size: 28rpx;
 							font-weight: 700;
 
 							&:last-child {
+								color: rgb(10, 198, 142);
 								margin-left: 15rpx;
 								font-size: 40rpx;
 							}
@@ -305,7 +315,7 @@
 					.cb-right {
 						width: 200rpx;
 						height: 80rpx;
-						background: #FF4E2F;
+						background: rgb(10, 198, 142);
 						border-radius: 40rpx;
 						line-height: 80rpx;
 						font-size: 28rpx;
@@ -326,32 +336,40 @@
 
 			.yqlist-illustrate {
 				width: 100%;
-				margin-top: 20rpx;
-				padding: 0 50rpx;
+				background: #FFFFFF;
+				padding: 22rpx 80rpx;
 				box-sizing: border-box;
 				display: flex;
 				align-items: center;
 
 				.yl-avatar {
-					width: 80rpx;
-					height: 80rpx;
-					border: 1rpx solid rgb(255, 255, 255);
-					box-sizing: border-box;
-					border-radius: 50rpx;
+					width: 88rpx;
+					height: 88rpx;
 
 					image {
 						width: 100%;
 						height: 100%;
-						border-radius: 50rpx;
+						border-radius: 50%;
 					}
 				}
 
 				.yl-text {
 					flex: 1;
-					margin-left: 20rpx;
-					color: rgb(44, 44, 44);
-					font-size: 28rpx;
-					font-weight: 400;
+					margin-left: 24rpx;
+					
+					.yl-text-name {
+						margin: 10rpx 0;
+						color: rgb(51, 51, 51);
+						font-size: 28rpx;
+						font-weight: bold;
+					}
+					
+					.yl-text-info {
+						margin: 10rpx 0;
+						color: rgb(102, 102, 102);
+						font-size: 24rpx;
+						font-weight: 400;
+					}
 				}
 			}
 
@@ -366,48 +384,74 @@
 					background: rgb(255, 255, 255);
 					box-shadow: 0rpx 0rpx 8rpx rgba(190, 190, 190, 0.3);
 					border-radius: 8px;
-					padding: 20rpx 60rpx;
+					padding: 24rpx;
 					box-sizing: border-box;
 					display: flex;
+					justify-content: space-between;
 					align-items: center;
-
-					.yl-item-avatar {
-						width: 200rpx;
-						height: 200rpx;
-
-						image {
-							width: 100%;
-							height: 100%;
-							border-radius: 50%;
-							box-shadow: 0rpx 2rpx 4rpx rgba(190, 190, 190, 0.3);
-						}
-					}
-
-					.yl-item-info {
-						flex: 1;
-						margin-left: 80rpx;
-
-						.info-name {
-							color: rgb(44, 44, 44);
-							font-size: 28rpx;
-							font-weight: 400;
-						}
-
-						.info-amount {
-							margin: 26rpx 0;
-							color: rgb(44, 44, 44);
-							font-size: 24rpx;
-							font-weight: 400;
-
-							span {
-								color: #FF4E2F;
+					
+					.yl-item-box {
+						display: flex;
+						align-items: center;
+						
+						.yl-item-avatar {
+							width: 132rpx;
+							height: 132rpx;
+						
+							image {
+								width: 100%;
+								height: 100%;
+								border-radius: 50%;
+								box-shadow: 0rpx 2rpx 4rpx rgba(190, 190, 190, 0.3);
 							}
 						}
-
-						.info-people {
-							color: rgb(44, 44, 44);
-							font-size: 24rpx;
-							font-weight: 400;
+						
+						.yl-item-info {
+							flex: 1;
+							margin-left: 24rpx;
+						
+							.info-name {
+								font-size: 28rpx;
+								color: rgb(51, 51, 51);
+								font-size: 14px;
+								font-weight: bold;
+							}
+						
+							.info-amount {
+								
+								span {
+									color: rgb(44, 44, 44);
+									font-size: 24rpx;
+									font-weight: 400;
+									
+									&:nth-child(2) {
+										color: #FF3939;
+										font-weight: bold;
+									}
+									
+									&:last-child {
+										font-size: 32rpx;
+										color: #FF3939;
+										font-weight: bold;
+									}
+								}
+							}
+						
+							.info-people {
+								margin: 16rpx 0;
+								color: rgb(44, 44, 44);
+								font-size: 24rpx;
+								font-weight: 400;
+							}
+						}
+					}
+					
+					.yl-item-right {
+						width: 32rpx;
+						height: 32rpx;
+						
+						image {
+							width: 100%;
 						}
 					}
 				}
@@ -429,7 +473,7 @@
 					}
 
 					.yl-empty-text {
-						color: rgb(255, 78, 47);
+						color: rgb(102, 102, 102);
 						font-size: 40rpx;
 						font-weight: 400;
 					}
@@ -438,7 +482,7 @@
 						width: 400rpx;
 						height: 80rpx;
 						margin: 60rpx auto 0;
-						background: rgb(255, 78, 47);
+						background: rgb(10, 198, 142);
 						border-radius: 40rpx;
 						color: rgb(255, 255, 255);
 						font-size: 40rpx;

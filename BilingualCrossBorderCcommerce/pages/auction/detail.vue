@@ -46,15 +46,27 @@
 			<view class="detail-title">{{shopCont.goods_name}}</view>
 			<!--标签-->
 			<view class="li-tags">
-				<block v-for="(item,index) in shopCont.tags" :key="item.tag_id">
+				<!-- <block v-for="(item,index) in shopCont.tags" :key="item.tag_id">
 					<view class="tag">{{item.name}}</view>
-				</block>
+				</block> -->
+				<view class="li-icon">
+					<image src="@/static/images/new-index/kzx.png" mode="widthFix"></image>
+				</view>
+				<view class="li-icon">
+					<image src="@/static/images/new-index/xpss.png" mode="widthFix"></image>
+				</view>
+				<view class="li-icon">
+					<image src="@/static/images/new-index/tjsp.png" mode="widthFix"></image>
+				</view>
+				<view class="li-icon">
+					<image src="@/static/images/new-index/rmsp.png" mode="widthFix"></image>
+				</view>
 			</view>
-			<view class="progress-layout">
+			<!-- <view class="progress-layout">
 				<view class="pl-box">
 					<span :style="{'width': 50 + '%'}"></span>
 				</view>
-			</view>
+			</view> -->
 			<view class="operate-layout">
 				<view class="ol-container">
 					<image src="@/static/images/new-index/detail_icon_collect.png" mode="widthFix"></image>
@@ -84,7 +96,7 @@
 				</view>
 				<view class="detail-canyu-jdt" v-if="shopCont.check_status!=3 && shopCont.check_status!=4">
 					<progress class="progress" :percent="shopCont.finish_rate*100" stroke-width="9"
-						activeColor="#FF4E2F" backgroundColor="#EBEBEB" />
+						activeColor="#1DD181" backgroundColor="#EBEBEB" />
 				</view>
 				<view class="detail-canyu-list"
 					:style="shopCont.check_status==3 || shopCont.check_status==4?'margin-top:30rpx;':''">
@@ -117,6 +129,7 @@
 			<div id="div2"></div>
 			<!--评论-->
 			<view class="detail-comment">
+				<div id="div2"></div>
 				<view class="detail-comment-head">
 					<view class="detail-comment-tit">{{$t('newDetail.pinglun')}} <span>（{{JudgeList.length}}）</span>
 					</view>
@@ -125,19 +138,21 @@
 						<image src="../../static/images/products/right.png"></image>
 					</view>
 				</view>
-
-				<view class="detail-comment-line"></view>
-
 				<block v-if="JudgeList.length > 0">
 					<view class="detail-comment-item" v-for="(item,i) in JudgeList.slice(0,2)" :key="i">
 						<view class="detail-comment-item-head">
-							<image :src="item.user.avatar" class="auth"></image>
-							<view>{{item.user.nickname}}</view>
+							<image :src="item.user.avatar" mode="aspectFill"></image>
+							<p>{{item.user.nickname}}</p>
+							<view class="head-level">
+								<view class="head-level-icon">
+									<image src="@/static/images/mine/mine_icon_vip.png" mode="widthFix"></image>
+								</view>
+								<view class="head-level-num">Lv.2</view>
+							</view>
 						</view>
 						<view class="detail-comment-item-info">
 							{{item.comment}}
 						</view>
-						<view class="detail-comment-line" v-if="i%2==0 && JudgeList.length>1"></view>
 					</view>
 				</block>
 				<block v-else>
@@ -191,61 +206,194 @@
 				</view>
 			</view>
 			<!--猜你喜欢-->
-			<view class="detail-like">
-				<view class="head">
-					<image src="/static/images/new-index/like.png" class="head_img"></image>
-					<view class="head_tit">Guess you like</view>
-					<view class="more">
-						<view>View More</view>
-						<image src="/static/images/products/right.png"></image>
+			<view class="guess-layout">
+				<view class="gl-title">
+					<view class="gl-title-left">
+						<image src="@/static/images/new-index/detail_icon_guess.png" mode="widthFix"></image>
+						<p>{{$t('detail.guess')}}</p>
 					</view>
 				</view>
-				<scroll-view scroll-x style="width: 686rpx;white-space: nowrap;margin: 0 auto;">
-					<view class="all_list" v-for="data in likeList">
-						<view class="list">
-							<view class="item" v-for="(item,i) in data.list">
-								<image src="../../static/fxtu.png"></image>
-								<view class="item_tit">Xiaomi 33WRH Power Bank 10000mAh Por...</view>
-								<view class="item_price">RM<span>199.00</span></view>
+				<view class="gl-content">
+					<u-grid :border="false" @click="click">
+						<u-grid-item>
+							<view class="gl-content-item">
+								<view class="item-cover">
+									<image src="@/static/images/new-index/detail_demo_cover.png" mode="aspectFill">
+									</image>
+								</view>
+								<view class="item-text">Xiaomi 33WRH Power Bank 10000mAh Por apple bannana</view>
+								<view class="item-price">
+									<span>RM</span>
+									<span>199.00</span>
+								</view>
 							</view>
-						</view>
-					</view>
-
-				</scroll-view>
+						</u-grid-item>
+						<u-grid-item>
+							<view class="gl-content-item">
+								<view class="item-cover">
+									<image src="@/static/images/new-index/detail_demo_cover.png" mode="aspectFill">
+									</image>
+								</view>
+								<view class="item-text">Xiaomi 33WRH Power Bank 10000mAh Por apple bannana</view>
+								<view class="item-price">
+									<span>RM</span>
+									<span>199.00</span>
+								</view>
+							</view>
+						</u-grid-item>
+						<u-grid-item>
+							<view class="gl-content-item">
+								<view class="item-cover">
+									<image src="@/static/images/new-index/detail_demo_cover.png" mode="aspectFill">
+									</image>
+								</view>
+								<view class="item-text">Xiaomi 33WRH Power Bank 10000mAh Por apple bannana</view>
+								<view class="item-price">
+									<span>RM</span>
+									<span>199.00</span>
+								</view>
+							</view>
+						</u-grid-item>
+						<u-grid-item>
+							<view class="gl-content-item">
+								<view class="item-cover">
+									<image src="@/static/images/new-index/detail_demo_cover.png" mode="aspectFill">
+									</image>
+								</view>
+								<view class="item-text">Xiaomi 33WRH Power Bank 10000mAh Por apple bannana</view>
+								<view class="item-price">
+									<span>RM</span>
+									<span>199.00</span>
+								</view>
+							</view>
+						</u-grid-item>
+						<u-grid-item>
+							<view class="gl-content-item">
+								<view class="item-cover">
+									<image src="@/static/images/new-index/detail_demo_cover.png" mode="aspectFill">
+									</image>
+								</view>
+								<view class="item-text">Xiaomi 33WRH Power Bank 10000mAh Por apple bannana</view>
+								<view class="item-price">
+									<span>RM</span>
+									<span>199.00</span>
+								</view>
+							</view>
+						</u-grid-item>
+						<u-grid-item>
+							<view class="gl-content-item">
+								<view class="item-cover">
+									<image src="@/static/images/new-index/detail_demo_cover.png" mode="aspectFill">
+									</image>
+								</view>
+								<view class="item-text">Xiaomi 33WRH Power Bank 10000mAh Por apple bannana</view>
+								<view class="item-price">
+									<span>RM</span>
+									<span>199.00</span>
+								</view>
+							</view>
+						</u-grid-item>
+					</u-grid>
+				</view>
 			</view>
 			<!--热门推荐-->
-			<view class="detail-like" style="margin-top: 24rpx;">
-				<view class="head">
-					<image src="/static/images/new-index/hot.png" class="head_img"></image>
-					<view class="head_tit">Hot recommend</view>
-					<view class="more">
-						<view>View More</view>
-						<image src="/static/images/products/right.png"></image>
+			<view class="guess-layout">
+				<view class="gl-title">
+					<view class="gl-title-left">
+						<image src="@/static/images/new-index/detail_icon_hot.png" mode="widthFix"></image>
+						<p>{{$t('detail.hot')}}</p>
 					</view>
 				</view>
-				<scroll-view scroll-x style="width: 686rpx;white-space: nowrap;margin: 0 auto;">
-					<view class="all_list" v-for="data in likeList">
-						<view class="list">
-							<view class="item" v-for="(item,i) in data.list">
-								<image src="../../static/fxtu.png"></image>
-								<view class="item_tit">Xiaomi 33WRH Power Bank 10000mAh Por...</view>
-								<view class="item_price">RM<span>199.00</span></view>
+				<view class="gl-content">
+					<u-grid :border="false" @click="click">
+						<u-grid-item>
+							<view class="gl-content-item">
+								<view class="item-cover">
+									<image src="@/static/images/new-index/detail_demo_cover.png" mode="aspectFill">
+									</image>
+								</view>
+								<view class="item-text">Xiaomi 33WRH Power Bank 10000mAh Por apple bannana</view>
+								<view class="item-price">
+									<span>RM</span>
+									<span>199.00</span>
+								</view>
 							</view>
-						</view>
-					</view>
-				</scroll-view>
+						</u-grid-item>
+						<u-grid-item>
+							<view class="gl-content-item">
+								<view class="item-cover">
+									<image src="@/static/images/new-index/detail_demo_cover.png" mode="aspectFill">
+									</image>
+								</view>
+								<view class="item-text">Xiaomi 33WRH Power Bank 10000mAh Por apple bannana</view>
+								<view class="item-price">
+									<span>RM</span>
+									<span>199.00</span>
+								</view>
+							</view>
+						</u-grid-item>
+						<u-grid-item>
+							<view class="gl-content-item">
+								<view class="item-cover">
+									<image src="@/static/images/new-index/detail_demo_cover.png" mode="aspectFill">
+									</image>
+								</view>
+								<view class="item-text">Xiaomi 33WRH Power Bank 10000mAh Por apple bannana</view>
+								<view class="item-price">
+									<span>RM</span>
+									<span>199.00</span>
+								</view>
+							</view>
+						</u-grid-item>
+						<u-grid-item>
+							<view class="gl-content-item">
+								<view class="item-cover">
+									<image src="@/static/images/new-index/detail_demo_cover.png" mode="aspectFill">
+									</image>
+								</view>
+								<view class="item-text">Xiaomi 33WRH Power Bank 10000mAh Por apple bannana</view>
+								<view class="item-price">
+									<span>RM</span>
+									<span>199.00</span>
+								</view>
+							</view>
+						</u-grid-item>
+						<u-grid-item>
+							<view class="gl-content-item">
+								<view class="item-cover">
+									<image src="@/static/images/new-index/detail_demo_cover.png" mode="aspectFill">
+									</image>
+								</view>
+								<view class="item-text">Xiaomi 33WRH Power Bank 10000mAh Por apple bannana</view>
+								<view class="item-price">
+									<span>RM</span>
+									<span>199.00</span>
+								</view>
+							</view>
+						</u-grid-item>
+						<u-grid-item>
+							<view class="gl-content-item">
+								<view class="item-cover">
+									<image src="@/static/images/new-index/detail_demo_cover.png" mode="aspectFill">
+									</image>
+								</view>
+								<view class="item-text">Xiaomi 33WRH Power Bank 10000mAh Por apple bannana</view>
+								<view class="item-price">
+									<span>RM</span>
+									<span>199.00</span>
+								</view>
+							</view>
+						</u-grid-item>
+					</u-grid>
+				</view>
 			</view>
 			<div id="div3"></div>
 			<!--商品详情-->
 			<view class="detail-six">
 				<view class="six-tit">
-					<view class="line">
-						<image class="img" src="/static/images/products/line.png"></image>
-					</view>
+					<view class="line"></view>
 					<text>{{$t('home.shop.title')}}</text>
-					<view class="line">
-						<image class="img" src="/static/images/products/line.png"></image>
-					</view>
+					<view class="line"></view>
 				</view>
 				<view class="six-article" v-if="isShopCont" v-html="shopCont.english_content"></view>
 				<view class="six-article" v-else v-html="shopCont.content"></view>
@@ -254,13 +402,9 @@
 			<!--竞拍记录-->
 			<view class="jingpaiCont">
 				<view class="six-tit">
-					<view class="line">
-						<image class="img" src="/static/images/products/line.png"></image>
-					</view>
+					<view class="line"></view>
 					<text>{{$t('auction.detail.jingpaijilu')}}</text>
-					<view class="line">
-						<image class="img" src="/static/images/products/line.png"></image>
-					</view>
+					<view class="line"></view>
 				</view>
 				<block v-if="goodlucky.length">
 					<view class="jingpaiCont-jpjl">
@@ -307,13 +451,9 @@
 			<view>
 				<div id="div5"></div>
 				<view class="six-tit">
-					<view class="line" style="width: 180rpx;">
-						<image class="img" src="/static/images/products/line.png"></image>
-					</view>
-					<text>{{$t('auction.detail.jingpaigze')}}</text>
-					<view class="line" style="width: 180rpx;">
-						<image class="img" src="/static/images/products/line.png"></image>
-					</view>
+					<view class="line"></view>
+					<text>{{$t('auction.detail.jingpaijilu')}}</text>
+					<view class="line"></view>
 				</view>
 				<view style="background: #fff;">
 					<view class="agree-box" v-if="isShopCont" v-html="e_auction_rule"></view>
@@ -321,41 +461,49 @@
 				</view>
 			</view>
 			<!--底部 start-->
-			<view class="detail-fixed">
-				<view class="fixed-con">
-					<view class="fixed-fl">
-						<view class="li" @click="onFengxiangClick" style="margin-right:0;">
-							<view class="icon">
-								<image class="img" src="/static/images/products/fenxiang.png"></image>
-								<span>{{shopCont.appear_want_num}}</span>
-							</view>
-						</view>
-						<view class="li" style="margin-right:0;">
-							<view class="icon">
-								<image class="img" src="/static/images/products/yanjing.png"></image>
-								<span>{{shopCont.appear_watch_num}}</span>
-							</view>
-						</view>
+			<!-- <view class="fixed-fr">
+				<view class="detail-btn" v-if="shopCont.check_status==3||shopCont.check_status==4"
+					style="font-size: 40rpx;color:#FFF;background:rgb(190, 190, 190)">
+					<view>{{$t('auction.detail.yijs')}}</view>
+					<view style="font-size: 20rpx;">RM{{shopCont.auction_price}}</view>
+				</view>
+				<view class="detail-btn" v-else-if="shopCont.check_status==1"
+					style="font-size: 40rpx;color:#fff;background:rgba(255, 78, 47, 0.3)">
+					{{$t('auction.detail.jijks')}}
+					<view style="font-size: 20rpx;">RM{{shopCont.auction_price}}</view>
+				</view>
+				<view class="detail-btn" v-else-if="auction_num>='-1'&&auction_num!=0||shopCont.check_status==2"
+					@click="onMineInfos">
+					<view style="font-size: 40rpx;">{{$t('auction.detail.qiangpai')}}</view>
+					<view style="font-size: 20rpx;">RM{{shopCont.auction_price}}</view>
+				</view>
+				<view class="detail-btn" v-else style="color:#000;background:#ccc">
+					{{$t('auction.detail.jingpaiwan')}}
+				</view>
+			</view> -->
+			<view class="bottom-layout">
+				<view class="bl-left">
+					<view class="bl-left-box">
+						<image src="@/static/images/new-index/detail_btn_car2.png" mode="widthFix"></image>
+						<p>My Cart</p>
 					</view>
-					<view class="fixed-fr">
-						<view class="detail-btn" v-if="shopCont.check_status==3||shopCont.check_status==4"
-							style="font-size: 40rpx;color:#FFF;background:rgb(190, 190, 190)">
-							<view>{{$t('auction.detail.yijs')}}</view>
-							<view style="font-size: 20rpx;">RM{{shopCont.auction_price}}</view>
-						</view>
-						<view class="detail-btn" v-else-if="shopCont.check_status==1"
-							style="font-size: 40rpx;color:#fff;background:rgba(255, 78, 47, 0.3)">
-							{{$t('auction.detail.jijks')}}
-							<view style="font-size: 20rpx;">RM{{shopCont.auction_price}}</view>
-						</view>
-						<view class="detail-btn" v-else-if="auction_num>='-1'&&auction_num!=0||shopCont.check_status==2"
-							@click="onMineInfos">
-							<view style="font-size: 40rpx;">{{$t('auction.detail.qiangpai')}}</view>
-							<view style="font-size: 20rpx;">RM{{shopCont.auction_price}}</view>
-						</view>
-						<view class="detail-btn" v-else style="color:#000;background:#ccc">
-							{{$t('auction.detail.jingpaiwan')}}
-						</view>
+				</view>
+				<view class="bl-right">
+					<view class="bl-right-buy">
+						<p class="buy-name">Buy Now</p>
+						<p class="buy-info"><span>RM</span> 4888.00</p>
+					</view>
+					<view class="bl-right-add" style="color: #FFF; background: rgb(190, 190, 190)" v-if="shopCont.check_status==3||shopCont.check_status==4">
+						<p>{{$t('auction.detail.yijs')}}</p>
+					</view>
+					<view class="bl-right-add" v-else-if="shopCont.check_status==1">
+						<p>{{$t('auction.detail.jijks')}}</p>
+					</view>
+					<view class="bl-right-add" v-else-if="auction_num>='-1'&&auction_num!=0||shopCont.check_status==2" @click="onMineInfos">
+						<p>{{$t('auction.detail.qiangpai')}}</p>
+					</view>
+					<view class="bl-right-add" v-else>
+						<p>{{$t('auction.detail.jingpaiwan')}}</p>
 					</view>
 				</view>
 			</view>
@@ -1576,96 +1724,106 @@ NoR+zv3KaEmPSHtooQIDAQAB
 	}
 
 	//猜你喜欢
-	.detail-like {
-		width: 750rpx;
-		height: 832rpx;
-		padding: 20rpx 0;
-		background: #fff;
-
-		.head {
-			position: relative;
-			width: 686rpx;
+	.guess-layout {
+		width: 100%;
+		margin: 24rpx 0;
+		padding: 24rpx 32rpx;
+		box-sizing: border-box;
+		background: #ffffff;
+	
+		.gl-title {
+			width: 100%;
 			display: flex;
+			justify-content: space-between;
 			align-items: center;
-			margin: 0 auto 24rpx auto;
-
-			.head_img {
-				width: 40rpx;
-				height: 40rpx;
-			}
-
-			.head_tit {
-				font-size: 32rpx;
-				color: rgb(51, 51, 51);
-				margin-left: 12rpx;
-			}
-
-			.more {
-				position: absolute;
-				right: 0;
-				font-size: 20rpx;
-				color: rgb(51, 51, 51);
+	
+			.gl-title-left {
 				display: flex;
 				align-items: center;
-
+	
 				image {
-					width: 16rpx;
-					height: 16rpx;
-					margin-top: 4rpx;
-					margin-left: 4rpx;
+					width: 40rpx;
+				}
+	
+				p {
+					margin-left: 12rpx;
+					color: rgb(51, 51, 51);
+					font-size: 32rpx;
 				}
 			}
 		}
-
-		.all_list {
-			display: inline-block;
-		}
-
-		.list {
-			width: 686rpx;
-			display: flex;
-			flex-wrap: wrap;
-			align-items: center;
-			margin: 0 auto;
-
-			.item {
+	
+		.gl-content {
+			width: 100%;
+			margin-top: 26rpx;
+	
+			.gl-content-item {
 				width: 220rpx;
-				height: 352rpx;
-				margin: 0 4rpx 24rpx 4rpx;
-
-				image {
-					display: block;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: flex-start;
+				margin-bottom: 28rpx;
+	
+				.item-cover {
 					width: 220rpx;
 					height: 220rpx;
-					border-radius: 16rpx;
+	
+					image {
+						width: 100%;
+						height: 100%;
+						border-radius: 16rpx;
+					}
 				}
-
-				.item_tit {
-					width: 216rpx;
-					font-size: 20rpx;
+	
+				.item-text {
+					width: 100%;
+					margin: 12rpx 0;
+					box-sizing: border-box;
 					color: rgb(51, 51, 51);
-					word-break: break-all;
+					font-size: 20rpx;
+					line-height: 32rpx;
 					overflow: hidden;
 					text-overflow: ellipsis;
 					display: -webkit-box;
-					-webkit-box-orient: vertical;
 					-webkit-line-clamp: 2;
-					margin: 12rpx auto 20rpx auto;
+					overflow: hidden;
+					-webkit-box-orient: vertical;
 				}
-
-				.item_price {
-					font-size: 20rpx;
-					font-weight: bold;
-					color: rgb(255, 57, 57);
-
+	
+				.item-price {
+	
 					span {
+						color: rgb(255, 57, 57);
 						font-size: 32rpx;
+	
+						&:first-child {
+							font-size: 20rpx;
+						}
 					}
 				}
 			}
-
 		}
-
+	
+		.gl-line {
+			margin: 20rpx auto 0;
+			width: 36rpx;
+			height: 6rpx;
+			background: #E8E8E8;
+			position: relative;
+			border-radius: 40rpx;
+	
+			.gl-line-bg {
+				width: 22rpx;
+				height: 6rpx;
+				background: rgb(10, 198, 142);
+				border-radius: 40rpx;
+				position: absolute;
+				left: 0;
+				top: 0;
+				transition: left .5s;
+			}
+		}
 	}
 
 	.detail-header {
@@ -1711,7 +1869,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			width: 100%;
 			font-size: 40rpx;
 			font-weight: 700;
-			color: rgb(255, 78, 47);
+			color: rgb(10, 198, 142);
 			text-align: center;
 		}
 	}
@@ -1781,6 +1939,16 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			border-radius: 10rpx;
 			color: rgb(102, 102, 102);
 			font-size: 16rpx;
+		}
+		
+		.li-icon {
+			width: 38rpx;
+			height: 38rpx;
+			margin: 0 20rpx 12rpx 0;
+			
+			image {
+				width: 100%;
+			}
 		}
 	}
 	
@@ -1932,98 +2100,115 @@ NoR+zv3KaEmPSHtooQIDAQAB
 	//评论
 	.detail-comment {
 		width: 710rpx;
-		padding: 20rpx 0;
+		padding: 24rpx 32rpx;
+		box-sizing: border-box;
 		background: #fff;
 		border-radius: 16rpx;
-		margin: 0 auto 40rpx auto;
-
+		margin: 24rpx auto;
+	
 		.detail-comment-head {
-			position: relative;
 			width: 100%;
 			display: flex;
+			justify-content: space-between;
 			align-items: center;
-
+			padding-bottom: 24rpx;
+			box-sizing: border-box;
+			border-bottom: 1rpx solid rgb(204, 204, 204);
+	
 			.detail-comment-tit {
-				font-size: 32rpx;
+				font-size: 28rpx;
 				font-weight: 700;
-				color: rgb(255, 78, 47);
-				margin-left: 30rpx;
-
+				color: rgb(51, 51, 51);
+	
 				span {
 					font-size: 24rpx;
-					color: rgb(190, 190, 190);
+					color: rgb(102, 102, 102);
 				}
 			}
-
+	
 			.detail-comment-more {
-				position: absolute;
-				right: 40rpx;
 				font-size: 24rpx;
 				color: rgb(44, 44, 44);
 				display: flex;
 				align-items: center;
-
+	
 				image {
 					width: 30rpx;
 					height: 30rpx;
-					margin-left: 22rpx;
+					margin-left: 8rpx;
 				}
 			}
-
+	
 		}
-
-		.detail-comment-line {
-			width: 686rpx;
-			border-bottom: 1rpx solid rgb(190, 190, 190);
-			margin: 24rpx auto;
-		}
-
+	
 		.detail-comment-item {
 			width: 100%;
-
+			margin-top: 32rpx;
+	
 			.detail-comment-item-head {
 				width: 100%;
 				display: flex;
 				align-items: center;
-				margin-bottom: 20rpx;
-
-				.auth {
+	
+				image {
 					width: 60rpx;
 					height: 60rpx;
 					border-radius: 50%;
-					margin-left: 30rpx;
 				}
-
-				view {
+	
+				p {
+					margin-left: 16rpx;
 					font-size: 24rpx;
-					color: rgb(44, 44, 44);
-					margin-left: 20rpx;
+					color: rgb(51, 51, 51);
 				}
-
+	
+				.head-level {
+					width: 100rpx;
+					height: 35rpx;
+					margin-left: 20rpx;
+					background: rgb(253, 240, 226);
+					border-radius: 100rpx;
+					display: flex;
+	
+					.head-level-icon {
+						width: 35rpx;
+						height: 35rpx;
+	
+						image {
+							width: 100%;
+						}
+					}
+	
+					.head-level-num {
+						margin-left: 8rpx;
+						color: rgb(219, 132, 37);
+						font-size: 20rpx;
+						line-height: 35rpx;
+					}
+				}
 			}
-
+	
 			.detail-comment-item-info {
-				width: 650rpx;
-				line-height: 30rpx;
-				font-size: 24rpx;
+				width: 100%;
+				margin-top: 24rpx;
+				line-height: 36rpx;
 				color: rgb(44, 44, 44);
+				font-size: 24rpx;
 				overflow: hidden;
 				text-overflow: ellipsis;
 				display: -webkit-box;
 				-webkit-box-orient: vertical;
 				-webkit-line-clamp: 2;
-				margin: 0 auto;
 			}
 		}
-
+	
 		.detail-comment-not {
-			width: 650rpx;
+			width: 100%;
+			margin-top: 24rpx;
 			font-size: 24rpx;
 			color: #999;
 			text-align: center;
-			margin: 0 auto;
 		}
-
 	}
 
 	//输入密码
@@ -2168,12 +2353,12 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 			.new-shop-info-name {
 				width: 100%;
+				color: rgb(51, 51, 51);
 				font-size: 32rpx;
-				color: rgb(255, 78, 47);
+				font-weight: bold;
 				overflow: hidden;
 				text-overflow: ellipsis;
 				white-space: nowrap;
-				// margin-bottom: 20rpx;
 			}
 		}
 
@@ -2185,11 +2370,11 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			min-width: 140rpx;
 			height: 60rpx;
 			line-height: 60rpx;
-			font-size: 32rpx;
+			font-size: 24rpx;
 			color: rgb(255, 255, 255);
 			text-align: center;
 			padding: 0 32rpx;
-			background: rgb(255, 78, 47);
+			background: rgb(10, 198, 142);
 			border-radius: 30rpx;
 		}
 
@@ -2512,14 +2697,14 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			}
 
 			.active {
-				color: #FF4E2F;
+				color: #1DD181;
 				font-weight: 550;
 			}
 
 			.active::after {
 				width: 32rpx;
 				height: 5rpx;
-				background: #FF4E2F;
+				background: #1DD181;
 				border-radius: 3rpx;
 				position: absolute;
 				bottom: -10rpx;
@@ -2847,52 +3032,125 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		}
 
 		//detail-fixed S
-		.detail-fixed {
+		
+		.bottom-layout {
+			width: 100%;
+			padding: 6rpx 32rpx;
+			box-sizing: border-box;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
 			position: fixed;
 			left: 0;
 			bottom: 0;
-			width: 100%;
 			background: #fff;
 			z-index: 99;
-
+			
+			.bl-left {
+				display: flex;
+				align-items: center;
+				
+				.bl-left-box {
+					text-align: center;
+					
+					image {
+						width: 40rpx;
+					}
+					
+					p {
+						color: rgb(51, 51, 51);
+						font-size: 20rpx;
+					}
+				}
+			}
+			
+			.bl-right {
+				display: flex;
+				align-items: center;
+				
+				.bl-right-buy {
+					width: 212rpx;
+					height: 88rpx;
+					margin: 0 12rpx;
+					background: rgb(10, 198, 142);
+					border-radius: 200rpx;
+					display: flex;
+					flex-direction: column;
+					justify-content: center;
+					align-items: center;
+					
+					.buy-name {
+						color: rgb(255, 255, 255);
+						font-size: 24rpx;
+					}
+					
+					.buy-info {
+						color: rgb(255, 255, 255);
+						font-size: 28rpx;
+						
+						span {
+							color: rgb(255, 255, 255);
+							font-size: 16rpx;
+						}
+					}
+				}
+				
+				.bl-right-add {
+					width: 212rpx;
+					height: 88rpx;
+					margin: 0 12rpx;
+					background: rgb(10, 185, 198);
+					border-radius: 200rpx;
+					display: flex;
+					flex-direction: column;
+					justify-content: center;
+					align-items: center;
+					
+					p {
+						color: rgb(255, 255, 255);
+						font-size: 24rpx;
+					}
+				}
+			}
+		
 			.fixed-con {
 				padding: 15rpx 30rpx;
 				display: flex;
 				align-items: center;
 				justify-content: space-between;
-
+		
 				.fixed-fl {
 					display: flex;
 					align-items: center;
 					flex: 1;
-
+		
 					// justify-content: space-between;
 					.li {
 						margin-right: 50rpx;
 						text-align: center;
-
+		
 						.icon {
 							display: flex;
 							align-items: flex-end;
 							margin-right: 22rpx;
-
+		
 							image {
 								width: 60rpx;
 								height: 60rpx;
 							}
-
+		
 							span {
 								font-size: 20rpx;
 								color: rgb(44, 44, 44);
 							}
 						}
-
+		
 						.t {
 							font-size: 22rpx;
 							margin-top: 10rpx;
 						}
 					}
-
+		
 					.wenzi {
 						margin-left: 8rpx;
 						width: 74rpx;
@@ -2900,11 +3158,11 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						color: rgb(255, 78, 47);
 					}
 				}
-
+		
 				.fixed-fr {
 					display: flex;
 					align-items: center;
-
+		
 					.detail-btn {
 						width: 240rpx;
 						height: 88rpx;
@@ -2921,7 +3179,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						flex-direction: column;
 						justify-content: center;
 					}
-
+		
 					.orange {
 						background: #ffb202;
 					}
@@ -3397,13 +3655,16 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		justify-content: center;
 		font-size: 32rpx;
 		font-weight: 700;
-		color: rgb(255, 78, 47);
-		margin: 30rpx 0;
-
+		color: rgb(51, 51, 51);
+		
 		.line {
 			width: 200rpx;
 			height: 1rpx;
-			margin: 0 20rpx;
+			background: rgb(204, 204, 204);
+		}
+		
+		text {
+			margin: 0 32rpx;
 		}
 	}
 

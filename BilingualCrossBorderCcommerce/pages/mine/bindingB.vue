@@ -29,7 +29,7 @@
       </view>
       <!--bind-bot start-->
       <view class="bind-bot">
-        <button class="public-btn" @click.stop="$noMultipleClicks(onMineAddBankCard)">{{$t('user.bank.qrbd')}}</button>
+        <button class="public-btn" style="background: rgb(10, 198, 142);" @click.stop="$noMultipleClicks(onMineAddBankCard)">{{$t('user.bank.qrbd')}}</button>
       </view>
       <!--bind-bot end-->
     </view>

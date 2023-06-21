@@ -1317,5 +1317,8 @@
 	"mine.subscribed":"Subscribed",
 	"mine.collected":"Collected",
 	"mine.loginBtn":"LOGEN / SIGNUP",
-	"mine.gift":"Gift Amount"
+	"mine.gift":"Gift Amount",
+	"mine.auction":"My Auction",
+	"detail.hot":"Hot recommendation",
+	"detail.guess":"Guess you like"
 }

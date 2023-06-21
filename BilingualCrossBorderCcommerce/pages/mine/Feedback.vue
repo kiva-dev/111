@@ -215,7 +215,7 @@
 			font-size: 40rpx;
 			color: rgb(255, 255, 255);
 			text-align: center;
-			background: #FF4E2F;
+			background: #1DD181;
 			border-radius: 16rpx;
 			margin: 100rpx auto;
 		}

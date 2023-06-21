@@ -40,7 +40,7 @@
       <!--width-li end-->
       <!--width-bot start-->
       <view class="width-bot">
-        <button class="public-btn" style="background: rgb(255, 78, 47);" @click.stop="$noMultipleClicks(onRechargeAddMoney)">{{$t('user.recharge.ljcz')}}</button>
+        <button class="public-btn" style="background: rgb(10, 198, 142);" @click.stop="$noMultipleClicks(onRechargeAddMoney)">{{$t('user.recharge.ljcz')}}</button>
       </view>
       <!--width-bot end-->
     </view>

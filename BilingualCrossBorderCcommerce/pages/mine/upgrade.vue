@@ -141,9 +141,9 @@
         <view class="li-r">{{reason}}</view>
       </view>
       <view class="up-bot">
-        <button class="public-btn" style="background: #FF4E2F;" v-if="status=='0'">{{$t('user.upgrade.shz')}}</button>
-        <button class="public-btn" style="background: #FF4E2F;" v-else-if="status==1">{{$t('user.upgrade.shtg')}}</button>
-        <button class="public-btn" style="background: #FF4E2F;" v-else @click.stop="$noMultipleClicks(navClick)">{{$t('user.upgrade.ljsq')}}</button>
+        <button class="public-btn" style="background: #1DD181;" v-if="status=='0'">{{$t('user.upgrade.shz')}}</button>
+        <button class="public-btn" style="background: #1DD181;" v-else-if="status==1">{{$t('user.upgrade.shtg')}}</button>
+        <button class="public-btn" style="background: #1DD181;" v-else @click.stop="$noMultipleClicks(navClick)">{{$t('user.upgrade.ljsq')}}</button>
       </view>
     </view>
     <!--up-box end-->
@@ -441,7 +441,8 @@ export default {
       }
     }
     .up-bot {
-      margin: 50rpx auto;
+      padding: 50rpx 0;
+	  box-sizing: border-box;
     }
   }
 }
