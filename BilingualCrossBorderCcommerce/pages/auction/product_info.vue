@@ -51,7 +51,9 @@
 			</view>
 			<view class="operate-layout">
 				<view class="ol-container" @click="onFocusProduct">
-					<image :src="shopCont.goods_focus == 0 ? require('@/static/images/new-index/detail_icon_collect.png') : require('@/static/images/new-index/detail_icon_iscollect.png')" mode="widthFix"></image>
+					<image
+						:src="shopCont.goods_focus == 0 ? require('@/static/images/new-index/detail_icon_collect.png') : require('@/static/images/new-index/detail_icon_iscollect.png')"
+						mode="widthFix"></image>
 					<p>7.9k</p>
 				</view>
 				<view class="ol-container">
@@ -279,7 +281,7 @@
 					<!-- <u-parse :content="shopCont.content"></u-parse> -->
 				</view>
 			</view>
-			
+
 			<div id="div4"></div>
 			<!--竞拍记录-->
 			<view class="product-jilu" v-if="false">
@@ -361,7 +363,7 @@
 					</view>
 				</view>
 				<view class="bl-right">
-					<view class="bl-right-buy">
+					<view class="bl-right-buy" @click="toPay()">
 						<p class="buy-name">Buy Now</p>
 						<p class="buy-info"><span>RM</span> 4888.00</p>
 					</view>
@@ -615,9 +617,23 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 		},
 		methods: {
-			addCart(){
+			toPay() {
 				this.$http.post(this.$apiObj.CartAdd, {
-					goods_spec_id: this.goods_spec_id,
+					goods_spec_id: this.shopCont.litestore_goods_spec[0].goods_spec_id,
+					num: 1
+				}).then(res => {
+					if (res.code == 1) {
+						this.$http.post(this.$apiObj.CartList).then(data => {
+							uni.navigateTo({
+								url: "/pages/cart/submit?cart_ids=" + data.data.data[0].goods[0].id
+							})
+						})
+					}
+				})
+			},
+			addCart() {
+				this.$http.post(this.$apiObj.CartAdd, {
+					goods_spec_id: this.shopCont.litestore_goods_spec[0].goods_spec_id,
 					num: 1
 				}).then(res => {
 					if (res.code == 1) {
@@ -628,9 +644,9 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					}
 				})
 			},
-			toMyCart(){
+			toMyCart() {
 				uni.navigateTo({
-					url:'/pages/cart/cart'
+					url: '/pages/cart/cart'
 				})
 			},
 			getTopNum() {
@@ -1689,7 +1705,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		top: 0;
 		left: 0;
 		z-index: 99;
-		
+
 		.detail-head {
 			position: relative;
 			widows: 100%;
@@ -1697,26 +1713,26 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			padding-top: 88rpx;
 			display: flex;
 			align-items: center;
-		
+
 			image {
 				position: absolute;
 				width: 56rpx;
 				height: 56rpx;
 				z-index: 10;
 			}
-		
+
 			.return {
 				left: 20rpx;
 			}
-		
+
 			.gwc {
 				right: 112rpx;
 			}
-		
+
 			.fx {
 				right: 32rpx;
 			}
-		
+
 			view {
 				width: 100%;
 				font-size: 40rpx;
@@ -1725,14 +1741,14 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				text-align: center;
 			}
 		}
-		
+
 		.auct-nav {
 			width: 100%;
 			padding: 40rpx 0 30rpx 0;
 			display: flex;
 			justify-content: space-between;
 			text-align: center;
-		
+
 			.li {
 				width: 25%;
 				font-size: 26rpx;
@@ -1740,12 +1756,12 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				position: relative;
 				text-align: center;
 			}
-		
+
 			.active {
 				color: #1DD181;
 				font-weight: 550;
 			}
-		
+
 			.active::after {
 				width: 32rpx;
 				height: 5rpx;
@@ -1857,12 +1873,12 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			color: rgb(102, 102, 102);
 			font-size: 16rpx;
 		}
-		
+
 		.li-icon {
 			width: 38rpx;
 			height: 38rpx;
 			margin: 0 20rpx 12rpx 0;
-			
+
 			image {
 				width: 100%;
 			}
@@ -3084,7 +3100,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				}
 			}
 		}
-		
+
 		.bottom-layout {
 			width: 100%;
 			padding: 6rpx 32rpx;
@@ -3097,29 +3113,29 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			bottom: 0;
 			background: #fff;
 			z-index: 99;
-			
+
 			.bl-left {
 				display: flex;
 				align-items: center;
-				
+
 				.bl-left-box {
 					text-align: center;
-					
+
 					image {
 						width: 40rpx;
 					}
-					
+
 					p {
 						color: rgb(51, 51, 51);
 						font-size: 20rpx;
 					}
 				}
 			}
-			
+
 			.bl-right {
 				display: flex;
 				align-items: center;
-				
+
 				.bl-right-buy {
 					width: 212rpx;
 					height: 88rpx;
@@ -3130,23 +3146,23 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					flex-direction: column;
 					justify-content: center;
 					align-items: center;
-					
+
 					.buy-name {
 						color: rgb(255, 255, 255);
 						font-size: 24rpx;
 					}
-					
+
 					.buy-info {
 						color: rgb(255, 255, 255);
 						font-size: 28rpx;
-						
+
 						span {
 							color: rgb(255, 255, 255);
 							font-size: 16rpx;
 						}
 					}
 				}
-				
+
 				.bl-right-add {
 					width: 212rpx;
 					height: 88rpx;
@@ -3157,7 +3173,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					flex-direction: column;
 					justify-content: center;
 					align-items: center;
-					
+
 					p {
 						color: rgb(255, 255, 255);
 						font-size: 24rpx;
@@ -3238,7 +3254,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				}
 			}
 		}
-		
+
 		// 选择规格 star
 		.specs-layout {
 			width: 100%;
@@ -3246,7 +3262,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			padding: 32rpx;
 			box-sizing: border-box;
 			border-radius: 16rpx 16rpx 0 0;
-			
+
 			.sl-info {
 				width: 100%;
 				padding-bottom: 32rpx;
@@ -3255,60 +3271,60 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				display: flex;
 				align-items: flex-end;
 				position: relative;
-				
+
 				.sl-info-cover {
 					width: 240rpx;
 					height: 240rpx;
-					
+
 					image {
 						width: 100%;
 						height: 100%;
 					}
 				}
-				
+
 				.sl-info-text {
 					flex: 1;
 					margin-left: 24rpx;
-					
+
 					.text-specs {
 						color: rgb(153, 153, 153);
 						font-size: 24rpx;
 						margin-bottom: 24rpx;
 					}
-					
+
 					.text-price {
 						color: rgb(255, 57, 57);
 						font-size: 32rpx;
 						font-weight: bold;
-						
+
 						span {
 							font-size: 20rpx;
 						}
 					}
 				}
-				
+
 				.sl-info-close {
 					width: 32rpx;
 					height: 32rpx;
 					position: absolute;
 					right: 0;
 					top: 0;
-					
+
 					image {
 						width: 100%;
 					}
 				}
 			}
-			
+
 			.sl-scroll {
 				width: 100%;
 				height: 900rpx;
 				padding-bottom: 32rpx;
 				box-sizing: border-box;
-				
+
 				.sl-option {
 					width: 100%;
-					
+
 					.sl-option-title {
 						width: 100%;
 						padding: 32rpx 32rpx 0 32rpx;
@@ -3317,13 +3333,13 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						font-size: 28rpx;
 						font-weight: bold;
 					}
-					
+
 					.sl-option-content {
 						width: 100%;
 						margin-top: 22rpx;
 						display: flex;
 						flex-wrap: wrap;
-						
+
 						.c-item {
 							margin: 0 24rpx 24rpx 0;
 							padding: 20rpx 40rpx;
@@ -3333,7 +3349,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							color: rgb(102, 102, 102);
 							font-size: 26rpx;
 						}
-						
+
 						.active {
 							background: rgba(10, 198, 142, 0.1);
 							border: 2rpx solid rgb(10, 198, 142);
@@ -3342,7 +3358,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					}
 				}
 			}
-			
+
 			.sl-button {
 				width: 100%;
 				height: 88rpx;
@@ -3354,6 +3370,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				font-size: 40rpx;
 			}
 		}
+
 		// 选择规格end
 		// 选择地址 star
 		.showaddress {
@@ -3939,7 +3956,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			height: 1rpx;
 			background: rgb(204, 204, 204);
 		}
-		
+
 		text {
 			margin: 0 32rpx;
 		}

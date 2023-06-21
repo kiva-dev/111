@@ -483,7 +483,7 @@
 			</view> -->
 			<view class="bottom-layout">
 				<view class="bl-left">
-					<view class="bl-left-box">
+					<view class="bl-left-box" @click="toMyCart()">
 						<image src="@/static/images/new-index/detail_btn_car2.png" mode="widthFix"></image>
 						<p>My Cart</p>
 					</view>
@@ -493,13 +493,15 @@
 						<p class="buy-name">Buy Now</p>
 						<p class="buy-info"><span>RM</span> 4888.00</p>
 					</view>
-					<view class="bl-right-add" style="color: #FFF; background: rgb(190, 190, 190)" v-if="shopCont.check_status==3||shopCont.check_status==4">
+					<view class="bl-right-add" style="color: #FFF; background: rgb(190, 190, 190)"
+						v-if="shopCont.check_status==3||shopCont.check_status==4">
 						<p>{{$t('auction.detail.yijs')}}</p>
 					</view>
 					<view class="bl-right-add" v-else-if="shopCont.check_status==1">
 						<p>{{$t('auction.detail.jijks')}}</p>
 					</view>
-					<view class="bl-right-add" v-else-if="auction_num>='-1'&&auction_num!=0||shopCont.check_status==2" @click="onMineInfos">
+					<view class="bl-right-add" v-else-if="auction_num>='-1'&&auction_num!=0||shopCont.check_status==2"
+						@click="onMineInfos">
 						<p>{{$t('auction.detail.qiangpai')}}</p>
 					</view>
 					<view class="bl-right-add" v-else>
@@ -621,27 +623,17 @@
 					<view class="title">{{$t('auction.detail.xuzhufufy')}}</view>
 					<view class="txt"><text>RM</text>{{shopNum}}</view>
 				</view>
-				<block v-if="shopNum>=10">
+				<block>
 					<view v-for="item in orderPayList" :key="item.id" class="mode-li">
 						<view class="label">
 							{{item.title}}
 							<block v-if="item.id==1">（{{$t('auction.detail.keyongyuer')}}<text class="color-red"
 									style="color: #FF4E2F;">RM{{money}}</text>）</block>
+							<block v-if="item.id==2">（{{$t('auction.detail.keyongyuer')}}<text class="color-red"
+									style="color: #FF4E2F;">RM{{balance}}</text>）</block>
 						</view>
 						<view class="li-fr" @click="onQuanClick(item)">
 							<radio :checked="item.isShow?true:false" value="r1" />
-						</view>
-					</view>
-				</block>
-				<block v-else>
-					<view class="mode-li">
-						<view class="label">
-							{{orderPayList[0].title}}
-							<block v-if="orderPayList[0].id==1">（{{$t('auction.detail.keyongyuer')}}<text
-									class="color-red" style="color: #FF4E2F;">RM{{money}}</text>）</block>
-						</view>
-						<view class="li-fr" @click="onQuanClick(orderPayList[0])">
-							<radio :checked="orderPayList[0].isShow?true:false" value="r1" />
 						</view>
 					</view>
 				</block>
@@ -785,6 +777,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				goodlucky: [], // 幸运之星
 				JudgeList: [], // 评价列表
 				money: 0, // 余额
+				balance: 0,
 				isauctionNum: '', // 填写金额
 				shopNum: '',
 				totalPageNums: 0,
@@ -809,23 +802,15 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		watch: {
 			money: {
 				handler(e, m) {
-					if (e < 10) {
-						this.orderPayList = [{
-							id: 1,
-							title: this.$t('auction.detail.yuerzhifu'),
-							isShow: false
-						}]
-					} else {
-						this.orderPayList = [{
-							id: 1,
-							title: this.$t('auction.detail.yuerzhifu'),
-							isShow: false
-						}, {
-							id: 2,
-							title: this.$t('auction.detail.sfzfu'),
-							isShow: false
-						}]
-					}
+					this.orderPayList = [{
+						id: 1,
+						title: this.$t('auction.detail.yuerzhifu'),
+						isShow: false
+					}, {
+						id: 2,
+						title: '赠送/活动金额支付',
+						isShow: false
+					}]
 				}
 			}
 		},
@@ -906,6 +891,11 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 		},
 		methods: {
+			toMyCart(){
+				uni.navigateTo({
+					url:'/pages/cart/cart'
+				})
+			},
 			//计算距离
 			getTopNum() {
 				for (var i = 0; i < this.navList.length; i++) {
@@ -1251,8 +1241,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					auction_goods_id: this.id
 				}).then(res => {
 					if (res.code == 1) {
-						this.money = res.data.money
-						// this.auction_num = res.data.auction_num
+						this.money = res.data.invite_money_balance
+						this.balance = res.data.recharge_money_balance
 						this.auction_num = (this.shopCont.auction_type == 2 && this.shopCont.total_least_num ==
 								0) ? res.data.auction_num : (res.data.auction_num === -1) ? this.shopCont
 							.total_least_num : (res.data.auction_num < this.shopCont.total_least_num) ? res.data
@@ -1310,20 +1300,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				// this.$refs.jingpaiShow.open()
 			},
 			onQuanClick(item) {
-				if (item.id == 1 && this.set_paypwd != '1') {
-					this.zhifushow = false
-					for (let i in this.orderPayList) {
-						this.orderPayList[i].isShow = false
-					}
-					uni.navigateTo({
-						url: "../mine/setPassword"
-					})
-					return
-				}
-				for (let i in this.orderPayList) {
-					this.orderPayList[i].isShow = false
-				}
-				item.isShow = true
+				item.isShow = !item.isShow
 			},
 			clickItem() {},
 			onChange(e) {
@@ -1427,22 +1404,22 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			},
 			// 点击竞拍去支付
 			onPayClick() {
-				let isNum
+				let isNum = []
 				for (let i in this.orderPayList) {
 					if (this.orderPayList[i].isShow) {
-						isNum = this.orderPayList[i].id
+						isNum.push(this.orderPayList[i].id)
 					}
 				}
-				if (!isNum) return uni.showToast({
+				if (isNum.length < 1) return uni.showToast({
 					icon: 'none',
 					title: this.$t('auction.detail.qxzzffs')
 				})
 				this.zhifushow = false
-				if (isNum == 1) {
+				if (isNum.length >= 1) {
 					// 余额支付弹框
 					this.zhipassShow = true
-					// this.$refs.zhipassShow.open()
-				} else if (isNum == 2) {
+				} else if (isNum.length > 5) {
+					/**
 					if (this.MineCont === null) return uni.showToast({
 						icon: 'none',
 						title: this.$t('smrz')
@@ -1455,18 +1432,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						icon: 'none',
 						title: this.$t('smrzwtg')
 					})
-					// 3方支付
-					// this.$http.post(this.$apiObj.AuctionorderReferOrder, {
-					//   auction_type: 2,// 1竞拍商品原价购买，2参与竞拍价购买
-					//   num: this.isauctionNum,// 购买数量
-					//   coupon_id: '',// 优惠券id
-					//   address_id: '',// 地址id
-					//   remark: '',// 备注
-					//   money: this.shopNum,// 总金额
-					//   auction_goods_id: this.shopCont.id,// 竞拍商品id
-					// }).then(res => {
-					//   if (res.code == 1) {
-					// this.order_no = res.data.order_no
 					this.$http.post(this.$apiObj.AuctionorderMalaysiaPay, {
 						order_no: this.order_no,
 						money: this.shopNum
@@ -1505,10 +1470,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							});
 							//  #endif
 						}
-					})
-
-					// }
-					// })
+					})**/
 				}
 			},
 			// 关闭支付密码
@@ -1529,10 +1491,17 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					icon: 'none'
 				})
 				const pay_pwd = jsencrypt.setEncrypt(publiukey, String(this.pay_pwd))
+				let arr = []
+				this.orderPayList.forEach(item => {
+					if (item.isShow) arr.push(item.id)
+					else arr.push(10)
+				})
 				this.$http.post(this.$apiObj.AuctionorderBalancePay, {
 					order_no: this.order_no, // 小订单号
 					money: this.shopNum, // 支付总金额
 					pay_pwd: pay_pwd, // rsa加密后的支付密码
+					is_use_recharge: arr[0] == 1 ? 1 : 2,
+					is_use_invite: arr[1] == 2 ? 1 : 2
 				}).then(res => {
 					if (res.code == 1) {
 						this.onAuctionDetail()
@@ -1730,21 +1699,21 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		padding: 24rpx 32rpx;
 		box-sizing: border-box;
 		background: #ffffff;
-	
+
 		.gl-title {
 			width: 100%;
 			display: flex;
 			justify-content: space-between;
 			align-items: center;
-	
+
 			.gl-title-left {
 				display: flex;
 				align-items: center;
-	
+
 				image {
 					width: 40rpx;
 				}
-	
+
 				p {
 					margin-left: 12rpx;
 					color: rgb(51, 51, 51);
@@ -1752,11 +1721,11 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				}
 			}
 		}
-	
+
 		.gl-content {
 			width: 100%;
 			margin-top: 26rpx;
-	
+
 			.gl-content-item {
 				width: 220rpx;
 				display: flex;
@@ -1764,18 +1733,18 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				justify-content: center;
 				align-items: flex-start;
 				margin-bottom: 28rpx;
-	
+
 				.item-cover {
 					width: 220rpx;
 					height: 220rpx;
-	
+
 					image {
 						width: 100%;
 						height: 100%;
 						border-radius: 16rpx;
 					}
 				}
-	
+
 				.item-text {
 					width: 100%;
 					margin: 12rpx 0;
@@ -1790,13 +1759,13 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					overflow: hidden;
 					-webkit-box-orient: vertical;
 				}
-	
+
 				.item-price {
-	
+
 					span {
 						color: rgb(255, 57, 57);
 						font-size: 32rpx;
-	
+
 						&:first-child {
 							font-size: 20rpx;
 						}
@@ -1804,7 +1773,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				}
 			}
 		}
-	
+
 		.gl-line {
 			margin: 20rpx auto 0;
 			width: 36rpx;
@@ -1812,7 +1781,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			background: #E8E8E8;
 			position: relative;
 			border-radius: 40rpx;
-	
+
 			.gl-line-bg {
 				width: 22rpx;
 				height: 6rpx;
@@ -1940,18 +1909,18 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			color: rgb(102, 102, 102);
 			font-size: 16rpx;
 		}
-		
+
 		.li-icon {
 			width: 38rpx;
 			height: 38rpx;
 			margin: 0 20rpx 12rpx 0;
-			
+
 			image {
 				width: 100%;
 			}
 		}
 	}
-	
+
 	.progress-layout {
 		width: 100%;
 		background: rgb(255, 255, 255);
@@ -1959,7 +1928,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		box-sizing: border-box;
 		display: flex;
 		align-items: center;
-		
+
 		.pl-box {
 			width: 400rpx;
 			height: 32rpx;
@@ -1970,15 +1939,15 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			overflow: hidden;
 			display: flex;
 			align-items: center;
-			
+
 			span {
 				height: 32rpx;
-				background: linear-gradient(270.00deg, rgba(234,155,68,1.00),rgba(255,86.53,48.68,1.00) 100%);
+				background: linear-gradient(270.00deg, rgba(234, 155, 68, 1.00), rgba(255, 86.53, 48.68, 1.00) 100%);
 				border-radius: 50px;
 			}
 		}
 	}
-	
+
 	.operate-layout {
 		width: 100%;
 		background: rgb(255, 255, 255);
@@ -1986,16 +1955,16 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		box-sizing: border-box;
 		display: flex;
 		justify-content: center;
-		
+
 		.ol-container {
 			margin: 0 64rpx;
 			display: flex;
 			align-items: center;
-			
+
 			image {
 				width: 32rpx;
 			}
-			
+
 			p {
 				margin-left: 12rpx;
 				color: rgb(102, 102, 102);
@@ -2105,7 +2074,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		background: #fff;
 		border-radius: 16rpx;
 		margin: 24rpx auto;
-	
+
 		.detail-comment-head {
 			width: 100%;
 			display: flex;
@@ -2114,54 +2083,54 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			padding-bottom: 24rpx;
 			box-sizing: border-box;
 			border-bottom: 1rpx solid rgb(204, 204, 204);
-	
+
 			.detail-comment-tit {
 				font-size: 28rpx;
 				font-weight: 700;
 				color: rgb(51, 51, 51);
-	
+
 				span {
 					font-size: 24rpx;
 					color: rgb(102, 102, 102);
 				}
 			}
-	
+
 			.detail-comment-more {
 				font-size: 24rpx;
 				color: rgb(44, 44, 44);
 				display: flex;
 				align-items: center;
-	
+
 				image {
 					width: 30rpx;
 					height: 30rpx;
 					margin-left: 8rpx;
 				}
 			}
-	
+
 		}
-	
+
 		.detail-comment-item {
 			width: 100%;
 			margin-top: 32rpx;
-	
+
 			.detail-comment-item-head {
 				width: 100%;
 				display: flex;
 				align-items: center;
-	
+
 				image {
 					width: 60rpx;
 					height: 60rpx;
 					border-radius: 50%;
 				}
-	
+
 				p {
 					margin-left: 16rpx;
 					font-size: 24rpx;
 					color: rgb(51, 51, 51);
 				}
-	
+
 				.head-level {
 					width: 100rpx;
 					height: 35rpx;
@@ -2169,16 +2138,16 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					background: rgb(253, 240, 226);
 					border-radius: 100rpx;
 					display: flex;
-	
+
 					.head-level-icon {
 						width: 35rpx;
 						height: 35rpx;
-	
+
 						image {
 							width: 100%;
 						}
 					}
-	
+
 					.head-level-num {
 						margin-left: 8rpx;
 						color: rgb(219, 132, 37);
@@ -2187,7 +2156,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					}
 				}
 			}
-	
+
 			.detail-comment-item-info {
 				width: 100%;
 				margin-top: 24rpx;
@@ -2201,7 +2170,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				-webkit-line-clamp: 2;
 			}
 		}
-	
+
 		.detail-comment-not {
 			width: 100%;
 			margin-top: 24rpx;
@@ -3032,7 +3001,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		}
 
 		//detail-fixed S
-		
+
 		.bottom-layout {
 			width: 100%;
 			padding: 6rpx 32rpx;
@@ -3045,29 +3014,29 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			bottom: 0;
 			background: #fff;
 			z-index: 99;
-			
+
 			.bl-left {
 				display: flex;
 				align-items: center;
-				
+
 				.bl-left-box {
 					text-align: center;
-					
+
 					image {
 						width: 40rpx;
 					}
-					
+
 					p {
 						color: rgb(51, 51, 51);
 						font-size: 20rpx;
 					}
 				}
 			}
-			
+
 			.bl-right {
 				display: flex;
 				align-items: center;
-				
+
 				.bl-right-buy {
 					width: 212rpx;
 					height: 88rpx;
@@ -3078,23 +3047,23 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					flex-direction: column;
 					justify-content: center;
 					align-items: center;
-					
+
 					.buy-name {
 						color: rgb(255, 255, 255);
 						font-size: 24rpx;
 					}
-					
+
 					.buy-info {
 						color: rgb(255, 255, 255);
 						font-size: 28rpx;
-						
+
 						span {
 							color: rgb(255, 255, 255);
 							font-size: 16rpx;
 						}
 					}
 				}
-				
+
 				.bl-right-add {
 					width: 212rpx;
 					height: 88rpx;
@@ -3105,52 +3074,52 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					flex-direction: column;
 					justify-content: center;
 					align-items: center;
-					
+
 					p {
 						color: rgb(255, 255, 255);
 						font-size: 24rpx;
 					}
 				}
 			}
-		
+
 			.fixed-con {
 				padding: 15rpx 30rpx;
 				display: flex;
 				align-items: center;
 				justify-content: space-between;
-		
+
 				.fixed-fl {
 					display: flex;
 					align-items: center;
 					flex: 1;
-		
+
 					// justify-content: space-between;
 					.li {
 						margin-right: 50rpx;
 						text-align: center;
-		
+
 						.icon {
 							display: flex;
 							align-items: flex-end;
 							margin-right: 22rpx;
-		
+
 							image {
 								width: 60rpx;
 								height: 60rpx;
 							}
-		
+
 							span {
 								font-size: 20rpx;
 								color: rgb(44, 44, 44);
 							}
 						}
-		
+
 						.t {
 							font-size: 22rpx;
 							margin-top: 10rpx;
 						}
 					}
-		
+
 					.wenzi {
 						margin-left: 8rpx;
 						width: 74rpx;
@@ -3158,11 +3127,11 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						color: rgb(255, 78, 47);
 					}
 				}
-		
+
 				.fixed-fr {
 					display: flex;
 					align-items: center;
-		
+
 					.detail-btn {
 						width: 240rpx;
 						height: 88rpx;
@@ -3179,7 +3148,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						flex-direction: column;
 						justify-content: center;
 					}
-		
+
 					.orange {
 						background: #ffb202;
 					}
@@ -3656,13 +3625,13 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		font-size: 32rpx;
 		font-weight: 700;
 		color: rgb(51, 51, 51);
-		
+
 		.line {
 			width: 200rpx;
 			height: 1rpx;
 			background: rgb(204, 204, 204);
 		}
-		
+
 		text {
 			margin: 0 32rpx;
 		}

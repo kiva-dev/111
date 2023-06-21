@@ -340,7 +340,7 @@
 							<view class="new-list-item-right-jd" v-if="id==1">
 								<view class="new-list-item-right-jd-data">
 									<view>{{(item.finish_rate*100).toFixed(0)}}%</view>
-									<image src="../../static/images/new-index/select-jd.png"></image>
+									<image src="../../static/images/new-index/select-jd.png" :style="`width: ${(item.finish_rate*100).toFixed(0)}%;`"></image>
 								</view>
 								<view class="new-list-item-right-jd-auth">
 									<image src="../../static/images/products/auth.png"></image>
@@ -359,6 +359,11 @@
 								<view class="new-list-item-btm-btn" v-if="id==1">
 									<image src="../../static/images/new-index/lvxcz.png"></image>
 									<view @click.stop="onMineInfo(item)">{{$t('shop.qiangpai')}}</view>
+								</view>
+								
+								<view class="new-list-item-btm-btn" v-if="id==2" style="border: 1rpx solid rgb(248, 155, 0);">
+									<image src="/static/images/new-index/time1.png" style="width: 20rpx;height: 20rpx;"></image>
+									<u-count-down :time="item.datetime" format="HH:mm:ss" style="color: rgb(248, 155, 0);"></u-count-down>
 								</view>
 							</view>
 
@@ -928,6 +933,9 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				this.applicationLocale = e.locale;
 			})
 		},
+		beforeDestroy() {
+			console.log(6666)
+		},
 		methods: {
 			//获取当前展示普通商品还是竞拍商品
 			getProductOrJinpai() {
@@ -947,9 +955,26 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					// 历史竞拍
 					this.onAuctionHistoryGoods()
 					uni.removeStorageSync('productId')
+					let id = uni.getStorageSync('jinpaiId')
+					if (id) {
+						this.id = id
+						this.switchJinpai(id)
+						uni.removeStorageSync('jinpaiId')
+					}
 					return
 				}
-
+				
+				if(uni.getStorageSync('productInfo')){
+					this.productId = 1
+					// 最新竞拍
+					this.onAuctionNewGoods()
+					// 最新竞拍
+					this.onAuctionNotbeginGoods()
+					// 历史竞拍
+					this.onAuctionHistoryGoods()
+					return
+				}
+				
 				this.$http.post(this.$apiObj.IndexSetting, {
 					fields: 'whether_to_enable_ordinary_mall'
 				}).then(res => {
@@ -995,6 +1020,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				this.$on.switchSelection()
 			},
 			toProductInfo(id) {
+				uni.setStorageSync('productInfo',true)
 				uni.navigateTo({
 					url: '/pages/auction/product_info?goodsId=' + id
 				})
@@ -1439,6 +1465,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			},
 			// 点击竞拍列表
 			onJingPai(item) {
+				uni.setStorageSync('productInfo',true)
 				uni.navigateTo({
 					url: './detail?id=' + item.auction_goods_id
 				})
@@ -1523,7 +1550,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					title: this.$t('auction.detail.qxzzffs')
 				})
 				this.$refs.popup1.close()
-				if (isNum.length > 1) {
+				if (isNum.length >= 1) {
 					// 余额支付弹框
 					this.$refs.pwdsPopup.open()
 				} else if (isNum.length > 5) {
@@ -1630,6 +1657,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							if (res.code == 1) {
 								this.money = res.data.money
 								this.auction_num = res.data.auction_num
+								this.onAuctionNewGoods()
 							}
 						})
 						// this.onMineInfo()
@@ -2016,6 +2044,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 								transform: translate(0, -50%);
 								width: 228rpx;
 								height: 28rpx;
+								border-radius: 28rpx;
 								z-index: 1;
 							}
 
@@ -4183,8 +4212,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 	}
 
 	/deep/.u-count-down__text {
-		color: rgb(255, 57, 57) !important;
-		font-size: 22rpx !important;
+		color: rgb(248, 155, 0) !important;
+		font-size: 20rpx !important;
 	}
 
 	.zxjpCont {

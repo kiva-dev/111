@@ -390,7 +390,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						})
 						setTimeout(() => {
 							uni.switchTab({
-								url: '/pages/auction/auction'
+								url: '/pages/auction/new_index'
 							});
 							// if (this.login_front) {
 							// 	if (this.login_front === '/pages/auction/auction' || this.login_front ===

@@ -39,9 +39,9 @@
 										<view>{{data.attrs}}</view>
 										<image src="/static/images/new-index/btm.png"></image>
 									</view>
-									<view class="tags">
+									<!-- <view class="tags">
 										<view>xiaomi</view>
-									</view>
+									</view> -->
 								</view>
 							</view>
 							<view class="price-info">
@@ -636,6 +636,7 @@
 							width: 196rpx;
 							overflow: hidden;
 							text-overflow: ellipsis;
+							white-space: nowrap;
 						}
 
 						image {

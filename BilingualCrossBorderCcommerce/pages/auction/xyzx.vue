@@ -1,5 +1,5 @@
 <template>
-	<view class="auct-page">	
+	<view class="auct-page">
 		<!--头部-->
 		<image src="/static/images/new-index/luckstar-cn.png" class="xyzx-header" v-if="!isShopCont"></image>
 		<image src="/static/images/new-index/luckstar-en.png" class="xyzx-header" v-if="isShopCont"></image>
@@ -74,7 +74,8 @@
 								<view v-if="items.tag_id==2" class="tag">{{items.name}}</view>
 								<block v-if="item.limit==1">
 									<view v-if="index==0" class="tag yellow">
-										{{$t('auction.xianpai')}}{{item.limit_num}}{{$t('auction.ci')}}</view>
+										{{$t('auction.xianpai')}}{{item.limit_num}}{{$t('auction.ci')}}
+									</view>
 								</block>
 								<view v-if="items.tag_id==1" class="tag red">{{$t('auction.baokuan')}}</view>
 							</block>
@@ -140,7 +141,8 @@
 								<view v-if="items.tag_id==2" class="tag">{{items.name}}</view>
 								<block v-if="item.limit==1">
 									<view v-if="index==0" class="tag yellow">
-										{{$t('auction.xianpai')}}{{item.limit_num}}{{$t('auction.ci')}}</view>
+										{{$t('auction.xianpai')}}{{item.limit_num}}{{$t('auction.ci')}}
+									</view>
 								</block>
 								<view v-if="items.tag_id==1" class="tag red">{{$t('auction.baokuan')}}</view>
 							</block>
@@ -239,55 +241,64 @@
 			<!--auct-luck end-->
 		</block>
 		<block v-if="navId==1||navId==5">
-			<!--auct-his end-->
-			<!--auct-luck start-->
-			<view class="auct-luck">
-				<!--luck-ul start-->
-				<view class="luck-ul">
-					<navigator :url="`/pages/auction/detail?id=${item.auction_goods_id}&type=4`" open-type="navigate"
-						hover-class="none" class="luck-li" v-for="item,k in LuckyList" :key="k">
-						<view class="cent">
-							<view class="li-img">
-								<image class="img" :src="item.avatar"></image>
-								<view class="vip">LV{{item.level}}</view>
-							</view>
-							<view class="li-txt">
-								<view class="li-h">
-									<view class="h-fl">
-										<text class="name">{{item.nickname}}</text>
-									</view>
-									<view class="right">
-										<view class="lis" @click.stop="onAuctionFocusLucky(item.id)">
-											<image v-if="item.is_zan==1" src="/static/images/new/dz1.png" mode="" />
-											<image v-else src="/static/images/new/dz.png" mode="" />{{item.zan_num}}
-										</view>
-										<!-- <view class="lis" @click.stop="onFengxiangClick(item.auction_goods_id)">
-											<image src="/static/images/auc3.png" mode="" />{{item.share_num}}
-										</view> -->
-									</view>
-								</view>
-								<view class="li-c">
-									{{$t('auction.zaiyiu')}}<text class="color-purse" style="color: rgb(93, 191, 254);">{{item.shop_name}}</text>
-									{{$t('auction.tigdjphd')}}<text class="color-red" style="color: rgb(255, 78, 47);">RM{{item.pay_price}}</text>
-									{{$t('auction.jzxypzjz')}}<text class="color-red" style="color: rgb(255, 78, 47);">RM{{item.price}}</text>
-									<block v-if="isShopCont">of </block>
-									<block v-else>的</block>{{item.goods_name}}
-								</view>
-								<view class="li-date-f">
-									<view class="bottom" v-if="navId==5">
-										<view class="li-date">{{$filter.to_date_time(item.update_time)}}</view>
-										<view class="h-c" style="color: rgb(190,190,190);">{{item.stage_num}}{{$t('auction.qi')}}</view>
-									</view>
-								</view>
-								
-							</view>
-						</view>
-						<view class="luck-li-line" v-if="(k+1) < LuckyList.length"></view>
-					</navigator>
+			
+			<view class="luck_list">
+				<view class="head">
+					<image src="/static/images/new-index/lv-start.png" class="head_img"></image>
+					<view class="head_txt">
+						<view>Lucky Star</view>
+						<span></span>
+					</view>
 				</view>
-				<!--luck-ul end-->
+
+				<view class="auct-luck">
+					<view class="luck-ul">
+						<navigator :url="`/pages/auction/detail?id=${item.auction_goods_id}&type=4`"
+							open-type="navigate" hover-class="none" class="luck-li" v-for="item,k in LuckyList"
+							:key="k">
+							<view class="cent">
+								<view class="li-img">
+									<image class="img" :src="item.avatar"></image>
+									<view class="vip">LV{{item.level}}</view>
+								</view>
+								<view class="li-txt">
+									<view class="li-h">
+										<view class="h-fl">
+											<text class="name">{{item.nickname}}</text>
+										</view>
+										<view class="right">
+											<view class="lis" @click.stop="onAuctionFocusLucky(item.id)">
+												<image v-if="item.is_zan==1" src="/static/images/new/dz1.png" mode="" />
+												<image v-else src="/static/images/new/dz.png" mode="" />{{item.zan_num}}
+											</view>
+										</view>
+									</view>
+									<view class="li-c">
+										{{$t('auction.zaiyiu')}}<text class="color-purse"
+											style="color: rgb(93, 191, 254);">{{item.shop_name}}</text>
+										{{$t('auction.tigdjphd')}}<text class="color-red"
+											style="color: rgb(255, 78, 47);">RM{{item.pay_price}}</text>
+										{{$t('auction.jzxypzjz')}}<text class="color-red"
+											style="color: rgb(255, 78, 47);">RM{{item.price}}</text>
+										<block v-if="isShopCont">of </block>
+										<block v-else>的</block>{{item.goods_name}}
+									</view>
+									<view class="li-date-f">
+										<view class="bottom">
+											<view class="li-date">{{$filter.to_date_time(item.update_time)}}</view>
+											<view class="h-c" style="color: rgb(190,190,190);">
+												{{item.stage_num}}{{$t('auction.qi')}}
+											</view>
+										</view>
+									</view>
+
+								</view>
+							</view>
+							<view class="luck-li-line" v-if="(k+1) < LuckyList.length"></view>
+						</navigator>
+					</view>
+				</view>
 			</view>
-			<!--auct-luck end-->
 		</block>
 
 	</view>
@@ -329,7 +340,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				banner: [], // 轮播图
 				FirstList: [], // 1级分类
 				page: 1, // 页码
-				pagenum: 10, // 每页显示商品数目
+				pagenum: 5, // 每页显示商品数目
 				totalPageNum: 0, // 总条数
 				newsjpList: [{
 					id: 1,
@@ -505,6 +516,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			},
 		},
 		onShow() {
+			uni.removeStorageSync('productInfo')
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
 			this.cancelText = uni.getStorageSync('locale') == 'en' ? 'cancel' : '取消'
 			this.confirmText = uni.getStorageSync('locale') == 'en' ? 'confirm' : '确认'
@@ -1227,13 +1239,13 @@ NoR+zv3KaEmPSHtooQIDAQAB
 </style>
 <style lang="less" scoped>
 	.auct-page {
-		
-		.xyzx-header{
+
+		.xyzx-header {
 			display: block;
 			width: 100%;
-			height: 348rpx;
+			height: 950rpx;
 		}
-		
+
 		.auct-head {
 			background: #FF4E2F;
 			// background: linear-gradient(90deg, #9a3064 0%, #59499b 100%);
@@ -1833,8 +1845,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		}
 
 		.auct-luck {
-			margin: 30rpx 0;
-
+			width: 686rpx;
+			margin: 0 auto;
 			.auct-title {
 				margin-bottom: 30rpx;
 			}
@@ -1842,12 +1854,11 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			.luck-ul {
 				background: #fff;
 				padding: 0 30rpx;
-				
-				.luck-li-line{
-					width: 750rpx;
-					border-bottom: 1px solid rgb(190, 190, 190);
-					margin-left: -30rpx;
-					margin-top: 32rpx;
+
+				.luck-li-line {
+					width: 638rpx;
+					border-bottom: 1px solid rgb(204, 204, 204);
+					margin: 32rpx auto 0 auto;
 				}
 
 				.luck-li {
@@ -1856,38 +1867,37 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					// border-bottom: 1px solid #f5f5f5;
 
 					.cent {
+						width: 686rpx;
 						display: flex;
+						margin: 0 auto;
 
-						.li-img {
+						image {
 							width: 80rpx;
 							height: 80rpx;
-							overflow: hidden;
-							border-radius: 100%;
-							min-width: 80rpx;
+							border-radius: 50%;
 							margin-right: 20rpx;
 						}
-						
+
 						.vip {
-							position: absolute;
-							top: 106rpx;
-							// left: -10rpx;
-							width: 60rpx;
-							// left: 0rpx;
-							height: 25rpx;
-							text-align: center;
-							background: #000000;
-							// padding: 0 10rpx;
+							width: 72rpx;
+							height: 28rpx;
+							text-indent: 32rpx;
 							font-size: 16rpx;
-							color: #ffc263;
-							margin-left: 10rpx;
+							color: rgb(219, 132, 37);
+							margin-left: -4rpx;
 							line-height: 25rpx;
+							background: url('/static/images/new-index/vips.png') no-repeat;
+							background-size: 72rpx 28rpx;
 							border-radius: 12rpx;
+							margin-top: 8rpx;
 						}
 
 						.li-txt {
-							flex: 1;
+							width: 540rpx;
+							word-break: break-all;
 
 							.li-h {
+								max-width: 540rpx;
 								display: flex;
 								align-items: center;
 								justify-content: space-between;
@@ -1897,15 +1907,16 @@ NoR+zv3KaEmPSHtooQIDAQAB
 									align-items: center;
 
 									.name {
-										// max-width: 220rpx;
+										max-width: 540rpx;
 										font-size: 28rpx;
 										font-weight: 550;
+										word-break: break-all;
 										overflow: hidden;
 										text-overflow: ellipsis;
 										white-space: nowrap;
 									}
 
-									
+
 								}
 
 								.h-c {
@@ -1927,16 +1938,16 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							}
 						}
 					}
-					
+
 					.right {
 						display: flex;
 						align-items: center;
-					
+
 						.lis {
 							display: flex;
 							align-items: center;
 							margin-left: 45rpx;
-					
+
 							image {
 								width: 40rpx;
 								height: 40rpx;
@@ -1944,13 +1955,13 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							}
 						}
 					}
-					
+
 					.bottom {
 						margin-top: 25rpx;
 						display: flex;
 						justify-content: space-between;
 
-						
+
 					}
 				}
 
@@ -1959,6 +1970,72 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				}
 			}
 		}
+
+		.luck_list {
+			position: relative;
+			width: 100%;
+			padding-top: 12rpx;
+			background: #fff;
+			border-radius: 16rpx 16rpx 0 0;
+			margin-top: -380rpx;
+			z-index: 10;
+			
+			.head {
+				position: relative;
+				width: 100%;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+
+				.head_img {
+					width: 44rpx;
+					height: 44rpx;
+					// margin-left: 24rpx;
+				}
+
+				.head_txt {
+					position: relative;
+					font-size: 32rpx;
+					color: rgb(51, 51, 51);
+					margin-left: 8rpx;
+
+					view {
+						position: relative;
+						z-index: 2;
+					}
+
+					span {
+						position: absolute;
+						bottom: 0%;
+						left: 50%;
+						transform: translate(-50%, 0);
+						width: 92rpx;
+						height: 8rpx;
+						background: rgba(10, 198, 142, 0.4);
+						z-index: 1;
+					}
+				}
+
+				.head_more {
+					position: absolute;
+					right: 0;
+					font-size: 20rpx;
+					color: rgb(51, 51, 51);
+					display: flex;
+					align-items: center;
+
+					image {
+						width: 16rpx;
+						height: 16rpx;
+						margin-top: 4rpx;
+						margin-left: 4rpx;
+					}
+				}
+
+			}
+
+		}
+
 	}
 
 	/deep/.u-count-down__text {

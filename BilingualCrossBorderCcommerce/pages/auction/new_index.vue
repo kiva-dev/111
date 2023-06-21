@@ -187,14 +187,14 @@
 								<view>868</view>
 							</view>
 							<view class="new-list-item-right-start-info">
-								<view>868 Sold</view>
+								<view>868</view>
 							</view>
 						</view>
 
 						<view class="new-list-item-right-jd" v-if="productId==2">
 							<view class="new-list-item-right-jd-data">
 								<view>{{(item.finish_rate*100).toFixed(0)}}%</view>
-								<image src="../../static/images/new-index/select-jd.png"></image>
+								<image src="../../static/images/new-index/select-jd.png" :style="`width: ${(item.finish_rate*100).toFixed(0)}%;`"></image>
 							</view>
 							<view class="new-list-item-right-jd-auth">
 								<image src="../../static/images/products/auth.png"></image>
@@ -385,6 +385,7 @@
 						</navigator>
 					</view>
 				</view>
+			
 			</view>
 
 		</view>
@@ -526,27 +527,17 @@
 					<view class="title">{{$t('auction.detail.xuzhufufy')}}</view>
 					<view class="txt"><text>RM</text>{{shopNum}}</view>
 				</view>
-				<block v-if="shopNum>=10">
+				<block>
 					<view v-for="item in orderPayList" :key="item.id" class="mode-li">
 						<view class="label">
 							{{item.title}}
 							<block v-if="item.id==1">（{{$t('auction.detail.keyongyuer')}}<text class="color-red"
 									style="color: #FF4E2F;">RM{{money}}</text>）</block>
+							<block v-if="item.id==2">（{{$t('auction.detail.keyongyuer')}}<text class="color-red"
+									style="color: #FF4E2F;">RM{{balance}}</text>）</block>
 						</view>
 						<view class="li-fr" @click="onQuanClick(item)">
 							<radio :checked="item.isShow?true:false" value="r1" />
-						</view>
-					</view>
-				</block>
-				<block v-else>
-					<view class="mode-li">
-						<view class="label">
-							{{orderPayList[0].title}}
-							<block v-if="orderPayList[0].id==1">（{{$t('auction.detail.keyongyuer')}}<text
-									class="color-red" style="color: #FF4E2F;">RM{{money}}</text>）</block>
-						</view>
-						<view class="li-fr" @click="onQuanClick(orderPayList[0])">
-							<radio :checked="orderPayList[0].isShow?true:false" value="r1" />
 						</view>
 					</view>
 				</block>
@@ -727,6 +718,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 	export default {
 		data() {
 			return {
+				balance: '',
 				selectProductId: 0,
 				showjpts: false, //是否显示竞拍提示
 				showNotLogin: false, //是否显示未登录提示框
@@ -895,6 +887,10 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							id: 1,
 							title: this.$t('auction.detail.yuerzhifu'),
 							isShow: false
+						}, {
+							id: 2,
+							title: '赠送/活动金额支付',
+							isShow: false
 						}]
 					} else {
 						this.orderPayList = [{
@@ -903,7 +899,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							isShow: false
 						}, {
 							id: 2,
-							title: this.$t('auction.detail.sfzfu'),
+							title: '赠送/活动金额支付',
 							isShow: false
 						}]
 					}
@@ -1003,7 +999,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
 			this.cancelText = uni.getStorageSync('locale') == 'en' ? 'cancel' : '取消'
 			this.confirmText = uni.getStorageSync('locale') == 'en' ? 'confirm' : '确认'
-
+			
+			uni.removeStorageSync('productInfo')
 			//获取
 
 			// 轮播图
@@ -1070,30 +1067,30 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 		},
 		methods: {
-			getProductOrJinpai(){
-				this.$http.post(this.$apiObj.IndexSetting,{
-					fields:'whether_to_enable_ordinary_mall'
-				}).then(res=>{
-					if(res.data.whether_to_enable_ordinary_mall==1) this.productId=1
-					else this.productId=2
+			getProductOrJinpai() {
+				this.$http.post(this.$apiObj.IndexSetting, {
+					fields: 'whether_to_enable_ordinary_mall'
+				}).then(res => {
+					if (res.data.whether_to_enable_ordinary_mall == 1) this.productId = 1
+					else this.productId = 2
 				})
 			},
-			productMore(){
-				if(this.productId==1){
-					uni.setStorageSync('productId',2)
+			productMore() {
+				if (this.productId == 1) {
+					uni.setStorageSync('productId', 2)
 					uni.switchTab({
-						url:'/pages/auction/jjks'
+						url: '/pages/auction/jjks'
 					})
-				}else{
+				} else {
 					this.toMore(1)
 				}
 			},
 			//查看更多
-			toMore(id){
-				uni.setStorageSync('productId',1)
-				uni.setStorageSync('jinpaiId',id)
+			toMore(id) {
+				uni.setStorageSync('productId', 1)
+				uni.setStorageSync('jinpaiId', id)
 				uni.switchTab({
-					url:'/pages/auction/jjks'
+					url: '/pages/auction/jjks'
 				})
 			},
 			//普通商品或竞拍商品跳转
@@ -1108,7 +1105,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			},
 			//获取普通商品列表
 			getProductList(id) {
-				if(this.productId == 2) return
+				if (this.productId == 2) return
 				this.$http.post(this.$apiObj.LitestoregoodsIndex, {
 					page: this.page,
 					pagenum: this.pagenum,
@@ -1666,7 +1663,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					auction_goods_id: e.auction_goods_id
 				}).then(res => {
 					if (res.code == 1) {
-						this.money = res.data.money
+						this.money = res.data.invite_money_balance
+						this.balance = res.data.recharge_money_balance
 						this.auction_num = (e.auction_type == 2 && e.total_least_num == 0) ? res.data
 							.auction_num :
 							(res.data.auction_num === -1) ? e.total_least_num : (res.data.auction_num < e
@@ -1738,21 +1736,22 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			},
 			// 点击竞拍去支付
 			onPayClick() {
-				let isNum
+				let isNum = []
 				for (let i in this.orderPayList) {
 					if (this.orderPayList[i].isShow) {
-						isNum = this.orderPayList[i].id
+						isNum.push(this.orderPayList[i].id)
 					}
 				}
-				if (!isNum) return uni.showToast({
+				if (isNum.length < 1) return uni.showToast({
 					icon: 'none',
 					title: this.$t('auction.detail.qxzzffs')
 				})
 				this.$refs.popup1.close()
-				if (isNum == 1) {
+				if (isNum.length >= 1) {
 					// 余额支付弹框
 					this.$refs.pwdsPopup.open()
-				} else if (isNum == 2) {
+				} else if (isNum.length > 5) {
+					/**
 					if (this.MineCont === null) return uni.showToast({
 						icon: 'none',
 						title: this.$t('smrz')
@@ -1765,17 +1764,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						icon: 'none',
 						title: this.$t('smrzwtg')
 					})
-					// 3方支付
-					// this.$http.post(this.$apiObj.AuctionorderReferOrder, {
-					//   auction_type: 2,// 1竞拍商品原价购买，2参与竞拍价购买
-					//   num: this.isauctionNum,// 购买数量
-					//   coupon_id: '',// 优惠券id
-					//   address_id: '',// 地址id
-					//   remark: '',// 备注
-					//   money: this.shopCont.auction_price,// 总金额
-					//   auction_goods_id: this.shopCont.auction_goods_id,// 竞拍商品id
-					// }).then(ress => {
-					// if (ress.code == 1) {
 					this.$http.post(this.$apiObj.MineInfo, {
 						auction_goods_id: this.shopCont.auction_goods_id
 					}).then(resss => {
@@ -1825,9 +1813,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							//  #endif
 						}
 					})
-
-					// }
-					// })
+					**/
 				}
 			},
 			// 关闭支付密码
@@ -1847,10 +1833,17 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				})
 
 				const pay_pwd = jsencrypt.setEncrypt(publiukey, String(this.pay_pwd))
+				let arr = []
+				this.orderPayList.forEach(item => {
+					if (item.isShow) arr.push(item.id)
+					else arr.push(10)
+				})
 				this.$http.post(this.$apiObj.AuctionorderBalancePay, {
 					order_no: this.order_no, // 小订单号
 					money: this.shopNum, // 支付总金额
 					pay_pwd: pay_pwd, // rsa加密后的支付密码
+					is_use_recharge: arr[0] == 1 ? 1 : 2,
+					is_use_invite: arr[1] == 2 ? 1 : 2
 				}).then(res => {
 					if (res.code == 1) {
 						this.isShowAegin = this.auction_num > this.isauctionNum
@@ -1869,20 +1862,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			},
 
 			onQuanClick(item) {
-				if (item.id == 1 && this.set_paypwd != '1') {
-					this.$refs.popup1.close()
-					for (let i in this.orderPayList) {
-						this.orderPayList[i].isShow = false
-					}
-					uni.navigateTo({
-						url: "../mine/setPassword"
-					})
-					return
-				}
-				for (let i in this.orderPayList) {
-					this.orderPayList[i].isShow = false
-				}
-				item.isShow = true
+				item.isShow = !item.isShow
 			},
 			toggle1Close() {
 				this.$refs.popup1.close()
@@ -2392,8 +2372,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							border-radius: 4rpx;
 							margin-right: 12rpx;
 						}
-						
-						image{
+
+						image {
 							width: 28rpx;
 							height: 28rpx;
 							margin-right: 16rpx;
@@ -2461,8 +2441,9 @@ NoR+zv3KaEmPSHtooQIDAQAB
 								top: 50%;
 								left: 2rpx;
 								transform: translate(0, -50%);
-								width: 228rpx;
+								width: 100%;
 								height: 28rpx;
+								border-radius: 28rpx;
 								z-index: 1;
 							}
 
@@ -4438,6 +4419,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				}
 			}
 		}
+	
 	}
 
 	/deep/.u-count-down__text {
