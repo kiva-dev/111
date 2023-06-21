@@ -180,14 +180,14 @@
 						<view class="new-list-item-right-start">
 							<view class="new-list-item-right-start-info">
 								<image src="../../static/images/new-index/xx.png"></image>
-								<view>7.9k</view>
+								<view>{{item.litestore_goods_focus_total}}</view>
 							</view>
 							<view class="new-list-item-right-start-info">
 								<image src="../../static/images/new-index/xcz.png"></image>
-								<view>868</view>
+								<view>{{item.auction_goods_total}}</view>
 							</view>
 							<view class="new-list-item-right-start-info">
-								<view>868</view>
+								<view>{{item.litestore_goods_comment_total}}</view>
 							</view>
 						</view>
 
@@ -197,9 +197,10 @@
 								<image src="../../static/images/new-index/select-jd.png" :style="`width: ${(item.finish_rate*100).toFixed(0)}%;`"></image>
 							</view>
 							<view class="new-list-item-right-jd-auth">
-								<image src="../../static/images/products/auth.png"></image>
-								<image src="../../static/images/products/auth.png"></image>
-								<image src="../../static/images/products/auth.png"></image>
+								<block v-for="img in item.new_auction_avatar">
+									<image :src="img"></image>
+								</block>
+								
 							</view>
 						</view>
 
