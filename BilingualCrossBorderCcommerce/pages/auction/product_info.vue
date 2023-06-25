@@ -66,7 +66,8 @@
 				</view>
 			</view>
 			<view class="select-layout">
-				<view class="sl-category" @click="$refs.specsPopup.open()">
+				<!--@click="$refs.specsPopup.open()"-->
+				<view class="sl-category" >
 					<view class="sl-category-left">
 						<view class="left-name">Select</view>
 						<view class="left-option">256GB,10000mAh,Pro,White,Yellow,Black fashioWhite,Yellow,Black
@@ -77,7 +78,8 @@
 					</view>
 				</view>
 				<view class="sl-address">
-					<view class="sl-address-choose" @click="$refs.popupAddress.open()">
+					<!--@click="$refs.popupAddress.open()"-->
+					<view class="sl-address-choose" >
 						<view class="choose-left">
 							<view class="choose-left-name">Address</view>
 							<view class="choose-left-content">
@@ -770,9 +772,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					.exec();
 			},
 			toIndex() {
-				uni.switchTab({
-					url: '/pages/auction/jjks'
-				})
+				uni.navigateBack()
 			},
 			// 某商品幸运之星
 			onAuctionGoodLucky() {

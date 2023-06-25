@@ -35,7 +35,7 @@
 			<!--person-li start-->
 			<view class="person-li">
 				<text class="label">{{$t('user.mine.email')}}</text>
-				<view class="li-r" @click="navClick('email')">
+				<view class="li-r" >
 					<view class="r-t">{{userCont.email}}</view>
 					<view class="icon">
 						<image class="img" src="../../static/images/mine/more1.png"></image>
@@ -261,7 +261,11 @@
 					}
 
 					.r-t {
+						max-width: 500rpx;
 						font-size: 28rpx;
+						overflow: hidden;
+						text-overflow: ellipsis;
+						white-space: nowrap;
 					}
 
 					.r-m {

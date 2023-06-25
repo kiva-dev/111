@@ -514,7 +514,7 @@
 		<!--抢拍次数 start-->
 		<view v-if="qiangpaiShow" class="fenxiang">
 			<view class="qiangpaiShow">
-				<image src="../../static/images/new/tck.png" class="kct"></image>
+				<!-- <image src="../../static/images/new/tck.png" class="kct"></image> -->
 				<view class="query" @click="onQueryClick">
 					<image src="../../static/images/close1.png"> </image>
 				</view>
@@ -555,7 +555,7 @@
 		</uni-popup>
 		<view class="fenxiang" v-if="jingpaiShow">
 			<view class="jingpai-ok">
-				<image src="../../static/images/new/tck.png" class="kct"></image>
+				<!-- <image src="../../static/images/new/tck.png" class="kct"></image> -->
 				<view class="jingpai-pop">
 					<view class="title">
 						{{$t('auction.detail.sfqr')}}RM{{shopNum}}{{$t('auction.detail.gmygjpme')}}{{isauctionNum}}{{$t('auction.detail.gmygjpmenum')}}
@@ -566,7 +566,7 @@
 						</block>
 					</view>
 					<view class="cent">
-						<image class="imgs" src="../../static/images/radio2.png" mode="aspectFit|aspectFill|widthFix">
+						<image class="imgs" src="/static/images/new-index/xz.png" mode="aspectFit|aspectFill|widthFix">
 						</image>
 						<view class="txt1">{{$t('auction.detail.brywqydbty')}}</view>
 						<navigator url="../mine/jpxy" hover-class="none" class="txt2">
@@ -628,9 +628,9 @@
 						<view class="label">
 							{{item.title}}
 							<block v-if="item.id==1">（{{$t('auction.detail.keyongyuer')}}<text class="color-red"
-									style="color: #FF4E2F;">RM{{money}}</text>）</block>
+									style="color: rgb(10, 198, 142);">RM{{money}}</text>）</block>
 							<block v-if="item.id==2">（{{$t('auction.detail.keyongyuer')}}<text class="color-red"
-									style="color: #FF4E2F;">RM{{balance}}</text>）</block>
+									style="color: rgb(10, 198, 142);">RM{{balance}}</text>）</block>
 						</view>
 						<view class="li-fr" @click="onQuanClick(item)">
 							<radio :checked="item.isShow?true:false" value="r1" />
@@ -638,7 +638,7 @@
 					</view>
 				</block>
 				<view class="mode-bot">
-					<button class="public-btn"
+					<button class="public-btn" style="background: rgb(10, 198, 142);"
 						@click.stop="$noMultipleClicks(onPayClick)">{{$t('auction.detail.quzhifu')}}</button>
 				</view>
 			</view>
@@ -646,7 +646,7 @@
 		<!--支付密码弹出 start-->
 		<view class="fenxiang" v-if="zhipassShow">
 			<view class="pay-pwd">
-				<image src="../../static/images/new/tck-my.png" class="pay-pwd-img"></image>
+				<!-- <image src="../../static/images/new/tck-my.png" class="pay-pwd-img"></image> -->
 				<image src="../../static/images/new/close.png" class="pay-pwd-close" @click="onPwdQuery"></image>
 				<view class="pay-pwd-info">
 					<view class="pay-pwd-info-tit">{{$t('auction.detail.qsrzfmm')}}</view>
@@ -663,7 +663,7 @@
 		<!--支付成功弹出 start-->
 		<view class="fenxiang" v-if='zhichenShow'>
 			<view class="pay-pwd">
-				<image src="../../static/images/new/tck-cg.png" class="pay-pwd-img"></image>
+				<!-- <image src="../../static/images/new/tck-cg.png" class="pay-pwd-img"></image> -->
 				<image src="../../static/images/new/close.png" class="pay-pwd-close" @click="onpayQuery"></image>
 				<view class="pay-pwd-info">
 					<view class="pay-pwd-info-tit" style="font-size: 32rpx;">{{$t('auction.detail.gxnzfcgznzp')}}</view>
@@ -2210,7 +2210,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 		.pay-pwd-close {
 			position: absolute;
-			top: 410rpx;
+			top: 20rpx;
 			right: 20rpx;
 			display: block;
 			width: 60rpx;
@@ -2223,7 +2223,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			// height: 428rpx;
 			padding: 40rpx 0;
 			background: #FFF;
-			border: 4rpx solid rgb(255, 78, 47);
+			border: 4rpx solid rgb(10, 198, 142);
 			border-radius: 16rpx;
 
 			.pay-pwd-info-tit {
@@ -2243,7 +2243,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			.pay-pwd-info-price {
 				width: 100%;
 				font-size: 38rpx;
-				color: rgb(255, 78, 47);
+				color: rgb(10, 198, 142);
 				text-align: center;
 			}
 
@@ -2270,7 +2270,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				font-size: 32rpx;
 				color: #fff;
 				text-align: center;
-				background: rgb(255, 78, 47);
+				background: rgb(10, 198, 142);
 				border-radius: 16rpx;
 				margin: 40rpx auto;
 			}
@@ -2295,12 +2295,12 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				}
 
 				.pay-pwd-list-cancel {
-					border: 2rpx solid rgb(255, 78, 47);
+					border: 2rpx solid rgb(10, 198, 142);
 				}
 
 				.pay-pwd-list-ok {
 					color: #fff;
-					background: rgb(255, 78, 47);
+					background: rgb(10, 198, 142);
 					margin-left: 40rpx;
 				}
 			}
@@ -2406,7 +2406,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 		.query {
 			position: absolute;
-			top: 390rpx;
+			top: 20rpx;
 			right: 30rpx;
 			width: 40rpx;
 			height: 40rpx;
@@ -2430,7 +2430,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			background: #fff;
 			position: relative;
 			padding: 60rpx 0 50rpx 0;
-			border: 4rpx solid rgb(255, 78, 47);
+			border: 4rpx solid rgb(10, 198, 142);
 			border-radius: 16rpx;
 			z-index: 9;
 
@@ -2478,7 +2478,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							width: 566rpx;
 							height: 80rpx;
 							border-radius: 16rpx;
-							border: 2rpx solid rgb(255, 78, 47);
+							border: 2rpx solid rgb(10, 198, 142);
 							font-size: 28rpx;
 						}
 
@@ -2488,7 +2488,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							justify-content: center;
 							font-size: 24rpx;
 							margin-top: 30rpx;
-							color: #FF4E2F;
+							color: rgb(10, 198, 142);
 						}
 					}
 				}
@@ -2507,7 +2507,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						text-align: center;
 						font-size: 32rpx;
 						color: #fff;
-						background: rgb(255, 78, 47);
+						background: rgb(10, 198, 142);
 						margin-right: 30rpx;
 					}
 
@@ -2521,7 +2521,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					text-align: center;
 					font-size: 32rpx;
 					color: #fff;
-					background: rgb(255, 78, 47);
+					background: rgb(10, 198, 142);
 				}
 			}
 		}
@@ -2549,7 +2549,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		background: #ffffff;
 		border-radius: 20rpx;
 		padding: 45rpx 0;
-		border: 4rpx solid rgb(255, 78, 47);
+		border: 4rpx solid rgb(10, 198, 142);
 
 		.title {
 			width: 100%;
@@ -2563,7 +2563,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			width: 100%;
 			margin-top: 24rpx;
 			font-size: 24rpx;
-			color: #FF4E2F;
+			color: rgb(10, 198, 142);
 			text-align: center;
 		}
 
@@ -2616,13 +2616,13 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				.name {
 					font-size: 32rpx;
 					color: #999;
-					border: 1rpx solid rgb(255, 78, 47);
+					border: 1rpx solid rgb(10, 198, 142);
 					margin-right: 97rpx;
 				}
 
 				.ljfx {
 					color: #fff;
-					background: rgb(255, 78, 47);
+					background: rgb(10, 198, 142);
 
 				}
 			}
@@ -3342,7 +3342,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			.txt {
 				padding-top: 34rpx;
 				padding-bottom: 38rpx;
-				color: #FF4E2F;
+				color: rgb(10, 198, 142);
 				font-size: 46rpx;
 
 				text {
@@ -3369,8 +3369,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				}
 
 				/deep/ uni-radio .uni-radio-input.uni-radio-input-checked {
-					background: #FF4E2F !important;
-					border-color: #FF4E2F !important;
+					background: rgb(10, 198, 142) !important;
+					border-color: rgb(10, 198, 142) !important;
 				}
 			}
 		}
@@ -3441,7 +3441,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 		.name {
 			font-size: 28rpx;
-			color: #FF4E2F;
+			color: rgb(10, 198, 142);
 		}
 
 		.cont {
@@ -3461,7 +3461,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 				.cen {
 					font-size: 32rpx;
-					color: #FF4E2F;
+					color: rgb(10, 198, 142);
 				}
 			}
 		}

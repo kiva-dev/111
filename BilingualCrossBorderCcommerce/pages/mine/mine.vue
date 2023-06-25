@@ -545,8 +545,12 @@
 							align-items: center;
 
 							.box-name-text {
+								width: 424rpx;
 								color: rgb(51, 51, 51);
 								font-size: 40rpx;
+								overflow: hidden;
+								text-overflow: ellipsis;
+								white-space: nowrap;
 							}
 
 							.box-name-level {

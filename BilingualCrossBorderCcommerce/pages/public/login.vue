@@ -2,9 +2,47 @@
 	<view class="login-page">
 		<view class="login-box">
 			<!--login-logo start-->
-			<view class="login-logo">
+			<!-- <view class="login-logo">
 				<image class="img" src="../../static/images/new/login.png"></image>
+			</view> -->
+			<view class="login-close">
+				<image src="/static/images/new-index/closed.png" @click="toIndex()"></image>
 			</view>
+
+			<view class="login-head">
+				<view class="tit">Sign in to <span>KOLBRI</span></view>
+				<view class="info">Let eberyone have the products they want!</view>
+			</view>
+
+			<block>
+				<view class="email-info">
+					<view class="email-input">
+						<image src="../../static/images/new-index/email.png" class="logo"></image>
+						<view class="email-input-info">
+							<u--input :placeholder="$t('login.qsryx')" border="none" v-model="email"/>
+						</view>
+					</view>
+
+					<view class="email-input">
+						<image src="../../static/images/new-index/pwd.png" class="logo"></image>
+						<view class="email-input-info">
+							<u--input type="password" :placeholder="$t('login.qsrmm')" border="none" v-model="pwd" v-show="!isShow"></u--input>
+							<u--input :placeholder="$t('login.qsrmm')" border="none" v-model="pwd" v-show="isShow"></u--input>
+						</view>
+						<image src="/static/images/new-index/showpwd.png" class="pwd" v-show="isShow" @click="isShow=!isShow"></image>
+						<image src="/static/images/new-index/hidepwd.png" class="pwd" v-show="!isShow" @click="isShow=!isShow"></image>
+					</view>
+					
+					<view class="email-btm">
+						<view style="color: rgb(10, 198, 142);" @click="navClick('register')">{{$t('login.zczh')}}</view>
+						<view @click="navClick('/pages/public/password')">Forgot password ?</view>
+					</view>
+					
+					<view class="email-btn" @click.stop="$noMultipleClicks(onLoginEmailLogin)">{{$t('login.ljdl')}}</view>
+					
+				</view>
+			</block>
+
 			<!--login-logo end-->
 			<block v-if="isNav==1">
 				<!--login-ul start-->
@@ -53,49 +91,7 @@
 				</view>
 				<!--login-bot end-->
 			</block>
-			<block v-if="isNav==2">
-				<!--login-ul start-->
-				<view class="login-ul">
-					<view class="login-li">
-						<view class="label">{{$t('login.yxh')}}</view>
-						<view class="li-input">
-							<input class="input" placeholder-class="color-999" v-model="email"
-								:placeholder="$t('login.qsryx')" />
-						</view>
-					</view>
-					<view class="login-li">
-						<view class="label">{{$t('login.pwd')}}</view>
-						<view class="li-input">
-							<input class="input" v-if="isShow" type="text" placeholder-class="color-999" v-model="pwd"
-								:placeholder="$t('login.qsrmm')" />
-							<input class="input" v-else type="password" placeholder-class="color-999" v-model="pwd"
-								:placeholder="$t('login.qsrmm')" />
-						</view>
-						<view class="login-eye" @click="isShow=!isShow">
-							<image class="img" v-if="isShow" src="../../static/images/login2.png"></image>
-							<image class="img" v-else src="../../static/images/login6.png"></image>
-						</view>
-						<navigator url="./password" hover-class="none" class="login-pass">
-							<view class="line"></view>
-							<text>{{$t('login.wjmm')}}</text>
-						</navigator>
-					</view>
-				</view>
-				<!--login-ul end-->
-				<!--login-flex start-->
-				<view class="login-flex">
-					<!-- <view @click="onnavClick(2)">{{$t('login.sjhdl')}}</view> -->
-					<view></view>
-					<view class="color-red" @click="navClick('register')">{{$t('login.zczh')}}</view>
-				</view>
-				<!--login-flex end-->
-				<!--login-bot start-->
-				<view class="login-bot">
-					<button class="public-btn" style="background: rgb(255, 78, 47);"
-						@click.stop="$noMultipleClicks(onLoginEmailLogin)">{{$t('login.ljdl')}}</button>
-				</view>
-				<!--login-bot end-->
-			</block>
+			
 			<!--login-check start-->
 			<view class="login-check">
 				<view class="check" @click="isQuanShow=!isQuanShow">
@@ -117,15 +113,11 @@
 					<view class="line"></view>
 				</view>
 				<view class="other-ul">
-					<!-- <view class="li">
-            <image class="img" src="../../static/images/login3.png"></image>
-          </view> -->
-					<!--  -->
-					<view class="li google-login-button icon" @click="handleGoogleAuth">
-						<image class="img" src="../../static/images/login4.png"></image>
+					<view class="li" @click="handleGoogleAuth">
+						<image class="img" src="/static/images/new-index/goole.png"></image>
 					</view>
 					<view class="li" @click="handleFacebookAuth">
-						<image class="img" src="../../static/images/login5.png"></image>
+						<image class="img" src="/static/images/new-index/facebook.png"></image>
 					</view>
 				</view>
 			</view>
@@ -157,7 +149,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		data() {
 			return {
 				noClick: true, // 防止重复点击 
-				isNav: 2,
+				isNav: 2, //2：邮箱登录，1：手机号登录
 				mobile_area_code: '', // 区号
 				mobile: '', // 手机号码
 				pwd: '', // 密码
@@ -185,7 +177,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		},
 		onLoad() {
 			this.login_front = uni.getStorageSync('login_front')
-			console.log(this.login_front);
 		},
 		onShow() {
 			// if (uni.getStorageSync('token')) {
@@ -279,6 +270,11 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			})
 		},
 		methods: {
+			toIndex(){
+				uni.switchTab({
+					url:'/pages/auction/new_index'
+				})
+			},
 			onLocaleChange(e) {
 				// #ifdef H5
 				uni.setStorageSync('UNI_LOCALE', e.code)
@@ -392,37 +388,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							uni.switchTab({
 								url: '/pages/auction/new_index'
 							});
-							// if (this.login_front) {
-							// 	if (this.login_front === '/pages/auction/auction' || this.login_front ===
-							// 		'/pages/auction/jjks' || this.login_front === '/pages/auction/xyzx' ||
-							// 		this.login_front === '/pages/mine/mine') {
-							// 		uni.switchTab({
-							// 			url: this.login_front
-							// 		});
-							// 	} else {
-							// 		let val = "invite_code";
-							// 		if (this.login_front.includes(val)) {
-							// 			uni.switchTab({
-							// 				url: this.login_front
-							// 			});
-							// 		} else {
-							// 			uni.navigateTo({
-							// 				url: this.login_front
-							// 			});
-							// 		}
-							// 	}
-							// 	uni.removeStorage({
-							// 		key: 'login_front'
-							// 	});
-							// } else {
-							// 	console.log(1111)
-							// 	uni.switchTab({
-							// 		url: '/pages/auction/auction'
-							// 	});
-							// }
-							// if (sessionStorage.getItem("invite_code")) {
-							// 	sessionStorage.removeItem("invite_code")
-							// }
 						}, 1000);
 					}
 				})
@@ -440,6 +405,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			},
 			//导航点击的跳转处理函数
 			navClick(url) {
+				this.email=''
+				this.pwd=''
 				uni.navigateTo({
 					url
 				})
@@ -718,6 +685,99 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		.login-box {
 			padding: 30rpx;
 
+			//关闭
+			.login-close {
+				width: 100%;
+				height: 88rpx;
+				padding-top: 88rpx;
+
+				image {
+					width: 40rpx;
+					height: 40rpx;
+					margin-left: 2rpx;
+				}
+			}
+
+			//登录标语
+			.login-head {
+				margin-top: 104rpx;
+				margin-left: 18rpx;
+
+				.tit {
+					font-size: 48rpx;
+					font-weight: bold;
+					color: rgb(51, 51, 51);
+
+					span {
+						font-size: 60rpx;
+						color: rgb(10, 198, 142);
+						margin-left: 8rpx;
+					}
+				}
+
+				.info {
+					font-size: 24rpx;
+					color: rgb(102, 102, 102);
+					margin-top: 16rpx;
+				}
+			}
+
+			//邮箱登录
+			.email-info {
+				width: 100%;
+				margin-top: 80rpx;
+
+				.email-input {
+					width: 654rpx;
+					height: 88rpx;
+					display: flex;
+					align-items: center;
+					background: rgb(241, 241, 241);
+					border-radius: 16rpx;
+					margin: 0 0 32rpx 18rpx;
+
+					.logo {
+						width: 48rpx;
+						height: 48rpx;
+						margin: 0 32rpx;
+					}
+					
+					.email-input-info{
+						width: 460rpx;
+					}
+					
+					.pwd{
+						display: block;
+						width: 36rpx;
+						height: 36rpx;
+						margin-left: 10rpx;
+					}
+				}
+				
+				.email-btm{
+					width: 654rpx;
+					font-size: 24rpx;
+					color: rgb(102, 102, 102);
+					margin-left: 18rpx;
+					display: flex;
+					align-items: center;
+					justify-content: space-between;
+				}
+				
+				.email-btn{
+					width: 654rpx;
+					height: 88rpx;
+					line-height: 88rpx;
+					font-size: 36rpx;
+					color: rgb(255, 255, 255);
+					text-align: center;
+					background: rgba(10, 198, 142,1);
+					border-radius: 88rpx;
+					margin: 48rpx auto;
+				}
+				
+			}
+
 			.login-logo {
 				padding: 150rpx 0 100rpx 0;
 				width: 300rpx;
@@ -864,7 +924,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				}
 
 				.on {
-					color: #f52c1f;
+					color: rgb(10, 198, 142);
 				}
 			}
 		}
@@ -879,8 +939,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 	}
 
 	/deep/ uni-checkbox .uni-checkbox-input.uni-checkbox-input-checked {
-		background: #fc0609;
+		background: rgb(10, 198, 142);
 		color: #fff !important;
-		border-color: #fc0609;
+		border-color: rgb(10, 198, 142);
 	}
 </style>

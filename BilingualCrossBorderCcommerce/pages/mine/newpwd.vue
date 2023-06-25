@@ -1,11 +1,6 @@
 <template>
 	<view class="register-page">
-		<!--register-tab start-->
-		<!-- <view class="register-tab">
-      <view :class="['li',Inv==0?'active':'']" @click="Inv=0">{{$t('login.sjhyz')}}</view>
-      <view :class="['li',Inv==1?'active':'']" @click="Inv=1">{{$t('login.yxyz')}}</view>
-    </view> -->
-		<!--register-tab end-->
+
 		<!--register-box start-->
 		<view class="register-box" v-show="Inv == 0">
 			<!--login-ul start-->
@@ -39,12 +34,7 @@
 							:placeholder="$t('user.pwd.qsrzfmm')" />
 					</view>
 				</view>
-				<!-- <view class="login-li">
-          <view class="label">确认密码</view>
-          <view class="li-input">
-            <input class="input" type="password" placeholder-class="color-999" v-model="pwd2" placeholder="请输入确认密码" />
-          </view>
-        </view> -->
+
 			</view>
 			<!--login-ul end-->
 			<!--register-bot start-->
@@ -59,13 +49,13 @@
 		<view class="register-box" v-show="Inv == 1">
 			<!--login-ul start-->
 			<view class="login-ul">
-				<view class="login-li">
+				<!-- <view class="login-li">
 					<view class="label">{{$t('login.yxh')}}</view>
 					<view class="li-input">
 						<input class="input" placeholder-class="color-999" v-model="email"
 							:placeholder="$t('login.qsryx')" />
 					</view>
-				</view>
+				</view> -->
 				<view class="login-li">
 					<view class="label">{{$t('login.yzm')}}</view>
 					<view class="li-input">
@@ -83,18 +73,13 @@
 							:placeholder="$t('user.pwd.qsrzfmm')" />
 					</view>
 				</view>
-				<!-- <view class="login-li">
-          <view class="label">确认密码</view>
-          <view class="li-input">
-            <input class="input" type="password" placeholder-class="color-999" v-model="pwd2" placeholder="请输入确认密码" />
-          </view>
-        </view> -->
+
 			</view>
 			<!--login-ul end-->
 			<!--register-bot start-->
 			<view class="register-bot">
 				<button class="public-btn" style="background: #1DD181;"
-					@click.stop="$noMultipleClicks(onLoginForgetPwdByEmail)">{{$t('login.qrzh')}}</button>
+					@click.stop="$noMultipleClicks(onLoginForgetPwdByEmail)">{{$t('new.updatePwd')}}</button>
 			</view>
 			<!--register-bot end-->
 		</view>
@@ -142,6 +127,12 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				}
 				uni.setStorageSync('phoneCont', JSON.stringify(title))
 			}
+			if(uni.getStorageSync('token')){
+				this.$http.post(this.$apiObj.MineInfo).then(res=>{
+					this.email=res.data.email
+				})
+			}
+		
 		},
 		methods: {
 			// 点击切换
@@ -241,17 +232,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			},
 			// 获取验证码
 			onLoginSendEmailCode() {
-				if (!this.email) return uni.showToast({
-					title: this.$t('login.qsryx'),
-					icon: 'none'
-				})
-				if (this.email) {
-					var reg_tel = /^[a-zA-Z0-9]+([-_.][a-zA-Z0-9]+)*@([a-zA-Z0-9]+[-.])+[A-Za-zd]{2,5}$/
-					if (!reg_tel.test(this.email)) return uni.showToast({
-						title: this.$t('login.qsrzqyx'),
-						icon: 'none'
-					})
-				}
 				this.$http.post(this.$apiObj.LoginSendEmailCode, {
 					type: this.isShopCont ? 2 : 1,
 					email: this.email
@@ -278,17 +258,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			},
 			// 邮箱重置密码
 			onLoginForgetPwdByEmail() {
-				if (!this.email) return uni.showToast({
-					title: this.$t('login.qsryx'),
-					icon: 'none'
-				})
-				if (this.email) {
-					var reg_tel = /^[a-zA-Z0-9]+([-_.][a-zA-Z0-9]+)*@([a-zA-Z0-9]+[-.])+[A-Za-zd]{2,5}$/
-					if (!reg_tel.test(this.email)) return uni.showToast({
-						title: this.$t('login.qsrzqyx'),
-						icon: 'none'
-					})
-				}
+				
 				if (!this.email_code) return uni.showToast({
 					title: this.$t('login.qsryzm'),
 					icon: 'none'
@@ -389,7 +359,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						right: 0;
 						top: 50%;
 						font-size: 2rpx;
-						color: #ff4e2f;
+						color: rgb(29, 209, 129);
 						font-size: 28rpx;
 						line-height: 1;
 						padding: 0;

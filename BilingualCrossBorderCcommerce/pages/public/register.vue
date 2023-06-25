@@ -1,12 +1,111 @@
 <template>
 	<view class="register-page">
-		<!--register-tab start-->
-		<!-- <view class="register-tab">
-      <view :class="['li',Inv==1?'active':'']" @click="changeTab(1)">{{$t('login.sjhzc')}}</view>
-      <view :class="['li',Inv==2?'active':'']" @click="changeTab(2)">{{$t('login.yxzc')}}</view>
-    </view> -->
-		<!--register-tab end-->
-		<!--register-box start-->
+
+		<block>
+			<view class="register-email">
+				<image src="/static/images/new-index/register.png" class="logo"></image>
+				<view class="title">Register an account</view>
+				<!--邮箱输入-->
+				<block v-if="blockNum==1">
+					<view class="register-input">
+						<view>
+							<u--input :placeholder="$t('login.qsryx')" v-model="email" border="none" clearable
+								@input="changInput('email')"></u--input>
+						</view>
+					</view>
+					<view class="register-btn" style="background: rgba(10, 198, 142,0.5);" v-show="!isOnSendEmail">Send
+						verification code</view>
+					<view class="register-btn" @click="verifyData('email')" v-show="isOnSendEmail">Send verification
+						code</view>
+
+					<view class="register-box" style="padding:0 30rpx">
+						<view class="login-check">
+							<view class="check" @click="isQuanShow=!isQuanShow">
+								<checkbox :checked="isQuanShow?true:false" style="transform: scale(0.7);" />
+
+							</view>
+							<view class="xy">
+								<text class="color-999">{{$t('login.shcg')}}</text>
+								<navigator url="../mine/ptfwxy" hover-class="none">{{$t('login.ptfwxy')}}</navigator>
+								<navigator url="../mine/ysxy" hover-class="none">{{$t('login.ysxy')}}</navigator>
+								<navigator url="../mine/agreement" hover-class="none">{{$t('login.zcxgxy')}}</navigator>
+							</view>
+						</view>
+					</view>
+
+				</block>
+
+				<!--验证码输入-->
+				<block v-else-if="blockNum==2">
+					<view class="register-input" style="margin-bottom: 24rpx;">
+						<view>
+							<u--input placeholder="Please enter the verification code" v-model="email_code"
+								border="none" @input="changInput('code')"></u--input>
+						</view>
+					</view>
+					<view class="code-info">
+						<view>
+							<view class="code-info-err" v-show="showErrCode">Verification code error</view>
+						</view>
+						<view class="code"><span>{{codeTxt}}</span></view>
+						<view class="code" v-show="false"><span>Resend</span></view>
+					</view>
+
+					<view class="register-btn" style="background: rgba(10, 198, 142,0.5);" v-show="!isOnSendCode">Next
+					</view>
+					<view class="register-btn" @click="LoginVerifyCode()" v-show="isOnSendCode">Next</view>
+				</block>
+
+				<!--密码输入-->
+				<block v-else-if="blockNum==3">
+					<!--密码-->
+					<view class="email-input" style="margin-top: 60rpx;">
+						<image src="../../static/images/new-index/pwd.png" class="logo"></image>
+						<view class="email-input-info">
+							<u--input type="password" :placeholder="$t('login.qsrmm')" border="none" v-model="pwd"
+								v-show="!isPwdShow"></u--input>
+							<u--input :placeholder="$t('login.qsrmm')" border="none" v-model="pwd"
+								v-show="isPwdShow"></u--input>
+						</view>
+						<image src="/static/images/new-index/showpwd.png" class="pwd" v-show="isPwdShow"
+							@click="isPwdShow=!isPwdShow"></image>
+						<image src="/static/images/new-index/hidepwd.png" class="pwd" v-show="!isPwdShow"
+							@click="isPwdShow=!isPwdShow"></image>
+					</view>
+
+					<!--确认密码-->
+					<view class="email-input">
+						<image src="../../static/images/new-index/pwd.png" class="logo"></image>
+						<view class="email-input-info">
+							<u--input type="password" :placeholder="$t('login.qsrmm')" border="none" v-model="pwd2"
+								v-show="!isPwdOkShow"></u--input>
+							<u--input :placeholder="$t('login.qsrqrmm')" border="none" v-model="pwd2"
+								v-show="isPwdOkShow" @input="changInput('pwd')"></u--input>
+						</view>
+						<image src="/static/images/new-index/showpwd.png" class="pwd" v-show="isPwdOkShow"
+							@click="isPwdOkShow=!isPwdOkShow"></image>
+						<image src="/static/images/new-index/hidepwd.png" class="pwd" v-show="!isPwdOkShow"
+							@click="isPwdOkShow=!isPwdOkShow"></image>
+					</view>
+
+					<view class="email-input">
+						<image src="../../static/images/new-index/yqcode.png" class="logo"></image>
+						<view class="email-input-info">
+							<u--input :placeholder="$t('login.qsryqm')" border="none" v-model="invite_code"></u--input>
+						</view>
+					</view>
+
+					<view class="pwd-err" v-show="showPwdErr">The two passwords are different</view>
+
+					<view class="register-btn" style="background: rgba(10, 198, 142,0.5);" v-show="!isOnSendPwd">
+						Complete</view>
+					<view class="register-btn" @click.stop="$noMultipleClicks(onLoginEmailRegister)"
+						v-show="isOnSendPwd">Complete</view>
+				</block>
+
+			</view>
+		</block>
+
 		<view class="register-box" v-if="Inv == 1">
 			<!--login-ul start-->
 			<view class="login-ul">
@@ -62,75 +161,8 @@
 			</view>
 			<!--register-bot end-->
 		</view>
-		<!--register-box end-->
-		<!--register-box start-->
-		<view class="register-box" v-if="Inv == 2">
-			<!--login-ul start-->
-			<view class="login-ul">
-				<view class="login-li">
-					<view class="label">{{$t('login.yxh')}}<text>*</text></view>
-					<view class="li-input">
-						<input class="input" placeholder-class="color-999" v-model="email"
-							:placeholder="$t('login.qsryx')" />
-					</view>
-				</view>
-				<view class="login-li">
-					<view class="label">{{$t('login.yzm')}}<text>*</text></view>
-					<view class="li-input">
-						<input class="input act" placeholder-class="color-999" v-model="email_code"
-							:placeholder="$t('login.qsryzm')" />
-						<view class="yzm" v-if="codeTxt==$t('login.hqyzm')"
-							@click.stop="$noMultipleClicks(onLoginSendEmailCode)">{{$t('login.fsyzm')}}</view>
-						<view class="yzm" v-else>{{codeTxt}}</view>
-					</view>
-				</view>
-				<view class="login-li">
-					<view class="label">{{$t('login.pwd')}}<text>*</text></view>
-					<view class="li-input">
-						<input class="input" type="password" maxlength="16" placeholder-class="color-999" v-model="pwd"
-							:placeholder="$t('login.qsrmm')" />
-					</view>
-				</view>
-				<view class="login-li">
-					<view class="label">{{$t('login.qrmm')}}<text>*</text></view>
-					<view class="li-input">
-						<input class="input" type="password" maxlength="16" placeholder-class="color-999" v-model="pwd2"
-							:placeholder="$t('login.qsrqrmm')" />
-					</view>
-				</view>
-				<view class="login-li">
-					<view class="label">{{$t('login.yqm')}}</view>
-					<view class="li-input">
-						<input class="input" placeholder-class="color-999" v-model="invite_code"
-							:placeholder="$t('login.qsryqm')" />
-					</view>
-				</view>
-			</view>
-			<!--login-ul end-->
-			<!--register-bot start-->
-			<view class="register-bot">
-				<button class="public-btn" style="background: rgb(255, 78, 47);"
-					@click.stop="$noMultipleClicks(onLoginEmailRegister)">{{$t('login.qd')}}</button>
-			</view>
-			<!--register-bot end-->
-		</view>
-		<view class="register-box" style="padding:0 30rpx">
-			<!--login-check start-->
-			<view class="login-check">
-				<view class="check" @click="isQuanShow=!isQuanShow">
-					<checkbox :checked="isQuanShow?true:false" style="transform: scale(0.7);" />
-					<!-- <radio value="r1" color="#F52C1F" style="transform:scale(0.7);" /> -->
-				</view>
-				<view class="xy">
-					<text class="color-999">{{$t('login.shcg')}}</text>
-					<navigator url="../mine/ptfwxy" hover-class="none">{{$t('login.ptfwxy')}}</navigator>
-					<navigator url="../mine/ysxy" hover-class="none">{{$t('login.ysxy')}}</navigator>
-					<navigator url="../mine/agreement" hover-class="none">{{$t('login.zcxgxy')}}</navigator>
-				</view>
-			</view>
-			<!--login-check end-->
-		</view>
-		<!--register-box end-->
+
+
 	</view>
 </template>
 
@@ -146,6 +178,12 @@ NoR+zv3KaEmPSHtooQIDAQAB
 	export default {
 		data() {
 			return {
+				showErrCode: false,
+				showPwdErr: false,
+				isOnSendEmail: false, //无法操作获取验证码
+				isOnSendCode: false, //无法操作下一步
+				isOnSendPwd: false, //无法操作注册
+				blockNum: 1, //操作步骤
 				noClick: true, // 防止重复点击 
 				Inv: 2,
 				code: '', // 手机号验证码
@@ -157,12 +195,14 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				share_code: '', //推广码
 				email: '', // 电子邮箱，比如 example@qq.com
 				email_code: '', // 邮箱验证码
-				second: 60,
+				second: 120,
 				codeTxt: this.$t('login.hqyzm'),
 				seconds: 60,
 				codeTxt1: this.$t('login.hqyzm'),
 				isQuanShow: false,
 				isShopCont: false, // 中文还是英文
+				isPwdShow: false,
+				isPwdOkShow: false
 			}
 		},
 		onLoad(e) {
@@ -186,6 +226,36 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			}
 		},
 		methods: {
+			//输入框改变事件
+			changInput(val) {
+				if (val == 'email') {
+					this.isOnSendEmail = this.email.length > 0 ? true : false
+				} else if (val == 'code') {
+					this.isOnSendCode = this.email_code.length > 0 ? true : false
+				} else if (val == 'pwd') {
+					this.isOnSendPwd = this.pwd.length > 0 && this.pwd2.length > 0 ? true : false
+				}
+			},
+			//密码验证
+			verifyPwd() {
+				if (this.pwd != this.pwd2) {
+					this.showPwdErr = true
+				} else {
+					this.showPwdErr = false
+				}
+			},
+			verifyData(val) {
+				if (!this.isQuanShow) {
+					uni.showToast({
+						title: '请勾选用户协议',
+						icon: 'none'
+					})
+					return
+				}
+				if (val == 'email') {
+					this.onLoginSendEmailCode()
+				}
+			},
 			// 点击切换
 			changeTab(Inv) {
 				console.log(Inv);
@@ -318,6 +388,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							title: this.$t('login.fscg'),
 							icon: 'none'
 						})
+						this.blockNum = 2
 						this.timeDown()
 					}
 				}).finally(() => {
@@ -330,10 +401,30 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					this.codeTxt = this.second + 'S'
 					if (this.second < 0) {
 						clearInterval(this.result)
-						this.second = 60
+						this.second = 120
 						this.codeTxt = this.$t('login.hqyzm')
 					}
 				}, 1000)
+			},
+			LoginVerifyCode() {
+				if (!this.email_code) {
+					uni.showToast({
+						title: '请输入邮箱验证码',
+						icon: 'none'
+					})
+					return
+				}
+				this.$http.post(this.$apiObj.LoginVerifyCode, {
+					email: this.email,
+					email_code: this.email_code
+				}).then(res => {
+					if (res.code == 1) {
+						this.blockNum = 3
+						this.showErrCode = false
+					} else {
+						this.showErrCode = true
+					}
+				})
 			},
 			// 邮箱注册
 			onLoginEmailRegister() {
@@ -361,7 +452,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					// 验证由数字,大写字母,小写字母,特殊符,至少其中三种组成密码
 					// var reg = /^(?![a-zA-Z]+$)(?![A-Z0-9]+$)(?![A-Z\\W_!@#$%^&*`~()-+=]+$)(?![a-z0-9]+$)(?![a-z\\W_!@#$%^&*`~()-+=]+$)(?![0-9\\W_!@#$%^&*`~()-+=]+$)[a-zA-Z0-9\\W_!@#$%^&*`~()-+=]{8,16}$/;
 					let reg =
-						/(?![a-zA-Z]+$)(?![A-Z0-9]+$)(?![A-Z\W_!@#$%^&*`~()-+=]+$)(?![a-z0-9]+$)(?![a-z\W_!@#$%&*~()-+=]+$)(?![0-9\\W_!@#$%^&*()-+=]+$)[a-zA-Z0-9\W_!@#$%^&*`()-+=]{8,16}$/
+						/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d\W_]{8,16}$/
+
 					if (!reg.test(this.pwd)) return uni.showToast({
 						title: this.$t('pwdcd'),
 						icon: 'none'
@@ -371,10 +463,14 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					title: this.$t('login.qqrmm'),
 					icon: 'none'
 				})
-				if (this.pwd !== this.pwd2) return uni.showToast({
-					title: this.$t('login.lcmmbyzqcxsr'),
-					icon: 'none'
-				})
+				if (this.pwd !== this.pwd2) {
+					this.showPwdErr = true
+					uni.showToast({
+						title: this.$t('login.lcmmbyzqcxsr'),
+						icon: 'none'
+					})
+					return
+				}
 				if (!this.isQuanShow) return uni.showToast({
 					title: this.$t('login.qydxybty'),
 					icon: 'none'
@@ -451,6 +547,109 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 <style lang="less" scoped>
 	.register-page {
+
+		.register-email {
+			width: 100%;
+			margin-top: 32rpx;
+
+			.logo {
+				display: block;
+				width: 280rpx;
+				height: 280rpx;
+				margin: 0 auto;
+			}
+
+			.title {
+				width: 100%;
+				font-size: 28rpx;
+				color: rgb(51, 51, 51);
+				text-align: center;
+				margin-top: 22rpx;
+			}
+
+			.register-input {
+				width: 686rpx;
+				height: 84rpx;
+				display: flex;
+				align-items: center;
+				background: rgb(245, 245, 245);
+				border-radius: 8rpx;
+				margin: 60rpx auto 48rpx auto;
+
+				view {
+					width: 622rpx;
+					margin: 0 auto;
+				}
+			}
+
+			.register-btn {
+				width: 686rpx;
+				height: 88rpx;
+				line-height: 88rpx;
+				font-size: 40rpx;
+				color: rgb(255, 255, 255);
+				text-align: center;
+				background: rgba(10, 198, 142, 1);
+				border-radius: 88rpx;
+				margin: 0 auto 40rpx auto;
+			}
+
+			.code-info {
+				width: 686rpx;
+				font-size: 24rpx;
+				color: rgb(153, 153, 153);
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				margin: 0 auto 48rpx auto;
+
+				span {
+					font-weight: bold;
+					color: rgb(10, 198, 142);
+					margin-left: 8rpx;
+				}
+
+				.code-info-err {
+					color: rgb(255, 57, 57);
+				}
+			}
+
+			.email-input {
+				width: 686rpx;
+				height: 88rpx;
+				display: flex;
+				align-items: center;
+				background: rgb(241, 241, 241);
+				border-radius: 16rpx;
+				margin: 0 auto 32rpx auto;
+
+				.logo {
+					width: 48rpx;
+					height: 48rpx;
+					margin: 0 32rpx;
+				}
+
+				.email-input-info {
+					width: 500rpx;
+				}
+
+				.pwd {
+					display: block;
+					width: 36rpx;
+					height: 36rpx;
+					margin-left: 10rpx;
+				}
+			}
+
+			.pwd-err {
+				width: 686rpx;
+				font-size: 24rpx;
+				color: rgb(255, 57, 57);
+				margin: 0 auto 48rpx auto;
+			}
+
+		}
+
 		.register-tab {
 			display: flex;
 			justify-content: space-around;
@@ -596,8 +795,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 	}
 
 	/deep/ uni-checkbox .uni-checkbox-input.uni-checkbox-input-checked {
-		background: rgb(255, 78, 47);
+		background: rgb(10, 198, 142);
 		color: #fff !important;
-		border-color: rgb(255, 78, 47);
+		border-color: rgb(10, 198, 142);
 	}
 </style>

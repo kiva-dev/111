@@ -35,10 +35,10 @@
 								<image :src="data.spec_image" class="img"></image>
 								<view class="info">
 									<view class="name">{{data.goods_name}}</view>
-									<view class="guige" @click="getProductSpec(data)">
+									<!-- <view class="guige" @click="getProductSpec(data)">
 										<view>{{data.attrs}}</view>
 										<image src="/static/images/new-index/btm.png"></image>
-									</view>
+									</view> -->
 									<!-- <view class="tags">
 										<view>xiaomi</view>
 									</view> -->

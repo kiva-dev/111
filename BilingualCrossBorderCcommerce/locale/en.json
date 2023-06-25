@@ -1142,7 +1142,7 @@
 	"shop.baokuan": "Expenditures",
 	"shop.qpj": "Snap up the auction price",
 	"shop.scj": "market value",
-	"shop.qiangpai": "Draw",
+	"shop.qiangpai": "Grab",
 	"shop.ywc": "Completed",
 	"shop.jxz": "have in hand",
 	"shop.sye": "home",
@@ -1320,5 +1320,7 @@
 	"mine.gift":"Gift Amount",
 	"mine.auction":"My Auction",
 	"detail.hot":"Hot recommendation",
-	"detail.guess":"Guess you like"
+	"detail.guess":"Guess you like",
+	"new.updatePwd":"Change Password",
+	"new.qszmm":"Please go to the personal center to set the payment password and try again!"
 }

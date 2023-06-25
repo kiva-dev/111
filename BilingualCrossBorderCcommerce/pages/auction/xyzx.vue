@@ -267,7 +267,7 @@
 											<text class="name">{{item.nickname}}</text>
 										</view>
 										<view class="right">
-											<view class="lis" @click.stop="onAuctionFocusLucky(item.id)">
+											<view class="lis" @click.stop="onAuctionFocusLucky(item)">
 												<image v-if="item.is_zan==1" src="/static/images/new/dz1.png" mode="" />
 												<image v-else src="/static/images/new/dz.png" mode="" />{{item.zan_num}}
 											</view>
@@ -932,14 +932,18 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				})
 			},
 			// 点赞|取消点赞幸运之星记录
-			onAuctionFocusLucky(id) {
+			onAuctionFocusLucky(item) {
 				this.$http.post(this.$apiObj.AuctionFocusLucky, {
-					lucky_id: id
+					lucky_id: item.id
 				}).then(res => {
 					if (res.code == 1) {
-						this.page = 1
-						this.LuckyList = []
-						this.onAuctionLuckyList()
+						if (item.is_zan == 0) {
+							item.is_zan = 1
+							item.zan_num += 1
+						}else{
+							item.is_zan = 0
+							item.zan_num -= 1
+						}
 					}
 				})
 			},
@@ -1846,6 +1850,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 		.auct-luck {
 			width: 686rpx;
+			min-height: 800rpx;
 			margin: 0 auto;
 			.auct-title {
 				margin-bottom: 30rpx;

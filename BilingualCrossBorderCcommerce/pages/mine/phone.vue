@@ -81,7 +81,7 @@
 					mobile: this.mobile,
 					mobile_area_code: this.mobile_area_code.slice(1)
 				}).then(res => {
-					if (res.code == 200) {
+					if (res.code == 1) {
 						uni.showToast({
 							title: this.$t('user.phone.fscg'),
 							icon: 'none'
@@ -167,7 +167,7 @@
 					margin-top: -20rpx;
 					line-height: 40rpx;
 					font-size: 24rpx;
-					color: rgb(255, 78, 47);
+					color: rgb(10, 198, 142);
 					padding: 0;
 					width: 100rpx;
 				}

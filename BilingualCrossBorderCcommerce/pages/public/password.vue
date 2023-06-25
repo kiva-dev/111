@@ -84,7 +84,7 @@
       <!--login-ul end-->
       <!--register-bot start-->
       <view class="register-bot">
-        <button class="public-btn" @click.stop="$noMultipleClicks(onLoginForgetPwdByEmail)">{{$t('login.qrzh')}}</button>
+        <button class="public-btn" style="background: rgb(10, 198, 142);" @click.stop="$noMultipleClicks(onLoginForgetPwdByEmail)">{{$t('login.qrzh')}}</button>
       </view>
       <!--register-bot end-->
     </view>
@@ -311,7 +311,7 @@ export default {
           right: 0;
           top: 50%;
           font-size: 2rpx;
-          color: #fc0609;
+          color: rgb(10, 198, 142);
           font-size: 28rpx;
           line-height: 1;
           padding: 0;

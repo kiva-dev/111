@@ -14,6 +14,7 @@ let apiObj = {
 	LoginThirdPartyRegister: 'Login/thirdPartyRegister', // google、twitter、facebook注册
 	LoginThirdPartyLogin: 'Login/thirdPartyLogin', // google、twitter、facebook登录  (code 为7时跳转绑定手机号页面)
 	LoginClickNum: '/Login/clickNum', // 分析点击量接口
+	LoginVerifyCode:'/Login/checkEmailCodeByApp',//邮箱验证码验证
 	// 商城-首页
 	IndexShopList: 'Index/shopList', // 首页搜索店铺
 	bannerList: 'Index/bannerList', // 商城首页banner图
