@@ -361,16 +361,16 @@
 				<view class="bl-left" @click="toMyCart()">
 					<view class="bl-left-box">
 						<image src="@/static/images/new-index/detail_btn_car2.png" mode="widthFix"></image>
-						<p>My Cart</p>
+						<p>{{$t('home.shop.shpping')}}</p>
 					</view>
 				</view>
 				<view class="bl-right">
 					<view class="bl-right-buy" @click="toPay()">
-						<p class="buy-name">Buy Now</p>
+						<p class="buy-name">{{$t('home.shop.buynow')}}</p>
 						<p class="buy-info"><span>RM</span>{{shopCont.litestore_goods_spec[0].goods_price}}</p>
 					</view>
 					<view class="bl-right-add" @click="addCart()">
-						<p>Add Cart</p>
+						<p>{{$t('detail.addCart')}}</p>
 					</view>
 				</view>
 			</view>

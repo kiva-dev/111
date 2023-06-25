@@ -7,7 +7,7 @@
 					<image src="@/static/images/mine/collect_icon_back.png" mode="widthFix"></image>
 				</view>
 				<view class="box-title">{{$t('top.xxzx')}}</view>
-				<view class="box-clear">
+				<view class="box-clear" style="visibility: hidden;">
 					<image src="@/static/images/mine/msg_btn_clear.png" mode="widthFix"></image>
 				</view>
 			</view>
@@ -206,6 +206,10 @@
 				}
 
 				.li-txt {
+					display: flex;
+					flex-direction: column;
+					justify-content: center;
+					
 					.t {
 						font-size: 28rpx;
 					}

@@ -8,7 +8,7 @@
     <!--order-sec1 start-->
     <view class="order-sec1">
       <view class="sec1-icon">
-        <image class="img" src="../../../static/images/submit1.png"></image>
+        <image class="img" src="@/static/images/new-index/address.png" mode="widthFix"></image>
       </view>
       <view class="sec1-txt">
         <view class="sec1-h">{{shopCont.a_detail}}</view>
@@ -815,7 +815,7 @@ page {
     .order-btn {
       width: 180rpx;
       height: 70rpx;
-      background: rgb(255, 78, 47);
+      background: rgb(10, 198, 142);
       border-radius: 35rpx;
       font-size: 26rpx;
       color: #fff;

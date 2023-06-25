@@ -7,7 +7,7 @@
 					<image src="@/static/images/mine/collect_icon_back.png" mode="widthFix"></image>
 				</view>
 				<view class="box-title">{{$t('top.xtxx')}}</view>
-				<view class="box-clear">
+				<view class="box-clear" style="visibility: hidden;">
 					<image src="@/static/images/mine/msg_btn_clear.png" mode="widthFix"></image>
 				</view>
 			</view>
@@ -22,23 +22,23 @@
 					</view>
 					<view class="t" v-if="item.type==2">
 						<view class="dian" v-if="item.read_status=='0'"></view>
-						<view class="title" v-if="isShopCont">{{isShopCont ? 'Recharge notification' : '充值通知'}}</view>
+						<view class="title">{{isShopCont ? 'Recharge notification' : '充值通知'}}</view>
 					</view>
 					<view class="t" v-if="item.type==3">
 						<view class="dian" v-if="item.read_status=='0'"></view>
-						<view class="title" v-if="isShopCont">{{isShopCont ? 'Order Notice' : '订单通知'}}</view>
+						<view class="title">{{isShopCont ? 'Order Notice' : '订单通知'}}</view>
 					</view>
 					<view class="t" v-if="item.type==4">
 						<view class="dian" v-if="item.read_status=='0'"></view>
-						<view class="title" v-if="isShopCont">{{isShopCont ? 'After sales notification' : '售后通知'}}</view>
+						<view class="title">{{isShopCont ? 'After sales notification' : '售后通知'}}</view>
 					</view>
 					<view class="t" v-if="item.type==5">
 						<view class="dian" v-if="item.read_status=='0'"></view>
-						<view class="title" v-if="isShopCont">{{isShopCont ? 'Notice of Auction' : '竞拍通知'}}</view>
+						<view class="title">{{isShopCont ? 'Notice of Auction' : '竞拍通知'}}</view>
 					</view>
 					<view class="t" v-if="item.type==6">
 						<view class="dian" v-if="item.read_status=='0'"></view>
-						<view class="title" v-if="isShopCont">{{isShopCont ? 'Coupon Notice' : '优惠券通知'}}</view>
+						<view class="title">{{isShopCont ? 'Coupon Notice' : '优惠券通知'}}</view>
 					</view>
 					<view class="time">{{$filter.to_date_time(item.addtime)}}</view>
 				</view>
@@ -67,7 +67,6 @@
 			this.page = 1
 			this.SysmsgList = []
 			this.onMineSysmsgList()
-			console.log(this.isShopCont);
 		},
 		methods: {
 			onBack() {
@@ -116,10 +115,9 @@
 						url: './refund/detail?id=' + item.data_id
 					})
 				} else if (item.type == 5) {
-					return
-					// uni.navigateTo({
-					//   url: "/pages/auction/detail?id=" + item.data_id
-					// })
+					uni.navigateTo({
+					  url: "/pages/auction/detail?id=" + item.data_id
+					})
 				} else if (item.type == 6) {
 					if (item.data_id == 0) {
 						uni.navigateTo({

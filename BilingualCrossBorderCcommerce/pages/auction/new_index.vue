@@ -1018,6 +1018,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			// 轮播图
 			this.$http.post(this.$apiObj.AuctionBanner).then(res => {
 				if (res.code == 1) {
+					this.banner=[]
 					res.data.forEach(item => {
 						this.banner.push(item.image)
 					})
@@ -1086,7 +1087,16 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		},
 		methods: {
 			getBanner(val){
-				
+				if(val === 0) {
+					uni.navigateTo({
+						url: '/pages/active/invite'
+					})
+				}
+				if(val === 1) {
+					uni.navigateTo({
+						url: '/pages/active/registration'
+					})
+				}
 			},
 			//首页泡泡数据展示
 			showJinpaiData() {

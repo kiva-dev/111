@@ -77,7 +77,7 @@
 						</view>
 					</view>
 				</navigator> -->
-				<view class="jping" v-for="(item,i) in jingpaiList" :key="i" @click="toDetail(item.auction_goods_id)">
+				<view class="jping" v-for="(item,i) in jingpaiList" :key="i" @click="toDetail(item.order_no)">
 					<view class="jping-left">
 						<image :src="item.image" mode="aspectFill"></image>
 						<!-- <view class="jping-left-q">{{item.stage_num}}{{$t('auction.qi')}}</view> -->
@@ -174,7 +174,7 @@
 				</navigator> -->
 
 				<view class="order-item" v-for="item in jingpaiorderList" :key="item.id"
-					@click="toDetail(item.auction_goods_id)">
+					@click="toDetail(item.order_no)">
 					<view class="order-item-cover">
 						<image :src="item.image" mode="aspectFill"></image>
 						<view class="designated">{{item.stage_num}}{{$t('auction.qi')}}</view>
@@ -261,28 +261,37 @@
 					<image src="../../static/images/new/xyzx1.png" class="luck-zjtp" v-else></image>
 
 					<view class="luck-zpjl-item" v-for="(item,index) in LuckyList" :key="item.id">
-						<image :src="item.image" class="luck-zpjl-item-img"></image>
-						<view class="luck-zpjl-item-name">{{item.goods_name}}</view>
-
-						<!-- 						<view class="luck-zpjl-item-state" v-show="item.select_way==0">{{$t('user.auctionM.dailingjian')}}</view> -->
-
-						<view class="luck-zpjl-item-qiangpaijia">{{$t('auctionM.qpj')}}：RM{{item.auction_price}}</view>
-
-						<!-- <view class="luck-zpjl-item-num">*5</view> -->
-
-						<view class="luck-zpjl-item-price">{{$t('user.auctionM.shifukuang')}}：RM{{item.auction_price}}
+						<view class="item-cover">
+							<image :src="item.image" mode="aspectFill"></image>
 						</view>
-
-						<view class="luck-zpjl-item-btn" v-if="item.select_way==0" @click.stop="onlingjiangClick(item)">
+						<view class="item-info">
+							<view class="item-info-top">
+								<p class="top-name">{{item.goods_name}}</p>
+								<p class="top-status"></p>
+							</view>
+							<view class="item-info-bot">
+								<view class="bot-bidding">
+									<p>{{$t('user.auctionM.bidding')}}: RM{{item.auction_price}}</p>
+									<p v-if="false">x5</p>
+								</view>
+								<view class="bot-disbursements">
+									<view class="bot-disbursements-l">
+										<p class="l-title">{{$t('user.auctionM.shifukuang')}}:</p>
+										<p class="l-price"><text>RM</text>{{item.auction_price}}</p>
+									</view>
+									<view class="bot-disbursements-r" @click="toDetail(item.order_no)">{{$t('user.auctionM.view')}}</view>
+								</view>
+							</view>
+						</view>
+						<!-- <view class="luck-zpjl-item-btn" v-if="item.select_way==0" @click.stop="onlingjiangClick(item)">
 							{{$t('zhongpai.lingjiangjiang')}}
 						</view>
-						<!--@click="shareShow=true;midshotId=item.id"-->
 						<view class="luck-zpjl-item-btn" v-else-if="item.status==6">
 							{{$t('auction.detail.lijifenxiang')}}
 						</view>
 						<view class="luck-zpjl-item-btn" v-else-if="item.select_way==2 && item.status==2">待发货</view>
 						<view class="luck-zpjl-item-btn" v-else-if="item.select_way==2 && item.status==3">待收货</view>
-						<view class="luck-zpjl-item-btn" v-else-if="item.select_way==2 && item.status==4">待确认</view>
+						<view class="luck-zpjl-item-btn" v-else-if="item.select_way==2 && item.status==4">待确认</view> -->
 					</view>
 
 				</view>
@@ -441,7 +450,7 @@
 					</view>
 				</navigator> -->
 				<view class="order-item" v-for="item in recordList" :key="item.id"
-					@click="toDetail(item.auction_goods_id)">
+					@click="toDetail(item.order_no)">
 					<view class="order-item-cover">
 						<image :src="item.image" mode="aspectFill"></image>
 						<view class="designated">{{item.stage_num}}{{$t('auction.qi')}}</view>
@@ -628,7 +637,7 @@
 			},
 			toDetail(id) {
 				uni.navigateTo({
-					url: '/pages/auction/detail?id=' + id
+					url: '/pages/mine/auctionDetail?orderNo=' + id
 				})
 			},
 			tomine() {
@@ -890,7 +899,6 @@
 					if (res.code == 1) {
 						this.no_select = res.data.no_select
 						res.data.list.data.map(item => {
-							console.log(item.end_time);
 							item.continue_time = this.daojishi(item.continue_time)
 						})
 						this.totalPageNum = res.data.total
@@ -1576,76 +1584,101 @@
 			}
 
 			.luck-zpjl-item {
-				position: relative;
 				width: 100%;
-				margin-bottom: 24rpx;
+				margin-bottom: 20rpx;
 				padding: 16rpx;
 				box-sizing: border-box;
 				background: #FFF;
 				border-radius: 20rpx;
-
-				.luck-zpjl-item-img {
-					width: 200rpx;
-					height: 200rpx;
-					border-radius: 16rpx;
+				display: flex;
+				align-items: center;
+				
+				.item-cover {
+					width: 206rpx;
+					height: 206rpx;
+					position: relative;
+					
+					image {
+						width: 100%;
+						height: 100%;
+						border-radius: 16rpx;
+					}
 				}
-
-				.luck-zpjl-item-name {
-					position: absolute;
-					top: 16rpx;
-					left: 230rpx;
-					width: 340rpx;
-					font-size: 26rpx;
-					color: rgb(44, 44, 44);
-					overflow: hidden;
-					text-overflow: ellipsis;
-					white-space: nowrap;
-				}
-
-				.luck-zpjl-item-state {
-					position: absolute;
-					top: 12rpx;
-					right: 40rpx;
-					font-size: 24rpx;
-					color: rgb(255, 78, 47);
-				}
-
-				.luck-zpjl-item-qiangpaijia {
-					position: absolute;
-					top: 80rpx;
-					left: 230rpx;
-					font-size: 24rpx;
-					color: rgb(44, 44, 44);
-				}
-
-				.luck-zpjl-item-num {
-					position: absolute;
-					top: 110rpx;
-					left: 230rpx;
-					font-size: 24rpx;
-					color: rgb(44, 44, 44);
-				}
-
-				.luck-zpjl-item-price {
-					position: absolute;
-					top: 140rpx;
-					left: 230rpx;
-					font-size: 24rpx;
-					color: rgb(44, 44, 44);
-				}
-
-				.luck-zpjl-item-btn {
-					position: absolute;
-					top: 110rpx;
-					right: 30rpx;
-					width: 140rpx;
-					height: 60rpx;
-					line-height: 60rpx;
-					font-size: 24rpx;
-					color: rgb(255, 255, 255);
-					text-align: center;
-					background: rgb(10, 198, 142);
-					border-radius: 16rpx;
+				
+				.item-info {
+					flex: 1;
+					height: 206rpx;
+					margin-left: 16rpx;
+					display: flex;
+					flex-direction: column;
+					justify-content: space-between;
+					align-items: flex-start;
+					
+					.item-info-top {
+						display: flex;
+						justify-content: space-between;
+						
+						.top-name {
+							width: 340rpx;
+							color: rgb(51, 51, 51);
+							font-size: 24rpx;
+						}
+						
+						.top-status {
+							
+						}
+					}
+					
+					.item-info-bot {
+						width: 100%;
+						
+						.bot-bidding {
+							width: 100%;
+							display: flex;
+							justify-content: space-between;
+							
+							p {
+								color: rgb(153, 153, 153);
+								font-size: 16rpx;
+							}
+						}
+						
+						.bot-disbursements {
+							width: 100%;
+							margin-top: 16rpx;
+							display: flex;
+							justify-content: space-between;
+							align-items: center;
+							
+							.bot-disbursements-l {
+								flex: 1;
+								
+								.l-title {
+									color: rgb(153, 153, 153);
+									font-size: 16rpx;
+								}
+								
+								.l-price {
+									color: rgb(255, 57, 57);
+									font-size: 32rpx;
+									font-weight: bold;
+									
+									text {
+										font-size: 20rpx;
+									}
+								}
+							}
+							
+							.bot-disbursements-r {
+								padding: 12rpx 22rpx;
+								box-sizing: border-box;
+								background: rgb(204, 204, 204);
+								border-radius: 100rpx;
+								color: rgb(255, 255, 255);
+								font-size: 20rpx;
+							}
+						}
+					}
 				}
 			}
 		}
@@ -1702,7 +1735,7 @@
 			justify-content: space-between;
 
 			.jping-header {
-				width: 100%;
+				width: 340rpx;
 				color: rgb(51, 51, 51);
 				font-size: 28rpx;
 				overflow: hidden;

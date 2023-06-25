@@ -10,8 +10,8 @@
 				<view class="t">{{$t('new.zhye')}}（RM）</view>
 				<view class="money">{{money || 0.0000}}</view>
 				<view class="head-card-price">
-					<view class="head-card-fyje">{{$t('new.fyje')}}<br /><span>{{rebate_money_total}}</span></view>
-					<view>{{$t('new.ktxye')}}<br /><span>{{tocash_money || 0.0000}}</span></view>
+					<view class="head-card-fyje">{{$t('mine.Deposits')}}<br /><span>{{rebate_money_total}}</span></view>
+					<view>{{$t('mine.Bonus')}}<br /><span>{{tocash_money || 0.0000}}</span></view>
 				</view>
 				<view class="card-btns">
 					<view class="card-btns-withdrawal" @click="navClick('Withdrawal')">{{$t('user.wallet.tixian')}}</view>

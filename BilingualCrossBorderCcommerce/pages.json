@@ -850,6 +850,27 @@
 				"navigationBarTitleText": "",
 				"navigationStyle": "custom"
 			}
+		},
+		{
+			"path": "pages/active/registration",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/active/invite",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/mine/auctionDetail",
+			"style": {
+				"navigationBarTitleText": "%top.auctionDetail%",
+				"enablePullDownRefresh": false
+			}
 		}
 	],
 	"globalStyle": {

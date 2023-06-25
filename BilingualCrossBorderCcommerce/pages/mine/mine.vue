@@ -31,12 +31,14 @@
 							</template>
 							<template v-else>
 								<view class="box-data-detail">
-									<view class="detail-container" @click="navClick('new/collect_products')">
+									<!-- @click="navClick('new/collect_products')" -->
+									<view class="detail-container">
 										<span>{{collectGoodsTotal || 0}}</span>
 										<p>{{$t('mine.collected')}}</p>
 									</view>
 									<view class="detail-dot"></view>
-									<view class="detail-container" @click="navClick('new/subscribe')">
+									<!-- @click="navClick('new/subscribe')" -->
+									<view class="detail-container">
 										<span>{{collectStoreTotal || 0}}</span>
 										<p>{{$t('mine.subscribed')}}</p>
 									</view>
@@ -86,11 +88,11 @@
 					<view class="cc-box">
 						<view class="cc-box-rebate">
 							<view><span>{{userCont.tocash_money || 0.00}}</span></view>
-							<p>{{$t('new.ktxye')}}</p>
+							<p>{{$t('mine.Deposits')}}</p>
 						</view>
 						<view class="cc-box-rebate">
 							<view><span>{{userCont.rebate_money_total || 0.00}}</span></view>
-							<p>{{$t('new.fyje')}}</p>
+							<p>{{$t('mine.Bonus')}}</p>
 						</view>
 					</view>
 				</view>
