@@ -901,7 +901,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							isShow: false
 						}, {
 							id: 2,
-							title: '赠送/活动金额支付',
+							title: this.$t('new.zfjezf'),
 							isShow: false
 						}]
 					} else {
@@ -911,7 +911,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							isShow: false
 						}, {
 							id: 2,
-							title: '赠送/活动金额支付',
+							title: this.$t('new.zfjezf'),
 							isShow: false
 						}]
 					}
