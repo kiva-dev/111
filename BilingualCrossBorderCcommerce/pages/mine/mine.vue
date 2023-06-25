@@ -40,6 +40,12 @@
 										<span>{{collectStoreTotal || 0}}</span>
 										<p>{{$t('mine.subscribed')}}</p>
 									</view>
+									<view class="detail-dot"></view>
+									<!--@click="navClick('/pages/mine/points-detail')"-->
+									<view class="detail-container" >
+										<span>{{0 || 0}}</span>
+										<p>{{$t('new.jf')}}</p>
+									</view>
 								</view>
 							</template>
 						</view>
