@@ -17,14 +17,22 @@
 			</view>
 			<!--轮播图-->
 			<view class="auct-banner">
-				<u-swiper :list="banner" @click="getBanner" @change="e => current = e.current" :autoplay="true" circular :height="148"
+				<!-- <u-swiper :list="banner" @change="e => current = e.current" :autoplay="true" circular :height="148"
 					:radius="12">
 					<view slot="indicator" class="indicator">
 						<view class="indicator__dot" v-for="(item, index) in banner" :key="index"
-							:class="[index === current && 'indicator__dot--active']">
+							@click="getBanner(item)" :class="[index === current && 'indicator__dot--active']">
 						</view>
 					</view>
-				</u-swiper>
+				</u-swiper> -->
+				<swiper class="auct-banner-swiper" circular :indicator-dots="indicatorDots" :autoplay="autoplay"
+					:interval="interval" :duration="duration" indicator-color="rgb(190, 190, 190)" indicator-active-color="rgb(255, 255, 255)">
+					<swiper-item v-for="(item, index) in banner" :key="index">
+						<view class="swiper-image" @click="getBanner(item)">
+							<image :src="item.image" mode="aspectFill"></image>
+						</view>
+					</swiper-item>
+				</swiper>
 			</view>
 		</view>
 
@@ -1018,10 +1026,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			// 轮播图
 			this.$http.post(this.$apiObj.AuctionBanner).then(res => {
 				if (res.code == 1) {
-					this.banner=[]
-					res.data.forEach(item => {
-						this.banner.push(item.image)
-					})
+					this.banner = res.data;
 				}
 			})
 
@@ -1086,15 +1091,14 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			clearInterval(this.jinPaiTimer)
 		},
 		methods: {
-			getBanner(val){
-				if(val === 0) {
+			getBanner(item) {
+				if (item.url.indexOf('.png') !== -1) {
 					uni.navigateTo({
-						url: '/pages/active/invite'
+						url: '/pages/active/activities?url=' + item.url
 					})
-				}
-				if(val === 1) {
+				} else {
 					uni.navigateTo({
-						url: '/pages/active/registration'
+						url: item.url
 					})
 				}
 			},
@@ -1671,7 +1675,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						if (item.is_zan == 0) {
 							item.is_zan = 1
 							item.zan_num += 1
-						}else{
+						} else {
 							item.is_zan = 0
 							item.zan_num -= 1
 						}
@@ -2019,10 +2023,11 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		.auct-head {
 			position: relative;
 			width: 100%;
-			height: 408rpx;
-			padding: 88rpx 0rpx 0rpx 0rpx;
+			height: 440rpx;
+			padding-top: 88rpx;
+			box-sizing: border-box;
 			background: url('/static/images/new-index/header.png') no-repeat;
-			background-size: 100% 496rpx;
+			background-size: 100% 100%;
 
 			.auct-head-top {
 				width: 100%;
@@ -2058,8 +2063,18 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			}
 
 			.auct-banner {
-				width: 686rpx;
-				margin: 32rpx auto 0 auto;
+				margin: 24rpx 32rpx;
+				
+				.swiper-image {
+					width: 100%;
+					height: 296rpx;
+					
+					image {
+						width: 100%;
+						height: 100%;
+						border-radius: 24rpx;
+					}
+				}
 			}
 		}
 
@@ -2070,7 +2085,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			background: #fff;
 			display: flex;
 			align-items: center;
-			margin-top: 20rpx;
+			margin-top: 70rpx;
 
 			.switch-logo-info {
 				display: inline-block;

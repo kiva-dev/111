@@ -553,7 +553,7 @@
 							align-items: center;
 
 							.box-name-text {
-								width: 424rpx;
+								max-width: 400rpx;
 								color: rgb(51, 51, 51);
 								font-size: 40rpx;
 								overflow: hidden;

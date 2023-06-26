@@ -75,6 +75,7 @@
 	"top.search": "search",
 	"top.dianshang": "online retailers",
 	"top.auctionDetail": "My Auction",
+	"top.active": "Active Page",
 
 	"index.demo": "uni-app globalization",
 	"index.demo-description": "Include uni-framework, manifest.json, pages.json, tabbar, Page, Component, API, Schema",
