@@ -64,7 +64,7 @@ let apiObj = {
 	MineChangeEmail: 'Mine/changeEmail', // 更换邮箱
 	MineBindEmail: 'Mine/bindEmail', // 绑定邮箱
 	MineRealAuth: 'Mine/realAuth', // 实名认证申请
-	MineAuthDetail: 'Mine/authDetail', // 实名认证信息
+	MineAuthDetail: 'Mine/info', // 实名认证信息
 	MineLoginOut: 'Mine/loginOut', // 退出登录
 	MineCancelAccount: 'Mine/cancelAccount', // 注销账号
 	// 订单
@@ -123,7 +123,6 @@ let apiObj = {
 	RechargeAddMoney: 'Recharge/addMoney', // 充值--等三方支付正式版申请下来再对接
 	MineInviteList: 'Mine/inviteList', // 邀请记录
 	MineMoneyList: 'Mine/moneyList', // 钱包明细
-	MineFocusList: 'Mine/focusList', // 我关注的商品或店铺
 	MineSysmsgList: 'Mine/sysmsgList', // 系统消息列表
 	readSysmsg: 'Mine/readSysmsg', // 阅读系统消息
 	// 新增逻辑

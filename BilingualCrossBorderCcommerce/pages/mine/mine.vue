@@ -31,279 +31,286 @@
 							</template>
 							<template v-else>
 								<view class="box-data-detail">
-									<!-- @click="navClick('new/collect_products')" -->
-									<view class="detail-container">
+									<view class="detail-container" @click="navClick('/pages/mine/points-detail')">
+										<image src="@/static/images/mine/mine_icon_integral.png" mode="widthFix">
+										</image>
+										<span>{{totalJf || 0}}</span>
+									</view>
+									<view class="detail-dot"></view>
+									<view class="detail-container" @click="toCollect('goods')">
 										<span>{{collectGoodsTotal || 0}}</span>
 										<p>{{$t('mine.collected')}}</p>
 									</view>
 									<view class="detail-dot"></view>
-									<!-- @click="navClick('new/subscribe')" -->
-									<view class="detail-container">
+									<view class="detail-container" @click="toCollect('shop')">
 										<span>{{collectStoreTotal || 0}}</span>
 										<p>{{$t('mine.subscribed')}}</p>
 									</view>
-									<view class="detail-dot"></view>
-									<!---->
-									<view class="detail-container" @click="navClick('/pages/mine/points-detail')">
-										<span>{{totalJf || 0}}</span>
-										<p>{{$t('new.jf')}}</p>
-									</view>
+									<<<<<<< Updated upstream <view class="detail-dot">
 								</view>
-							</template>
+								<!---->
+								<view class="detail-container" @click="navClick('/pages/mine/points-detail')">
+									<span>{{totalJf || 0}}</span>
+									<p>{{$t('new.jf')}}</p>
+								</view>
+								=======
+								>>>>>>> Stashed changes
 						</view>
-					</view>
+</template>
+</view>
+</view>
+</view>
+<view class="info-right" v-if="!isLogin">
+	<view class="info-right-btn" @click="toLogin">{{$t('mine.loginBtn')}}</view>
+</view>
+</view>
+</view>
+<view class="ml-wallet">
+	<view class="ml-wallet-container">
+		<view class="container-tit">
+			<view class="ct-left">
+				<view class="ct-left-icon">
+					<image src="@/static/images/mine/mine_icon_wallet.png" mode="widthFix"></image>
 				</view>
-				<view class="info-right" v-if="!isLogin">
-					<view class="info-right-btn" @click="toLogin">{{$t('mine.loginBtn')}}</view>
+				<view class="ct-left-name">{{$t('top.wdqb')}}</view>
+			</view>
+			<view class="ct-right" @click="navClick('wallet')">
+				<view class="ct-right-name">{{$t('home.detail.more')}}</view>
+				<view class="ct-right-icon">
+					<image src="@/static/images/mine/mine_icon_right.png" mode="widthFix"></image>
 				</view>
 			</view>
 		</view>
-		<view class="ml-wallet">
-			<view class="ml-wallet-container">
-				<view class="container-tit">
-					<view class="ct-left">
-						<view class="ct-left-icon">
-							<image src="@/static/images/mine/mine_icon_wallet.png" mode="widthFix"></image>
-						</view>
-						<view class="ct-left-name">{{$t('top.wdqb')}}</view>
-					</view>
-					<view class="ct-right" @click="navClick('wallet')">
-						<view class="ct-right-name">{{$t('home.detail.more')}}</view>
-						<view class="ct-right-icon">
-							<image src="@/static/images/mine/mine_icon_right.png" mode="widthFix"></image>
-						</view>
-					</view>
+		<view class="container-content">
+			<view class="cc-box">
+				<view class="cc-box-num">
+					<span>{{userCont.money || 0.00}}</span>
 				</view>
-				<view class="container-content">
-					<view class="cc-box">
-						<view class="cc-box-num">
-							<span>{{userCont.money || 0.00}}</span>
-						</view>
-						<view class="cc-box-amount">
-							<p>(RM)</p>
-							<p>{{$t('user.wallet.zhje')}}</p>
-						</view>
-					</view>
-					<view class="cc-border"></view>
-					<view class="cc-box">
-						<view class="cc-box-rebate">
-							<view><span>{{userCont.recharge_money_balance || 0.00}}</span></view>
-							<p>{{$t('mine.Deposits')}}</p>
-						</view>
-						<view class="cc-box-rebate">
-							<view><span>{{userCont.invite_money_balance || 0.00}}</span></view>
-							<p>{{$t('mine.Bonus')}}</p>
-						</view>
-					</view>
+				<view class="cc-box-amount">
+					<p>(RM)</p>
+					<p>{{$t('user.wallet.zhje')}}</p>
 				</view>
-				<view class="container-btn">
-					<view class="container-btn-withdrawal" @click="navClick('Withdrawal')">{{$t('user.wallet.tixian')}}
-					</view>
-					<view class="container-btn-recharge" @click="navClick('recharge')">{{$t('top.cz')}}</view>
+			</view>
+			<view class="cc-border"></view>
+			<view class="cc-box">
+				<view class="cc-box-rebate">
+					<view><span>{{userCont.recharge_money_balance || 0.00}}</span></view>
+					<p>{{$t('mine.Deposits')}}</p>
+				</view>
+				<view class="cc-box-rebate">
+					<view><span>{{userCont.invite_money_balance || 0.00}}</span></view>
+					<p>{{$t('mine.Bonus')}}</p>
 				</view>
 			</view>
 		</view>
-		<view class="ml-commission">
-			<view class="ml-commission-box" @click="navClick('/pages/mine/new/commission')">
-				<p>{{$t('new.yqfy')}}</p>
+		<view class="container-btn">
+			<view class="container-btn-withdrawal" @click="navClick('Withdrawal')">{{$t('user.wallet.tixian')}}
 			</view>
+			<view class="container-btn-recharge" @click="navClick('recharge')">{{$t('top.cz')}}</view>
 		</view>
-		<view class="ml-auction">
-			<view class="ml-auction-top">
-				<view class="top-name">{{$t('top.wdjp')}}</view>
-				<view class="top-more" @click="toAuction(1)">
-					<p>{{$t('user.myCont.ckqb')}}</p>
-					<view class="top-more-icon">
-						<image src="@/static/images/mine/mine_icon_right.png" mode="widthFix"></image>
-					</view>
-				</view>
-			</view>
-			<view class="ml-auction-content">
-				<view class="content-box" @click="toAuction(1)">
-					<image src="@/static/images/mine/mine_icon_ongoing.png" mode="widthFix"></image>
-					<p>{{$t('user.auctionM.jpz')}}</p>
-				</view>
-				<view class="content-box" @click="toAuction(5)">
-					<image src="@/static/images/mine/mine_icon_oder.png" mode="widthFix"></image>
-					<p>{{$t('user.auctionM.jpdd')}}</p>
-				</view>
-				<view class="content-box" @click="toAuction(3)">
-					<image src="@/static/images/mine/mine_icon_winning.png" mode="widthFix"></image>
-					<p>{{$t('user.auctionM.zpjl')}}</p>
-				</view>
-				<view class="content-box" @click="toAuction(4)">
-					<image src="@/static/images/mine/mine_icon_records.png" mode="widthFix"></image>
-					<p>{{$t('user.auctionM.jpjl')}}</p>
-				</view>
-			</view>
-		</view>
-		<view class="ml-auction">
-			<view class="ml-auction-top">
-				<view class="top-name">{{$t('user.myCont.order')}}</view>
-				<view class="top-more" @click="navClick('/pages/mine/order/order')">
-					<p>{{$t('user.myCont.ckqb')}}</p>
-					<view class="top-more-icon">
-						<image src="@/static/images/mine/mine_icon_right.png" mode="widthFix"></image>
-					</view>
-				</view>
-			</view>
-			<view class="ml-auction-content">
-				<scroll-view class="content-scroll" scroll-x="true" @scrolltoupper="isBottoming = false"
-					@scrolltolower="isBottoming = true">
-					<view class="content-scroll-box" @click="navClick('/pages/mine/order/order?Inv=2&type=2')">
-						<image src="@/static/images/mine/mine_icon_ongoing.png" mode="widthFix"></image>
-						<p>{{$t('user.myCont.dfh')}}</p>
-					</view>
-					<view class="content-scroll-box" @click="navClick('/pages/mine/order/order?Inv=2&type=3')">
-						<image src="@/static/images/mine/mine_icon_oder.png" mode="widthFix"></image>
-						<p>{{$t('user.myCont.dsh')}}</p>
-					</view>
-					<view class="content-scroll-box" @click="navClick('/pages/mine/order/order?Inv=2&type=4')">
-						<image src="@/static/images/mine/mine_icon_winning.png" mode="widthFix"></image>
-						<p>{{$t('zhongpai.daiqueren')}}</p>
-					</view>
-					<view class="content-scroll-box" @click="navClick('/pages/mine/order/order?Inv=2&type=5')">
-						<image src="@/static/images/mine/mine_icon_records.png" mode="widthFix"></image>
-						<p>{{$t('zhongpai.yiqueren')}}</p>
-					</view>
-					<view class="content-scroll-box" @click="navClick('/pages/mine/order/order?Inv=2&type=6')">
-						<image src="@/static/images/mine/mine_icon_records.png" mode="widthFix"></image>
-						<p>{{$t('zhongpai.yiwancheng')}}</p>
-					</view>
-				</scroll-view>
-			</view>
-			<view class="ml-auction-line">
-				<view class="line-bg" :style="{ left: isBottoming ? '14rpx':'0'}"></view>
-			</view>
-		</view>
-		<view class="ml-operate">
-			<view class="ml-operate-title">{{$t('new.wdfw')}}</view>
-			<view class="ml-operate-ul">
-				<view class="ul-li" @click="navClick('/pages/address/address')">
-					<view class="ul-li-l">
-						<view class="l-icon">
-							<image src="@/static/images/mine/mine_icon_address.png" mode="widthFix"></image>
-						</view>
-						<view class="l-name">{{$t('new.dz')}}</view>
-					</view>
-					<view class="ul-li-r">
-						<image src="@/static/images/mine/mine_icon_right.png" mode="widthFix"></image>
-					</view>
-				</view>
-				<view class="ul-li" @click="showContact = true">
-					<view class="ul-li-l">
-						<view class="l-icon">
-							<image src="@/static/images/mine/mine_icon_contact.png" mode="widthFix"></image>
-						</view>
-						<view class="l-name">{{$t('user.myCont.ptkf')}}</view>
-					</view>
-					<view class="ul-li-r">
-						<image src="@/static/images/mine/mine_icon_right.png" mode="widthFix"></image>
-					</view>
-				</view>
-				<view class="ul-li" @click="navClick('upgrade')">
-					<view class="ul-li-l">
-						<view class="l-icon">
-							<image src="@/static/images/mine/mine_icon_merchants.png" mode="widthFix"></image>
-						</view>
-						<view class="l-name">{{$t('new.sh')}}</view>
-					</view>
-					<view class="ul-li-r">
-						<image src="@/static/images/mine/mine_icon_right.png" mode="widthFix"></image>
-					</view>
-				</view>
-				<view class="ul-li" @click="navClick('/pages/mine/Feedback')">
-					<view class="ul-li-l">
-						<view class="l-icon">
-							<image src="@/static/images/mine/mine_icon_feedback.png" mode="widthFix"></image>
-						</view>
-						<view class="l-name">{{$t('top.yjfk')}}</view>
-					</view>
-					<view class="ul-li-r">
-						<image src="@/static/images/mine/mine_icon_right.png" mode="widthFix"></image>
-					</view>
-				</view>
-				<view class="ul-li" @click="navClick('/pages/mine/about')">
-					<view class="ul-li-l">
-						<view class="l-icon">
-							<image src="@/static/images/mine/mine_icon_about.png" mode="widthFix"></image>
-						</view>
-						<view class="l-name">{{$t('top.about')}}</view>
-					</view>
-					<view class="ul-li-r">
-						<image src="@/static/images/mine/mine_icon_right.png" mode="widthFix"></image>
-					</view>
-				</view>
-			</view>
-		</view>
-		<!-- 联系我们 -->
-		<u-popup :show="showContact" mode="center" bgColor="transparent">
-			<view class="contact">
-				<image src="../../static/images/new/tck-xy.png" class="contact-head"></image>
-				<image src="../../static/images/new/close.png" class="contact-info-close" @click="showContact = false">
-				</image>
-				<view class="contact-info">
-					<view class="contact-info-tit">{{$t('user.myCont.ptkf')}}</view>
-					<!--fb://profile/100089663415703-->
-					<a href="fb://page/119896577745123" target="_blank" v-if="isFacebookApp && device=='android'">
-						<view class="contact-info-des">
-							<image src="../../static/images/new/face book.png"></image>
-							<view>Face book</view>
-						</view>
-					</a>
-					<a href="fb://page?id=119896577745123" target="_blank" v-else-if="isFacebookApp && device=='ios'">
-						<view class="contact-info-des">
-							<image src="../../static/images/new/face book.png"></image>
-							<view>Face book</view>
-						</view>
-					</a>
-					<view class="contact-info-des" v-else @click="showContact=false;showConfirm=true">
-						<image src="../../static/images/new/face book.png"></image>
-						<view>Face book</view>
-					</view>
-					<a href="twitter://user?screen_name=Kolibrimall2023" target="_blank" v-if="isTwitterApp">
-						<view class="contact-info-des" id="twitter">
-							<image src="../../static/images/share21.png"></image>
-							<view>Twitter</view>
-						</view>
-					</a>
-					<view class="contact-info-des" v-else @click="showContact=false;showConfirm=true">
-						<image src="../../static/images/share21.png"></image>
-						<view>Twitter</view>
-					</view>
-					<a href="tg://resolve?domain=Kolibrimall" target="_blank" v-if="isTelegramApp">
-						<view class="contact-info-des">
-							<image src="../../static/images/new/Telegram.png"></image>
-							<view>Telegram</view>
-						</view>
-					</a>
-					<view class="contact-info-des" v-else @click="showContact=false;showConfirm=true">
-						<image src="../../static/images/new/Telegram.png"></image>
-						<view>Telegram</view>
-					</view>
-					<a href="whatsapp://send?phone=+60 11-14338082" target="_blank" v-if="isWhatsApp">
-						<view class="contact-info-des">
-							<image src="../../static/images/new/WhatsAPP.png"></image>
-							<view>WhatsAPP</view>
-						</view>
-					</a>
-					<view class="contact-info-des" v-else @click="showContact=false;showConfirm=true">
-						<image src="../../static/images/new/WhatsAPP.png"></image>
-						<view>WhatsAPP</view>
-					</view>
-				</view>
-			</view>
-		</u-popup>
-		<u-popup :show="showConfirm" mode="center" bgColor="transparent">
-			<view class="showConfirm">
-				<view class="showConfirm-txt">{{$t('new.wazyy')}}</view>
-				<view class="showConfirm-btn">
-					<view class="showConfirm-btn-cancel" @click="showConfirm=false">{{$t('home.search.query')}}</view>
-					<view class="showConfirm-btn-ok" @click="checkApp()">{{$t('auction.detail.btnsub')}}</view>
-				</view>
-			</view>
-		</u-popup>
 	</view>
+</view>
+<view class="ml-commission">
+	<view class="ml-commission-box" @click="navClick('/pages/mine/new/commission')">
+		<p>{{$t('new.yqfy')}}</p>
+	</view>
+</view>
+<view class="ml-auction">
+	<view class="ml-auction-top">
+		<view class="top-name">{{$t('top.wdjp')}}</view>
+		<view class="top-more" @click="toAuction(1)">
+			<p>{{$t('user.myCont.ckqb')}}</p>
+			<view class="top-more-icon">
+				<image src="@/static/images/mine/mine_icon_right.png" mode="widthFix"></image>
+			</view>
+		</view>
+	</view>
+	<view class="ml-auction-content">
+		<view class="content-box" @click="toAuction(1)">
+			<image src="@/static/images/mine/mine_icon_ongoing.png" mode="widthFix"></image>
+			<p>{{$t('user.auctionM.jpz')}}</p>
+		</view>
+		<view class="content-box" @click="toAuction(5)">
+			<image src="@/static/images/mine/mine_icon_oder.png" mode="widthFix"></image>
+			<p>{{$t('user.auctionM.jpdd')}}</p>
+		</view>
+		<view class="content-box" @click="toAuction(3)">
+			<image src="@/static/images/mine/mine_icon_winning.png" mode="widthFix"></image>
+			<p>{{$t('user.auctionM.zpjl')}}</p>
+		</view>
+		<view class="content-box" @click="toAuction(4)">
+			<image src="@/static/images/mine/mine_icon_records.png" mode="widthFix"></image>
+			<p>{{$t('user.auctionM.jpjl')}}</p>
+		</view>
+	</view>
+</view>
+<view class="ml-auction">
+	<view class="ml-auction-top">
+		<view class="top-name">{{$t('user.myCont.order')}}</view>
+		<view class="top-more" @click="navClick('/pages/mine/order/order')">
+			<p>{{$t('user.myCont.ckqb')}}</p>
+			<view class="top-more-icon">
+				<image src="@/static/images/mine/mine_icon_right.png" mode="widthFix"></image>
+			</view>
+		</view>
+	</view>
+	<view class="ml-auction-content">
+		<scroll-view class="content-scroll" scroll-x="true" @scrolltoupper="isBottoming = false"
+			@scrolltolower="isBottoming = true">
+			<view class="content-scroll-box" @click="navClick('/pages/mine/order/order?Inv=2&type=2')">
+				<image src="@/static/images/mine/mine_icon_ongoing.png" mode="widthFix"></image>
+				<p>{{$t('user.myCont.dfh')}}</p>
+			</view>
+			<view class="content-scroll-box" @click="navClick('/pages/mine/order/order?Inv=2&type=3')">
+				<image src="@/static/images/mine/mine_icon_oder.png" mode="widthFix"></image>
+				<p>{{$t('user.myCont.dsh')}}</p>
+			</view>
+			<view class="content-scroll-box" @click="navClick('/pages/mine/order/order?Inv=2&type=4')">
+				<image src="@/static/images/mine/mine_icon_winning.png" mode="widthFix"></image>
+				<p>{{$t('zhongpai.daiqueren')}}</p>
+			</view>
+			<view class="content-scroll-box" @click="navClick('/pages/mine/order/order?Inv=2&type=5')">
+				<image src="@/static/images/mine/mine_icon_records.png" mode="widthFix"></image>
+				<p>{{$t('zhongpai.yiqueren')}}</p>
+			</view>
+			<view class="content-scroll-box" @click="navClick('/pages/mine/order/order?Inv=2&type=6')">
+				<image src="@/static/images/mine/mine_icon_records.png" mode="widthFix"></image>
+				<p>{{$t('zhongpai.yiwancheng')}}</p>
+			</view>
+		</scroll-view>
+	</view>
+	<view class="ml-auction-line">
+		<view class="line-bg" :style="{ left: isBottoming ? '14rpx':'0'}"></view>
+	</view>
+</view>
+<view class="ml-operate">
+	<view class="ml-operate-title">{{$t('new.wdfw')}}</view>
+	<view class="ml-operate-ul">
+		<view class="ul-li" @click="navClick('/pages/address/address')">
+			<view class="ul-li-l">
+				<view class="l-icon">
+					<image src="@/static/images/mine/mine_icon_address.png" mode="widthFix"></image>
+				</view>
+				<view class="l-name">{{$t('new.dz')}}</view>
+			</view>
+			<view class="ul-li-r">
+				<image src="@/static/images/mine/mine_icon_right.png" mode="widthFix"></image>
+			</view>
+		</view>
+		<view class="ul-li" @click="showContact = true">
+			<view class="ul-li-l">
+				<view class="l-icon">
+					<image src="@/static/images/mine/mine_icon_contact.png" mode="widthFix"></image>
+				</view>
+				<view class="l-name">{{$t('user.myCont.ptkf')}}</view>
+			</view>
+			<view class="ul-li-r">
+				<image src="@/static/images/mine/mine_icon_right.png" mode="widthFix"></image>
+			</view>
+		</view>
+		<view class="ul-li" @click="navClick('upgrade')">
+			<view class="ul-li-l">
+				<view class="l-icon">
+					<image src="@/static/images/mine/mine_icon_merchants.png" mode="widthFix"></image>
+				</view>
+				<view class="l-name">{{$t('new.sh')}}</view>
+			</view>
+			<view class="ul-li-r">
+				<image src="@/static/images/mine/mine_icon_right.png" mode="widthFix"></image>
+			</view>
+		</view>
+		<view class="ul-li" @click="navClick('/pages/mine/Feedback')">
+			<view class="ul-li-l">
+				<view class="l-icon">
+					<image src="@/static/images/mine/mine_icon_feedback.png" mode="widthFix"></image>
+				</view>
+				<view class="l-name">{{$t('top.yjfk')}}</view>
+			</view>
+			<view class="ul-li-r">
+				<image src="@/static/images/mine/mine_icon_right.png" mode="widthFix"></image>
+			</view>
+		</view>
+		<view class="ul-li" @click="navClick('/pages/mine/about')">
+			<view class="ul-li-l">
+				<view class="l-icon">
+					<image src="@/static/images/mine/mine_icon_about.png" mode="widthFix"></image>
+				</view>
+				<view class="l-name">{{$t('top.about')}}</view>
+			</view>
+			<view class="ul-li-r">
+				<image src="@/static/images/mine/mine_icon_right.png" mode="widthFix"></image>
+			</view>
+		</view>
+	</view>
+</view>
+<!-- 联系我们 -->
+<u-popup :show="showContact" mode="center" bgColor="transparent">
+	<view class="contact">
+		<image src="../../static/images/new/tck-xy.png" class="contact-head"></image>
+		<image src="../../static/images/new/close.png" class="contact-info-close" @click="showContact = false">
+		</image>
+		<view class="contact-info">
+			<view class="contact-info-tit">{{$t('user.myCont.ptkf')}}</view>
+			<!--fb://profile/100089663415703-->
+			<a href="fb://page/119896577745123" target="_blank" v-if="isFacebookApp && device=='android'">
+				<view class="contact-info-des">
+					<image src="../../static/images/new/face book.png"></image>
+					<view>Face book</view>
+				</view>
+			</a>
+			<a href="fb://page?id=119896577745123" target="_blank" v-else-if="isFacebookApp && device=='ios'">
+				<view class="contact-info-des">
+					<image src="../../static/images/new/face book.png"></image>
+					<view>Face book</view>
+				</view>
+			</a>
+			<view class="contact-info-des" v-else @click="showContact=false;showConfirm=true">
+				<image src="../../static/images/new/face book.png"></image>
+				<view>Face book</view>
+			</view>
+			<a href="twitter://user?screen_name=Kolibrimall2023" target="_blank" v-if="isTwitterApp">
+				<view class="contact-info-des" id="twitter">
+					<image src="../../static/images/share21.png"></image>
+					<view>Twitter</view>
+				</view>
+			</a>
+			<view class="contact-info-des" v-else @click="showContact=false;showConfirm=true">
+				<image src="../../static/images/share21.png"></image>
+				<view>Twitter</view>
+			</view>
+			<a href="tg://resolve?domain=Kolibrimall" target="_blank" v-if="isTelegramApp">
+				<view class="contact-info-des">
+					<image src="../../static/images/new/Telegram.png"></image>
+					<view>Telegram</view>
+				</view>
+			</a>
+			<view class="contact-info-des" v-else @click="showContact=false;showConfirm=true">
+				<image src="../../static/images/new/Telegram.png"></image>
+				<view>Telegram</view>
+			</view>
+			<a href="whatsapp://send?phone=+60 11-14338082" target="_blank" v-if="isWhatsApp">
+				<view class="contact-info-des">
+					<image src="../../static/images/new/WhatsAPP.png"></image>
+					<view>WhatsAPP</view>
+				</view>
+			</a>
+			<view class="contact-info-des" v-else @click="showContact=false;showConfirm=true">
+				<image src="../../static/images/new/WhatsAPP.png"></image>
+				<view>WhatsAPP</view>
+			</view>
+		</view>
+	</view>
+</u-popup>
+<u-popup :show="showConfirm" mode="center" bgColor="transparent">
+	<view class="showConfirm">
+		<view class="showConfirm-txt">{{$t('new.wazyy')}}</view>
+		<view class="showConfirm-btn">
+			<view class="showConfirm-btn-cancel" @click="showConfirm=false">{{$t('home.search.query')}}</view>
+			<view class="showConfirm-btn-ok" @click="checkApp()">{{$t('auction.detail.btnsub')}}</view>
+		</view>
+	</view>
+</u-popup>
+</view>
 </template>
 
 <script src="https://cdn.ronghub.com/RongIMLib-5.5.5.prod.js"></script>
@@ -329,7 +336,7 @@
 				isBottoming: false,
 				collectGoodsTotal: 0,
 				collectStoreTotal: 0,
-				totalJf:0,//总积分
+				totalJf: 0, //总积分
 			}
 		},
 		onLoad() {
@@ -368,11 +375,11 @@
 		},
 		methods: {
 			//获取所有积分
-			getAllPoints(){
-				this.$http.post(this.$apiObj.GetPoints,{
-					h5_user_id:this.userCont.u_id
-				}).then(res=>{
-					this.totalJf=res.data.total_points
+			getAllPoints() {
+				this.$http.post(this.$apiObj.GetPoints, {
+					h5_user_id: this.userCont.u_id
+				}).then(res => {
+					this.totalJf = res.data.total_points;
 				})
 			},
 			checkApp() {
@@ -432,6 +439,11 @@
 						},
 					})
 				}
+			},
+			toCollect(type) {
+				uni.navigateTo({
+					url: '/pages/mine/new/collect?type=' + type
+				})
 			},
 			toLogin() {
 				uni.navigateTo({
@@ -614,6 +626,11 @@
 								.detail-container {
 									display: flex;
 									align-items: center;
+
+									image {
+										width: 24rpx;
+										margin-right: 8rpx;
+									}
 
 									span {
 										color: rgb(51, 51, 51);

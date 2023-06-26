@@ -12,11 +12,11 @@
 			</view>
 		</view>
 		<view class="rl-title">
-			<p>{{$t('active.title1')}}</p>
-			<p>{{$t('active.title2')}}</p>
+			<p :style="{'fontSize': isEnglish ? '64rpx' : '88rpx'}">{{$t('active.title1')}}</p>
+			<p :style="{'fontSize': isEnglish ? '54rpx' : '68rpx'}">{{$t('active.title2')}}</p>
 		</view>
-		<view class="rl-title2">
-			<span>{{$t('active.title3')}}</span>
+		<view class="rl-title2" :style="{'letter-spacing': isEnglish ? '0' : '16rpx'}">
+			<text>{{$t('active.title3')}}</text>
 		</view>
 		<view class="rl-gift">
 			<image src="@/static/images/active/active_icon_box.png" mode="widthFix"></image>
@@ -80,9 +80,11 @@
 				qrUrl: '',
 				qrcodeImg: '',
 				userCont: '',
+				isEnglish: true,
 			}
 		},
 		onLoad() {
+			this.isEnglish = uni.getStorageSync('locale') == 'en' ? true : false;
 			setTimeout(() => {
 				this.createQrcode();
 			},1000)
@@ -164,16 +166,13 @@
 		.rl-title {
 			width: 100%;
 			text-align: center;
+			position: relative;
+			z-index: 10;
 			
 			p {
 				margin: 6rpx;
 				color: rgb(255, 255, 255);
-				font-size: 68rpx;
 				font-weight: bold;
-				
-				&:first-child {
-					font-size: 88rpx;
-				}
 			}
 		}
 		
@@ -186,10 +185,9 @@
 			text-align: center;
 			line-height: 66rpx;
 			
-			span {
+			text {
 				color: rgb(255, 255, 255);
 				font-size: 32rpx;
-				letter-spacing: 16rpx;
 			}
 		}
 		

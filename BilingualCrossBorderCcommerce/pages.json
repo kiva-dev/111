@@ -257,7 +257,8 @@
 		{
 			"path": "pages/mine/grade",
 			"style": {
-				"navigationBarTitleText": "%top.yhdj%",
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom",
 				"enablePullDownRefresh": false
 			}
 		},

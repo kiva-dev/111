@@ -500,4 +500,12 @@
 			}
 		}
 	}
+
+	// 解决图片闪烁问题
+	/* #ifndef APP-PLUS-NVUE */
+	image {
+		width: auto;
+		height: auto;
+	}
+	/* #endif */
 </style>

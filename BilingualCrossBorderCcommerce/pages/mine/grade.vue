@@ -1,10 +1,11 @@
 <template>
 	<view class="grade-page">
+		<uni-header :title="$t('top.yhdj')"></uni-header>
 		<!--grade-head start-->
 		<view class="grade-head">
 			<view class="head-img">
-				<image class="img" v-if="userCont.avatar" :src="userCont.avatar"></image>
-				<image class="img" v-else src="/static/userimg.png"></image>
+				<image v-if="userCont.avatar" :src="userCont.avatar" mode="aspectFill"></image>
+				<image v-else src="/static/userimg.png" mode="aspectFill"></image>
 			</view>
 			<view class="head-level" v-if="userCont.level > 0">
 				<view class="level-icon">
@@ -32,9 +33,7 @@
 						</view>
 					</view>
 				</view>
-				<button
-					v-if="userCont.avatar!=='https://h5.kolibrimall.com/uploads/20220928/bca80f7416403d53a78c17ef6e0fd30c.png'"
-					class="grade-btn gray">{{$t('user.grade.ywc')}}</button>
+				<button v-if="mineCont.is_change_avatar !== '0'" class="grade-btn gray">{{$t('user.grade.ywc')}}</button>
 				<button v-else class="grade-btn" @click="navClick('profile')">{{$t('user.grade.qwc')}}</button>
 			</view>
 			<view class="grade-li">
@@ -52,27 +51,9 @@
 						</view>
 					</view>
 				</view>
-				<button v-if="MineCont.status==1" class="grade-btn gray">{{$t('user.grade.ywc')}}</button>
+				<button v-if="mineCont.status == 1" class="grade-btn gray">{{$t('user.grade.ywc')}}</button>
 				<button v-else class="grade-btn" @click="navClick('Vid')">{{$t('user.grade.qwc')}}</button>
 			</view>
-			<!-- <view class="grade-li">
-				<view class="li-fl">
-					<view class="li-img">
-						<image class="img" src="../../static/images/mine/grade3.png"></image>
-					</view>
-					<view class="li-txt">
-						<view class="t">{{$t('user.grade.phone')}}</view>
-						<view class="c">
-							<view class="icon">
-								<image class="img" src="@/static/images/mine/mine_icon_vip.png"></image>
-							</view>
-							<text>{{$t('user.grade.syj')}}</text>
-						</view>
-					</view>
-				</view>
-				<button v-if="userCont.mobile" class="grade-btn gray">{{$t('user.grade.ywc')}}</button>
-				<button v-else class="grade-btn" @click="navClick('upgrade')">{{$t('user.grade.qwc')}}</button>
-			</view> -->
 			<view class="grade-li">
 				<view class="li-fl">
 					<view class="li-img">
@@ -91,23 +72,6 @@
 				<button v-if="userCont.email" class="grade-btn gray">{{$t('user.grade.ywc')}}</button>
 				<button v-else class="grade-btn" @click="navClick('Vemail')">{{$t('user.grade.qwc')}}</button>
 			</view>
-			<!-- <view class="grade-li">
-				<view class="li-fl">
-					<view class="li-img">
-						<image class="img" src="../../static/images/mine/grade5.png"></image>
-					</view>
-					<view class="li-txt">
-						<view class="t">绑定支付方式</view>
-						<view class="c">
-							<view class="icon">
-								<image class="img" src="@/static/images/mine/mine_icon_vip.png"></image>
-							</view>
-							<text>升一级</text>
-						</view>
-					</view>
-				</view>
-				<button class="grade-btn">去完成</button>
-			</view> -->
 			<view class="grade-li">
 				<view class="li-fl">
 					<view class="li-img">
@@ -136,45 +100,54 @@
 		data() {
 			return {
 				userCont: '', // 个人信息
-				MineCont: '', // 实名认证
+				mineCont: '', // 实名认证
 			}
 		},
 		onShow() {
-			// 获取个人信息
-			this.$http.post(this.$apiObj.MineInfo).then(res => {
-				if (res.code == 1) {
-					this.userCont = res.data
-				}
-			})
-			// 实名认证
-			this.$http.post(this.$apiObj.MineAuthDetail).then(res => {
-				if (res.code == 1) {
-					this.MineCont = res.data
-				}
-			})
+			this.getMineInfo();
+			this.getMineAuth();
 		},
 		methods: {
-			//导航点击的跳转处理函数
 			navClick(url) {
 				uni.navigateTo({
 					url
+				});
+			},
+			getMineInfo() {
+				this.$http.post(this.$apiObj.MineInfo).then(res => {
+					if (res.code == 1) {
+						this.userCont = res.data;
+					}
 				})
 			},
+			getMineAuth() {
+				this.$http.post(this.$apiObj.MineAuthDetail).then(res => {
+					if (res.code == 1) {
+						this.mineCont = res.data;
+					}
+				})
+			}
 		}
 	}
 </script>
 
 <style lang="less" scoped>
 	.grade-page {
+		width: 100%;
+
 		.grade-head {
 			padding: 60rpx 30rpx;
 
 			.head-img {
 				width: 148rpx;
 				height: 148rpx;
-				border-radius: 100%;
 				margin: 0 auto;
-				overflow: hidden;
+
+				image {
+					width: 100%;
+					height: 100%;
+					border-radius: 50%;
+				}
 			}
 
 			.head-level {
@@ -209,14 +182,20 @@
 			.grade-tit {
 				font-size: 32rpx;
 				margin-bottom: 30rpx;
+				font-weight: 600;
 			}
 
 			.grade-li {
 				display: flex;
 				align-items: center;
 				justify-content: space-between;
-				border-top: 1px solid #f5f5f5;
+				border-bottom: 1px solid #f5f5f5;
 				padding: 30rpx 0;
+				box-sizing: border-box;
+
+				&:last-child {
+					border-bottom: none;
+				}
 
 				.grade-btn {
 					width: 150rpx;
