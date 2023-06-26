@@ -56,7 +56,7 @@
 
 							<view class="new-list-item-right-tags" style="top: 112rpx;">
 								<block v-for="(data,index) in item.litestore_tag" :key="data.tag_id">
-									<image :src="item.image"></image>
+									<image :src="data.image"></image>
 								</block>
 							</view>
 
@@ -120,16 +120,17 @@
 							<view class="info-tags">
 								<view class="info-tag">
 									<image src="/static/images/new-index/xx.png"></image>
-									<view>7.9k</view>
+									<view>{{item.litestore_goods_focus_total}}</view>
 								</view>
 
 								<view class="info-tag">
 									<image src="/static/images/new-index/xx.png"></image>
-									<view>868</view>
+									<view>{{item.auction_goods_total}}</view>
 								</view>
 
 								<view class="info-tag">
-									<view>868 Sold</view>
+									<image src="/static/images/new-index/pl.png"></image>
+									<view>{{item.litestore_goods_comment_total}}</view>
 								</view>
 							</view>
 
@@ -325,7 +326,7 @@
 							<view class="new-list-item-right-txt">{{item.goods_name}}</view>
 							<view class="new-list-item-right-tags">
 								<block v-for="(data,index) in item.tags" :key="data.tag_id">
-									<image :src="item.image"></image>
+									<image :src="data.image"></image>
 								</block>
 							</view>
 
@@ -456,7 +457,8 @@
 							</view>
 
 							<view class="info-jd" v-if="id==1">
-								<image src="/static/images/new-index/select-jd.png"></image>
+								<image src="/static/images/new-index/select-jd.png"
+									:style="`width: ${(item.finish_rate*100).toFixed(0)}%;`"></image>
 								<view>{{(item.finish_rate*100).toFixed(0)}}%</view>
 							</view>
 
@@ -1516,12 +1518,12 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			},
 			// 个人信息获取剩余竞拍次数
 			onMineInfo(e) {
-				let that=this
+				let that = this
 				this.isauctionNum = ''
 				this.shopCont = e
-				that.pay_pwd=''
-				that.orderPayList.forEach(item=>{
-					item.isShow=false
+				that.pay_pwd = ''
+				that.orderPayList.forEach(item => {
+					item.isShow = false
 				})
 				this.$http.post(this.$apiObj.MineInfo, {
 					auction_goods_id: e.auction_goods_id
@@ -2474,6 +2476,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							transform: translate(0, -50%);
 							width: 228rpx;
 							height: 28rpx;
+							border-radius: 28rpx;
 						}
 
 						view {

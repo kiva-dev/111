@@ -13,10 +13,8 @@
 								@input="changInput('email')"></u--input>
 						</view>
 					</view>
-					<view class="register-btn" style="background: rgba(10, 198, 142,0.5);" v-show="!isOnSendEmail">Send
-						verification code</view>
-					<view class="register-btn" @click="verifyData('email')" v-show="isOnSendEmail">Send verification
-						code</view>
+					<view class="register-btn" style="background: rgba(10, 198, 142,0.5);" v-show="!isOnSendEmail">{{$t('login.fsyzm')}}</view>
+					<view class="register-btn" @click="verifyData('email')" v-show="isOnSendEmail">{{$t('login.fsyzm')}}</view>
 
 					<view class="register-box" style="padding:0 30rpx">
 						<view class="login-check">
@@ -47,13 +45,13 @@
 						<view>
 							<view class="code-info-err" v-show="showErrCode">Verification code error</view>
 						</view>
-						<view class="code"><span>{{codeTxt}}</span></view>
+						<view class="code" @click="onLoginSendEmailCode()"><span>{{codeTxt}}</span></view>
 						<view class="code" v-show="false"><span>Resend</span></view>
 					</view>
 
-					<view class="register-btn" style="background: rgba(10, 198, 142,0.5);" v-show="!isOnSendCode">Next
+					<view class="register-btn" style="background: rgba(10, 198, 142,0.5);" v-show="!isOnSendCode">{{$t('login.xyb')}}
 					</view>
-					<view class="register-btn" @click="LoginVerifyCode()" v-show="isOnSendCode">Next</view>
+					<view class="register-btn" @click="LoginVerifyCode()" v-show="isOnSendCode">{{$t('login.xyb')}}</view>
 				</block>
 
 				<!--密码输入-->
@@ -63,9 +61,9 @@
 						<image src="../../static/images/new-index/pwd.png" class="logo"></image>
 						<view class="email-input-info">
 							<u--input type="password" :placeholder="$t('login.qsrmm')" border="none" v-model="pwd"
-								v-show="!isPwdShow"></u--input>
+								v-show="!isPwdShow" @input="changInput('pwd')"></u--input>
 							<u--input :placeholder="$t('login.qsrmm')" border="none" v-model="pwd"
-								v-show="isPwdShow"></u--input>
+								v-show="isPwdShow" @input="changInput('pwd')"></u--input>
 						</view>
 						<image src="/static/images/new-index/showpwd.png" class="pwd" v-show="isPwdShow"
 							@click="isPwdShow=!isPwdShow"></image>
@@ -78,7 +76,7 @@
 						<image src="../../static/images/new-index/pwd.png" class="logo"></image>
 						<view class="email-input-info">
 							<u--input type="password" :placeholder="$t('login.qsrmm')" border="none" v-model="pwd2"
-								v-show="!isPwdOkShow"></u--input>
+								v-show="!isPwdOkShow" @input="changInput('pwd')"></u--input>
 							<u--input :placeholder="$t('login.qsrqrmm')" border="none" v-model="pwd2"
 								v-show="isPwdOkShow" @input="changInput('pwd')"></u--input>
 						</view>
@@ -98,9 +96,9 @@
 					<view class="pwd-err" v-show="showPwdErr">The two passwords are different</view>
 
 					<view class="register-btn" style="background: rgba(10, 198, 142,0.5);" v-show="!isOnSendPwd">
-						Complete</view>
+						{{$t('login.zc')}}</view>
 					<view class="register-btn" @click.stop="$noMultipleClicks(onLoginEmailRegister)"
-						v-show="isOnSendPwd">Complete</view>
+						v-show="isOnSendPwd">{{$t('login.zc')}}</view>
 				</block>
 
 			</view>

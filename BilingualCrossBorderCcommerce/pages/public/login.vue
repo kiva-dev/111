@@ -14,7 +14,7 @@
 				<view class="info">Let eberyone have the products they want!</view>
 			</view>
 
-			<block>
+			<block v-if="isNav==2">
 				<view class="email-info">
 					<view class="email-input">
 						<image src="../../static/images/new-index/email.png" class="logo"></image>
@@ -45,54 +45,36 @@
 
 			<!--login-logo end-->
 			<block v-if="isNav==1">
-				<!--login-ul start-->
-				<view class="login-ul">
-					<view class="login-li">
-						<view class="label" @click="navClick('ownership')">
-							<text>{{mobile_area_code}}</text>
-							<view class="icon">
-								<image class="img" src="../../static/images/icon5.png"></image>
-							</view>
-						</view>
-						<view class="li-input">
-							<input class="input" placeholder-class="color-999" v-model="mobile"
-								:placeholder="$t('login.qsrsjh')" />
+				<view class="email-info">
+					<view class="email-input">
+						<image src="../../static/images/new-index/phone.png" class="logo"></image>
+						<view class="phone-qh" @click="navClick('ownership')">{{mobile_area_code}}</view>
+						<view class="email-input-info">
+							<u--input :placeholder="$t('login.qsrsjh')" border="none" v-model="mobile"/>
 						</view>
 					</view>
-					<view class="login-li">
-						<view class="label">{{$t('login.pwd')}}</view>
-						<view class="li-input">
-							<input class="input" v-if="isShow" type="text" placeholder-class="color-999" v-model="pwd"
-								:placeholder="$t('login.qsrmm')" />
-							<input class="input" v-else type="password" placeholder-class="color-999" v-model="pwd"
-								:placeholder="$t('login.qsrmm')" />
+				
+					<view class="email-input">
+						<image src="../../static/images/new-index/pwd.png" class="logo"></image>
+						<view class="email-input-info">
+							<u--input type="password" :placeholder="$t('login.qsrmm')" border="none" v-model="pwd" v-show="!isShow"></u--input>
+							<u--input :placeholder="$t('login.qsrmm')" border="none" v-model="pwd" v-show="isShow"></u--input>
 						</view>
-						<view class="login-eye" @click="isShow=!isShow">
-							<image class="img" v-if="isShow" src="../../static/images/login2.png"></image>
-							<image class="img" v-else src="../../static/images/login6.png"></image>
-						</view>
-						<navigator url="./password" hover-class="none" class="login-pass">
-							<view class="line"></view>
-							<text>{{$t('login.wjmm')}}</text>
-						</navigator>
+						<image src="/static/images/new-index/showpwd.png" class="pwd" v-show="isShow" @click="isShow=!isShow"></image>
+						<image src="/static/images/new-index/hidepwd.png" class="pwd" v-show="!isShow" @click="isShow=!isShow"></image>
 					</view>
+					
+					<view class="email-btm">
+						<view style="color: rgb(10, 198, 142);" @click="navClick('register')">{{$t('login.zczh')}}</view>
+						<view @click="navClick('/pages/public/password')">Forgot password ?</view>
+					</view>
+					
+					<view class="email-btn" @click.stop="$noMultipleClicks(onLoginMobileLogin)">{{$t('login.ljdl')}}</view>
+					
 				</view>
-				<!--login-ul end-->
-				<!--login-flex start-->
-				<view class="login-flex">
-					<view @click="onnavClick(1)">{{$t('login.yxhdl')}}</view>
-					<view class="color-red" @click="navClick('register')">{{$t('login.zczh')}}</view>
-				</view>
-				<!--login-flex end-->
-				<!--login-bot start-->
-				<view class="login-bot">
-					<button class="public-btn"
-						@click.stop="$noMultipleClicks(onLoginMobileLogin)">{{$t('login.ljdl')}}</button>
-				</view>
-				<!--login-bot end-->
 			</block>
 			
-			<!--login-check start-->
+
 			<view class="login-check">
 				<view class="check" @click="isQuanShow=!isQuanShow">
 					<checkbox :checked="isQuanShow?true:false" style="transform: scale(0.7);" />
@@ -104,8 +86,7 @@
 					<navigator url="../mine/agreement" hover-class="none">{{$t('login.zcxgxy')}}</navigator>
 				</view>
 			</view>
-			<!--login-check end-->
-			<!--login-other start-->
+
 			<view class="login-other">
 				<view class="other-tit">
 					<view class="line"></view>
@@ -113,6 +94,12 @@
 					<view class="line"></view>
 				</view>
 				<view class="other-ul">
+					<view class="li" v-if="isNav==2" @click="isNav=1">
+						<image class="img" src="/static/images/new-index/phone_login.png"></image>
+					</view>
+					<view class="li" v-else @click="isNav=2">
+						<image class="img" src="/static/images/new-index/email_login.png"></image>
+					</view>
 					<view class="li" @click="handleGoogleAuth">
 						<image class="img" src="/static/images/new-index/goole.png"></image>
 					</view>
@@ -121,8 +108,7 @@
 					</view>
 				</view>
 			</view>
-			<!--login-other end-->
-			<!--login-lan start-->
+
 			<view class="login-lan">
 				<block v-for="(item,index) in locales" :key="index">
 					<text class="t on" @click="onLocaleChange(item)">{{item.text}}</text>
@@ -130,7 +116,7 @@
 				</block>
 
 			</view>
-			<!--login-lan end-->
+
 		</view>
 	</view>
 </template>
@@ -740,6 +726,13 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						width: 48rpx;
 						height: 48rpx;
 						margin: 0 32rpx;
+					}
+					
+					.phone-qh{
+						width: 70rpx;
+						font-size: 28rpx;
+						color: rgb(51, 51, 51);
+						text-align: center;
 					}
 					
 					.email-input-info{

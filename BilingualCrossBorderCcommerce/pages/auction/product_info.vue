@@ -113,7 +113,7 @@
 					</view>
 				</view>
 				<block v-if="JudgeList.length > 0">
-					<view class="detail-comment-item" v-for="(item,i) in JudgeList.slice(0,2)" :key="i">
+					<view class="detail-comment-item" v-for="(item,i) in JudgeList.slice(0,2)" :key="item.user_comment_id">
 						<view class="detail-comment-item-head">
 							<image :src="item.user.avatar" mode="aspectFill"></image>
 							<p>{{item.user.nickname}}</p>
@@ -637,12 +637,12 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					goods_id: this.id
 				}).then(res => {
 					if (res.code) {
-						res.data.data.forEach(item => {
-							let arr = item.createtime.split(' ')
-							let day = arr[0].split('-')
-							let time = arr[1].split(':')
-							item.createtime = day[1] + '/' + day[2] + ' ' + time[0] + ':' + time[1]
-						})
+						// res.data.data.forEach(item => {
+						// 	let arr = item.createtime.split(' ')
+						// 	let day = arr[0].split('-')
+						// 	let time = arr[1].split(':')
+						// 	item.createtime = day[1] + '/' + day[2] + ' ' + time[0] + ':' + time[1]
+						// })
 						this.JudgeList = res.data.data
 					}
 				})

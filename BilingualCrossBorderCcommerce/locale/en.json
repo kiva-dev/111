@@ -1172,7 +1172,7 @@
 	"dhm": "Cashing code/user name",
 	"search": "search",
 	"numshuzi": "Your input is not 6 digits",
-	"pwdcd": "The length of the password is 8-16 characters, which should be composed of three or more combinations: uppercase letters, lowercase letters, numbers and symbols",
+	"pwdcd": "The password length is 8-16 characters, please consist of uppercase letters, lowercase letters and numbers",
 	"shimingrenzheng": "You don't have real-name authentication, please do real-name authentication first",
 	"usernames": "The cardholder name you entered is inconsistent with the real-name authentication name, please re-enter",
 	"qingsremail": "Please enter email",

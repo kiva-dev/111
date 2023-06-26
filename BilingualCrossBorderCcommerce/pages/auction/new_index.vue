@@ -18,7 +18,8 @@
 			<!--轮播图-->
 			<view class="auct-banner">
 				<swiper class="auct-banner-swiper" circular :indicator-dots="indicatorDots" :autoplay="autoplay"
-					:interval="interval" :duration="duration" indicator-color="rgb(190, 190, 190)" indicator-active-color="rgb(255, 255, 255)">
+					:interval="interval" :duration="duration" indicator-color="rgb(190, 190, 190)"
+					indicator-active-color="rgb(255, 255, 255)">
 					<swiper-item v-for="(item, index) in banner" :key="index">
 						<view class="swiper-image" @click="getBanner(item)">
 							<image :src="item.image" mode="aspectFill"></image>
@@ -173,12 +174,12 @@
 						<view class="new-list-item-right-tags" :style="productId==1 ? 'top: 112rpx;':''">
 							<block v-if="productId==1">
 								<block v-for="(data,index) in item.litestore_tag" :key="data.tag_id">
-									<image :src="item.image"></image>
+									<image :src="data.image"></image>
 								</block>
 							</block>
 							<block v-else>
 								<block v-for="(data,index) in item.tags" :key="data.tag_id">
-									<image :src="item.image"></image>
+									<image :src="data.image"></image>
 								</block>
 							</block>
 						</view>
@@ -267,21 +268,23 @@
 						<view class="info-tags">
 							<view class="info-tag">
 								<image src="/static/images/new-index/xx.png"></image>
-								<view>7.9k</view>
+								<view>{{item.litestore_goods_focus_total}}</view>
 							</view>
 
 							<view class="info-tag">
-								<image src="/static/images/new-index/xx.png"></image>
-								<view>868</view>
+								<image src="../../static/images/new-index/xcz.png"></image>
+								<view>{{item.auction_goods_total}}</view>
 							</view>
 
 							<view class="info-tag">
-								<view>868 Sold</view>
+								<image src="../../static/images/new-index/pl.png"></image>
+								<view>{{item.litestore_goods_comment_total}}</view>
 							</view>
 						</view>
 
 						<view class="info-jd" v-if="productId==2">
-							<image src="/static/images/new-index/select-jd.png"></image>
+							<image src="/static/images/new-index/select-jd.png"
+								:style="`width: ${(item.finish_rate*100).toFixed(0)}%;`"></image>
 							<view>{{(item.finish_rate*100).toFixed(0)}}%</view>
 						</view>
 
@@ -1102,7 +1105,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 				let data = {
 					name: address[num].state,
-					name_en:address[num].state_en,
+					name_en: address[num].state_en,
 					time: date.getHours() + ":" + date.getMinutes()
 				}
 				this.addressInfo = data
@@ -2055,11 +2058,11 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 			.auct-banner {
 				margin: 24rpx 32rpx;
-				
+
 				.swiper-image {
 					width: 100%;
 					height: 296rpx;
-					
+
 					image {
 						width: 100%;
 						height: 100%;
@@ -2730,6 +2733,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							transform: translate(0, -50%);
 							width: 228rpx;
 							height: 28rpx;
+							border-radius: 28rpx;
 						}
 
 						view {

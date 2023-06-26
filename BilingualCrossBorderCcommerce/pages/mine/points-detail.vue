@@ -5,41 +5,60 @@
 				<image src="/static/images/auth/left.png" @click="toReturn()"></image>
 				<view>积分明细</view>
 			</view>
-			
+
 			<view class="points-detail-info">
-				<view class="points-detail-info-num">127</view>
+				<view class="points-detail-info-num">
+					<image src="/static/images/new-index/jf.png"></image>
+					<view>{{total}}</view>
+				</view>
 				<view class="points-detail-info-txt">我的积分</view>
 			</view>
-			
-			<view class="points-detail-tit">
-				<view class="points-detail-tit-line"></view>
-				<view class="points-detail-tit-des">积分明细</view>
-			</view>
-			
-			<view class="points-detail-item" v-for="(item) in [1,1,1]">
-				<image src="../../static/images/auth/qdz.png"></image>
-				<view class="points-detail-item-info">
-					<view class="points-detail-item-info-txt">XX竞拍订单交易成功</view>
-					<view class="points-detail-item-info-time">2023/06/05 14:58</view>
+
+			<view class="list">
+				<view class="list-tit">Integral detail</view>
+				<view class="item" v-for="(item,i) in list" :key="i" :style="list.length==(i+1)?'border-bottom: none;':''">
+					<image src="/static/images/new-index/jf.png"></image>
+					<view class="item-info">
+						<view class="item-name">{{item.desc}}</view>
+						<view class="item-time">{{$u.timeFormat(item.createtime, 'yyyy/mm/dd hh:MM:ss')}}</view>
+					</view>
+					<view class="item-price">+{{item.points_number}}</view>
 				</view>
-				<view class="points-detail-item-price">+58.00</view>
 			</view>
-			
+
 		</view>
 		<view style="height: 40rpx;"></view>
 	</view>
 </template>
 
 <script>
-	export default{
-		data(){
+	export default {
+		data() {
 			return {
-				
+				list:[],
+				total:0
 			}
 		},
-		methods:{
-			toReturn(){
+		mounted() {
+			this.getPointInfo()
+		},
+		methods: {
+			toReturn() {
 				uni.navigateBack()
+			},
+			getPointInfo() {
+				let userCont = uni.getStorageSync('userCont')
+				this.$http.post(this.$apiObj.GetPointsInfo, {
+					h5_user_id: userCont.u_id
+				}).then(res => {
+					this.list=res.data.points_details
+				})
+				
+				this.$http.post(this.$apiObj.GetPoints, {
+					h5_user_id: userCont.u_id
+				}).then(res => {
+					this.total=res.data.total_points
+				})
 			}
 		}
 	}
@@ -50,11 +69,12 @@
 		width: 100%;
 		min-height: 100vh;
 		background: rgb(248, 248, 248);
-		
-		.points-detail-content{
+
+		.points-detail-content {
 			width: 100%;
-			height:800rpx;
-			background: linear-gradient(180.00deg, rgba(255,117,46,1.00),rgba(255,211,132,0.70) 53.435%,rgba(255,255,255,0.00) 100%);
+			height: 526rpx;
+			background: url('/static/images/new-index/new_head.png') no-repeat;
+			background-size: 100% 526rpx;
 		}
 
 		.points-detail-head {
@@ -65,72 +85,80 @@
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			
-			image{
+
+			image {
 				position: absolute;
 				left: 20rpx;
 				width: 60rpx;
 				height: 60rpx;
 				z-index: 10;
 			}
-			
-			view{
+
+			view {
 				width: 100%;
 				font-size: 40rpx;
 				font-weight: bold;
 				color: #fff;
 				text-align: center;
 			}
-			
+
 		}
-		
-		.points-detail-info{
-			width: 686rpx;
-			height: 192rpx;
-			text-indent: 60rpx;
-			display: flex;
-			flex-direction: column;
-			justify-content: center;
-			background: url('/static/images/auth/xk-qdz.png') no-repeat;
-			background-size: 686rpx 192rpx;
-			margin: 70rpx auto 0 auto;
-			
-			.points-detail-info-num{
-				font-size: 72rpx;
-				color: rgb(44, 44, 44);
+
+		.points-detail-info {
+			width: 100%;
+			margin: 50rpx auto 0 auto;
+
+			.points-detail-info-num {
+				width: 100%;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+
+				image {
+					width: 48rpx;
+					height: 48rpx;
+				}
+
+				view {
+					font-size: 64rpx;
+					color: rgb(255, 255, 255);
+					margin-left: 16rpx;
+				}
 			}
-			
-			.points-detail-info-txt{
-				font-size: 28rpx;
-				color: rgb(149, 149, 149);
-				margin-top: 10rpx;
+
+			.points-detail-info-txt {
+				width: 100%;
+				font-size: 32rpx;
+				color: rgb(255, 255, 255);
+				text-align: center;
+				margin-top: 32rpx;
 			}
-			
+
 		}
-		
-		.points-detail-tit{
+
+		.points-detail-tit {
 			width: 100%;
 			display: flex;
 			align-items: center;
 			margin-top: 50rpx;
 			margin-bottom: 32rpx;
-			
-			.points-detail-tit-line{
+
+			.points-detail-tit-line {
 				width: 8rpx;
 				height: 40rpx;
 				background: rgb(255, 179, 0);
 				border-radius: 4rpx;
 				margin: 0 12rpx 0 42rpx;
 			}
-			
-			.points-detail-tit-des{
+
+			.points-detail-tit-des {
 				font-size: 32rpx;
 				color: rgb(44, 44, 44);
 			}
-			
+
 		}
-		
-		.points-detail-item{
+
+		.points-detail-item {
 			position: relative;
 			width: 686rpx;
 			height: 100rpx;
@@ -140,18 +168,18 @@
 			border-radius: 16rpx;
 			box-shadow: 0px 2rpx 5rpx rgba(44, 44, 44, 0.1);
 			margin: 0 auto 20rpx auto;
-			
-			image{
+
+			image {
 				width: 60rpx;
 				height: 60rpx;
 				margin-left: 32rpx;
 			}
-			
-			.points-detail-item-info{
+
+			.points-detail-item-info {
 				max-width: 420rpx;
 				margin-left: 30rpx;
-				
-				.points-detail-item-info-txt{
+
+				.points-detail-item-info-txt {
 					width: 100%;
 					font-size: 24rpx;
 					color: rgb(44, 44, 44);
@@ -159,23 +187,86 @@
 					text-overflow: ellipsis;
 					white-space: nowrap;
 				}
-				
-				.points-detail-item-info-time{
+
+				.points-detail-item-info-time {
 					font-size: 20rpx;
 					color: rgb(190, 190, 190);
 					margin-top: 12rpx;
 				}
-				
+
 			}
-			
-			.points-detail-item-price{
+
+			.points-detail-item-price {
 				position: absolute;
 				right: 28rpx;
 				font-size: 28rpx;
 				color: rgb(44, 44, 44);
 			}
-			
+
 		}
-		
+
+		//数据
+		.list {
+			width: 750rpx;
+			min-height: 800rpx;
+			padding-top: 32rpx;
+			background: #fff;
+			border-radius: 24rpx 24rpx 0 0;
+			margin-top: 82rpx;
+
+			.list-tit {
+				font-size: 28rpx;
+				color: rgb(51, 51, 51);
+				margin-left: 32rpx;
+				margin-bottom: 32rpx;
+			}
+
+			.item {
+				position: relative;
+				width: 686rpx;
+				height: 144rpx;
+				display: flex;
+				align-items: center;
+				box-sizing: border-box;
+				border-bottom: 1rpx solid rgb(204, 204, 204);
+				margin: 0 auto;
+
+				image {
+					width: 64rpx;
+					height: 64rpx;
+					margin: 0 16rpx 0 0;
+				}
+
+				.item-info {
+					width: 460rpx;
+					margin-right: 8rpx;
+
+					.item-name {
+						max-width: 100%;
+						font-size: 28rpx;
+						color: rgb(51, 51, 51);
+						overflow: hidden;
+						text-overflow: ellipsis;
+						white-space: nowrap;
+					}
+
+					.item-time {
+						font-size: 24rpx;
+						color: rgb(153, 153, 153);
+						margin-top: 18rpx;
+					}
+				}
+
+				.item-price {
+					position: absolute;
+					right: 0;
+					font-size: 32rpx;
+					color: rgb(255, 57, 57);
+				}
+
+			}
+
+		}
+
 	}
 </style>

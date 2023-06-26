@@ -878,6 +878,13 @@
 				"navigationBarTitleText": "%top.active%",
 				"enablePullDownRefresh": false
 			}
+		},
+		{
+			"path": "pages/mine/K_brick_detail",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
 		}
 	],
 	"globalStyle": {

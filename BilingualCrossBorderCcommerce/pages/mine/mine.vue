@@ -43,8 +43,8 @@
 										<p>{{$t('mine.subscribed')}}</p>
 									</view>
 									<view class="detail-dot"></view>
-									<!--@click="navClick('/pages/mine/points-detail')"-->
-									<view class="detail-container" >
+									<!---->
+									<view class="detail-container" @click="navClick('/pages/mine/points-detail')">
 										<span>{{totalJf || 0}}</span>
 										<p>{{$t('new.jf')}}</p>
 									</view>
@@ -87,11 +87,11 @@
 					<view class="cc-border"></view>
 					<view class="cc-box">
 						<view class="cc-box-rebate">
-							<view><span>{{userCont.tocash_money || 0.00}}</span></view>
+							<view><span>{{userCont.recharge_money_balance || 0.00}}</span></view>
 							<p>{{$t('mine.Deposits')}}</p>
 						</view>
 						<view class="cc-box-rebate">
-							<view><span>{{userCont.rebate_money_total || 0.00}}</span></view>
+							<view><span>{{userCont.invite_money_balance || 0.00}}</span></view>
 							<p>{{$t('mine.Bonus')}}</p>
 						</view>
 					</view>
@@ -350,7 +350,6 @@
 			// #endif
 		},
 		onShow() {
-			console.log(111);
 			uni.removeStorageSync('productInfo')
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false;
 			if (uni.getStorageSync('token')) {
@@ -361,7 +360,6 @@
 				this.getMineSysmsgList();
 				this.getCollectGoods();
 				this.getCollectStore();
-				this.getAllPoints()
 			}
 		},
 		onHide() {
@@ -371,7 +369,9 @@
 		methods: {
 			//获取所有积分
 			getAllPoints(){
-				this.$http.post(this.$apiObj.GetPoints).then(res=>{
+				this.$http.post(this.$apiObj.GetPoints,{
+					h5_user_id:this.userCont.u_id
+				}).then(res=>{
 					this.totalJf=res.data.total_points
 				})
 			},
@@ -443,6 +443,7 @@
 					if (res.code == 1) {
 						uni.setStorageSync('userCont', res.data);
 						this.userCont = res.data;
+						this.getAllPoints()
 					}
 				})
 			},

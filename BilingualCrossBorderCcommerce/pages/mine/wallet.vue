@@ -1,38 +1,68 @@
 <template>
 	<view class="wallet-page">
 		<view class="commission-head">
-			<image src="@/static/images/mine/collect_icon_back.png" class="commission-head-left" @click="onReturn()"></image>
-			<view>{{$t('top.wdqb')}}</view>
-			<image src="@/static/images/mine/wallet_btn_card.png" class="commission-head-right" @click="onQuery()"></image>
+			<image src="@/static/images/mine/collect_icon_back.png" class="commission-head-left" @click="onReturn()">
+			</image>
+			<view class="title">{{$t('top.wdqb')}}</view>
+			<view class="commission-head-right" @click="onQuery()">
+				<image src="@/static/images/mine/wallet_btn_card.png"></image>
+				<view>Bank</view>
+			</view>
+
 		</view>
 		<view class="wallet-head">
 			<view class="head-card">
-				<view class="t">{{$t('new.zhye')}}（RM）</view>
-				<view class="money">{{money || 0.0000}}</view>
-				<view class="head-card-price">
-					<view class="head-card-fyje">{{$t('mine.Deposits')}}<br /><span>{{rebate_money_total}}</span></view>
-					<view>{{$t('mine.Bonus')}}<br /><span>{{tocash_money || 0.0000}}</span></view>
+				<view class="head-card-info">
+					<view class="head-card-left">
+						<view class="t">{{$t('new.zhye')}}（RM）</view>
+						<view class="money">{{(money*1).toFixed(2) || 0.00}}</view>
+					</view>
+					<view class="head-card-right">
+						<view class="balance" style="margin-bottom: 36rpx;">
+							{{$t('mine.Deposits')}}<br /><span>{{(tocash_money*1).toFixed(2) || 0.00}}</span>
+						</view>
+						<view class="balance">
+							{{$t('mine.Bonus')}}<br /><span>{{(rebate_money_total*1).toFixed(2) || 0.0000}}</span>
+						</view>
+					</view>
 				</view>
+
 				<view class="card-btns">
-					<view class="card-btns-withdrawal" @click="navClick('Withdrawal')">{{$t('user.wallet.tixian')}}</view>
+					<view class="card-btns-withdrawal" @click="navClick('Withdrawal')">{{$t('user.wallet.tixian')}}
+					</view>
 					<view class="card-btns-Recharge" @click="navClick('recharge')">{{$t('user.wallet.chongzhi')}}</view>
 				</view>
 			</view>
 		</view>
+
+		<view class="wallet-center">
+			<view class="info" @click="navClick('/pages/mine/K_brick_detail')">
+				<view class="info-tit">
+					<view>My K Diamonds</view>
+					<image src="/static/images/products/right.png"></image>
+				</view>
+				<view class="info-price">120.00</view>
+			</view>
+			<view class="info" @click="navClick('/pages/mine/points-detail')"
+				style="background: url('/static/images/new-index/wallet_jf.png') no-repeat;background-size: 332rpx 168rpx;">
+				<view class="info-tit">
+					<view>My integral</view>
+					<image src="/static/images/products/right.png"></image>
+				</view>
+				<view class="info-price">620.00</view>
+			</view>
+		</view>
+
 		<view class="wallet-box">
 			<view class="wallet-box-shouzhi">{{$t('new.shouzhi')}}</view>
 			<view class="wallet-ul" v-if="navId===1">
 				<view class="commission-item" v-for="(item,i) in MoneyList">
 					<view class="ci-left">
 						<view class="ci-left-icon">
-							<!-- <image src="/static/images/new/chonzhi.png" v-if="item.type==20"></image>
-							<image src="/static/images/new/tx-mx.png" v-else-if="item.type==12"></image>
-							<image src="/static/images/new/liupai.png" v-else-if="item.type==6 || item.type==16"></image>
-							<image src="/static/images/new/xiaofei.png" v-else-if="item.type==21"></image>
-							<image src="/static/images/new/cz-mx.png" v-else-if="item.type==5"></image>
-							<image src="/static/images/new/gouwu.png" v-else></image> -->
-							<image v-if="(item.money*1) > 0" src="@/static/images/mine/wallet_icon_income.png" mode="widthFix"></image>
-							<image v-else src="@/static/images/mine/wallet_icon_expenditure.png" mode="widthFix"></image>
+							<image v-if="(item.money*1) > 0" src="@/static/images/mine/wallet_icon_income.png"
+								mode="widthFix"></image>
+							<image v-else src="@/static/images/mine/wallet_icon_expenditure.png" mode="widthFix">
+							</image>
 						</view>
 						<view class="ci-left-info">
 							<view class="info-tit">{{item.memo}}</view>
@@ -94,8 +124,8 @@
 			this.$http.post(this.$apiObj.MineInfo).then(res => {
 				if (res.code == 1) {
 					this.money = res.data.money
-					this.tocash_money = res.data.tocash_money
-					this.rebate_money_total = res.data.rebate_money_total
+					this.tocash_money = res.data.recharge_money_balance
+					this.rebate_money_total = res.data.invite_money_balance
 				}
 			})
 			this.onMineMoneyList()
@@ -284,12 +314,23 @@
 			.commission-head-right {
 				position: absolute;
 				right: 30rpx;
-				width: 50rpx;
-				height: 50rpx;
+				display: flex;
+				align-items: center;
 				z-index: 10;
+
+				image {
+					width: 40rpx;
+					height: 40rpx;
+				}
+
+				view {
+					font-size: 24rpx;
+					color: rgb(51, 51, 51);
+					margin-left: 8rpx;
+				}
 			}
 
-			view {
+			.title {
 				width: 100%;
 				font-size: 40rpx;
 				color: rgb(51, 51, 51);
@@ -299,81 +340,125 @@
 		}
 
 		.wallet-head {
-			width: 100%;
-			padding: 24rpx 32rpx;
-			box-sizing: border-box;
 
 			.head-card {
-				width: 100%;
-				background: url('/static/images/new/card.png') no-repeat;
-				background-size: 100% 100%;
-				padding: 24rpx 40rpx 34rpx;
-				box-sizing: border-box;
+				width: 686rpx;
+				height: 316rpx;
+				padding-top: 64rpx;
+				background: url('/static/images/new-index/wallet_head.png') no-repeat;
+				background-size: 686rpx 380rpx;
+				margin: 24rpx auto;
 
-				.head-card-price {
+				.head-card-info {
 					width: 100%;
-					margin-top: 24rpx;
-					font-size: 24rpx;
 					color: rgb(255, 255, 255);
+					display: flex;
+
+					.head-card-left {
+						width: 50%;
+						text-align: center;
+
+						.t {
+							font-size: 28rpx;
+						}
+
+						.money {
+							font-size: 56rpx;
+							margin-top: 32rpx;
+						}
+
+					}
+
+					.head-card-right {
+						width: 50%;
+						text-align: center;
+
+						.balance {
+							font-size: 28rpx;
+
+							span {
+								font-weight: bold;
+								margin-top: 8rpx;
+							}
+						}
+
+					}
+
+				}
+
+				.card-btns {
+					width: 100%;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					margin-top: 40rpx;
+
+					view {
+						width: 160rpx;
+						height: 56rpx;
+						line-height: 56rpx;
+						font-size: 20rpx;
+						text-align: center;
+						border-radius: 56rpx;
+						margin: 0 20rpx;
+					}
+
+					.card-btns-withdrawal {
+						color: rgb(255, 255, 255);
+						box-sizing: border-box;
+						border: 2rpx solid #fff;
+					}
+
+					.card-btns-Recharge {
+						color: rgb(10, 198, 142);
+						background: #fff;
+						box-sizing: border-box;
+						border: 1rpx solid rgb(10, 198, 142);
+					}
+
+				}
+
+			}
+		}
+
+		.wallet-center {
+			width: 100%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+
+			.info {
+				width: 332rpx;
+				height: 126rpx;
+				padding-top: 42rpx;
+				background: url('/static/images/new-index/kz.png') no-repeat;
+				background-size: 332rpx 168rpx;
+				margin: 0 6rpx 32rpx 6rpx;
+
+				.info-tit {
+					width: 100%;
 					display: flex;
 					align-items: center;
 
 					view {
-						width: 50%;
-						text-align: center;
+						font-size: 24rpx;
+						color: rgb(51, 51, 51);
+						margin: 0 8rpx 0 24rpx;
 					}
 
-					span {
-						display: block;
-						font-size: 32rpx;
+					image {
+						width: 20rpx;
+						height: 20rpx;
 					}
-
 				}
 
-				.t {
-					color: rgb(255, 255, 255);
+				.info-price {
 					font-size: 28rpx;
+					font-weight: bold;
+					color: rgb(51, 51, 51);
+					margin: 24rpx 0 0 24rpx;
 				}
 
-				.money {
-					margin-top: 32rpx;
-					text-align: center;
-					font-weight: 600;
-					color: rgb(255, 255, 255);
-					font-size: 64rpx;
-				}
-				
-				.card-btns {
-					margin-top: 32rpx;
-					display: flex;
-					justify-content: center;
-					align-items: center;
-					
-					.card-btns-withdrawal {
-						width: 160rpx;
-						height: 56rpx;
-						margin: 0 20rpx;
-						border: 2rpx solid rgb(255, 255, 255);
-						box-sizing: border-box;
-						border-radius: 100rpx;
-						text-align: center;
-						line-height: 56rpx;
-						color: rgb(255, 255, 255);
-						font-size: 20rpx;
-					}
-					
-					.card-btns-Recharge {
-						width: 160rpx;
-						height: 56rpx;
-						margin: 0 20rpx;
-						background: rgb(255, 255, 255);
-						border-radius: 100rpx;
-						text-align: center;
-						line-height: 56rpx;
-						color: rgb(255, 57, 57);
-						font-size: 20rpx;
-					}
-				}
 			}
 		}
 
@@ -515,24 +600,24 @@
 			display: flex;
 			justify-content: space-between;
 			align-items: center;
-			
+
 			.ci-left {
 				display: flex;
 				align-items: center;
-				
+
 				.ci-left-icon {
 					width: 80rpx;
 					height: 80rpx;
-					
+
 					image {
 						width: 100%;
 						height: 100%;
 					}
 				}
-				
+
 				.ci-left-info {
 					margin-left: 32rpx;
-					
+
 					.info-tit {
 						max-width: 420rpx;
 						margin: 9rpx 0;
@@ -542,7 +627,7 @@
 						text-overflow: ellipsis;
 						white-space: nowrap;
 					}
-					
+
 					.info-time {
 						margin: 9rpx 0;
 						color: rgb(153, 153, 153);
