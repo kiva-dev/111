@@ -215,7 +215,7 @@
 				</view>
 				<view class="gl-content">
 					<u-grid :border="false" @click="click">
-						<u-grid-item v-for="item in youLikeList" :key="item.goods_id" @click="toYouLikeOrHot()">
+						<u-grid-item v-for="item in youLikeList" :key="item.goods_id" @click="toYouLikeOrHot(item.auction_goods_id)">
 							<view class="gl-content-item">
 								<view class="item-cover">
 									<image :src="item.image" mode="aspectFill">

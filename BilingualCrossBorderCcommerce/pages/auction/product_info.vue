@@ -187,7 +187,7 @@
 				</view>
 				<view class="gl-content">
 					<u-grid :border="false" @click="click">
-						<u-grid-item v-for="item in youLikeList" :key="item.goods_id">
+						<u-grid-item v-for="item in youLikeList" :key="item.goods_id" @click="toYouLikeOrHot(item.auction_goods_id)">
 							<view class="gl-content-item">
 								<view class="item-cover">
 									<image :src="item.image" mode="aspectFill">
@@ -556,6 +556,12 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 		},
 		methods: {
+			//猜你喜欢以及热门推荐跳转
+			toYouLikeOrHot(id){
+				uni.navigateTo({
+					url:'/pages/auction/detail?id='+id
+				})
+			},
 			getYouLikeList(){
 				this.$http.post(this.$apiObj.GetYouLikeList,{
 					goods_id:this.shopCont.goods_id,
