@@ -349,6 +349,7 @@
 			// #endif
 		},
 		onShow() {
+			console.log(111);
 			uni.removeStorageSync('productInfo')
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false;
 			if (uni.getStorageSync('token')) {
