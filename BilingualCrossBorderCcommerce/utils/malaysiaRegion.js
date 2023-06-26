@@ -1,33 +1,49 @@
 export default [{
 	"state": "柔佛",
+	"state_en": "johor"
 }, {
 	"state": "吉打",
+	"state_en": "Kedah"
 }, {
 	"state": "吉兰丹",
+	"state_en": "Kelantan"
 }, {
 	"state": "马六甲",
+	"state_en": "Malacca"
 }, {
 	"state": "森美兰",
+	"state_en": "Negeri Sembilan"
 }, {
 	"state": "彭亨",
+	"state_en": "Pahang"
 }, {
 	"state": "槟城",
+	"state_en": "Penang"
 }, {
 	"state": "霹雳",
+	"state_en": "Thunderbolt"
 }, {
 	"state": "玻璃市",
+	"state_en": "Perlis"
 }, {
 	"state": "雪兰莪",
+	"state_en": "Selangor"
 }, {
 	"state": "登嘉楼",
+	"state_en": "Terengganu"
 }, {
 	"state": "沙巴",
+	"state_en": "Sabah"
 }, {
 	"state": "砂拉越",
+	"state_en": "Sarawak"
 }, {
 	"state": "吉隆坡",
+	"state_en": "Kuala Lumpur"
 }, {
 	"state": "纳闽",
+	"state_en": "Labuan"
 }, {
 	"state": "布城",
+	"state_en": "Putrajaya"
 }]

@@ -413,7 +413,7 @@
 		<view class="jp_ts" v-show="showjpts">
 			<image src="/static/images/products/auth.png" class="auth"></image>
 			<image src="../../static/images/new-index/bcz.png" class="logo"></image>
-			<view class="txt">Latest bids from users {{addressInfo.name}}</view>
+			<view class="txt">{{$t('new.zxddlzy')}} {{isShopCont? addressInfo.name_en:addressInfo.name}}</view>
 			<view class="time">{{addressInfo.time}}</view>
 		</view>
 
@@ -1102,6 +1102,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 				let data = {
 					name: address[num].state,
+					name_en:address[num].state_en,
 					time: date.getHours() + ":" + date.getMinutes()
 				}
 				this.addressInfo = data
