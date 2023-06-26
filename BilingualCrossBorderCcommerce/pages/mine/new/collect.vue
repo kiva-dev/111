@@ -322,6 +322,7 @@
 						color: rgb(51, 51, 51);
 						font-size: 24rpx;
 						line-height: 36rpx;
+						word-break: break-all;
 					}
 
 					.item-info-data {
