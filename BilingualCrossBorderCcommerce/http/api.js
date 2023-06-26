@@ -151,5 +151,11 @@ let apiObj = {
 	//返佣
 	MineRebateInfo: "/Mine/rebateInfo", //返佣信息
 	GetCodeInfo: "/index/inviteCodeGetInfo",//根据用户邀请码获取信息
+	
+	//积分
+	GetPoints:"/Points/getUserPoints",//获取所有积分
+	
+	GetHotList:"/Auction/popularRecommendation",//热门推荐
+	GetYouLikeList:"/Litestoregoods/youMayAlsoLike",//猜你喜欢
 }
 export default apiObj

@@ -182,89 +182,25 @@
 				<view class="gl-title">
 					<view class="gl-title-left">
 						<image src="@/static/images/new-index/detail_icon_guess.png" mode="widthFix"></image>
-						<p>Guess you like</p>
+						<p>{{$t('detail.guess')}}</p>
 					</view>
 				</view>
 				<view class="gl-content">
 					<u-grid :border="false" @click="click">
-						<u-grid-item>
+						<u-grid-item v-for="item in youLikeList" :key="item.goods_id">
 							<view class="gl-content-item">
 								<view class="item-cover">
-									<image src="@/static/images/new-index/detail_demo_cover.png" mode="aspectFill">
+									<image :src="item.image" mode="aspectFill">
 									</image>
 								</view>
-								<view class="item-text">Xiaomi 33WRH Power Bank 10000mAh Por apple bannana</view>
+								<view class="item-text">{{item.goods_name}}</view>
 								<view class="item-price">
 									<span>RM</span>
-									<span>199.00</span>
+									<span>{{item.litestore_goods_spec[0].goods_price}}</span>
 								</view>
 							</view>
 						</u-grid-item>
-						<u-grid-item>
-							<view class="gl-content-item">
-								<view class="item-cover">
-									<image src="@/static/images/new-index/detail_demo_cover.png" mode="aspectFill">
-									</image>
-								</view>
-								<view class="item-text">Xiaomi 33WRH Power Bank 10000mAh Por apple bannana</view>
-								<view class="item-price">
-									<span>RM</span>
-									<span>199.00</span>
-								</view>
-							</view>
-						</u-grid-item>
-						<u-grid-item>
-							<view class="gl-content-item">
-								<view class="item-cover">
-									<image src="@/static/images/new-index/detail_demo_cover.png" mode="aspectFill">
-									</image>
-								</view>
-								<view class="item-text">Xiaomi 33WRH Power Bank 10000mAh Por apple bannana</view>
-								<view class="item-price">
-									<span>RM</span>
-									<span>199.00</span>
-								</view>
-							</view>
-						</u-grid-item>
-						<u-grid-item>
-							<view class="gl-content-item">
-								<view class="item-cover">
-									<image src="@/static/images/new-index/detail_demo_cover.png" mode="aspectFill">
-									</image>
-								</view>
-								<view class="item-text">Xiaomi 33WRH Power Bank 10000mAh Por apple bannana</view>
-								<view class="item-price">
-									<span>RM</span>
-									<span>199.00</span>
-								</view>
-							</view>
-						</u-grid-item>
-						<u-grid-item>
-							<view class="gl-content-item">
-								<view class="item-cover">
-									<image src="@/static/images/new-index/detail_demo_cover.png" mode="aspectFill">
-									</image>
-								</view>
-								<view class="item-text">Xiaomi 33WRH Power Bank 10000mAh Por apple bannana</view>
-								<view class="item-price">
-									<span>RM</span>
-									<span>199.00</span>
-								</view>
-							</view>
-						</u-grid-item>
-						<u-grid-item>
-							<view class="gl-content-item">
-								<view class="item-cover">
-									<image src="@/static/images/new-index/detail_demo_cover.png" mode="aspectFill">
-									</image>
-								</view>
-								<view class="item-text">Xiaomi 33WRH Power Bank 10000mAh Por apple bannana</view>
-								<view class="item-price">
-									<span>RM</span>
-									<span>199.00</span>
-								</view>
-							</view>
-						</u-grid-item>
+						
 					</u-grid>
 				</view>
 			</view>
@@ -542,6 +478,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				isClick: false,
 				timer: '',
 				isBottoming: false,
+				youLikeList:[]
 			}
 		},
 		watch: {
@@ -619,6 +556,15 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 		},
 		methods: {
+			getYouLikeList(){
+				this.$http.post(this.$apiObj.GetYouLikeList,{
+					goods_id:this.shopCont.goods_id,
+					page:1,
+					pagenum:6
+				}).then(res=>{
+					this.youLikeList=res.data.data
+				})
+			},
 			toPay() {
 				this.$http.post(this.$apiObj.CartAdd, {
 					goods_spec_id: this.shopCont.litestore_goods_spec[0].goods_spec_id,
@@ -864,6 +810,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						this.shopCont = res.data
 						// 评价列表
 						this.getCommentList()
+						//猜你喜欢
+						this.getYouLikeList()
 
 						setTimeout(() => {
 							this.getTopNum()

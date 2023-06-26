@@ -24,6 +24,7 @@
 							:class="[index === current && 'indicator__dot--active']">
 						</view>
 					</view>
+					
 				</u-swiper>
 			</view>
 		</view>
@@ -542,9 +543,9 @@
 						<view class="label">
 							{{item.title}}
 							<block v-if="item.id==1">（{{$t('auction.detail.keyongyuer')}}<text class="color-red"
-									style="color: rgb(10, 198, 142);">RM{{money}}</text>）</block>
-							<block v-if="item.id==2">（{{$t('auction.detail.keyongyuer')}}<text class="color-red"
 									style="color: rgb(10, 198, 142);">RM{{balance}}</text>）</block>
+							<block v-if="item.id==2">（{{$t('auction.detail.keyongyuer')}}<text class="color-red"
+									style="color: rgb(10, 198, 142);">RM{{money}}</text>）</block>
 						</view>
 						<view class="li-fr" @click="onQuanClick(item)">
 							<radio :checked="item.isShow?true:false" value="r1" />
@@ -1025,9 +1026,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				}
 			})
 
-
 			if (uni.getStorageSync('token')) {
-				console.log(uni.getStorageSync('token'))
 				this.showNotLogin = false
 				// 判断是否设置支付密码
 				this.$http.post(this.$apiObj.MineInfo).then(res => {

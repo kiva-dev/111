@@ -45,7 +45,7 @@
 									<view class="detail-dot"></view>
 									<!--@click="navClick('/pages/mine/points-detail')"-->
 									<view class="detail-container" >
-										<span>{{0 || 0}}</span>
+										<span>{{totalJf || 0}}</span>
 										<p>{{$t('new.jf')}}</p>
 									</view>
 								</view>
@@ -329,6 +329,7 @@
 				isBottoming: false,
 				collectGoodsTotal: 0,
 				collectStoreTotal: 0,
+				totalJf:0,//总积分
 			}
 		},
 		onLoad() {
@@ -359,6 +360,7 @@
 				this.getMineSysmsgList();
 				this.getCollectGoods();
 				this.getCollectStore();
+				this.getAllPoints()
 			}
 		},
 		onHide() {
@@ -366,6 +368,12 @@
 			this.showConfirm = false
 		},
 		methods: {
+			//获取所有积分
+			getAllPoints(){
+				this.$http.post(this.$apiObj.GetPoints).then(res=>{
+					this.totalJf=res.data.total_points
+				})
+			},
 			checkApp() {
 				plus.runtime.launchApplication({
 					//打开app

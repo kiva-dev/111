@@ -215,81 +215,16 @@
 				</view>
 				<view class="gl-content">
 					<u-grid :border="false" @click="click">
-						<u-grid-item>
+						<u-grid-item v-for="item in youLikeList" :key="item.goods_id" @click="toYouLikeOrHot()">
 							<view class="gl-content-item">
 								<view class="item-cover">
-									<image src="@/static/images/new-index/detail_demo_cover.png" mode="aspectFill">
+									<image :src="item.image" mode="aspectFill">
 									</image>
 								</view>
-								<view class="item-text">Xiaomi 33WRH Power Bank 10000mAh Por apple bannana</view>
+								<view class="item-text">{{item.goods_name}}</view>
 								<view class="item-price">
 									<span>RM</span>
-									<span>199.00</span>
-								</view>
-							</view>
-						</u-grid-item>
-						<u-grid-item>
-							<view class="gl-content-item">
-								<view class="item-cover">
-									<image src="@/static/images/new-index/detail_demo_cover.png" mode="aspectFill">
-									</image>
-								</view>
-								<view class="item-text">Xiaomi 33WRH Power Bank 10000mAh Por apple bannana</view>
-								<view class="item-price">
-									<span>RM</span>
-									<span>199.00</span>
-								</view>
-							</view>
-						</u-grid-item>
-						<u-grid-item>
-							<view class="gl-content-item">
-								<view class="item-cover">
-									<image src="@/static/images/new-index/detail_demo_cover.png" mode="aspectFill">
-									</image>
-								</view>
-								<view class="item-text">Xiaomi 33WRH Power Bank 10000mAh Por apple bannana</view>
-								<view class="item-price">
-									<span>RM</span>
-									<span>199.00</span>
-								</view>
-							</view>
-						</u-grid-item>
-						<u-grid-item>
-							<view class="gl-content-item">
-								<view class="item-cover">
-									<image src="@/static/images/new-index/detail_demo_cover.png" mode="aspectFill">
-									</image>
-								</view>
-								<view class="item-text">Xiaomi 33WRH Power Bank 10000mAh Por apple bannana</view>
-								<view class="item-price">
-									<span>RM</span>
-									<span>199.00</span>
-								</view>
-							</view>
-						</u-grid-item>
-						<u-grid-item>
-							<view class="gl-content-item">
-								<view class="item-cover">
-									<image src="@/static/images/new-index/detail_demo_cover.png" mode="aspectFill">
-									</image>
-								</view>
-								<view class="item-text">Xiaomi 33WRH Power Bank 10000mAh Por apple bannana</view>
-								<view class="item-price">
-									<span>RM</span>
-									<span>199.00</span>
-								</view>
-							</view>
-						</u-grid-item>
-						<u-grid-item>
-							<view class="gl-content-item">
-								<view class="item-cover">
-									<image src="@/static/images/new-index/detail_demo_cover.png" mode="aspectFill">
-									</image>
-								</view>
-								<view class="item-text">Xiaomi 33WRH Power Bank 10000mAh Por apple bannana</view>
-								<view class="item-price">
-									<span>RM</span>
-									<span>199.00</span>
+									<span>{{item.litestore_goods_spec[0].goods_price}}</span>
 								</view>
 							</view>
 						</u-grid-item>
@@ -306,84 +241,20 @@
 				</view>
 				<view class="gl-content">
 					<u-grid :border="false" @click="click">
-						<u-grid-item>
-							<view class="gl-content-item">
+						<u-grid-item v-for="item in hotList" :key="item.auction_goods_id" @click="toYouLikeOrHot(item.auction_goods_id)">
+							<view class="gl-content-item" >
 								<view class="item-cover">
-									<image src="@/static/images/new-index/detail_demo_cover.png" mode="aspectFill">
+									<image :src="item.image" mode="aspectFill">
 									</image>
 								</view>
-								<view class="item-text">Xiaomi 33WRH Power Bank 10000mAh Por apple bannana</view>
+								<view class="item-text">{{item.goods_name}}</view>
 								<view class="item-price">
 									<span>RM</span>
-									<span>199.00</span>
+									<span>{{item.price}}</span>
 								</view>
 							</view>
 						</u-grid-item>
-						<u-grid-item>
-							<view class="gl-content-item">
-								<view class="item-cover">
-									<image src="@/static/images/new-index/detail_demo_cover.png" mode="aspectFill">
-									</image>
-								</view>
-								<view class="item-text">Xiaomi 33WRH Power Bank 10000mAh Por apple bannana</view>
-								<view class="item-price">
-									<span>RM</span>
-									<span>199.00</span>
-								</view>
-							</view>
-						</u-grid-item>
-						<u-grid-item>
-							<view class="gl-content-item">
-								<view class="item-cover">
-									<image src="@/static/images/new-index/detail_demo_cover.png" mode="aspectFill">
-									</image>
-								</view>
-								<view class="item-text">Xiaomi 33WRH Power Bank 10000mAh Por apple bannana</view>
-								<view class="item-price">
-									<span>RM</span>
-									<span>199.00</span>
-								</view>
-							</view>
-						</u-grid-item>
-						<u-grid-item>
-							<view class="gl-content-item">
-								<view class="item-cover">
-									<image src="@/static/images/new-index/detail_demo_cover.png" mode="aspectFill">
-									</image>
-								</view>
-								<view class="item-text">Xiaomi 33WRH Power Bank 10000mAh Por apple bannana</view>
-								<view class="item-price">
-									<span>RM</span>
-									<span>199.00</span>
-								</view>
-							</view>
-						</u-grid-item>
-						<u-grid-item>
-							<view class="gl-content-item">
-								<view class="item-cover">
-									<image src="@/static/images/new-index/detail_demo_cover.png" mode="aspectFill">
-									</image>
-								</view>
-								<view class="item-text">Xiaomi 33WRH Power Bank 10000mAh Por apple bannana</view>
-								<view class="item-price">
-									<span>RM</span>
-									<span>199.00</span>
-								</view>
-							</view>
-						</u-grid-item>
-						<u-grid-item>
-							<view class="gl-content-item">
-								<view class="item-cover">
-									<image src="@/static/images/new-index/detail_demo_cover.png" mode="aspectFill">
-									</image>
-								</view>
-								<view class="item-text">Xiaomi 33WRH Power Bank 10000mAh Por apple bannana</view>
-								<view class="item-price">
-									<span>RM</span>
-									<span>199.00</span>
-								</view>
-							</view>
-						</u-grid-item>
+						
 					</u-grid>
 				</view>
 			</view>
@@ -628,9 +499,9 @@
 						<view class="label">
 							{{item.title}}
 							<block v-if="item.id==1">（{{$t('auction.detail.keyongyuer')}}<text class="color-red"
-									style="color: rgb(10, 198, 142);">RM{{money}}</text>）</block>
-							<block v-if="item.id==2">（{{$t('auction.detail.keyongyuer')}}<text class="color-red"
 									style="color: rgb(10, 198, 142);">RM{{balance}}</text>）</block>
+							<block v-if="item.id==2">（{{$t('auction.detail.keyongyuer')}}<text class="color-red"
+									style="color: rgb(10, 198, 142);">RM{{money}}</text>）</block>
 						</view>
 						<view class="li-fr" @click="onQuanClick(item)">
 							<radio :checked="item.isShow?true:false" value="r1" />
@@ -797,6 +668,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				minute: 0,
 				second: 0,
 				timer: "", //定时器
+				hotList:[],//热门推荐
+				youLikeList:[],//猜你喜欢
 			}
 		},
 		watch: {
@@ -891,6 +764,30 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 		},
 		methods: {
+			//猜你喜欢以及热门推荐跳转
+			toYouLikeOrHot(id){
+				uni.navigateTo({
+					url:'/pages/auction/detail?id='+id
+				})
+			},
+			getYouLikeList(){
+				this.$http.post(this.$apiObj.GetYouLikeList,{
+					goods_id:this.shopCont.goods_id,
+					page:1,
+					pagenum:6
+				}).then(res=>{
+					this.youLikeList=res.data.data
+				})
+			},
+			getHotList(){
+				this.$http.post(this.$apiObj.GetHotList,{
+					goods_id:this.shopCont.goods_id,
+					page:1,
+					pagenum:6
+				}).then(res=>{
+					this.hotList=res.data.data
+				})
+			},
 			toPay() {
 				this.$http.post(this.$apiObj.CartAdd, {
 					goods_spec_id: this.shopCont.litestore_goods_spec[0].goods_spec_id,
@@ -1121,6 +1018,10 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 						// 评价列表
 						this.getCommentList()
+						//热门推荐
+						this.getHotList()
+						//猜你喜欢
+						this.getYouLikeList()
 						setTimeout(() => {
 							this.getTopNum()
 						}, 2000)
@@ -1251,6 +1152,10 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			// 个人信息获取剩余竞拍次数
 			onMineInfos() {
 				this.isauctionNum = ''
+				this.pay_pwd=''
+				this.orderPayList.forEach(item=>{
+					item.isShow=false
+				})
 				this.$http.post(this.$apiObj.MineInfo, {
 					auction_goods_id: this.id
 				}).then(res => {
@@ -1264,7 +1169,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						// this.auction_num = 10
 						if (res.data.auction_num !== 0) {
 							this.qiangpaiShow = true
-							console.log(1)
 							// this.$refs.qiangpaiShow.open()
 						} else {
 							this.$refs.pwdPopup.open()
