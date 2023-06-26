@@ -76,6 +76,7 @@
 	"top.search": "搜索",
 	"top.dianshang": "电商",
 	"top.auctionDetail": "竞拍详情",
+	"top.active": "活动页",
 
 	"index.demo-description": "包含 uni-framework、manifest.json、pages.json、tabbar、页面、组件、API、Schema",
 	"index.detail": "详情",

@@ -350,6 +350,7 @@
 			// #endif
 		},
 		onShow() {
+			console.log(111);
 			uni.removeStorageSync('productInfo')
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false;
 			if (uni.getStorageSync('token')) {
@@ -561,7 +562,7 @@
 							align-items: center;
 
 							.box-name-text {
-								width: 424rpx;
+								max-width: 400rpx;
 								color: rgb(51, 51, 51);
 								font-size: 40rpx;
 								overflow: hidden;

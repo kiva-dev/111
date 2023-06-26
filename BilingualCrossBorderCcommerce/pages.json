@@ -871,6 +871,13 @@
 				"navigationBarTitleText": "%top.auctionDetail%",
 				"enablePullDownRefresh": false
 			}
+		},
+		{
+			"path": "pages/active/activities",
+			"style": {
+				"navigationBarTitleText": "%top.active%",
+				"enablePullDownRefresh": false
+			}
 		}
 	],
 	"globalStyle": {
