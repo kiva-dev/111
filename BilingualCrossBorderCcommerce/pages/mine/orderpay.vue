@@ -533,7 +533,7 @@
 				.pay-btn {
 					width: 180rpx;
 					height: 70rpx;
-					background: rgb(255, 78, 47);
+					background: rgb(10, 198, 142);
 					border-radius: 35rpx;
 					line-height: 70rpx;
 					margin: 0;

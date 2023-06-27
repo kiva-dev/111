@@ -49,17 +49,8 @@
 				<!-- <block v-for="(item,index) in shopCont.tags" :key="item.tag_id">
 					<view class="tag">{{item.name}}</view>
 				</block> -->
-				<view class="li-icon">
-					<image src="@/static/images/new-index/kzx.png" mode="widthFix"></image>
-				</view>
-				<view class="li-icon">
-					<image src="@/static/images/new-index/xpss.png" mode="widthFix"></image>
-				</view>
-				<view class="li-icon">
-					<image src="@/static/images/new-index/tjsp.png" mode="widthFix"></image>
-				</view>
-				<view class="li-icon">
-					<image src="@/static/images/new-index/rmsp.png" mode="widthFix"></image>
+				<view class="li-icon" v-for="item in shopCont.tags" :key="item.tag_id">
+					<image :src="item.image" mode="widthFix"></image>
 				</view>
 			</view>
 			<!-- <view class="progress-layout">

@@ -15,6 +15,7 @@ let apiObj = {
 	LoginThirdPartyLogin: 'Login/thirdPartyLogin', // google、twitter、facebook登录  (code 为7时跳转绑定手机号页面)
 	LoginClickNum: '/Login/clickNum', // 分析点击量接口
 	LoginVerifyCode:'/Login/checkEmailCodeByApp',//邮箱验证码验证
+	LoginVerifyPhone:'/Login/checkMobileCodeByApp',//手机验证码验证
 	// 商城-首页
 	IndexShopList: 'Index/shopList', // 首页搜索店铺
 	bannerList: 'Index/bannerList', // 商城首页banner图
@@ -64,7 +65,7 @@ let apiObj = {
 	MineChangeEmail: 'Mine/changeEmail', // 更换邮箱
 	MineBindEmail: 'Mine/bindEmail', // 绑定邮箱
 	MineRealAuth: 'Mine/realAuth', // 实名认证申请
-	MineAuthDetail: 'Mine/info', // 实名认证信息
+	MineAuthDetail: 'Mine/authDetail', // 实名认证信息
 	MineLoginOut: 'Mine/loginOut', // 退出登录
 	MineCancelAccount: 'Mine/cancelAccount', // 注销账号
 	// 订单
@@ -157,5 +158,9 @@ let apiObj = {
 	
 	GetHotList:"/Auction/popularRecommendation",//热门推荐
 	GetYouLikeList:"/Litestoregoods/youMayAlsoLike",//猜你喜欢
+	
+	//k砖
+	addDiamond:"/Recharge/addDiamond",//充值k钻
+	diamondDetail:"/Mine/kDiamondList",//k钻变化明细
 }
 export default apiObj

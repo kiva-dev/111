@@ -327,7 +327,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						})
 						setTimeout(() => {
 							uni.switchTab({
-								url: '/pages/auction/auction'
+								url: '/pages/auction/new_index'
 							});
 						}, 1000);
 					}

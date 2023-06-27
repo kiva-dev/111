@@ -30,7 +30,7 @@
 	"top.jpxq": "竞拍详情",
 	"top.tjdd": "提交订单",
 	"top.xgnc": "修改昵称",
-	"top.xgsjh": "修改手机号",
+	"top.xgsjh": "绑定手机号",
 	"top.xgemail": "修改邮箱",
 	"top.grqz": "个人认证",
 	"top.sjrz": "手机认证",
@@ -1364,5 +1364,15 @@
 	"collect.unCollect":"取消收藏",
 	"collect.unSubscribe":"取消订阅",
 	"collect.deleteGoods":"确定取消收藏该商品？",
-	"collect.deleteShop":"确定取消订阅该店铺？"
+	"collect.deleteShop":"确定取消订阅该店铺？",
+	"new.kzcz":"K钻充值",
+	"new.wdkz":"我的K钻",
+	"new.scfl":"福利：首充福利！",
+	"new.kzsm":"说明：充值K钻石获得的奖励余额称为钱包奖金。",
+	"new.wdjf":"我的积分",
+	"new.jfmx":"积分明细",
+	"new.kzmx":"k钻明细",
+	"new.ckmx":"查看明细",
+	"new.yhk":"银行卡",
+	"new.kcxhq":"可重新获取"
 }

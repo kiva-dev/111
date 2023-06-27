@@ -123,7 +123,7 @@
 								<progress class="progress" :percent="item.finish_rate*100" stroke-width="5"
 									activeColor="rgb(10, 198, 142)" backgroundColor="#EBEBEB" />
 							</view>
-							<view class="jping-jd-bfb">{{item.finish_rate*100}}%</view>
+							<view class="jping-jd-bfb">{{(item.finish_rate*100).toFixed(0)}}%</view>
 						</view>
 					</view>
 				</view>
@@ -279,11 +279,11 @@
 										<p class="l-title">{{$t('user.auctionM.shifukuang')}}:</p>
 										<p class="l-price"><text>RM</text>{{item.auction_price}}</p>
 									</view>
-									<view class="bot-disbursements-r" @click="toDetail(item.order_no)">{{$t('user.auctionM.view')}}</view>
+									<view class="bot-disbursements-r" @click.stop="onlingjiangClick(item)">{{$t('zhongpai.lingjiangjiang')}}</view>
 								</view>
 							</view>
 						</view>
-						<!-- <view class="luck-zpjl-item-btn" v-if="item.select_way==0" @click.stop="onlingjiangClick(item)">
+						<!-- <view class="luck-zpjl-item-btn" v-if="item.select_way==0" >
 							{{$t('zhongpai.lingjiangjiang')}}
 						</view>
 						<view class="luck-zpjl-item-btn" v-else-if="item.status==6">
@@ -606,7 +606,19 @@
 			}
 		},
 		onLoad(e) {
-			if (e.num) this.type = e.num
+			if (e.num) this.type = parseInt(e.num);
+			if (this.type === 1) {
+				this.shifting = '8%'
+			}
+			if (this.type === 5) {
+				this.shifting = '33%'
+			}
+			if (this.type === 3) {
+				this.shifting = '58.5%'
+			}
+			if (this.type === 4) {
+				this.shifting = '83.5%'
+			}
 		},
 		onShow() {
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
@@ -1672,7 +1684,7 @@
 							.bot-disbursements-r {
 								padding: 12rpx 22rpx;
 								box-sizing: border-box;
-								background: rgb(204, 204, 204);
+								background: rgb(10, 198, 142);
 								border-radius: 100rpx;
 								color: rgb(255, 255, 255);
 								font-size: 20rpx;
@@ -2269,7 +2281,7 @@
 			}
 
 			&:nth-child(2) {
-				background: rgb(255, 78, 47);
+				background: rgb(10, 198, 142);
 				color: #fff;
 				margin-top: 60rpx;
 			}

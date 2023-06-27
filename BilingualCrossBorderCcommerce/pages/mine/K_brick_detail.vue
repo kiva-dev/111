@@ -2,21 +2,23 @@
 	<view class="kbrick">
 		<view class="kbrick-head">
 			<image src="/static/images/kbrick/kleft.png" @click="onReturn()"></image>
-			<view class="tit">My K Diamonds</view>
-			<view class="head-detail">View details</view>
+			<view class="tit">{{$t('new.wdkz')}}</view>
+			<view class="head-detail" @click="toDetail()">{{$t('new.ckmx')}}</view>
 		</view>
 
 		<view class="kbrick-info">
-			<view class="info-name">My K Diamonds</view>
-			<view class="info-num">120.00</view>
+			<view class="info-name">{{$t('new.wdkz')}}</view>
+			<view class="info-num">{{(balance*1).toFixed(2)}}</view>
 			<image src="/static/images/kbrick/diamond.png"></image>
 		</view>
 
-		<view class="title">K Diamonds recharge</view>
+		<view class="title">{{$t('new.kzcz')}}</view>
 
 		<view class="list">
-			<view class="item" v-for="(item,i) in list" :key="i">
-				<view class="item-tags">Give 10</view>
+			<view class="item"
+				:style="select==(i+1)?'height:216rpx;background: rgb(224, 242, 255);box-sizing: border-box;border: 4rpx solid rgb(27, 161, 255);':''"
+				v-for="(item,i) in list" :key="i" @click="select=(i+1)">
+				<!-- <view class="item-tags">Give 10</view> -->
 				<view class="item-num">
 					<image src="/static/images/kbrick/diamond.png"></image>
 					<view>{{item}}</view>
@@ -27,12 +29,11 @@
 
 		<view class="info-ts">
 			<image src="/static/images/kbrick/kbx.png"></image>
-			<view>Welfare: First recharge bonus!</view>
+			<view>{{$t('new.scfl')}}</view>
 		</view>
-		<view class="info-ts-sm">Explanation: The balance received as a bonus for recharging K Diamondsis called Wallet
-			Bonus.</view>
+		<view class="info-ts-sm">{{$t('new.kzsm')}}</view>
 
-		<view class="title">Payment method</view>
+		<view class="title">{{$t('top.zffs')}}</view>
 
 		<view class="pay-info" v-for="item in payList" :key="item.id">
 			<image :src="item.url" class="logo"></image>
@@ -43,8 +44,8 @@
 			</image>
 		</view>
 
-		<view class="topay" v-show="!showPay">Payment</view>
-		<view class="topay" style="background: rgb(10, 198, 142);" v-show="showPay">Payment</view>
+		<view class="topay" v-show="!showPay">{{$t('user.order.qzf')}}</view>
+		<view class="topay" style="background: rgb(10, 198, 142);" v-show="showPay" @click="addDiamond()">{{$t('user.order.qzf')}}</view>
 
 	</view>
 </template>
@@ -53,33 +54,81 @@
 	export default {
 		data() {
 			return {
+				balance:0,
+				select: 1,
 				list: [10, 30, 98, 198, 598, 998],
-				showPay:false,
-				payList: [{
-						id: 1,
-						url: '/static/images/kbrick/paypal.png',
-						select: false,
-						name: 'PayPal'
-					},
+				showPay: false,
+				payList: [
 					{
-						id: 2,
+						id: 1,
 						url: '/static/images/new-index/apple.png',
 						select: false,
-						name: 'Apple Pay'
+						name: this.$t('order.dsfzf')
 					}
 				]
 			}
+		},
+		onShow() {
+			this.$http.post(this.$apiObj.MineInfo).then(res=>{
+				this.balance=res.data.k_diamond_wallet
+			})
 		},
 		methods: {
 			onReturn() {
 				uni.navigateBack()
 			},
+			toDetail() {
+				uni.navigateTo({
+					url: '/pages/mine/K_brick_detail_info'
+				})
+			},
 			changPay(item) {
 				item.select = !item.select
-				this.payList.forEach(data=>{
-					if(item.id != data.id) data.select=false
-					if(item.select) this.showPay=true
-					else this.showPay=false
+				this.payList.forEach(data => {
+					if (item.id != data.id) data.select = false
+					if (item.select) this.showPay = true
+					else this.showPay = false
+				})
+			},
+			//充值k钻
+			addDiamond() {
+				this.$http.post(this.$apiObj.addDiamond, {
+					money: this.list[this.select - 1]
+				}).then(res => {
+					if (res.code == 1) {
+						const formStr = `<form action="${res.data.action_url}" method="POST" >
+					        <input name="MerchantCode" value="${res.data.MerchantCode}">
+					        <input name="TransNum" value="${res.data.TransNum}">
+					        <input name="Currency" value="${res.data.Currency}">
+					        <input name="Amount" value="${res.data.Amount}">
+					        <input name="PaymentDesc" value="${res.data.PaymentDesc}">
+					        <input name="FirstName" value="${res.data.FirstName}">
+					        <input name="LastName" value="${res.data.LastName}">
+					        <input name="EmailAddress" value="${res.data.EmailAddress}">
+					        <input name="PhoneNum" value="${res.data.PhoneNum}">
+					        <input name="Address" value="${res.data.Address}">
+					        <input name="City" value="${res.data.City}">
+					        <input name="State" value="${res.data.State}">
+					        <input name="Country" value="${res.data.Country}">
+					        <input name="Postcode" value="${res.data.Postcode}">
+					        <input name="MerchantRemark" value="${res.data.MerchantRemark}">
+					        <input name="Signature" value="${res.data.Signature}">
+					      </form>`
+						// #ifdef H5
+						const div = document.createElement('div')
+						div.innerHTML = formStr
+						div.setAttribute('style', 'position: absolute; width: 0; height: 0; overflow: hidden;')
+						const form = div.querySelector('form')
+						document.body.appendChild(div)
+						form.submit()
+						document.body.removeChild(div)
+						//  #endif
+						// #ifdef APP-PLUS  
+						uni.navigateTo({
+							url: '/pages/mine/webview?url=' + formStr
+						});
+						//  #endif
+					}
 				})
 			}
 		}
@@ -181,7 +230,7 @@
 				width: 216rpx;
 				height: 160rpx;
 				padding-top: 56rpx;
-				background: #FFF;
+				background: rgb(255, 255, 255);
 				border-radius: 24rpx;
 				margin-bottom: 20rpx;
 
@@ -218,7 +267,7 @@
 					color: rgb(255, 255, 255);
 					text-align: center;
 					background: rgb(27, 161, 255);
-					border-radius: 24rpx 0 24rpx 0;
+					border-radius: 18rpx 0 24rpx 0;
 				}
 
 			}
@@ -289,6 +338,11 @@
 			background: rgba(10, 198, 142, 0.5);
 			border-radius: 88rpx;
 			margin: 22rpx auto 0 auto;
+		}
+
+		.selectPay {
+			background: rgb(224, 242, 255);
+			border: 4rpx solid rgb(27, 161, 255);
 		}
 
 	}

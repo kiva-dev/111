@@ -6,7 +6,7 @@
 			<view class="title">{{$t('top.wdqb')}}</view>
 			<view class="commission-head-right" @click="onQuery()">
 				<image src="@/static/images/mine/wallet_btn_card.png"></image>
-				<view>Bank</view>
+				<view>{{$t('new.yhk')}}</view>
 			</view>
 
 		</view>
@@ -38,18 +38,18 @@
 		<view class="wallet-center">
 			<view class="info" @click="navClick('/pages/mine/K_brick_detail')">
 				<view class="info-tit">
-					<view>My K Diamonds</view>
+					<view>{{$t('new.wdkz')}}</view>
 					<image src="/static/images/products/right.png"></image>
 				</view>
-				<view class="info-price">120.00</view>
+				<view class="info-price">{{(kdiamond*1).toFixed(2)}}</view>
 			</view>
 			<view class="info" @click="navClick('/pages/mine/points-detail')"
 				style="background: url('/static/images/new-index/wallet_jf.png') no-repeat;background-size: 332rpx 168rpx;">
 				<view class="info-tit">
-					<view>My integral</view>
+					<view>{{$t('new.wdjf')}}</view>
 					<image src="/static/images/products/right.png"></image>
 				</view>
-				<view class="info-price">620.00</view>
+				<view class="info-price">{{totalJf || 0}}</view>
 			</view>
 		</view>
 
@@ -115,6 +115,8 @@
 				totalPageNum: 0, // 总条数
 				MoneyList: [],
 				navId: 1,
+				totalJf:0,
+				kdiamond:0
 			}
 		},
 		onShow() {
@@ -123,9 +125,11 @@
 			// 获取个人信息
 			this.$http.post(this.$apiObj.MineInfo).then(res => {
 				if (res.code == 1) {
+					this.kdiamond = res.data.k_diamond_wallet
 					this.money = res.data.money
 					this.tocash_money = res.data.recharge_money_balance
 					this.rebate_money_total = res.data.invite_money_balance
+					this.getAllPoints(res.data.u_id)
 				}
 			})
 			this.onMineMoneyList()
@@ -133,6 +137,13 @@
 		methods: {
 			onReturn() {
 				uni.navigateBack()
+			},
+			getAllPoints(id){
+				this.$http.post(this.$apiObj.GetPoints,{
+					h5_user_id:id
+				}).then(res=>{
+					this.totalJf = res.data.total_points
+				})
 			},
 			onNavClick(e) {
 				this.page = 1

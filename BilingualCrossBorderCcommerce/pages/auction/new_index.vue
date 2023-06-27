@@ -29,14 +29,17 @@
 			</view>
 		</view>
 
-		<view class="switch-logo">
-			<scroll-view :scroll-x="true" style="width: 100%;white-space: nowrap;">
-				<view class="switch-logo-info" v-for="item in FirstList" :key="item.id"
-					@click="getProductList(item.id)">
-					<image :src="item.image"></image>
-					<view>{{item.name}}</view>
+		<view class="switch-layout">
+			<scroll-view class="sl-scroll" scroll-x="true" @scrolltoupper="isBottoming = false"
+				@scrolltolower="isBottoming = true">
+				<view class="sl-scroll-box" v-for="item in FirstList" :key="item.id" @click="getProductList(item.id);">
+					<image :src="item.image" mode="widthFix"></image>
+					<p :style="switch_id==item.id?'color: rgb(51, 222, 114);':''">{{item.name}}</p>
 				</view>
 			</scroll-view>
+			<view class="sl-line">
+				<view class="sl-line-bg" :style="{ left: isBottoming ? '14rpx':'0'}"></view>
+			</view>
 		</view>
 
 		<!--消息通知-->
@@ -57,7 +60,7 @@
 						<view>{{$t('new.zzjp')}}</view> <span style="rgba(255, 64, 41, 0.4)"></span>
 					</view>
 					<view class="ongoing-type-left-more" @click="toMore(1)">
-						<view>More</view>
+						<view>{{$t('home.detail.more')}}</view>
 						<image src="/static/images/products/right.png"></image>
 					</view>
 				</view>
@@ -84,7 +87,7 @@
 						<view>{{$t('new.jjks')}}</view> <span></span>
 					</view>
 					<view class="ongoing-type-left-more" @click="toMore(2)">
-						<view>More</view>
+						<view>{{$t('home.detail.more')}}</view>
 						<image src="/static/images/products/right.png"></image>
 					</view>
 				</view>
@@ -111,7 +114,7 @@
 						<view>{{$t('new.lsjl')}}</view> <span style="background: rgba(99, 97, 250, 0.4);"></span>
 					</view>
 					<view class="ongoing-type-left-more" @click="toMore(3)">
-						<view>More</view>
+						<view>{{$t('home.detail.more')}}</view>
 						<image src="/static/images/products/right.png"></image>
 					</view>
 				</view>
@@ -236,22 +239,19 @@
 							<image src="/static/images/new-index/close.png" class="close"
 								@click.stop="item.isMask=false"></image>
 							<view style="height: 46rpx;"></view>
-							<view class="mask-info">
-								<image src="../../static/images/new-index/kzx.png"></image>
-								<view>Here is the product label description</view>
-							</view>
-							<view class="mask-info">
-								<image src="../../static/images/new-index/xpss.png"></image>
-								<view>Here is the product label description</view>
-							</view>
-							<view class="mask-info">
-								<image src="../../static/images/new-index/tjsp.png"></image>
-								<view>Here is the product label description</view>
-							</view>
-							<view class="mask-info">
-								<image src="../../static/images/new-index/rmsp.png"></image>
-								<view>Here is the product label description</view>
-							</view>
+							<block v-if="productId==1">
+								<view class="mask-info" v-for="data in item.litestore_tag">
+									<image :src="data.image"></image>
+									<view><u-parse :content="isShopCont?data.en_desc:data.zh_desc"></u-parse></view>
+								</view>
+							</block>
+							<block v-else>
+								<view class="mask-info" v-for="data in item.tags">
+									<image :src="data.image"></image>
+									<view><u-parse :content="isShopCont?data.en_desc:data.zh_desc"></u-parse></view>
+								</view>
+							</block>
+
 						</view>
 
 					</view>
@@ -316,7 +316,8 @@
 					<view class="info">
 						<view class="info-left">
 							<view class="info_jd" v-if="productId==2">
-								<image src="/static/images/new-index/select-jd.png"></image>
+								<image src="/static/images/new-index/select-jd.png"
+									:style="`width: ${(item.finish_rate*100).toFixed(0)}%;`"></image>
 								<view>{{(item.finish_rate*100).toFixed(0)}}%</view>
 							</view>
 							<view class="info_price" v-if="productId==2">
@@ -731,6 +732,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 	export default {
 		data() {
 			return {
+				isBottoming: false,
+				switch_id: 0,
 				addressInfo: {},
 				balance: '',
 				selectProductId: 0,
@@ -1008,14 +1011,17 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					this.navId = Number(e.tab)
 				}
 			}, 100);
+
 			this.getProductOrJinpai()
 		},
 		onShow() {
+			this.switch_id = 0
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
 			this.cancelText = uni.getStorageSync('locale') == 'en' ? 'cancel' : '取消'
 			this.confirmText = uni.getStorageSync('locale') == 'en' ? 'confirm' : '确认'
 
 			uni.removeStorageSync('productInfo')
+			uni.removeStorageSync('productId')
 			//获取
 
 			// 轮播图
@@ -1106,7 +1112,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				let data = {
 					name: address[num].state,
 					name_en: address[num].state_en,
-					time: date.getHours() + ":" + date.getMinutes()
+					time: date.getHours() + ":" + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date
+						.getMinutes())
 				}
 				this.addressInfo = data
 				this.showjpts = true
@@ -1153,7 +1160,14 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			},
 			//获取普通商品列表
 			getProductList(id) {
-				if (this.productId == 2) return
+				this.switch_id = id
+				if (this.productId == 2) {
+					uni.setStorageSync('switch_id', this.switch_id)
+					uni.switchTab({
+						url: '/pages/auction/jjks'
+					})
+					return
+				}
 				this.$http.post(this.$apiObj.LitestoregoodsIndex, {
 					page: this.page,
 					pagenum: this.pagenum,
@@ -2073,38 +2087,56 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		}
 
 		//一级分类图标
-		.switch-logo {
+		.switch-layout {
 			width: 100%;
-			height: 216rpx;
-			background: #fff;
-			display: flex;
-			align-items: center;
 			margin-top: 70rpx;
+			background: rgb(255, 255, 255);
+			padding: 24rpx 0 20rpx;
+			box-sizing: border-box;
 
-			.switch-logo-info {
-				display: inline-block;
-				width: 120rpx;
-				text-align: center;
-				margin: 0 32rpx;
+			.sl-scroll {
+				width: 100%;
+				white-space: nowrap;
 
-				image {
-					width: 88rpx;
-					height: 88rpx;
-				}
-
-				view {
-					width: 100%;
-					height: 54rpx;
-					font-size: 20rpx;
-					color: rgb(51, 51, 51);
+				.sl-scroll-box {
+					width: 20%;
+					display: inline-block;
 					text-align: center;
-					word-break: break-all;
-					overflow: hidden;
-					white-space: normal;
-				}
 
+					image {
+						width: 88rpx;
+					}
+
+					p {
+						width: 100%;
+						margin-top: 12rpx;
+						color: rgb(51, 51, 51);
+						font-size: 20rpx;
+						word-break: break-all;
+						word-wrap: break-word;
+					}
+				}
 			}
 
+			.sl-line {
+				margin: 20rpx auto 0;
+				width: 36rpx;
+				height: 6rpx;
+				background: #E8E8E8;
+				position: relative;
+				border-radius: 40rpx;
+
+				.sl-line-bg {
+					width: 22rpx;
+					height: 6rpx;
+					background: rgb(10, 198, 142);
+					border-radius: 40rpx;
+					position: absolute;
+					left: 0;
+					top: 0;
+					transition: left .5s;
+				}
+			}
 		}
 
 		//消息通知
@@ -2846,6 +2878,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 								transform: translate(0, -50%);
 								width: 308rpx;
 								height: 28rpx;
+								border-radius: 28rpx;
 							}
 
 							view {

@@ -4,17 +4,33 @@
 		<block>
 			<view class="register-email">
 				<image src="/static/images/new-index/register.png" class="logo"></image>
-				<view class="title">Register an account</view>
+				<view class="title">{{$t('login.zc')}}</view>
 				<!--邮箱输入-->
 				<block v-if="blockNum==1">
-					<view class="register-input">
-						<view>
+					<view class="register-input" v-show="emailOrPhone==1">
+						<view class="input">
 							<u--input :placeholder="$t('login.qsryx')" v-model="email" border="none" clearable
 								@input="changInput('email')"></u--input>
 						</view>
 					</view>
-					<view class="register-btn" style="background: rgba(10, 198, 142,0.5);" v-show="!isOnSendEmail">{{$t('login.fsyzm')}}</view>
-					<view class="register-btn" @click="verifyData('email')" v-show="isOnSendEmail">{{$t('login.fsyzm')}}</view>
+					<view class="register-input" v-show="emailOrPhone==2">
+						<span class="input-code" @click="navClick('ownership')">{{mobile_area_code}}</span>
+						<view style="width: 522rpx;margin: 0;">
+							<u--input :placeholder="$t('login.qsrsjh')" v-model="mobile" border="none" clearable
+								@input="changInput('email')" width="261"></u--input>
+						</view>
+					</view>
+
+					<view class="switch_email_phone" @click="emailOrPhone= 2" v-show="emailOrPhone==1">Use the Phone
+						number</view>
+					<view class="switch_email_phone" @click="emailOrPhone= 1" v-show="emailOrPhone==2">Use the Email
+					</view>
+
+					<view class="register-btn" style="background: rgba(10, 198, 142,0.5);" v-show="!isOnSendEmail">
+						{{$t('login.fsyzm')}}
+					</view>
+					<view class="register-btn" @click="verifyData('email')" v-show="isOnSendEmail">{{$t('login.fsyzm')}}
+					</view>
 
 					<view class="register-box" style="padding:0 30rpx">
 						<view class="login-check">
@@ -36,7 +52,7 @@
 				<!--验证码输入-->
 				<block v-else-if="blockNum==2">
 					<view class="register-input" style="margin-bottom: 24rpx;">
-						<view>
+						<view class="input">
 							<u--input placeholder="Please enter the verification code" v-model="email_code"
 								border="none" @input="changInput('code')"></u--input>
 						</view>
@@ -45,13 +61,25 @@
 						<view>
 							<view class="code-info-err" v-show="showErrCode">Verification code error</view>
 						</view>
-						<view class="code" @click="onLoginSendEmailCode()"><span>{{codeTxt}}</span></view>
-						<view class="code" v-show="false"><span>Resend</span></view>
+						<view class="code" @click="onLoginSendEmailCode()" v-show="emailOrPhone==1">
+							<span>{{codeTxt}}</span>
+						</view>
+						<view class="code" @click="onLoginSendMobileCode()" v-show="emailOrPhone==2">
+							<span>{{codeTxt1}}</span>
+						</view>
 					</view>
 
-					<view class="register-btn" style="background: rgba(10, 198, 142,0.5);" v-show="!isOnSendCode">{{$t('login.xyb')}}
+					<view class="register-btn" style="background: rgba(10, 198, 142,0.5);" v-show="!isOnSendCode">
+						{{$t('login.xyb')}}
 					</view>
-					<view class="register-btn" @click="LoginVerifyCode()" v-show="isOnSendCode">{{$t('login.xyb')}}</view>
+
+					<!--验证码验证-->
+					<view class="register-btn" @click="LoginVerifyCode()" v-show="isOnSendCode && emailOrPhone==1">
+						{{$t('login.xyb')}}
+					</view>
+					<view class="register-btn" @click="LoginVerifyPhone()" v-show="isOnSendCode && emailOrPhone==2">
+						{{$t('login.xyb')}}
+					</view>
 				</block>
 
 				<!--密码输入-->
@@ -62,8 +90,8 @@
 						<view class="email-input-info">
 							<u--input type="password" :placeholder="$t('login.qsrmm')" border="none" v-model="pwd"
 								v-show="!isPwdShow" @input="changInput('pwd')"></u--input>
-							<u--input :placeholder="$t('login.qsrmm')" border="none" v-model="pwd"
-								v-show="isPwdShow" @input="changInput('pwd')"></u--input>
+							<u--input :placeholder="$t('login.qsrmm')" border="none" v-model="pwd" v-show="isPwdShow"
+								@input="changInput('pwd')"></u--input>
 						</view>
 						<image src="/static/images/new-index/showpwd.png" class="pwd" v-show="isPwdShow"
 							@click="isPwdShow=!isPwdShow"></image>
@@ -96,9 +124,14 @@
 					<view class="pwd-err" v-show="showPwdErr">The two passwords are different</view>
 
 					<view class="register-btn" style="background: rgba(10, 198, 142,0.5);" v-show="!isOnSendPwd">
-						{{$t('login.zc')}}</view>
+						{{$t('login.zc')}}
+					</view>
+
+					<!--注册-->
 					<view class="register-btn" @click.stop="$noMultipleClicks(onLoginEmailRegister)"
-						v-show="isOnSendPwd">{{$t('login.zc')}}</view>
+						v-show="isOnSendPwd && emailOrPhone==1">{{$t('login.zc')}}</view>
+					<view class="register-btn" @click.stop="$noMultipleClicks(onLoginMobileRegister)"
+						v-show="isOnSendPwd && emailOrPhone==2">{{$t('login.zc')}}</view>
 				</block>
 
 			</view>
@@ -184,6 +217,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				blockNum: 1, //操作步骤
 				noClick: true, // 防止重复点击 
 				Inv: 2,
+				emailOrPhone: 1,
 				code: '', // 手机号验证码
 				mobile: '', // 手机号码
 				mobile_area_code: '', // 手机号区域码
@@ -227,7 +261,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			//输入框改变事件
 			changInput(val) {
 				if (val == 'email') {
-					this.isOnSendEmail = this.email.length > 0 ? true : false
+					this.isOnSendEmail = this.email.length > 0 ? true : false || this.mobile.length > 0 ? true : false
 				} else if (val == 'code') {
 					this.isOnSendCode = this.email_code.length > 0 ? true : false
 				} else if (val == 'pwd') {
@@ -250,8 +284,10 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					})
 					return
 				}
-				if (val == 'email') {
+				if (this.emailOrPhone == 1) {
 					this.onLoginSendEmailCode()
+				} else {
+					this.onLoginSendMobileCode()
 				}
 			},
 			// 点击切换
@@ -287,6 +323,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							icon: 'none'
 						})
 						this.timeDowns()
+						this.blockNum = 2
 					}
 				})
 			},
@@ -307,7 +344,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					title: this.$t('login.qsrsjhm'),
 					icon: 'none'
 				})
-				if (!this.code) return uni.showToast({
+				if (!this.email_code) return uni.showToast({
 					title: this.$t('login.qsryzm'),
 					icon: 'none'
 				})
@@ -339,7 +376,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				})
 				const pwd = jsencrypt.setEncrypt(publiukey, String(this.pwd))
 				this.$http.post(this.$apiObj.LoginMobileRegister, {
-					code: this.code, // 手机号验证码
+					code: this.email_code, // 手机号验证码
 					mobile: this.mobile, // 手机号码
 					mobile_area_code: this.mobile_area_code.slice(1), // 手机号区域码
 					pwd: pwd, // 密码
@@ -404,10 +441,11 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					}
 				}, 1000)
 			},
+			//邮箱验证码验证
 			LoginVerifyCode() {
 				if (!this.email_code) {
 					uni.showToast({
-						title: '请输入邮箱验证码',
+						title: this.$t('login.qsryzm'),
 						icon: 'none'
 					})
 					return
@@ -415,6 +453,28 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				this.$http.post(this.$apiObj.LoginVerifyCode, {
 					email: this.email,
 					email_code: this.email_code
+				}).then(res => {
+					if (res.code == 1) {
+						this.blockNum = 3
+						this.showErrCode = false
+					} else {
+						this.showErrCode = true
+					}
+				})
+			},
+			//手机验证码验证
+			LoginVerifyPhone(){
+				if (!this.email_code) {
+					uni.showToast({
+						title: this.$t('login.qsryzm'),
+						icon: 'none'
+					})
+					return
+				}
+				this.$http.post(this.$apiObj.LoginVerifyPhone, {
+					mobile_area_code: this.mobile_area_code.slice(1),
+					mobile: this.mobile,
+					code: this.email_code
 				}).then(res => {
 					if (res.code == 1) {
 						this.blockNum = 3
@@ -445,10 +505,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					title: this.$t('login.qsrmm'),
 					icon: 'none'
 				})
-				// console.log(this.pwd);
+
 				if (this.pwd) {
-					// 验证由数字,大写字母,小写字母,特殊符,至少其中三种组成密码
-					// var reg = /^(?![a-zA-Z]+$)(?![A-Z0-9]+$)(?![A-Z\\W_!@#$%^&*`~()-+=]+$)(?![a-z0-9]+$)(?![a-z\\W_!@#$%^&*`~()-+=]+$)(?![0-9\\W_!@#$%^&*`~()-+=]+$)[a-zA-Z0-9\\W_!@#$%^&*`~()-+=]{8,16}$/;
 					let reg =
 						/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d\W_]{8,16}$/
 
@@ -473,22 +531,14 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					title: this.$t('login.qydxybty'),
 					icon: 'none'
 				})
-				// this.$http.post(this.$apiObj.LoginEmailCodeCheck, { email: this.email, email_code: this.email_code }).then(res => {
-				//   if (res.code == 1) {
-				//     uni.navigateTo({
-				//       url: './phone?email=' + this.toCode(this.email) + '&email_code=' + this.toCode(this.email_code) + '&pwd=' + this.toCode(this.pwd) + '&pwd2=' + this.toCode(this.pwd2) + '&invite_code=' + this.toCode(this.invite_code)
-				//     })
-				//   }
-				// })
+
 				const pwd = jsencrypt.setEncrypt(publiukey, String(this.pwd))
 				uni.showLoading({
 					title: '请求中',
 					mask: true
 				});
 				this.$http.post(this.$apiObj.LoginEmailRegister, {
-					// code: this.code,// 手机号验证码
-					// mobile: this.mobile,// 手机号码
-					// mobile_area_code: this.mobile_area_code.slice(1),// 手机号区域码
+
 					pwd: pwd, // 密码
 					pwd2: pwd, // 再次输入的密码
 					invite_code: this.invite_code, // 邀请码
@@ -550,6 +600,12 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			width: 100%;
 			margin-top: 32rpx;
 
+			.switch_email_phone {
+				font-size: 24rpx;
+				color: rgb(10, 198, 142);
+				margin: -20rpx 0 48rpx 32rpx;
+			}
+
 			.logo {
 				display: block;
 				width: 280rpx;
@@ -574,10 +630,16 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				border-radius: 8rpx;
 				margin: 60rpx auto 48rpx auto;
 
-				view {
+				.input {
 					width: 622rpx;
 					margin: 0 auto;
 				}
+
+				span {
+					width: 100rpx;
+					text-align: center;
+				}
+
 			}
 
 			.register-btn {

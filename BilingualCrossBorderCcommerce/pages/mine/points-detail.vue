@@ -3,19 +3,19 @@
 		<view class="points-detail-content">
 			<view class="points-detail-head">
 				<image src="/static/images/auth/left.png" @click="toReturn()"></image>
-				<view>积分明细</view>
+				<view>{{$t('new.jfmx')}}</view>
 			</view>
 
 			<view class="points-detail-info">
 				<view class="points-detail-info-num">
 					<image src="/static/images/new-index/jf.png"></image>
-					<view>{{total}}</view>
+					<view>{{total || 0}}</view>
 				</view>
-				<view class="points-detail-info-txt">我的积分</view>
+				<view class="points-detail-info-txt">{{$t('new.wdjf')}}</view>
 			</view>
 
 			<view class="list">
-				<view class="list-tit">Integral detail</view>
+				<view class="list-tit">{{$t('new.jfmx')}}</view>
 				<view class="item" v-for="(item,i) in list" :key="i" :style="list.length==(i+1)?'border-bottom: none;':''">
 					<image src="/static/images/new-index/jf.png"></image>
 					<view class="item-info">

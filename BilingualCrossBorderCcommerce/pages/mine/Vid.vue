@@ -106,7 +106,7 @@
 			<view class="fixed-con">
 				<button class="public-btn" style="background: rgb(10, 198, 142);"
 					v-if="status==='0'">{{$t('user.vid.dsh')}}</button>
-				<template v-else-if="status==='1'"></template>
+				<!-- <template v-else-if="status==='1'"></template> -->
 				<button class="public-btn" style="background: rgb(10, 198, 142);" v-else
 					@click.stop="$noMultipleClicks(onBtnSub)">{{$t('user.vid.qrtj')}}</button>
 			</view>
@@ -140,13 +140,14 @@
 			this.$http.post(this.$apiObj.MineAuthDetail).then(res => {
 				if (res.code == 1) {
 					if (res.data) {
-						this.index = res.data.type - 1
+						console.log(res.data)
+						this.index = res.data.type - 1 || 0
 						this.firstName = res.data.firstName
 						this.lastName = res.data.lastName
 						this.idcard = res.data.idcard
 						this.front_image = res.data.front_image
 						this.back_image = res.data.back_image
-						this.status = res.data.status
+						this.status = res.data.status || '1'
 						if (this.isShopCont) {
 							this.refuse_reason = this.getCaption(res.data.refuse_reason, 1) ? this.getCaption(res
 								.data.refuse_reason, 1) : res.data.refuse_reason

@@ -517,6 +517,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		},
 		onShow() {
 			uni.removeStorageSync('productInfo')
+			uni.removeStorageSync('productId')
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
 			this.cancelText = uni.getStorageSync('locale') == 'en' ? 'cancel' : '取消'
 			this.confirmText = uni.getStorageSync('locale') == 'en' ? 'confirm' : '确认'

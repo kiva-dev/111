@@ -3,7 +3,7 @@
 
 		<block v-if="productId==2">
 			<view class="product-head">
-				<view>Products</view>
+				<view>{{$t('tab.all')}}</view>
 				<image src="../../static/images/auction/zw.png" class="lange" v-show="!isShopCont"
 					@click="onChangeLanuage(locales[0])"></image>
 				<image src="/static/images/new-index/lange.png" class="lange" v-show="isShopCont"
@@ -14,17 +14,24 @@
 			</view>
 
 			<view class="switch-logo">
-				<scroll-view :scroll-x="true" style="width: 100%;white-space: nowrap;">
+				<view class="switch-logo-info" @click="getAllProducts(0);switch_id=0">
+					<image src="/static/images/new-index/all_product.png"></image>
+					<view :style="switch_id==0?'color: rgb(51, 222, 114);':''">{{$t('tab.all')}}</view>
+				</view>
+				<view class="switch-line"></view>
+				<scroll-view :scroll-x="true" style="width: 630rpx;white-space: nowrap;" @scrolltoupper="isBottoming = false"
+					@scrolltolower="isBottoming = true">
 					<view class="switch-logo-info" v-for="item in FirstList" :key="item.id"
-						@click="getAllProducts(item.id)">
+						@click="getAllProducts(item.id);switch_id=item.id">
 						<image :src="item.image"></image>
-						<view>{{item.name}}</view>
+						<view :style="switch_id==item.id?'color: rgb(51, 222, 114);':''">{{item.name}}</view>
 					</view>
 				</scroll-view>
+				<view class="sl-line">
+					<view class="sl-line-bg" :style="{ left: isBottoming ? '14rpx':'0'}"></view>
+				</view>
 			</view>
 
-			<!--商品展示区域-->
-			<!-- <Mywaterfall @switchSelection="switchSelection"/> -->
 			<!--正在抢拍的数据-->
 			<view class="new-list" style="margin-top: 20rpx;">
 				<view class="new-list-head">
@@ -87,21 +94,9 @@
 								<image src="/static/images/new-index/close.png" class="close"
 									@click.stop="item.isMask=false"></image>
 								<view style="height: 46rpx;"></view>
-								<view class="mask-info">
-									<image src="../../static/images/new-index/kzx.png"></image>
-									<view>Here is the product label description</view>
-								</view>
-								<view class="mask-info">
-									<image src="../../static/images/new-index/xpss.png"></image>
-									<view>Here is the product label description</view>
-								</view>
-								<view class="mask-info">
-									<image src="../../static/images/new-index/tjsp.png"></image>
-									<view>Here is the product label description</view>
-								</view>
-								<view class="mask-info">
-									<image src="../../static/images/new-index/rmsp.png"></image>
-									<view>Here is the product label description</view>
+								<view class="mask-info" v-for="data in item.litestore_tag">
+									<image :src="data.image"></image>
+									<view><u-parse :content="isShopCont?data.en_desc:data.zh_desc"></u-parse></view>
 								</view>
 							</view>
 
@@ -197,7 +192,7 @@
 								<view>{{$t('new.zzjp')}}</view> <span style="rgba(255, 64, 41, 0.4)"></span>
 							</view>
 							<view class="ongoing-type-left-more" @click="switchJinpai(1)">
-								<view>More</view>
+								<view>{{$t('home.detail.more')}}</view>
 								<image src="/static/images/products/right.png"></image>
 							</view>
 						</view>
@@ -225,7 +220,7 @@
 								<view>{{$t('new.jjks')}}</view> <span></span>
 							</view>
 							<view class="ongoing-type-left-more" @click="switchJinpai(2)">
-								<view>More</view>
+								<view>{{$t('home.detail.more')}}</view>
 								<image src="/static/images/products/right.png"></image>
 							</view>
 						</view>
@@ -255,7 +250,7 @@
 									style="background: rgba(99, 97, 250, 0.4);"></span>
 							</view>
 							<view class="ongoing-type-left-more" @click="switchJinpai(3)">
-								<view>More</view>
+								<view>{{$t('home.detail.more')}}</view>
 								<image src="/static/images/products/right.png"></image>
 							</view>
 						</view>
@@ -383,21 +378,9 @@
 								<image src="/static/images/new-index/close.png" class="close"
 									@click.stop="item.isMask=false"></image>
 								<view style="height: 46rpx;"></view>
-								<view class="mask-info">
-									<image src="../../static/images/new-index/kzx.png"></image>
-									<view>Here is the product label description</view>
-								</view>
-								<view class="mask-info">
-									<image src="../../static/images/new-index/xpss.png"></image>
-									<view>Here is the product label description</view>
-								</view>
-								<view class="mask-info">
-									<image src="../../static/images/new-index/tjsp.png"></image>
-									<view>Here is the product label description</view>
-								</view>
-								<view class="mask-info">
-									<image src="../../static/images/new-index/rmsp.png"></image>
-									<view>Here is the product label description</view>
+								<view class="mask-info" v-for="data in item.tags">
+									<image :src="data.image"></image>
+									<view><u-parse :content="isShopCont?data.en_desc:data.zh_desc"></u-parse></view>
 								</view>
 							</view>
 
@@ -472,6 +455,14 @@
 									<image src="/static/images/new-index/lvxcz.png"></image>
 									<view @click.stop="onMineInfo(item)">{{$t('shop.qiangpai')}}</view>
 								</view>
+								
+								<view class="new-list-item-btm-btn" v-if="id==2"
+									style="border: 1rpx solid rgb(248, 155, 0);">
+									<image src="/static/images/new-index/time1.png" style="width: 20rpx;height: 20rpx;">
+									</image>
+									<u-count-down :time="item.datetime" format="HH:mm:ss"
+										style="color: rgb(248, 155, 0);"></u-count-down>
+								</view>
 							</view>
 						</view>
 					</view>
@@ -486,7 +477,8 @@
 						<view class="info">
 							<view class="info-left">
 								<view class="info_jd" v-if="id==1">
-									<image src="/static/images/new-index/select-jd.png"></image>
+									<image src="/static/images/new-index/select-jd.png"
+										:style="`width: ${(item.finish_rate*100).toFixed(0)}%;`"></image>
 									<view>{{(item.finish_rate*100).toFixed(0)}}%</view>
 								</view>
 								<view class="info_price">
@@ -684,6 +676,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		},
 		data() {
 			return {
+				isBottoming:false,
+				switch_id: 0,
 				id: 1, //决定当前页面展示那个竞拍数据
 				title: 'Ongoing', //标题显示
 				selectId: 1, //不同的显示形式
@@ -816,6 +810,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				],
 				isLogin: false, //是否登录
 				productList: [],
+				productInfoId: 0,
 			}
 		},
 		watch: {
@@ -912,6 +907,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			},
 		},
 		onShow() {
+			this.switch_id = 0
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
 			this.cancelText = uni.getStorageSync('locale') == 'en' ? 'cancel' : '取消'
 			this.confirmText = uni.getStorageSync('locale') == 'en' ? 'confirm' : '确认'
@@ -983,7 +979,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				if (product == 2) {
 					this.productId = 2
 					this.getAllProducts(0)
-					uni.removeStorageSync('productId')
+					// 
 					return
 				} else if (product == 1) {
 					this.productId = 1
@@ -1060,7 +1056,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				this.$on.switchSelection()
 			},
 			toProductInfo(id) {
-				uni.setStorageSync('productInfo', true)
+				uni.setStorageSync('productInfo', false)
 				uni.navigateTo({
 					url: '/pages/auction/product_info?goodsId=' + id
 				})
@@ -1072,6 +1068,12 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			},
 			//获取首页数据
 			getAllProducts(id) {
+				this.productInfoId = id
+				if(uni.getStorageSync('switch_id')) {
+					id = uni.getStorageSync('switch_id')
+					this.switch_id = id
+					uni.removeStorageSync('switch_id')
+				} 
 				this.$http.post(this.$apiObj.LitestoregoodsIndex, {
 					page: this.page,
 					pagenum: this.pagenum,
@@ -1746,7 +1748,18 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		onReachBottom() {
 			// 判断是否还有数据
 			// 最新竞拍
-			this.$bus.$emit('onReachBottom', this.selectProductsId)
+			// this.$bus.$emit('onReachBottom', this.selectProductsId)
+			if (this.page * this.pagenum >= this.totalPageNum) return
+
+			if (this.productId == 2) {
+				this.page++
+				this.getAllProducts(this.productInfoId)
+			} else {
+				this.page++
+				if (this.id == 1) this.onAuctionNewGoods()
+				else if (this.id == 2) this.onAuctionNotbeginGoods()
+				else this.onAuctionHistoryGoods()
+			}
 		}
 	}
 </script>
@@ -1788,7 +1801,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					height: 36rpx;
 					margin: 0 20rpx;
 				}
-
 			}
 
 			.right-btn {
@@ -1852,12 +1864,19 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 		//一级分类图标
 		.switch-logo {
+			position: relative;
 			width: 100%;
 			height: 216rpx;
 			background: #fff;
 			display: flex;
 			align-items: center;
 			margin-top: 20rpx;
+
+			.switch-line {
+				height: 52rpx;
+				border-right: 4rpx solid rgb(10, 198, 142);
+				margin-top: -50rpx;
+			}
 
 			.switch-logo-info {
 				display: inline-block;
@@ -1871,7 +1890,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				}
 
 				view {
-					width: 100%;
+					width: 120rpx;
 					height: 54rpx;
 					font-size: 20rpx;
 					color: rgb(51, 51, 51);
@@ -1882,9 +1901,64 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				}
 
 			}
-
+			
+			.sl-line {
+				width: 36rpx;
+				height: 6rpx;
+				background: #E8E8E8;
+				position: absolute;
+				left: 50%;
+				bottom: 20rpx;
+				transform: translate(-50%,0);
+				border-radius: 40rpx;
+					
+				.sl-line-bg {
+					width: 22rpx;
+					height: 6rpx;
+					background: rgb(10, 198, 142);
+					border-radius: 40rpx;
+					position: absolute;
+					left: 0;
+					top: 0;
+					transition: left .5s;
+				}
+			}
 		}
-
+		
+		.switch-layout {
+			width: 100%;
+			margin-top: 70rpx;
+			background: rgb(255, 255, 255);
+			padding: 24rpx 0 20rpx;
+			box-sizing: border-box;
+		
+			.sl-scroll {
+				width: 100%;
+				white-space: nowrap;
+		
+				.sl-scroll-box {
+					width: 20%;
+					display: inline-block;
+					text-align: center;
+		
+					image {
+						width: 88rpx;
+					}
+		
+					p {
+						width: 100%;
+						margin-top: 12rpx;
+						color: rgb(51, 51, 51);
+						font-size: 20rpx;
+						word-break: break-all;
+						word-wrap: break-word;
+					}
+				}
+			}
+		
+			
+		}
+		
 		//抢拍商品展示
 		.new-list {
 			width: 100%;
@@ -2496,6 +2570,25 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						align-items: center;
 						justify-content: space-between;
 						margin: 0 auto;
+						
+						.new-list-item-btm-btn {
+							width: 124rpx;
+							height: 48rpx;
+							font-size: 24rpx;
+							color: rgb(10, 198, 142);
+							box-sizing: border-box;
+							border: 1rpx solid rgb(10, 198, 142);
+							border-radius: 100rpx;
+							display: flex;
+							align-items: center;
+							justify-content: center;
+						
+							image {
+								width: 24rpx;
+								height: 24rpx;
+								margin-right: 8rpx;
+							}
+						}
 
 						.info-price {
 							.new {
@@ -2589,6 +2682,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 								transform: translate(0, -50%);
 								width: 308rpx;
 								height: 28rpx;
+								border-radius: 28rpx;
 							}
 
 							view {

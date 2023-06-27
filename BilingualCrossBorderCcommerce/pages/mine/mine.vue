@@ -31,7 +31,7 @@
 							</template>
 							<template v-else>
 								<view class="box-data-detail">
-									<view class="detail-container" @click="navClick('/pages/mine/points-detail')">
+									<view class="detail-container">
 										<image src="@/static/images/mine/mine_icon_integral.png" mode="widthFix">
 										</image>
 										<span>{{totalJf || 0}}</span>
@@ -349,6 +349,7 @@
 		},
 		onShow() {
 			uni.removeStorageSync('productInfo')
+			uni.removeStorageSync('productId')
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false;
 			if (uni.getStorageSync('token')) {
 				this.isLogin = true;
