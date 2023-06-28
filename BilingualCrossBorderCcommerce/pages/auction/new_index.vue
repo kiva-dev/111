@@ -34,7 +34,7 @@
 				@scrolltolower="isBottoming = true">
 				<view class="sl-scroll-box" v-for="item in FirstList" :key="item.id" @click="getProductList(item.id);">
 					<image :src="item.image" mode="widthFix"></image>
-					<p :style="switch_id==item.id?'color: rgb(51, 222, 114);':''">{{item.name}}</p>
+					<view :style="switch_id==item.id?'color: rgb(51, 222, 114);':''">{{item.name}}</view>
 				</view>
 			</scroll-view>
 			<view class="sl-line">
@@ -2102,16 +2102,18 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					width: 20%;
 					display: inline-block;
 					text-align: center;
+					vertical-align: top;
 
 					image {
 						width: 88rpx;
 					}
 
-					p {
+					view {
 						width: 100%;
 						margin-top: 12rpx;
 						color: rgb(51, 51, 51);
 						font-size: 20rpx;
+						white-space: normal;
 						word-break: break-all;
 						word-wrap: break-word;
 					}

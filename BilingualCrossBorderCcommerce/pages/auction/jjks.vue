@@ -19,7 +19,7 @@
 					<view :style="switch_id==0?'color: rgb(51, 222, 114);':''">{{$t('tab.all')}}</view>
 				</view>
 				<view class="switch-line"></view>
-				<scroll-view :scroll-x="true" style="width: 630rpx;white-space: nowrap;" @scrolltoupper="isBottoming = false"
+				<scroll-view :scroll-x="true" style="width: calc(750rpx - 180rpx);white-space: nowrap;" @scrolltoupper="isBottoming = false"
 					@scrolltolower="isBottoming = true">
 					<view class="switch-logo-info" v-for="item in FirstList" :key="item.id"
 						@click="getAllProducts(item.id);switch_id=item.id">
