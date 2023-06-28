@@ -32,37 +32,28 @@
 		<block v-if="status">
 			<view class="detail-money">RM{{shopCont.litestore_goods_spec[0].goods_price}}</view>
 			<view class="detail-title">{{shopCont.goods_name}}</view>
+			
 			<view class="li-tags">
-				<!-- <block v-for="(item,index) in shopCont.litestore_tag" :key="item.id">
-					<view class="tag">{{item.name}}</view>
-				</block> -->
-				<view class="li-icon">
-					<image src="@/static/images/new-index/kzx.png" mode="widthFix"></image>
+				<view class="li-icon" v-for="item in shopCont.litestore_tag" :key="item.id">
+					<image :src="item.image" mode="widthFix"></image>
 				</view>
-				<view class="li-icon">
-					<image src="@/static/images/new-index/xpss.png" mode="widthFix"></image>
-				</view>
-				<view class="li-icon">
-					<image src="@/static/images/new-index/tjsp.png" mode="widthFix"></image>
-				</view>
-				<view class="li-icon">
-					<image src="@/static/images/new-index/rmsp.png" mode="widthFix"></image>
-				</view>
+				
 			</view>
+			
 			<view class="operate-layout">
 				<view class="ol-container" @click="onFocusProduct">
 					<image
 						:src="shopCont.goods_focus == 0 ? require('@/static/images/new-index/detail_icon_collect.png') : require('@/static/images/new-index/detail_icon_iscollect.png')"
 						mode="widthFix"></image>
-					<p>7.9k</p>
+					<p>{{shopCont.litestore_goods_focus_total}}</p>
 				</view>
 				<view class="ol-container">
 					<image src="@/static/images/new-index/detail_icon_clap.png" mode="widthFix"></image>
-					<p>878</p>
+					<p>{{shopCont.auction_goods_total}}</p>
 				</view>
 				<view class="ol-container">
 					<image src="@/static/images/new-index/detail_icon_share.png" mode="widthFix"></image>
-					<p>1.3k</p>
+					<p>{{shopCont.appear_want_num}}</p>
 				</view>
 			</view>
 			<view class="select-layout">

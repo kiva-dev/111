@@ -4,9 +4,21 @@
 		<block>
 			<view class="register-email">
 				<image src="/static/images/new-index/register.png" class="logo"></image>
-				<view class="title">{{$t('login.zc')}}</view>
 				<!--邮箱输入-->
 				<block v-if="blockNum==1">
+					<view class="switchLoginType">
+						<view class="info" @click="emailOrPhone=1">
+							<image src="/static/images/kbrick/login_email.png" class="email" v-show="emailOrPhone!=1"></image>
+							<image src="/static/images/kbrick/login_email_select.png" class="email" v-show="emailOrPhone==1"></image>
+							<view class="email_tit" :class="emailOrPhone==1?'select_tit':''">Email</view>
+						</view>
+						<view class="info" @click="emailOrPhone=2">
+							<view class="phone_tit" :class="emailOrPhone==2?'select_tit':''">Phone</view>
+							<image src="/static/images/kbrick/login_phone.png" class="phone" v-show="emailOrPhone!=2"></image>
+							<image src="/static/images/kbrick/login_phone_select.png" class="phone" v-show="emailOrPhone==2"></image>
+						</view>
+					</view>
+					
 					<view class="register-input" v-show="emailOrPhone==1">
 						<view class="input">
 							<u--input :placeholder="$t('login.qsryx')" v-model="email" border="none" clearable
@@ -19,11 +31,6 @@
 							<u--input :placeholder="$t('login.qsrsjh')" v-model="mobile" border="none" clearable
 								@input="changInput('email')" width="261"></u--input>
 						</view>
-					</view>
-
-					<view class="switch_email_phone" @click="emailOrPhone= 2" v-show="emailOrPhone==1">Use the Phone
-						number</view>
-					<view class="switch_email_phone" @click="emailOrPhone= 1" v-show="emailOrPhone==2">Use the Email
 					</view>
 
 					<view class="register-btn" style="background: rgba(10, 198, 142,0.5);" v-show="!isOnSendEmail">
@@ -59,7 +66,7 @@
 					</view>
 					<view class="code-info">
 						<view>
-							<view class="code-info-err" v-show="showErrCode">Verification code error</view>
+							<view class="code-info-err" v-show="showErrCode">{{$t('new.yzmcw')}}</view>
 						</view>
 						<view class="code" @click="onLoginSendEmailCode()" v-show="emailOrPhone==1">
 							<span>{{codeTxt}}</span>
@@ -595,7 +602,56 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 <style lang="less" scoped>
 	.register-page {
-
+	
+		.switchLoginType {
+			position: relative;
+			width: 332rpx;
+			height: 80rpx;
+			display: flex;
+			align-items: center;
+			box-sizing: border-box;
+			border: 1rpx solid rgb(10, 198, 142);
+			border-radius: 80rpx;
+			margin: 50rpx 0 -18rpx 32rpx;
+			
+			.info{
+				display: flex;
+				align-items: center;
+			}
+		
+			.email {
+				width: 64rpx;
+				height: 64rpx;
+				margin-left: 8rpx;
+			}
+		
+			.email_tit {
+				font-size: 24rpx;
+				color: rgb(153, 153, 153);
+				margin-left: 12rpx;
+			}
+		
+			.phone {
+				position: absolute;
+				right: 8rpx;
+				width: 64rpx;
+				height: 64rpx;
+			}
+		
+			.phone_tit {
+				position: absolute;
+				right: 80rpx;
+				font-size: 24rpx;
+				color: rgb(153, 153, 153);
+			}
+			
+			.select_tit{
+				font-weight: bold;
+				color: rgb(10, 198, 142);
+			}
+		
+		}
+		
 		.register-email {
 			width: 100%;
 			margin-top: 32rpx;

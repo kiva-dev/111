@@ -4,7 +4,7 @@
 			<view class="auct-head-top">
 				<image src="/static/images/new-index/logo.png" class="logo"></image>
 
-				<view v-show="isShopCont">LET EBERYONE HAVE THE PRODUCTS THEY WANT!</view>
+				<view v-show="isShopCont">LET EVERYONE HAVE THE PRODUCTS THEY WANT!</view>
 				<view v-show="!isShopCont">让每个人都拥有他们想要的产品！</view>
 
 				<image src="../../static/images/auction/zw.png" class="lange" v-show="!isShopCont"
@@ -32,7 +32,8 @@
 		<view class="switch-layout">
 			<scroll-view class="sl-scroll" scroll-x="true" @scrolltoupper="isBottoming = false"
 				@scrolltolower="isBottoming = true">
-				<view class="sl-scroll-box" v-for="item in FirstList" :key="item.id" @click="getProductList(item.id);">
+				<view class="sl-scroll-box" v-for="item in FirstList" :key="item.id"
+					@click="switchLogoToProduct(item.id);">
 					<image :src="item.image" mode="widthFix"></image>
 					<view :style="switch_id==item.id?'color: rgb(51, 222, 114);':''">{{item.name}}</view>
 				</view>
@@ -46,7 +47,7 @@
 		<view class="msg">
 			<image src="/static/images/new-index/lv-start.png" class="msg-left"></image>
 			<image src="/static/images/products/auth.png" class="msg-auth"></image>
-			<view>latest lucky star，Auction is up XXX </view>
+			<view>latest lucky star，Joint Contribution Sales is up XXX </view>
 		</view>
 
 		<!--抢拍分类框-->
@@ -159,7 +160,7 @@
 				<image src="/static/images/new-index/p1.png" class="new-list-head-p" v-else></image>
 				<view class="new-list-head-line"></view>
 				<view class="new-list-head-more" @click="productMore()">
-					<view>View More</view>
+					<view>{{$t('home.detail.more')}}</view>
 					<image src="/static/images/products/right.png"></image>
 				</view>
 			</view>
@@ -405,7 +406,7 @@
 
 		</view>
 
-		<image src="/static/images/new-index/gwc.png" class="gwc" @click="navClick('/pages/cart/cart')"></image>
+		<image src="/static/images/new-index/gwc.png" v-show="productId==1" class="gwc" @click="navClick('/pages/cart/cart')"></image>
 
 		<!--登录提醒-->
 		<view class="not_login" v-show="showNotLogin">
@@ -966,13 +967,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			},
 		},
 		onLoad(e) {
-			// const fpPromise = import('../../common/fingerprintjs.js').then(FingerprintJS => FingerprintJS.load())
-			// fpPromise
-			//   .then(fp => fp.get())
-			//   .then(result => {
-			//     const visitorId = result.visitorId
-			//     console.log(visitorId)
-			// })
+
 			let systemInfo = uni.getSystemInfoSync();
 			this.systemLocale = systemInfo.language;
 			this.applicationLocale = uni.getLocale();
@@ -1019,10 +1014,12 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
 			this.cancelText = uni.getStorageSync('locale') == 'en' ? 'cancel' : '取消'
 			this.confirmText = uni.getStorageSync('locale') == 'en' ? 'confirm' : '确认'
-
+			
+			//删除缓存临时数据
 			uni.removeStorageSync('productInfo')
 			uni.removeStorageSync('productId')
-			//获取
+			uni.removeStorageSync('switch_id')
+			uni.removeStorageSync('jinpaiId')
 
 			// 轮播图
 			this.$http.post(this.$apiObj.AuctionBanner).then(res => {
@@ -1083,7 +1080,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 			this.jinPaiTimer = setInterval(() => {
 				this.showJinpaiData()
-			}, 10000)
+			}, 1200000)
 
 		},
 		onHide() {
@@ -1120,7 +1117,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				let timer = setTimeout(() => {
 					this.showjpts = false
 					clearTimeout(timer)
-				}, 5000)
+				}, 10000)
 			},
 			getProductOrJinpai() {
 				this.$http.post(this.$apiObj.IndexSetting, {
@@ -1132,7 +1129,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			},
 			productMore() {
 				if (this.productId == 1) {
-					uni.setStorageSync('productId', 2)
+					uni.setStorageSync('productId', 1)
 					uni.switchTab({
 						url: '/pages/auction/jjks'
 					})
@@ -1142,7 +1139,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			},
 			//查看更多
 			toMore(id) {
-				uni.setStorageSync('productId', 1)
+				uni.setStorageSync('productId', 2)
 				uni.setStorageSync('jinpaiId', id)
 				uni.switchTab({
 					url: '/pages/auction/jjks'
@@ -1158,16 +1155,17 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					url: '/pages/auction/product_info?goodsId=' + id
 				})
 			},
+			//首页logo页面跳转
+			switchLogoToProduct(id) {
+				uni.setStorageSync('switch_id', id)
+				uni.setStorageSync('productId', 1)
+				uni.switchTab({
+					url: '/pages/auction/jjks'
+				})
+			},
+
 			//获取普通商品列表
 			getProductList(id) {
-				this.switch_id = id
-				if (this.productId == 2) {
-					uni.setStorageSync('switch_id', this.switch_id)
-					uni.switchTab({
-						url: '/pages/auction/jjks'
-					})
-					return
-				}
 				this.$http.post(this.$apiObj.LitestoregoodsIndex, {
 					page: this.page,
 					pagenum: this.pagenum,
@@ -1740,7 +1738,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							.auction_num :
 							(res.data.auction_num === -1) ? e.total_least_num : (res.data.auction_num < e
 								.total_least_num) ? res.data.auction_num : e.total_least_num
-						// this.auction_num = res.data.auction_num
+
 						if (res.data.auction_num !== 0) {
 							if (res.data.set_paypwd == 1) {
 								this.$refs.pwdPopup.open()
@@ -2048,7 +2046,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					font-size: 16rpx;
 					color: rgb(255, 255, 255);
 					text-align: center;
-					word-break: break-all;
+					// word-break: break-all;
 					margin: 0 70rpx 0 24rpx;
 				}
 
@@ -2114,8 +2112,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						color: rgb(51, 51, 51);
 						font-size: 20rpx;
 						white-space: normal;
-						word-break: break-all;
-						word-wrap: break-word;
+						// word-break: break-all;
+						// word-wrap: break-word;
 					}
 				}
 			}
@@ -3038,6 +3036,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			display: flex;
 			align-items: center;
 			justify-content: center;
+			z-index: 100;
 
 			.txt {
 				font-size: 24rpx;
@@ -3085,8 +3084,12 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			}
 
 			.txt {
+				max-width: 300rpx;
 				font-size: 24rpx;
 				color: rgb(255, 255, 255);
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
 				margin-left: 8rpx;
 			}
 

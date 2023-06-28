@@ -39,37 +39,33 @@
 				<view class="detail-price-time" v-if="shopCont.check_status==3||shopCont.check_status==4">
 					{{$u.timeFormat(shopCont.end_time, 'yyyy/mm/dd hh:MM:ss')}} {{$t('auction.detail.yijs')}}
 				</view>
-				<view class="detail-price-time" v-else>
+				<view class="detail-price-time" v-else-if="shopCont.check_status==2">
 					{{$t('new.jljs')}}：{{hour}}:{{minute}}:{{second}}
+				</view>
+				<view class="detail-price-time" v-else>
+					{{$t('new.jlks')}}：<u-count-down :time="(shopCont.start_time*1000)" format="HH:mm:ss"></u-count-down>
 				</view>
 			</view>
 			<view class="detail-title">{{shopCont.goods_name}}</view>
 			<!--标签-->
 			<view class="li-tags">
-				<!-- <block v-for="(item,index) in shopCont.tags" :key="item.tag_id">
-					<view class="tag">{{item.name}}</view>
-				</block> -->
 				<view class="li-icon" v-for="item in shopCont.tags" :key="item.tag_id">
 					<image :src="item.image" mode="widthFix"></image>
 				</view>
 			</view>
-			<!-- <view class="progress-layout">
-				<view class="pl-box">
-					<span :style="{'width': 50 + '%'}"></span>
-				</view>
-			</view> -->
+
 			<view class="operate-layout">
 				<view class="ol-container">
 					<image src="@/static/images/new-index/detail_icon_collect.png" mode="widthFix"></image>
-					<p>7.9k</p>
+					<p>{{shopCont.litestore_goods_focus_total}}</p>
 				</view>
 				<view class="ol-container">
 					<image src="@/static/images/new-index/detail_icon_clap.png" mode="widthFix"></image>
-					<p>878</p>
+					<p>{{shopCont.auction_goods_total}}</p>
 				</view>
 				<view class="ol-container">
 					<image src="@/static/images/new-index/detail_icon_share.png" mode="widthFix"></image>
-					<p>1.3k</p>
+					<p>{{shopCont.appear_want_num}}</p>
 				</view>
 			</view>
 			<!--幸运之星-->

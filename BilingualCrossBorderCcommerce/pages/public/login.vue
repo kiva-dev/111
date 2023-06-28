@@ -10,8 +10,21 @@
 			</view>
 
 			<view class="login-head">
-				<view class="tit">Sign in to <span>KOLBRI</span></view>
-				<view class="info">Let eberyone have the products they want!</view>
+				<view class="tit">{{$t('new.dld')}} <span>KOLIBRI</span></view>
+				<view class="info">{{$t('new.havatheproduct')}}</view>
+			</view>
+
+			<view class="switchLoginType">
+				<view class="info" @click="isNav=2">
+					<image src="/static/images/kbrick/login_email.png" class="email" v-show="isNav!=2"></image>
+					<image src="/static/images/kbrick/login_email_select.png" class="email" v-show="isNav==2"></image>
+					<view class="email_tit" :class="isNav==2?'select_tit':''">Email</view>
+				</view>
+				<view class="info" @click="isNav=1">
+					<view class="phone_tit" :class="isNav==1?'select_tit':''">Phone</view>
+					<image src="/static/images/kbrick/login_phone.png" class="phone" v-show="isNav!=1"></image>
+					<image src="/static/images/kbrick/login_phone_select.png" class="phone" v-show="isNav==1"></image>
+				</view>
 			</view>
 
 			<block v-if="isNav==2">
@@ -19,27 +32,33 @@
 					<view class="email-input">
 						<image src="../../static/images/new-index/email.png" class="logo"></image>
 						<view class="email-input-info">
-							<u--input :placeholder="$t('login.qsryx')" border="none" v-model="email"/>
+							<u--input :placeholder="$t('login.qsryx')" border="none" v-model="email" />
 						</view>
 					</view>
 
 					<view class="email-input">
 						<image src="../../static/images/new-index/pwd.png" class="logo"></image>
 						<view class="email-input-info">
-							<u--input type="password" :placeholder="$t('login.qsrmm')" border="none" v-model="pwd" v-show="!isShow"></u--input>
-							<u--input :placeholder="$t('login.qsrmm')" border="none" v-model="pwd" v-show="isShow"></u--input>
+							<u--input type="password" :placeholder="$t('login.qsrmm')" border="none" v-model="pwd"
+								v-show="!isShow"></u--input>
+							<u--input :placeholder="$t('login.qsrmm')" border="none" v-model="pwd"
+								v-show="isShow"></u--input>
 						</view>
-						<image src="/static/images/new-index/showpwd.png" class="pwd" v-show="isShow" @click="isShow=!isShow"></image>
-						<image src="/static/images/new-index/hidepwd.png" class="pwd" v-show="!isShow" @click="isShow=!isShow"></image>
+						<image src="/static/images/new-index/showpwd.png" class="pwd" v-show="isShow"
+							@click="isShow=!isShow"></image>
+						<image src="/static/images/new-index/hidepwd.png" class="pwd" v-show="!isShow"
+							@click="isShow=!isShow"></image>
 					</view>
-					
+
 					<view class="email-btm">
-						<view style="color: rgb(10, 198, 142);" @click="navClick('register')">{{$t('login.zczh')}}</view>
-						<view @click="navClick('/pages/public/password')">Forgot password ?</view>
+						<view style="color: rgb(10, 198, 142);" @click="navClick('register')">{{$t('login.zczh')}}
+						</view>
+						<view @click="navClick('/pages/public/password')">{{$t('login.wjmm')}}?</view>
 					</view>
-					
-					<view class="email-btn" @click.stop="$noMultipleClicks(onLoginEmailLogin)">{{$t('login.ljdl')}}</view>
-					
+
+					<view class="email-btn" @click.stop="$noMultipleClicks(onLoginEmailLogin)">{{$t('login.ljdl')}}
+					</view>
+
 				</view>
 			</block>
 
@@ -50,30 +69,36 @@
 						<image src="../../static/images/new-index/phone.png" class="logo"></image>
 						<view class="phone-qh" @click="navClick('ownership')">{{mobile_area_code}}</view>
 						<view class="email-input-info">
-							<u--input :placeholder="$t('login.qsrsjh')" border="none" v-model="mobile"/>
+							<u--input :placeholder="$t('login.qsrsjh')" border="none" v-model="mobile" />
 						</view>
 					</view>
-				
+
 					<view class="email-input">
 						<image src="../../static/images/new-index/pwd.png" class="logo"></image>
 						<view class="email-input-info">
-							<u--input type="password" :placeholder="$t('login.qsrmm')" border="none" v-model="pwd" v-show="!isShow"></u--input>
-							<u--input :placeholder="$t('login.qsrmm')" border="none" v-model="pwd" v-show="isShow"></u--input>
+							<u--input type="password" :placeholder="$t('login.qsrmm')" border="none" v-model="pwd"
+								v-show="!isShow"></u--input>
+							<u--input :placeholder="$t('login.qsrmm')" border="none" v-model="pwd"
+								v-show="isShow"></u--input>
 						</view>
-						<image src="/static/images/new-index/showpwd.png" class="pwd" v-show="isShow" @click="isShow=!isShow"></image>
-						<image src="/static/images/new-index/hidepwd.png" class="pwd" v-show="!isShow" @click="isShow=!isShow"></image>
+						<image src="/static/images/new-index/showpwd.png" class="pwd" v-show="isShow"
+							@click="isShow=!isShow"></image>
+						<image src="/static/images/new-index/hidepwd.png" class="pwd" v-show="!isShow"
+							@click="isShow=!isShow"></image>
 					</view>
-					
+
 					<view class="email-btm">
-						<view style="color: rgb(10, 198, 142);" @click="navClick('register')">{{$t('login.zczh')}}</view>
-						<view @click="navClick('/pages/public/password')">Forgot password ?</view>
+						<view style="color: rgb(10, 198, 142);" @click="navClick('register')">{{$t('login.zczh')}}
+						</view>
+						<view @click="navClick('/pages/public/password')">{{$t('login.wjmm')}}</view>
 					</view>
-					
-					<view class="email-btn" @click.stop="$noMultipleClicks(onLoginMobileLogin)">{{$t('login.ljdl')}}</view>
-					
+
+					<view class="email-btn" @click.stop="$noMultipleClicks(onLoginMobileLogin)">{{$t('login.ljdl')}}
+					</view>
+
 				</view>
 			</block>
-			
+
 
 			<view class="login-check">
 				<view class="check" @click="isQuanShow=!isQuanShow">
@@ -94,12 +119,12 @@
 					<view class="line"></view>
 				</view>
 				<view class="other-ul">
-					<view class="li" v-if="isNav==2" @click="isNav=1">
+					<!-- <view class="li" v-if="isNav==2" @click="isNav=1">
 						<image class="img" src="/static/images/new-index/phone_login.png"></image>
 					</view>
 					<view class="li" v-else @click="isNav=2">
 						<image class="img" src="/static/images/new-index/email_login.png"></image>
-					</view>
+					</view> -->
 					<view class="li" @click="handleGoogleAuth">
 						<image class="img" src="/static/images/new-index/goole.png"></image>
 					</view>
@@ -256,9 +281,9 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			})
 		},
 		methods: {
-			toIndex(){
+			toIndex() {
 				uni.switchTab({
-					url:'/pages/auction/new_index'
+					url: '/pages/auction/new_index'
 				})
 			},
 			onLocaleChange(e) {
@@ -391,8 +416,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			},
 			//导航点击的跳转处理函数
 			navClick(url) {
-				this.email=''
-				this.pwd=''
+				this.email = ''
+				this.pwd = ''
 				uni.navigateTo({
 					url
 				})
@@ -671,6 +696,55 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		.login-box {
 			padding: 30rpx;
 
+			.switchLoginType {
+				position: relative;
+				width: 332rpx;
+				height: 80rpx;
+				display: flex;
+				align-items: center;
+				box-sizing: border-box;
+				border: 1rpx solid rgb(10, 198, 142);
+				border-radius: 80rpx;
+				margin: 64rpx 0 0 18rpx;
+				
+				.info{
+					display: flex;
+					align-items: center;
+				}
+
+				.email {
+					width: 64rpx;
+					height: 64rpx;
+					margin-left: 8rpx;
+				}
+
+				.email_tit {
+					font-size: 24rpx;
+					color: rgb(153, 153, 153);
+					margin-left: 12rpx;
+				}
+
+				.phone {
+					position: absolute;
+					right: 8rpx;
+					width: 64rpx;
+					height: 64rpx;
+				}
+
+				.phone_tit {
+					position: absolute;
+					right: 80rpx;
+					font-size: 24rpx;
+					color: rgb(153, 153, 153);
+				}
+				
+				.select_tit{
+					font-weight: bold;
+					color: rgb(10, 198, 142);
+				}
+
+			}
+
 			//关闭
 			.login-close {
 				width: 100%;
@@ -711,7 +785,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			//邮箱登录
 			.email-info {
 				width: 100%;
-				margin-top: 80rpx;
+				margin-top: 32rpx;
 
 				.email-input {
 					width: 654rpx;
@@ -727,27 +801,27 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						height: 48rpx;
 						margin: 0 32rpx;
 					}
-					
-					.phone-qh{
+
+					.phone-qh {
 						width: 70rpx;
 						font-size: 28rpx;
 						color: rgb(51, 51, 51);
 						text-align: center;
 					}
-					
-					.email-input-info{
+
+					.email-input-info {
 						width: 460rpx;
 					}
-					
-					.pwd{
+
+					.pwd {
 						display: block;
 						width: 36rpx;
 						height: 36rpx;
 						margin-left: 10rpx;
 					}
 				}
-				
-				.email-btm{
+
+				.email-btm {
 					width: 654rpx;
 					font-size: 24rpx;
 					color: rgb(102, 102, 102);
@@ -756,19 +830,19 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					align-items: center;
 					justify-content: space-between;
 				}
-				
-				.email-btn{
+
+				.email-btn {
 					width: 654rpx;
 					height: 88rpx;
 					line-height: 88rpx;
 					font-size: 36rpx;
 					color: rgb(255, 255, 255);
 					text-align: center;
-					background: rgba(10, 198, 142,1);
+					background: rgba(10, 198, 142, 1);
 					border-radius: 88rpx;
 					margin: 48rpx auto;
 				}
-				
+
 			}
 
 			.login-logo {

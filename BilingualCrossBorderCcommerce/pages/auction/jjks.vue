@@ -1,7 +1,7 @@
 <template>
 	<view class="auct-page">
 
-		<block v-if="productId==2">
+		<block v-if="productId==1">
 			<view class="product-head">
 				<view>{{$t('tab.all')}}</view>
 				<image src="../../static/images/auction/zw.png" class="lange" v-show="!isShopCont"
@@ -19,10 +19,10 @@
 					<view :style="switch_id==0?'color: rgb(51, 222, 114);':''">{{$t('tab.all')}}</view>
 				</view>
 				<view class="switch-line"></view>
-				<scroll-view :scroll-x="true" style="width: calc(750rpx - 180rpx);white-space: nowrap;" @scrolltoupper="isBottoming = false"
-					@scrolltolower="isBottoming = true">
+				<scroll-view :scroll-x="true" style="width: calc(750rpx - 180rpx);white-space: nowrap;"
+					@scrolltoupper="isBottoming = false" @scrolltolower="isBottoming = true">
 					<view class="switch-logo-info" v-for="item in FirstList" :key="item.id"
-						@click="getAllProducts(item.id);switch_id=item.id">
+						@click="switchSelect(item.id)">
 						<image :src="item.image"></image>
 						<view :style="switch_id==item.id?'color: rgb(51, 222, 114);':''">{{item.name}}</view>
 					</view>
@@ -119,7 +119,7 @@
 								</view>
 
 								<view class="info-tag">
-									<image src="/static/images/new-index/xx.png"></image>
+									<image src="/static/images/new-index/xcz.png"></image>
 									<view>{{item.auction_goods_total}}</view>
 								</view>
 
@@ -171,13 +171,16 @@
 			<view class="head-img">
 				<view class="more-head">
 					<view class="head-input">
-						<image src="../../static/images/new/search.png"></image>
-						<input type="text" style="font-size: 24rpx;color: rgb(153, 153, 153);"
-							placeholder="Search for products" />
+						<image src="/static/images/products/auth.png" class="auth"></image>
+						<image src="/static/images/new-index/jjks_cz.png" class="logo"></image>
+						<view class="head-input-tit">{{$t('new.zxddlzy')}}
+							{{isShopCont? addressInfo.name_en:addressInfo.name}}
+						</view>
+						<view class="head-input-time">{{addressInfo.time}}</view>
 					</view>
 					<view class="right-btn">
-						<image src="/static/images/new-index/chen-cz.png"></image>
-						<view>My Auction</view>
+						<image src="/static/images/new-index/mycz.png"></image>
+						<view>{{$t('top.auctionDetail')}}</view>
 					</view>
 				</view>
 				<!--抢拍分类框-->
@@ -429,7 +432,7 @@
 								</view>
 
 								<view class="info-tag">
-									<image src="/static/images/new-index/xx.png"></image>
+									<image src="/static/images/new-index/xcz.png"></image>
 									<view>{{item.auction_goods_total}}</view>
 								</view>
 
@@ -455,7 +458,7 @@
 									<image src="/static/images/new-index/lvxcz.png"></image>
 									<view @click.stop="onMineInfo(item)">{{$t('shop.qiangpai')}}</view>
 								</view>
-								
+
 								<view class="new-list-item-btm-btn" v-if="id==2"
 									style="border: 1rpx solid rgb(248, 155, 0);">
 									<image src="/static/images/new-index/time1.png" style="width: 20rpx;height: 20rpx;">
@@ -658,6 +661,7 @@
 </template>
 
 <script>
+	import address from '@/utils/malaysiaRegion.js';
 	import jsencrypt from '@/common/jsencrypt-Rsa/jsencrypt/jsencrypt.vue';
 	import apiObj from '../../http/api';
 	import Mywaterfall from '@/components/Mywaterfall.vue';
@@ -676,9 +680,10 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		},
 		data() {
 			return {
-				isBottoming:false,
+				addressInfo: {},
+				isBottoming: false,
 				switch_id: 0,
-				id: 1, //决定当前页面展示那个竞拍数据
+				id: 2, //决定当前页面展示那个竞拍数据
 				title: 'Ongoing', //标题显示
 				selectId: 1, //不同的显示形式
 				productId: 0,
@@ -811,6 +816,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				isLogin: false, //是否登录
 				productList: [],
 				productInfoId: 0,
+				jinPaiTimer: ''
 			}
 		},
 		watch: {
@@ -950,11 +956,12 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			if (uni.getStorageSync('token')) {
 				this.isLogin = true
 			}
-			this.id = 1
-			this.title = "Ongoing"
+			this.id = 2
+			this.title = this.$t('new.jjks')
 
 			this.getProductOrJinpai()
 
+			this.showJinpaiData()
 		},
 		onHide() {
 			this.selectProductsId = 0
@@ -972,61 +979,67 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			console.log(6666)
 		},
 		methods: {
+			//首页泡泡数据展示
+			showJinpaiData() {
+				let num = Math.random()
+				num = num * 15
+				num = Math.ceil(num)
+
+				let date = new Date()
+
+				let data = {
+					name: address[num].state,
+					name_en: address[num].state_en,
+					time: date.getHours() + ":" + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date
+						.getMinutes())
+				}
+				this.addressInfo = data
+			},
 			//获取当前展示普通商品还是竞拍商品
 			getProductOrJinpai() {
 				//如果有值说明是从首页点击更多进入
 				let product = uni.getStorageSync('productId')
-				if (product == 2) {
-					this.productId = 2
-					this.getAllProducts(0)
-					// 
-					return
-				} else if (product == 1) {
+				if (product == 1) {
+					this.switch_id = uni.getStorageSync('switch_id') || 0
 					this.productId = 1
+					this.getAllProducts(this.switch_id)
+					return
+				} else if (product == 2) {
+					this.productId = 2
 					// 最新竞拍
 					this.onAuctionNewGoods()
 					// 最新竞拍
 					this.onAuctionNotbeginGoods()
 					// 历史竞拍
 					this.onAuctionHistoryGoods()
-					uni.removeStorageSync('productId')
+
+					//记住当前竞拍选择的品类
 					let id = uni.getStorageSync('jinpaiId')
+					console.log('productinfo', product, id)
 					if (id) {
 						this.id = id
 						this.switchJinpai(id)
-						uni.removeStorageSync('jinpaiId')
 					}
-					return
-				}
-
-				if (uni.getStorageSync('productInfo')) {
-					this.productId = 1
-					// 最新竞拍
-					this.onAuctionNewGoods()
-					// 最新竞拍
-					this.onAuctionNotbeginGoods()
-					// 历史竞拍
-					this.onAuctionHistoryGoods()
 					return
 				}
 
 				this.$http.post(this.$apiObj.IndexSetting, {
 					fields: 'whether_to_enable_ordinary_mall'
 				}).then(res => {
-					//如果开启了普通商品，当前页面展示竞拍数据，否则展示普通商品数据
+					console.log(222)
+					//如果开启了普通商品，当前页面展示普通商品，否则展示竞拍商品数据
 					if (res.data.whether_to_enable_ordinary_mall == 1) {
 						this.productId = 1
+						this.getAllProducts(0)
+					} else {
+						this.productId = 2
 						// 最新竞拍
 						this.onAuctionNewGoods()
 						// 最新竞拍
 						this.onAuctionNotbeginGoods()
 						// 历史竞拍
 						this.onAuctionHistoryGoods()
-					} else {
-						this.productId = 2
-						this.getAllProducts(0)
 					}
-
 					let id = uni.getStorageSync('jinpaiId')
 					if (id) {
 						this.id = id
@@ -1040,14 +1053,18 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			switchJinpai(id) {
 				this.id = id
 				this.selectId = 1
+				uni.setStorageSync('productId', 2)
 				if (this.id == 1) {
-					this.title = 'Ongoing'
+					this.title = this.$t('new.zzjp')
+					uni.setStorageSync('jinpaiId', 1) //更新当前选择的竞拍id
 					this.onAuctionNewGoods()
 				} else if (this.id == 2) {
-					this.title = 'Start Soon'
+					this.title = this.$t('new.jjks')
+					uni.setStorageSync('jinpaiId', 2) //更新当前选择的竞拍id
 					this.onAuctionNotbeginGoods()
 				} else {
-					this.title = 'Historical'
+					this.title = this.$t('new.lsjl')
+					uni.setStorageSync('jinpaiId', 3) //更新当前选择的竞拍id
 					this.onAuctionHistoryGoods()
 				}
 			},
@@ -1063,17 +1080,13 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			},
 			//切换选择分类
 			switchSelect(id) {
-				this.selectProductsId = id
-				this.$bus.$emit('switchSelect', id)
+				this.switch_id = id
+				this.page = 1
+				this.getAllProducts(id)
 			},
 			//获取首页数据
 			getAllProducts(id) {
 				this.productInfoId = id
-				if(uni.getStorageSync('switch_id')) {
-					id = uni.getStorageSync('switch_id')
-					this.switch_id = id
-					uni.removeStorageSync('switch_id')
-				} 
 				this.$http.post(this.$apiObj.LitestoregoodsIndex, {
 					page: this.page,
 					pagenum: this.pagenum,
@@ -1533,7 +1546,11 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					if (res.code == 1) {
 						this.money = res.data.invite_money_balance
 						this.balance = res.data.recharge_money_balance
-						this.auction_num = res.data.auction_num
+						// this.auction_num = res.data.auction_num
+						this.auction_num = (e.auction_type == 2 && e.total_least_num == 0) ? res.data
+							.auction_num :
+							(res.data.auction_num === -1) ? e.total_least_num : (res.data.auction_num < e
+								.total_least_num) ? res.data.auction_num : e.total_least_num
 						if (res.data.auction_num !== 0) {
 							if (res.data.set_paypwd == 1) {
 								this.$refs.pwdPopup.open()
@@ -1749,9 +1766,10 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			// 判断是否还有数据
 			// 最新竞拍
 			// this.$bus.$emit('onReachBottom', this.selectProductsId)
+			console.log(this.page, this.pagenum, this.totalPageNum)
 			if (this.page * this.pagenum >= this.totalPageNum) return
 
-			if (this.productId == 2) {
+			if (this.productId == 1) {
 				this.page++
 				this.getAllProducts(this.productInfoId)
 			} else {
@@ -1788,6 +1806,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			align-items: center;
 
 			.head-input {
+				position: relative;
 				width: 510rpx;
 				height: 64rpx;
 				display: flex;
@@ -1796,10 +1815,33 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				border-radius: 64rpx;
 				margin-left: 32rpx;
 
-				image {
-					width: 36rpx;
-					height: 36rpx;
-					margin: 0 20rpx;
+				.auth {
+					width: 52rpx;
+					height: 52rpx;
+					border-radius: 50%;
+					margin: 0 8rpx 0 6rpx;
+				}
+
+				.logo {
+					width: 28rpx;
+					height: 28rpx;
+				}
+
+				.head-input-tit {
+					max-width: 300rpx;
+					font-size: 20rpx;
+					color: rgb(102, 102, 102);
+					overflow: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
+					margin-left: 8rpx;
+				}
+
+				.head-input-time {
+					position: absolute;
+					right: 24rpx;
+					font-size: 20rpx;
+					color: rgb(102, 102, 102);
 				}
 			}
 
@@ -1895,13 +1937,13 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					font-size: 20rpx;
 					color: rgb(51, 51, 51);
 					text-align: center;
-					word-break: break-all;
+					// word-break: break-all;
 					overflow: hidden;
 					white-space: normal;
 				}
 
 			}
-			
+
 			.sl-line {
 				width: 36rpx;
 				height: 6rpx;
@@ -1909,9 +1951,9 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				position: absolute;
 				left: 50%;
 				bottom: 20rpx;
-				transform: translate(-50%,0);
+				transform: translate(-50%, 0);
 				border-radius: 40rpx;
-					
+
 				.sl-line-bg {
 					width: 22rpx;
 					height: 6rpx;
@@ -1924,27 +1966,27 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				}
 			}
 		}
-		
+
 		.switch-layout {
 			width: 100%;
 			margin-top: 70rpx;
 			background: rgb(255, 255, 255);
 			padding: 24rpx 0 20rpx;
 			box-sizing: border-box;
-		
+
 			.sl-scroll {
 				width: 100%;
 				white-space: nowrap;
-		
+
 				.sl-scroll-box {
 					width: 20%;
 					display: inline-block;
 					text-align: center;
-		
+
 					image {
 						width: 88rpx;
 					}
-		
+
 					p {
 						width: 100%;
 						margin-top: 12rpx;
@@ -1955,10 +1997,10 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					}
 				}
 			}
-		
-			
+
+
 		}
-		
+
 		//抢拍商品展示
 		.new-list {
 			width: 100%;
@@ -2570,7 +2612,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						align-items: center;
 						justify-content: space-between;
 						margin: 0 auto;
-						
+
 						.new-list-item-btm-btn {
 							width: 124rpx;
 							height: 48rpx;
@@ -2582,7 +2624,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							display: flex;
 							align-items: center;
 							justify-content: center;
-						
+
 							image {
 								width: 24rpx;
 								height: 24rpx;

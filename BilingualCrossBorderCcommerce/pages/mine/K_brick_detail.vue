@@ -17,7 +17,7 @@
 		<view class="list">
 			<view class="item"
 				:style="select==(i+1)?'height:216rpx;background: rgb(224, 242, 255);box-sizing: border-box;border: 4rpx solid rgb(27, 161, 255);':''"
-				v-for="(item,i) in list" :key="i" @click="select=(i+1)">
+				v-for="(item,i) in list" :key="i" @click="switchCzNum(i+1)">
 				<!-- <view class="item-tags">Give 10</view> -->
 				<view class="item-num">
 					<image src="/static/images/kbrick/diamond.png"></image>
@@ -27,25 +27,39 @@
 			</view>
 		</view>
 
+		<!--自定义充值-->
+		<view class="customize" :class="selectPayNum?'select_customize':''">
+			<image src="/static/images/kbrick/diamond.png" class="logo"></image>
+			<view class="customize-input">
+				<input type="text" v-model="payNum" @focus="selectPayNum=true;select=0"
+					:placeholder="$t('new.qtczje')" style="font-size: 24rpx;color: rgb(102, 102, 102);" />
+			</view>
+			<view class="customize-right" v-show="false">
+				<image src="/static/images/kbrick/white_bx.png"></image>
+				<view>Gift RM 88</view>
+			</view>
+		</view>
+
 		<view class="info-ts">
 			<image src="/static/images/kbrick/kbx.png"></image>
 			<view>{{$t('new.scfl')}}</view>
 		</view>
 		<view class="info-ts-sm">{{$t('new.kzsm')}}</view>
 
-		<view class="title">{{$t('top.zffs')}}</view>
+		<!-- <view class="title">{{$t('top.zffs')}}</view> -->
 
-		<view class="pay-info" v-for="item in payList" :key="item.id">
+		<!-- <view class="pay-info" v-for="item in payList" :key="item.id">
 			<image :src="item.url" class="logo"></image>
 			<view>{{item.name}}</view>
 			<image src="/static/images/new-index/wxz.png" class="select" v-show="!item.select" @click="changPay(item)">
 			</image>
 			<image src="/static/images/new-index/xz.png" class="select" v-show="item.select" @click="changPay(item)">
 			</image>
-		</view>
+		</view> -->
 
 		<view class="topay" v-show="!showPay">{{$t('user.order.qzf')}}</view>
-		<view class="topay" style="background: rgb(10, 198, 142);" v-show="showPay" @click="addDiamond()">{{$t('user.order.qzf')}}</view>
+		<view class="topay" style="background: rgb(10, 198, 142);" v-show="showPay" @click="addDiamond()">
+			{{$t('user.order.qzf')}}</view>
 
 	</view>
 </template>
@@ -54,23 +68,23 @@
 	export default {
 		data() {
 			return {
-				balance:0,
+				balance: 0,
 				select: 1,
+				payNum: '',
+				selectPayNum: false,
 				list: [10, 30, 98, 198, 598, 998],
-				showPay: false,
-				payList: [
-					{
-						id: 1,
-						url: '/static/images/new-index/apple.png',
-						select: false,
-						name: this.$t('order.dsfzf')
-					}
-				]
+				showPay: true,
+				payList: [{
+					id: 1,
+					url: '/static/images/new-index/apple.png',
+					select: false,
+					name: this.$t('order.dsfzf')
+				}]
 			}
 		},
 		onShow() {
-			this.$http.post(this.$apiObj.MineInfo).then(res=>{
-				this.balance=res.data.k_diamond_wallet
+			this.$http.post(this.$apiObj.MineInfo).then(res => {
+				this.balance = res.data.k_diamond_wallet
 			})
 		},
 		methods: {
@@ -82,6 +96,11 @@
 					url: '/pages/mine/K_brick_detail_info'
 				})
 			},
+			switchCzNum(id) {
+				this.select = id
+				this.selectPayNum = false
+				this.payNum = ''
+			},
 			changPay(item) {
 				item.select = !item.select
 				this.payList.forEach(data => {
@@ -92,8 +111,16 @@
 			},
 			//充值k钻
 			addDiamond() {
+				if (this.payNum && this.payNum * 1 < 10) {
+					uni.showToast({
+						title: this.$t('new.czjejx'),
+						icon: 'none',
+						duration: 2000
+					})
+					return
+				}
 				this.$http.post(this.$apiObj.addDiamond, {
-					money: this.list[this.select - 1]
+					money: this.payNum ? this.payNum : this.list[this.select - 1]
 				}).then(res => {
 					if (res.code == 1) {
 						const formStr = `<form action="${res.data.action_url}" method="POST" >
@@ -274,6 +301,60 @@
 
 		}
 
+		.customize {
+			position: relative;
+			width: 686rpx;
+			height: 88rpx;
+			display: flex;
+			align-items: center;
+			background: rgb(255, 255, 255);
+			border-radius: 16rpx;
+			margin: 0 auto 24rpx auto;
+
+			.logo {
+				display: block;
+				width: 48rpx;
+				height: 48rpx;
+				margin: 0 32rpx;
+			}
+
+			.customize-input {
+				width: 300rpx;
+			}
+
+			.customize-right {
+				position: absolute;
+				right: 32rpx;
+				// width: 154rpx;
+				height: 36rpx;
+				padding: 0 16rpx;
+				display: flex;
+				align-items: center;
+				background: rgb(27, 161, 255);
+				border-radius: 24rpx;
+
+				image {
+					display: block;
+					width: 20rpx;
+					height: 20rpx;
+					margin: 0 8rpx 0 0;
+				}
+
+				view {
+					font-size: 20rpx;
+					font-weight: bold;
+					color: rgb(255, 255, 255);
+				}
+			}
+
+		}
+
+		.select_customize {
+			background: rgb(224, 242, 255);
+			box-sizing: border-box;
+			border: 4rpx solid rgb(27, 161, 255);
+		}
+
 		.info-ts {
 			width: 686rpx;
 			height: 64rpx;
@@ -337,7 +418,7 @@
 			text-align: center;
 			background: rgba(10, 198, 142, 0.5);
 			border-radius: 88rpx;
-			margin: 22rpx auto 0 auto;
+			margin: 62rpx auto 0 auto;
 		}
 
 		.selectPay {

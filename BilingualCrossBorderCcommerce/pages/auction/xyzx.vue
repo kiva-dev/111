@@ -516,8 +516,12 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			},
 		},
 		onShow() {
+			//删除缓存临时数据
 			uni.removeStorageSync('productInfo')
 			uni.removeStorageSync('productId')
+			uni.removeStorageSync('switch_id')
+			uni.removeStorageSync('jinpaiId')
+			
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
 			this.cancelText = uni.getStorageSync('locale') == 'en' ? 'cancel' : '取消'
 			this.confirmText = uni.getStorageSync('locale') == 'en' ? 'confirm' : '确认'

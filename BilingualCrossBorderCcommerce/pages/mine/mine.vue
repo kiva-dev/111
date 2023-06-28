@@ -349,8 +349,12 @@
 			// #endif
 		},
 		onShow() {
+			//删除缓存临时数据
 			uni.removeStorageSync('productInfo')
 			uni.removeStorageSync('productId')
+			uni.removeStorageSync('switch_id')
+			uni.removeStorageSync('jinpaiId')
+			
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false;
 			if (uni.getStorageSync('token')) {
 				this.isLogin = true;

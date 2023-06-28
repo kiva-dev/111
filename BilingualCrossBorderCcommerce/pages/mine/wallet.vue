@@ -3,7 +3,7 @@
 		<view class="commission-head">
 			<image src="@/static/images/mine/collect_icon_back.png" class="commission-head-left" @click="onReturn()">
 			</image>
-			<view class="title">{{$t('top.wdqb')}}</view>
+			<view class="title">{{$t('new.wdzc')}}</view>
 			<view class="commission-head-right" @click="onQuery()">
 				<image src="@/static/images/mine/wallet_btn_card.png"></image>
 				<view>{{$t('new.yhk')}}</view>
@@ -14,7 +14,11 @@
 			<view class="head-card">
 				<view class="head-card-info">
 					<view class="head-card-left">
-						<view class="t">{{$t('new.zhye')}}（RM）</view>
+						<view class="t">
+							<view>{{$t('new.zhye')}}</br>(RM)</view>
+							<image src="/static/images/kbrick/balance_info.png"
+								@click="navClick('/pages/mine/wallet_explain')"></image>
+						</view>
 						<view class="money">{{(money*1).toFixed(2) || 0.00}}</view>
 					</view>
 					<view class="head-card-right">
@@ -115,8 +119,8 @@
 				totalPageNum: 0, // 总条数
 				MoneyList: [],
 				navId: 1,
-				totalJf:0,
-				kdiamond:0
+				totalJf: 0,
+				kdiamond: 0
 			}
 		},
 		onShow() {
@@ -138,10 +142,10 @@
 			onReturn() {
 				uni.navigateBack()
 			},
-			getAllPoints(id){
-				this.$http.post(this.$apiObj.GetPoints,{
-					h5_user_id:id
-				}).then(res=>{
+			getAllPoints(id) {
+				this.$http.post(this.$apiObj.GetPoints, {
+					h5_user_id: id
+				}).then(res => {
 					this.totalJf = res.data.total_points
 				})
 			},
@@ -344,6 +348,7 @@
 			.title {
 				width: 100%;
 				font-size: 40rpx;
+				font-weight: bold;
 				color: rgb(51, 51, 51);
 				text-align: center;
 			}
@@ -367,13 +372,24 @@
 
 					.head-card-left {
 						width: 50%;
-						text-align: center;
 
 						.t {
 							font-size: 28rpx;
+							display: flex;
+							align-items: flex-start;
+							justify-content: center;
+
+							image {
+								display: block;
+								width: 32rpx;
+								height: 32rpx;
+								margin-top: 6rpx;
+								margin-left: 8rpx;
+							}
 						}
 
 						.money {
+							text-align: center;
 							font-size: 56rpx;
 							margin-top: 32rpx;
 						}

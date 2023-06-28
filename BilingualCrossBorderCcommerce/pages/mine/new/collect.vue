@@ -37,7 +37,7 @@
 						</view>
 					</view>
 					<view class="item-btn" :class="item.touchSwich == true ?'item-delete':''"
-						@click="deleteGoods(item)">
+						@click.stop="deleteGoods(item)">
 						<text>{{$t('collect.unCollect')}}</text>
 					</view>
 				</view>
@@ -55,7 +55,7 @@
 							<view class="item-info-text">{{item.shop_info}}</view>
 						</view>
 					</view>
-					<view class="item-btn" :class="item.touchSwich == true ?'item-delete':''" @click="deleteShop(item)">
+					<view class="item-btn" :class="item.touchSwich == true ?'item-delete':''" @click.stop="deleteShop(item)">
 						<text>{{$t('collect.unSubscribe')}}</text>
 					</view>
 				</view>

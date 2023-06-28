@@ -1,5 +1,5 @@
 <template>
-	<view class="yqlist-layout">
+	<view class="yqlist-page">
 		<view class="yqlist-content">
 			<view class="yqlist-head">
 				<image src="@/static/images/mine/collect_icon_back.png" @click="onBack"></image>
@@ -244,7 +244,7 @@
 </script>
 
 <style lang="less" scoped>
-	.yqlist-layout {
+	.yqlist-page {
 		width: 100%;
 		min-height: 100vh;
 		padding-bottom: 40rpx;
