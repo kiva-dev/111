@@ -19,14 +19,14 @@
 							<image src="/static/images/kbrick/balance_info.png"
 								@click="navClick('/pages/mine/wallet_explain')"></image>
 						</view>
-						<view class="money">{{(money*1).toFixed(2) || 0.00}}</view>
+						<view class="money">{{money || 0.00}}</view>
 					</view>
 					<view class="head-card-right">
 						<view class="balance" style="margin-bottom: 36rpx;">
-							{{$t('mine.Deposits')}}<br /><span>{{(tocash_money*1).toFixed(2) || 0.00}}</span>
+							{{$t('mine.Deposits')}}<br /><span>{{tocash_money || 0.00}}</span>
 						</view>
 						<view class="balance">
-							{{$t('mine.Bonus')}}<br /><span>{{(rebate_money_total*1).toFixed(2) || 0.0000}}</span>
+							{{$t('mine.Bonus')}}<br /><span>{{rebate_money_total || 0.0000}}</span>
 						</view>
 					</view>
 				</view>
@@ -45,7 +45,7 @@
 					<view>{{$t('new.wdkz')}}</view>
 					<image src="/static/images/products/right.png"></image>
 				</view>
-				<view class="info-price">{{(kdiamond*1).toFixed(2)}}</view>
+				<view class="info-price">{{kdiamond || 0}}</view>
 			</view>
 			<view class="info" @click="navClick('/pages/mine/points-detail')"
 				style="background: url('/static/images/new-index/wallet_jf.png') no-repeat;background-size: 332rpx 168rpx;">
@@ -390,7 +390,7 @@
 
 						.money {
 							text-align: center;
-							font-size: 56rpx;
+							font-size: 50rpx;
 							margin-top: 32rpx;
 						}
 
