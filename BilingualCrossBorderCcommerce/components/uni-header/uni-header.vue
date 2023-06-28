@@ -1,7 +1,7 @@
 <template>
 	<view class="header-layout">
 		<view class="hl-header">
-			<view class="hl-header-back">
+			<view class="hl-header-back" @click="onBack">
 				<image src="@/static/images/mine/header_btn_back.png" mode="widthFix"></image>
 			</view>
 			<view class="hl-header-title">{{title || ''}}</view>
@@ -52,6 +52,7 @@
 			
 			.hl-header-back {
 				width: 40rpx;
+				display: flex;
 				position: absolute;
 				top: 50%;
 				left: 32rpx;

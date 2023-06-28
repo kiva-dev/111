@@ -148,23 +148,24 @@
 			<view class="ml-auction-content">
 				<scroll-view class="content-scroll" scroll-x="true" @scrolltoupper="isBottoming = false"
 					@scrolltolower="isBottoming = true">
-					<view class="content-scroll-box" @click="navClick('/pages/mine/order/order?Inv=2&type=2')">
+					<!-- /pages/mine/order/order?Inv=2&type=2 -->
+					<view class="content-scroll-box" @click="navClick('/pages/mine/order/order?tabIndex=2')">
 						<image src="@/static/images/mine/mine_icon_ongoing.png" mode="widthFix"></image>
 						<p>{{$t('user.myCont.dfh')}}</p>
 					</view>
-					<view class="content-scroll-box" @click="navClick('/pages/mine/order/order?Inv=2&type=3')">
+					<view class="content-scroll-box" @click="navClick('/pages/mine/order/order?tabIndex=3')">
 						<image src="@/static/images/mine/mine_icon_oder.png" mode="widthFix"></image>
 						<p>{{$t('user.myCont.dsh')}}</p>
 					</view>
-					<view class="content-scroll-box" @click="navClick('/pages/mine/order/order?Inv=2&type=4')">
+					<view class="content-scroll-box" @click="navClick('/pages/mine/order/order?tabIndex=4')">
 						<image src="@/static/images/mine/mine_icon_winning.png" mode="widthFix"></image>
 						<p>{{$t('zhongpai.daiqueren')}}</p>
 					</view>
-					<view class="content-scroll-box" @click="navClick('/pages/mine/order/order?Inv=2&type=5')">
+					<view class="content-scroll-box" @click="navClick('/pages/mine/order/order?tabIndex=5')">
 						<image src="@/static/images/mine/mine_icon_records.png" mode="widthFix"></image>
 						<p>{{$t('zhongpai.yiqueren')}}</p>
 					</view>
-					<view class="content-scroll-box" @click="navClick('/pages/mine/order/order?Inv=2&type=6')">
+					<view class="content-scroll-box" @click="navClick('/pages/mine/order/order?tabIndex=6')">
 						<image src="@/static/images/mine/mine_icon_records.png" mode="widthFix"></image>
 						<p>{{$t('zhongpai.yiwancheng')}}</p>
 					</view>

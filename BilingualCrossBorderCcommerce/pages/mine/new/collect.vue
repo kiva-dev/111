@@ -216,6 +216,7 @@
 		width: 100%;
 		min-height: 100vh;
 		background: #F8F8F8;
+		overflow: hidden;
 
 		.cl-header {
 			width: 100%;
@@ -281,6 +282,7 @@
 		.cl-goods {
 			padding: 24rpx 32rpx;
 			box-sizing: border-box;
+			overflow: hidden;
 
 			.cl-goods-item {
 				width: 100%;

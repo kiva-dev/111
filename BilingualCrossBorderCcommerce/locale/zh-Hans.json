@@ -349,6 +349,7 @@
 	"order.qsrmm": "请输入密码",
 	"order.zfcg": "支付成功",
 	"order.nhmyyhq": "您还没有优惠券",
+	"order.search": "搜索我的订单",
 
 	"user.xitong.zhifupassword": "支付密码",
 	"user.xitong.yonghuxyi": "用户协议",
@@ -424,6 +425,7 @@
 	"user.address.btnsub": "确认",
 	"user.address.xgcg": "修改成功",
 	"user.address.delcg": "删除成功",
+	"user.address.default": "默认地址",
 
 	"user.grade.nicheng": "您还没有设置昵称",
 	"user.grade.czrw": "成长任务",
@@ -630,12 +632,12 @@
 	"user.auctionM.shifukuang": "实付款",
 	"user.auctionM.dailingjian": "待领奖",
 	"user.auctionM.lijilingjian": "领取",
-
 	"user.attentionM.shangpin": "商品",
 	"user.attentionM.dianpu": "店铺",
 	"user.attentionM.xiaoliang": "销量",
 	"user.attentionM.guanzhu": "关注",
 	"user.attentionM.jindian": "进店",
+	"user.auctionM.going": "进行中",
 
 	"user.Feedback.wtms": "问题描述",
 	"user.Feedback.qsrnr": "请输入内容",
@@ -1374,5 +1376,6 @@
 	"new.kzmx":"k钻明细",
 	"new.ckmx":"查看明细",
 	"new.yhk":"银行卡",
-	"new.kcxhq":"可重新获取"
+	"new.kcxhq":"可重新获取",
+	"profile.review":"审核中..."
 }

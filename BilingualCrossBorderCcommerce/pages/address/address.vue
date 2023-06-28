@@ -1,36 +1,36 @@
 <template>
 	<view class="address-page">
-		<!--address-box start-->
-		<view class="address-box" v-if="addList.length>0">
-			<view v-for="item in addList" :key="item.id" class="address-li" @click="onaddClick(item)">
-				<view class="li-fl">{{item.name.slice(0, 1)}}</view>
-				<view class="li-mid">
-					<view class="mid-h">
-						<text class="name">{{item.name}}</text>
-						<text class="phone">{{item.mobile}}</text>
+		<uni-header :title="$t('top.xzshdz')"></uni-header>
+		<view class="address-box" v-if="addList && addList.length>0">
+			<view class="address-li" v-for="item in addList" :key="item.id" @click="onaddClick(item)">
+				<view class="address-li-user">
+					<view class="user-info">
+						<view class="user-info-icon">
+							<image src="@/static/images/new-index/address.png" mode="widthFix"></image>
+						</view>
+						<view class="user-info-name">{{item.name}}</view>
+						<view class="user-info-phone">{{item.mobile}}</view>
 					</view>
-					<view class="c">{{item.detail}}</view>
+					<view class="user-edit" @click.stop="onEditClick(item)">{{$t('user.address.edit')}}</view>
 				</view>
-				<view class="edit-btn" @click.stop="onEditClick(item)">{{$t('user.address.edit')}}</view>
+				<view class="address-li-detail">
+					<view class="detail-container">{{item.detail}}</view>
+					<view class="detail-defalt" v-if="item.is_default === '1'">{{$t('user.address.default')}}</view>
+				</view>
 			</view>
 		</view>
-		<!--address-box end-->
-		<!--address-null start-->
 		<view class="address-null" v-else>
 			<view class="null-img">
 				<image src="@/static/images/mine/address_icon_null.png" mode="widthFix"></image>
 			</view>
 			<p>{{$t('user.address.zwdz')}}~</p>
 		</view>
-		<!--address-null end-->
-		<!--address-fixed start-->
 		<view class="address-fixed">
 			<view class="fixed-con">
 				<button class="public-btn" style="background: rgb(10, 198, 142);"
 					@click="navClick('add')">{{$t('user.address.addxdz')}}</button>
 			</view>
 		</view>
-		<!--address-fixed end-->
 	</view>
 </template>
 
@@ -45,19 +45,22 @@
 			}
 		},
 		onShow() {
-			// 地址列表
+			this.getAddressList()
+		},
+		onReachBottom() {
+			if (this.totalPageNum <= this.page * this.pagenum) return
+			this.page++
 			this.onAddressList()
 		},
 		methods: {
-			// 地址列表
-			onAddressList() {
+			getAddressList() {
 				this.$http.post(this.$apiObj.AddressList, {
 					page: this.page,
 					pagenum: this.pagenum
 				}).then(res => {
 					if (res.code == 1) {
-						this.totalPageNum = res.data.total
-						this.addList = this.page == 1 ? res.data.data : [...this.addList, ...res.data.data]
+						this.totalPageNum = res.data.total;
+						this.addList = this.page == 1 ? res.data.data : [...this.addList, ...res.data.data];
 					}
 				})
 			},
@@ -84,25 +87,89 @@
 					url: './edit?conter=' + JSON.stringify(item)
 				})
 			},
-			//导航点击的跳转处理函数
 			navClick(url) {
 				uni.navigateTo({
 					url
 				})
 			},
 		},
-		// 页面滑动到底部
-		onReachBottom() {
-			// 判断是否还有数据
-			if (this.totalPageNum <= this.page * this.pagenum) return
-			this.page++
-			this.onAddressList()
-		}
 	}
 </script>
 <style lang="less" scoped>
 	.address-page {
-		padding-bottom: 100rpx;
+		width: 100%;
+		padding-bottom: 160rpx;
+		box-sizing: border-box;
+
+		.address-box {
+			width: 100%;
+
+			.address-li {
+				padding: 32rpx;
+				box-sizing: border-box;
+				
+				.address-li-user {
+					width: 100%;
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
+					
+					.user-info {
+						display: flex;
+						align-items: center;
+						
+						.user-info-icon {
+							width: 48rpx;
+							
+							image {
+								width: 100%;
+							}
+						}
+						
+						.user-info-name {
+							margin-left: 24rpx;
+							color: rgb(51, 51, 51);
+							font-size: 32rpx;
+							font-weight: 600;
+						}
+						
+						.user-info-phone {
+							margin-left: 24rpx;
+							color: rgb(102, 102, 102);
+							font-size: 28rpx;
+						}
+					}
+					
+					.user-edit {
+						color: rgb(10, 198, 142);
+						font-size: 28rpx;
+					}
+				}
+				
+				.address-li-detail {
+					padding: 16rpx 72rpx 32rpx;
+					box-sizing: border-box;
+					border-bottom: 1rpx solid rgb(204, 204, 204);
+					
+					.detail-container {
+						color: rgb(102, 102, 102);
+						font-size: 24rpx;
+						line-height: 44rpx;
+					}
+					
+					.detail-defalt {
+						margin-top: 20rpx;
+						padding: 6rpx 12rpx;
+						box-sizing: border-box;
+						border: 1rpx solid rgb(10, 198, 142);
+						border-radius: 8rpx;
+						color: rgb(10, 198, 142);
+						font-size: 20rpx;
+						display: inline-block;
+					}
+				}
+			}
+		}
 
 		.address-null {
 			padding: 200rpx 30rpx;
@@ -113,12 +180,12 @@
 				width: 480rpx;
 				height: 480rpx;
 				margin: 0 auto;
-				
+
 				image {
 					width: 100%;
 				}
 			}
-			
+
 			p {
 				margin-top: 24rpx;
 				color: rgb(153, 153, 153);
@@ -126,78 +193,18 @@
 			}
 		}
 
-		.address-box {
-			padding: 30rpx;
-
-			.address-li {
-				display: flex;
-				align-items: center;
-				border-bottom: 1px solid #f5f5f5;
-				padding: 30rpx 150rpx 30rpx 0;
-				position: relative;
-
-				.edit-btn {
-					font-size: 26rpx;
-					color: #999;
-					position: absolute;
-					right: 30rpx;
-					top: 50%;
-					margin-top: -13rpx;
-					line-height: 1;
-				}
-
-				.li-fl {
-					width: 68rpx;
-					height: 68rpx;
-					background: #f6f6f6;
-					border-radius: 50%;
-					border-radius: 100%;
-					text-align: center;
-					line-height: 68rpx;
-					font-size: 32rpx;
-					min-width: 68rpx;
-					max-width: 68rpx;
-					margin-right: 34rpx;
-				}
-
-				.li-mid {
-					flex: 1;
-
-					.mid-h {
-						display: flex;
-						align-items: center;
-					}
-
-					.name {
-						font-size: 28rpx;
-						margin-right: 20rpx;
-					}
-
-					.phone {
-						color: #999;
-						font-size: 24rpx;
-					}
-
-					.c {
-						font-size: 26rpx;
-						line-height: 36rpx;
-						margin-top: 15rpx;
-					}
-				}
-			}
-		}
-
 		.address-fixed {
+			width: 100%;
 			background: #ffffff;
-			z-index: 99;
+			box-shadow: 0 0 20rpx 0 rgba(153, 153, 153, 0.1);
 			position: fixed;
 			left: 0;
 			bottom: 0;
-			width: 100%;
-			box-shadow: 0px 0px 20rpx 0px rgba(153, 153, 153, 0.1);
+			z-index: 99;
 
 			.fixed-con {
-				padding: 15rpx 30rpx;
+				padding: 32rpx;
+				box-sizing: border-box;
 			}
 		}
 	}

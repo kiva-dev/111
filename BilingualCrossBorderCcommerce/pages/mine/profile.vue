@@ -1,27 +1,23 @@
 <template>
 	<view class="person-page">
-		<!--person-box start-->
+		<uni-header :title="$t('top.userCont')"></uni-header>
 		<view class="person-box">
-
 			<view class="person-auth" @click="upLoadLunimg">
 				<view class="person-auth-box">
 					<image :src="userCont.avatar || require('@/static/images/mine/auth_logo.png')" mode="aspectFill"></image>
 					<image class="box-icon" src="@/static/images/mine/profile_set_avatar.png" mode="widthFix"></image>
+					<view class="box-status" v-if="false">{{$t('profile.review')}}</view>
 				</view>
 			</view>
-
-			<!--person-li end-->
-			<!--person-li start-->
 			<view class="person-li">
 				<text class="label">{{$t('user.mine.neca')}}</text>
 				<view class="li-r" @click="navClick('nick')">
-					<view class="r-t">{{userCont.nickname}}</view>
+					<view class="r-t">{{userCont.nickname}}<text v-if="false">({{$t('profile.review')}})</text></view>
 					<view class="icon">
 						<image class="img" src="../../static/images/mine/more1.png"></image>
 					</view>
 				</view>
 			</view>
-
 			<view class="person-li" @click="navClick('phone')">
 				<text class="label">{{$t('user.mine.phone')}}</text>
 				<view class="li-r">
@@ -31,8 +27,6 @@
 					</view>
 				</view>
 			</view>
-
-			<!--person-li start-->
 			<view class="person-li">
 				<text class="label">{{$t('user.mine.email')}}</text>
 				<view class="li-r" >
@@ -42,19 +36,14 @@
 					</view>
 				</view>
 			</view>
-			<!--person-li end-->
-			<!--person-li start-->
 			<view class="person-li" @click="navClick('attestation')">
 				<text class="label">{{$t('user.mine.grrz')}}</text>
 				<view class="li-r">
-					<!-- <view class="r-t r-m">未认证</view> -->
 					<view class="icon">
 						<image class="img" src="../../static/images/mine/more1.png"></image>
 					</view>
 				</view>
 			</view>
-			<!--person-li end-->
-			<!--person-li start-->
 			<view class="person-li" @click="navClick('grade')">
 				<text class="label">{{$t('user.mine.yhdj')}}</text>
 				<view class="li-r">
@@ -69,17 +58,7 @@
 					</view>
 				</view>
 			</view>
-
 		</view>
-
-		<!-- <view class="btm">
-			<view class="btm-head">
-				<view>个人积分</view>
-				<view @click="navClick('/pages/mine/points-detail')">积分明细</view>
-			</view>
-			<view class="btm-txt">00127</view>
-		</view> -->
-
 	</view>
 </template>
 
@@ -87,25 +66,27 @@
 	export default {
 		data() {
 			return {
-				userCont: '', // 个人信息
+				userCont: '',
 				mobile: ''
 			}
 		},
 		onShow() {
-			// 获取个人信息
-			this.$http.post(this.$apiObj.MineInfo).then(res => {
-				if (res.code == 1) {
-					this.userCont = res.data
-					this.mobile = res.data.mobile.substring(0, 3) + '****' + res.data.mobile.slice(-4)
-					// uni.setStorageSync('userCont', res.data)
-				}
-			})
+			this.getUserCont();
 		},
 		methods: {
 			//导航点击的跳转处理函数
 			navClick(url) {
 				uni.navigateTo({
 					url
+				});
+			},
+			getUserCont() {
+				this.$http.post(this.$apiObj.MineInfo).then(res => {
+					if (res.code == 1) {
+						this.userCont = res.data;
+						this.mobile = res.data.mobile.substring(0, 3) + '****' + res.data.mobile.slice(-4);
+					}
+					console.log(this.userCont);
 				})
 			},
 			// 修改头像
@@ -202,6 +183,21 @@
 						bottom: 0;
 						right: 0;
 					}
+					
+					.box-status {
+						padding: 6rpx 12rpx;
+						box-sizing: border-box;
+						background: rgba(0, 0, 0, 0.8);
+						border-radius: 100rpx;
+						color: rgb(255, 255, 255);
+						font-size: 20rpx;
+						text-align: center;
+						white-space: nowrap;
+						position: absolute;
+						bottom: 0;
+						left: 50%;
+						transform: translateX(-50%);
+					}
 				}
 			}
 
@@ -266,6 +262,10 @@
 						overflow: hidden;
 						text-overflow: ellipsis;
 						white-space: nowrap;
+						
+						text {
+							color: #FF3939;
+						}
 					}
 
 					.r-m {

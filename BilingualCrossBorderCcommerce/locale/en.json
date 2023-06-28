@@ -349,6 +349,7 @@
 	"order.qsrmm": "Please input a password",
 	"order.zfcg": "Payment succeeded",
 	"order.nhmyyhq": "You haven't got a coupon yet",
+	"order.search": "Search for my orders",
 
 	"user.xitong.zhifupassword": "Payment password",
 	"user.xitong.yonghuxyi": "User agreement",
@@ -423,6 +424,7 @@
 	"user.address.btnsub": "confirm",
 	"user.address.xgcg": "Modification succeeded",
 	"user.address.delcg": "Deletion succeeded",
+	"user.address.default": "Default Address",
 
 	"user.grade.nicheng": "You haven't set your nickname",
 	"user.grade.czrw": "Growth task",
@@ -629,12 +631,12 @@
 	"user.auctionM.shifukuang": "Disbursements",
 	"user.auctionM.dailingjian": "To be awarded",
 	"user.auctionM.lijilingjian": "Receive",
-
 	"user.attentionM.shangpin": "commodity",
 	"user.attentionM.dianpu": "shop",
 	"user.attentionM.xiaoliang": "sales volume",
 	"user.attentionM.guanzhu": "Follow",
 	"user.attentionM.jindian": "Entering the store",
+	"user.auctionM.going": "Ongoin",
 
 	"user.Feedback.wtms": "Problem description",
 	"user.Feedback.qsrnr": "Please enter the content",
@@ -1373,5 +1375,6 @@
 	"new.kzmx":"K diamond details",
 	"new.ckmx":"View details",
 	"new.yhk":"Bank",
-	"new.kcxhq":"Can be retrieved after"
+	"new.kcxhq":"Can be retrieved after",
+	"profile.review":"Under Review..."
 }

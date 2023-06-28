@@ -5,5 +5,8 @@
     "mobile-detect": "^1.4.5",
     "qrcode": "^1.5.1",
     "vue-waterfall": "^1.0.6"
+  },
+  "devDependencies": {
+    "webpack-dev-server": "^4.15.1"
   }
 }

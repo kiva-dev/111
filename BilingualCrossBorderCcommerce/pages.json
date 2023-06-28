@@ -201,7 +201,8 @@
 		{
 			"path": "pages/mine/profile",
 			"style": {
-				"navigationBarTitleText": "%top.userCont%",
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom",
 				"enablePullDownRefresh": false
 			}
 		},
@@ -425,28 +426,32 @@
 		{
 			"path": "pages/address/address",
 			"style": {
-				"navigationBarTitleText": "%top.xzshdz%",
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom",
 				"enablePullDownRefresh": false
 			}
 		},
 		{
 			"path": "pages/address/add",
 			"style": {
-				"navigationBarTitleText": "%top.xinzshdz%",
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom",
 				"enablePullDownRefresh": false
 			}
 		},
 		{
 			"path": "pages/address/edit",
 			"style": {
-				"navigationBarTitleText": "%top.bjshdz%",
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom",
 				"enablePullDownRefresh": false
 			}
 		},
 		{
 			"path": "pages/mine/order/order",
 			"style": {
-				"navigationBarTitleText": "%top.MyOrder%",
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom",
 				"enablePullDownRefresh": false
 			}
 		},

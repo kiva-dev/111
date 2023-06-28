@@ -1,7 +1,6 @@
 <template>
 	<view class="activeties-layout">
 		<web-view :webview-styles="webviewStyles" :src="url"></web-view>
-		<!-- <image src="https://kjtest.ysxrj.cn/uploads/20230429/db74caf0bad7599e65888dab796aeee5.png" mode="widthFix"></image> -->
 	</view>
 </template>
 
@@ -15,12 +14,11 @@
 						color: '#1DD181',
 					} 
 				},
+				url: '',
 			}
 		},
 		onLoad(option) {
-			if(option.url) {
-				this.url = option.url;
-			}
+			this.url = option.url || '';
 		}
 	}
 </script>
