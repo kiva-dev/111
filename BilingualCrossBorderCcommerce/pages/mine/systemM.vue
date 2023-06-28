@@ -12,42 +12,47 @@
 				</view>
 			</view>
 		</view>
-		<view class="sys-box">
-			<view class="sys-li" v-for="item,k in SysmsgList" :key="k" @click="navClick(item)">
-				<view class="hd">
-					<!-- "type": 1, //消息类型：1提现 recharge_tocash ，2充值 recharge，3订单（data_id是订单id，order_no是订单号，跳转订单详情），4售后（data_id是售后订单id），5竞拍（data_id是竞拍商品id），6优惠券（data_id为0时跳转优惠券列表，data_id>0s时跳转商品列表） -->
-					<view class="t" v-if="item.type==1">
-						<view class="dian" v-if="item.read_status=='0'"></view>
-						<view class="title" v-if="isShopCont">{{isShopCont ? 'Withdrawal notice' : '提现通知'}}</view>
+		<template v-if="SysmsgList && SysmsgList.length > 0">
+			<view class="sys-box">
+				<view class="sys-li" v-for="item,k in SysmsgList" :key="k" @click="navClick(item)">
+					<view class="hd">
+						<!-- "type": 1, //消息类型：1提现 recharge_tocash ，2充值 recharge，3订单（data_id是订单id，order_no是订单号，跳转订单详情），4售后（data_id是售后订单id），5竞拍（data_id是竞拍商品id），6优惠券（data_id为0时跳转优惠券列表，data_id>0s时跳转商品列表） -->
+						<view class="t" v-if="item.type==1">
+							<view class="dian" v-if="item.read_status=='0'"></view>
+							<view class="title" v-if="isShopCont">{{isShopCont ? 'Withdrawal notice' : '提现通知'}}</view>
+						</view>
+						<view class="t" v-if="item.type==2">
+							<view class="dian" v-if="item.read_status=='0'"></view>
+							<view class="title">{{isShopCont ? 'Recharge notification' : '充值通知'}}</view>
+						</view>
+						<view class="t" v-if="item.type==3">
+							<view class="dian" v-if="item.read_status=='0'"></view>
+							<view class="title">{{isShopCont ? 'Order Notice' : '订单通知'}}</view>
+						</view>
+						<view class="t" v-if="item.type==4">
+							<view class="dian" v-if="item.read_status=='0'"></view>
+							<view class="title">{{isShopCont ? 'After sales notification' : '售后通知'}}</view>
+						</view>
+						<view class="t" v-if="item.type==5">
+							<view class="dian" v-if="item.read_status=='0'"></view>
+							<view class="title">{{isShopCont ? 'Notice of Auction' : '竞拍通知'}}</view>
+						</view>
+						<view class="t" v-if="item.type==6">
+							<view class="dian" v-if="item.read_status=='0'"></view>
+							<view class="title">{{isShopCont ? 'Coupon Notice' : '优惠券通知'}}</view>
+						</view>
+						<view class="time">{{$filter.to_date_time(item.addtime)}}</view>
 					</view>
-					<view class="t" v-if="item.type==2">
-						<view class="dian" v-if="item.read_status=='0'"></view>
-						<view class="title">{{isShopCont ? 'Recharge notification' : '充值通知'}}</view>
+					<view class="bd">
+						<view class="c" v-if="isShopCont">{{item.e_content}}</view>
+						<view class="c" v-else>{{item.content}}</view>
 					</view>
-					<view class="t" v-if="item.type==3">
-						<view class="dian" v-if="item.read_status=='0'"></view>
-						<view class="title">{{isShopCont ? 'Order Notice' : '订单通知'}}</view>
-					</view>
-					<view class="t" v-if="item.type==4">
-						<view class="dian" v-if="item.read_status=='0'"></view>
-						<view class="title">{{isShopCont ? 'After sales notification' : '售后通知'}}</view>
-					</view>
-					<view class="t" v-if="item.type==5">
-						<view class="dian" v-if="item.read_status=='0'"></view>
-						<view class="title">{{isShopCont ? 'Notice of Auction' : '竞拍通知'}}</view>
-					</view>
-					<view class="t" v-if="item.type==6">
-						<view class="dian" v-if="item.read_status=='0'"></view>
-						<view class="title">{{isShopCont ? 'Coupon Notice' : '优惠券通知'}}</view>
-					</view>
-					<view class="time">{{$filter.to_date_time(item.addtime)}}</view>
-				</view>
-				<view class="bd">
-					<view class="c" v-if="isShopCont">{{item.e_content}}</view>
-					<view class="c" v-else>{{item.content}}</view>
 				</view>
 			</view>
-		</view>
+		</template>
+		<template v-else>
+			<uni-empty image="/static/images/mine/massage_icon_null.png" :message="$t('msg.null')"></uni-empty>
+		</template>
 	</view>
 </template>
 

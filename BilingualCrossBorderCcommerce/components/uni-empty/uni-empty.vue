@@ -1,13 +1,26 @@
 <template>
   <view class="empty-layout">
-    <image :src="image ? image: require('@/static/images/zanwusju.png')" mode="widthFix"></image>
-    <p>{{message || '请稍候...'}}</p>
+    <image :style="{'width': width + 'rpx'}" :src="image ? image: require('@/static/images/mine/order_icon_null.png')" mode="widthFix"></image>
+    <p>{{message || ''}}</p>
   </view>
 </template>
 
 <script>
 	export default {
-		props: ['message', 'image'],
+		props: {
+			message: {
+				type: String,
+				default: ''
+			},
+			image: {
+				type: String,
+				default: ''
+			},
+			width: {
+				type: Number,
+				default: 400
+			}
+		},
 		data() {
 			return {}
 		},
@@ -24,10 +37,10 @@
 	.empty-layout {
 	  width: 100%;
 	  text-align: center;
-	  margin-top: 160rpx;
+	  padding: 80rpx 0 40rpx;
+	  box-sizing: border-box;
 	
 	  > image {
-	    width: 400rpx;
 	    margin-bottom: 40rpx;
 	  }
 	

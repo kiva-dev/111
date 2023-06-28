@@ -273,7 +273,7 @@
 											</view>
 										</view>
 									</view>
-									<view class="li-c">
+									<!-- <view class="li-c">
 										{{$t('auction.zaiyiu')}}<text class="color-purse"
 											style="color: rgb(93, 191, 254);">{{item.shop_name}}</text>
 										{{$t('auction.tigdjphd')}}<text class="color-red"
@@ -282,7 +282,7 @@
 											style="color: rgb(255, 78, 47);">RM{{item.price}}</text>
 										<block v-if="isShopCont">of </block>
 										<block v-else>的</block>{{item.goods_name}}
-									</view>
+									</view> -->
 									<view class="li-date-f">
 										<view class="bottom">
 											<view class="li-date">{{$filter.to_date_time(item.update_time)}}</view>

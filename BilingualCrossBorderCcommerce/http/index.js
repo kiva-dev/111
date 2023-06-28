@@ -113,13 +113,21 @@ request.interceptors.response.use(function(response) { //不要使用箭头函�
 		}
 		// 未登录
 		if (code === 2) {
-			const pages = getCurrentPages()
-			const page = pages[pages.length - 1].$page.fullPath
-			uni.setStorageSync("login_front", decodeURIComponent(page))
 			uni.removeStorageSync('token');
-			uni.navigateTo({
-				url: '/pages/public/login'
-			})
+			let isEnglish = uni.getStorageSync('locale') == 'en' ? true : false;
+			uni.showModal({
+				title: isEnglish ? 'Tips' : '温馨提示',
+				content: isEnglish ? 'You are not logged in or your identity has expired, please go to login.' : '您暂未登录或身份过期，请前往登录。',
+				success: (res) => {
+					if (res.confirm) {
+						uni.redirectTo({
+							url: '/pages/public/login'
+						});
+					} else {
+						uni.navigateBack();
+					}
+				},
+			});
 			return
 		}
 		// 设置支付密码
@@ -138,7 +146,7 @@ request.interceptors.response.use(function(response) { //不要使用箭头函�
 		}
 		// 账号不存在
 		if (code == 6) {
-			let isShopCont = uni.getStorageSync('locale') == 'en' ? true : false // 中文还是英文
+			let isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
 			if (isShopCont) {
 				uni.showToast({
 					icon: 'none',

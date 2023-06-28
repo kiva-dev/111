@@ -20,29 +20,12 @@
 				</view>
 				<view class="li-txt">
 					<view class="t">{{$t('top.xtxx')}}</view>
-					<view class="c oneblock" v-if="isShopCont">{{SysmsgList.e_content}}</view>
-					<view class="c oneblock" v-else>{{SysmsgList.content}}</view>
+					<view class="c oneblock">{{systemMessages.content || ''}}</view>
 				</view>
 			</view>
-			<view class="li-date" v-if="SysmsgList.addtime">{{$filter.to_date_timees(SysmsgList.addtime)}}</view>
-			<view class="li-date" v-else> </view>
-			<view class="dian"></view>
+			<view class="li-date" v-if="systemMessages.addtime">{{$filter.to_date_timees(systemMessages.addtime)}}</view>
+			<view class="dian" v-if="no_read === 1"></view>
 		</view>
-		<!--message-li end-->
-		<!--message-li start-->
-		<!-- <view class="message-li" @click="onkefyu">
-      <view class="li-fl">
-        <view class="li-img">
-          <image class="img" src="../../static/images/index/banner.png"></image>
-          <view class="num">10</view>
-        </view>
-        <view class="li-txt">
-          <view class="t">系统消息</view>
-          <view class="c">您有新的指派订单</view>
-        </view>
-      </view>
-      <view class="li-date">19:41</view>
-    </view> -->
 		<!--message-li end-->
 		<!--联系客服弹出 start-->
 		<uni-popup ref="popup3" type="center">
@@ -75,20 +58,18 @@
 	export default {
 		data() {
 			return {
-				no_read: 0, // 是否已读
-				isShopCont: false, // 商品详情显示中文还是英文
-				SysmsgList: []
+				no_read: 0,
+				systemMessages: '',
 			}
 		},
 		onShow() {
-			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
 			this.$http.post(this.$apiObj.MineSysmsgList, {
 				page: 1,
 				pagenum: 1
 			}).then(res => {
 				if (res.code == 1) {
-					this.no_read = res.data.no_read
-					this.SysmsgList = res.data.list.data[0]
+					this.no_read = res.data.no_read;
+					this.systemMessages = res.data.list.data[0] || '';
 				}
 			})
 		},
@@ -96,11 +77,10 @@
 			onBack() {
 				uni.navigateBack();
 			},
-			//导航点击的跳转处理函数
 			navClick(url) {
 				uni.navigateTo({
 					url
-				})
+				});
 			},
 			onkefyu() {
 				this.$refs.popup3.open()

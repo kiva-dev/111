@@ -682,7 +682,7 @@
 			}
 		},
 		{
-			"path": "pages/auction/xyzx",
+			"path": "pages/auction/lucky",
 			"style": {
 				"navigationBarTitleText": "",
 				"navigationStyle": "custom",
@@ -701,6 +701,13 @@
 					"titleNView": false,
 					"bounce": "none"
 				}
+			}
+		},
+		{
+			"path": "pages/public/notFound",
+			"style": {
+				"navigationBarTitleText": "404",
+				"enablePullDownRefresh": false
 			}
 		},
 		{
@@ -918,33 +925,8 @@
 		"color": "#999999",
 		"selectedColor": "#1DD181",
 		"backgroundColor": "#FFF",
-		// "fontSize": "24rpx",
 		"borderStyle": "#fff",
 		"list": [
-			// {
-			//   "pagePath": "pages/index/index",
-			//   "text": "%tab.home%",
-			//   "iconPath": "static/images/tab/tab1.png",
-			//   "selectedIconPath": "static/images/tab/tab2.png"
-			// },
-			// {
-			//   "pagePath": "pages/class/class",
-			//   "text": "%tab.class%",
-			//   "iconPath": "static/images/tab/tab3.png",
-			//   "selectedIconPath": "./static/images/tab/tab4.png"
-			// },
-			// {
-			//   "pagePath": "pages/auction/auction",
-			//   "text": "%tab.auction%",
-			//   "iconPath": "static/images/tab/tab5.png",
-			//   "selectedIconPath": "static/images/tab/tab6.png"
-			// },
-			// {
-			//   "pagePath": "pages/cart/cart",
-			//   "text": "%tab.cart%",
-			//   "iconPath": "static/images/tab/tab7.png",
-			//   "selectedIconPath": "static/images/tab/tab8.png"
-			// },
 			{
 				"pagePath": "pages/auction/new_index",
 				"text": "%tab.home%",
@@ -954,12 +936,11 @@
 			{
 				"pagePath": "pages/auction/jjks",
 				"text": "%tab.all%",
-				// "text": "%auction.jijiangkaishi%",
 				"iconPath": "/static/images/new-index/Products.png",
 				"selectedIconPath": "/static/images/new-index/Products1.png"
 			},
 			{
-				"pagePath": "pages/auction/xyzx",
+				"pagePath": "pages/auction/lucky",
 				"text": "%auction.xyzq%",
 				"iconPath": "/static/images/new-index/Lucky.png",
 				"selectedIconPath": "/static/images/new-index/Lucky1.png"

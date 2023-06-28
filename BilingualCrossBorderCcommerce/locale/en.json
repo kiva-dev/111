@@ -198,9 +198,6 @@
 	"auction.yiliupai": "Streamed",
 	"auction.xuanzerqi": "Select date",
 	"auction.xyzq": "Lucky Star",
-	"auction.zaiyiu": "By",
-	"auction.tigdjphd": "In the bidding activities provided",
-	"auction.jzxypzjz": "Price of Lucky Auction Value",
 	"auction.pdsy": "Home",
 	"auction.zxinjp": "Latest",
 	"auction.jjks": "Upcoming",
@@ -615,7 +612,7 @@
 	"user.auctionM.queding": "determine",
 	"user.auctionM.qtxdcsbndysy": "The number of times you filled in cannot be greater than the remaining number of snap shots",
 	"user.auctionM.jpjl": "Record",
-	"user.auctionM.jpdd": "order",
+	"user.auctionM.jpdd": "Orders",
 	"user.auctionM.xdsj": "Order time",
 	"user.auctionM.zt": "state",
 	"user.auctionM.dcj": "To be sealed",
@@ -1330,7 +1327,7 @@
 	"mine.welcome":"Sign in or Join Free",
 	"mine.subscribed":"Subscribed",
 	"mine.collected":"Collected",
-	"mine.loginBtn":"LOGEN / SIGNUP",
+	"mine.loginBtn":"LOGIN / SIGNUP",
 	"mine.gift":"Gift Amount",
 	"mine.auction":"My Auction",
 	"mine.Deposits":"Deposits Amount",
@@ -1392,5 +1389,8 @@
 	"new.kdiamondssm":"Explanation: Obtained through recharging, K Diamonds are used for participating in drawing.",
 	"new.wdzc":"My assets",
 	"new.czjejx":"Recharge amount cannot be less than RM10",
-	"new.qtczje":"Other quantity (10 Start)"
+	"new.qtczje":"Other quantity (10 Start)",
+	"found.text":"Sorry, the page you are looking for does not exist~",
+	"found.home":"Home page",
+	"msg.null":"No message yet~"
 }

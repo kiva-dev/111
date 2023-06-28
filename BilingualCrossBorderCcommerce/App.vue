@@ -1,16 +1,18 @@
 <script>
-	//引入融云SDK
-	const RongIMLib = require('./common/libs/RongIMLib-3.0.7.1-dev.js')
-	// const RongIMLib = require('./common/libs/RongEmoji-2.2.9.js')
+	// 引入融云SDK
+	const RongIMLib = require('./common/libs/RongIMLib-3.0.7.1-dev.js');
+	// const RongIMLib = require('./common/libs/RongEmoji-2.2.9.js');
+	// 建议全局只初始化一次，不要忘记接开获取头像失败时候闸阀
 	let im = RongIMLib.init({
 		appkey: 'kj7swf8okxfe2',
 		debug: true
-	}); // 建议全局只初始化一次     //不要忘记接开获取头像失败时候闸阀
+	});
 
 	import tool from "@/utils/tool.js"
 
 	export default {
-		onLaunch: function() {
+		onLaunch() {
+			this.setMallTabbar();
 			if (!uni.getStorageSync('UNI_LOCALE')) {
 				uni.setStorageSync('UNI_LOCALE', 'en');
 				uni.setStorageSync('locale', 'en');
@@ -19,36 +21,34 @@
 				uni.setLocale('en');
 				this.$i18n.locale = 'en';
 			}
-			// #ifdef APP-PLUS
-			// uni.getPushClientId({
-			// 	success: (res) => {
-			// 		console.log(res.cid);
-			// 	}
-			// })
-			// uni.onPushMessage((res)=>{
-			// 	console.log(res);
-			// 	if (res.type === 'receive') {
-			// 		uni.createPushMessage({
-			// 			content: res.data.name + 'hahhahah',
-			// 			payload: res.data,
-			// 		})
-			// 	} else if (res.type === 'click') {
-			// 		console.log(res.data.payload.id);
-			// 	}
-			// })
-			// #endif
-		},
-		onShow: function() {
-			// #ifdef APP-PLUS
-			// tool.setPermissionsInform();
-			// #endif
 		},
 		methods: {
-
+			setMallTabbar() {
+				this.$http.post(this.$apiObj.IndexSetting, {
+					fields: 'whether_to_enable_ordinary_mall'
+				}).then((res) => {
+					if (res.code === 1) {
+						if (res.data.whether_to_enable_ordinary_mall === 1) {
+							uni.setTabBarItem({
+							  index: 1,
+							  text: '%tab.all%',
+							  iconPath: '/static/images/new-index/Products.png',
+							  selectedIconPath: '/static/images/new-index/Products1.png'
+							})
+						} else {
+							uni.setTabBarItem({
+							  index: 1,
+							  text: '%tab.auction%',
+							  iconPath: '/static/images/new-index/Auction.png',
+							  selectedIconPath: '/static/images/new-index/Auction1.png'
+							})
+						}
+					}
+				})
+			},
 		}
 	}
 </script>
-
 
 <style lang="scss">
 	/* 注意要写在第一行，同时给style标签加入lang="scss"属性 */
@@ -507,5 +507,6 @@
 		width: auto;
 		height: auto;
 	}
+
 	/* #endif */
 </style>

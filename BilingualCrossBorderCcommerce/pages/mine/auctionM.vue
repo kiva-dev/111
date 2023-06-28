@@ -61,17 +61,14 @@
 				</view>
 			</template>
 			<template v-else>
-				<view class="zanwusju">
-					<image src="/static/images/zanwusju.png" />
-					<view class="title">~{{$t('home.zanwushuju')}}~</view>
-				</view>
+				<uni-empty message="暂无内容"></uni-empty>
 			</template>
 		</view>
 		<!--我的竞拍-竞拍中 auct-box end-->
 
 		<!--我的竞拍-竞拍订单 auct-box start-->
 		<view class="auct-box" v-if="type==5">
-			<view class="order-ul" v-if="jingpaiorderList && jingpaiorderList.length">
+			<template v-if="jingpaiorderList && jingpaiorderList.length">
 				<view class="order-item" v-for="item in jingpaiorderList" :key="item.id"
 					@click="toDetail(item.order_no)">
 					<view class="order-item-status">{{$t('user.auctionM.going')}}</view>
@@ -96,18 +93,17 @@
 						</view>
 					</view>
 				</view>
-			</view>
-			<view v-else class="zanwusju">
-				<image src="/static/images/zanwusju.png" />
-				<view class="title">~{{$t('home.zanwushuju')}}~</view>
-			</view>
+			</template>
+			<template v-else>
+				<uni-empty message="暂无内容"></uni-empty>
+			</template>
 		</view>
 		<!--我的竞拍-竞拍订单 auct-box end-->
 
 		<!--我的竞拍-中拍记录 auct-box start-->
 		<view class="auct-box" v-if="type==3">
 			<block v-if="navId==1">
-				<view class="luck-zpjl" v-if="LuckyList.length">
+				<template v-if="LuckyList && LuckyList.length">
 					<image class="luck-zpjl-banner" v-if="!isShopCont" src="../../static/images/auction/gxzj.png"></image>
 					<image class="luck-zpjl-banner" v-else src="../../static/images/new/xyzx1.png"></image>
 					<view class="luck-zpjl-item" v-for="(item,index) in LuckyList" :key="item.id">
@@ -143,14 +139,13 @@
 						<view class="luck-zpjl-item-btn" v-else-if="item.select_way==2 && item.status==3">待收货</view>
 						<view class="luck-zpjl-item-btn" v-else-if="item.select_way==2 && item.status==4">待确认</view> -->
 					</view>
-				</view>
-				<view v-else class="zanwusju">
-					<image src="/static/images/zanwusju.png" />
-					<view class="title">~{{$t('home.zanwushuju')}}~</view>
-				</view>
+				</template>
+				<template v-else>
+					<uni-empty message="暂无内容"></uni-empty>
+				</template>
 			</block>
 			<block v-if="navId==2">
-				<view class="luck-ul" v-if="LuckyList.length">
+				<template v-if="LuckyList && LuckyList.length">
 					<navigator :url="`/pages/auction/detail?id=${item.auction_goods_id}`" open-type="navigate"
 						hover-class="none" class="luck-li" v-for="item,k in LuckyList" :key="k">
 						<view class="cent">
@@ -189,18 +184,17 @@
 							</view>
 						</view>
 					</navigator>
-				</view>
-				<view v-else class="zanwusju">
-					<image src="/static/images/zanwusju.png" />
-					<view class="title">~{{$t('home.zanwushuju')}}~</view>
-				</view>
+				</template>
+				<template v-else>
+					<uni-empty message="暂无内容"></uni-empty>
+				</template>
 			</block>
 		</view>
 		<!--我的竞拍-中拍记录 auct-box end-->
 
 		<!--我的竞拍-历史竞拍 auct-box start-->
 		<view class="auct-box" v-if="type==2">
-			<block v-if="jingpaiList.length">
+			<template v-if="jingpaiList && jingpaiList.length">
 				<navigator :url="`/pages/auction/detail?id=${item.auction_goods_id}`" open-type="navigate"
 					hover-class="none" class="new-li" v-for="item,k in jingpaiList" :key="k">
 					<view class="li-img">
@@ -228,17 +222,16 @@
 						</view>
 					</view>
 				</navigator>
-			</block>
-			<view v-else class="zanwusju">
-				<image src="/static/images/zanwusju.png" />
-				<view class="title">~{{$t('home.zanwushuju')}}~</view>
-			</view>
+			</template>
+			<template v-else>
+				<uni-empty message="暂无内容"></uni-empty>
+			</template>
 		</view>
 		<!--我的竞拍-历史竞拍 end-->
 
 		<!--我的竞拍记录 auct-box start-->
 		<view class="auct-box" v-if="type==4">
-			<block v-if="recordList && recordList.length">
+			<template v-if="recordList && recordList.length">
 				<view class="order-item" v-for="item in recordList" :key="item.id"
 					@click="toDetail(item.order_no)">
 					<view class="order-item-status">ongoing</view>
@@ -262,12 +255,10 @@
 						</view>
 					</view>
 				</view>
-				
-			</block>
-			<view v-else class="zanwusju">
-				<image src="/static/images/zanwusju.png" />
-				<view class="title">~{{$t('home.zanwushuju')}}~</view>
-			</view>
+			</template>
+			<template v-else>
+				<uni-empty message="暂无内容"></uni-empty>
+			</template>
 		</view>
 		<!--我的竞拍-中拍记录 auct-box end-->
 
