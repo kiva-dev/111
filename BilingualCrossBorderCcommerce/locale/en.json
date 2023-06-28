@@ -1392,5 +1392,9 @@
 	"new.qtczje":"Other quantity (10 Start)",
 	"found.text":"Sorry, the page you are looking for does not exist~",
 	"found.home":"Home page",
-	"msg.null":"No message yet~"
+	"msg.null":"No message yet~",
+	"new.xyzf":"Need to pay",
+	"new.kzzf":"K Diamonds payment",
+	"new.kz":"K Diamonds",
+	"new.payment":"Payment"
 }

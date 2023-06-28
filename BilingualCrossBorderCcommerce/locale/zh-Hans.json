@@ -1393,5 +1393,9 @@
 	"new.kdiamondssm":"说明：K钻石通过充值获得，用于参与抽奖。",
 	"new.wdzc":"我的资产",
 	"new.czjejx":"充值金额不能少于RM10",
-	"new.qtczje":"其他数量（10起）"
+	"new.qtczje":"其他数量（10起）",
+	"new.xyzf":"需要支付",
+	"new.kzzf":"K钻支付",
+	"new.kz":"K钻",
+	"new.payment":"支付"
 }

@@ -43,7 +43,8 @@
 					{{$t('new.jljs')}}：{{hour}}:{{minute}}:{{second}}
 				</view>
 				<view class="detail-price-time" v-else>
-					{{$t('new.jlks')}}：<u-count-down :time="(shopCont.start_time*1000)" format="HH:mm:ss"></u-count-down>
+					{{$t('new.jlks')}}：<u-count-down :time="(shopCont.start_time*1000)"
+						format="HH:mm:ss"></u-count-down>
 				</view>
 			</view>
 			<view class="detail-title">{{shopCont.goods_name}}</view>
@@ -126,7 +127,8 @@
 					</view>
 				</view>
 				<block v-if="JudgeList.length > 0">
-					<view class="detail-comment-item" v-for="(item,i) in JudgeList.slice(0,2)" :key="item.user_comment_id">
+					<view class="detail-comment-item" v-for="(item,i) in JudgeList.slice(0,2)"
+						:key="item.user_comment_id">
 						<view class="detail-comment-item-head">
 							<image :src="item.user.avatar" mode="aspectFill"></image>
 							<p>{{item.user.nickname}}</p>
@@ -202,7 +204,8 @@
 				</view>
 				<view class="gl-content">
 					<u-grid :border="false" @click="click">
-						<u-grid-item v-for="item in youLikeList" :key="item.goods_id" @click="toYouLikeOrHot(item.auction_goods_id)">
+						<u-grid-item v-for="item in youLikeList" :key="item.goods_id"
+							@click="toYouLikeOrHot(item.auction_goods_id)">
 							<view class="gl-content-item">
 								<view class="item-cover">
 									<image :src="item.image" mode="aspectFill">
@@ -228,8 +231,9 @@
 				</view>
 				<view class="gl-content">
 					<u-grid :border="false" @click="click">
-						<u-grid-item v-for="item in hotList" :key="item.auction_goods_id" @click="toYouLikeOrHot(item.auction_goods_id)">
-							<view class="gl-content-item" >
+						<u-grid-item v-for="item in hotList" :key="item.auction_goods_id"
+							@click="toYouLikeOrHot(item.auction_goods_id)">
+							<view class="gl-content-item">
 								<view class="item-cover">
 									<image :src="item.image" mode="aspectFill">
 									</image>
@@ -241,7 +245,7 @@
 								</view>
 							</view>
 						</u-grid-item>
-						
+
 					</u-grid>
 				</view>
 			</view>
@@ -473,32 +477,31 @@
 		<!--支付方式弹出 start-->
 		<view class="zhifuCont" v-if="zhifushow">
 			<view class="mode-pop">
+				<image src="/static/images/close1.png" class="mode-close" @click="toggle1Close"></image>
+
 				<view class="mode-tit">
-					<text>{{$t('auction.detail.fyzf')}}</text>
-					<view class="cancel" @click="toggle1Close">{{$t('auction.detail.query')}}</view>
+					<image src="/static/images/kbrick/diamond.png"></image>
+					<view>{{shopNum}}</view>
 				</view>
-				<view class="cent">
-					<view class="title">{{$t('auction.detail.xuzhufufy')}}</view>
-					<view class="txt"><text>RM</text>{{shopNum}}</view>
-				</view>
-				<block>
-					<view v-for="item in orderPayList" :key="item.id" class="mode-li">
-						<view class="label">
-							{{item.title}}
-							<block v-if="item.id==1">（{{$t('auction.detail.keyongyuer')}}<text class="color-red"
-									style="color: rgb(10, 198, 142);">RM{{balance}}</text>）</block>
-							<block v-if="item.id==2">（{{$t('auction.detail.keyongyuer')}}<text class="color-red"
-									style="color: rgb(10, 198, 142);">RM{{money}}</text>）</block>
-						</view>
-						<view class="li-fr" @click="onQuanClick(item)">
-							<radio :checked="item.isShow?true:false" value="r1" />
-						</view>
+
+				<view class="mode-des">{{$t('new.xyzf')}}</view>
+
+				<view class="mode-info">
+					<image src="/static/images/kbrick/diamond.png" class="logo"></image>
+					<view class="info-tit">
+						<view class="info-name">{{$t('new.kzzf')}}</view>
+						<view class="info-price">({{$t('new.kz')}}:<text>{{balance}}</text>)</view>
 					</view>
-				</block>
-				<view class="mode-bot">
-					<button class="public-btn" style="background: rgb(10, 198, 142);"
-						@click.stop="$noMultipleClicks(onPayClick)">{{$t('auction.detail.quzhifu')}}</button>
+					<image src="/static/images/new-index/xz.png" class="select"></image>
 				</view>
+
+				<view class="mode-switch">
+					<!-- <image src="/static/images/new-index/wxz.png"></image>
+					<view>(Bonus for 10K diamonds)</view> -->
+				</view>
+
+				<view class="mode-btn" @click.stop="$noMultipleClicks(onPayClick)">{{$t('new.payment')}}</view>
+
 			</view>
 		</view>
 		<!--支付密码弹出 start-->
@@ -655,8 +658,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				minute: 0,
 				second: 0,
 				timer: "", //定时器
-				hotList:[],//热门推荐
-				youLikeList:[],//猜你喜欢
+				hotList: [], //热门推荐
+				youLikeList: [], //猜你喜欢
 			}
 		},
 		watch: {
@@ -752,27 +755,27 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		},
 		methods: {
 			//猜你喜欢以及热门推荐跳转
-			toYouLikeOrHot(id){
+			toYouLikeOrHot(id) {
 				uni.navigateTo({
-					url:'/pages/auction/detail?id='+id
+					url: '/pages/auction/detail?id=' + id
 				})
 			},
-			getYouLikeList(){
-				this.$http.post(this.$apiObj.GetYouLikeList,{
-					goods_id:this.shopCont.goods_id,
-					page:1,
-					pagenum:6
-				}).then(res=>{
-					this.youLikeList=res.data.data
+			getYouLikeList() {
+				this.$http.post(this.$apiObj.GetYouLikeList, {
+					goods_id: this.shopCont.goods_id,
+					page: 1,
+					pagenum: 6
+				}).then(res => {
+					this.youLikeList = res.data.data
 				})
 			},
-			getHotList(){
-				this.$http.post(this.$apiObj.GetHotList,{
-					goods_id:this.shopCont.goods_id,
-					page:1,
-					pagenum:6
-				}).then(res=>{
-					this.hotList=res.data.data
+			getHotList() {
+				this.$http.post(this.$apiObj.GetHotList, {
+					goods_id: this.shopCont.goods_id,
+					page: 1,
+					pagenum: 6
+				}).then(res => {
+					this.hotList = res.data.data
 				})
 			},
 			toPay() {
@@ -789,9 +792,9 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					}
 				})
 			},
-			toMyCart(){
+			toMyCart() {
 				uni.navigateTo({
-					url:'/pages/cart/cart'
+					url: '/pages/cart/cart'
 				})
 			},
 			//计算距离
@@ -1139,16 +1142,16 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			// 个人信息获取剩余竞拍次数
 			onMineInfos() {
 				this.isauctionNum = ''
-				this.pay_pwd=''
-				this.orderPayList.forEach(item=>{
-					item.isShow=false
+				this.pay_pwd = ''
+				this.orderPayList.forEach(item => {
+					item.isShow = false
 				})
 				this.$http.post(this.$apiObj.MineInfo, {
 					auction_goods_id: this.id
 				}).then(res => {
 					if (res.code == 1) {
 						this.money = res.data.invite_money_balance
-						this.balance = res.data.recharge_money_balance
+						this.balance = res.data.k_diamond_wallet
 						this.auction_num = (this.shopCont.auction_type == 2 && this.shopCont.total_least_num ==
 								0) ? res.data.auction_num : (res.data.auction_num === -1) ? this.shopCont
 							.total_least_num : (res.data.auction_num < this.shopCont.total_least_num) ? res.data
@@ -1309,18 +1312,15 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			},
 			// 点击竞拍去支付
 			onPayClick() {
-				let isNum = []
-				for (let i in this.orderPayList) {
-					if (this.orderPayList[i].isShow) {
-						isNum.push(this.orderPayList[i].id)
-					}
+				if (this.balance * 1 < this.shopNum) {
+					return uni.showToast({
+						icon: 'none',
+						title: '余额不足'
+					})
+					return
 				}
-				if (isNum.length < 1) return uni.showToast({
-					icon: 'none',
-					title: this.$t('auction.detail.qxzzffs')
-				})
 				this.zhifushow = false
-				if (isNum.length >= 1) {
+				if (true) {
 					// 余额支付弹框
 					this.zhipassShow = true
 				} else if (isNum.length > 5) {
@@ -1405,8 +1405,9 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					order_no: this.order_no, // 小订单号
 					money: this.shopNum, // 支付总金额
 					pay_pwd: pay_pwd, // rsa加密后的支付密码
-					is_use_recharge: arr[0] == 1 ? 1 : 2,
-					is_use_invite: arr[1] == 2 ? 1 : 2
+					is_use_recharge: 2,
+					is_use_invite:	2,
+					is_use_k_diamond: 1
 				}).then(res => {
 					if (res.code == 1) {
 						this.onAuctionDetail()
@@ -3202,73 +3203,111 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		left: 0;
 		bottom: 0;
 		width: 100%;
+		padding-top: 88rpx;
+		padding-bottom: 24rpx;
+
+		.mode-close {
+			position: absolute;
+			top: 40rpx;
+			right: 32rpx;
+			width: 32rpx;
+			height: 32rpx;
+		}
 
 		.mode-tit {
-			padding: 38rpx 30rpx;
-			line-height: 1;
-			font-size: 32rpx;
-			font-weight: 550;
-			border-bottom: 1px solid #f5f5f5;
-			position: relative;
-			text-align: center;
-
-			.cancel {
-				position: absolute;
-				right: 30rpx;
-				top: 38rpx;
-				color: #999;
-				font-size: 26rpx;
-			}
-		}
-
-		.cent {
-			padding-top: 43rpx;
-			text-align: center;
-
-			.title {
-				font-size: 26rpx;
-				color: #222;
-			}
-
-			.txt {
-				padding-top: 34rpx;
-				padding-bottom: 38rpx;
-				color: rgb(10, 198, 142);
-				font-size: 46rpx;
-
-				text {
-					font-size: 24rpx;
-				}
-			}
-		}
-
-		.mode-li {
-			padding: 36rpx 0;
-			margin: 0 30rpx;
-			border-bottom: 1px solid #f5f5f5;
 			display: flex;
 			align-items: center;
-			justify-content: space-between;
-			font-size: 28rpx;
+			justify-content: center;
 
-			.li-fr {
-				display: flex;
-				align-items: center;
+			image {
+				width: 40rpx;
+				height: 40rpx;
+				margin-right: 20rpx;
+			}
 
-				/deep/ uni-radio {
-					margin-left: 20rpx;
-				}
-
-				/deep/ uni-radio .uni-radio-input.uni-radio-input-checked {
-					background: rgb(10, 198, 142) !important;
-					border-color: rgb(10, 198, 142) !important;
-				}
+			view {
+				font-size: 56rpx;
+				font-weight: bold;
+				color: rgb(51, 51, 51);
 			}
 		}
 
-		.mode-bot {
-			padding: 50rpx 30rpx 50rpx 30rpx;
+		.mode-des {
+			width: 100%;
+			font-size: 28rpx;
+			color: rgb(153, 153, 153);
+			text-align: center;
+			margin-top: 24rpx;
 		}
+
+		.mode-info {
+			position: relative;
+			width: 100%;
+			display: flex;
+			align-items: center;
+			margin-top: 136rpx;
+
+			.logo {
+				width: 48rpx;
+				height: 48rpx;
+				margin-left: 40rpx;
+			}
+
+			.info-tit {
+				margin-left: 24rpx;
+
+				.info-name {
+					font-size: 28rpx;
+					color: rgb(51, 51, 51);
+				}
+
+				.info-price {
+					font-size: 24rpx;
+					color: rgb(102, 102, 102);
+
+					text {
+						color: rgb(10, 198, 142);
+						margin-left: 8rpx;
+					}
+				}
+			}
+
+			.select {
+				position: absolute;
+				right: 40rpx;
+				width: 40rpx;
+				height: 40rpx;
+			}
+
+		}
+
+		.mode-switch {
+			font-size: 24rpx;
+			color: rgb(102, 102, 102);
+			display: flex;
+			align-items: center;
+			margin-top: 240rpx;
+
+			image {
+				display: block;
+				width: 32rpx;
+				height: 32rpx;
+				margin: 0 12rpx 0 32rpx;
+			}
+		}
+
+		.mode-btn {
+			width: 686rpx;
+			height: 88rpx;
+			line-height: 88rpx;
+			font-size: 40rpx;
+			color: rgb(255, 255, 255);
+			text-align: center;
+			background: rgb(10, 198, 142);
+			border-radius: 88rpx;
+			margin: 24rpx auto;
+		}
+
 	}
 
 	//支付方式弹出 E
