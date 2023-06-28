@@ -7,9 +7,6 @@
 		appkey: 'kj7swf8okxfe2',
 		debug: true
 	});
-
-	import tool from "@/utils/tool.js"
-
 	export default {
 		onLaunch() {
 			this.setMallTabbar();

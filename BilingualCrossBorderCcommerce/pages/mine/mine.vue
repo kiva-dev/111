@@ -63,7 +63,7 @@
 						<view class="ct-left-icon">
 							<image src="@/static/images/mine/mine_icon_wallet.png" mode="widthFix"></image>
 						</view>
-						<view class="ct-left-name">{{$t('top.wdqb')}}</view>
+						<view class="ct-left-name">{{$t('mine.assets')}}</view>
 					</view>
 					<view class="ct-right" @click="navClick('wallet')">
 						<view class="ct-right-name">{{$t('home.detail.more')}}</view>
@@ -85,18 +85,23 @@
 					<view class="cc-border"></view>
 					<view class="cc-box">
 						<view class="cc-box-rebate">
-							<view><span>{{userCont.recharge_money_balance || 0.00}}</span></view>
-							<p>{{$t('mine.Deposits')}}</p>
+							<view class="rebate-num">
+								<image src="@/static/images/mine/mine_icon_diamonds.png" mode="widthFix"></image>
+								<p>{{userCont.k_diamond_wallet || 0.00}}</p>
+							</view>
+							<p>{{$t('mine.diamonds')}}</p>
 						</view>
 						<view class="cc-box-rebate">
-							<view><span>{{userCont.invite_money_balance || 0.00}}</span></view>
-							<p>{{$t('mine.Bonus')}}</p>
+							<view class="rebate-num">
+								<image src="@/static/images/mine/mine_icon_integral.png" mode="widthFix"></image>
+								<p>{{totalJf || 0.00}}</p>
+							</view>
+							<p>{{$t('mine.integral')}}</p>
 						</view>
 					</view>
 				</view>
 				<view class="container-btn">
-					<view class="container-btn-withdrawal" @click="navClick('Withdrawal')">{{$t('user.wallet.tixian')}}
-					</view>
+					<!-- <view class="container-btn-withdrawal" @click="navClick('Withdrawal')">{{$t('user.wallet.tixian')}}</view> -->
 					<view class="container-btn-recharge" @click="navClick('recharge')">{{$t('top.cz')}}</view>
 				</view>
 			</view>
@@ -309,14 +314,12 @@
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script src="./jssocials-1.4.0/jssocials.min.js"></script>
 <script>
+	import tool from "@/utils/tool.js"
+	
 	export default {
 		data() {
 			return {
-				no_select: 0,
-				noSelect: 0,
-				isShopCont: false, // 商品详情显示中文还是英文
 				userCont: '', // 个人信息
-				MineCont: [],
 				showContact: false,
 				showConfirm: false,
 				isTwitterApp: false,
@@ -359,9 +362,7 @@
 			if (uni.getStorageSync('token')) {
 				this.isLogin = true;
 				this.getMineInfo();
-				this.getMineAuth();
 				this.getMineWinAuction();
-				this.getMineSysmsgList();
 				this.getCollectGoods();
 				this.getCollectStore();
 			}
@@ -452,14 +453,7 @@
 					if (res.code == 1) {
 						uni.setStorageSync('userCont', res.data);
 						this.userCont = res.data;
-						this.getAllPoints()
-					}
-				})
-			},
-			getMineAuth() {
-				this.$http.post(this.$apiObj.MineAuthDetail).then(res => {
-					if (res.code == 1) {
-						this.MineCont = res.data;
+						this.getAllPoints();
 					}
 				})
 			},
@@ -470,16 +464,6 @@
 				}).then(res => {
 					if (res.code == 1) {
 						this.no_select = res.data.no_select;
-					}
-				})
-			},
-			getMineSysmsgList() {
-				this.$http.post(this.$apiObj.MineSysmsgList, {
-					page: 1,
-					pagenum: 1
-				}).then(res => {
-					if (res.code == 1) {
-						this.noSelect = res.data.no_read;
 					}
 				})
 			},
@@ -784,10 +768,17 @@
 								margin-top: 20rpx;
 							}
 
-							view {
-								text-align: center;
+							.rebate-num {
+								display: flex;
+								justify-content: center;
+								align-items: center;
+								
+								image {
+									width: 28rpx;
+								}
 
-								span {
+								p {
+									margin-left: 8rpx;
 									color: rgb(51, 51, 51);
 									font-size: 32rpx;
 									font-weight: bold;

@@ -4,7 +4,8 @@
 		<view class="person-box">
 			<view class="person-auth" @click="upLoadLunimg">
 				<view class="person-auth-box">
-					<image :src="userCont.avatar || require('@/static/images/mine/auth_logo.png')" mode="aspectFill"></image>
+					<image :src="userCont.avatar || require('@/static/images/mine/auth_logo.png')" mode="aspectFill">
+					</image>
 					<image class="box-icon" src="@/static/images/mine/profile_set_avatar.png" mode="widthFix"></image>
 					<view class="box-status" v-if="false">{{$t('profile.review')}}</view>
 				</view>
@@ -29,7 +30,7 @@
 			</view>
 			<view class="person-li">
 				<text class="label">{{$t('user.mine.email')}}</text>
-				<view class="li-r" >
+				<view class="li-r">
 					<view class="r-t">{{userCont.email}}</view>
 					<view class="icon">
 						<image class="img" src="../../static/images/mine/more1.png"></image>
@@ -74,7 +75,6 @@
 			this.getUserCont();
 		},
 		methods: {
-			//导航点击的跳转处理函数
 			navClick(url) {
 				uni.navigateTo({
 					url
@@ -93,9 +93,9 @@
 			upLoadLunimg() {
 				let that = this
 				uni.chooseImage({
-					count: 1, //默认9
-					// sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
-					// sourceType: ['album'], //从相册选择
+					count: 1,
+					// sizeType: ['original', 'compressed'],
+					// sourceType: ['album'],
 					success: function(res) {
 						let tempFilePaths = res.tempFilePaths
 						tempFilePaths.forEach((em, i) => {
@@ -107,53 +107,42 @@
 									'token': uni.getStorageSync('token'),
 								},
 								success: (uploadFileRes) => {
-									console.log('data', JSON.parse(uploadFileRes.data));
-									let res = JSON.parse(uploadFileRes.data)
+									let res = JSON.parse(uploadFileRes.data);
 									if (res.code == 200) {
-										let imgs = res.data
+										let imgs = res.data;
 										that.$http.post(that.$apiObj.MineChangeAvatar, {
-											avatar: imgs.url
+											avatar: imgs.url,
 										}).then(ress => {
 											if (ress.code == 1) {
 												that.$http.post(that.$apiObj
 													.MineInfo).then(resss => {
 													if (resss.code == 1) {
 														that.userCont =
-															resss.data
+															resss.data;
 														uni.setStorageSync(
 															'userCont',
-															resss.data)
+															resss.data);
 													}
-												})
+												});
 											}
-										})
+										});
 									}
 								}
-							})
-						})
+							});
+						});
 					}
 				});
-			},
-			toggle(type) {
-				this.type = type
-				// open 方法传入参数 等同在 uni-popup 组件上绑定 type属性
-				this.$refs.popup.open(type)
-			},
-			toggleClose(type) {
-				this.type = type
-				// open 方法传入参数 等同在 uni-popup 组件上绑定 type属性
-				this.$refs.popup.close(type)
 			},
 		}
 	}
 </script>
 
 <style lang="less" scoped>
-	page {
-		background: #f9f9f9;
-	}
-
 	.person-page {
+		width: 100%;
+		min-height: 100vh;
+		background: rgb(248, 248, 248);
+		
 		.person-box {
 			padding: 0rpx 30rpx;
 			background: #ffffff;
@@ -164,26 +153,26 @@
 				padding-top: 25rpx;
 				margin-bottom: 10rpx;
 				position: relative;
-				
+
 				.person-auth-box {
 					width: 200rpx;
 					height: 200rpx;
 					margin: 0 auto 25rpx;
 					position: relative;
-					
+
 					image {
 						width: 100%;
 						height: 100%;
 						border-radius: 50%;
 					}
-					
+
 					.box-icon {
 						width: 60rpx;
 						position: absolute;
 						bottom: 0;
 						right: 0;
 					}
-					
+
 					.box-status {
 						padding: 6rpx 12rpx;
 						box-sizing: border-box;
@@ -217,7 +206,7 @@
 				.li-r {
 					display: flex;
 					align-items: center;
-					
+
 					.box-name-level {
 						width: 100rpx;
 						height: 40rpx;
@@ -225,16 +214,16 @@
 						background: rgb(253, 240, 226);
 						border-radius: 100rpx;
 						display: flex;
-					
+
 						.level-icon {
 							width: 40rpx;
 							height: 40rpx;
-					
+
 							image {
 								width: 100%;
 							}
 						}
-					
+
 						.level-num {
 							margin-left: 8rpx;
 							color: rgb(219, 132, 37);
@@ -262,7 +251,7 @@
 						overflow: hidden;
 						text-overflow: ellipsis;
 						white-space: nowrap;
-						
+
 						text {
 							color: #FF3939;
 						}
@@ -352,8 +341,8 @@
 		padding-top: 30rpx;
 		background: url('/static/images/auth/jf-k.png') no-repeat;
 		background-size: 686rpx 276rpx;
-		
-		.btm-head{
+
+		.btm-head {
 			width: 626rpx;
 			font-size: 32rpx;
 			color: rgb(255, 255, 255);
@@ -362,8 +351,8 @@
 			justify-content: space-between;
 			margin: 0 auto;
 		}
-		
-		.btm-txt{
+
+		.btm-txt {
 			width: 100%;
 			font-size: 72rpx;
 			font-weight: bold;
@@ -372,6 +361,4 @@
 			margin-top: 60rpx;
 		}
 	}
-	
-	
 </style>

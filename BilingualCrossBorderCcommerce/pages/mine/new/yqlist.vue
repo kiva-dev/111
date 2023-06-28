@@ -1,7 +1,7 @@
 <template>
 	<view class="yqlist-page">
 		<view class="yqlist-content">
-			<view class="yqlist-head">
+			<view class="yqlist-head" :style="{'borderBottom': level > 1 ? '1rpx solid rgb(204, 204, 204)' : 'none'}">
 				<image src="@/static/images/mine/collect_icon_back.png" @click="onBack"></image>
 				<view>{{$t('new.wdyq')}}</view>
 			</view>

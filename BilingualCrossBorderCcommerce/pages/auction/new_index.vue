@@ -376,16 +376,30 @@
 											</view>
 										</view>
 									</view>
-									<view class="li-c">
-										{{$t('auction.zaiyiu')}}<text class="color-purse"
-											style="color: rgb(93, 191, 254);">{{item.shop_name}}</text>
-										{{$t('auction.tigdjphd')}}<text class="color-red"
-											style="color: rgb(255, 78, 47);">RM{{item.pay_price}}</text>
-										{{$t('auction.jzxypzjz')}}<text class="color-red"
-											style="color: rgb(255, 78, 47);">RM{{item.price}}</text>
-										<block v-if="isShopCont">of </block>
-										<block v-else>的</block>{{item.goods_name}}
-									</view>
+									<template v-if="isShopCont">
+										<view class="li-c">
+											In the Joint contribution sales activities provided by{{' '}}
+											<text style="color: rgb(10, 198, 142);">{{item.shop_name}}</text>
+											,at the price of{{' '}}
+											<text style="color: rgb(255, 57, 57); font-weight: bold;">RM{{item.pay_price}}</text>
+											,I was lucky to win a 
+											{{item.goods_name}}
+											{{' '}}worth{{' '}}
+											<text style="color: rgb(255, 57, 57); font-weight: bold;">RM{{item.price}}</text>
+										</view>
+									</template>
+									<template v-else>
+										<view class="li-c">
+											在
+											<text style="color: rgb(10, 198, 142);">{{item.shop_name}}</text>
+											提供的竞拍活动中，以
+											<text style="color: rgb(255, 57, 57); font-weight: bold;">RM{{item.pay_price}}</text>
+											的价格，幸运地拍中价值
+											<text style="color: rgb(255, 57, 57); font-weight: bold;">RM{{item.price}}</text>
+											的
+											{{item.goods_name}}
+										</view>
+									</template>
 									<view class="li-date-f">
 										<view class="bottom">
 											<view class="li-date">{{$filter.to_date_time(item.update_time)}}</view>
@@ -4501,10 +4515,10 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							}
 
 							.li-c {
+								width: 100%;
 								margin: 15rpx 0;
 								font-size: 24rpx;
 								line-height: 40rpx;
-								word-break: break-all;
 							}
 
 							.li-date {

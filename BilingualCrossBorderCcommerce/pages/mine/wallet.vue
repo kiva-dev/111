@@ -30,7 +30,6 @@
 						</view>
 					</view>
 				</view>
-
 				<view class="card-btns">
 					<view class="card-btns-withdrawal" @click="navClick('Withdrawal')">{{$t('user.wallet.tixian')}}
 					</view>
