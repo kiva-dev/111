@@ -144,7 +144,7 @@
 			<view class="ml-auction-top">
 				<view class="top-name">{{$t('user.myCont.order')}}</view>
 				<view class="top-more" @click="navClick('/pages/mine/order/order')">
-					<p>{{$t('user.myCont.ckqb')}}</p>
+					<p>{{$t('user.order.qbdd')}}</p>
 					<view class="top-more-icon">
 						<image src="@/static/images/mine/mine_icon_right.png" mode="widthFix"></image>
 					</view>
@@ -154,25 +154,25 @@
 				<scroll-view class="content-scroll" scroll-x="true" @scrolltoupper="isBottoming = false"
 					@scrolltolower="isBottoming = true">
 					<!-- /pages/mine/order/order?Inv=2&type=2 -->
+					<view class="content-scroll-box" @click="navClick('/pages/mine/order/order?tabIndex=0')">
+						<image src="@/static/images/mine/mine_icon_ship.png" mode="widthFix"></image>
+						<p>{{$t('user.order.daifuk')}}</p>
+					</view>
 					<view class="content-scroll-box" @click="navClick('/pages/mine/order/order?tabIndex=2')">
-						<image src="@/static/images/mine/mine_icon_ongoing.png" mode="widthFix"></image>
-						<p>{{$t('user.myCont.dfh')}}</p>
+						<image src="@/static/images/mine/mine_icon_receive.png" mode="widthFix"></image>
+						<p>{{$t('user.order.daifahuo')}}</p>
 					</view>
 					<view class="content-scroll-box" @click="navClick('/pages/mine/order/order?tabIndex=3')">
-						<image src="@/static/images/mine/mine_icon_oder.png" mode="widthFix"></image>
-						<p>{{$t('user.myCont.dsh')}}</p>
-					</view>
-					<view class="content-scroll-box" @click="navClick('/pages/mine/order/order?tabIndex=4')">
-						<image src="@/static/images/mine/mine_icon_winning.png" mode="widthFix"></image>
-						<p>{{$t('zhongpai.daiqueren')}}</p>
+						<image src="@/static/images/mine/mine_icon_confirmed.png" mode="widthFix"></image>
+						<p>{{$t('user.order.dsh')}}</p>
 					</view>
 					<view class="content-scroll-box" @click="navClick('/pages/mine/order/order?tabIndex=5')">
-						<image src="@/static/images/mine/mine_icon_records.png" mode="widthFix"></image>
-						<p>{{$t('zhongpai.yiqueren')}}</p>
+						<image src="@/static/images/mine/mine_icon_completed.png" mode="widthFix"></image>
+						<p>{{$t('user.order.yiwanc')}}</p>
 					</view>
 					<view class="content-scroll-box" @click="navClick('/pages/mine/order/order?tabIndex=6')">
-						<image src="@/static/images/mine/mine_icon_records.png" mode="widthFix"></image>
-						<p>{{$t('zhongpai.yiwancheng')}}</p>
+						<image src="@/static/images/mine/mine_icon_after.png" mode="widthFix"></image>
+						<p>{{$t('user.order.closing')}}</p>
 					</view>
 				</scroll-view>
 			</view>

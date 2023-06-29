@@ -38,29 +38,30 @@
 	export default {
 		data() {
 			return {
-				addList: [], // 地址列表
-				totalPageNum: 0, // 总条数
-				page: 1, // 页码
-				pagenum: 10, // 每页显示商品数目
+				addList: [],
+				page: 1,
 			}
 		},
 		onShow() {
-			this.getAddressList()
+			this.getAddressList();
 		},
 		onReachBottom() {
-			if (this.totalPageNum <= this.page * this.pagenum) return
-			this.page++
-			this.onAddressList()
+			this.page++;
+			this.onAddressList();
 		},
 		methods: {
 			getAddressList() {
 				this.$http.post(this.$apiObj.AddressList, {
 					page: this.page,
-					pagenum: this.pagenum
+					pagenum: 10,
 				}).then(res => {
 					if (res.code == 1) {
-						this.totalPageNum = res.data.total;
-						this.addList = this.page == 1 ? res.data.data : [...this.addList, ...res.data.data];
+						let arr = res.data.data;
+						if (this.page > 1) {
+							this.addList = this.addList.concat(arr);
+						} else {
+							this.addList = arr;
+						}
 					}
 				})
 			},
@@ -75,9 +76,7 @@
 				}).then(res => {
 					if (res.code == 1) {
 						setTimeout(() => {
-							uni.navigateBack({
-								delta: 1
-							})
+							uni.navigateBack();
 						}, 1000);
 					}
 				})

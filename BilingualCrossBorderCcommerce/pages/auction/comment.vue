@@ -1,12 +1,7 @@
 <template>
 	<view class="comment-page">
-		<view class="comment-head">
-			<image src="../../static/images/new/left.png" @click="onReturn()"></image>
-			<view>{{$t('new.plq')}}</view>
-		</view>
-		<view style="height: 176rpx;"></view>
-		
-		<block v-if="commentList.length>0">
+		<uni-header :title="$t('new.plq')"></uni-header>
+		<template v-if="commentList && commentList.length > 0">
 			<view class="comment-list">
 				<view class="comment-item" v-for="(item,i) in commentList">
 					<view class="comment-item-head">
@@ -16,12 +11,13 @@
 						</view>
 						<view class="comment-item-head-right">{{item.createtime}}</view>
 					</view>
-			
+
 					<view class="comment-item-info">{{item.comment}}
 					</view>
-			
+
 					<view class="comment-item-icons">
-						<view class="comment-item-icons-info" style="right: 138rpx;" @click="sendLike(item.user_comment_id)">
+						<view class="comment-item-icons-info" style="right: 138rpx;"
+							@click="sendLike(item.user_comment_id)">
 							<image src="../../static/images/products/xiai.png" v-if="item.is_like==1"></image>
 							<image src="../../static/images/products/xiai1.png" v-else></image>
 							<view>{{item.like_count}}</view>
@@ -35,15 +31,10 @@
 					</view>
 				</view>
 			</view>
-		</block>
-		<block v-else>
-			<view class="not-data">
-				<image src="../../static/images/new/wpl.png"></image>
-				<view>{{$t('new.zwpl')}}</view>
-			</view>
-		</block>
-		
-
+		</template>
+		<template v-else>
+			<uni-empty image="/static/images/new/wpl.png" :message="$t('new.zwpl')"></uni-empty>
+		</template>
 		<view class="comment-botm">
 			<view class="comment-botm-inpit">
 				<u--input placeholder="我想说" border="surround" v-model="comment" @confirm="sendComment()"></u--input>
@@ -56,7 +47,6 @@
 					<view>{{selectCommentList.length}}{{$t('new.tpl')}}</view>
 					<image src="/static/images//products/guanbi.png" @click="showComment=false;comment1=''"></image>
 				</view>
-
 				<view class="list">
 					<scroll-view scroll-y style="height: 670rpx;">
 						<view class="item" v-for="(item,i) in selectCommentList">
@@ -77,17 +67,14 @@
 						</view>
 					</scroll-view>
 				</view>
-
 				<view class="showComment-btn">
 					<view class="comment-botm-inpit">
 						<u--input placeholder="我想说" border="surround" v-model="comment1"
 							@confirm="sendCommentTwoInfo()"></u--input>
 					</view>
 				</view>
-
 			</view>
 		</u-popup>
-
 		<view style="height: 170rpx;"></view>
 	</view>
 </template>
@@ -106,10 +93,10 @@
 			}
 		},
 		onLoad(e) {
-			if (e.id) this.id = e.id
+			if (e.id) this.id = e.id;
 		},
 		onShow() {
-			this.getCommentList()
+			this.getCommentList();
 		},
 		methods: {
 			onShowmsg(id) {
@@ -129,7 +116,7 @@
 							let time = arr[1].split(':')
 							item.createtime = day[1] + '/' + day[2] + ' ' + time[0] + ':' + time[1]
 						})
-						this.selectCommentList=res.data.data
+						this.selectCommentList = res.data.data
 					}
 				})
 			},
@@ -178,7 +165,7 @@
 				})
 			},
 			//点赞
-			sendLike(id){
+			sendLike(id) {
 				this.$http.post(this.$apiObj.SendLike, {
 					user_comment_id: id
 				}).then(res => {
@@ -188,252 +175,106 @@
 					}
 				})
 			}
-			
+
 		}
 	}
 </script>
 
 <style lang="less" scoped>
 	/deep/.u-border {
-		border-color: rgb(255, 78, 47) !important;
-	}
-	
-	.not-data{
-		padding-top: 200rpx;
-		image{
-			display: block;
-			width: 360rpx;
-			height: 390rpx;
-			margin: 0 auto;
-		}
-		
-		view{
-			width: 100%;
-			font-size: 32rpx;
-			color: rgb(190, 190, 190);
-			text-align: center;
-		}
+		border-color: rgb(10, 198, 142) !important;
 	}
 
 	.comment-page {
 		width: 100%;
 		min-height: 100vh;
 		background: rgb(248, 248, 248);
-	}
 
-	.comment-head {
-		position: fixed;
-		top: 0;
-		width: 100%;
-		height: 88rpx;
-		padding-top: 88rpx;
-		display: flex;
-		align-items: center;
-		background: #FFF;
-		box-shadow: 0px 4rpx 14rpx rgba(190, 190, 190, 0.3);
-		z-index: 100;
+		.comment-list {
+			margin-top: 40rpx;
 
-		image {
-			position: absolute;
-			left: 20rpx;
-			width: 60rpx;
-			height: 60rpx;
-		}
+			.comment-item {
+				width: 750rpx;
+				padding: 20rpx 0 10rpx 0;
+				// height: 292rpx;
+				background: #FFF;
+				margin-bottom: 20rpx;
 
-		view {
-			width: 100%;
-			font-size: 40rpx;
-			font-weight: 700;
-			color: rgb(255, 78, 47);
-			text-align: center;
-		}
-	}
-
-	.comment-list {
-		margin-top: 40rpx;
-
-		.comment-item {
-			width: 750rpx;
-			padding: 20rpx 0 10rpx 0;
-			// height: 292rpx;
-			background: #FFF;
-			margin-bottom: 20rpx;
-
-			.comment-item-head {
-				width: 100%;
-				display: flex;
-				align-items: center;
-				justify-content: space-between;
-
-				.comment-item-head-left {
+				.comment-item-head {
+					width: 100%;
 					display: flex;
 					align-items: center;
+					justify-content: space-between;
 
-					image {
-						width: 60rpx;
-						height: 60rpx;
-						border-radius: 50%;
-						margin-left: 30rpx;
-					}
+					.comment-item-head-left {
+						display: flex;
+						align-items: center;
 
-					view {
-						font-size: 24rpx;
-						color: rgb(44, 44, 44);
-						margin-left: 20rpx;
-					}
-				}
+						image {
+							width: 60rpx;
+							height: 60rpx;
+							border-radius: 50%;
+							margin-left: 30rpx;
+						}
 
-				.comment-item-head-right {
-					font-size: 24rpx;
-					color: rgba(44, 44, 44, 0.3);
-					margin-right: 32rpx;
-				}
-
-			}
-
-			.comment-item-name {
-				font-size: 24rpx;
-				color: rgb(255, 78, 47);
-				margin: 10rpx 0 20rpx 30rpx;
-			}
-
-			.comment-item-info {
-				width: 690rpx;
-				line-height: 30rpx;
-				font-size: 24rpx;
-				color: rgb(44, 44, 44);
-				word-break: break-all;
-				margin: 10rpx auto;
-			}
-
-			.comment-item-icons {
-				position: relative;
-				width: 100%;
-				display: flex;
-				align-items: center;
-				margin: 20rpx 0 30rpx 0;
-
-				.comment-item-icons-info {
-					position: absolute;
-					display: flex;
-					align-items: flex-end;
-
-					image {
-						width: 40rpx;
-						height: 40rpx;
-					}
-
-					view {
-						font-size: 16rpx;
-						color: rgb(44, 44, 44);
-					}
-				}
-			}
-
-		}
-	}
-
-	.comment-botm {
-		position: fixed;
-		bottom: 0;
-		width: 100%;
-		height: 144rpx;
-		display: flex;
-		align-items: center;
-		background: #FFF;
-		box-shadow: 0px -4rpx 14rpx rgba(255, 198, 188, 0.3);
-
-		.comment-botm-inpit {
-			width: 690rpx;
-			margin: 0 auto;
-		}
-
-	}
-
-	.showComment {
-		position: relative;
-		width: 100%;
-		height: 1000rpx;
-		background: #FFF;
-		border-radius: 16rpx 16rpx 0 0;
-
-		.tit {
-			position: relative;
-			width: 100%;
-			height: 100rpx;
-			font-size: 32rpx;
-			color: rgb(0, 0, 0);
-			display: flex;
-			align-items: center;
-			border-bottom: 2rpx solid rgb(190, 190, 190);
-
-			image {
-				position: absolute;
-				right: 32rpx;
-				width: 48rpx;
-				height: 48rpx;
-			}
-
-			view {
-				width: 100%;
-				text-align: center;
-			}
-		}
-
-		.list {
-			width: 100%;
-			margin-top: 42rpx;
-
-			.item {
-				width: 100%;
-				display: flex;
-				align-items: flex-start;
-				margin-bottom: 42rpx;
-
-				.auth {
-					width: 60rpx;
-					height: 60rpx;
-					border-radius: 50%;
-					margin-left: 30rpx;
-				}
-
-				.item-info {
-					margin-left: 20rpx;
-
-					.item-info-top {
-						font-size: 16rpx;
-						color: rgba(44, 44, 44, 0.3);
-
-						span {
+						view {
+							font-size: 24rpx;
+							color: rgb(44, 44, 44);
 							margin-left: 20rpx;
 						}
 					}
 
-					.item-info-des {
-						width: 520rpx;
+					.comment-item-head-right {
 						font-size: 24rpx;
-						color: rgb(44, 44, 44);
-						margin-top: 4rpx;
-						word-break: break-all;
+						color: rgba(44, 44, 44, 0.3);
+						margin-right: 32rpx;
 					}
 
 				}
 
-				.item-img {
-					margin: 20rpx 0 0 20rpx;
-
-					image {
-						width: 40rpx;
-						height: 40rpx;
-					}
+				.comment-item-name {
+					font-size: 24rpx;
+					color: rgb(255, 78, 47);
+					margin: 10rpx 0 20rpx 30rpx;
 				}
 
+				.comment-item-info {
+					width: 690rpx;
+					line-height: 30rpx;
+					font-size: 24rpx;
+					color: rgb(44, 44, 44);
+					word-break: break-all;
+					margin: 10rpx auto;
+				}
+
+				.comment-item-icons {
+					position: relative;
+					width: 100%;
+					display: flex;
+					align-items: center;
+					margin: 20rpx 0 30rpx 0;
+
+					.comment-item-icons-info {
+						position: absolute;
+						display: flex;
+						align-items: flex-end;
+
+						image {
+							width: 40rpx;
+							height: 40rpx;
+						}
+
+						view {
+							font-size: 16rpx;
+							color: rgb(44, 44, 44);
+						}
+					}
+				}
 			}
-
 		}
 
-		.showComment-btn {
-			position: absolute;
+		.comment-botm {
+			position: fixed;
 			bottom: 0;
 			width: 100%;
 			height: 144rpx;
@@ -448,5 +289,101 @@
 			}
 		}
 
+		.showComment {
+			position: relative;
+			width: 100%;
+			height: 1000rpx;
+			background: #FFF;
+			border-radius: 16rpx 16rpx 0 0;
+
+			.tit {
+				position: relative;
+				width: 100%;
+				height: 100rpx;
+				font-size: 32rpx;
+				color: rgb(0, 0, 0);
+				display: flex;
+				align-items: center;
+				border-bottom: 2rpx solid rgb(190, 190, 190);
+
+				image {
+					position: absolute;
+					right: 32rpx;
+					width: 48rpx;
+					height: 48rpx;
+				}
+
+				view {
+					width: 100%;
+					text-align: center;
+				}
+			}
+
+			.list {
+				width: 100%;
+				margin-top: 42rpx;
+
+				.item {
+					width: 100%;
+					display: flex;
+					align-items: flex-start;
+					margin-bottom: 42rpx;
+
+					.auth {
+						width: 60rpx;
+						height: 60rpx;
+						border-radius: 50%;
+						margin-left: 30rpx;
+					}
+
+					.item-info {
+						margin-left: 20rpx;
+
+						.item-info-top {
+							font-size: 16rpx;
+							color: rgba(44, 44, 44, 0.3);
+
+							span {
+								margin-left: 20rpx;
+							}
+						}
+
+						.item-info-des {
+							width: 520rpx;
+							font-size: 24rpx;
+							color: rgb(44, 44, 44);
+							margin-top: 4rpx;
+							word-break: break-all;
+						}
+
+					}
+
+					.item-img {
+						margin: 20rpx 0 0 20rpx;
+
+						image {
+							width: 40rpx;
+							height: 40rpx;
+						}
+					}
+				}
+			}
+
+			.showComment-btn {
+				position: absolute;
+				bottom: 0;
+				width: 100%;
+				height: 144rpx;
+				display: flex;
+				align-items: center;
+				background: #FFF;
+				box-shadow: 0px -4rpx 14rpx rgba(255, 198, 188, 0.3);
+
+				.comment-botm-inpit {
+					width: 690rpx;
+					margin: 0 auto;
+				}
+			}
+		}
 	}
 </style>

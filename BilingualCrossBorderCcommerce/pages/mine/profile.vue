@@ -2,18 +2,20 @@
 	<view class="person-page">
 		<uni-header :title="$t('top.userCont')"></uni-header>
 		<view class="person-box">
-			<view class="person-auth" @click="upLoadLunimg">
-				<view class="person-auth-box">
+			<view class="person-auth">
+				<view class="person-auth-box" @click="upLoadLunimg">
 					<image :src="userCont.avatar || require('@/static/images/mine/auth_logo.png')" mode="aspectFill">
 					</image>
-					<image class="box-icon" src="@/static/images/mine/profile_set_avatar.png" mode="widthFix"></image>
-					<view class="box-status" v-if="false">{{$t('profile.review')}}</view>
+					<image class="box-icon" v-if="!userCont.audit_avatar || userCont.audit_avatar == ''"
+						src="@/static/images/mine/profile_set_avatar.png" mode="widthFix"></image>
+					<view class="box-status" v-if="userCont.audit_avatar">{{$t('profile.review')}}</view>
 				</view>
 			</view>
 			<view class="person-li">
 				<text class="label">{{$t('user.mine.neca')}}</text>
 				<view class="li-r" @click="navClick('nick')">
-					<view class="r-t">{{userCont.nickname}}<text v-if="false">({{$t('profile.review')}})</text></view>
+					<view class="r-t">{{userCont.nickname}}<text
+							v-if="userCont.audit_nickname">({{$t('profile.review')}})</text></view>
 					<view class="icon">
 						<image class="img" src="../../static/images/mine/more1.png"></image>
 					</view>
@@ -76,6 +78,15 @@
 		},
 		methods: {
 			navClick(url) {
+				if (url === 'nick') {
+					if (this.userCont.audit_nickname) {
+						uni.showToast({
+							title: this.$t('profile.nickName'),
+							icon: 'none',
+						});
+						return;
+					}
+				}
 				uni.navigateTo({
 					url
 				});
@@ -85,53 +96,54 @@
 					if (res.code == 1) {
 						this.userCont = res.data;
 						this.mobile = res.data.mobile.substring(0, 3) + '****' + res.data.mobile.slice(-4);
+						uni.setStorageSync('userCont', res.data);
 					}
-					console.log(this.userCont);
 				})
 			},
-			// 修改头像
 			upLoadLunimg() {
-				let that = this
-				uni.chooseImage({
-					count: 1,
-					// sizeType: ['original', 'compressed'],
-					// sourceType: ['album'],
-					success: function(res) {
-						let tempFilePaths = res.tempFilePaths
-						tempFilePaths.forEach((em, i) => {
-							uni.uploadFile({
-								url: that.$url + that.$apiObj.CommonUpload,
-								filePath: tempFilePaths[i],
-								name: 'file',
-								formData: {
-									'token': uni.getStorageSync('token'),
-								},
-								success: (uploadFileRes) => {
-									let res = JSON.parse(uploadFileRes.data);
-									if (res.code == 200) {
-										let imgs = res.data;
-										that.$http.post(that.$apiObj.MineChangeAvatar, {
-											avatar: imgs.url,
-										}).then(ress => {
-											if (ress.code == 1) {
-												that.$http.post(that.$apiObj
-													.MineInfo).then(resss => {
-													if (resss.code == 1) {
-														that.userCont =
-															resss.data;
-														uni.setStorageSync(
-															'userCont',
-															resss.data);
-													}
-												});
-											}
-										});
+				if (this.userCont.audit_avatar) {
+					uni.showToast({
+						title: this.$t('profile.avatar'),
+						icon: 'none',
+					});
+				} else {
+					uni.chooseImage({
+						count: 1,
+						sourceType: ['album'],
+						crop: {
+							quality: 100,
+							saveToAlbum: false,
+							width: 200,
+							height: 200
+						},
+						success: (res) => {
+							if (res.tempFilePaths[0]) {
+								let tempFile = res.tempFilePaths[0];
+								uni.uploadFile({
+									url: this.$url + this.$apiObj.CommonUpload,
+									filePath: tempFile,
+									name: 'file',
+									formData: {
+										'token': uni.getStorageSync('token'),
+									},
+									success: (uploadFileRes) => {
+										let res = JSON.parse(uploadFileRes.data);
+										if (res.code == 200) {
+											let imgs = res.data;
+											this.$http.post(this.$apiObj.MineChangeAvatar, {
+												avatar: imgs.url,
+											}).then(e => {
+												if (e.code == 1) {
+													this.getUserCont();
+												}
+											});
+										}
 									}
-								}
-							});
-						});
-					}
-				});
+								});
+							}
+						}
+					});
+				}
 			},
 		}
 	}
@@ -142,7 +154,7 @@
 		width: 100%;
 		min-height: 100vh;
 		background: rgb(248, 248, 248);
-		
+
 		.person-box {
 			padding: 0rpx 30rpx;
 			background: #ffffff;

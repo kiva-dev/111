@@ -19,8 +19,7 @@
 			<scroll-view class="tab-layout-scroll" scroll-x="true">
 				<view class="scroll-item" :class="{'scroll-active' : tabIndex === item.id}" v-for="item in tabArr"
 					:key="item.id" @click="onChangeTab(item.id)">
-					<text
-						:style="{'color': tabIndex === item.id ? 'rgb(10, 198, 142)' : 'rgb(51, 51, 51)'}">{{item.name}}</text>
+					<text :style="{'color': tabIndex === item.id ? 'rgb(10, 198, 142)' : 'rgb(51, 51, 51)'}">{{item.name}}</text>
 				</view>
 			</scroll-view>
 		</view>
@@ -29,30 +28,41 @@
 				<view class="ll-item" v-for="item in orderList" :key="item.id">
 					<view class="ll-item-header">
 						<view class="header-shop">
-							<image src="@/static/images/new-index/detail_demo_cover.png" mode="aspectFill"></image>
+							<image :src="item.shop_logo" mode="aspectFill"></image>
 							<p>{{item.shop_name}}</p>
 						</view>
-						<view class="header-status">To be paid</view>
+						<view class="header-status" style="color: #FF3939;" v-if="item.status === '0'">{{$t('user.order.paid')}}</view>
+						<view class="header-status" style="color: #1DD181;" v-if="item.status === '2'">{{$t('user.order.shipped')}}</view>
+						<view class="header-status" style="color: #1DD181;" v-if="item.status === '3'">{{$t('user.order.received')}}</view>
+						<view class="header-status" style="color: #999999;" v-if="item.status === '5'">{{$t('user.order.confirmed')}}</view>
+						<view class="header-status" style="color: #999999;" v-if="item.status === '6'">{{$t('user.order.closed')}}</view>
 					</view>
-					<view class="ll-item-info">
+					<view class="ll-item-info" v-for="goods in item.goods" :key="goods.goods_id">
 						<view class="info-cover">
-							<image src="@/static/images/new-index/detail_demo_cover.png" mode="aspectFill"></image>
+							<image :src="goods.image" mode="aspectFill"></image>
 						</view>
 						<view class="info-content">
-							<view class="info-content-name">Here is the product name, Here is the product name,Here is
-								the product name</view>
+							<view class="info-content-name">{{goods.goods_name || ''}}</view>
 							<view class="info-content-num">
-								<view class="num-total">1 in total</view>
+								<view class="num-total">x{{goods.total_num}}</view>
 								<view class="num-price">
 									<text>RM</text>
-									{{item.pay_price}}
+									{{goods.goods_price}}
 								</view>
 							</view>
 						</view>
 					</view>
 					<view class="ll-item-btns">
-						<view class="btns-grey">Cancel order</view>
-						<view class="btns-green">payment</view>
+						<template v-if="item.status === '0'">
+							<view class="btns-grey" @click.stop="onCancelOrder(item)">{{$t('user.order.cancel')}}</view>
+							<view class="btns-green">{{$t('user.order.payment')}}</view>
+						</template>
+						<template v-if="item.status === '2'">
+							<!-- <view class="btns-green">{{$t('user.order.receipt')}}</view> -->
+						</template>
+						<template v-if="item.status === '3'">
+							<view class="btns-green">{{$t('user.order.receipt')}}</view>
+						</template>
 					</view>
 				</view>
 			</view>
@@ -68,8 +78,12 @@
 		data() {
 			return {
 				tabArr: [{
-						id: 1,
+						id: 10,
 						name: this.$t('user.order.qbdd')
+					},
+					{
+						id: 0,
+						name: this.$t('user.order.daifuk')
 					},
 					{
 						id: 2,
@@ -80,25 +94,25 @@
 						name: this.$t('user.order.dsh')
 					},
 					{
-						id: 4,
-						name: this.$t('zhongpai.daiqueren')
-					},
-					{
 						id: 5,
-						name: this.$t('zhongpai.yiqueren')
+						name: this.$t('user.order.yiwanc')
 					},
 					{
 						id: 6,
-						name: this.$t('user.order.yiwanc')
-					}
+						name: this.$t('user.order.closing')
+					},
 				],
-				tabIndex: 1,
+				tabIndex: 10, // 10全部，0待付款，2待发货，3待收货，5已完成，6交易关闭
 				page: 1,
 				orderList: [],
 			}
 		},
 		onLoad(option) {
-			this.tabIndex = parseInt(option.tabIndex) || 1;
+			this.tabIndex = parseInt(option.tabIndex) || 10;
+			this.getOrderList();
+		},
+		onReachBottom() {
+			this.page++;
 			this.getOrderList();
 		},
 		methods: {
@@ -111,10 +125,10 @@
 				this.getOrderList();
 			},
 			getOrderList() {
-				this.$http.post(this.$apiObj.AuctionorderWinOrder, {
-					pagenum: 10,
+				this.$http.post(this.$apiObj.OrderOrderList, {
 					page: this.page,
-					token: uni.getStorageSync('token')
+					pagenum: 10,
+					type: this.tabIndex === 10 ? null : this.tabIndex
 				}).then((res) => {
 					console.log(res);
 					if (res.code === 1) {
@@ -125,8 +139,45 @@
 							this.orderList = arr;
 						}
 					}
-				})
-			}
+				});
+			},
+			// 待发货取消订单（涉及退款）
+			// this.$http.post(this.$apiObj.OrderPayCancelOrder, {
+			// 	order_no: this.order_no
+			// }).then(res => {
+			// 	if (res.code == 1) {
+			// 		uni.showToast({
+			// 			title: this.$t('user.order.qxddcg'),
+			// 			icon: 'none'
+			// 		})
+			// 		this.page = 1
+			// 		this.orderList = []
+			// 		this.onOrderOrderList()
+			// 		this.$refs.QueryPopup.close()
+			// 	}
+			// });
+			onCancelOrder(item) {
+				uni.showModal({
+					title: this.$t('user.order.tishi'),
+					content: this.$t('user.order.nqdyqxdqddm'),
+					success: (res) => {
+						if (res.confirm) {
+							this.$http.post(this.$apiObj.OrderNotpayCancelOrder, {
+								order_no: item.order_no
+							}).then((res) => {
+								if (res.code === 1) {
+									uni.showToast({
+										title: this.$t('user.order.qxddcg'),
+										icon: 'none'
+									});
+									this.page = 1;
+									this.getOrderList();
+								}
+							});
+						}
+					},
+				});
+			},
 		}
 	}
 </script>
@@ -270,7 +321,6 @@
 					}
 
 					.header-status {
-						color: rgb(255, 57, 57);
 						font-size: 24rpx;
 					}
 				}

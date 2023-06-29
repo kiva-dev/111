@@ -456,6 +456,14 @@
 			}
 		},
 		{
+			"path": "pages/mine/order/orderDetail",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
 			"path": "pages/mine/order/jporder",
 			"style": {
 				"navigationBarTitleText": "%top.jpddxq%",
