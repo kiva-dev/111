@@ -102,7 +102,7 @@
 				</view>
 				<view class="container-btn">
 					<!-- <view class="container-btn-withdrawal" @click="navClick('Withdrawal')">{{$t('user.wallet.tixian')}}</view> -->
-					<view class="container-btn-recharge" @click="navClick('recharge')">{{$t('top.cz')}}</view>
+					<view class="container-btn-recharge" @click="navClick('/pages/mine/K_brick_detail')">{{$t('top.cz')}}</view>
 				</view>
 			</view>
 		</view>
@@ -153,7 +153,6 @@
 			<view class="ml-auction-content">
 				<scroll-view class="content-scroll" scroll-x="true" @scrolltoupper="isBottoming = false"
 					@scrolltolower="isBottoming = true">
-					<!-- /pages/mine/order/order?Inv=2&type=2 -->
 					<view class="content-scroll-box" @click="navClick('/pages/mine/order/order?tabIndex=0')">
 						<image src="@/static/images/mine/mine_icon_ship.png" mode="widthFix"></image>
 						<p>{{$t('user.order.daifuk')}}</p>

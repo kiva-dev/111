@@ -1,41 +1,33 @@
 <template>
 	<view class="order-page">
-		<view class="header-layout">
-			<view class="hl-container">
-				<view class="hl-c-back" @click="onBack">
-					<image src="@/static/images/active/active_btn_back.png" mode="widthFix"></image>
-				</view>
-				<view class="hl-c-search">
-					<view class="search-icon">
-						<image src="@/static/images/mine/order_icon_search.png" mode="widthFix"></image>
-					</view>
-					<view class="search-ipt">
-						<input type="text" :placeholder="$t('order.search')" />
-					</view>
-				</view>
-			</view>
-		</view>
+		<uni-header :title="$t('top.MyOrder')"></uni-header>
 		<view class="tab-layout">
 			<scroll-view class="tab-layout-scroll" scroll-x="true">
 				<view class="scroll-item" :class="{'scroll-active' : tabIndex === item.id}" v-for="item in tabArr"
 					:key="item.id" @click="onChangeTab(item.id)">
-					<text :style="{'color': tabIndex === item.id ? 'rgb(10, 198, 142)' : 'rgb(51, 51, 51)'}">{{item.name}}</text>
+					<text
+						:style="{'color': tabIndex === item.id ? 'rgb(10, 198, 142)' : 'rgb(51, 51, 51)'}">{{item.name}}</text>
 				</view>
 			</scroll-view>
 		</view>
 		<template v-if="orderList && orderList.length > 0">
 			<view class="list-layout">
-				<view class="ll-item" v-for="item in orderList" :key="item.id">
+				<view class="ll-item" v-for="item in orderList" :key="item.id" @click="jumpOrderDetail(item.order_no)">
 					<view class="ll-item-header">
 						<view class="header-shop">
 							<image :src="item.shop_logo" mode="aspectFill"></image>
 							<p>{{item.shop_name}}</p>
 						</view>
-						<view class="header-status" style="color: #FF3939;" v-if="item.status === '0'">{{$t('user.order.paid')}}</view>
-						<view class="header-status" style="color: #1DD181;" v-if="item.status === '2'">{{$t('user.order.shipped')}}</view>
-						<view class="header-status" style="color: #1DD181;" v-if="item.status === '3'">{{$t('user.order.received')}}</view>
-						<view class="header-status" style="color: #999999;" v-if="item.status === '5'">{{$t('user.order.confirmed')}}</view>
-						<view class="header-status" style="color: #999999;" v-if="item.status === '6'">{{$t('user.order.closed')}}</view>
+						<view class="header-status" style="color: #FF3939;" v-if="item.status === '0'">
+							{{$t('user.order.paid')}}</view>
+						<view class="header-status" style="color: #1DD181;" v-if="item.status === '2'">
+							{{$t('user.order.shipped')}}</view>
+						<view class="header-status" style="color: #1DD181;" v-if="item.status === '3'">
+							{{$t('user.order.received')}}</view>
+						<view class="header-status" style="color: #999999;" v-if="item.status === '5'">
+							{{$t('user.order.confirmed')}}</view>
+						<view class="header-status" style="color: #999999;" v-if="item.status === '6'">
+							{{$t('user.order.closed')}}</view>
 					</view>
 					<view class="ll-item-info" v-for="goods in item.goods" :key="goods.goods_id">
 						<view class="info-cover">
@@ -58,10 +50,13 @@
 							<view class="btns-green">{{$t('user.order.payment')}}</view>
 						</template>
 						<template v-if="item.status === '2'">
-							<!-- <view class="btns-green">{{$t('user.order.receipt')}}</view> -->
+							<view class="btns-grey" @click.stop="onCancelOrder(item)">{{$t('user.order.cancel')}}</view>
 						</template>
 						<template v-if="item.status === '3'">
-							<view class="btns-green">{{$t('user.order.receipt')}}</view>
+							<view class="btns-green" @click.stop="onConfirmReceipt(item)">{{$t('user.order.receipt')}}</view>
+						</template>
+						<template v-if="item.status === '5'">
+							<view class="btns-grey" @click.stop="onAfterSale(item)">{{$t('user.order.sale')}}</view>
 						</template>
 					</view>
 				</view>
@@ -130,7 +125,6 @@
 					pagenum: 10,
 					type: this.tabIndex === 10 ? null : this.tabIndex
 				}).then((res) => {
-					console.log(res);
 					if (res.code === 1) {
 						let arr = res.data.data || [];
 						if (this.page > 1) {
@@ -141,41 +135,67 @@
 					}
 				});
 			},
-			// 待发货取消订单（涉及退款）
-			// this.$http.post(this.$apiObj.OrderPayCancelOrder, {
-			// 	order_no: this.order_no
-			// }).then(res => {
-			// 	if (res.code == 1) {
-			// 		uni.showToast({
-			// 			title: this.$t('user.order.qxddcg'),
-			// 			icon: 'none'
-			// 		})
-			// 		this.page = 1
-			// 		this.orderList = []
-			// 		this.onOrderOrderList()
-			// 		this.$refs.QueryPopup.close()
-			// 	}
-			// });
+			jumpOrderDetail(id) {
+				uni.navigateTo({
+					url: '/pages/mine/order/orderDetail?id=' + id
+				})
+			},
 			onCancelOrder(item) {
 				uni.showModal({
 					title: this.$t('user.order.tishi'),
 					content: this.$t('user.order.nqdyqxdqddm'),
 					success: (res) => {
 						if (res.confirm) {
-							this.$http.post(this.$apiObj.OrderNotpayCancelOrder, {
-								order_no: item.order_no
-							}).then((res) => {
-								if (res.code === 1) {
-									uni.showToast({
-										title: this.$t('user.order.qxddcg'),
-										icon: 'none'
-									});
-									this.page = 1;
-									this.getOrderList();
-								}
-							});
+							if (item.status === '0') {
+								this.$http.post(this.$apiObj.OrderNotpayCancelOrder, {
+									order_no: item.order_no
+								}).then(res => {
+									if (res.code === 1) {
+										uni.showToast({
+											title: this.$t('user.order.qxddcg'),
+											icon: 'none'
+										});
+										this.page = 1;
+										this.getOrderList();
+									}
+								});
+							}
+							if (item.status === '2') {
+								this.$http.post(this.$apiObj.OrderPayCancelOrder, {
+									order_no: item.order_no
+								}).then(res => {
+									if (res.code === 1) {
+										uni.showToast({
+											title: this.$t('user.order.qxddcg'),
+											icon: 'none'
+										})
+										this.page = 1;
+										this.getOrderList();
+									}
+								});
+							}
 						}
 					},
+				});
+			},
+			onConfirmReceipt(item) {
+				this.$http.post(this.$apiObj.OrderReceiptOrder, {
+					order_no: item.order_no
+				}).then(res => {
+					if (res.code == 1) {
+						uni.showToast({
+							title: this.$t('user.order.shcg'),
+							icon: 'none'
+						})
+						this.page = 1;
+						this.getOrderList();
+					}
+				});
+			},
+			// 申请售后
+			onAfterSale(item) {
+				uni.navigateTo({
+					url: '/pages/mine/order/sqsh?conter=' + JSON.stringify(item.goods) + '&cent=' + JSON.stringify(item)
 				});
 			},
 		}
@@ -187,61 +207,6 @@
 		width: 100%;
 		background: #F8F8F8;
 		min-height: 100vh;
-
-		.header-layout {
-			width: 100%;
-			background: rgb(10, 198, 142);
-			padding-top: 88rpx;
-			box-sizing: border-box;
-
-			.hl-container {
-				width: 100%;
-				height: 88rpx;
-				padding: 0 32rpx;
-				box-sizing: border-box;
-				display: flex;
-				justify-content: space-between;
-				align-items: center;
-
-				.hl-c-back {
-					width: 40rpx;
-
-					image {
-						width: 100%;
-					}
-				}
-
-				.hl-c-search {
-					width: 600rpx;
-					background: rgb(255, 255, 255);
-					border-radius: 100rpx;
-					padding: 14rpx 20rpx;
-					box-sizing: border-box;
-					display: flex;
-					align-items: center;
-
-					.search-icon {
-						width: 36rpx;
-						display: flex;
-
-						image {
-							width: 100%;
-						}
-					}
-
-					.search-ipt {
-						flex: 1;
-						margin-left: 20rpx;
-
-						input {
-							width: 100%;
-							color: rgb(153, 153, 153);
-							font-size: 24rpx;
-						}
-					}
-				}
-			}
-		}
 
 		.tab-layout {
 			width: 100%;

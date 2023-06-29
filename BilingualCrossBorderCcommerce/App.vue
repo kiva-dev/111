@@ -195,7 +195,7 @@
 
 	.public-btn {
 		height: 90rpx;
-		background: #fc0609;
+		background: #1DD181;
 		border-radius: 45rpx;
 		font-size: 32rpx;
 		color: #fff;

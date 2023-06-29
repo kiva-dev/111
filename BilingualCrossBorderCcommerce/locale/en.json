@@ -16,7 +16,7 @@
 	"top.set": "System settings",
 	"top.shop": "Product Details",
 	"top.userCont": "Personal information",
-	"top.MyOrder": "My order",
+	"top.MyOrder": "My Order",
 	"top.phonegsd": "Location of mobile phone number",
 	"top.zhuchezhanghao": "Registered account",
 	"top.wangjimm": "Forgot Password",
@@ -694,6 +694,7 @@
 	"user.order.confirmed": "Confirmed",
 	"user.order.closed": "Closed",
 	"user.order.receipt": "Confirm receipt",
+	"user.order.sale": "After sale",
 
 	"user.order.detail.xufukuan": "Payment required",
 	"user.order.detail.shengyu": "surplus",
@@ -742,6 +743,11 @@
 	"user.order.detail.shcg": "Goods received successfully",
 	"user.order.detail.fzcg": "Copy succeeded",
 	"user.order.detail.title": "Order Details",
+	"user.order.detail.address": "Address",
+	"user.order.detail.number": "Oder number",
+	"user.order.detail.time": "Order time",
+	"user.order.detail.information": "Shopping information",
+	"user.order.detail.total": "Total payment",
 
 	"user.order.evaluate.zhpf": "Comprehensive score",
 	"user.order.evaluate.cdgjdpjbp": "Evaluating babies from multiple perspectives can help more people who want to buy",

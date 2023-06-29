@@ -274,6 +274,7 @@
 			</view>
 		</uni-popup>
 		<!--点击领奖弹框显示 end-->
+		
 		<!--提示显示 start-->
 		<uni-popup ref="tishiPopup" type="center">
 			<view class="tishingCont">
@@ -287,6 +288,7 @@
 			</view>
 		</uni-popup>
 		<!--提示显示 end-->
+		
 		<uni-popup ref="weikaisPopup" type="center">
 			<view class="tishingCont">
 				<view class="title">{{$t('zhongpai.tis')}}</view>
@@ -297,6 +299,7 @@
 				</view>
 			</view>
 		</uni-popup>
+		
 		<!--分享弹出 start-->
 		<view class="fenxiang" v-if="onfenxingShow">
 			<view class="share-pop">
@@ -327,6 +330,7 @@
 			</view>
 		</view>
 		<!--分享弹出 end-->
+		
 		<u-popup :show="shareShow" mode="center" bgColor="transparent">
 			<view class="shareShow">
 				<image src="../../static/images/auth/tck-xr.png" class="shareShow-img"></image>
@@ -388,7 +392,7 @@
 			}
 		},
 		onShow() {
-			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
+			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false;
 			if (this.navId == 1) {
 				// 我的竞拍
 				this.onMineAttendAuction();
@@ -581,13 +585,14 @@
 				}
 				return str;
 			},
-			// 我的竞拍
+			// 竞拍中
 			onMineAttendAuction() {
 				this.$http.post(this.$apiObj.MineAttendAuction, {
 					page: this.page,
 					pagenum: this.pagenum,
 					type: this.type
 				}).then(res => {
+					console.log(res);
 					if (res.code == 1) {
 						if (this.isShopCont) {
 							res.data.data.map(item => {
@@ -665,7 +670,6 @@
 						})
 						this.totalPageNum = res.data.total
 						this.recordList = this.page == 1 ? res.data.data : [...this.recordList, ...res.data.data]
-						console.log(this.recordList);
 					}
 				})
 			},
