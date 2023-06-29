@@ -80,7 +80,7 @@
 									<p>{{addressInfo.mobile}}</p>
 								</template>
 								<template v-else>
-									<p>Add New Address</p>
+									<p>{{$t('user.address.addxdz')}}</p>
 								</template>
 							</view>
 						</view>
@@ -391,7 +391,8 @@
 				</view>
 				<scroll-view scroll-y style="height: 900rpx;">
 					<view class="addresslist">
-						<view class="address-item" v-for="(item,i) in addressList" :key="item.id" @click="editAddress(item)">
+						<view class="address-item" v-for="(item,i) in addressList" :key="item.id"
+							@click="editAddress(item)">
 							<view class="item-head">
 								<image src="../../static/images/new-index/address.png"></image>
 								<view class="item-name">{{item.name}}</view>
@@ -403,7 +404,8 @@
 						</view>
 					</view>
 				</scroll-view>
-				<view class="address-btn" @click="navToUrl('/pages/address/address')">Add New Address</view>
+				<view class="address-btn" @click="navToUrl('/pages/address/address')">{{$t('user.address.addxdz')}}
+				</view>
 			</view>
 		</uni-popup>
 		<!-- 选择地址 end -->
@@ -527,7 +529,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			//获取历史竞拍列表
 			this.getHistoryList()
 
-			
+
 		},
 		onShow() {
 			this.getAllAddress()
@@ -555,7 +557,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		},
 		methods: {
 			//修改地址
-			editAddress(item){
+			editAddress(item) {
 				this.$http.post(this.$apiObj.AddressEdit, {
 					mobile_area_code: item.mobile_area_code, // 手机号区域编码
 					mobile: item.mobile, // 手机号码
@@ -571,7 +573,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				})
 			},
 			//页面跳转
-			navToUrl(url){
+			navToUrl(url) {
 				uni.navigateTo({
 					url
 				})
@@ -594,7 +596,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			getYouLikeList() {
 				this.$http.post(this.$apiObj.GetYouLikeList, {
 					goods_id: this.shopCont.goods_id,
-					is_auction_goods:1,
+					is_auction_goods: 1,
 					page: 1,
 					pagenum: 6
 				}).then(res => {
@@ -602,18 +604,47 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				})
 			},
 			toPay() {
-				this.$http.post(this.$apiObj.CartAdd, {
+				if (this.addressList.length < 0) {
+					uni.showModal({
+						title: '提示',
+						content: '请先添加收货地址',
+						cancelText: "取消",
+						confirmText: "确认",
+						success: function(res) {
+							if (res.confirm) {
+								uni.navigateTo({
+									url: '/pages/address/address'
+								})
+							} else if (res.cancel) {
+								console.log('用户点击取消');
+							}
+						}
+					});
+					return
+				}
+
+				//提交订单
+				this.$http.post(this.$apiObj.OrderReferOrder, {
 					goods_spec_id: this.shopCont.litestore_goods_spec[0].goods_spec_id,
-					num: 1
+					num: 1,
+					coupon_id: 0,
+					buy_type: 1,
+					address_id: this.addressInfo.id,
+					group_type: 0,
+					major_no: 0
 				}).then(res => {
-					if (res.code == 1) {
-						this.$http.post(this.$apiObj.CartList).then(data => {
-							uni.navigateTo({
-								url: "/pages/cart/submit?cart_ids=" + data.data.data[0].goods[0].id
-							})
+					uni.showToast({
+						title: res.msg,
+						icon: 'none'
+					})
+					setTimeout(() => {
+						uni.navigateTo({
+							url: '/pages/cart/orderinfo?order_no=' + res.data.order_no
 						})
-					}
+					},1500)
+
 				})
+
 			},
 			addCart() {
 				this.$http.post(this.$apiObj.CartAdd, {

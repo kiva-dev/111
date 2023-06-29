@@ -271,7 +271,7 @@
 	"auction.detail.cijpjh": "Second auction opportunity",
 	"auction.detail.brywqydbty": "I have fully read and agreed",
 	"auction.detail.jphdgommzxy": "Purchase Exemption Agreement for Auction Activities",
-	"auction.detail.btnsub": "confirm",
+	"auction.detail.btnsub": "Confirm",
 	"auction.detail.fengxiangdao": "Share to",
 	"auction.detail.fuzhilianjie": "Copy Link",
 	"auction.detail.fyzf": "Payment of expenses",
@@ -1417,5 +1417,11 @@
 	"new.zg":"Total",
 	"new.scz":"Delete these",
 	"new.scsp":"products?",
-	"new.notcart":"Pick something you like and add it to your cart"
+	"new.notcart":"Pick something you like and add it to your cart",
+	"new.kzyebz":" K Diamonds Insufficient balance",
+	"new.jh":"Exchange",
+	"new.qcz":"To Recharge",
+	"new.dhfk":"Exchange payment",
+	"new.qpsl":"Number of grabs",
+	"new.srqpsl":"Enter the number of grabs"
 }

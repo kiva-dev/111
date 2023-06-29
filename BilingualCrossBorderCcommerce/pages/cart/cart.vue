@@ -87,7 +87,7 @@
 				<image src="/static/images/new-index/detail_icon_hot.png"></image>
 				<view>{{$t('detail.hot')}}</view>
 			</view>
-			<scroll-view scroll-x style="width: 750rpx;white-space: nowrap;" >
+			<scroll-view scroll-x style="width: 750rpx;white-space: nowrap;">
 				<view v-for="(item,i) in hotList" :key="i" style="display: inline-block;width: 750rpx;">
 					<view class="hotinfo">
 						<view class="hotitem" v-for="data in item.list" :key="data.auction_goods_id">
@@ -185,11 +185,14 @@
 				totalPrice: 0, //总价值
 				hotList: [],
 				showNot: false,
-				updateNum:0,//记录上次修改的数量
+				updateNum: 0, //记录上次修改的数量
 			}
 		},
 		onShow() {
 			this.getCartList()
+		},
+		onHide() {
+			
 		},
 		methods: {
 			//为你推荐
@@ -198,7 +201,7 @@
 					page: 1,
 					pagenum: 18
 				}).then(res => {
-					this.hotList=[]
+					this.hotList = []
 					let arr = res.data.data
 					let one = []
 					let two = []
@@ -250,12 +253,13 @@
 			},
 			//修改购物车商品数量
 			editCartProductNum(data) {
-				if(data.stock_num<data.num){
+				if (data.stock_num < data.num) {
 					uni.showToast({
-						title:'库存不足',
-						icon:'none',
-						duration:2000
+						title: '库存不足',
+						icon: 'none',
+						duration: 2000
 					})
+					data.num = data.stock_num
 					return
 				}
 				this.$http.post(this.$apiObj.CartEdit, {
@@ -293,35 +297,31 @@
 				this.deleteNum = 0
 				this.selectNum = 0
 				if (num == 1) {
-					let id = 0
+					let id = info.admin_id
 					info.select = !info.select
 					this.productList.forEach(item => {
-						item.goods.forEach(data => {
-							if (item.select) {
+						if (id == item.admin_id) {
+							item.goods.forEach(data => {
 								data.select = info.select
-								if (data.select) {
-									this.deleteNum++
-									this.selectNum++
-								}
-							}
-						})
+							})
+						}
+
 					})
 				} else {
+					console.log(num)
 					//如果是商品，先把选中取反，然后遍历数组，如果全选中了店铺变为选中，否则为未选中
 					info.select = !info.select
 					let flag = true
-					let id = 0
+					let id = info.admin_id
+					console.log(info.admin_id)
 					this.productList.forEach(item => {
-						id = item.admin_id
-						item.goods.forEach(data => {
-							if (!data.select) flag = false
-							else {
-								this.deleteNum++
-								this.selectNum++
-							}
-						})
-					})
+						if (item.admin_id == id) {
+							item.goods.forEach(data => {
+								if (!data.select) flag = false
+							})
+						}
 
+					})
 					this.productList.forEach(item => {
 						if (id == item.admin_id) item.select = flag ? true : false
 					})
@@ -332,6 +332,12 @@
 				let isAll = true
 				this.productList.forEach(item => {
 					if (!item.select) isAll = false
+					item.goods.forEach(data=>{
+						if(data.select){
+							this.deleteNum++
+							this.selectNum++
+						}
+					})
 				})
 				this.isSelectAll = isAll
 			},
@@ -863,20 +869,20 @@
 			padding: 22rpx 0;
 			background: #fff;
 			margin-top: 20rpx;
-			
-			.hotList-head{
+
+			.hotList-head {
 				width: 750rpx;
 				display: flex;
 				align-items: center;
 				margin-bottom: 26rpx;
-				
-				image{
+
+				image {
 					width: 40rpx;
 					height: 40rpx;
 					margin-left: 32rpx;
 				}
-				
-				view{
+
+				view {
 					font-size: 32rpx;
 					color: rgb(51, 51, 51);
 					margin-left: 12rpx;

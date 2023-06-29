@@ -511,13 +511,19 @@
 			<view class="qiangpaiShow">
 				<!-- <image src="../../static/images/new/tck.png" class="kct"></image> -->
 				<view class="query" @click="onQueryClick">
-					<image class="" src="../../static/images/close1.png"> </image>
+					<image class="" src="/static/images/kbrick/close.png"> </image>
 				</view>
 				<view class="qiangpaiCont">
 					<view class="center">
 						<view class="cent">
 							<view class="cont">
-								<input type="number" :placeholder="$t('user.auctionM.qsrqpcs')" v-model="isauctionNum">
+								<view class="tit">{{$t('new.qpsl')}}</view>
+								
+								<view class="my-input">
+									<image src="/static/images/kbrick/lv-cz.png"></image>
+									<input type="number" :placeholder="$t('new.srqpsl')" v-model="isauctionNum">
+								</view>
+
 								<view class="num">
 									<view style="color:#2c2c2c">{{$t('user.auctionM.syqpcs')}}</view>：<block
 										v-if="auction_num=='-1'">
@@ -557,7 +563,7 @@
 				<!-- <image src="../../static/images/new/tck.png" class="kct"></image> -->
 				<view class="jingpai-pop">
 					<view class="title">
-						{{$t('auction.detail.sfqr')}}RM{{shopNum}}{{$t('auction.detail.gmygjpme')}}{{isauctionNum}}{{$t('auction.detail.gmygjpmenum')}}
+						{{$t('auction.detail.sfqr')}}{{shopNum}}{{$t('new.kz')}} {{$t('auction.detail.gmygjpme')}} {{isauctionNum}} {{$t('auction.detail.gmygjpmenum')}}
 					</view>
 					<view class="txt" v-if="auction_num>='-1'">
 						<block v-if="auction_num=='-1'">
@@ -596,14 +602,31 @@
 				</view>
 			
 				<view class="mode-des">{{$t('new.xyzf')}}</view>
-			
+				
+				<view class="mode-banlace" v-show="balance*1 < shopNum">{{$t('new.kzyebz')}}</view>
+				
 				<view class="mode-info">
 					<image src="/static/images/kbrick/diamond.png" class="logo"></image>
 					<view class="info-tit">
 						<view class="info-name">{{$t('new.kzzf')}}</view>
 						<view class="info-price">({{$t('new.kz')}}:<text>{{balance}}</text>)</view>
 					</view>
-					<image src="/static/images/new-index/xz.png" class="select"></image>
+					<view class="mode-info-right">
+						<view>{{$t('new.dhfk')}}</view>
+						<image src="/static/images/kbrick/btm.png"></image>
+					</view>
+				</view>
+				
+				<view class="mode-more" v-show="false">
+					<view class="tit">{{$t('new.jh')}}:</view>
+					<image src="/static/images/kbrick/diamond.png" class="logo"></image>
+					<view class="num">32</view>
+					<image src="/static/images/new-index/wxz.png" class="select"></image>
+				</view>
+				
+				<view class="mode-cz">
+					<view @click="navClick('/pages/mine/K_brick_detail')">{{$t('new.qcz')}}</view>
+					<image src="/static/images/kbrick/right.png"></image>
 				</view>
 			
 				<view class="mode-switch">
@@ -3267,18 +3290,13 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		.query {
 			position: absolute;
 			top: 20rpx;
-			right: 30rpx;
-			width: 20rpx;
-			height: 20rpx;
-			border-radius: 50%;
-			border: 1rpx solid #000;
-			padding: 10rpx;
+			right: 60rpx;
 			z-index: 20;
 
 			image {
 				position: absolute;
-				width: 20rpx;
-				height: 20rpx;
+				width: 36rpx;
+				height: 36rpx;
 			}
 		}
 
@@ -3286,24 +3304,24 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			width: 686rpx;
 			background: #fff;
 			position: relative;
-			padding: 50rpx 0;
-			border: 4rpx solid rgb(10, 198, 142);
+			padding: 60rpx 0 50rpx 0;
+			// border: 4rpx solid rgb(10, 198, 142);
 			border-radius: 16rpx;
 			z-index: 9;
-
+		
 			.center {
 				.maxtitle {
 					position: relative;
 					display: flex;
 					align-items: center;
-
+		
 					image {
 						position: absolute;
 						left: 62rpx;
 						width: 72rpx;
 						height: 72rpx;
 					}
-
+		
 					.title {
 						width: 100%;
 						text-align: center;
@@ -3313,11 +3331,12 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						margin-left: 20rpx;
 					}
 				}
-
+		
 				.cent {
-					margin: 30rpx auto 40rpx;
+					margin: 0rpx auto 40rpx;
 					display: flex;
-
+					
+					
 					.txt {
 						margin-top: 5rpx;
 						font-size: 30rpx;
@@ -3325,37 +3344,63 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						margin-right: 10rpx;
 						max-width: 180rpx;
 					}
-
+		
 					.cont {
 						width: 566rpx;
-						margin: 26rpx auto 0;
+						margin: 10rpx auto 0;
 						text-align: center;
-
-						input {
-							width: 566rpx;
-							height: 80rpx;
-							border-radius: 16rpx;
-							border: 2rpx solid rgb(10, 198, 142);
+						
+						.tit{
+							width: 100%;
 							font-size: 28rpx;
+							font-weight: bold;
+							color: rgb(51, 51, 51);
+							text-align: center;
+							margin-bottom: 20rpx;
 						}
-
+						
+						
+						.my-input{
+							width: 566rpx;
+							display: flex;
+							align-items: center;
+							background: rgb(241, 241, 241);
+							border-radius: 16rpx;
+							
+							image{
+								display: block;
+								width: 32rpx;
+								height: 32rpx;
+								margin: 0 16rpx 0 24rpx;
+							}
+							
+						}
+		
+						uni-input {
+							width: 480rpx;
+							height: 80rpx;
+							border: none;
+							font-size: 28rpx;
+							text-align: left;
+						}
+		
 						.num {
 							display: flex;
 							align-items: center;
-							justify-content: center;
+							// justify-content: center;
 							font-size: 24rpx;
 							margin-top: 30rpx;
 							color: rgb(10, 198, 142);
 						}
 					}
 				}
-
+		
 				.qiangpai-btn {
 					width: 100%;
 					display: flex;
 					align-items: center;
 					justify-content: center;
-
+		
 					.qiangpai-cancel {
 						width: 206rpx;
 						height: 70rpx;
@@ -3367,9 +3412,9 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						background: rgb(10, 198, 142);
 						margin-right: 30rpx;
 					}
-
+		
 				}
-
+		
 				.btnsub {
 					width: 406rpx;
 					height: 70rpx;
@@ -4558,78 +4603,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		}
 	}
 
-	.qiangpaiCont {
-		width: 560rpx;
-		background: #fff;
-		position: relative;
-		padding: 50rpx 0;
-
-		.query {
-			position: absolute;
-			top: 20rpx;
-			right: 20rpx;
-			width: 20rpx;
-			height: 20rpx;
-			border-radius: 50%;
-			border: 1rpx solid #000;
-			padding: 10rpx;
-
-			image {
-				position: absolute;
-				width: 20rpx;
-				height: 20rpx;
-				top: 10rpx;
-			}
-		}
-
-		.center {
-			.title {
-				text-align: center;
-				font-size: 36rpx;
-				color: #000;
-				font-weight: bold;
-			}
-
-			.cent {
-				margin: 30rpx auto 60rpx 30rpx;
-				display: flex;
-
-				.txt {
-					margin-top: 5rpx;
-					font-size: 30rpx;
-					font-weight: bold;
-					margin-right: 10rpx;
-				}
-
-				.cont {
-					input {
-						width: 300rpx;
-						height: 40rpx;
-						border: 1rpx solid #666;
-						font-size: 28rpx;
-					}
-
-					.num {
-						margin-top: 10rpx;
-						color: rgb(255, 78, 47);
-					}
-				}
-			}
-
-			.btnsub {
-				margin: 0 auto;
-				width: 300rpx;
-				height: 60rpx;
-				line-height: 60rpx;
-				text-align: center;
-				font-size: 30rpx;
-				color: #fff;
-				background: rgb(255, 78, 47);
-				border-radius: 15rpx;
-			}
-		}
-	}
-
 	.jingpai-pop {
 		width: 660rpx;
 		background: #ffffff;
@@ -4737,6 +4710,14 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			margin-top: 24rpx;
 		}
 
+		.mode-banlace {
+			width: 100%;
+			font-size: 28rpx;
+			color: rgb(255, 57, 57);
+			text-align: center;
+			margin-top: 12rpx;
+		}
+
 		.mode-info {
 			position: relative;
 			width: 100%;
@@ -4769,6 +4750,21 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				}
 			}
 
+			.mode-info-right {
+				position: absolute;
+				right: 40rpx;
+				font-size: 20rpx;
+				color: rgb(102, 102, 102);
+				display: flex;
+				align-items: center;
+
+				image {
+					width: 24rpx;
+					height: 24rpx;
+					margin-left: 8rpx;
+				}
+			}
+
 			.select {
 				position: absolute;
 				right: 40rpx;
@@ -4776,6 +4772,55 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				height: 40rpx;
 			}
 
+		}
+
+		.mode-more {
+			position: relative;
+			width: 100%;
+			display: flex;
+			align-items: center;
+			margin-top: 20rpx;
+
+			.tit {
+				font-size: 28rpx;
+				color: rgb(51, 51, 51);
+				margin-left: 112rpx;
+			}
+
+			.logo {
+				width: 32rpx;
+				height: 32rpx;
+				margin-left: 20rpx;
+			}
+
+			.num {
+				font-size: 28rpx;
+				color: rgb(102, 102, 102);
+				margin-left: 8rpx;
+			}
+
+			.select {
+				position: absolute;
+				right: 40rpx;
+				width: 40rpx;
+				height: 40rpx;
+			}
+
+		}
+
+		.mode-cz {
+			font-size: 24rpx;
+			color: rgb(10, 198, 142);
+			display: flex;
+			align-items: center;
+			margin-left: 112rpx;
+			margin-top: 20rpx;
+
+			image {
+				width: 24rpx;
+				height: 24rpx;
+				margin-left: 8rpx;
+			}
 		}
 
 		.mode-switch {

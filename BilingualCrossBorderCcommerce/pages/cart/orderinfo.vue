@@ -19,23 +19,23 @@
 		</view>
 
 		<!--商品列表-->
-		<view class="list" v-for="item in OrderList" :key="item.admin_id">
+		<view class="list">
 			<view class="list-head">
-				<image :src="item.shop_logo"></image>
-				<view>{{item.shop_name}}</view>
+				<image src="/static/images/me/auth1.png"></image>
+				<view>{{shopInfo.shop_name}}</view>
 			</view>
-			<view class="item" v-for="(data,index) in item.list" :key="">
+			<view class="item" v-for="(data,index) in OrderList" :key="data.id">
 				<image :src="data.image" class="item-img"></image>
 				<view class="item-info">
-					<view class="item-info-name">{{data.good_name}}</view>
-					<view class="item-price">RM<span>{{data.price}}</span></view>
+					<view class="item-info-name">{{data.goods_name}}</view>
+					<view class="item-price">RM<span>{{data.goods_price}}</span></view>
 					<view class="item-btn">
 						<view class="item-left" @click="onJian(data)">
-							<image src="../../static/images/new-index/jian1.png" v-if="data.num==1"></image>
+							<image src="../../static/images/new-index/jian1.png" v-if="data.total_num==1"></image>
 							<image src="../../static/images/new-index/jian.png" v-else></image>
 						</view>
 						<view class="item-input">
-							<input type="number" style="font-size: 24rpx;" v-model="data.num"
+							<input type="number" style="font-size: 24rpx;" v-model="data.total_num"
 								@confirm="inspectNum(data)" />
 						</view>
 						<view class="item-right" @click="onJia(data)">
@@ -209,7 +209,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				orderCont: '',
 				isShopCont: false, // 中文还是英文
 				set_paypwd: '',
-				MineCont: {}
+				MineCont: {},
+				shopInfo: {}
 			}
 		},
 		watch: {
@@ -240,6 +241,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		onLoad(e) {
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
 			this.cart_ids = e.cart_ids
+			this.order_no = e.order_no
 			// 获取购物车里面的订单列表
 			this.onOrderConfirmCartOrder()
 			// 获取优惠券
@@ -248,6 +250,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		onShow() {
 			this.onAddressList()
 			this.onMineInfo()
+			this.getOrderInfo()
 
 			if (uni.getStorageSync('token')) {
 				// 实名认证
@@ -264,7 +267,21 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				})
 			}
 		},
+		mounted() {
+
+		},
 		methods: {
+			//获取订单详情
+			getOrderInfo() {
+				this.$http.post(this.$apiObj.OrderDetailOrder, {
+					order_no: this.order_no
+				}).then(res => {
+					this.major_no=res.data.major_no
+					this.total = res.data.goods[0].total_price
+					this.shopInfo = res.data
+					this.OrderList = res.data.goods
+				})
+			},
 			//切换支付方式
 			selectPayType(item) {
 				item.isShow = !item.isShow
@@ -438,90 +455,65 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					icon: 'none',
 					title: this.$t('order.qxzzffs')
 				})
-				this.$http.post(this.$apiObj.OrderReferCartOrder, {
-					data: JSON.stringify(this.OrderList),
-					address_id: this.address_id,
-					coupon_id: this.coupon_id
-				}).then(res => {
-					if (res.code == 1) {
-						this.major_no = res.data.major_no
-						this.order_no = res.data.order_no
 
-						// uni.showToast({
-						// 	icon: 'none',
-						// 	title: '暂未开放支付'
-						// })
-						// setTimeout(() => {
-						// 	uni.navigateBack({
-						// 		delta: 1
-						// 	})
-						// }, 2000);
-
-						if (isNum == 1) {
-							// 余额支付弹框
-							this.$refs.pwdPopup.open()
-						} else if (isNum == 2) {
-							if (this.MineCont === null) return uni.showToast({
-								icon: 'none',
-								title: this.$t('smrz')
-							})
-							if (this.MineCont.status == 0) return uni.showToast({
-								icon: 'none',
-								title: this.$t('smrzshh')
-							})
-							if (this.MineCont.status == '-1') return uni.showToast({
-								icon: 'none',
-								title: this.$t('smrzwtg')
-							})
-							let arr = this.total.split(',')
-							let price = ''
-							arr.forEach(item => {
-								price += item
-							})
-							// 3方支付
-							this.$http.post(this.$apiObj.OrderMalaysiaPay, {
-								major_no: res.data.major_no ? res.data.major_no : res.data.order_no,
-								money: price * 1
-							}).then(res => {
-								if (res.code == 1) {
-									const formStr = `<form action="${res.data.action_url}" method="POST" >
-                        <input name="MerchantCode" value="${res.data.MerchantCode}">
-                        <input name="TransNum" value="${res.data.TransNum}">
-                        <input name="Currency" value="${res.data.Currency}">
-                        <input name="Amount" value="${res.data.Amount}">
-                        <input name="PaymentDesc" value="${res.data.PaymentDesc}">
-                        <input name="FirstName" value="${res.data.FirstName}">
-                        <input name="LastName" value="${res.data.LastName}">
-                        <input name="EmailAddress" value="${res.data.EmailAddress}">
-                        <input name="PhoneNum" value="${res.data.PhoneNum}">
-                        <input name="Address" value="${res.data.Address}">
-                        <input name="City" value="${res.data.City}">
-                        <input name="State" value="${res.data.State}">
-                        <input name="Country" value="${res.data.Country}">
-                        <input name="Postcode" value="${res.data.Postcode}">
-                        <input name="MerchantRemark" value="${res.data.MerchantRemark}">
-                        <input name="Signature" value="${res.data.Signature}">
-                      </form>`
-									// #ifdef H5
-									const div = document.createElement('div')
-									div.innerHTML = formStr
-									div.setAttribute('style',
-										'position: absolute; width: 0; height: 0; overflow: hidden;')
-									const form = div.querySelector('form')
-									document.body.appendChild(div)
-									form.submit()
-									document.body.removeChild(div)
-									//  #endif
-									// #ifdef APP-PLUS  
-									uni.navigateTo({
-										url: '/pages/mine/webview?url=' + formStr
-									});
-									//  #endif
-								}
-							})
+				if (isNum == 1) {
+					// 余额支付弹框
+					this.$refs.pwdPopup.open()
+				} else if (isNum == 2) {
+					if (this.MineCont === null) return uni.showToast({
+						icon: 'none',
+						title: this.$t('smrz')
+					})
+					if (this.MineCont.status == 0) return uni.showToast({
+						icon: 'none',
+						title: this.$t('smrzshh')
+					})
+					if (this.MineCont.status == '-1') return uni.showToast({
+						icon: 'none',
+						title: this.$t('smrzwtg')
+					})
+					// 3方支付
+					this.$http.post(this.$apiObj.OrderMalaysiaPay, {
+						major_no: res.data.major_no ? res.data.major_no : res.data.order_no,
+						money: this.total * 1
+					}).then(res => {
+						if (res.code == 1) {
+							const formStr = `<form action="${res.data.action_url}" method="POST" >
+				  <input name="MerchantCode" value="${res.data.MerchantCode}">
+				  <input name="TransNum" value="${res.data.TransNum}">
+				  <input name="Currency" value="${res.data.Currency}">
+				  <input name="Amount" value="${res.data.Amount}">
+				  <input name="PaymentDesc" value="${res.data.PaymentDesc}">
+				  <input name="FirstName" value="${res.data.FirstName}">
+				  <input name="LastName" value="${res.data.LastName}">
+				  <input name="EmailAddress" value="${res.data.EmailAddress}">
+				  <input name="PhoneNum" value="${res.data.PhoneNum}">
+				  <input name="Address" value="${res.data.Address}">
+				  <input name="City" value="${res.data.City}">
+				  <input name="State" value="${res.data.State}">
+				  <input name="Country" value="${res.data.Country}">
+				  <input name="Postcode" value="${res.data.Postcode}">
+				  <input name="MerchantRemark" value="${res.data.MerchantRemark}">
+				  <input name="Signature" value="${res.data.Signature}">
+				</form>`
+							// #ifdef H5
+							const div = document.createElement('div')
+							div.innerHTML = formStr
+							div.setAttribute('style',
+								'position: absolute; width: 0; height: 0; overflow: hidden;')
+							const form = div.querySelector('form')
+							document.body.appendChild(div)
+							form.submit()
+							document.body.removeChild(div)
+							//  #endif
+							// #ifdef APP-PLUS  
+							uni.navigateTo({
+								url: '/pages/mine/webview?url=' + formStr
+							});
+							//  #endif
 						}
-					}
-				})
+					})
+				}
 			},
 			// 关闭支付密码
 			onPwdQuery() {
@@ -544,15 +536,10 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				})
 				const pay_pwd = jsencrypt.setEncrypt(publiukey, String(this.pay_pwd))
 
-				let arr = this.total.split(',')
-				let price = ''
-				arr.forEach(item => {
-					price += item
-				})
 				this.$http.post(this.$apiObj.OrderBalancePay, {
-					major_no: this.major_no, // 购物车支付的主订单号
+					major_no: '', // 购物车支付的主订单号
 					order_no: this.order_no, // 小订单号
-					money: price * 1, // 支付总金额
+					money: this.total * 1, // 支付总金额
 					pay_pwd: pay_pwd, // rsa加密后的支付密码
 				}).then(res => {
 					if (res.code == 1) {
@@ -636,7 +623,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			align-items: center;
 			background: #fff;
 			border-radius: 20rpx;
-			margin: 24rpx auto;
+			margin: 48rpx auto 24rpx auto;
 
 			.not_address {
 				font-size: 28rpx;
