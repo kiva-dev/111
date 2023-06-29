@@ -19,14 +19,14 @@
 							<image src="/static/images/kbrick/balance_info.png"
 								@click="navClick('/pages/mine/wallet_explain')"></image>
 						</view>
-						<view class="money">{{money || 0.00}}</view>
+						<view class="money">{{money*1 || 0.00}}</view>
 					</view>
 					<view class="head-card-right">
 						<view class="balance" style="margin-bottom: 36rpx;">
-							{{$t('mine.Deposits')}}<br /><span>{{tocash_money || 0.00}}</span>
+							{{$t('mine.Deposits')}}<br /><span>{{tocash_money*1 || 0.00}}</span>
 						</view>
 						<view class="balance">
-							{{$t('mine.Bonus')}}<br /><span>{{rebate_money_total || 0.0000}}</span>
+							{{$t('mine.Bonus')}}<br /><span>{{rebate_money_total*1 || 0.0000}}</span>
 						</view>
 					</view>
 				</view>
@@ -73,7 +73,7 @@
 						</view>
 					</view>
 					<view class="ci-right" :style="(item.money*1) > 0?'color: rgb(255, 57, 57);':''">
-						{{(item.money*1) > 0 ? '+' + item.money : item.money}}
+						{{(item.money*1) > 0 ? '+' + item.money*1 : item.money*1}}
 					</view>
 				</view>
 			</view>

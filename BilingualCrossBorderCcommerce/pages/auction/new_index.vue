@@ -233,7 +233,7 @@
 								<image src="../../static/images/new-index/lvxcz.png"></image>
 								<view @click.stop="onMineInfo(item)">{{$t('shop.qiangpai')}}</view>
 							</view>
-							<view class="add_gwc" v-else></view>
+							<view class="add_gwc" v-else @click.stop="addCart(item)"></view>
 						</view>
 
 						<view class="mask" v-show="item.isMask">
@@ -302,7 +302,7 @@
 								<image src="/static/images/new-index/lvxcz.png"></image>
 								<view @click.stop="onMineInfo(item)">{{$t('shop.qiangpai')}}</view>
 							</view>
-							<view class="add_gwc" v-else></view>
+							<view class="add_gwc" v-else @click.stop="addCart(item)"></view>
 						</view>
 					</view>
 				</view>
@@ -334,7 +334,7 @@
 							<image src="/static/images/new-index/lvxcz.png"></image>
 							<view @click.stop="onMineInfo(item)">{{$t('shop.qiangpai')}}</view>
 						</view>
-						<view class="add_gwc" style="width: 64rpx;height: 64rpx;background-size: 64rpx 64rpx;" v-else>
+						<view class="add_gwc" style="width: 64rpx;height: 64rpx;background-size: 64rpx 64rpx;" v-else @click.stop="addCart(item)">
 						</view>
 					</view>
 
@@ -1099,6 +1099,20 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			clearInterval(this.jinPaiTimer)
 		},
 		methods: {
+			//添加购物车
+			addCart(item) {
+				this.$http.post(this.$apiObj.CartAdd, {
+					goods_spec_id: item.litestore_goods_spec[0].goods_spec_id,
+					num: 1
+				}).then(res => {
+					if (res.code == 1) {
+						uni.showToast({
+							icon: 'none',
+							title: this.isShopCont ? 'Successfully added to shopping cart' : '加入购物车成功'
+						})
+					}
+				})
+			},
 			getBanner(item) {
 				if (item.url.indexOf('.png') !== -1) {
 					uni.navigateTo({

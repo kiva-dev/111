@@ -1,6 +1,7 @@
 <template>
 	<view class="auct-page">
-
+	
+		<!--普通商品-->
 		<block v-if="productId==1">
 			<view class="product-head">
 				<view>{{$t('tab.all')}}</view>
@@ -87,7 +88,7 @@
 									<view class="new">RM<span>{{item.litestore_goods_spec[0].goods_price}}</span></view>
 								</view>
 
-								<view class="add_gwc"></view>
+								<view class="add_gwc" @click.stop="addCart(item)"></view>
 							</view>
 
 							<view class="mask" v-show="item.isMask">
@@ -136,7 +137,7 @@
 									<view class="new">RM<span>{{item.litestore_goods_spec[0].goods_price}}</span></view>
 								</view>
 
-								<view class="add_gwc"></view>
+								<view class="add_gwc" @click.stop="addCart(item)"></view>
 							</view>
 						</view>
 					</view>
@@ -156,7 +157,7 @@
 								</view>
 							</view>
 
-							<view class="add_gwc" style="width: 64rpx;height: 64rpx;background-size: 64rpx 64rpx;">
+							<view class="add_gwc" style="width: 64rpx;height: 64rpx;background-size: 64rpx 64rpx;" @click.stop="addCart(item)">
 							</view>
 						</view>
 
@@ -164,7 +165,8 @@
 				</block>
 
 			</view>
-
+			
+			<image src="/static/images/new-index/gwc.png" v-show="productId==1" class="gwc" @click="navClick('/pages/cart/cart')"></image>
 		</block>
 
 		<block v-else>
@@ -974,9 +976,23 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			})
 		},
 		beforeDestroy() {
-			console.log(6666)
+			
 		},
 		methods: {
+			//添加购物车
+			addCart(item) {
+				this.$http.post(this.$apiObj.CartAdd, {
+					goods_spec_id: item.litestore_goods_spec[0].goods_spec_id,
+					num: 1
+				}).then(res => {
+					if (res.code == 1) {
+						uni.showToast({
+							icon: 'none',
+							title: this.isShopCont ? 'Successfully added to shopping cart' : '加入购物车成功'
+						})
+					}
+				})
+			},
 			//首页泡泡数据展示
 			showJinpaiData() {
 				let num = Math.random()
@@ -1013,7 +1029,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 					//记住当前竞拍选择的品类
 					let id = uni.getStorageSync('jinpaiId')
-					console.log('productinfo', product, id)
 					if (id) {
 						this.id = id
 						this.switchJinpai(id)
@@ -1024,7 +1039,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				this.$http.post(this.$apiObj.IndexSetting, {
 					fields: 'whether_to_enable_ordinary_mall'
 				}).then(res => {
-					console.log(222)
 					//如果开启了普通商品，当前页面展示普通商品，否则展示竞拍商品数据
 					if (res.data.whether_to_enable_ordinary_mall == 1) {
 						this.productId = 1
@@ -1079,6 +1093,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			//切换选择分类
 			switchSelect(id) {
 				this.switch_id = id
+				uni.setStorageSync('switch_id',id)
 				this.page = 1
 				this.getAllProducts(id)
 			},
@@ -1762,7 +1777,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			// 判断是否还有数据
 			// 最新竞拍
 			// this.$bus.$emit('onReachBottom', this.selectProductsId)
-			console.log(this.page, this.pagenum, this.totalPageNum)
 			if (this.page * this.pagenum >= this.totalPageNum) return
 
 			if (this.productId == 1) {
@@ -2800,7 +2814,16 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			background: url('/static/images/new-index/head-img1.png') no-repeat;
 			background-size: 750rpx 560rpx;
 		}
-
+		
+		.gwc {
+			position: fixed;
+			right: 32rpx;
+			bottom: 200rpx;
+			width: 92rpx;
+			height: 92rpx;
+			z-index: 100;
+		}
+		
 		//抢拍分类框
 		.ongoing-type {
 			width: 100%;

@@ -47,7 +47,7 @@
 		</view>
 
 		<!--支付方式-->
-		<!-- <view class="pay-type">
+		<view class="pay-type">
 			<view class="pay-head">Payment method</view>
 			<view class="pay-info" v-for="(item,k) in orderPayList" :key="item.id">
 				<image :src="item.img" class="pay-info-logo"></image>
@@ -58,16 +58,16 @@
 					@click="selectPayType(item)"></image>
 			</view>
 
-			<view class="pay-all" @click="payAll=true">
+			<!-- <view class="pay-all" @click="payAll=true">
 				<view>All</view>
 				<image src="../../static/images/new-index/btm.png"></image>
-			</view>
-		</view> -->
+			</view> -->
+		</view>
 
 
 		<view class="sub-fixed">
 			<view class="price">RM<span>{{total}}</span></view>
-			<view class="btn" @click="onOrderReferCartOrder()">payment</view>
+			<view class="btn" @click="onOrderReferCartOrder()">{{$t('new.payment')}}</view>
 		</view>
 
 		<!--优惠券选择弹出 start-->
@@ -149,7 +149,8 @@
 						</view>
 					</view>
 					<view class="pay-bot">
-						<button class="pay-btn" @click="onPwdClick">{{$t('order.btnsub')}}</button>
+						<button class="pay-btn" style="background: rgb(10, 198, 142);"
+							@click="onPwdClick">{{$t('order.btnsub')}}</button>
 					</view>
 				</view>
 			</view>
@@ -193,17 +194,17 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					id: 1,
 					title: this.$t('order.yezf'),
 					isShow: false,
-					img: '/static/images/new-index/balance.png'
+					img: '../../static/images/new-index/balance.png'
 				}, {
 					id: 2,
 					title: this.$t('order.sfzf'),
 					isShow: false,
-					img: '/static/images/new-index/cards.png'
+					img: '@/static/images/new-index/cards.png'
 				}, {
 					id: 3,
 					title: 'Apple Pay',
 					isShow: false,
-					img: '/static/images/new-index/apple.png'
+					img: '@/static/images/new-index/apple.png'
 				}],
 				orderCont: '',
 				isShopCont: false, // 中文还是英文
@@ -224,11 +225,13 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						this.orderPayList = [{
 							id: 1,
 							title: this.$t('auction.detail.yuerzhifu'),
-							isShow: false
+							isShow: false,
+							img: '/static/images/new-index/balance.png'
 						}, {
 							id: 2,
 							title: this.$t('auction.detail.sfzfu'),
-							isShow: false
+							isShow: false,
+							img: '/static/images/new-index/cards.png'
 						}]
 					}
 				}
@@ -425,16 +428,16 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					icon: 'none',
 					title: this.$t('order.addContXuanze')
 				})
-				// let isNum
-				// for (let i in this.orderPayList) {
-				// 	if (this.orderPayList[i].isShow) {
-				// 		isNum = this.orderPayList[i].id
-				// 	}
-				// }
-				// if (!isNum) return uni.showToast({
-				// 	icon: 'none',
-				// 	title: this.$t('order.qxzzffs')
-				// })
+				let isNum
+				for (let i in this.orderPayList) {
+					if (this.orderPayList[i].isShow) {
+						isNum = this.orderPayList[i].id
+					}
+				}
+				if (!isNum) return uni.showToast({
+					icon: 'none',
+					title: this.$t('order.qxzzffs')
+				})
 				this.$http.post(this.$apiObj.OrderReferCartOrder, {
 					data: JSON.stringify(this.OrderList),
 					address_id: this.address_id,
@@ -443,17 +446,17 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					if (res.code == 1) {
 						this.major_no = res.data.major_no
 						this.order_no = res.data.order_no
-						
-						uni.showToast({
-							icon: 'none',
-							title: '暂未开放支付'
-						})
-						setTimeout(() => {
-							uni.navigateBack({
-								delta: 1
-							})
-						}, 2000);
-						/**
+
+						// uni.showToast({
+						// 	icon: 'none',
+						// 	title: '暂未开放支付'
+						// })
+						// setTimeout(() => {
+						// 	uni.navigateBack({
+						// 		delta: 1
+						// 	})
+						// }, 2000);
+
 						if (isNum == 1) {
 							// 余额支付弹框
 							this.$refs.pwdPopup.open()
@@ -470,10 +473,15 @@ NoR+zv3KaEmPSHtooQIDAQAB
 								icon: 'none',
 								title: this.$t('smrzwtg')
 							})
+							let arr = this.total.split(',')
+							let price = ''
+							arr.forEach(item => {
+								price += item
+							})
 							// 3方支付
 							this.$http.post(this.$apiObj.OrderMalaysiaPay, {
-								order_no: res.data.major_no ? res.data.major_no : res.data.order_no,
-								money: this.total
+								major_no: res.data.major_no ? res.data.major_no : res.data.order_no,
+								money: price * 1
 							}).then(res => {
 								if (res.code == 1) {
 									const formStr = `<form action="${res.data.action_url}" method="POST" >
@@ -511,7 +519,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 									//  #endif
 								}
 							})
-						}**/
+						}
 					}
 				})
 			},
@@ -535,10 +543,16 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					icon: 'none'
 				})
 				const pay_pwd = jsencrypt.setEncrypt(publiukey, String(this.pay_pwd))
+
+				let arr = this.total.split(',')
+				let price = ''
+				arr.forEach(item => {
+					price += item
+				})
 				this.$http.post(this.$apiObj.OrderBalancePay, {
 					major_no: this.major_no, // 购物车支付的主订单号
 					order_no: this.order_no, // 小订单号
-					money: this.total, // 支付总金额
+					money: price * 1, // 支付总金额
 					pay_pwd: pay_pwd, // rsa加密后的支付密码
 				}).then(res => {
 					if (res.code == 1) {
@@ -547,9 +561,13 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							icon: 'none'
 						})
 						this.$refs.pwdPopup.close()
-						uni.navigateTo({
-							url: '/pages/mine/order/order'
-						})
+
+						setTimeout(() => {
+							uni.redirectTo({
+								url: '/pages/mine/order/order'
+							})
+						}, 2000)
+
 						// pages/index/Psuccess
 					}
 				})
@@ -830,6 +848,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				margin-bottom: 36rpx;
 
 				.pay-info-logo {
+					display: block;
 					width: 36rpx;
 					height: 36rpx;
 					margin: 0 16rpx 0 24rpx;

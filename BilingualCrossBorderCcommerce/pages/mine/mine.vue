@@ -75,7 +75,7 @@
 				<view class="container-content">
 					<view class="cc-box">
 						<view class="cc-box-num">
-							<span>{{userCont.money || 0.00}}</span>
+							<span>{{userCont.money*1 || 0.00}}</span>
 						</view>
 						<view class="cc-box-amount">
 							<p>(RM)</p>
@@ -87,7 +87,7 @@
 						<view class="cc-box-rebate">
 							<view class="rebate-num">
 								<image src="@/static/images/mine/mine_icon_diamonds.png" mode="widthFix"></image>
-								<p>{{userCont.k_diamond_wallet || 0.00}}</p>
+								<p>{{userCont.k_diamond_wallet*1 || 0.00}}</p>
 							</view>
 							<p>{{$t('mine.diamonds')}}</p>
 						</view>

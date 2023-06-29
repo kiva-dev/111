@@ -1400,5 +1400,11 @@
 	"new.xyzf":"需要支付",
 	"new.kzzf":"K钻支付",
 	"new.kz":"K钻",
-	"new.payment":"支付"
+	"new.payment":"支付",
+	"new.wdgwc":"我的购物车",
+	"new.all":"全选",
+	"new.zg":"总共",
+	"new.scz":"删除这",
+	"new.scsp":"个商品?",
+	"new.notcart":"选择您喜欢的商品并将其添加到您的购物车"
 }

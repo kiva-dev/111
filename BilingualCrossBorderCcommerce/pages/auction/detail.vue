@@ -763,6 +763,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			getYouLikeList() {
 				this.$http.post(this.$apiObj.GetYouLikeList, {
 					goods_id: this.shopCont.goods_id,
+					is_auction_goods:2,
 					page: 1,
 					pagenum: 6
 				}).then(res => {
@@ -771,7 +772,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			},
 			getHotList() {
 				this.$http.post(this.$apiObj.GetHotList, {
-					goods_id: this.shopCont.goods_id,
 					page: 1,
 					pagenum: 6
 				}).then(res => {

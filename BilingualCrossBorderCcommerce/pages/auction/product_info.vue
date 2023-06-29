@@ -32,14 +32,14 @@
 		<block v-if="status">
 			<view class="detail-money">RM{{shopCont.litestore_goods_spec[0].goods_price}}</view>
 			<view class="detail-title">{{shopCont.goods_name}}</view>
-			
+
 			<view class="li-tags">
 				<view class="li-icon" v-for="item in shopCont.litestore_tag" :key="item.id">
 					<image :src="item.image" mode="widthFix"></image>
 				</view>
-				
+
 			</view>
-			
+
 			<view class="operate-layout">
 				<view class="ol-container" @click="onFocusProduct">
 					<image
@@ -58,7 +58,7 @@
 			</view>
 			<view class="select-layout">
 				<!--@click="$refs.specsPopup.open()"-->
-				<view class="sl-category" >
+				<!-- <view class="sl-category" >
 					<view class="sl-category-left">
 						<view class="left-name">Select</view>
 						<view class="left-option">256GB,10000mAh,Pro,White,Yellow,Black fashioWhite,Yellow,Black
@@ -67,17 +67,17 @@
 					<view class="sl-category-right">
 						<image src="@/static/images/new-index/detail_btn_arrow.png" mode="widthFix"></image>
 					</view>
-				</view>
+				</view> -->
 				<view class="sl-address">
-					<!--@click="$refs.popupAddress.open()"-->
-					<view class="sl-address-choose" >
+					<!---->
+					<view class="sl-address-choose" @click="$refs.popupAddress.open()">
 						<view class="choose-left">
 							<view class="choose-left-name">Address</view>
 							<view class="choose-left-content">
 								<image src="@/static/images/new-index/detail_icon_address.png" mode="widthFix"></image>
-								<template v-if="false">
-									<p>Eason Chan</p>
-									<p>586512355</p>
+								<template v-if="addressInfo.id">
+									<p>{{addressInfo.name}}</p>
+									<p>{{addressInfo.mobile}}</p>
 								</template>
 								<template v-else>
 									<p>Add New Address</p>
@@ -104,7 +104,8 @@
 					</view>
 				</view>
 				<block v-if="JudgeList.length > 0">
-					<view class="detail-comment-item" v-for="(item,i) in JudgeList.slice(0,2)" :key="item.user_comment_id">
+					<view class="detail-comment-item" v-for="(item,i) in JudgeList.slice(0,2)"
+						:key="item.user_comment_id">
 						<view class="detail-comment-item-head">
 							<image :src="item.user.avatar" mode="aspectFill"></image>
 							<p>{{item.user.nickname}}</p>
@@ -178,7 +179,8 @@
 				</view>
 				<view class="gl-content">
 					<u-grid :border="false" @click="click">
-						<u-grid-item v-for="item in youLikeList" :key="item.goods_id" @click="toYouLikeOrHot(item.auction_goods_id)">
+						<u-grid-item v-for="item in youLikeList" :key="item.goods_id"
+							@click="toYouLikeOrHot(item.goods_id)">
 							<view class="gl-content-item">
 								<view class="item-cover">
 									<image :src="item.image" mode="aspectFill">
@@ -191,7 +193,7 @@
 								</view>
 							</view>
 						</u-grid-item>
-						
+
 					</u-grid>
 				</view>
 			</view>
@@ -385,24 +387,23 @@
 			<view class="showaddress">
 				<view class="top">
 					<view>Shipping Address</view>
-					<image src="../../static/images/close1.png"></image>
+					<image src="../../static/images/close1.png" @click="$refs.popupAddress.close()"></image>
 				</view>
 				<scroll-view scroll-y style="height: 900rpx;">
 					<view class="addresslist">
-						<view class="address-item" v-for="(item,i) in [1,1,1,1]">
+						<view class="address-item" v-for="(item,i) in addressList" :key="item.id" @click="editAddress(item)">
 							<view class="item-head">
 								<image src="../../static/images/new-index/address.png"></image>
-								<view class="item-name">Eason Chan</view>
-								<view class="item-phone">586512355</view>
+								<view class="item-name">{{item.name}}</view>
+								<view class="item-phone">{{item.mobile}}</view>
 							</view>
-							<view class="item-info">A-15-09 Tower AVertical Business Suite,No8,Jalan Kerinci Bangsar
-								South, Wp KualaLumKuKualaKualaKualaKuala rhKualaLumKuala59200</view>
-							<view class="item-default">Default Address</view>
-							<view class="item-line" v-show="(i+1)%4!=0"></view>
+							<view class="item-info">{{item.detail}}</view>
+							<view class="item-default" v-show="item.is_default*1 == 1">Default Address</view>
+							<view class="item-line" v-show="addressList.length>(i+1)"></view>
 						</view>
 					</view>
 				</scroll-view>
-				<view class="address-btn">Add New Address</view>
+				<view class="address-btn" @click="navToUrl('/pages/address/address')">Add New Address</view>
 			</view>
 		</uni-popup>
 		<!-- 选择地址 end -->
@@ -469,7 +470,9 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				isClick: false,
 				timer: '',
 				isBottoming: false,
-				youLikeList:[]
+				youLikeList: [],
+				addressList: [],
+				addressInfo: {}
 			}
 		},
 		watch: {
@@ -523,8 +526,12 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 			//获取历史竞拍列表
 			this.getHistoryList()
+
+			
 		},
-		onShow() {},
+		onShow() {
+			this.getAllAddress()
+		},
 		onHide() {
 			clearInterval(this.timer)
 		},
@@ -547,19 +554,51 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 		},
 		methods: {
-			//猜你喜欢以及热门推荐跳转
-			toYouLikeOrHot(id){
-				uni.navigateTo({
-					url:'/pages/auction/detail?id='+id
+			//修改地址
+			editAddress(item){
+				this.$http.post(this.$apiObj.AddressEdit, {
+					mobile_area_code: item.mobile_area_code, // 手机号区域编码
+					mobile: item.mobile, // 手机号码
+					detail: item.detail, // 收货地址
+					is_default: 1, // 1默认，0不默认
+					name: item.name, // 收货人
+					address_id: item.id
+				}).then(res => {
+					if (res.code == 1) {
+						this.getAllAddress()
+						this.$refs.popupAddress.close()
+					}
 				})
 			},
-			getYouLikeList(){
-				this.$http.post(this.$apiObj.GetYouLikeList,{
-					goods_id:this.shopCont.goods_id,
-					page:1,
-					pagenum:6
-				}).then(res=>{
-					this.youLikeList=res.data.data
+			//页面跳转
+			navToUrl(url){
+				uni.navigateTo({
+					url
+				})
+			},
+			//获取地址列表
+			getAllAddress() {
+				this.$http.post(this.$apiObj.AddressList).then(res => {
+					this.addressList = res.data.data
+					res.data.data.forEach(item => {
+						if (item.is_default * 1 == 1) this.addressInfo = item
+					})
+				})
+			},
+			//猜你喜欢以及热门推荐跳转
+			toYouLikeOrHot(id) {
+				uni.navigateTo({
+					url: '/pages/auction/product_info?id=' + id
+				})
+			},
+			getYouLikeList() {
+				this.$http.post(this.$apiObj.GetYouLikeList, {
+					goods_id: this.shopCont.goods_id,
+					is_auction_goods:1,
+					page: 1,
+					pagenum: 6
+				}).then(res => {
+					this.youLikeList = res.data.data
 				})
 			},
 			toPay() {
@@ -3398,14 +3437,14 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						box-sizing: border-box;
 						border: 1rpx solid rgb(10, 198, 142);
 						border-radius: 8rpx;
-						margin: 20rpx 0 32rpx 104rpx;
+						margin: 20rpx 0 0 104rpx;
 					}
 				}
 
 				.item-line {
 					width: 686rpx;
 					border-bottom: 1rpx solid rgb(204, 204, 204);
-					margin: 0 auto 32rpx auto;
+					margin: 32rpx auto;
 				}
 
 			}

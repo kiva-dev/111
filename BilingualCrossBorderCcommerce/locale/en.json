@@ -309,7 +309,7 @@
 	"cart.quanxuan": "Select all",
 	"cart.zongji": "total",
 	"cart.jiesuan": "settlement",
-	"cart.shanchu": "delete",
+	"cart.shanchu": "Delete",
 	"cart.gwckkry": "The shopping cart was empty",
 	"cart.nqdyscxxspm": "Are you sure you want to delete the selected item?",
 	"cart.qxzyscdsj": "Please select the data to delete",
@@ -330,7 +330,7 @@
 	"order.dsfzf": "Online payment",
 	"order.qxzzffs": "Please select a payment method",
 	"order.ljizhifu": "Pay immediately",
-	"order.query": "cancel",
+	"order.query": "Cancel",
 	"order.xuanzeyhq": "Select coupon",
 	"order.btnsub": "determine",
 	"order.man": "full",
@@ -398,7 +398,7 @@
 	"user.mine.zk": "expand",
 	"user.mine.sq": "retract",
 
-	"user.address.edit": "edit",
+	"user.address.edit": "Edit",
 	"user.address.zwdz": "No address",
 	"user.address.addxdz": "Add new address",
 	"user.address.shr": "consignee",
@@ -1399,5 +1399,11 @@
 	"new.xyzf":"Need to pay",
 	"new.kzzf":"K Diamonds payment",
 	"new.kz":"K Diamonds",
-	"new.payment":"Payment"
+	"new.payment":"Payment",
+	"new.wdgwc":"My Cart",
+	"new.all":"All",
+	"new.zg":"Total",
+	"new.scz":"Delete these",
+	"new.scsp":"products?",
+	"new.notcart":"Pick something you like and add it to your cart"
 }
