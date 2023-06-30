@@ -4603,7 +4603,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							flex: 1;
 
 							.li-h {
-								max-width: 540rpx;
+								max-width: 340rpx;
 								display: flex;
 								align-items: center;
 								justify-content: space-between;
@@ -4613,7 +4613,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 									align-items: center;
 
 									.name {
-										max-width: 540rpx;
+										max-width: 400rpx;
 										font-size: 28rpx;
 										font-weight: 550;
 										overflow: hidden;
@@ -4650,6 +4650,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					}
 
 					.right {
+						position: absolute;
+						right: 20rpx;
 						display: flex;
 						align-items: center;
 

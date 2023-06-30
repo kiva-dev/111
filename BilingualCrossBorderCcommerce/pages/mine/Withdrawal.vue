@@ -85,7 +85,9 @@
 					this.money = res.data.tocash_money
 				}
 			})
-			this.$http.post(this.$apiObj.IndexSetting).then(res => {
+			this.$http.post(this.$apiObj.IndexSetting,{
+				fields: 'user_tocash_rate'
+			}).then(res => {
 				if (res.code == 1) {
 					this.user_tocash_rate = res.data.user_tocash_rate
 				}
