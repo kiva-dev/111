@@ -9,7 +9,6 @@
 	});
 	export default {
 		onLaunch() {
-			this.setMallTabbar();
 			if (!uni.getStorageSync('UNI_LOCALE')) {
 				uni.setStorageSync('UNI_LOCALE', 'en');
 				uni.setStorageSync('locale', 'en');
@@ -18,6 +17,9 @@
 				uni.setLocale('en');
 				this.$i18n.locale = 'en';
 			}
+		},
+		onShow() {
+			this.setMallTabbar();
 		},
 		methods: {
 			setMallTabbar() {
@@ -32,7 +34,8 @@
 							  iconPath: '/static/images/new-index/Products.png',
 							  selectedIconPath: '/static/images/new-index/Products1.png'
 							})
-						} else {
+						}
+						if (res.data.whether_to_enable_ordinary_mall === 0) {
 							uni.setTabBarItem({
 							  index: 1,
 							  text: '%tab.auction%',

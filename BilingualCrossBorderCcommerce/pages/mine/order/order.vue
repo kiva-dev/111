@@ -2,11 +2,9 @@
 	<view class="order-page">
 		<uni-header :title="$t('top.MyOrder')"></uni-header>
 		<view class="tab-layout">
-			<scroll-view class="tab-layout-scroll" scroll-x="true">
-				<view class="scroll-item" :class="{'scroll-active' : tabIndex === item.id}" v-for="item in tabArr"
-					:key="item.id" @click="onChangeTab(item.id)">
-					<text
-						:style="{'color': tabIndex === item.id ? 'rgb(10, 198, 142)' : 'rgb(51, 51, 51)'}">{{item.name}}</text>
+			<scroll-view class="tab-layout-scroll" scroll-x="true" :scroll-left="scrollLeft">
+				<view class="scroll-item" :class="{'scroll-active' : tabIndex === item.id}" v-for="item in tabArr" :key="item.id" @click="onChangeTab(item.id)">
+					<text :style="{'color': tabIndex === item.id ? 'rgb(10, 198, 142)' : 'rgb(51, 51, 51)'}">{{item.name}}</text>
 				</view>
 			</scroll-view>
 		</view>
@@ -103,11 +101,19 @@
 				tabIndex: 10, // 10全部，0待付款，2待发货，3待收货，5已完成，6交易关闭
 				page: 1,
 				orderList: [],
+				scrollLeft: 0,
 			}
 		},
 		onLoad(option) {
 			this.tabIndex = parseInt(option.tabIndex);
 			this.getOrderList();
+		},
+		onShow() {
+			if (this.tabIndex === 5 || this.tabIndex === 6) {
+				this.scrollLeft = 500;
+			} else {
+				this.scrollLeft = 0;
+			}
 		},
 		onReachBottom() {
 			this.page++;

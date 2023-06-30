@@ -931,6 +931,7 @@
 						width: 22.5%;
 						display: inline-block;
 						text-align: center;
+						vertical-align: top;
 
 						image {
 							width: 56rpx;
@@ -940,6 +941,7 @@
 							margin-top: 12rpx;
 							color: rgb(102, 102, 102);
 							font-size: 24rpx;
+							white-space: normal;
 						}
 					}
 				}

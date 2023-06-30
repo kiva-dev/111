@@ -1862,21 +1862,13 @@
 				}
 
 				.jping-price-btn {
-					width: 124rpx;
-					height: 48rpx;
+					padding: 12rpx 22rpx;
 					box-sizing: border-box;
-					border: 2rpx solid rgb(10, 198, 142);
+					border: 1rpx solid rgb(10, 198, 142);
 					border-radius: 100rpx;
-					text-align: center;
-					line-height: 48rpx;
 					display: flex;
 					justify-content: center;
 					align-items: center;
-
-					image {
-						width: 28rpx;
-						transform: translateY(2rpx);
-					}
 
 					p {
 						font-size: 24rpx;
