@@ -1056,6 +1056,10 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			this.getProductOrJinpai()
 		},
 		onShow() {
+			uni.pageScrollTo({
+				scrollTop:0,
+				duration:0
+			})
 			this.switch_id = 0
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
 			this.cancelText = uni.getStorageSync('locale') == 'en' ? 'cancel' : '取消'
@@ -2020,7 +2024,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							}, 1000);
 						}
 					})
-				},300)
+				},1000)
 
 			},
 

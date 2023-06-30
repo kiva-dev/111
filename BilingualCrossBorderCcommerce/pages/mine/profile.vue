@@ -14,8 +14,10 @@
 			<view class="person-li">
 				<text class="label">{{$t('user.mine.neca')}}</text>
 				<view class="li-r" @click="navClick('nick')">
-					<view class="r-t">{{userCont.nickname}}<text
-							v-if="userCont.audit_nickname">({{$t('profile.review')}})</text></view>
+					<view class="r-t">
+						<p>{{userCont.nickname}}</p>
+						<text v-if="userCont.audit_nickname">({{$t('profile.review')}})</text>
+					</view>
 					<view class="icon">
 						<image class="img" src="../../static/images/mine/more1.png"></image>
 					</view>
@@ -259,14 +261,24 @@
 					}
 
 					.r-t {
-						max-width: 500rpx;
+						position: relative;
+						width: 500rpx;
 						font-size: 28rpx;
-						overflow: hidden;
-						text-overflow: ellipsis;
-						white-space: nowrap;
+						display: flex;
+						align-items: center;
+						justify-content: flex-end;
+						
+						p{
+							max-width: 280rpx;
+							overflow: hidden;
+							text-overflow: ellipsis;
+							white-space: nowrap;
+						}
 
 						text {
+							max-width: 240rpx;
 							color: #FF3939;
+							white-space: nowrap;
 						}
 					}
 

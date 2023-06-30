@@ -944,6 +944,11 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			},
 		},
 		onShow() {
+			uni.pageScrollTo({
+				scrollTop:0,
+				duration:0
+			})
+			this.scrollToTop = 0
 			this.switch_id = 0
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
 			this.cancelText = uni.getStorageSync('locale') == 'en' ? 'cancel' : '取消'
@@ -1788,6 +1793,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						is_use_k_diamond: 1
 					}).then(res => {
 						if (res.code == 1) {
+							this.isShowAegin = this.auction_num > this.isauctionNum
 							uni.showToast({
 								title: res.msg,
 								icon: 'none'
@@ -1799,14 +1805,14 @@ NoR+zv3KaEmPSHtooQIDAQAB
 										this.shopCont=item
 									}
 								})
-
+								console.log(this.shopCont)
 								this.$refs.pwdsPopup.close()
 								this.$refs.payPopup.open()
 							}, 1000);
 							
 						}
 					})
-				}, 300)
+				}, 1000)
 
 			},
 

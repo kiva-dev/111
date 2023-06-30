@@ -113,7 +113,7 @@
 								<view class="head-level-icon">
 									<image src="@/static/images/mine/mine_icon_vip.png" mode="widthFix"></image>
 								</view>
-								<view class="head-level-num">Lv.2</view>
+								<view class="head-level-num">Lv.{{item.user.level}}</view>
 							</view>
 						</view>
 						<view class="detail-comment-item-info">

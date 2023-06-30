@@ -201,12 +201,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					title: this.$t('order.sfzf'),
 					isShow: false,
 					img: '@/static/images/new-index/cards.png'
-				}, {
-					id: 3,
-					title: 'Apple Pay',
-					isShow: false,
-					img: '@/static/images/new-index/apple.png'
-				}, ],
+				} ],
 				orderCont: '',
 				isShopCont: false, // 中文还是英文
 				set_paypwd: '',
