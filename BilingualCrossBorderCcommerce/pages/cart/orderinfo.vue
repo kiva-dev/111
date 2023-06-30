@@ -30,7 +30,8 @@
 					<view class="item-info-name">{{data.goods_name}}</view>
 					<view class="item-price">RM<span>{{data.goods_price}}</span></view>
 					<view class="item-btn">
-						<view class="item-left" @click="onJian(data)">
+						x {{data.total_num}}
+						<!-- <view class="item-left" @click="onJian(data)">
 							<image src="../../static/images/new-index/jian1.png" v-if="data.total_num==1"></image>
 							<image src="../../static/images/new-index/jian.png" v-else></image>
 						</view>
@@ -40,7 +41,7 @@
 						</view>
 						<view class="item-right" @click="onJia(data)">
 							<image src="../../static/images/new-index/jia.png"></image>
-						</view>
+						</view> -->
 					</view>
 				</view>
 			</view>
@@ -243,7 +244,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			this.cart_ids = e.cart_ids
 			this.order_no = e.order_no
 			// 获取购物车里面的订单列表
-			this.onOrderConfirmCartOrder()
+			// this.onOrderConfirmCartOrder()
 			// 获取优惠券
 			this.onMineCouponList()
 		},
@@ -518,15 +519,16 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			// 关闭支付密码
 			onPwdQuery() {
 				this.$refs.pwdPopup.close()
-				uni.showToast({
-					title: this.$t('order.nyqxddzf'),
-					icon: 'none'
-				})
-				setTimeout(() => {
-					uni.navigateBack({
-						delta: 1
-					})
-				}, 2000);
+				this.pay_pwd=''
+				// uni.showToast({
+				// 	title: this.$t('order.nyqxddzf'),
+				// 	icon: 'none'
+				// })
+				// setTimeout(() => {
+				// 	uni.navigateBack({
+				// 		delta: 1
+				// 	})
+				// }, 2000);
 			},
 			// 点击支付密码
 			onPwdClick() {
@@ -758,12 +760,13 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						right: 0;
 						bottom: 0;
 						width: 132rpx;
-						height: 48rpx;
+						// height: 48rpx;
 						display: flex;
 						align-items: center;
-						box-sizing: border-box;
-						border: 1rpx solid rgb(204, 204, 204);
-						border-radius: 48rpx;
+						justify-content: center;
+						// box-sizing: border-box;
+						// border: 1rpx solid rgb(204, 204, 204);
+						// border-radius: 48rpx;
 
 						.item-input {
 							width: 52rpx;

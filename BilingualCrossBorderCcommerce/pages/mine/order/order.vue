@@ -47,7 +47,7 @@
 					<view class="ll-item-btns">
 						<template v-if="item.status === '0'">
 							<view class="btns-grey" @click.stop="onCancelOrder(item)">{{$t('user.order.cancel')}}</view>
-							<view class="btns-green">{{$t('user.order.payment')}}</view>
+							<view class="btns-green" @click.stop="toOrderInfo(item.order_no)">{{$t('user.order.payment')}}</view>
 						</template>
 						<template v-if="item.status === '2'">
 							<view class="btns-grey" @click.stop="onCancelOrder(item)">{{$t('user.order.cancel')}}</view>
@@ -103,7 +103,7 @@
 			}
 		},
 		onLoad(option) {
-			this.tabIndex = parseInt(option.tabIndex) || 10;
+			this.tabIndex = parseInt(option.tabIndex);
 			this.getOrderList();
 		},
 		onReachBottom() {
@@ -111,6 +111,11 @@
 			this.getOrderList();
 		},
 		methods: {
+			toOrderInfo(order_no){
+				uni.navigateTo({
+					url:'/pages/cart/orderinfo?order_no='+order_no
+				})
+			},
 			onBack() {
 				uni.navigateBack();
 			},
