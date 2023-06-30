@@ -18,12 +18,12 @@
 			<view class="item"
 				:style="select==(i+1)?'height:216rpx;background: rgb(224, 242, 255);box-sizing: border-box;border: 4rpx solid rgb(27, 161, 255);':''"
 				v-for="(item,i) in list" :key="i" @click="switchCzNum(i+1)">
-				<!-- <view class="item-tags">Give 10</view> -->
+				<view class="item-tags" v-show="item.activity_money">Give {{item.activity_money*1}}</view>
 				<view class="item-num">
 					<image src="/static/images/kbrick/diamond.png"></image>
-					<view>{{item}}</view>
+					<view>{{item.k_diamond}}</view>
 				</view>
-				<view class="item-price">RM {{item}}</view>
+				<view class="item-price">RM {{item.k_diamond}}</view>
 			</view>
 		</view>
 
@@ -72,7 +72,7 @@
 				select: 1,
 				payNum: '',
 				selectPayNum: false,
-				list: [10, 30, 98, 198, 598, 998],
+				list: [],
 				showPay: true,
 				payList: [{
 					id: 1,
@@ -86,8 +86,15 @@
 			this.$http.post(this.$apiObj.MineInfo).then(res => {
 				this.balance = res.data.k_diamond_wallet
 			})
+			
+			this.getKdiamondList()
 		},
 		methods: {
+			getKdiamondList(){
+				this.$http.post(this.$apiObj.RechargeKdiamond).then(res=>{
+					this.list=res.data
+				})
+			},
 			onReturn() {
 				uni.navigateBack()
 			},
@@ -120,7 +127,7 @@
 					return
 				}
 				this.$http.post(this.$apiObj.addDiamond, {
-					money: this.payNum ? this.payNum : this.list[this.select - 1]
+					money: this.payNum ? this.payNum : this.list[this.select - 1].k_diamond
 				}).then(res => {
 					if (res.code == 1) {
 						const formStr = `<form action="${res.data.action_url}" method="POST" >
@@ -151,7 +158,7 @@
 						document.body.removeChild(div)
 						//  #endif
 						// #ifdef APP-PLUS  
-						uni.navigateTo({
+						uni.redirectTo({
 							url: '/pages/mine/webview?url=' + formStr
 						});
 						//  #endif
@@ -287,7 +294,7 @@
 					position: absolute;
 					top: 0;
 					left: 0;
-					width: 112rpx;
+					min-width: 112rpx;
 					height: 40rpx;
 					line-height: 40rpx;
 					font-size: 20rpx;

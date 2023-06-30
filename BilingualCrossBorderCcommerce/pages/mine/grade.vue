@@ -33,7 +33,7 @@
 						</view>
 					</view>
 				</view>
-				<button v-if="mineCont.is_change_avatar !== '0'" class="grade-btn gray">{{$t('user.grade.ywc')}}</button>
+				<button v-if="userCont.is_change_avatar*1 !== 0" class="grade-btn gray">{{$t('user.grade.ywc')}}</button>
 				<button v-else class="grade-btn" @click="navClick('profile')">{{$t('user.grade.qwc')}}</button>
 			</view>
 			<view class="grade-li">

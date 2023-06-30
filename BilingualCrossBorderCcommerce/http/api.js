@@ -14,8 +14,8 @@ let apiObj = {
 	LoginThirdPartyRegister: 'Login/thirdPartyRegister', // google、twitter、facebook注册
 	LoginThirdPartyLogin: 'Login/thirdPartyLogin', // google、twitter、facebook登录  (code 为7时跳转绑定手机号页面)
 	LoginClickNum: '/Login/clickNum', // 分析点击量接口
-	LoginVerifyCode:'/Login/checkEmailCodeByApp',//邮箱验证码验证
-	LoginVerifyPhone:'/Login/checkMobileCodeByApp',//手机验证码验证
+	LoginVerifyCode: '/Login/checkEmailCodeByApp', //邮箱验证码验证
+	LoginVerifyPhone: '/Login/checkMobileCodeByApp', //手机验证码验证
 	// 商城-首页
 	IndexShopList: 'Index/shopList', // 首页搜索店铺
 	bannerList: 'Index/bannerList', // 商城首页banner图
@@ -150,17 +150,19 @@ let apiObj = {
 	NoticeIndex: "Notice/index", //获取所有公告信息
 	//返佣
 	MineRebateInfo: "/Mine/rebateInfo", //返佣信息
-	GetCodeInfo: "/index/inviteCodeGetInfo",//根据用户邀请码获取信息
-	
+	GetCodeInfo: "/index/inviteCodeGetInfo", //根据用户邀请码获取信息
+
 	//积分
-	GetPoints:"/Points/getUserPoints",//获取所有积分
-	GetPointsInfo:"/Points/getPointsDetailByH5UserId",//获取所有积分明细
-	
-	GetHotList:"/Auction/popularRecommendation",//热门推荐
-	GetYouLikeList:"/Litestoregoods/youMayAlsoLike",//猜你喜欢
-	
+	GetPoints: "/Points/getUserPoints", //获取所有积分
+	GetPointsInfo: "/Points/getPointsDetailByH5UserId", //获取所有积分明细
+
+	GetHotList: "/Auction/popularRecommendation", //热门推荐
+	GetYouLikeList: "/Litestoregoods/youMayAlsoLike", //猜你喜欢
+
 	//k砖
-	addDiamond:"/Recharge/addDiamond",//充值k钻
-	diamondDetail:"/Mine/kDiamondList",//k钻变化明细
+	addDiamond: "/Recharge/addDiamond", //充值k钻
+	diamondDetail: "/Mine/kDiamondList", //k钻变化明细
+	rmToKdiamond: "/Mine/rechargeConvertKDiamond", //余额充值k钻
+	RechargeKdiamond:"/Recharge/kDiamondList",//k钻列表
 }
 export default apiObj

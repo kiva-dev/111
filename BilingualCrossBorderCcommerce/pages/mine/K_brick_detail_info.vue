@@ -6,19 +6,21 @@
 		</view>
 
 		<view class="item" v-for="(item,i) in list" :key="item.user_k_diamond_log_id"
-			:style="(i+1)==4?'border-bottom: none;':''">
+			:style="(i+1)==list.length?'border-bottom: none;':''">
 			<image src="/static/images/mine/wallet_icon_income.png"></image>
 			<view class="item-info">
 				<view class="item-tit">{{item.memo}}</view>
 				<view class="item-time">{{$u.timeFormat(item.addtime, 'yyyy/mm/dd hh:MM:ss')}}</view>
 			</view>
-			<view class="item-price">+{{item.money}}</view>
+			<view class="item-price" :style="item.money*1 < 1 ?'color: rgb(153, 153, 153);':''"><text v-show="item.money*1 > 0">+</text>{{item.money*1}}</view>
 		</view>
 
 	</view>
 </template>
 
 <script>
+	import md5 from 'js-md5';
+	import $ from '@/common/jquery-3.6.1.min.js';
 	export default {
 		data() {
 			return {
@@ -33,10 +35,57 @@
 				uni.navigateBack()
 			},
 			getAllList() {
+				let isShopCont = uni.getStorageSync('locale') == 'en' ? true : false // 中文还是英文
+				
 				this.$http.post(this.$apiObj.diamondDetail, {
 					page: 1,
 					pagenum: 20
 				}).then(res => {
+					res.data.data.forEach(item=>{
+						let zhStr = item.memo
+						let appid = '20230630001729096'
+						let userkey = '8e_t3vzBtUjLMRNafCp5'
+						let salt = (new Date).getTime()
+						const str = `${appid}${zhStr}${salt}${userkey}`;
+						const sign = md5(str); /* md5加密，生成签名 */
+						const params = {
+							q: zhStr,
+							from: 'zh',
+							to: 'en',
+							appid: appid,
+							sign,
+							salt: salt
+						}
+						
+						//#ifdef H5
+						// console.log($, "======uni-app的H5模式引入JQuery=====");
+						if (isShopCont) {
+							$.ajax({
+								url: 'https://api.fanyi.baidu.com/api/trans/vip/translate',
+								type: 'get',
+								dataType: 'jsonp',
+								data: params,
+								success: function(data) {
+									item.memo = data.trans_result[0].dst
+								}
+							});
+						}
+						//#endif
+						// #ifdef APP-PLUS
+						if (isShopCont) {
+							uni.request({
+								url: 'https://api.fanyi.baidu.com/api/trans/vip/translate', //仅为示例，并非真实接口地址。
+								data: params,
+								header: {
+									'custom-header': 'hello' //自定义请求头信息
+								},
+								success: (res) => {
+									item.memo = res.data.trans_result[0].dst
+								}
+							});
+						}
+						// #endif
+					})
 					this.list = res.data.data
 				})
 			}

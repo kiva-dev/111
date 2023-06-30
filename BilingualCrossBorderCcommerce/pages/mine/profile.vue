@@ -24,7 +24,8 @@
 			<view class="person-li" @click="navClick('phone')">
 				<text class="label">{{$t('user.mine.phone')}}</text>
 				<view class="li-r">
-					<view class="r-t r-m">{{$t('user.nick.wbd')}}</view>
+					<view class="r-t r-m" v-show="!userCont.mobile">{{$t('user.nick.wbd')}}</view>
+					<view class="r-t r-m" v-show="userCont.mobile">{{$t('new.ybd')}}</view>
 					<view class="icon">
 						<image class="img" src="../../static/images/mine/more1.png"></image>
 					</view>

@@ -507,7 +507,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							document.body.removeChild(div)
 							//  #endif
 							// #ifdef APP-PLUS  
-							uni.navigateTo({
+							uni.redirectTo({
 								url: '/pages/mine/webview?url=' + formStr
 							});
 							//  #endif

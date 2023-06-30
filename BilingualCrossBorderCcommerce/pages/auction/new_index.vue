@@ -334,7 +334,8 @@
 							<image src="/static/images/new-index/lvxcz.png"></image>
 							<view @click.stop="onMineInfo(item)">{{$t('shop.qiangpai')}}</view>
 						</view>
-						<view class="add_gwc" style="width: 64rpx;height: 64rpx;background-size: 64rpx 64rpx;" v-else @click.stop="addCart(item)">
+						<view class="add_gwc" style="width: 64rpx;height: 64rpx;background-size: 64rpx 64rpx;" v-else
+							@click.stop="addCart(item)">
 						</view>
 					</view>
 
@@ -381,11 +382,13 @@
 											In the Joint contribution sales activities provided by{{' '}}
 											<text style="color: rgb(10, 198, 142);">{{item.shop_name}}</text>
 											,at the price of{{' '}}
-											<text style="color: rgb(255, 57, 57); font-weight: bold;">RM{{item.pay_price}}</text>
-											,I was lucky to win a 
+											<text
+												style="color: rgb(255, 57, 57); font-weight: bold;">RM{{item.pay_price}}</text>
+											,I was lucky to win a
 											{{item.goods_name}}
 											{{' '}}worth{{' '}}
-											<text style="color: rgb(255, 57, 57); font-weight: bold;">RM{{item.price}}</text>
+											<text
+												style="color: rgb(255, 57, 57); font-weight: bold;">RM{{item.price}}</text>
 										</view>
 									</template>
 									<template v-else>
@@ -393,9 +396,11 @@
 											在
 											<text style="color: rgb(10, 198, 142);">{{item.shop_name}}</text>
 											提供的竞拍活动中，以
-											<text style="color: rgb(255, 57, 57); font-weight: bold;">RM{{item.pay_price}}</text>
+											<text
+												style="color: rgb(255, 57, 57); font-weight: bold;">RM{{item.pay_price}}</text>
 											的价格，幸运地拍中价值
-											<text style="color: rgb(255, 57, 57); font-weight: bold;">RM{{item.price}}</text>
+											<text
+												style="color: rgb(255, 57, 57); font-weight: bold;">RM{{item.price}}</text>
 											的
 											{{item.goods_name}}
 										</view>
@@ -420,7 +425,8 @@
 
 		</view>
 
-		<image src="/static/images/new-index/gwc.png" v-show="productId==1" class="gwc" @click="navClick('/pages/cart/cart')"></image>
+		<image src="/static/images/new-index/gwc.png" v-show="productId==1" class="gwc"
+			@click="navClick('/pages/cart/cart')"></image>
 
 		<!--登录提醒-->
 		<view class="not_login" v-show="showNotLogin">
@@ -471,13 +477,19 @@
 			<view class="qiangpaiShow">
 				<!-- <image src="../../static/images/new/tck.png" class="kct"></image> -->
 				<view class="query" @click="onQueryClick">
-					<image class="" src="../../static/images/close1.png"> </image>
+					<image class="" src="/static/images/kbrick/close.png"> </image>
 				</view>
 				<view class="qiangpaiCont">
 					<view class="center">
 						<view class="cent">
 							<view class="cont">
-								<input type="number" :placeholder="$t('user.auctionM.qsrqpcs')" v-model="isauctionNum">
+								<view class="tit">{{$t('new.qpsl')}}</view>
+
+								<view class="my-input">
+									<image src="/static/images/kbrick/lv-cz.png"></image>
+									<input type="number" :placeholder="$t('new.srqpsl')" v-model="isauctionNum">
+								</view>
+
 								<view class="num">
 									<view style="color:#2c2c2c">{{$t('user.auctionM.syqpcs')}}</view>：<block
 										v-if="auction_num=='-1'">
@@ -488,7 +500,7 @@
 							</view>
 						</view>
 						<view class="qiangpai-btn">
-							<view class="btnsub" @click="onBtnSub">{{$t('user.auctionM.queding')}}</view>
+							<view class="btnsub" @click="onBtnSub">{{$t('auction.detail.btnsub')}}</view>
 						</view>
 
 					</view>
@@ -517,7 +529,8 @@
 				<!-- <image src="../../static/images/new/tck.png" class="kct"></image> -->
 				<view class="jingpai-pop">
 					<view class="title">
-						{{$t('auction.detail.sfqr')}}RM{{shopNum}}{{$t('auction.detail.gmygjpme')}}{{isauctionNum}}{{$t('auction.detail.gmygjpmenum')}}
+						{{$t('auction.detail.sfqr')}} {{shopNum}} {{$t('new.kz')}} {{$t('auction.detail.gmygjpme')}}
+						{{isauctionNum}} {{$t('auction.detail.gmygjpmenum')}}
 					</view>
 					<view class="txt" v-if="auction_num>='-1'">
 						<block v-if="auction_num=='-1'">
@@ -549,42 +562,63 @@
 		<uni-popup ref="popup1" type="bottom">
 			<view class="mode-pop">
 				<image src="/static/images/close1.png" class="mode-close" @click="toggle1Close"></image>
-			
+
 				<view class="mode-tit">
 					<image src="/static/images/kbrick/diamond.png"></image>
 					<view>{{shopNum}}</view>
 				</view>
-			
+
 				<view class="mode-des">{{$t('new.xyzf')}}</view>
-			
+
+				<view class="mode-banlace" v-show="balance*1 < shopNum">{{$t('new.kzyebz')}}</view>
+
 				<view class="mode-info">
 					<image src="/static/images/kbrick/diamond.png" class="logo"></image>
 					<view class="info-tit">
 						<view class="info-name">{{$t('new.kzzf')}}</view>
 						<view class="info-price">({{$t('new.kz')}}:<text>{{balance}}</text>)</view>
 					</view>
-					<image src="/static/images/new-index/xz.png" class="select"></image>
+					<view class="mode-info-right" @click="showRmToKdiamond=!showRmToKdiamond">
+						<view>{{$t('new.dhfk')}}</view>
+						<image src="/static/images/kbrick/btm.png" v-show="!showRmToKdiamond"></image>
+						<image src="/static/images/kbrick/top.png" v-show="showRmToKdiamond"></image>
+					</view>
 				</view>
-			
+
+				<view class="mode-more" v-show="showRmToKdiamond">
+					<view class="tit">{{$t('new.jh')}}:</view>
+					<image src="/static/images/kbrick/diamond.png" class="logo"></image>
+					<view class="num">{{(shopNum*1 - balance*1)>0 ? shopNum*1 - balance*1 : 0}}</view>
+					<view class="price">RM <text>{{(shopNum*1 - balance*1)>0 ? shopNum*1 - balance*1 : 0}}</text></view>
+					<image src="/static/images/new-index/wxz.png" class="select"
+						v-show="!kdiamondSelect && (shopNum*1 - balance*1)>0" @click="kdiamondSelect=true"></image>
+					<image src="/static/images/new-index/xz.png" class="select"
+						v-show="kdiamondSelect && (shopNum*1 - balance*1)>0" @click="kdiamondSelect=false"></image>
+				</view>
+
+				<view class="mode-cz">
+					<view @click="navClick('/pages/mine/K_brick_detail')">{{$t('new.qcz')}}</view>
+					<image src="/static/images/kbrick/right.png"></image>
+				</view>
+
 				<view class="mode-switch">
 					<!-- <image src="/static/images/new-index/wxz.png"></image>
 					<view>(Bonus for 10K diamonds)</view> -->
 				</view>
-			
+
 				<view class="mode-btn" @click.stop="$noMultipleClicks(onPayClick)">{{$t('new.payment')}}</view>
-			
+
 			</view>
 		</uni-popup>
 		<!--支付方式弹出 end-->
 		<!--支付密码弹出 start-->
 		<uni-popup ref="pwdsPopup" type="center">
 			<view class="pay-pwd">
-				<!-- <image src="../../static/images/new/tck-my.png" class="pay-pwd-img"></image> -->
-				<image src="../../static/images/new/close.png" class="pay-pwd-close" @click="onPwdQuery"></image>
+				<image src="/static/images/kbrick/close.png" class="pay-pwd-close" @click="onPwdQuery"></image>
 				<view class="pay-pwd-info">
 					<view class="pay-pwd-info-tit">{{$t('auction.detail.qsrzfmm')}}</view>
 					<view class="pay-pwd-info-line"></view>
-					<view class="pay-pwd-info-price">RM{{shopNum}}</view>
+					<view class="pay-pwd-info-price">{{$t('new.kz')}} {{shopNum}}</view>
 					<view class="pay-pwd-info-input">
 						<input class="input" type="password" placeholder-class="color-999" v-model="pay_pwd"
 							:placeholder="$t('auction.detail.qsrzfmm')" />
@@ -599,8 +633,6 @@
 		<uni-popup ref="payPopup" type="center">
 
 			<view class="pay-pwd">
-				<!-- <image src="../../static/images/new/tck-cg.png" class="pay-pwd-img"></image> -->
-				<!-- <image src="../../static/images/new/close.png" class="pay-pwd-close" @click="onPwdQuery"></image> -->
 				<view class="pay-pwd-info" style="height: 308rpx;">
 					<view class="pay-pwd-info-tit" style="font-size: 32rpx;">{{$t('auction.detail.gxnzfcgznzp')}}</view>
 					<view class="pay-pwd-info-price" style="font-size: 26rpx;margin-top: 30rpx;">
@@ -745,6 +777,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 	export default {
 		data() {
 			return {
+				kdiamondSelect: false,
+				showRmToKdiamond: false,
 				isBottoming: false,
 				switch_id: 0,
 				addressInfo: {},
@@ -1026,7 +1060,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
 			this.cancelText = uni.getStorageSync('locale') == 'en' ? 'cancel' : '取消'
 			this.confirmText = uni.getStorageSync('locale') == 'en' ? 'confirm' : '确认'
-			
+
 			//删除缓存临时数据
 			uni.removeStorageSync('productInfo')
 			uni.removeStorageSync('productId')
@@ -1743,14 +1777,12 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			// 个人信息获取剩余竞拍次数
 			onMineInfo(e) {
 				let that = this
-				for (let i in this.jingpaiList) {
-					if (this.jingpaiList[i].auction_goods_id === e.auction_goods_id) {
-						e = this.jingpaiList[i]
-					}
-				}
+
 				this.isauctionNum = ''
 				this.shopCont = e
 				that.pay_pwd = ''
+				that.kdiamondSelect=false
+				that.showRmToKdiamond=false
 				that.orderPayList.forEach(item => {
 					item.isShow = false
 				})
@@ -1758,7 +1790,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					auction_goods_id: e.auction_goods_id
 				}).then(res => {
 					if (res.code == 1) {
-						this.money = res.data.invite_money_balance
+						this.money = res.data.recharge_money_balance
 						this.balance = res.data.k_diamond_wallet
 						this.auction_num = (e.auction_type == 2 && e.total_least_num == 0) ? res.data
 							.auction_num :
@@ -1838,13 +1870,22 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			},
 			// 点击竞拍去支付
 			onPayClick() {
-				if (this.balance * 1 < this.shopNum) {
+				if (this.balance * 1 < this.shopNum && !this.kdiamondSelect) {
 					return uni.showToast({
 						icon: 'none',
-						title: '余额不足'
+						title: 'K钻余额不足'
 					})
 					return
 				}
+				let price = this.shopNum * 1 - this.balance * 1
+				if (price > this.money) {
+					return uni.showToast({
+						icon: 'none',
+						title: '充值余额不足' + price
+					})
+					return
+				}
+
 				this.$refs.popup1.close()
 				if (true) {
 					// 余额支付弹框
@@ -1937,28 +1978,50 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					if (item.isShow) arr.push(item.id)
 					else arr.push(10)
 				})
-				this.$http.post(this.$apiObj.AuctionorderBalancePay, {
-					order_no: this.order_no, // 小订单号
-					money: this.shopNum, // 支付总金额
-					pay_pwd: pay_pwd, // rsa加密后的支付密码
-					is_use_recharge: 2,
-					is_use_invite: 2,
-					is_use_k_diamond: 1
-				}).then(res => {
-					if (res.code == 1) {
-						this.isShowAegin = this.auction_num > this.isauctionNum
-						this.page = 1
-						this.onAuctionNewGoods()
-						setTimeout(() => {
-							this.pay_pwd = ''
-							this.onMineInfo(this.shopCont)
-							this.$refs.pwdPopup.close()
-							this.$refs.pwdPopup3.close()
-							this.$refs.pwdsPopup.close()
-							this.$refs.payPopup.open()
-						}, 500);
-					}
-				})
+
+				if (this.kdiamondSelect) {
+					this.$http.post(this.$apiObj.rmToKdiamond, {
+						money: this.shopNum * 1 - this.balance * 1
+					}).then(res => {
+						if (res.code == 1) {
+
+						}
+					})
+				}
+
+				setTimeout(() => {
+					this.$http.post(this.$apiObj.AuctionorderBalancePay, {
+						order_no: this.order_no, // 小订单号
+						money: this.shopNum, // 支付总金额
+						pay_pwd: pay_pwd, // rsa加密后的支付密码
+						is_use_recharge: 2,
+						is_use_invite: 2,
+						is_use_k_diamond: 1
+					}).then(res => {
+						if (res.code == 1) {
+							this.isShowAegin = this.auction_num > this.isauctionNum
+							uni.showToast({
+								title: res.msg,
+								icon: 'none'
+							})
+							this.onAuctionNewGoods()
+							setTimeout(() => {
+								this.jingpaiList.forEach(item => {
+									if (item.auction_goods_id == this.shopCont
+										.auction_goods_id) {
+										this.shopCont = item
+									}
+								})
+
+								this.$refs.pwdPopup.close()
+								this.$refs.pwdPopup3.close()
+								this.$refs.pwdsPopup.close()
+								this.$refs.payPopup.open()
+							}, 1000);
+						}
+					})
+				},300)
+
 			},
 
 			onQuanClick(item) {
@@ -1974,7 +2037,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			onQiangpai() {
 				this.$refs.payPopup.close()
 				this.onMineInfo(this.shopCont)
-				this.onAuctionNewGoods()
 			},
 			onQuery() {
 				this.$refs.pwdPopup3.close()
@@ -3324,8 +3386,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				top: 20rpx;
 				right: 20rpx;
 				display: block;
-				width: 60rpx;
-				height: 60rpx;
+				width: 36rpx;
+				height: 36rpx;
 				z-index: 10;
 			}
 
@@ -3335,7 +3397,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				padding-top: 40rpx;
 				padding-bottom: 20rpx;
 				background: #FFF;
-				border: 4rpx solid rgb(10, 198, 142);
+				// border: 4rpx solid rgb(10, 198, 142);
 				border-radius: 16rpx;
 
 				.pay-pwd-info-tit {
@@ -4639,17 +4701,11 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		position: absolute;
 		top: 20rpx;
 		right: 30rpx;
-		width: 20rpx;
-		height: 20rpx;
-		border-radius: 50%;
-		border: 1rpx solid #000;
-		padding: 10rpx;
 		z-index: 20;
 
 		image {
-			position: absolute;
-			width: 20rpx;
-			height: 20rpx;
+			width: 36rpx;
+			height: 36rpx;
 			// top: 10rpx;
 		}
 	}
@@ -4658,8 +4714,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		width: 686rpx;
 		background: #fff;
 		position: relative;
-		padding: 50rpx 0;
-		border: 4rpx solid rgb(10, 198, 142);
+		padding: 60rpx 0 50rpx 0;
+		// border: 4rpx solid rgb(10, 198, 142);
 		border-radius: 16rpx;
 		z-index: 9;
 
@@ -4687,8 +4743,9 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			}
 
 			.cent {
-				margin: 30rpx auto 40rpx;
+				margin: 0rpx auto 40rpx;
 				display: flex;
+
 
 				.txt {
 					margin-top: 5rpx;
@@ -4700,21 +4757,47 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 				.cont {
 					width: 566rpx;
-					margin: 26rpx auto 0;
+					margin: 10rpx auto 0;
 					text-align: center;
 
-					input {
-						width: 566rpx;
-						height: 80rpx;
-						border-radius: 16rpx;
-						border: 2rpx solid rgb(10, 198, 142);
+					.tit {
+						width: 100%;
 						font-size: 28rpx;
+						font-weight: bold;
+						color: rgb(51, 51, 51);
+						text-align: center;
+						margin-bottom: 20rpx;
+					}
+
+
+					.my-input {
+						width: 566rpx;
+						display: flex;
+						align-items: center;
+						background: rgb(241, 241, 241);
+						border-radius: 16rpx;
+
+						image {
+							display: block;
+							width: 32rpx;
+							height: 32rpx;
+							margin: 0 16rpx 0 24rpx;
+						}
+
+					}
+
+					uni-input {
+						width: 480rpx;
+						height: 80rpx;
+						border: none;
+						font-size: 28rpx;
+						text-align: left;
 					}
 
 					.num {
 						display: flex;
 						align-items: center;
-						justify-content: center;
+						// justify-content: center;
 						font-size: 24rpx;
 						margin-top: 30rpx;
 						color: rgb(10, 198, 142);
@@ -4771,14 +4854,15 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		background: #ffffff;
 		border-radius: 20rpx;
 		padding: 45rpx 0;
-		border: 4rpx solid rgb(10, 198, 142);
+		// border: 4rpx solid rgb(10, 198, 142);
 
 		.title {
-			width: 100%;
+			width: 80%;
 			font-size: 32rpx;
 			color: #000;
 			font-weight: bold;
 			text-align: center;
+			margin: 0 auto;
 		}
 
 		.txt {
@@ -4898,6 +4982,14 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			margin-top: 24rpx;
 		}
 
+		.mode-banlace {
+			width: 100%;
+			font-size: 28rpx;
+			color: rgb(255, 57, 57);
+			text-align: center;
+			margin-top: 12rpx;
+		}
+
 		.mode-info {
 			position: relative;
 			width: 100%;
@@ -4930,6 +5022,21 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				}
 			}
 
+			.mode-info-right {
+				position: absolute;
+				right: 40rpx;
+				font-size: 20rpx;
+				color: rgb(102, 102, 102);
+				display: flex;
+				align-items: center;
+
+				image {
+					width: 24rpx;
+					height: 24rpx;
+					margin-left: 8rpx;
+				}
+			}
+
 			.select {
 				position: absolute;
 				right: 40rpx;
@@ -4937,6 +5044,62 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				height: 40rpx;
 			}
 
+		}
+
+		.mode-more {
+			position: relative;
+			width: 100%;
+			display: flex;
+			align-items: center;
+			margin-top: 20rpx;
+
+			.tit {
+				font-size: 28rpx;
+				color: rgb(51, 51, 51);
+				margin-left: 112rpx;
+			}
+
+			.logo {
+				width: 32rpx;
+				height: 32rpx;
+				margin-left: 20rpx;
+			}
+
+			.num {
+				font-size: 28rpx;
+				color: rgb(102, 102, 102);
+				margin-left: 8rpx;
+			}
+
+			.price {
+				position: absolute;
+				right: 100rpx;
+				font-size: 24rpx;
+				color: rgb(255, 57, 57);
+			}
+
+			.select {
+				position: absolute;
+				right: 40rpx;
+				width: 40rpx;
+				height: 40rpx;
+			}
+
+		}
+
+		.mode-cz {
+			font-size: 24rpx;
+			color: rgb(10, 198, 142);
+			display: flex;
+			align-items: center;
+			margin-left: 112rpx;
+			margin-top: 20rpx;
+
+			image {
+				width: 24rpx;
+				height: 24rpx;
+				margin-left: 8rpx;
+			}
 		}
 
 		.mode-switch {

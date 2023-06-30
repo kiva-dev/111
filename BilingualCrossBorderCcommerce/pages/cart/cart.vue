@@ -192,7 +192,7 @@
 			this.getCartList()
 		},
 		onHide() {
-			
+
 		},
 		methods: {
 			//为你推荐
@@ -237,7 +237,7 @@
 						item.goods.forEach(data => {
 							data.attrs = data.attrs.toString()
 							this.$set(data, 'select', false)
-							this.totalPrice += (data.goods_price * 1) * data.num
+							// this.totalPrice += (data.goods_price * 1) * data.num
 						})
 					})
 					this.productList = res.data.data
@@ -267,8 +267,13 @@
 					goods_spec_id: data.goods_spec_id,
 					num: data.num
 				}).then(res => {
-					if (res.code != 1) {
-						// data.num = this.updateNum
+					if (res.code ==1) {
+						this.totalPrice=0
+						this.productList.forEach(item=>{
+							item.goods.forEach(items=>{
+								if (items.select) this.totalPrice += (items.goods_price * 1) * items.num
+							})
+						})
 					}
 				})
 			},
@@ -303,21 +308,28 @@
 						if (id == item.admin_id) {
 							item.goods.forEach(data => {
 								data.select = info.select
+								if (data.select) this.totalPrice += (data.goods_price * 1) * data.num
+								else this.totalPrice -= (data.goods_price * 1) * data.num
 							})
 						}
 
 					})
 				} else {
-					console.log(num)
 					//如果是商品，先把选中取反，然后遍历数组，如果全选中了店铺变为选中，否则为未选中
 					info.select = !info.select
 					let flag = true
 					let id = info.admin_id
-					console.log(info.admin_id)
+
 					this.productList.forEach(item => {
 						if (item.admin_id == id) {
 							item.goods.forEach(data => {
 								if (!data.select) flag = false
+								if (data.id == info.id) {
+									if (data.select) this.totalPrice += (data.goods_price * 1) *
+										data.num
+									else this.totalPrice -= (data.goods_price * 1) * data.num
+								}
+
 							})
 						}
 
@@ -332,8 +344,8 @@
 				let isAll = true
 				this.productList.forEach(item => {
 					if (!item.select) isAll = false
-					item.goods.forEach(data=>{
-						if(data.select){
+					item.goods.forEach(data => {
+						if (data.select) {
 							this.deleteNum++
 							this.selectNum++
 						}
@@ -351,8 +363,11 @@
 					item.goods.forEach(data => {
 						data.select = this.isSelectAll ? true : false
 						if (data.select) {
+							this.totalPrice += (data.goods_price * 1) *data.num
 							this.deleteNum++
 							this.selectNum++
+						}else{
+							this.totalPrice -= (data.goods_price * 1) *data.num
 						}
 					})
 				})
@@ -413,6 +428,7 @@
 					this.selectNum = 0
 					this.deleteNum = 0
 					this.isSelectAll = false
+					this.showEditbtm = false
 
 					this.$refs.popdel.close()
 				})

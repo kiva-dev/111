@@ -380,18 +380,18 @@
 				<view class="query" @click="onQueryClick">
 					<image src="/static/images/kbrick/close.png"> </image>
 				</view>
-				
+
 				<view class="qiangpaiCont">
 					<view class="center">
 						<view class="cent">
 							<view class="cont">
 								<view class="tit">{{$t('new.qpsl')}}</view>
-								
+
 								<view class="my-input">
 									<image src="/static/images/kbrick/lv-cz.png"></image>
 									<input type="number" :placeholder="$t('new.srqpsl')" v-model="isauctionNum">
 								</view>
-								
+
 								<view class="num">
 									<view style="color:#2c2c2c">{{$t('user.auctionM.syqpcs')}}</view>：<block
 										v-if="auction_num=='-1'">
@@ -427,7 +427,8 @@
 				<!-- <image src="../../static/images/new/tck.png" class="kct"></image> -->
 				<view class="jingpai-pop">
 					<view class="title">
-						{{$t('auction.detail.sfqr')}}{{shopNum}}{{$t('new.kz')}} {{$t('auction.detail.gmygjpme')}} {{isauctionNum}} {{$t('auction.detail.gmygjpmenum')}}
+						{{$t('auction.detail.sfqr')}} {{shopNum}} {{$t('new.kz')}} {{$t('auction.detail.gmygjpme')}}
+						{{isauctionNum}} {{$t('auction.detail.gmygjpmenum')}}
 					</view>
 					<view class="txt" v-if="auction_num>'-1'">
 						<block v-if="auction_num=='-1'">{{$t('Unlimited sho')}}</block>
@@ -501,17 +502,22 @@
 						<view class="info-name">{{$t('new.kzzf')}}</view>
 						<view class="info-price">({{$t('new.kz')}}:<text>{{balance}}</text>)</view>
 					</view>
-					<view class="mode-info-right">
+					<view class="mode-info-right" @click="showRmToKdiamond=!showRmToKdiamond">
 						<view>{{$t('new.dhfk')}}</view>
-						<image src="/static/images/kbrick/btm.png"></image>
+						<image src="/static/images/kbrick/btm.png" v-show="!showRmToKdiamond"></image>
+						<image src="/static/images/kbrick/top.png" v-show="showRmToKdiamond"></image>
 					</view>
 				</view>
 
-				<view class="mode-more" v-show="false">
+				<view class="mode-more" v-show="showRmToKdiamond">
 					<view class="tit">{{$t('new.jh')}}:</view>
 					<image src="/static/images/kbrick/diamond.png" class="logo"></image>
-					<view class="num">32</view>
-					<image src="/static/images/new-index/wxz.png" class="select"></image>
+					<view class="num">{{(shopNum*1 - balance*1)>0 ? shopNum*1 - balance*1 : 0}}</view>
+					<view class="price">RM <text>{{(shopNum*1 - balance*1)>0 ? shopNum*1 - balance*1 : 0}}</text></view>
+					<image src="/static/images/new-index/wxz.png" class="select"
+						v-show="!kdiamondSelect && (shopNum*1 - balance*1)>0" @click="kdiamondSelect=true"></image>
+					<image src="/static/images/new-index/xz.png" class="select"
+						v-show="kdiamondSelect && (shopNum*1 - balance*1)>0" @click="kdiamondSelect=false"></image>
 				</view>
 
 				<view class="mode-cz">
@@ -532,11 +538,11 @@
 		<view class="fenxiang" v-if="zhipassShow">
 			<view class="pay-pwd">
 				<!-- <image src="../../static/images/new/tck-my.png" class="pay-pwd-img"></image> -->
-				<image src="../../static/images/new/close.png" class="pay-pwd-close" @click="onPwdQuery"></image>
+				<image src="/static/images/kbrick/close.png" class="pay-pwd-close" @click="onPwdQuery"></image>
 				<view class="pay-pwd-info">
 					<view class="pay-pwd-info-tit">{{$t('auction.detail.qsrzfmm')}}</view>
 					<view class="pay-pwd-info-line"></view>
-					<view class="pay-pwd-info-price">RM{{shopNum}}</view>
+					<view class="pay-pwd-info-price">{{$t('new.kz')}}{{shopNum}}</view>
 					<view class="pay-pwd-info-input">
 						<input class="input" type="password" placeholder-class="color-999" v-model="pay_pwd"
 							:placeholder="$t('auction.detail.qsrzfmm')" />
@@ -563,29 +569,6 @@
 					</view>
 				</view>
 			</view>
-			<!-- <view class="payConter">
-				<view class="title">{{$t('auction.detail.gxnzfcgznzp')}}</view>
-				<view class="txt">{{$t('auction.detail.zpydzpjlgg')}}~</view>
-				<view class="name" v-if="auction_num>'-1'">
-					{{$t('auction.detail.nishengyu')}}{{auction_num}}{{$t('auction.detail.cijpjh')}}
-				</view>
-				<view class="cont">
-					<view></view>
-					<view class="right">
-						<view class="query" @click="onpayQuery">{{$t('auction.detail.query')}}</view>
-						<block v-if="shopCont.total_least_num&&shopCont.auction_type==1">
-							<view class="cen" v-if="auction_num!=0" @click="onQiangpai">
-								{{$t('auction.detail.zaipaiyd')}}
-							</view>
-						</block>
-						<block v-if="shopCont.auction_type==2">
-							<view class="cen" v-if="auction_num!=0" @click="onQiangpai">
-								{{$t('auction.detail.zaipaiyd')}}
-							</view>
-						</block>
-					</view>
-				</view>
-			</view> -->
 		</view>
 		<!--支付成功弹出 end-->
 	</view>
@@ -607,6 +590,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		},
 		data() {
 			return {
+				kdiamondSelect: false,
+				showRmToKdiamond: false,
 				likeList: [{
 					list: [1, 1, 1, 1, 1, 1]
 				}, {
@@ -661,7 +646,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				e_auction_rule: '',
 				goodlucky: [], // 幸运之星
 				JudgeList: [], // 评价列表
-				money: 0, // 余额
+				money: 0, // 充值余额
 				balance: 0,
 				isauctionNum: '', // 填写金额
 				shopNum: '',
@@ -1172,6 +1157,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			onMineInfos() {
 				this.isauctionNum = ''
 				this.pay_pwd = ''
+				this.kdiamondSelect = false
+				this.showRmToKdiamond = false
 				this.orderPayList.forEach(item => {
 					item.isShow = false
 				})
@@ -1179,7 +1166,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					auction_goods_id: this.id
 				}).then(res => {
 					if (res.code == 1) {
-						this.money = res.data.invite_money_balance
+						this.money = res.data.recharge_money_balance
 						this.balance = res.data.k_diamond_wallet
 						this.auction_num = (this.shopCont.auction_type == 2 && this.shopCont.total_least_num ==
 								0) ? res.data.auction_num : (res.data.auction_num === -1) ? this.shopCont
@@ -1341,13 +1328,22 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			},
 			// 点击竞拍去支付
 			onPayClick() {
-				if (this.balance * 1 < this.shopNum) {
+				if (this.balance * 1 < this.shopNum && !this.kdiamondSelect) {
 					return uni.showToast({
 						icon: 'none',
-						title: '余额不足'
+						title: 'K钻余额不足'
 					})
 					return
 				}
+				let price = this.shopNum * 1 - this.balance * 1
+				if (price > this.money) {
+					return uni.showToast({
+						icon: 'none',
+						title: '充值余额不足' + price
+					})
+					return
+				}
+
 				this.zhifushow = false
 				if (true) {
 					// 余额支付弹框
@@ -1430,28 +1426,43 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					if (item.isShow) arr.push(item.id)
 					else arr.push(10)
 				})
-				this.$http.post(this.$apiObj.AuctionorderBalancePay, {
-					order_no: this.order_no, // 小订单号
-					money: this.shopNum, // 支付总金额
-					pay_pwd: pay_pwd, // rsa加密后的支付密码
-					is_use_recharge: 2,
-					is_use_invite: 2,
-					is_use_k_diamond: 1
-				}).then(res => {
-					if (res.code == 1) {
-						uni.showToast({
-							title: res.msg,
-							icon: 'none'
-						})
-						this.onAuctionDetail()
-						setTimeout(() => {
-							this.onMineInfo()
-							this.pay_pwd = ''
-							this.zhipassShow = false
-							this.zhichenShow = true
-						}, 500);
-					}
-				})
+
+				if (this.kdiamondSelect) {
+					this.$http.post(this.$apiObj.rmToKdiamond, {
+						money: this.shopNum * 1 - this.balance * 1
+					}).then(res => {
+						if (res.code == 1) {
+
+						}
+					})
+				}
+
+				setTimeout(() => {
+					this.$http.post(this.$apiObj.AuctionorderBalancePay, {
+						order_no: this.order_no, // 小订单号
+						money: this.shopNum, // 支付总金额
+						pay_pwd: pay_pwd, // rsa加密后的支付密码
+						is_use_recharge: 2,
+						is_use_invite: 2,
+						is_use_k_diamond: 1
+					}).then(res => {
+						if (res.code == 1) {
+							uni.showToast({
+								title: res.msg,
+								icon: 'none'
+							})
+							this.onAuctionDetail()
+							setTimeout(() => {
+								this.onMineInfo()
+								this.pay_pwd = ''
+								this.zhipassShow = false
+								this.zhichenShow = true
+							}, 500);
+						}
+					})
+				}, 300)
+
+
 			},
 			// 个人信息获取剩余竞拍次数
 			onMineInfo() {
@@ -1473,23 +1484,16 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			// 点击抢拍
 			onQiangpai() {
 				this.isauctionNum = ''
-				// if (this.shopCont.auction_type == 2) {
-				//   this.onOrderReferCartOrder()
-				// } else {
+
 				this.zhichenShow = false
 				this.qiangpaiShow = true
-				// this.$refs.qiangpaiShow.open()
-				//   if (this.auction_num) {
-				//     this.onOrderReferCartOrder()
-				//   } else {
+
 				if (this.auction_num || this.shopCont.remain_auction_num) {
 					this.qiangpaiShow = true
-					// this.$refs.qiangpaiShow.open()
+					this.onMineInfos()
 				} else {
 					this.$refs.pwdPopup.open()
 				}
-				//   }
-				// }
 			},
 			toggle1Close() {
 				this.zhifushow = false
@@ -2138,8 +2142,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			top: 20rpx;
 			right: 20rpx;
 			display: block;
-			width: 60rpx;
-			height: 60rpx;
+			width: 36rpx;
+			height: 36rpx;
 			z-index: 10;
 		}
 
@@ -2148,7 +2152,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			// height: 428rpx;
 			padding: 40rpx 0;
 			background: #FFF;
-			border: 4rpx solid rgb(10, 198, 142);
+			// border: 4rpx solid rgb(10, 198, 142);
 			border-radius: 16rpx;
 
 			.pay-pwd-info-tit {
@@ -2376,8 +2380,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				.cent {
 					margin: 0rpx auto 40rpx;
 					display: flex;
-					
-					
+
+
 					.txt {
 						margin-top: 5rpx;
 						font-size: 30rpx;
@@ -2390,8 +2394,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						width: 566rpx;
 						margin: 10rpx auto 0;
 						text-align: center;
-						
-						.tit{
+
+						.tit {
 							width: 100%;
 							font-size: 28rpx;
 							font-weight: bold;
@@ -2399,22 +2403,22 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							text-align: center;
 							margin-bottom: 20rpx;
 						}
-						
-						
-						.my-input{
+
+
+						.my-input {
 							width: 566rpx;
 							display: flex;
 							align-items: center;
 							background: rgb(241, 241, 241);
 							border-radius: 16rpx;
-							
-							image{
+
+							image {
 								display: block;
 								width: 32rpx;
 								height: 32rpx;
 								margin: 0 16rpx 0 24rpx;
 							}
-							
+
 						}
 
 						uni-input {
@@ -2492,14 +2496,15 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		background: #ffffff;
 		border-radius: 20rpx;
 		padding: 45rpx 0;
-		border: 4rpx solid rgb(10, 198, 142);
+		// border: 4rpx solid rgb(10, 198, 142);
 
 		.title {
-			width: 100%;
+			width: 80%;
 			font-size: 32rpx;
 			color: #000;
 			font-weight: bold;
 			text-align: center;
+			margin: 0 auto;
 		}
 
 		.txt {
@@ -3378,6 +3383,13 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				font-size: 28rpx;
 				color: rgb(102, 102, 102);
 				margin-left: 8rpx;
+			}
+
+			.price {
+				position: absolute;
+				right: 100rpx;
+				font-size: 24rpx;
+				color: rgb(255, 57, 57);
 			}
 
 			.select {

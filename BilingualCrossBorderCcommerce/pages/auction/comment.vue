@@ -17,13 +17,13 @@
 
 					<view class="comment-item-icons">
 						<view class="comment-item-icons-info" style="right: 138rpx;"
-							@click="sendLike(item.user_comment_id)">
+							@click="sendLike(item)">
 							<image src="../../static/images/products/xiai.png" v-if="item.is_like==1"></image>
 							<image src="../../static/images/products/xiai1.png" v-else></image>
 							<view>{{item.like_count}}</view>
 						</view>
 						<view class="comment-item-icons-info" style="right: 46rpx;"
-							@click="onShowmsg(item.user_comment_id)">
+							@click="onShowmsg(item)">
 							<image src="../../static/images/products/pinglun.png" v-if="item.sub_count==0"></image>
 							<image src="../../static/images/products/pinglun1.png" v-else></image>
 							<view>{{item.sub_count}}</view>
@@ -59,9 +59,9 @@
 									{{item.comment}}
 								</view>
 							</view>
-							<view class="item-img" @click="sendLike(item.user_comment_id)">
-								<image src="../../static/images/products/xiai.png" v-if="item.is_like==1"></image>
-								<image src="../../static/images/products/xiai1.png" v-else></image>
+							<view class="item-img" @click="sendLike(item)">
+								<image src="../../static/images/products/xiai.png" v-show="item.is_like==1"></image>
+								<image src="../../static/images/products/xiai1.png" v-show="item.is_like==0"></image>
 								<span>{{item.like_count}}</span>
 							</view>
 						</view>
@@ -99,10 +99,10 @@
 			this.getCommentList();
 		},
 		methods: {
-			onShowmsg(id) {
-				this.selectId = id
+			onShowmsg(item) {
+				this.selectId = item.user_comment_id
 				this.showComment = true
-				this.getSelectComment(id)
+				this.getSelectComment(item.user_comment_id)
 			},
 			//获取子列表
 			getSelectComment(id) {
@@ -165,13 +165,13 @@
 				})
 			},
 			//点赞
-			sendLike(id) {
+			sendLike(item) {
 				this.$http.post(this.$apiObj.SendLike, {
-					user_comment_id: id
+					user_comment_id: item.user_comment_id
 				}).then(res => {
 					if (res.code == 1) {
-						this.getSelectComment(this.id)
-						this.getCommentList()
+						if(item.pid==0) this.getCommentList()
+						else this.getSelectComment(item.pid)
 					}
 				})
 			}

@@ -213,7 +213,7 @@
 				</view>
 			</view>
 
-			<div id="div4"></div>
+			<!-- <div id="div4"></div> -->
 			<!--竞拍记录-->
 			<view class="product-jilu" v-if="false">
 				<view class="six-tit">
@@ -442,9 +442,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				}, {
 					id: 3,
 					title: this.$t('newDetail.xianqin')
-				}, {
-					id: 4,
-					title: this.$t('new.paimai')
 				}],
 				navId: 1,
 				current: 0,
@@ -547,8 +544,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			if (!this.isClick) {
 				if (res.scrollTop >= this.heightList[0] && res.scrollTop < this.heightList[1]) this.navId = 1
 				else if (res.scrollTop >= this.heightList[1] && res.scrollTop < this.heightList[2]) this.navId = 2
-				else if (res.scrollTop >= this.heightList[2] && res.scrollTop < (this.heightList[3] - 300)) this.navId = 3
-				else this.navId = 4
+				else if (res.scrollTop >= this.heightList[2] ) this.navId = 3
+				// else this.navId = 4
 			}
 
 		},

@@ -134,7 +134,7 @@
 				isShopCont: false, // 商品详情显示中文还是英文
 			}
 		},
-		onShow() {
+		mounted() {
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
 			// 实名认证
 			this.$http.post(this.$apiObj.MineAuthDetail).then(res => {
