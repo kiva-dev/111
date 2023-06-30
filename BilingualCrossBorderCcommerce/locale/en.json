@@ -1451,5 +1451,7 @@
 	"new.dhfk":"Exchange payment",
 	"new.qpsl":"Number of grabs",
 	"new.srqpsl":"Enter the number of grabs",
-	"new.ybd":"Bound"
+	"new.ybd":"Bound",
+	"new.fsplcg":"Send comments successfully, waiting for background review!",
+	"new.wxs":"I want to say"
 }

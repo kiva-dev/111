@@ -33,7 +33,7 @@
 			<!--商品价格时间-->
 			<view class="detail-price">
 				<view class="detail-price-left">
-					<view class="detail-price-new">RM{{shopCont.auction_price}}</view>
+					<view class="detail-price-new"><image src="/static/images/kbrick/diamond.png">{{shopCont.auction_price}}</view>
 					<view class="detail-price-old">RM{{shopCont.price}}</view>
 				</view>
 				<view class="detail-price-time" v-if="shopCont.check_status==3||shopCont.check_status==4">
@@ -1803,6 +1803,11 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				font-size: 40rpx;
 				font-weight: 700;
 				color: rgb(255, 255, 255);
+				
+				image{
+					width: 24rpx;
+					height: 24rpx;
+				}
 			}
 
 			.detail-price-old {

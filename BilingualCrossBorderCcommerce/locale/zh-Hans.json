@@ -1452,5 +1452,7 @@
 	"new.dhfk":"兑换付款",
 	"new.qpsl":"抢拍数量",
 	"new.srqpsl":"输入抢拍数量",
-	"new.ybd":"已绑定"
+	"new.ybd":"已绑定",
+	"new.fsplcg":"发送评论成功，等待后台审核！",
+	"new.wxs":"我想说"
 }

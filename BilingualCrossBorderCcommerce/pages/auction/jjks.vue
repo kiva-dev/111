@@ -212,7 +212,10 @@
 										activeColor="#FF4E2F" backgroundColor="#EBEBEB" />
 								</view>
 								<view class="old_price">RM{{item.price}}</view>
-								<view class="new_price">RM<span>{{item.auction_price}}</span></view>
+								<view class="new_price">
+									<image src="/static/images/kbrick/diamond.png"></image>
+									<span>{{item.auction_price}}</span>
+								</view>
 							</view>
 						</view>
 					</view>
@@ -241,7 +244,9 @@
 										<u-count-down :time="item.datetime" format="HH:mm:ss"></u-count-down>
 									</view>
 								</view>
-								<view class="ongoing-type-left-info-des-price">RM<span>{{item.auction_price}}</span>
+								<view class="ongoing-type-left-info-des-price">
+									<image src="/static/images/kbrick/diamond.png"></image>
+									<span>{{item.auction_price}}</span>
 								</view>
 							</view>
 						</view>
@@ -269,7 +274,9 @@
 									<image :src="item.user_info.avatar"></image>
 									<view>Lucky Star</view>
 								</view>
-								<view class="ongoing-type-left-info-des-price">RM<span>{{item.auction_price}}</span>
+								<view class="ongoing-type-left-info-des-price">
+									<image src="/static/images/kbrick/diamond.png"></image>
+									<span>{{item.auction_price}}</span>
 								</view>
 							</view>
 						</view>
@@ -362,7 +369,10 @@
 
 							<view class="new-list-item-btm">
 								<view class="new-list-item-btm-price">
-									<view class="new">RM<span>{{item.auction_price}}</span></view>
+									<view class="new">
+										<image src="/static/images/kbrick/diamond.png"></image>
+										<span>{{item.auction_price}}</span>
+									</view>
 									<view class="old">RM{{item.price}}</view>
 								</view>
 
@@ -397,7 +407,10 @@
 							<view class="des-tit">{{item.goods_name}}</view>
 							<view class="des-center">
 								<view class="des-center-price">
-									<view class="new">RM<span>{{item.auction_price}}</span></view>
+									<view class="new">
+										<image src="/static/images/kbrick/diamond.png"></image>
+										<span>{{item.auction_price}}</span>
+									</view>
 									<view class="old">RM{{item.price}}</view>
 								</view>
 								<view class="des-center-num">x{{item.join_count}}</view>
@@ -454,7 +467,10 @@
 
 							<view class="info-btm">
 								<view class="info-price">
-									<view class="new">RM<span>{{item.auction_price}}</span></view>
+									<view class="new">
+										<image src="/static/images/kbrick/diamond.png"></image>
+										<span>{{item.auction_price}}</span>
+									</view>
 									<view class="old">RM{{item.price}}</view>
 								</view>
 
@@ -489,7 +505,10 @@
 									<view>{{(item.finish_rate*100).toFixed(0)}}%</view>
 								</view>
 								<view class="info_price">
-									<view class="new">RM<span>{{item.auction_price}}</span></view>
+									<view class="new">
+										<image src="/static/images/kbrick/diamond.png"></image>
+										<span>{{item.auction_price}}</span>
+									</view>
 									<view class="old">RM{{item.price}}</view>
 								</view>
 							</view>
@@ -945,8 +964,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		},
 		onShow() {
 			uni.pageScrollTo({
-				scrollTop:0,
-				duration:0
+				scrollTop: 0,
+				duration: 0
 			})
 			this.scrollToTop = 0
 			this.switch_id = 0
@@ -1586,9 +1605,9 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				this.isauctionNum = ''
 				this.shopCont = e
 				that.pay_pwd = ''
-				that.kdiamondSelect=false
-				that.showRmToKdiamond=false
-				
+				that.kdiamondSelect = false
+				that.showRmToKdiamond = false
+
 				that.orderPayList.forEach(item => {
 					item.isShow = false
 				})
@@ -1800,16 +1819,17 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							})
 							this.onAuctionNewGoods()
 							setTimeout(() => {
-								this.jingpaiList.forEach(item=>{
-									if(item.auction_goods_id == this.shopCont.auction_goods_id){
-										this.shopCont=item
+								this.jingpaiList.forEach(item => {
+									if (item.auction_goods_id == this.shopCont
+										.auction_goods_id) {
+										this.shopCont = item
 									}
 								})
 								console.log(this.shopCont)
 								this.$refs.pwdsPopup.close()
 								this.$refs.payPopup.open()
 							}, 1000);
-							
+
 						}
 					})
 				}, 1000)
@@ -2392,6 +2412,11 @@ NoR+zv3KaEmPSHtooQIDAQAB
 								font-weight: bold;
 								color: rgb(255, 57, 57);
 
+								image {
+									width: 24rpx;
+									height: 24rpx;
+								}
+
 								span {
 									font-size: 32rpx;
 								}
@@ -2534,6 +2559,11 @@ NoR+zv3KaEmPSHtooQIDAQAB
 								font-size: 20rpx;
 								font-weight: bold;
 								color: rgb(255, 57, 57);
+								
+								image{
+									width: 24rpx;
+									height: 24rpx;
+								}
 
 								span {
 									font-size: 32rpx;
@@ -2714,6 +2744,11 @@ NoR+zv3KaEmPSHtooQIDAQAB
 								font-weight: bold;
 								color: rgb(255, 57, 57);
 
+								image {
+									width: 24rpx;
+									height: 24rpx;
+								}
+
 								span {
 									font-size: 32rpx;
 								}
@@ -2823,6 +2858,11 @@ NoR+zv3KaEmPSHtooQIDAQAB
 								font-weight: bold;
 								color: rgb(255, 57, 57);
 								margin-right: 8rpx;
+
+								image {
+									width: 24rpx;
+									height: 24rpx;
+								}
 
 								span {
 									font-size: 40rpx;
@@ -3028,6 +3068,11 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							color: rgb(255, 57, 57);
 							text-align: center;
 
+							image {
+								width: 24rpx;
+								height: 24rpx;
+							}
+
 							span {
 								font-size: 28rpx;
 								font-weight: bold;
@@ -3048,6 +3093,11 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							font-weight: bold;
 							color: rgb(255, 57, 57);
 							text-align: center;
+
+							image {
+								width: 24rpx;
+								height: 24rpx;
+							}
 
 							span {
 								font-size: 28rpx;

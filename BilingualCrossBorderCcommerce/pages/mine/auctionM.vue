@@ -47,13 +47,17 @@
 						</view>
 						<view class="jping-jd">
 							<view class="jping-jd-box">
-								<image :style="{'width': item.finish_rate*100 + '%'}" src="@/static/images/new-index/select-jd.png" mode="aspectFill"></image>
+								<image :style="{'width': item.finish_rate*100 + '%'}"
+									src="@/static/images/new-index/select-jd.png" mode="aspectFill"></image>
 								<view class="box-progress">{{(item.finish_rate*100).toFixed(0)}}%</view>
 							</view>
 						</view>
 						<view class="jping-price">
 							<view class="jping-price-left">
-								<view class="jping-price-new"><span>RM</span>{{item.auction_price}}</view>
+								<view class="jping-price-new">
+									<image src="/static/images/kbrick/diamond.png"></image>
+									{{item.auction_price}}
+								</view>
 								<view class="jping-price-old">RM{{item.price}}</view>
 							</view>
 							<view class="jping-price-btn">
@@ -75,9 +79,15 @@
 			<template v-if="jingpaiorderList && jingpaiorderList.length">
 				<view class="order-item" v-for="item in jingpaiorderList" :key="item.id"
 					@click="toDetail(item.order_no)">
-					<view class="order-item-status" style="background: #FF3939;" v-if="item.win_status === 0">{{$t('user.auctionM.going')}}</view>
-					<view class="order-item-status" style="background: #1DD181;" v-if="item.win_status === 2">{{$t('user.auctionM.captured')}}</view>
-					<view class="order-item-status" style="background: #CCCCCC;" v-if="item.win_status === 1">{{$t('user.auctionM.miss')}}</view>
+					<view class="order-item-status" style="background: #FF3939;" v-if="item.win_status === 0">
+						{{$t('user.auctionM.going')}}
+					</view>
+					<view class="order-item-status" style="background: #1DD181;" v-if="item.win_status === 2">
+						{{$t('user.auctionM.captured')}}
+					</view>
+					<view class="order-item-status" style="background: #CCCCCC;" v-if="item.win_status === 1">
+						{{$t('user.auctionM.miss')}}
+					</view>
 					<view class="order-item-cover">
 						<image :src="item.image" mode="aspectFill"></image>
 						<view class="designated">{{item.stage_num}}{{$t('auction.qi')}}</view>
@@ -87,7 +97,10 @@
 						<view class="info-bot">
 							<view class="info-box">
 								<view class="info-box-left">
-									<p class="left-price"><span>RM</span>{{item.auction_price}}</p>
+									<p class="left-price">
+										<image src="/static/images/kbrick/diamond.png"></image>
+										{{item.auction_price}}
+									</p>
 									<p class="left-original">RM{{item.auction_price_total}}</p>
 								</view>
 								<view class="info-box-right">x{{item.total_num}}</view>
@@ -113,7 +126,8 @@
 		<view class="auct-box" v-if="type == 3">
 			<block v-if="navId == 1">
 				<template v-if="LuckyList && LuckyList.length">
-					<image class="luck-zpjl-banner" v-if="!isShopCont" src="../../static/images/auction/gxzj.png"></image>
+					<image class="luck-zpjl-banner" v-if="!isShopCont" src="../../static/images/auction/gxzj.png">
+					</image>
 					<image class="luck-zpjl-banner" v-else src="../../static/images/new/xyzx1.png"></image>
 					<view class="luck-zpjl-item" v-for="(item,index) in LuckyList" :key="item.id">
 						<view class="item-cover">
@@ -124,10 +138,14 @@
 								<view class="top-title">
 									<view class="top-name">{{item.goods_name}}</view>
 									<view class="top-status">
-										<text v-if="item.status === 2 || item.status === 3" style="color: #1DD181;">{{$t('user.auctionM.shipped')}}</text>
-										<text v-if="item.status === 4" style="color: #1DD181;">{{$t('user.auctionM.receive')}}</text>
-										<text v-if="item.status === 5" style="color: #1DD181;">{{$t('user.auctionM.beConfirmed')}}</text>
-										<text v-if="item.status === 6" style="color: #999999;">{{item.select_way == 1 ? $t('user.auctionM.cash') : $t('user.order.yiwanc')}}</text>
+										<text v-if="item.status === 2 || item.status === 3"
+											style="color: #1DD181;">{{$t('user.auctionM.shipped')}}</text>
+										<text v-if="item.status === 4"
+											style="color: #1DD181;">{{$t('user.auctionM.receive')}}</text>
+										<text v-if="item.status === 5"
+											style="color: #1DD181;">{{$t('user.auctionM.beConfirmed')}}</text>
+										<text v-if="item.status === 6"
+											style="color: #999999;">{{item.select_way == 1 ? $t('user.auctionM.cash') : $t('user.order.yiwanc')}}</text>
 									</view>
 								</view>
 								<view class="top-bidding">
@@ -139,27 +157,41 @@
 									<view class="bot-code-title">{{$t('user.auctionM.lucky')}}</view>
 									<view class="bot-code-number">
 										<p>{{item.num_id || ''}}</p>
-										<image @click.stop="onCopyText(item.num_id)" src="@/static/images/mine/mine_btn_copy.png" mode="widthFix"></image>
+										<image @click.stop="onCopyText(item.num_id)"
+											src="@/static/images/mine/mine_btn_copy.png" mode="widthFix"></image>
 									</view>
 								</view>
 								<view class="bot-disbursements">
 									<view class="bot-disbursements-l">
 										<p class="l-title">{{$t('user.auctionM.shifukuang')}}:</p>
-										<p class="l-price"><text>RM</text>{{item.auction_price}}</p>
+										<p class="l-price">
+											<image src="/static/images/kbrick/diamond.png"></image>
+											{{item.auction_price}}
+										</p>
 									</view>
 									<view class="bot-disbursements-r">
 										<template v-if="item.status === 0">
-											<view class="r-button-green" @click.stop="onlingjiangClick(item)">{{$t('zhongpai.lingjiangjiang')}}</view>
+											<view class="r-button-green" @click.stop="onlingjiangClick(item)">
+												{{$t('zhongpai.lingjiangjiang')}}
+											</view>
 										</template>
 										<template v-if="item.status === 4">
-											<view class="r-button-border" @click.stop="onConfirmReceipt(item)">{{$t('user.order.receipt')}}</view>
+											<view class="r-button-border" @click.stop="onConfirmReceipt(item)">
+												{{$t('user.order.receipt')}}
+											</view>
 										</template>
 										<template v-if="item.status === 5">
-											<view class="r-button-gray" @click.stop="onAfterSale(item)">{{$t('user.auctionM.appeal')}}</view>
-											<view class="r-button-border" @click.stop="onConfirmOrder(item)">{{$t('user.auctionM.confirmOrder')}}</view>
+											<view class="r-button-gray" @click.stop="onAfterSale(item)">
+												{{$t('user.auctionM.appeal')}}
+											</view>
+											<view class="r-button-border" @click.stop="onConfirmOrder(item)">
+												{{$t('user.auctionM.confirmOrder')}}
+											</view>
 										</template>
 										<template v-if="item.status === 6">
-											<view class="r-button-gray" @click.stop="toDetail(item.order_no)">{{$t('user.auctionM.award')}}</view>
+											<view class="r-button-gray" @click.stop="toDetail(item.order_no)">
+												{{$t('user.auctionM.award')}}
+											</view>
 										</template>
 									</view>
 								</view>
@@ -244,7 +276,9 @@
 						</view>
 						<view class="li-price">
 							<view class="price-fl">
-								<text class="red">{{$t('user.auctionM.qpj')}} RM{{item.auction_price}}</text>
+								<text class="red">{{$t('user.auctionM.qpj')}}
+									<image src="/static/images/kbrick/diamond.png"></image>{{item.auction_price}}
+								</text>
 								<text class="gray">{{$t('user.auctionM.scj')}} RM{{item.price}}</text>
 							</view>
 						</view>
@@ -268,11 +302,16 @@
 		<!--我的竞拍-竞拍记录 auct-box start-->
 		<view class="auct-box" v-if="type == 4">
 			<template v-if="recordList && recordList.length">
-				<view class="order-item" v-for="item in recordList" :key="item.id"
-					@click="toDetail(item.order_no)">
-					<view class="order-item-status" style="background: #FF3939;" v-if="item.win === '0'">{{$t('user.auctionM.going')}}</view>
-					<view class="order-item-status" style="background: #1DD181;" v-if="item.win === '2'">{{$t('user.auctionM.captured')}}</view>
-					<view class="order-item-status" style="background: #CCCCCC;" v-if="item.win === '1'">{{$t('user.auctionM.miss')}}</view>
+				<view class="order-item" v-for="item in recordList" :key="item.id" @click="toDetail(item.order_no)">
+					<view class="order-item-status" style="background: #FF3939;" v-if="item.win === '0'">
+						{{$t('user.auctionM.going')}}
+					</view>
+					<view class="order-item-status" style="background: #1DD181;" v-if="item.win === '2'">
+						{{$t('user.auctionM.captured')}}
+					</view>
+					<view class="order-item-status" style="background: #CCCCCC;" v-if="item.win === '1'">
+						{{$t('user.auctionM.miss')}}
+					</view>
 					<view class="order-item-cover">
 						<image :src="item.image" mode="aspectFill"></image>
 						<view class="designated">{{item.stage_num}}{{$t('auction.qi')}}</view>
@@ -286,12 +325,15 @@
 								</view>
 							</view> -->
 							<view class="info-code">
-								<view class="info-code-left"><span>RM</span>{{item.pay_price}}</view>
+								<view class="info-code-left">
+									<image src="/static/images/kbrick/diamond.png">{{item.pay_price}}
+								</view>
 								<view class="info-code-right">
 									<view class="right-title">{{$t('user.auctionM.code')}}</view>
 									<view class="right-number">
 										<p>{{item.num_id}}</p>
-										<image @click.stop="onCopyText(item.num_id)" src="@/static/images/mine/mine_btn_copy.png" mode="widthFix"></image>
+										<image @click.stop="onCopyText(item.num_id)"
+											src="@/static/images/mine/mine_btn_copy.png" mode="widthFix"></image>
 									</view>
 								</view>
 							</view>
@@ -323,11 +365,13 @@
 							<p>{{$t('user.auctionM.claimCash')}}</p>
 						</view>
 						<view class="lab-right" @click="chooseDraw = 1">
-							<image v-if="chooseDraw === 1" src="@/static/images/auction/choose.png" mode="widthFix"></image>
+							<image v-if="chooseDraw === 1" src="@/static/images/auction/choose.png" mode="widthFix">
+							</image>
 							<image v-else src="@/static/images/auction/unchoose.png" mode="widthFix"></image>
 						</view>
 					</view>
-					<view class="cp-option-text">({{$t('user.auctionM.claimTxt1')}} <text>RM{{user_money || 0}}</text>)</view>
+					<view class="cp-option-text">({{$t('user.auctionM.claimTxt1')}} <text>RM{{user_money || 0}}</text>)
+					</view>
 				</view>
 				<view class="cp-option">
 					<view class="cp-option-lab">
@@ -336,20 +380,22 @@
 							<p>{{$t('user.auctionM.claimAward')}}</p>
 						</view>
 						<view class="lab-right" @click="chooseDraw = 2">
-							<image v-if="chooseDraw === 2" src="@/static/images/auction/choose.png" mode="widthFix"></image>
+							<image v-if="chooseDraw === 2" src="@/static/images/auction/choose.png" mode="widthFix">
+							</image>
 							<image v-else src="@/static/images/auction/unchoose.png" mode="widthFix"></image>
 						</view>
 					</view>
 					<view class="cp-option-text">({{$t('user.auctionM.claimTxt2')}})</view>
 				</view>
 				<view class="cp-btns">
-					<view class="cp-btns-cancel" @click="$refs.lingjiangPopup.close()">{{$t('user.auctionM.btnCancel')}}</view>
+					<view class="cp-btns-cancel" @click="$refs.lingjiangPopup.close()">{{$t('user.auctionM.btnCancel')}}
+					</view>
 					<view class="cp-btns-confirm" @click="onConfirmedDraw">{{$t('user.auctionM.btnConfirm')}}</view>
 				</view>
 			</view>
 		</uni-popup>
 		<!--点击领奖弹框显示 end-->
-		
+
 		<!--提示显示 start-->
 		<uni-popup ref="tishiPopup" type="center">
 			<view class="tishingCont">
@@ -363,7 +409,7 @@
 			</view>
 		</uni-popup>
 		<!--提示显示 end-->
-		
+
 		<uni-popup ref="weikaisPopup" type="center">
 			<view class="tishingCont">
 				<view class="title">{{$t('zhongpai.tis')}}</view>
@@ -374,7 +420,7 @@
 				</view>
 			</view>
 		</uni-popup>
-		
+
 		<!--分享弹出 start-->
 		<view class="fenxiang" v-if="onfenxingShow">
 			<view class="share-pop">
@@ -405,7 +451,7 @@
 			</view>
 		</view>
 		<!--分享弹出 end-->
-		
+
 		<u-popup :show="shareShow" mode="center" bgColor="transparent">
 			<view class="shareShow">
 				<image src="../../static/images/auth/tck-xr.png" class="shareShow-img"></image>
@@ -423,7 +469,7 @@
 
 <script>
 	import tool from "@/utils/tool.js"
-	
+
 	export default {
 		data() {
 			return {
@@ -525,7 +571,8 @@
 			// 申请售后
 			onAfterSale(item) {
 				uni.navigateTo({
-					url: '/pages/mine/order/ptzcpt?conter=' + JSON.stringify(item) + '&cent=' + JSON.stringify(item)
+					url: '/pages/mine/order/ptzcpt?conter=' + JSON.stringify(item) + '&cent=' + JSON.stringify(
+						item)
 				});
 			},
 			toMidShot(id) {
@@ -1142,12 +1189,12 @@
 				transition: left .5s;
 			}
 		}
-		
+
 		.auct-box {
 			width: 100%;
 			padding: 24rpx 32rpx;
 			box-sizing: border-box;
-			
+
 			.new-li {
 				background: #fff;
 				padding: 30rpx;
@@ -1268,9 +1315,15 @@
 						margin: 10rpx 0;
 
 						.price-fl {
+
 							.red {
 								color: rgb(255, 78, 47);
 								margin-right: 20rpx;
+
+								image {
+									width: 24rpx;
+									height: 24rpx;
+								}
 							}
 
 							.gray {
@@ -1498,19 +1551,19 @@
 				border-radius: 20rpx;
 				display: flex;
 				align-items: center;
-				
+
 				.item-cover {
 					width: 206rpx;
 					height: 206rpx;
 					position: relative;
-					
+
 					image {
 						width: 100%;
 						height: 100%;
 						border-radius: 16rpx;
 					}
 				}
-				
+
 				.item-info {
 					flex: 1;
 					height: 206rpx;
@@ -1519,16 +1572,16 @@
 					flex-direction: column;
 					justify-content: space-between;
 					align-items: flex-start;
-					
+
 					.item-info-top {
 						width: 100%;
-						
+
 						.top-title {
 							width: 100%;
 							display: flex;
 							justify-content: space-between;
 							align-items: center;
-							
+
 							.top-name {
 								max-width: 300rpx;
 								color: rgb(51, 51, 51);
@@ -1537,88 +1590,93 @@
 								white-space: nowrap;
 								text-overflow: ellipsis;
 							}
-							
+
 							.top-status {
 								margin-left: 14rpx;
 								text-align: right;
-								
+
 								text {
 									font-size: 20rpx;
 								}
 							}
 						}
-						
+
 						.top-bidding {
 							width: 100%;
 							display: flex;
 							justify-content: space-between;
-							
+
 							p {
 								color: rgb(153, 153, 153);
 								font-size: 16rpx;
 							}
 						}
 					}
-					
+
 					.item-info-bot {
 						width: 100%;
-						
+
 						.bot-code {
 							width: 100%;
-							
+
 							.bot-code-title {
 								text-align: right;
 								color: rgb(153, 153, 153);
 								font-size: 20rpx;
 							}
-							
+
 							.bot-code-number {
 								display: flex;
 								justify-content: flex-end;
-								
+
 								p {
 									margin-right: 8rpx;
 									color: rgb(102, 102, 102);
 									font-size: 20rpx;
 								}
-								
+
 								image {
 									width: 32rpx;
 								}
 							}
 						}
-						
+
 						.bot-disbursements {
 							width: 100%;
 							margin-top: 8rpx;
 							display: flex;
 							justify-content: space-between;
 							align-items: center;
-							
+
 							.bot-disbursements-l {
 								flex: 1;
-								
+
 								.l-title {
 									color: rgb(153, 153, 153);
 									font-size: 16rpx;
 								}
-								
+
 								.l-price {
 									color: rgb(255, 57, 57);
 									font-size: 32rpx;
 									font-weight: bold;
-									
+
+									image {
+										width: 24rpx;
+										height: 24rpx;
+									}
+
 									text {
 										font-size: 20rpx;
 									}
 								}
 							}
-							
+
 							.bot-disbursements-r {
 								display: flex;
 								justify-content: flex-end;
 								align-items: center;
-								
+
 								.r-button-green {
 									margin-left: 20rpx;
 									padding: 12rpx 22rpx;
@@ -1628,7 +1686,7 @@
 									color: rgb(255, 255, 255);
 									font-size: 20rpx;
 								}
-								
+
 								.r-button-border {
 									margin-left: 20rpx;
 									padding: 12rpx 22rpx;
@@ -1638,7 +1696,7 @@
 									color: rgb(10, 198, 142);
 									font-size: 20rpx;
 								}
-								
+
 								.r-button-gray {
 									margin-left: 20rpx;
 									padding: 12rpx 22rpx;
@@ -1715,28 +1773,28 @@
 				white-space: nowrap;
 				text-overflow: ellipsis;
 			}
-			
+
 			.jping-icon {
 				display: flex;
 				align-items: center;
-				
+
 				.li-icon {
 					width: 30rpx;
 					height: 30rpx;
 					margin-right: 16rpx;
 					display: flex;
-					
+
 					image {
 						width: 100%;
 					}
 				}
 			}
-			
+
 			.jping-num {
 				width: 100%;
 				display: flex;
 				align-items: center;
-				
+
 				.jping-num-box {
 					margin-right: 16rpx;
 					padding-right: 16rpx;
@@ -1744,16 +1802,16 @@
 					display: flex;
 					align-items: center;
 					border-right: 1rpx solid #CCCCCC;
-					
+
 					&:last-child {
 						border-right: none;
 					}
-					
+
 					image {
 						width: 25rpx;
 						height: 25rpx;
 					}
-					
+
 					p {
 						margin-left: 8rpx;
 						color: rgb(102, 102, 102);
@@ -1774,7 +1832,12 @@
 						color: rgb(255, 57, 57);
 						font-size: 32rpx;
 						font-weight: bold;
-						
+
+						image {
+							width: 24rpx;
+							height: 24rpx;
+						}
+
 						span {
 							font-size: 20rpx;
 						}
@@ -1798,12 +1861,12 @@
 					display: flex;
 					justify-content: center;
 					align-items: center;
-					
+
 					image {
 						width: 28rpx;
 						transform: translateY(2rpx);
 					}
-					
+
 					p {
 						margin-left: 8rpx;
 						font-size: 24rpx;
@@ -1817,7 +1880,7 @@
 				width: 100%;
 				display: flex;
 				align-items: center;
-				
+
 				.jping-jd-box {
 					width: 280rpx;
 					height: 32rpx;
@@ -1829,19 +1892,19 @@
 					justify-content: flex-start;
 					align-items: center;
 					position: relative;
-					
+
 					image {
 						height: 32rpx;
 						border-radius: 100rpx;
 					}
-					
+
 					.box-progress {
 						color: rgb(255, 255, 255);
 						font-size: 20rpx;
 						position: absolute;
 						top: 50%;
 						left: 50%;
-						transform: translate(-50%,-50%);
+						transform: translate(-50%, -50%);
 						z-index: 9;
 					}
 				}
@@ -1861,11 +1924,11 @@
 		display: flex;
 		justify-content: center;
 		overflow: hidden;
-		
+
 		&:last-child {
 			margin-bottom: 0;
 		}
-		
+
 		.order-item-status {
 			width: 240rpx;
 			height: 50rpx;
@@ -1879,19 +1942,19 @@
 			top: 20rpx;
 			transform: rotate(45deg);
 		}
-		
+
 		.order-item-cover {
 			width: 206rpx;
 			height: 206rpx;
 			border-radius: 16rpx;
 			overflow: hidden;
 			position: relative;
-			
+
 			image {
 				width: 100%;
 				height: 100%;
 			}
-			
+
 			.designated {
 				width: 100%;
 				background: rgba(0, 0, 0, 0.4);
@@ -1909,7 +1972,7 @@
 				bottom: 0;
 			}
 		}
-		
+
 		.order-item-info {
 			flex: 1;
 			min-height: 206rpx;
@@ -1919,105 +1982,115 @@
 			flex-direction: column;
 			justify-content: space-between;
 			align-items: flex-start;
-			
+
 			.info-name {
 				width: 100%;
 				color: rgb(51, 51, 51);
 				font-size: 24rpx;
 				line-height: 36rpx;
 			}
-			
+
 			.info-bot {
 				width: 100%;
-				
+
 				.info-box {
 					margin-top: 16rpx;
 					display: flex;
 					justify-content: space-between;
 					align-items: center;
-					
+
 					.info-box-left {
-						
+
 						.left-price {
 							color: rgb(255, 57, 57);
 							font-size: 32rpx;
 							font-weight: bold;
-							
+
+							image {
+								width: 24rpx;
+								height: 24rpx;
+							}
+
 							span {
 								font-size: 20rpx;
 							}
 						}
-						
+
 						.left-original {
 							font-size: 16rpx;
 							color: rgb(153, 153, 153);
 							text-decoration: line-through;
 						}
 					}
-					
+
 					.info-box-right {
 						color: rgb(153, 153, 153);
 						font-size: 16rpx;
 					}
 				}
-				
+
 				.info-code {
 					width: 100%;
 					display: flex;
 					justify-content: space-between;
 					align-items: flex-end;
-					
+
 					.info-code-left {
 						color: rgb(255, 57, 57);
 						font-size: 32rpx;
 						font-weight: bold;
 						
+						image{
+							width: 24rpx;
+							height: 24rpx;
+						}
+
 						span {
 							font-size: 20rpx;
 						}
 					}
-					
+
 					.info-code-right {
-						
+
 						.right-title {
 							text-align: right;
 							color: rgb(153, 153, 153);
 							font-size: 20rpx;
 						}
-						
+
 						.right-number {
 							margin-top: 12rpx;
 							display: flex;
 							align-items: center;
-							
+
 							p {
 								margin-right: 8rpx;
 								color: rgb(102, 102, 102);
 								font-size: 20rpx;
 							}
-							
+
 							image {
 								width: 32rpx;
 							}
 						}
 					}
 				}
-				
+
 				.info-detail {
 					margin-top: 16rpx;
 					display: flex;
 					justify-content: space-between;
 					align-items: center;
-					
+
 					.info-detail-left {
 						display: flex;
 						align-items: center;
-						
+
 						image {
 							width: 32rpx;
 							border-radius: 50%;
 						}
-						
+
 						p {
 							margin-left: 8rpx;
 							color: rgb(51, 51, 51);
@@ -2025,7 +2098,7 @@
 							font-weight: bold;
 						}
 					}
-					
+
 					.info-detail-right {
 						color: rgb(153, 153, 153);
 						font-size: 16rpx;
@@ -2321,7 +2394,7 @@
 		border-radius: 20rpx;
 		padding: 32rpx 40rpx;
 		box-sizing: border-box;
-		
+
 		.cp-title {
 			width: 100%;
 			text-align: center;
@@ -2330,42 +2403,42 @@
 			padding-bottom: 20rpx;
 			box-sizing: border-box;
 		}
-		
+
 		.cp-option {
 			width: 100%;
 			margin-top: 44rpx;
-			
+
 			.cp-option-lab {
 				width: 100%;
 				display: flex;
 				justify-content: space-between;
 				align-items: center;
-				
+
 				.lab-left {
 					display: flex;
 					align-items: center;
-					
+
 					image {
 						width: 40rpx;
 					}
-					
+
 					p {
 						margin-left: 32rpx;
 						color: rgb(51, 51, 51);
 						font-size: 24rpx;
 					}
 				}
-				
+
 				.lab-right {
 					width: 40rpx;
 					height: 40rpx;
-					
+
 					image {
 						width: 100%;
 					}
 				}
 			}
-			
+
 			.cp-option-text {
 				width: 100%;
 				margin-top: 8rpx;
@@ -2373,7 +2446,7 @@
 				box-sizing: border-box;
 				color: rgb(102, 102, 102);
 				font-size: 24rpx;
-				
+
 				text {
 					font-size: 24rpx;
 					color: #FF3939;
@@ -2381,13 +2454,13 @@
 				}
 			}
 		}
-		
+
 		.cp-btns {
 			width: 100%;
 			display: flex;
 			justify-content: space-between;
 			margin-top: 48rpx;
-			
+
 			.cp-btns-cancel {
 				width: 256rpx;
 				height: 68rpx;
@@ -2399,7 +2472,7 @@
 				color: rgb(10, 198, 142);
 				font-size: 28rpx;
 			}
-			
+
 			.cp-btns-confirm {
 				width: 256rpx;
 				height: 68rpx;

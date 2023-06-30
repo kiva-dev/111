@@ -1,8 +1,66 @@
 <template>
 	<view class="register-page">
 
+		<view class="phone-logo">
+			<image src="/static/images/new-index/register.png"></image>
+		</view>
+
+		<block v-if="blockNum==1">
+			<view class="newpwd">
+				<view class="newpwd-info">
+					<view class="myinput">
+						<u--input :placeholder="$t('login.qsryzm')" border="none" type="text"
+							v-model="code"></u--input>
+					</view>
+				</view>
+				<view class="getcode" @click.stop="$noMultipleClicks(onLoginSendEmailCode)">{{codeTxt}}</view>
+
+				<view class="btn" v-if="Inv==1" @click="LoginVerifyCode()">{{$t('login.xyb')}}</view>
+				<view class="btn" v-else @click="LoginVerifyPhone()">{{$t('login.xyb')}}</view>
+			</view>
+		</block>
+
+		<block v-else-if="blockNum==2">
+			<view class="newpwd">
+				<view class="newpwd-info" style="margin-bottom: 20rpx;">
+					<view class="myinput" style="width: 590rpx;" v-show="!isPwdShow">
+						<u--input :placeholder="$t('login.qsrmm')" border="none" v-model="pwd" type="password" />
+					</view>
+					<image src="/static/images/new-index/hidepwd.png" v-show="!isPwdShow"
+						@click="isPwdShow = !isPwdShow">
+					</image>
+
+					<view class="myinput" style="width: 590rpx;" v-show="isPwdShow">
+						<u--input :placeholder="$t('login.qsrmm')" border="none" v-model="pwd" type="text" />
+					</view>
+					<image src="/static/images/new-index/showpwd.png" v-show="isPwdShow"
+						@click="isPwdShow = !isPwdShow">
+					</image>
+				</view>
+
+				<view class="newpwd-info">
+					<view class="myinput" style="width: 590rpx;" v-show="!isPwdOkShow">
+						<u--input :placeholder="$t('login.qsrqrmm')" border="none" v-model="pwd2" type="password" />
+					</view>
+					<image src="/static/images/new-index/hidepwd.png" v-show="!isPwdOkShow"
+						@click="isPwdOkShow=!isPwdOkShow"></image>
+
+					<view class="myinput" style="width: 590rpx;" v-show="isPwdOkShow">
+						<u--input :placeholder="$t('login.qsrqrmm')" border="none" v-model="pwd2" type="text" />
+					</view>
+					<image src="/static/images/new-index/showpwd.png" v-show="isPwdOkShow"
+						@click="isPwdOkShow=!isPwdOkShow"></image>
+				</view>
+
+				<view class="btn" @click="$noMultipleClicks(onLoginForgetPwdByEmail)">{{$t('new.updatePwd')}}</view>
+			</view>
+		</block>
+
+
+
 		<!--register-box start-->
 		<view class="register-box" v-show="Inv == 0">
+
 			<!--login-ul start-->
 			<view class="login-ul">
 				<view class="login-li">
@@ -46,18 +104,11 @@
 		</view>
 		<!--register-box end-->
 		<!--register-box start-->
-		<view class="register-box" v-show="Inv == 1">
+		<view class="register-box" v-show="Inv == 2">
 			<!--login-ul start-->
 			<view class="login-ul">
-				<!-- <view class="login-li">
-					<view class="label">{{$t('login.yxh')}}</view>
-					<view class="li-input">
-						<input class="input" placeholder-class="color-999" v-model="email"
-							:placeholder="$t('login.qsryx')" />
-					</view>
-				</view> -->
+
 				<view class="login-li">
-					<view class="label">{{$t('login.yzm')}}</view>
 					<view class="li-input">
 						<input class="input" placeholder-class="color-999" v-model="email_code"
 							:placeholder="$t('login.qsryzm')" />
@@ -66,6 +117,7 @@
 						@click.stop="$noMultipleClicks(onLoginSendEmailCode)">{{$t('login.fsyzm')}}</view>
 					<view class="ver-btn" v-else>{{codeTxt}}</view>
 				</view>
+
 				<view class="login-li">
 					<view class="label">{{$t('user.pwd.szzfmm')}}</view>
 					<view class="li-input">
@@ -98,6 +150,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 	export default {
 		data() {
 			return {
+				blockNum: 1,
 				noClick: true, // 防止重复点击 
 				Inv: 1,
 				email: '', // 邮箱号
@@ -112,6 +165,9 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				seconds: 60,
 				codeTxt1: this.$t('login.hqyzm'),
 				isShopCont: false, // 中文还是英文
+				isPwdShow: false,
+				isPwdOkShow: false,
+				showErrCode:false
 			}
 		},
 		onShow() {
@@ -127,14 +183,65 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				}
 				uni.setStorageSync('phoneCont', JSON.stringify(title))
 			}
-			if(uni.getStorageSync('token')){
-				this.$http.post(this.$apiObj.MineInfo).then(res=>{
-					this.email=res.data.email
+			if (uni.getStorageSync('token')) {
+				this.$http.post(this.$apiObj.MineInfo).then(res => {
+					if (res.data.email) {
+						this.email = res.data.email
+						this.Inv = 1
+					} else {
+						this.mobile = res.data.mobile
+						this.mobile_area_code = res.data.mobile_area_code
+						this.Inv = 0
+					}
+
 				})
 			}
-		
+
 		},
 		methods: {
+			//邮箱验证码验证
+			LoginVerifyCode() {
+				if (!this.code) {
+					uni.showToast({
+						title: this.$t('login.qsryzm'),
+						icon: 'none'
+					})
+					return
+				}
+				this.$http.post(this.$apiObj.LoginVerifyCode, {
+					email: this.email,
+					email_code: this.code
+				}).then(res => {
+					if (res.code == 1) {
+						this.blockNum = 2
+						this.showErrCode = false
+					} else {
+						this.showErrCode = true
+					}
+				})
+			},
+			//手机验证码验证
+			LoginVerifyPhone(){
+				if (!this.code) {
+					uni.showToast({
+						title: this.$t('login.qsryzm'),
+						icon: 'none'
+					})
+					return
+				}
+				this.$http.post(this.$apiObj.LoginVerifyPhone, {
+					mobile_area_code: this.mobile_area_code,
+					mobile: this.mobile,
+					code: this.code
+				}).then(res => {
+					if (res.code == 1) {
+						this.blockNum = 2
+						this.showErrCode = false
+					} else {
+						this.showErrCode = true
+					}
+				})
+			},
 			// 点击切换
 			changeTab(Inv) {
 				this.navIdx = Inv;
@@ -201,8 +308,14 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					title: this.$t('login.qsrmm'),
 					icon: 'none'
 				})
-				// if (!this.pwd2) return uni.showToast({ title: '请确认密码', icon: 'none' })
-				// if (this.pwd !== this.pwd2) return uni.showToast({ title: '2次密码不一致，请重新输入', icon: 'none' })
+				if (!this.pwd2) return uni.showToast({
+					title: '请确认密码',
+					icon: 'none'
+				})
+				if (this.pwd !== this.pwd2) return uni.showToast({
+					title: '2次密码不一致，请重新输入',
+					icon: 'none'
+				})
 				const pwd = jsencrypt.setEncrypt(publiukey, String(this.pwd))
 				this.$http.post(this.$apiObj.MineSetPaypwdByMobile, {
 					mobile: this.mobile, // 邮箱
@@ -258,8 +371,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			},
 			// 邮箱重置密码
 			onLoginForgetPwdByEmail() {
-				
-				if (!this.email_code) return uni.showToast({
+
+				if (!this.code) return uni.showToast({
 					title: this.$t('login.qsryzm'),
 					icon: 'none'
 				})
@@ -271,12 +384,18 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					title: this.$t('numshuzi'),
 					icon: 'none'
 				})
-				// if (!this.pwd2) return uni.showToast({ title: '请确认密码', icon: 'none' })
-				// if (this.pwd !== this.pwd2) return uni.showToast({ title: '2次密码不一致，请重新输入', icon: 'none' })
+				if (!this.pwd2) return uni.showToast({
+					title: '请确认密码',
+					icon: 'none'
+				})
+				if (this.pwd !== this.pwd2) return uni.showToast({
+					title: '2次密码不一致，请重新输入',
+					icon: 'none'
+				})
 				const pwd = jsencrypt.setEncrypt(publiukey, String(this.pwd))
 				this.$http.post(this.$apiObj.MineSetPaypwdByEmail, {
 					email: this.email, // 邮箱
-					email_code: this.email_code, // 邮箱验证码 
+					email_code: this.code, // 邮箱验证码 
 					pay_pwd: pwd, // 密码
 					// pwd2: pwd,// 再次输入的密码 
 				}).then(res => {
@@ -298,6 +417,201 @@ NoR+zv3KaEmPSHtooQIDAQAB
 </script>
 <style lang="less" scoped>
 	.register-page {
+
+		.newpwd {
+			margin-top: 60rpx;
+
+			.newpwd-info {
+				position: relative;
+				width: 686rpx;
+				height: 84rpx;
+
+				display: flex;
+				align-items: center;
+				background: rgb(245, 245, 245);
+				border-radius: 8rpx;
+				margin: 0 auto;
+
+				.myinput {
+					width: 460rpx;
+					font-size: 28rpx;
+					color: rgb(245, 245, 245);
+					margin-left: 20rpx;
+				}
+
+				image {
+					width: 36rpx;
+					height: 36rpx;
+				}
+
+			}
+
+			.getcode {
+				width: 718rpx;
+				font-size: 24rpx;
+				color: rgb(10, 198, 142);
+				text-align: right;
+				text-decoration: underline;
+				margin-top: 20rpx;
+			}
+			
+			.btn {
+				width: 686rpx;
+				height: 88rpx;
+				line-height: 88rpx;
+				font-size: 40rpx;
+				color: rgb(255, 255, 255);
+				text-align: center;
+				background: rgb(10, 198, 142);
+				border-radius: 88rpx;
+				margin: 48rpx auto 0 auto;
+			}
+
+		}
+
+		.register-email {
+			width: 100%;
+			margin-top: 32rpx;
+
+			.switch_email_phone {
+				font-size: 24rpx;
+				color: rgb(10, 198, 142);
+				margin: -20rpx 0 48rpx 32rpx;
+			}
+
+			.logo {
+				display: block;
+				width: 280rpx;
+				height: 280rpx;
+				margin: 0 auto;
+			}
+
+			.title {
+				width: 100%;
+				font-size: 28rpx;
+				color: rgb(51, 51, 51);
+				text-align: center;
+				margin-top: 22rpx;
+			}
+
+			.register-input {
+				position: relative;
+				width: 686rpx;
+				height: 84rpx;
+				display: flex;
+				align-items: center;
+				background: rgb(245, 245, 245);
+				border-radius: 8rpx;
+				margin: 60rpx auto 48rpx auto;
+
+				.input {
+					width: 500rpx;
+				}
+
+				span {
+					width: 100rpx;
+					text-align: center;
+				}
+
+				view {
+					position: absolute;
+					right: 20rpx;
+					font-size: 24rpx;
+					color: rgb(153, 153, 153);
+				}
+
+			}
+
+			.register-btn {
+				width: 686rpx;
+				height: 88rpx;
+				line-height: 88rpx;
+				font-size: 40rpx;
+				color: rgb(255, 255, 255);
+				text-align: center;
+				background: rgba(10, 198, 142, 1);
+				border-radius: 88rpx;
+				margin: 0 auto 40rpx auto;
+			}
+
+			.code-info {
+				width: 686rpx;
+				font-size: 24rpx;
+				color: rgb(153, 153, 153);
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				margin: 0 auto 48rpx auto;
+
+				span {
+					font-weight: bold;
+					color: rgb(10, 198, 142);
+					margin-left: 8rpx;
+				}
+
+				.code-info-err {
+					color: rgb(255, 57, 57);
+				}
+			}
+
+			.email-input {
+				width: 686rpx;
+				height: 88rpx;
+				display: flex;
+				align-items: center;
+				background: rgb(241, 241, 241);
+				border-radius: 16rpx;
+				margin: 0 auto 32rpx auto;
+
+				.logo {
+					width: 48rpx;
+					height: 48rpx;
+					margin: 0 32rpx;
+				}
+
+				.email-input-info {
+					width: 500rpx;
+				}
+
+				.pwd {
+					display: block;
+					width: 36rpx;
+					height: 36rpx;
+					margin-left: 10rpx;
+				}
+			}
+
+			.pwd-err {
+				width: 686rpx;
+				font-size: 24rpx;
+				color: rgb(255, 57, 57);
+				margin: 0 auto 48rpx auto;
+			}
+
+		}
+
+
+		.phone-logo {
+			width: 100%;
+			text-align: center;
+			margin-top: 32rpx;
+
+			image {
+				width: 280rpx;
+				height: 280rpx;
+			}
+
+			view {
+				width: 100%;
+				font-size: 28rpx;
+				color: rgb(51, 51, 51);
+				text-align: center;
+				margin-top: 22rpx;
+			}
+
+		}
+
+
 		.register-tab {
 			display: flex;
 			justify-content: space-around;

@@ -69,9 +69,9 @@
                 "androidStyle" : "default",
                 "iosStyle" : "common",
                 "android" : {
-                    "hdpi" : "unpackage/res/480x762.png",
-                    "xhdpi" : "unpackage/res/720x1242.png",
-                    "xxhdpi" : "unpackage/res/1080x1920.png"
+                    "hdpi" : "unpackage/res/index.png",
+                    "xhdpi" : "unpackage/res/index.png",
+                    "xxhdpi" : "unpackage/res/index.png"
                 },
                 "useOriginalMsgbox" : false
             },

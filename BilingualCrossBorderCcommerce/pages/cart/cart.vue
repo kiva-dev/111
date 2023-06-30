@@ -15,22 +15,22 @@
 
 			<view class="head_info">
 				<image src="../../static/images/new-index/wxz.png" class="head_logo" v-show="!item.select"
-					@click="switchSelect(1,item)"></image>
+					@click.stop="switchSelect(1,item)"></image>
 				<image src="../../static/images/new-index/xz.png" class="head_logo" v-show="item.select"
-					@click="switchSelect(1,item)"></image>
+					@click.stop="switchSelect(1,item)"></image>
 				<view class="head_txt">{{item.shop_name}}</view>
 				<image src="../../static/images/products/right.png" class="head_more"></image>
 			</view>
 
 			<block v-for="(data,i) in item.goods" :key="data.id">
 				<scroll-view scroll-x style="width: 750rpx;">
-					<view class="item">
+					<view class="item" @click.stop="toProductInfo(data.goods_id)">
 						<view class="item-info">
 							<view class="detail">
 								<image src="/static/images/new-index/wxz.png" class="logo" v-show="!data.select"
-									@click="switchSelect(2,data)"></image>
+									@click.stop="switchSelect(2,data)"></image>
 								<image src="../../static/images/new-index/xz.png" class="logo" v-show="data.select"
-									@click="switchSelect(2,data)">
+									@click.stop="switchSelect(2,data)">
 								</image>
 								<image :src="data.spec_image" class="img"></image>
 								<view class="info">
@@ -47,14 +47,14 @@
 							<view class="price-info">
 								<view class="price">RM<span>{{data.goods_price}}</span></view>
 								<view class="btn">
-									<view class="jian" @click="changNum('jian',data)">
+									<view class="jian" @click.stop="changNum('jian',data)">
 										<image src="../../static/images/new-index/jian1.png" v-if="data.num==1"></image>
 										<image src="/static/images/new-index/jian.png" v-else></image>
 									</view>
 									<view class="myinput">
 										<input type="number" v-model="data.num" @confirm="inspectNum(data)" />
 									</view>
-									<view class="jia" @click="changNum('jia',data)">
+									<view class="jia" @click.stop="changNum('jia',data)">
 										<image src="../../static/images/new-index/jia.png"></image>
 									</view>
 								</view>
@@ -66,7 +66,7 @@
 								<image src="../../static/images/new-index/sc.png"></image>
 							</view> -->
 							<view class="item-other-info" style="background: rgb(135, 138, 155);"
-								@click="switchDelete(1,data.id)">
+								@click.stop="switchDelete(1,data.id)">
 								<image src="../../static/images/new-index/del.png"></image>
 							</view>
 						</view>
@@ -195,6 +195,11 @@
 
 		},
 		methods: {
+			toProductInfo(id) {
+				uni.navigateTo({
+					url: '/pages/auction/product_info?goodsId=' + id
+				})
+			},
 			//为你推荐
 			getHotList() {
 				this.$http.post(this.$apiObj.GetHotList, {

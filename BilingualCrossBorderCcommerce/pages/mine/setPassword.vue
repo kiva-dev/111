@@ -1,15 +1,20 @@
 <template>
 	<view class="phone-page">
+		
+		<view class="phone-logo">
+			<image src="/static/images/new-index/register.png"></image>
+		</view>
+		
 		<view class="phone-box">
 			<view class="li">
-				<view class="li-left">{{$t('user.pwd.szzfmm')}}</view>
+				<!-- <view class="li-left">{{$t('user.pwd.szzfmm')}}</view> -->
 				<view class="li-right">
 					<input class="input" maxlength="6" type="password" placeholder-class="color-999"
 						v-model.number="pwd" :placeholder="$t('user.pwd.qsrzfmm')" />
 				</view>
 			</view>
 			<view class="li">
-				<view class="li-left">{{$t('user.pwd.qrzfmm')}}</view>
+				<!-- <view class="li-left">{{$t('user.pwd.qrzfmm')}}</view> -->
 				<view class="li-right">
 					<input class="input" maxlength="6" type="password" placeholder-class="color-999"
 						v-model.number="pwd2" :placeholder="$t('user.pwd.qzcqrzfmm')" />
@@ -79,20 +84,45 @@ NoR+zv3KaEmPSHtooQIDAQAB
 </script>
 <style lang="less" scoped>
 	page {
-		background: #f9f9f9;
+		background: rgb(255, 255, 255);
 	}
 
 	.phone-page {
+		
+		.phone-logo {
+			width: 100%;
+			text-align: center;
+			margin-top: 32rpx;
+			margin-bottom: 20rpx;
+		
+			image {
+				width: 280rpx;
+				height: 280rpx;
+			}
+		
+			view {
+				width: 100%;
+				font-size: 28rpx;
+				color: rgb(51, 51, 51);
+				text-align: center;
+				margin-top: 22rpx;
+			}
+		
+		}
+		
 		.phone-box {
-			background: #fff;
+			// background: #fff;
 			padding: 0 30rpx;
 
 			.li {
-				padding: 30rpx 0;
-				border-bottom: 1px solid #f5f5f5;
+				width: 686rpx;
+				height: 84rpx;
 				display: flex;
 				align-items: center;
+				background: rgb(245, 245, 245);
 				position: relative;
+				border-radius: 8rpx;
+				margin-bottom: 20rpx;
 
 				.ver-btn {
 					position: absolute;
@@ -106,12 +136,12 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				}
 
 				.li-right {
-					flex: 1;
+					margin-left: 20rpx;
 				}
 
 				.input {
 					height: 50rpx;
-					width: 100%;
+					width: 600rpx;
 					font-size: 26rpx;
 				}
 

@@ -37,8 +37,9 @@
 		</template>
 		<view class="comment-botm">
 			<view class="comment-botm-inpit">
-				<u--input placeholder="我想说" border="surround" v-model="comment" @confirm="sendComment()"></u--input>
+				<u--input :placeholder="$t('new.wxs')" border="surround" maxlength="100" v-model="comment" @confirm="sendComment()"></u--input>
 			</view>
+			<view class="comment-num">{{comment.length}}/100</view>
 		</view>
 
 		<u-popup :show="showComment" mode="bottom" bgColor="transparent">
@@ -69,9 +70,10 @@
 				</view>
 				<view class="showComment-btn">
 					<view class="comment-botm-inpit">
-						<u--input placeholder="我想说" border="surround" v-model="comment1"
+						<u--input :placeholder="$t('new.wxs')" border="surround" v-model="comment1"
 							@confirm="sendCommentTwoInfo()"></u--input>
 					</view>
+					<view class="comment-num">{{comment1.length}}/100</view>
 				</view>
 			</view>
 		</u-popup>
@@ -146,6 +148,10 @@
 					comment: this.comment
 				}).then(res => {
 					if (res.code == 1) {
+						uni.showToast({
+							title: this.$t('new.fsplcg'),
+							icon:"none"
+						})
 						this.getCommentList()
 						this.comment = ''
 					}
@@ -159,6 +165,10 @@
 					user_comment_id: this.selectId
 				}).then(res => {
 					if (res.code == 1) {
+						uni.showToast({
+							title: this.$t('new.fsplcg'),
+							icon:"none"
+						})
 						this.getSelectComment(this.selectId)
 						this.comment1 = ''
 					}
@@ -284,8 +294,16 @@
 			box-shadow: 0px -4rpx 14rpx rgba(255, 198, 188, 0.3);
 
 			.comment-botm-inpit {
-				width: 690rpx;
+				width: 600rpx;
+				display: flex;
+				align-items: center;
 				margin: 0 auto;
+			}
+			
+			.comment-num{
+				width: 100rpx;
+				font-size: 24rpx;
+				text-align: center;
 			}
 		}
 
@@ -380,8 +398,14 @@
 				box-shadow: 0px -4rpx 14rpx rgba(255, 198, 188, 0.3);
 
 				.comment-botm-inpit {
-					width: 690rpx;
+					width: 600rpx;
 					margin: 0 auto;
+				}
+				
+				.comment-num{
+					width: 100rpx;
+					font-size: 24rpx;
+					text-align: center;
 				}
 			}
 		}
