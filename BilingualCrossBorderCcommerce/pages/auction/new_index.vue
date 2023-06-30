@@ -4,7 +4,7 @@
 			<view class="auct-head-top">
 				<image src="/static/images/new-index/logo.png" class="logo"></image>
 
-				<view v-show="isShopCont">LET EVERYONE HAVE THE PRODUCTS THEY WANT!</view>
+				<view v-show="isShopCont">Here you hava everything you want!</view>
 				<view v-show="!isShopCont">让每个人都拥有他们想要的产品！</view>
 
 				<image src="../../static/images/auction/zw.png" class="lange" v-show="!isShopCont"

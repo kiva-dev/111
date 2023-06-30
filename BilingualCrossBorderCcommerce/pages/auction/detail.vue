@@ -206,7 +206,7 @@
 				</view>
 				<view class="gl-content">
 					<u-grid :border="false" @click="click">
-						<u-grid-item v-for="item in youLikeList" :key="item.goods_id"
+						<u-grid-item v-for="item in youLikeList.slice(0,6)" :key="item.goods_id"
 							@click="toYouLikeOrHot(item.auction_goods_id)">
 							<view class="gl-content-item">
 								<view class="item-cover">
@@ -233,7 +233,7 @@
 				</view>
 				<view class="gl-content">
 					<u-grid :border="false" @click="click">
-						<u-grid-item v-for="item in hotList" :key="item.auction_goods_id"
+						<u-grid-item v-for="item in hotList.slice(0,6)" :key="item.auction_goods_id"
 							@click="toYouLikeOrHot(item.auction_goods_id)">
 							<view class="gl-content-item">
 								<view class="item-cover">
