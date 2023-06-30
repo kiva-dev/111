@@ -18,7 +18,7 @@
 			<view class="ap-switch-line" :style="{left: shifting}"></view>
 		</view>
 		<!--我的竞拍-竞拍中 auct-box start-->
-		<view class="auct-box" v-if="type==1">
+		<view class="auct-box" v-if="type == 1">
 			<template v-if="jingpaiList && jingpaiList.length > 0">
 				<view class="jping" v-for="(item,i) in jingpaiList" :key="i" @click="toDetail(item.order_no)">
 					<view class="jping-left">
@@ -27,17 +27,28 @@
 					<view class="jping-right">
 						<view class="jping-name">{{item.goods_name}}</view>
 						<view class="jping-icon">
-							<view class="li-icon">
-								<image src="@/static/images/new-index/kzx.png" mode="widthFix"></image>
+							<view class="li-icon" v-for="tag in item.tags" :key="tag.tag_id">
+								<image :src="tag.image" mode="widthFix"></image>
 							</view>
-							<view class="li-icon">
-								<image src="@/static/images/new-index/xpss.png" mode="widthFix"></image>
+						</view>
+						<view class="jping-num">
+							<view class="jping-num-box">
+								<image src="@/static/images/new-index/detail_icon_collect.png" mode="widthFix"></image>
+								<p>{{item.litestore_goods_focus_total}}</p>
 							</view>
-							<view class="li-icon">
-								<image src="@/static/images/new-index/tjsp.png" mode="widthFix"></image>
+							<view class="jping-num-box">
+								<image src="@/static/images/new-index/detail_icon_clap.png" mode="widthFix"></image>
+								<p>{{item.auction_goods_total}}</p>
 							</view>
-							<view class="li-icon">
-								<image src="@/static/images/new-index/rmsp.png" mode="widthFix"></image>
+							<view class="jping-num-box">
+								<image src="@/static/images/new-index/pl.png" mode="widthFix"></image>
+								<p>{{item.litestore_goods_comment_total}}</p>
+							</view>
+						</view>
+						<view class="jping-jd">
+							<view class="jping-jd-box">
+								<image :style="{'width': item.finish_rate*100 + '%'}" src="@/static/images/new-index/select-jd.png" mode="aspectFill"></image>
+								<view class="box-progress">{{(item.finish_rate*100).toFixed(0)}}%</view>
 							</view>
 						</view>
 						<view class="jping-price">
@@ -50,13 +61,6 @@
 								<p>{{$t('auction.qiangpai')}}</p>
 							</view>
 						</view>
-						<view class="jping-jd">
-							<view class="jping-jd-data">
-								<progress class="progress" :percent="item.finish_rate*100" stroke-width="5"
-									activeColor="rgb(10, 198, 142)" backgroundColor="#EBEBEB" />
-							</view>
-							<view class="jping-jd-bfb">{{(item.finish_rate*100).toFixed(0)}}%</view>
-						</view>
 					</view>
 				</view>
 			</template>
@@ -67,11 +71,13 @@
 		<!--我的竞拍-竞拍中 auct-box end-->
 
 		<!--我的竞拍-竞拍订单 auct-box start-->
-		<view class="auct-box" v-if="type==5">
+		<view class="auct-box" v-if="type == 5">
 			<template v-if="jingpaiorderList && jingpaiorderList.length">
 				<view class="order-item" v-for="item in jingpaiorderList" :key="item.id"
 					@click="toDetail(item.order_no)">
-					<view class="order-item-status">{{$t('user.auctionM.going')}}</view>
+					<view class="order-item-status" style="background: #FF3939;" v-if="item.win_status === 0">{{$t('user.auctionM.going')}}</view>
+					<view class="order-item-status" style="background: #1DD181;" v-if="item.win_status === 2">{{$t('user.auctionM.captured')}}</view>
+					<view class="order-item-status" style="background: #CCCCCC;" v-if="item.win_status === 1">{{$t('user.auctionM.miss')}}</view>
 					<view class="order-item-cover">
 						<image :src="item.image" mode="aspectFill"></image>
 						<view class="designated">{{item.stage_num}}{{$t('auction.qi')}}</view>
@@ -81,14 +87,17 @@
 						<view class="info-bot">
 							<view class="info-box">
 								<view class="info-box-left">
-									<p class="left-price"><span>RM</span>4566</p>
-									<p class="left-original">RM{{item.pay_price}}</p>
+									<p class="left-price"><span>RM</span>{{item.auction_price}}</p>
+									<p class="left-original">RM{{item.auction_price_total}}</p>
 								</view>
 								<view class="info-box-right">x{{item.total_num}}</view>
 							</view>
 							<view class="info-detail">
-								<view class="info-detail-left">{{item.shop_name}}</view>
-								<view class="info-detail-right">2023-02-15 18:25:50</view>
+								<view class="info-detail-left">
+									<image :src="item.shop_logo" mode="widthFix"></image>
+									<p>{{item.shop_name}}</p>
+								</view>
+								<view class="info-detail-right">{{onConversionTime(item.addtime) || ''}}</view>
 							</view>
 						</view>
 					</view>
@@ -101,8 +110,8 @@
 		<!--我的竞拍-竞拍订单 auct-box end-->
 
 		<!--我的竞拍-中拍记录 auct-box start-->
-		<view class="auct-box" v-if="type==3">
-			<block v-if="navId==1">
+		<view class="auct-box" v-if="type == 3">
+			<block v-if="navId == 1">
 				<template v-if="LuckyList && LuckyList.length">
 					<image class="luck-zpjl-banner" v-if="!isShopCont" src="../../static/images/auction/gxzj.png"></image>
 					<image class="luck-zpjl-banner" v-else src="../../static/images/new/xyzx1.png"></image>
@@ -112,20 +121,44 @@
 						</view>
 						<view class="item-info">
 							<view class="item-info-top">
-								<p class="top-name">{{item.goods_name}}</p>
-								<p class="top-status"></p>
+								<view class="top-title">
+									<view class="top-name">{{item.goods_name}}</view>
+									<view class="top-status">
+										<text v-if="item.status === 2" style="color: #1DD181;">{{$t('user.auctionM.shipped')}}</text>
+										<text v-if="item.status === 3" style="color: #1DD181;">{{$t('user.auctionM.receive')}}</text>
+										<text v-if="item.status === 4" style="color: #1DD181;">{{$t('user.auctionM.beConfirmed')}}</text>
+										<text v-if="item.status === 5" style="color: #999999;">{{$t('user.auctionM.confirmed')}}</text>
+										<text v-if="item.status === 6" style="color: #999999;">{{item.select_way == 1 ? $t('user.auctionM.cash') : $t('user.auctionM.confirmed')}}</text>
+									</view>
+								</view>
+								<view class="top-bidding">
+									<p>{{$t('user.auctionM.bidding')}}: RM{{item.auction_price}}</p>
+								</view>
 							</view>
 							<view class="item-info-bot">
-								<view class="bot-bidding">
-									<p>{{$t('user.auctionM.bidding')}}: RM{{item.auction_price}}</p>
-									<p v-if="false">x5</p>
+								<view class="bot-code">
+									<view class="bot-code-title">{{$t('user.auctionM.lucky')}}</view>
+									<view class="bot-code-number">
+										<p>{{item.num_id || ''}}</p>
+										<image @click.stop="onCopyText(item.num_id)" src="@/static/images/mine/mine_btn_copy.png" mode="widthFix"></image>
+									</view>
 								</view>
 								<view class="bot-disbursements">
 									<view class="bot-disbursements-l">
 										<p class="l-title">{{$t('user.auctionM.shifukuang')}}:</p>
 										<p class="l-price"><text>RM</text>{{item.auction_price}}</p>
 									</view>
-									<view class="bot-disbursements-r" @click.stop="onlingjiangClick(item)">{{$t('zhongpai.lingjiangjiang')}}</view>
+									<view class="bot-disbursements-r">
+										<template v-if="item.status === 0">
+											<view class="r-button-green" @click.stop="onlingjiangClick(item)">{{$t('zhongpai.lingjiangjiang')}}</view>
+										</template>
+										<template v-if="item.status === 3">
+											<view class="r-button-green" @click.stop="onConfirmReceipt(item)">{{$t('user.order.receipt')}}</view>
+										</template>
+										<template v-if="item.status === 6">
+											<view class="r-button-gray" @click.stop="toDetail(item.order_no)">{{$t('user.auctionM.award')}}</view>
+										</template>
+									</view>
 								</view>
 							</view>
 						</view>
@@ -193,7 +226,7 @@
 		<!--我的竞拍-中拍记录 auct-box end-->
 
 		<!--我的竞拍-历史竞拍 auct-box start-->
-		<view class="auct-box" v-if="type==2">
+		<view class="auct-box" v-if="type == 2">
 			<template v-if="jingpaiList && jingpaiList.length">
 				<navigator :url="`/pages/auction/detail?id=${item.auction_goods_id}`" open-type="navigate"
 					hover-class="none" class="new-li" v-for="item,k in jingpaiList" :key="k">
@@ -229,12 +262,14 @@
 		</view>
 		<!--我的竞拍-历史竞拍 end-->
 
-		<!--我的竞拍记录 auct-box start-->
-		<view class="auct-box" v-if="type==4">
+		<!--我的竞拍-竞拍记录 auct-box start-->
+		<view class="auct-box" v-if="type == 4">
 			<template v-if="recordList && recordList.length">
 				<view class="order-item" v-for="item in recordList" :key="item.id"
 					@click="toDetail(item.order_no)">
-					<view class="order-item-status">ongoing</view>
+					<view class="order-item-status" style="background: #FF3939;" v-if="item.win === '0'">{{$t('user.auctionM.going')}}</view>
+					<view class="order-item-status" style="background: #1DD181;" v-if="item.win === '2'">{{$t('user.auctionM.captured')}}</view>
+					<view class="order-item-status" style="background: #CCCCCC;" v-if="item.win === '1'">{{$t('user.auctionM.miss')}}</view>
 					<view class="order-item-cover">
 						<image :src="item.image" mode="aspectFill"></image>
 						<view class="designated">{{item.stage_num}}{{$t('auction.qi')}}</view>
@@ -242,14 +277,26 @@
 					<view class="order-item-info">
 						<view class="info-name">{{item.goods_name}}</view>
 						<view class="info-bot">
-							<view class="info-box">
+							<!-- <view class="info-box">
 								<view class="info-box-left">
 									<p class="left-price"><span>RM</span>{{item.pay_price}}</p>
-									<p class="left-original">RM{{item.price}}</p>
+								</view>
+							</view> -->
+							<view class="info-code">
+								<view class="info-code-left"><span>RM</span>{{item.pay_price}}</view>
+								<view class="info-code-right">
+									<view class="right-title">{{$t('user.auctionM.code')}}</view>
+									<view class="right-number">
+										<p>{{item.num_id}}</p>
+										<image @click.stop="onCopyText(item.num_id)" src="@/static/images/mine/mine_btn_copy.png" mode="widthFix"></image>
+									</view>
 								</view>
 							</view>
 							<view class="info-detail">
-								<view class="info-detail-left">{{item.shop_name}}</view>
+								<view class="info-detail-left">
+									<image :src="item.shop_logo" mode="widthFix"></image>
+									<p>{{item.shop_name}}</p>
+								</view>
 								<view class="info-detail-right">{{$filter.to_date_time(item.pay_time)}}</view>
 							</view>
 						</view>
@@ -260,16 +307,41 @@
 				<uni-empty message="暂无内容"></uni-empty>
 			</template>
 		</view>
-		<!--我的竞拍-中拍记录 auct-box end-->
+		<!--我的竞拍-竞拍记录 auct-box end-->
 
 		<!--点击领奖弹框显示 start-->
 		<uni-popup ref="lingjiangPopup" type="center">
-			<view class="lingjiangCont">
-				<view class="list" @click="onZhexianClick">
-					<image src="../../static/images/new/zhexian.png" mode="scaleToFill" />{{$t('zhongpai.zhexia')}}
+			<view class="claim-popup">
+				<view class="cp-title">{{$t('user.auctionM.claimTit')}}</view>
+				<view class="cp-option">
+					<view class="cp-option-lab">
+						<view class="lab-left">
+							<image src="@/static/images/auction/cash.png" mode="widthFix"></image>
+							<p>{{$t('user.auctionM.claimCash')}}</p>
+						</view>
+						<view class="lab-right" @click="chooseDraw = 1">
+							<image v-if="chooseDraw === 1" src="@/static/images/auction/choose.png" mode="widthFix"></image>
+							<image v-else src="@/static/images/auction/unchoose.png" mode="widthFix"></image>
+						</view>
+					</view>
+					<view class="cp-option-text">({{$t('user.auctionM.claimTxt1')}} <text>RM{{user_money || 0}}</text>)</view>
 				</view>
-				<view class="list" @click="onLingjiang">
-					<image src="../../static/images/new/jp.png" mode="scaleToFill" />{{$t('zhongpai.lnighuo')}}
+				<view class="cp-option">
+					<view class="cp-option-lab">
+						<view class="lab-left">
+							<image src="@/static/images/auction/claim.png" mode="widthFix"></image>
+							<p>{{$t('user.auctionM.claimAward')}}</p>
+						</view>
+						<view class="lab-right" @click="chooseDraw = 2">
+							<image v-if="chooseDraw === 2" src="@/static/images/auction/choose.png" mode="widthFix"></image>
+							<image v-else src="@/static/images/auction/unchoose.png" mode="widthFix"></image>
+						</view>
+					</view>
+					<view class="cp-option-text">({{$t('user.auctionM.claimTxt2')}})</view>
+				</view>
+				<view class="cp-btns">
+					<view class="cp-btns-cancel" @click="$refs.lingjiangPopup.close()">{{$t('user.auctionM.btnCancel')}}</view>
+					<view class="cp-btns-confirm" @click="onConfirmedDraw">{{$t('user.auctionM.btnConfirm')}}</view>
 				</view>
 			</view>
 		</uni-popup>
@@ -347,11 +419,9 @@
 </template>
 
 <script>
-	import Headers from '@/components/navHeaders'
+	import tool from "@/utils/tool.js"
+	
 	export default {
-		components: {
-			Headers
-		},
 		data() {
 			return {
 				midshotId: 0,
@@ -373,7 +443,8 @@
 				user_money: '', // 折现金额
 				shopCont: '', // 商品详情
 				qrUrl: "",
-				shifting: '8%'
+				shifting: '8%',
+				chooseDraw: 1,
 			}
 		},
 		onLoad(e) {
@@ -411,6 +482,30 @@
 			}
 		},
 		methods: {
+			onCopyText(text) {
+				uni.setClipboardData({
+					data: text
+				});
+			},
+			onConversionTime(time) {
+				return tool.timestampToTime(time);
+			},
+			onConfirmReceipt() {
+				this.$http.post(this.$apiObj.AuctionorderConfirmOrder, {
+					record_id: this.order_no
+				}).then(res => {
+					if (res.code == 1) {
+						uni.showToast({
+							title: this.$t('user.order.shcg'),
+							icon: 'none'
+						})
+						this.page = 1
+						this.orderList = []
+						this.onAuctionorderWinOrder()
+						this.$refs.shopPopup.close()
+					}
+				})
+			},
 			toMidShot(id) {
 				this.shareShow = false
 				uni.navigateTo({
@@ -592,7 +687,6 @@
 					pagenum: this.pagenum,
 					type: this.type
 				}).then(res => {
-					console.log(res);
 					if (res.code == 1) {
 						if (this.isShopCont) {
 							res.data.data.map(item => {
@@ -679,6 +773,7 @@
 					page: this.page,
 					pagenum: this.pagenum
 				}).then(res => {
+					console.log(res);
 					if (res.code == 1) {
 						this.no_select = res.data.no_select
 						res.data.list.data.map(item => {
@@ -776,6 +871,13 @@
 				this.user_money = item.user_money
 				this.shopCont = item
 				this.$refs.lingjiangPopup.open()
+			},
+			onConfirmedDraw() {
+				if (this.chooseDraw === 1) {
+					this.onZhexianClick();
+				} else {
+					this.onLingjiang();
+				}
 			},
 			// 点击折现
 			onZhexianClick() {
@@ -1396,24 +1498,34 @@
 					align-items: flex-start;
 					
 					.item-info-top {
-						display: flex;
-						justify-content: space-between;
-						
-						.top-name {
-							width: 340rpx;
-							color: rgb(51, 51, 51);
-							font-size: 24rpx;
-						}
-						
-						.top-status {
-							
-						}
-					}
-					
-					.item-info-bot {
 						width: 100%;
 						
-						.bot-bidding {
+						.top-title {
+							width: 100%;
+							display: flex;
+							justify-content: space-between;
+							align-items: center;
+							
+							.top-name {
+								max-width: 300rpx;
+								color: rgb(51, 51, 51);
+								font-size: 24rpx;
+								overflow: hidden;
+								white-space: nowrap;
+								text-overflow: ellipsis;
+							}
+							
+							.top-status {
+								margin-left: 14rpx;
+								text-align: right;
+								
+								text {
+									font-size: 20rpx;
+								}
+							}
+						}
+						
+						.top-bidding {
 							width: 100%;
 							display: flex;
 							justify-content: space-between;
@@ -1423,10 +1535,39 @@
 								font-size: 16rpx;
 							}
 						}
+					}
+					
+					.item-info-bot {
+						width: 100%;
+						
+						.bot-code {
+							width: 100%;
+							
+							.bot-code-title {
+								text-align: right;
+								color: rgb(153, 153, 153);
+								font-size: 20rpx;
+							}
+							
+							.bot-code-number {
+								display: flex;
+								justify-content: flex-end;
+								
+								p {
+									margin-right: 8rpx;
+									color: rgb(102, 102, 102);
+									font-size: 20rpx;
+								}
+								
+								image {
+									width: 32rpx;
+								}
+							}
+						}
 						
 						.bot-disbursements {
 							width: 100%;
-							margin-top: 16rpx;
+							margin-top: 8rpx;
 							display: flex;
 							justify-content: space-between;
 							align-items: center;
@@ -1451,12 +1592,29 @@
 							}
 							
 							.bot-disbursements-r {
-								padding: 12rpx 22rpx;
-								box-sizing: border-box;
-								background: rgb(10, 198, 142);
-								border-radius: 100rpx;
-								color: rgb(255, 255, 255);
-								font-size: 20rpx;
+								display: flex;
+								justify-content: flex-end;
+								align-items: center;
+								
+								.r-button-green {
+									margin-right: 20rpx;
+									padding: 12rpx 22rpx;
+									box-sizing: border-box;
+									background: rgb(10, 198, 142);
+									border-radius: 100rpx;
+									color: rgb(255, 255, 255);
+									font-size: 20rpx;
+								}
+								
+								.r-button-gray {
+									margin-right: 20rpx;
+									padding: 12rpx 22rpx;
+									box-sizing: border-box;
+									border: 1rpx solid #999999;
+									border-radius: 100rpx;
+									color: #999999;
+									font-size: 20rpx;
+								}
 							}
 						}
 					}
@@ -1509,6 +1667,7 @@
 
 		.jping-right {
 			width: calc(100% - 272rpx);
+			height: 272rpx;
 			padding: 20rpx 24rpx;
 			box-sizing: border-box;
 			display: flex;
@@ -1523,50 +1682,49 @@
 				white-space: nowrap;
 				text-overflow: ellipsis;
 			}
-
-			.jping-tags {
-				width: 100%;
-				display: flex;
-				flex-wrap: wrap;
-				align-items: center;
-				margin-top: 16rpx;
-
-				view {
-					height: 34rpx;
-					line-height: 34rpx;
-					font-size: 16rpx;
-					text-align: center;
-					border-radius: 10rpx;
-					margin-bottom: 6rpx;
-					margin-right: 10rpx;
-				}
-
-				.lan {
-					background: rgba(138, 212, 251, 0.5);
-					color: rgb(0, 169, 255);
-				}
-
-				.chen {
-					background: rgba(255, 221, 175, 0.5);
-					color: rgb(255, 78, 47);
-				}
-
-				.red {
-					background: rgba(255, 175, 175, 0.5);
-					color: rgb(255, 0, 0);
-				}
-			}
 			
 			.jping-icon {
 				display: flex;
+				align-items: center;
 				
 				.li-icon {
 					width: 30rpx;
 					height: 30rpx;
 					margin-right: 16rpx;
+					display: flex;
 					
 					image {
 						width: 100%;
+					}
+				}
+			}
+			
+			.jping-num {
+				width: 100%;
+				display: flex;
+				align-items: center;
+				
+				.jping-num-box {
+					margin-right: 16rpx;
+					padding-right: 16rpx;
+					box-sizing: border-box;
+					display: flex;
+					align-items: center;
+					border-right: 1rpx solid #CCCCCC;
+					
+					&:last-child {
+						border-right: none;
+					}
+					
+					image {
+						width: 25rpx;
+						height: 25rpx;
+					}
+					
+					p {
+						margin-left: 8rpx;
+						color: rgb(102, 102, 102);
+						font-size: 16rpx;
 					}
 				}
 			}
@@ -1576,7 +1734,6 @@
 				display: flex;
 				align-items: center;
 				justify-content: space-between;
-				margin-top: 20rpx;
 
 				.jping-price-left {
 
@@ -1625,15 +1782,35 @@
 
 			.jping-jd {
 				width: 100%;
-				font-size: 24rpx;
-				color: rgb(10, 198, 142);
 				display: flex;
 				align-items: center;
-				justify-content: space-between;
-				margin-top: 10rpx;
-
-				.jping-jd-data {
-					width: 300rpx;
+				
+				.jping-jd-box {
+					width: 280rpx;
+					height: 32rpx;
+					box-sizing: border-box;
+					background: rgba(255, 0, 0, 0.1);
+					border: 1rpx solid rgb(255, 197, 182);
+					border-radius: 100rpx;
+					display: flex;
+					justify-content: flex-start;
+					align-items: center;
+					position: relative;
+					
+					image {
+						height: 32rpx;
+						border-radius: 100rpx;
+					}
+					
+					.box-progress {
+						color: rgb(255, 255, 255);
+						font-size: 20rpx;
+						position: absolute;
+						top: 50%;
+						left: 50%;
+						transform: translate(-50%,-50%);
+						z-index: 9;
+					}
 				}
 			}
 		}
@@ -1751,6 +1928,48 @@
 					}
 				}
 				
+				.info-code {
+					width: 100%;
+					display: flex;
+					justify-content: space-between;
+					align-items: flex-end;
+					
+					.info-code-left {
+						color: rgb(255, 57, 57);
+						font-size: 32rpx;
+						font-weight: bold;
+						
+						span {
+							font-size: 20rpx;
+						}
+					}
+					
+					.info-code-right {
+						
+						.right-title {
+							text-align: right;
+							color: rgb(153, 153, 153);
+							font-size: 20rpx;
+						}
+						
+						.right-number {
+							margin-top: 12rpx;
+							display: flex;
+							align-items: center;
+							
+							p {
+								margin-right: 8rpx;
+								color: rgb(102, 102, 102);
+								font-size: 20rpx;
+							}
+							
+							image {
+								width: 32rpx;
+							}
+						}
+					}
+				}
+				
 				.info-detail {
 					margin-top: 16rpx;
 					display: flex;
@@ -1758,9 +1977,20 @@
 					align-items: center;
 					
 					.info-detail-left {
-						color: rgb(51, 51, 51);
-						font-size: 20rpx;
-						font-weight: bold;
+						display: flex;
+						align-items: center;
+						
+						image {
+							width: 32rpx;
+							border-radius: 50%;
+						}
+						
+						p {
+							margin-left: 8rpx;
+							color: rgb(51, 51, 51);
+							font-size: 20rpx;
+							font-weight: bold;
+						}
 					}
 					
 					.info-detail-right {
@@ -2052,12 +2282,102 @@
 	}
 
 	//order-li E
-	.lingjiangCont {
-		width: 556rpx;
-		height: 280rpx;
-		background: #ffffff;
-		border-radius: 30rpx;
-		padding-top: 60rpx;
+	.claim-popup {
+		width: 622rpx;
+		background: rgb(255, 255, 255);
+		border-radius: 20rpx;
+		padding: 32rpx 40rpx;
+		box-sizing: border-box;
+		
+		.cp-title {
+			width: 100%;
+			text-align: center;
+			color: rgb(51, 51, 51);
+			font-size: 28rpx;
+			padding-bottom: 20rpx;
+			box-sizing: border-box;
+		}
+		
+		.cp-option {
+			width: 100%;
+			margin-top: 44rpx;
+			
+			.cp-option-lab {
+				width: 100%;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				
+				.lab-left {
+					display: flex;
+					align-items: center;
+					
+					image {
+						width: 40rpx;
+					}
+					
+					p {
+						margin-left: 32rpx;
+						color: rgb(51, 51, 51);
+						font-size: 24rpx;
+					}
+				}
+				
+				.lab-right {
+					width: 40rpx;
+					height: 40rpx;
+					
+					image {
+						width: 100%;
+					}
+				}
+			}
+			
+			.cp-option-text {
+				width: 100%;
+				margin-top: 8rpx;
+				padding: 0 72rpx;
+				box-sizing: border-box;
+				color: rgb(102, 102, 102);
+				font-size: 24rpx;
+				
+				text {
+					font-size: 24rpx;
+					color: #FF3939;
+					font-weight: bold;
+				}
+			}
+		}
+		
+		.cp-btns {
+			width: 100%;
+			display: flex;
+			justify-content: space-between;
+			margin-top: 48rpx;
+			
+			.cp-btns-cancel {
+				width: 256rpx;
+				height: 68rpx;
+				border: 1rpx solid rgb(10, 198, 142);
+				box-sizing: border-box;
+				border-radius: 100rpx;
+				text-align: center;
+				line-height: 68rpx;
+				color: rgb(10, 198, 142);
+				font-size: 28rpx;
+			}
+			
+			.cp-btns-confirm {
+				width: 256rpx;
+				height: 68rpx;
+				background: rgb(10, 198, 142);
+				border-radius: 100rpx;
+				text-align: center;
+				line-height: 68rpx;
+				color: #FFFFFF;
+				font-size: 28rpx;
+			}
+		}
 
 		.list {
 			display: flex;
@@ -2101,7 +2421,7 @@
 		}
 
 		.name {
-			margin-top: 80rpx;
+			margin-top: 40rpx;
 			font-size: 26rpx;
 			color: #000;
 			text-align: center;
@@ -2134,7 +2454,7 @@
 				height: 80rpx;
 				line-height: 80rpx;
 				text-align: center;
-				background: rgb(255, 78, 47);
+				background: #1DD181;
 				border-radius: 40rpx;
 				color: #fff;
 			}

@@ -4,7 +4,7 @@
 		<view class="sub-head" @click="navClick('/pages/address/address')">
 			<view class="head-fl" v-if="addCont">
 				<view class="icon">
-					<image class="img" src="../../static/images/new/db.png"></image>
+					<image class="img" src="@/static/images/new-index/address.png"></image>
 				</view>
 				<view class="txt">
 					<view class="b">
@@ -12,13 +12,12 @@
 						<text class="phone">{{addCont.mobile.slice(0, 3)}}****{{addCont.mobile.substr(-4)}}</text>
 					</view>
 					<view class="t">{{addCont.detail}}</view>
-					
 				</view>
 			</view>
 			
 			<view class="head-fl" v-else>
 				<view class="icon">
-					<image class="img" src="../../static/images/new/db.png"></image>
+					<image class="img" src="@/static/images/new-index/address.png"></image>
 				</view>
 				<view class="txt">
 					<view class="t">{{$t('order.addContXuanze')}}</view>
@@ -33,7 +32,7 @@
 		<view class="sub-box">
 			<view class="li-hd">
 				<view class="icon">
-					<image class="img" src="../../static/images/new/sjgl.png"></image>
+					<image class="img" :src="shopCont.shop_logo"></image>
 				</view>
 				<view class="t">{{shopCont.shop_name}}</view>
 				<!-- <view class="more">
@@ -47,10 +46,9 @@
 				</view>
 				<view class="li-txt">
 					<view class="t">{{shopCont.goods_name}}</view>
-					<view class="b">
-						<view class="price">
-							RM<text class="f-34">{{shopCont.price}}</text>
-						</view>
+					<view class="b-container">
+						<view class="b-tit">{{$t('user.auctionM.original')}}:</view>
+						<view class="b-price"><text>RM</text>{{shopCont.price}}</view>
 					</view>
 				</view>
 			</view>
@@ -131,11 +129,7 @@
 		<!--竞拍信息 end-->
 		<!--底部 start-->
 		<view class="sub-fixed">
-			<view class="fixed-con">
-				<view class="t"> </view>
-				<button class="pay-btn"
-					@click.stop="$noMultipleClicks(onAuctionorderReferPick)">{{$t('lijilinghuo')}}</button>
-			</view>
+			<view class="sub-fixed-button" @click.stop="$noMultipleClicks(onAuctionorderReferPick)">{{$t('lijilinghuo')}}</view>
 		</view>
 		<!--底部 end-->
 	</view>
@@ -259,7 +253,7 @@
 
 						.name {
 							font-size: 32rpx;
-							color: rgb(255, 78, 47);
+							color: rgb(51, 51, 51);
 							margin-right: 20rpx;
 						}
 
@@ -299,8 +293,8 @@
 				}
 
 				.t {
-					font-size: 26rpx;
-					color: rgb(255, 78, 47);
+					font-size: 28rpx;
+					color: rgb(51, 51, 51);
 					overflow: hidden;
 					text-overflow: ellipsis;
 					white-space: nowrap;
@@ -320,11 +314,9 @@
 				position: relative;
 
 				.li-img {
-					// background: #fc5917;
 					border-radius: 10rpx;
 					width: 200rpx;
 					height: 200rpx;
-					border: 2rpx solid rgb(255, 78, 47);
 					border-radius: 16rpx;
 					margin-right: 20rpx;
 					
@@ -337,6 +329,11 @@
 
 				.li-txt {
 					width: 450rpx;
+					height: 200rpx;
+					display: flex;
+					flex-direction: column;
+					justify-content: space-between;
+					align-items: flex-start;
 
 					.t {
 						text-overflow: -o-ellipsis-lastline;
@@ -348,6 +345,25 @@
 						font-size: 28rpx;
 						color: rgb(44, 44, 44);
 						line-height: 40rpx;
+					}
+					
+					.b-container {
+						width: 100%;
+						
+						.b-tit {
+							color: rgb(102, 102, 102);
+							font-size: 20rpx;
+						}
+						
+						.b-price {
+							color: rgb(51, 51, 51);
+							font-size: 32rpx;
+							font-weight: bold;
+							
+							text {
+								font-size: 20rpx;
+							}
+						}
 					}
 
 					.specs {
@@ -517,29 +533,23 @@
 		}
 
 		.sub-fixed {
+			padding: 32rpx 32rpx;
+			box-sizing: border-box;
 			position: fixed;
 			left: 0;
 			bottom: 0;
 			width: 100%;
 			z-index: 99;
-			background: #fff;
-
-			.fixed-con {
-				padding: 15rpx 30rpx;
-				display: flex;
-				align-items: center;
-				justify-content: space-between;
-
-				.pay-btn {
-					width: 180rpx;
-					height: 70rpx;
-					background: rgb(10, 198, 142);
-					border-radius: 35rpx;
-					line-height: 70rpx;
-					margin: 0;
-					font-size: 26rpx;
-					color: #fff;
-				}
+			
+			.sub-fixed-button {
+				width: 100%;
+				height: 88rpx;
+				background: rgb(10, 198, 142);
+				border-radius: 100rpx;
+				text-align: center;
+				line-height: 88rpx;
+				color: rgb(255, 255, 255);
+				font-size: 40rpx;
 			}
 		}
 
