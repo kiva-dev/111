@@ -11,7 +11,8 @@
 				<view class="ml-title-text">Lucky Star</view>
 			</view>
 			<view class="ml-list">
-				<view class="ml-list-item" v-for="(item,index) in luckyList" :key="index" @click="toDetail(item.auction_goods_id)">
+				<view class="ml-list-item" v-for="(item,index) in luckyList" :key="index"
+					@click="toDetail(item.auction_goods_id)">
 					<view class="item-left">
 						<view class="item-l-avatar">
 							<image :src="item.avatar" mode="aspectFill"></image>
@@ -38,8 +39,10 @@
 								In the Joint contribution sales activities provided by{{' '}}
 								<text style="color: rgb(10, 198, 142);">{{item.shop_name}}</text>
 								,at the price of{{' '}}
-								<text style="color: rgb(255, 57, 57); font-weight: bold;">RM{{item.pay_price}}</text>
-								,I was lucky to win a 
+								<text style="color: rgb(255, 57, 57); font-weight: bold;">
+									<image src="/static/images/kbrick/diamond.png"></image>{{item.pay_price}}
+								</text>
+								,I was lucky to win a
 								{{item.goods_name}}
 								{{' '}}worth{{' '}}
 								<text style="color: rgb(255, 57, 57); font-weight: bold;">RM{{item.price}}</text>
@@ -50,7 +53,9 @@
 								在
 								<text style="color: rgb(10, 198, 142);">{{item.shop_name}}</text>
 								提供的竞拍活动中，以
-								<text style="color: rgb(255, 57, 57); font-weight: bold;">RM{{item.pay_price}}</text>
+								<text style="color: rgb(255, 57, 57); font-weight: bold;">
+									<image src="/static/images/kbrick/diamond.png"></image>{{item.pay_price}}
+								</text>
 								的价格，幸运地拍中价值
 								<text style="color: rgb(255, 57, 57); font-weight: bold;">RM{{item.price}}</text>
 								的
@@ -114,7 +119,7 @@
 						if (item.is_zan == 0) {
 							item.is_zan = 1;
 							item.zan_num++;
-						}else{
+						} else {
 							item.is_zan = 0;
 							item.zan_num--;
 						}
@@ -290,15 +295,20 @@
 							font-size: 24rpx;
 							line-height: 40rpx;
 							// word-break: break-all;
+
+							image {
+								width: 24rpx;
+								height: 24rpx;
+							}
 						}
-						
+
 						.item-right-bot {
 							width: 100%;
 							margin-top: 16rpx;
 							display: flex;
 							justify-content: space-between;
 							align-items: center;
-							
+
 							.bot-box {
 								color: rgb(153, 153, 153);
 								font-size: 20rpx;

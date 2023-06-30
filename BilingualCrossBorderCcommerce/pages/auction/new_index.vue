@@ -363,7 +363,7 @@
 						<view>{{$t('xyzx')}}</view>
 						<span></span>
 					</view>
-					<view class="head_more">
+					<view class="head_more" @click="toXyzx">
 						<view>{{$t('home.detail.more')}}</view>
 						<image src="/static/images/products/right.png"></image>
 					</view>
@@ -410,8 +410,10 @@
 											在
 											<text style="color: rgb(10, 198, 142);">{{item.shop_name}}</text>
 											提供的竞拍活动中，以
-											<text
-												style="color: rgb(255, 57, 57); font-weight: bold;">RM{{item.pay_price}}</text>
+											<text style="color: rgb(255, 57, 57); font-weight: bold;">
+												<image src="/static/images/kbrick/diamond.png"></image>
+												{{item.pay_price}}
+											</text>
 											的价格，幸运地拍中价值
 											<text
 												style="color: rgb(255, 57, 57); font-weight: bold;">RM{{item.price}}</text>
@@ -1151,6 +1153,12 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			clearInterval(this.jinPaiTimer)
 		},
 		methods: {
+			toXyzx(){
+				uni.switchTab({
+					url:'/pages/auction/lucky'
+				})
+			},
+			
 			//添加购物车
 			addCart(item) {
 				this.$http.post(this.$apiObj.CartAdd, {
@@ -1997,48 +2005,37 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					else arr.push(10)
 				})
 
-				if (this.kdiamondSelect) {
-					this.$http.post(this.$apiObj.rmToKdiamond, {
-						money: this.shopNum * 1 - this.balance * 1
-					}).then(res => {
-						if (res.code == 1) {
-
-						}
-					})
-				}
-
-				setTimeout(() => {
-					this.$http.post(this.$apiObj.AuctionorderBalancePay, {
-						order_no: this.order_no, // 小订单号
-						money: this.shopNum, // 支付总金额
-						pay_pwd: pay_pwd, // rsa加密后的支付密码
-						is_use_recharge: 2,
-						is_use_invite: 2,
-						is_use_k_diamond: 1
-					}).then(res => {
-						if (res.code == 1) {
-							this.isShowAegin = this.auction_num > this.isauctionNum
-							uni.showToast({
-								title: res.msg,
-								icon: 'none'
+				this.$http.post(this.$apiObj.AuctionorderBalancePay, {
+					order_no: this.order_no, // 小订单号
+					money: this.shopNum, // 支付总金额
+					pay_pwd: pay_pwd, // rsa加密后的支付密码
+					is_use_recharge: 2,
+					is_use_invite: 2,
+					is_use_k_diamond: 1,
+					is_balance_convert_k_diamond: this.kdiamondSelect ? 1 : 2
+				}).then(res => {
+					if (res.code == 1) {
+						this.isShowAegin = this.auction_num > this.isauctionNum
+						uni.showToast({
+							title: res.msg,
+							icon: 'none'
+						})
+						this.onAuctionNewGoods()
+						setTimeout(() => {
+							this.jingpaiList.forEach(item => {
+								if (item.auction_goods_id == this.shopCont
+									.auction_goods_id) {
+									this.shopCont = item
+								}
 							})
-							this.onAuctionNewGoods()
-							setTimeout(() => {
-								this.jingpaiList.forEach(item => {
-									if (item.auction_goods_id == this.shopCont
-										.auction_goods_id) {
-										this.shopCont = item
-									}
-								})
 
-								this.$refs.pwdPopup.close()
-								this.$refs.pwdPopup3.close()
-								this.$refs.pwdsPopup.close()
-								this.$refs.payPopup.open()
-							}, 1000);
-						}
-					})
-				}, 1000)
+							this.$refs.pwdPopup.close()
+							this.$refs.pwdPopup3.close()
+							this.$refs.pwdsPopup.close()
+							this.$refs.payPopup.open()
+						}, 500);
+					}
+				})
 
 			},
 
@@ -3025,8 +3022,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 								font-weight: bold;
 								color: rgb(255, 57, 57);
 								margin-right: 8rpx;
-								
-								image{
+
+								image {
 									width: 24rpx;
 									height: 24rpx;
 								}
@@ -4638,6 +4635,11 @@ NoR+zv3KaEmPSHtooQIDAQAB
 								margin: 15rpx 0;
 								font-size: 24rpx;
 								line-height: 40rpx;
+
+								image {
+									width: 24rpx;
+									height: 24rpx;
+								}
 							}
 
 							.li-date {

@@ -15,12 +15,12 @@
 			<view class="cl-goods" v-show="collectType === 'goods'">
 				<view class="cl-goods-item" v-for="(item,index) in dataList" :key="item.goods_id"
 					@touchstart="onTouchStart" @touchmove="onTouchEnd" :class="item.touchSwich == true ?'isSlide':''"
-					:data-index='index' @click="toProductInfo(item)">
-					<view class="item-cover">
+					:data-index='index'>
+					<view class="item-cover" @click.stop="toProductInfo(item)">
 						<image :src="item.image" mode="aspectFill"></image>
 					</view>
 					<view class="item-info">
-						<view class="item-info-name">{{item.goods_name}}</view>
+						<view class="item-info-name" @click.stop="toProductInfo(item)">{{item.goods_name}}</view>
 						<view class="item-info-data">
 							<view class="data-left">
 								<view class="data-l-price">
@@ -122,11 +122,9 @@
 				})
 			},
 			toProductInfo(item) {
-				if (!item.touchSwich) {
-					uni.navigateTo({
-						url: '/pages/auction/product_info?goodsId=' + item.goods_id
-					});
-				}
+				uni.navigateTo({
+					url: '/pages/auction/product_info?goodsId=' + item.goods_id
+				});
 			},
 			deleteGoods(item) {
 				uni.showModal({

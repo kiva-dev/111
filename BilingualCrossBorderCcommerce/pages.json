@@ -931,7 +931,7 @@
 		{
 			"path": "pages/cart/orderinfo",
 			"style": {
-				"navigationBarTitleText": "订单详情",
+				"navigationBarTitleText": "%top.ddxq%",
 				"enablePullDownRefresh": false
 			}
 		}

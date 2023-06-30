@@ -33,7 +33,9 @@
 			<!--商品价格时间-->
 			<view class="detail-price">
 				<view class="detail-price-left">
-					<view class="detail-price-new"><image src="/static/images/kbrick/diamond.png">{{shopCont.auction_price}}</view>
+					<view class="detail-price-new">
+						<image src="/static/images/kbrick/diamond.png">{{shopCont.auction_price}}
+					</view>
 					<view class="detail-price-old">RM{{shopCont.price}}</view>
 				</view>
 				<view class="detail-price-time" v-if="shopCont.check_status==3||shopCont.check_status==4">
@@ -1427,40 +1429,29 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					else arr.push(10)
 				})
 
-				if (this.kdiamondSelect) {
-					this.$http.post(this.$apiObj.rmToKdiamond, {
-						money: this.shopNum * 1 - this.balance * 1
-					}).then(res => {
-						if (res.code == 1) {
-
-						}
-					})
-				}
-
-				setTimeout(() => {
-					this.$http.post(this.$apiObj.AuctionorderBalancePay, {
-						order_no: this.order_no, // 小订单号
-						money: this.shopNum, // 支付总金额
-						pay_pwd: pay_pwd, // rsa加密后的支付密码
-						is_use_recharge: 2,
-						is_use_invite: 2,
-						is_use_k_diamond: 1
-					}).then(res => {
-						if (res.code == 1) {
-							uni.showToast({
-								title: res.msg,
-								icon: 'none'
-							})
-							this.onAuctionDetail()
-							setTimeout(() => {
-								this.onMineInfo()
-								this.pay_pwd = ''
-								this.zhipassShow = false
-								this.zhichenShow = true
-							}, 500);
-						}
-					})
-				}, 1000)
+				this.$http.post(this.$apiObj.AuctionorderBalancePay, {
+					order_no: this.order_no, // 小订单号
+					money: this.shopNum, // 支付总金额
+					pay_pwd: pay_pwd, // rsa加密后的支付密码
+					is_use_recharge: 2,
+					is_use_invite: 2,
+					is_use_k_diamond: 1,
+					is_balance_convert_k_diamond: this.kdiamondSelect ? 1 : 2
+				}).then(res => {
+					if (res.code == 1) {
+						uni.showToast({
+							title: res.msg,
+							icon: 'none'
+						})
+						this.onAuctionDetail()
+						setTimeout(() => {
+							this.onMineInfo()
+							this.pay_pwd = ''
+							this.zhipassShow = false
+							this.zhichenShow = true
+						}, 500);
+					}
+				})
 
 
 			},
@@ -1803,8 +1794,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				font-size: 40rpx;
 				font-weight: 700;
 				color: rgb(255, 255, 255);
-				
-				image{
+
+				image {
 					width: 24rpx;
 					height: 24rpx;
 				}

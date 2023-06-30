@@ -564,7 +564,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 						setTimeout(() => {
 							uni.redirectTo({
-								url: '/pages/mine/order/order'
+								url: '/pages/mine/order/order?tabIndex=10'
 							})
 						}, 2000)
 

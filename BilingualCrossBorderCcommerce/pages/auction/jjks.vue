@@ -1792,47 +1792,36 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					else arr.push(10)
 				})
 
-				if (this.kdiamondSelect) {
-					this.$http.post(this.$apiObj.rmToKdiamond, {
-						money: this.shopNum * 1 - this.balance * 1
-					}).then(res => {
-						if (res.code == 1) {
-
-						}
-					})
-				}
-
-				setTimeout(() => {
-					this.$http.post(this.$apiObj.AuctionorderBalancePay, {
-						order_no: this.order_no, // 小订单号
-						money: this.shopNum, // 支付总金额
-						pay_pwd: pay_pwd, // rsa加密后的支付密码
-						is_use_recharge: 2,
-						is_use_invite: 2,
-						is_use_k_diamond: 1
-					}).then(res => {
-						if (res.code == 1) {
-							this.isShowAegin = this.auction_num > this.isauctionNum
-							uni.showToast({
-								title: res.msg,
-								icon: 'none'
+				this.$http.post(this.$apiObj.AuctionorderBalancePay, {
+					order_no: this.order_no, // 小订单号
+					money: this.shopNum, // 支付总金额
+					pay_pwd: pay_pwd, // rsa加密后的支付密码
+					is_use_recharge: 2,
+					is_use_invite: 2,
+					is_use_k_diamond: 1,
+					is_balance_convert_k_diamond: this.kdiamondSelect ? 1 : 2
+				}).then(res => {
+					if (res.code == 1) {
+						this.isShowAegin = this.auction_num > this.isauctionNum
+						uni.showToast({
+							title: res.msg,
+							icon: 'none'
+						})
+						this.onAuctionNewGoods()
+						setTimeout(() => {
+							this.jingpaiList.forEach(item => {
+								if (item.auction_goods_id == this.shopCont
+									.auction_goods_id) {
+									this.shopCont = item
+								}
 							})
-							this.onAuctionNewGoods()
-							setTimeout(() => {
-								this.jingpaiList.forEach(item => {
-									if (item.auction_goods_id == this.shopCont
-										.auction_goods_id) {
-										this.shopCont = item
-									}
-								})
-								console.log(this.shopCont)
-								this.$refs.pwdsPopup.close()
-								this.$refs.payPopup.open()
-							}, 1000);
+							console.log(this.shopCont)
+							this.$refs.pwdsPopup.close()
+							this.$refs.payPopup.open()
+						}, 500);
 
-						}
-					})
-				}, 1000)
+					}
+				})
 
 			},
 
@@ -2559,8 +2548,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 								font-size: 20rpx;
 								font-weight: bold;
 								color: rgb(255, 57, 57);
-								
-								image{
+
+								image {
 									width: 24rpx;
 									height: 24rpx;
 								}
