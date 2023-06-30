@@ -2268,7 +2268,9 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			margin-top: 26rpx;
 
 			.gl-content-item {
+				position: relative;
 				width: 220rpx;
+				height: 350rpx;
 				display: flex;
 				flex-direction: column;
 				justify-content: center;
@@ -2276,6 +2278,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				margin-bottom: 28rpx;
 
 				.item-cover {
+					position: absolute;
+					top: 0;
 					width: 220rpx;
 					height: 220rpx;
 
@@ -2287,6 +2291,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				}
 
 				.item-text {
+					position: absolute;
+					top: 232rpx;
 					width: 100%;
 					margin: 12rpx 0;
 					box-sizing: border-box;
@@ -2302,7 +2308,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				}
 
 				.item-price {
-
+					position: absolute;
+					bottom: 2rpx;
 					span {
 						color: rgb(255, 57, 57);
 						font-size: 32rpx;
