@@ -652,6 +652,8 @@
 	"user.auctionM.btnCancel": "Cancel",
 	"user.auctionM.btnConfirm": "Confirm",
 	"user.auctionM.original": "original price",
+	"user.auctionM.appeal": "Appeal",
+	"user.auctionM.confirmOrder": "Confirm order",
 
 	"user.Feedback.wtms": "Problem description",
 	"user.Feedback.qsrnr": "Please enter the content",
@@ -703,6 +705,7 @@
 	"user.order.qxddcg": "Order cancelled successfully",
 	"user.order.scddcg": "Order deleted successfully",
 	"user.order.shcg": "Goods received successfully",
+	"user.order.qrcg": "Confirm success",
 	"user.order.payment": "Payment",
 	"user.order.cancel": "Cancel order",
 	"user.order.paid": "To be paid",

@@ -15,7 +15,7 @@
 			<view class="cl-goods" v-show="collectType === 'goods'">
 				<view class="cl-goods-item" v-for="(item,index) in dataList" :key="item.goods_id"
 					@touchstart="onTouchStart" @touchmove="onTouchEnd" :class="item.touchSwich == true ?'isSlide':''"
-					:data-index='index' @click="toProductInfo(item.goods_id)">
+					:data-index='index' @click="toProductInfo(item)">
 					<view class="item-cover">
 						<image :src="item.image" mode="aspectFill"></image>
 					</view>
@@ -121,10 +121,12 @@
 					}
 				})
 			},
-			toProductInfo(id) {
-				uni.navigateTo({
-					url: '/pages/auction/product_info?goodsId=' + id
-				})
+			toProductInfo(item) {
+				if (!item.touchSwich) {
+					uni.navigateTo({
+						url: '/pages/auction/product_info?goodsId=' + item.goods_id
+					});
+				}
 			},
 			deleteGoods(item) {
 				uni.showModal({

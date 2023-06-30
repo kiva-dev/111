@@ -124,11 +124,10 @@
 								<view class="top-title">
 									<view class="top-name">{{item.goods_name}}</view>
 									<view class="top-status">
-										<text v-if="item.status === 2" style="color: #1DD181;">{{$t('user.auctionM.shipped')}}</text>
-										<text v-if="item.status === 3" style="color: #1DD181;">{{$t('user.auctionM.receive')}}</text>
-										<text v-if="item.status === 4" style="color: #1DD181;">{{$t('user.auctionM.beConfirmed')}}</text>
-										<text v-if="item.status === 5" style="color: #999999;">{{$t('user.auctionM.confirmed')}}</text>
-										<text v-if="item.status === 6" style="color: #999999;">{{item.select_way == 1 ? $t('user.auctionM.cash') : $t('user.auctionM.confirmed')}}</text>
+										<text v-if="item.status === 2 || item.status === 3" style="color: #1DD181;">{{$t('user.auctionM.shipped')}}</text>
+										<text v-if="item.status === 4" style="color: #1DD181;">{{$t('user.auctionM.receive')}}</text>
+										<text v-if="item.status === 5" style="color: #1DD181;">{{$t('user.auctionM.beConfirmed')}}</text>
+										<text v-if="item.status === 6" style="color: #999999;">{{item.select_way == 1 ? $t('user.auctionM.cash') : $t('user.order.yiwanc')}}</text>
 									</view>
 								</view>
 								<view class="top-bidding">
@@ -152,8 +151,12 @@
 										<template v-if="item.status === 0">
 											<view class="r-button-green" @click.stop="onlingjiangClick(item)">{{$t('zhongpai.lingjiangjiang')}}</view>
 										</template>
-										<template v-if="item.status === 3">
-											<view class="r-button-green" @click.stop="onConfirmReceipt(item)">{{$t('user.order.receipt')}}</view>
+										<template v-if="item.status === 4">
+											<view class="r-button-border" @click.stop="onConfirmReceipt(item)">{{$t('user.order.receipt')}}</view>
+										</template>
+										<template v-if="item.status === 5">
+											<view class="r-button-gray" @click.stop="onAfterSale(item)">{{$t('user.auctionM.appeal')}}</view>
+											<view class="r-button-border" @click.stop="onConfirmOrder(item)">{{$t('user.auctionM.confirmOrder')}}</view>
 										</template>
 										<template v-if="item.status === 6">
 											<view class="r-button-gray" @click.stop="toDetail(item.order_no)">{{$t('user.auctionM.award')}}</view>
@@ -490,21 +493,40 @@
 			onConversionTime(time) {
 				return tool.timestampToTime(time);
 			},
-			onConfirmReceipt() {
+			// 确认收货
+			onConfirmReceipt(item) {
 				this.$http.post(this.$apiObj.AuctionorderConfirmOrder, {
-					record_id: this.order_no
+					record_id: item.id
 				}).then(res => {
-					if (res.code == 1) {
+					if (res.code === 1) {
 						uni.showToast({
 							title: this.$t('user.order.shcg'),
 							icon: 'none'
-						})
-						this.page = 1
-						this.orderList = []
-						this.onAuctionorderWinOrder()
-						this.$refs.shopPopup.close()
+						});
+						this.page = 1;
+						this.onMineWinAuction();
 					}
-				})
+				});
+			},
+			onConfirmOrder(item) {
+				this.$http.post(this.$apiObj.AuctionorderAutoConfirm, {
+					record_id: item.id
+				}).then(res => {
+					if (res.code === 1) {
+						uni.showToast({
+							title: this.$t('user.order.qrcg'),
+							icon: 'none'
+						});
+						this.page = 1;
+						this.onMineWinAuction();
+					}
+				});
+			},
+			// 申请售后
+			onAfterSale(item) {
+				uni.navigateTo({
+					url: '/pages/mine/order/ptzcpt?conter=' + JSON.stringify(item) + '&cent=' + JSON.stringify(item)
+				});
 			},
 			toMidShot(id) {
 				this.shareShow = false
@@ -1464,6 +1486,7 @@
 				width: 100%;
 				height: 296rpx;
 				margin-bottom: 24rpx;
+				border-radius: 20rpx;
 			}
 
 			.luck-zpjl-item {
@@ -1597,7 +1620,7 @@
 								align-items: center;
 								
 								.r-button-green {
-									margin-right: 20rpx;
+									margin-left: 20rpx;
 									padding: 12rpx 22rpx;
 									box-sizing: border-box;
 									background: rgb(10, 198, 142);
@@ -1606,8 +1629,18 @@
 									font-size: 20rpx;
 								}
 								
+								.r-button-border {
+									margin-left: 20rpx;
+									padding: 12rpx 22rpx;
+									box-sizing: border-box;
+									border: 1rpx solid rgb(10, 198, 142);
+									border-radius: 100rpx;
+									color: rgb(10, 198, 142);
+									font-size: 20rpx;
+								}
+								
 								.r-button-gray {
-									margin-right: 20rpx;
+									margin-left: 20rpx;
 									padding: 12rpx 22rpx;
 									box-sizing: border-box;
 									border: 1rpx solid #999999;

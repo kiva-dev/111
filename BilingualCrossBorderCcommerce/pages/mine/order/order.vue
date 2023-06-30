@@ -183,6 +183,7 @@
 					},
 				});
 			},
+			// 确认收货
 			onConfirmReceipt(item) {
 				this.$http.post(this.$apiObj.OrderReceiptOrder, {
 					order_no: item.order_no

@@ -546,7 +546,6 @@
 				}
 
 				.order-bd {
-					padding: 0 0rpx 0rpx 0rpx;
 					display: flex;
 					align-items: center;
 					justify-content: space-between;
@@ -556,13 +555,14 @@
 					}
 
 					.gray {
+						flex: 1;
 						color: #999;
 						font-size: 26rpx;
 						margin-left: 20rpx;
 
 						input {
 							color: #333;
-							width: 600rpx;
+							width: 100%;
 							text-align: right;
 							font-size: 28rpx;
 						}
