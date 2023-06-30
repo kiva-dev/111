@@ -35,13 +35,13 @@
 				</view>
 				<!--order-mid end-->
 				<!--order-bd start-->
-				<view class="order-bd">
+				<!-- <view class="order-bd">
 					<view class="label">{{$t('user.order.sqsh.lyan')}}</view>
 					<view class="gray">
 						<input class="input" placeholder-class="clor-999" v-model="remark"
 							:placeholder="$t('user.order.sqsh.qsr')" />
 					</view>
-				</view>
+				</view> -->
 				<!--order-bd end-->
 			</view>
 			<!--order-li end-->
@@ -58,7 +58,7 @@
           </view>
         </view>
       </view> -->
-			<view class="sec2-li" @click="toggle2('bottom')">
+			<!-- <view class="sec2-li" @click="toggle2('bottom')">
 				<view class="label">{{$t('user.order.sqsh.hhyy')}}：</view>
 				<view class="li-fr">
 					<text>{{yuanyinName?yuanyinName:$t('user.order.sqsh.qxz')}}</text>
@@ -66,7 +66,7 @@
 						<image class="img" src="../../../static/images/more3.png"></image>
 					</view>
 				</view>
-			</view>
+			</view> -->
 			<!-- <view class="sec2-li">
         <view class="label">退款数量：</view>
         <view class="cart-num">
@@ -97,7 +97,6 @@
 					<view class="label">{{$t('user.order.sqsh.sqsm')}}：</view>
 					<textarea auto-height class="text" v-model="descri" placeholder-class="color-999"
 						:placeholder="$t('user.order.sqsh.qnxxtxsqsm')"></textarea>
-					<!--add-upload start-->
 					<view class="add-upload">
 						<view class="upload-img">
 							<view v-if="images.length<9" class="xiangji">
@@ -113,7 +112,6 @@
 							</block>
 						</view>
 					</view>
-					<!--add-upload end-->
 				</view>
 			</view>
 		</view>
@@ -348,15 +346,8 @@
 					}
 				})
 			},
-			// 提交申请
+			// 提交申诉
 			onOrderReferAfter() {
-				// if (!this.remark) return uni.showToast({ icon: 'none', title: '请输入留言' })
-				// if (!this.num) return uni.showToast({ icon: 'none', title: '请选择退款数量' })
-				if (!this.reason) return uni.showToast({
-					icon: 'none',
-					title: this.$t('user.order.sqsh.qxztkyy')
-				})
-				// if (!this.refund_type) return uni.showToast({ icon: 'none', title: '请选择退款数量' })
 				if (!this.mobile) return uni.showToast({
 					icon: 'none',
 					title: this.$t('user.order.sqsh.qsrlxdh')
@@ -365,17 +356,12 @@
 					icon: 'none',
 					title: this.$t('user.order.sqsh.qsrsqsm')
 				})
-				this.$http.post(this.$apiObj.OrderReferAfter, {
-					order_goods_id: this.order_goods_id, // 订单详情id
-					remark: this.remark, // 备注
-					refund_type: 4, // 1退货退款，2仅退货，3仅退款
-					reason: this.reason, // 退款原因：1拍错/多拍/不想要，2协商一致退款，3商品缺货，4买家发错货，5其他原因
-					num: 1, // 退款数量
+				this.$http.post(this.$apiObj.AuctionorderReferComplain, {
+					record_id: this.sangjiaCont.id, // 订单详情id
 					mobile_area_code: this.mobile_area_code, // 手机号区域编码
 					mobile: this.mobile, // 手机号码
-					descri: this.descri, // 申请说明
-					refund_money: this.shopCont.goods_price, // 应退金额
-					images: this.images.toString(), // 图片
+					mark: this.descri,
+					images: this.images.toString()
 				}).then(res => {
 					if (res.code == 1) {
 						uni.showToast({
@@ -383,14 +369,11 @@
 							icon: 'none'
 						})
 						setTimeout(() => {
-							uni.navigateBack({
-								delta: 1
-							})
+							uni.navigateBack();
 						}, 1000);
 					}
 				})
 			},
-
 			toggle1() {
 				this.$refs.leixingPopup.open()
 			},

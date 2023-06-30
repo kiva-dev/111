@@ -76,6 +76,8 @@
 	"top.dianshang": "online retailers",
 	"top.auctionDetail": "My Auction",
 	"top.active": "Active Page",
+	"top.appeal": "Appeal submit",
+	"top.appealDetail": "Appeal Detail",
 
 	"index.demo": "uni-app globalization",
 	"index.demo-description": "Include uni-framework, manifest.json, pages.json, tabbar, Page, Component, API, Schema",
@@ -642,6 +644,7 @@
 	"user.auctionM.shipped": "To Ship",
 	"user.auctionM.receive": "To Receive",
 	"user.auctionM.beConfirmed": "To BeConfirmed",
+	"user.auctionM.inAppeal": "In appeal",
 	"user.auctionM.confirmed": "Completed",
 	"user.auctionM.lucky": "Lucky Code",
 	"user.auctionM.claimTit": "Accept the award immediately!",
@@ -653,6 +656,7 @@
 	"user.auctionM.btnConfirm": "Confirm",
 	"user.auctionM.original": "original price",
 	"user.auctionM.appeal": "Appeal",
+	"user.auctionM.viewAppeal": "View appeal",
 	"user.auctionM.confirmOrder": "Confirm order",
 
 	"user.Feedback.wtms": "Problem description",

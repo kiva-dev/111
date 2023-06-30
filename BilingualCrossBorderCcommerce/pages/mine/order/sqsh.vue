@@ -13,22 +13,22 @@
 					</view>
 				</view>
 				<!--order-mid start-->
-				<view class="order-mid" v-for="item in shopCont" :key="item.goods_id">
+				<view class="order-mid">
 					<view class="mid-img">
-						<image class="img" :src="item.image"></image>
+						<image class="img" :src="shopCont.image"></image>
 					</view>
 					<view class="mid-txt">
 						<view class="h-flex">
-							<view class="t">{{item.goods_name}}</view>
+							<view class="t">{{shopCont.goods_name}}</view>
 						</view>
 						<view class="b-flex">
-							<view class="s">{{item.goods_attrs}}</view>
-							<view class="num">x{{item.total_num}}</view>
+							<view class="s">{{shopCont.goods_attrs}}</view>
+							<view class="num">x{{shopCont.total_num}}</view>
 						</view>
 						<view class="flex flex-between">
 							<view class="price color-red f-22">
 								RM<text
-									class="f-34">{{$filter.formatValue(item.goods_price, 'split')[0]}}</text>.{{$filter.formatValue(item.goods_price, 'split')[1] ? $filter.formatValue(item.goods_price, 'split')[1] : '00'}}
+									class="f-34">{{$filter.formatValue(shopCont.goods_price, 'split')[0]}}</text>.{{$filter.formatValue(shopCont.goods_price, 'split')[1] ? $filter.formatValue(shopCont.goods_price, 'split')[1] : '00'}}
 							</view>
 						</view>
 					</view>
@@ -363,7 +363,6 @@
 			},
 			// 提交申请
 			onOrderReferAfter() {
-				// if (!this.remark) return uni.showToast({ icon: 'none', title: '请输入留言' })
 				if (!this.num) return uni.showToast({
 					icon: 'none',
 					title: this.$t('user.order.sqsh.qxztklx')
@@ -396,6 +395,7 @@
 					refund_money: this.refund_money, // 应退金额
 					images: this.images.toString(), // 图片
 				}).then(res => {
+					console.log(res);
 					if (res.code == 1) {
 						uni.showToast({
 							title: this.$t('user.order.sqsh.sqcg'),

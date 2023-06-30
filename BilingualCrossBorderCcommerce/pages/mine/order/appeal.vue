@@ -4,23 +4,23 @@
 			<view class="al-c-product">
 				<view class="product-store">
 					<view class="product-store-l">
-						<image :src="auctionInfo.shop_logo" mode="aspectFill"></image>
-						<p>{{auctionInfo.shop_name}}</p>
+						<image :src="goodsInfo.shop_logo" mode="aspectFill"></image>
+						<p>{{goodsInfo.shop_name}}</p>
 					</view>
 					<!-- <view class="product-store-r">oder</view> -->
 				</view>
 				<view class="product-info">
 					<view class="product-info-cover">
-						<image :src="auctionInfo.image" mode="aspectFill"></image>
+						<image :src="goodsInfo.image" mode="aspectFill"></image>
 					</view>
 					<view class="product-info-box">
-						<view class="box-goods">{{auctionInfo.goods_name}}</view>
+						<view class="box-goods">{{goodsInfo.goods_name}}</view>
 						<view class="box-detail">
 							<view class="box-detail-l">
-								<p class="l-current"><text>RM</text>{{auctionInfo.auction_original_price}}</p>
-								<p class="l-original">RM{{auctionInfo.price}}</p>
+								<p class="l-current"><text>RM</text>{{goodsInfo.auction_original_price}}</p>
+								<p class="l-original">RM{{goodsInfo.price}}</p>
 							</view>
-							<view class="box-detail-r">x{{auctionInfo.auction_count}}</view>
+							<view class="box-detail-r">x{{goodsInfo.auction_count}}</view>
 						</view>
 					</view>
 				</view>
@@ -28,37 +28,37 @@
 			<view class="al-c-data">
 				<view class="data-item">
 					<view class="data-item-l">{{$t('auction.detail.commodity')}}</view>
-					<view class="data-item-r">{{auctionInfo.stage_num}}</view>
+					<view class="data-item-r">{{goodsInfo.stage_num}}</view>
 				</view>
 				<view class="data-item">
 					<view class="data-item-l">{{$t('auction.detail.market')}}</view>
-					<view class="data-item-r">RM {{auctionInfo.price}}</view>
+					<view class="data-item-r">RM {{goodsInfo.price}}</view>
 				</view>
 				<view class="data-item">
 					<view class="data-item-l">{{$t('auction.detail.bid')}}</view>
-					<view class="data-item-r">RM {{auctionInfo.auction_price}}</view>
+					<view class="data-item-r">RM {{goodsInfo.auction_price}}</view>
 				</view>
 				<view class="data-item">
 					<view class="data-item-l">{{$t('auction.detail.number')}}</view>
-					<view class="data-item-r">x{{auctionInfo.auction_count}}</view>
+					<view class="data-item-r">x{{goodsInfo.auction_count}}</view>
 				</view>
 				<view class="data-item">
 					<view class="data-item-l">{{$t('auction.detail.bidding')}}</view>
-					<view class="data-item-r price"><text>RM</text>{{auctionInfo.auction_amount}}</view>
+					<view class="data-item-r price"><text>RM</text>{{goodsInfo.auction_amount}}</view>
 				</view>
 			</view>
 			<view class="al-c-data">
 				<view class="data-item">
 					<view class="data-item-l">{{$t('auction.detail.recharge')}}</view>
-					<view class="data-item-r">RM {{auctionInfo.recharge_money}}</view>
+					<view class="data-item-r">RM {{goodsInfo.recharge_money}}</view>
 				</view>
 				<view class="data-item">
 					<view class="data-item-l">{{$t('auction.detail.gift')}}</view>
-					<view class="data-item-r">RM {{auctionInfo.use_presentation_money}}</view>
+					<view class="data-item-r">RM {{goodsInfo.use_presentation_money}}</view>
 				</view>
 				<view class="data-item">
 					<view class="data-item-l">{{$t('auction.detail.total')}}</view>
-					<view class="data-item-r price"><text>RM</text>{{auctionInfo.pay_price}}</view>
+					<view class="data-item-r price"><text>RM</text>{{goodsInfo.pay_price}}</view>
 				</view>
 			</view>
 		</view>
@@ -69,21 +69,23 @@
 	export default {
 		data() {
 			return {
-				auctionInfo: '',
+				goodsInfo: '',
+				appealInfo: '',
 			}
 		},
 		onLoad(option) {
-			this.getAuctionDetail(option.orderNo);
+			this.goodsInfo = JSON.parse(option.info);
+			console.log(this.goodsInfo);
+			this.getAppealDetail(option.id);
 		},
 		methods: {
-			getAuctionDetail(id) {
-				this.$http.post(this.$apiObj.AuctionOrderDetail, {
-					order_no: id,
-					token: uni.getStorageSync('token'),
+			getAppealDetail(id) {
+				this.$http.post(this.$apiObj.AuctionorderComplainDetail, {
+					record_id: id
 				}).then((res) => {
 					console.log(res);
 					if(res.code === 1) {
-						this.auctionInfo = res.data;
+						this.appealInfo = res.data;
 					}
 				})
 			}

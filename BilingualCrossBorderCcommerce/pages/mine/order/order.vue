@@ -30,16 +30,18 @@
 							{{$t('user.order.closed')}}</view>
 					</view>
 					<view class="ll-item-info" v-for="goods in item.goods" :key="goods.goods_id">
-						<view class="info-cover">
-							<image :src="goods.image" mode="aspectFill"></image>
-						</view>
-						<view class="info-content">
-							<view class="info-content-name">{{goods.goods_name || ''}}</view>
-							<view class="info-content-num">
-								<view class="num-total">x{{goods.total_num}}</view>
-								<view class="num-price">
-									<text>RM</text>
-									{{goods.goods_price}}
+						<view class="info-container">
+							<view class="info-cover">
+								<image :src="goods.image" mode="aspectFill"></image>
+							</view>
+							<view class="info-content">
+								<view class="info-content-name">{{goods.goods_name || ''}}</view>
+								<view class="info-content-num">
+									<view class="num-total">x{{goods.total_num}}</view>
+									<view class="num-price">
+										<text>RM</text>
+										{{goods.goods_price}}
+									</view>
 								</view>
 							</view>
 						</view>
@@ -53,11 +55,12 @@
 							<view class="btns-grey" @click.stop="onCancelOrder(item)">{{$t('user.order.cancel')}}</view>
 						</template>
 						<template v-if="item.status === '3'">
+							<!-- <view class="btns-grey" @click.stop="onAfterSale(item)">{{$t('user.order.sale')}}</view> -->
 							<view class="btns-green" @click.stop="onConfirmReceipt(item)">{{$t('user.order.receipt')}}</view>
 						</template>
-						<template v-if="item.status === '5'">
+						<!-- <template v-if="item.status === '5'">
 							<view class="btns-grey" @click.stop="onAfterSale(item)">{{$t('user.order.sale')}}</view>
-						</template>
+						</template> -->
 					</view>
 				</view>
 			</view>
@@ -201,7 +204,7 @@
 			// 申请售后
 			onAfterSale(item) {
 				uni.navigateTo({
-					url: '/pages/mine/order/sqsh?conter=' + JSON.stringify(item.goods) + '&cent=' + JSON.stringify(item)
+					url: '/pages/mine/order/sqsh?conter=' + JSON.stringify(item.goods[0]) + '&cent=' + JSON.stringify(item)
 				});
 			},
 		}
@@ -297,57 +300,80 @@
 				}
 
 				.ll-item-info {
-					padding: 24rpx 0;
-					box-sizing: border-box;
-					display: flex;
-					align-items: center;
-
-					.info-cover {
-						width: 160rpx;
-						height: 160rpx;
-
-						image {
-							width: 100%;
-							height: 100%;
-							border-radius: 16rpx;
-						}
-					}
-
-					.info-content {
-						margin-left: 24rpx;
-						flex: 1;
-						min-height: 160rpx;
+					width: 100%;
+					
+					.info-container {
+						width: 100%;
+						padding: 24rpx 0;
+						box-sizing: border-box;
 						display: flex;
-						flex-direction: column;
-						justify-content: space-between;
-						align-items: flex-start;
-
-						.info-content-name {
-							color: rgb(51, 51, 51);
-							font-size: 24rpx;
-							line-height: 36rpx;
-						}
-
-						.info-content-num {
-							width: 100%;
-							display: flex;
-							justify-content: space-between;
-							align-items: center;
-
-							.num-total {
-								color: rgb(153, 153, 153);
-								font-size: 20rpx;
+						align-items: center;
+						
+						.info-cover {
+							width: 160rpx;
+							height: 160rpx;
+						
+							image {
+								width: 100%;
+								height: 100%;
+								border-radius: 16rpx;
 							}
-
-							.num-price {
-								color: rgb(255, 57, 57);
-								font-size: 32rpx;
-								font-weight: bold;
-
-								text {
+						}
+						
+						.info-content {
+							margin-left: 24rpx;
+							flex: 1;
+							min-height: 160rpx;
+							display: flex;
+							flex-direction: column;
+							justify-content: space-between;
+							align-items: flex-start;
+						
+							.info-content-name {
+								color: rgb(51, 51, 51);
+								font-size: 24rpx;
+								line-height: 36rpx;
+							}
+						
+							.info-content-num {
+								width: 100%;
+								display: flex;
+								justify-content: space-between;
+								align-items: center;
+						
+								.num-total {
+									color: rgb(153, 153, 153);
 									font-size: 20rpx;
 								}
+						
+								.num-price {
+									color: rgb(255, 57, 57);
+									font-size: 32rpx;
+									font-weight: bold;
+						
+									text {
+										font-size: 20rpx;
+									}
+								}
 							}
+						}
+					}
+					
+					.info-buts {
+						width: 100%;
+						display: flex;
+						justify-content: flex-end;
+						align-items: center;
+						
+						.info-btns-grey {
+							margin-left: 24rpx;
+							padding: 10rpx 20rpx;
+							box-sizing: border-box;
+							font-size: 24rpx;
+							box-sizing: border-box;
+							border-radius: 100rpx;
+							color: rgb(153, 153, 153);
+							border: 1rpx solid rgb(153, 153, 153);
 						}
 					}
 				}

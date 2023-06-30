@@ -20,7 +20,7 @@
 		<!--我的竞拍-竞拍中 auct-box start-->
 		<view class="auct-box" v-if="type == 1">
 			<template v-if="jingpaiList && jingpaiList.length > 0">
-				<view class="jping" v-for="(item,i) in jingpaiList" :key="i" @click="toDetail(item.order_no)">
+				<view class="jping" v-for="(item,i) in jingpaiList" :key="i">
 					<view class="jping-left">
 						<image :src="item.image" mode="aspectFill"></image>
 					</view>
@@ -60,9 +60,8 @@
 								</view>
 								<view class="jping-price-old">RM{{item.price}}</view>
 							</view>
-							<view class="jping-price-btn">
-								<image src="@/static/images/mine/auctionm_icon_auction.png" mode="widthFix"></image>
-								<p>{{$t('auction.qiangpai')}}</p>
+							<view class="jping-price-btn" @click="toAuctionDetail(item.auction_goods_id)">
+								<p>{{$t('user.auctionM.award')}}</p>
 							</view>
 						</view>
 					</view>
@@ -138,14 +137,15 @@
 								<view class="top-title">
 									<view class="top-name">{{item.goods_name}}</view>
 									<view class="top-status">
-										<text v-if="item.status === 2 || item.status === 3"
-											style="color: #1DD181;">{{$t('user.auctionM.shipped')}}</text>
-										<text v-if="item.status === 4"
-											style="color: #1DD181;">{{$t('user.auctionM.receive')}}</text>
-										<text v-if="item.status === 5"
-											style="color: #1DD181;">{{$t('user.auctionM.beConfirmed')}}</text>
-										<text v-if="item.status === 6"
-											style="color: #999999;">{{item.select_way == 1 ? $t('user.auctionM.cash') : $t('user.order.yiwanc')}}</text>
+										<template v-if="item.is_complain === 1">
+											<text style="color: #1DD181;">{{$t('user.auctionM.inAppeal')}}</text>
+										</template>
+										<template v-else>
+											<text v-if="item.status === 2 || item.status === 3" style="color: #1DD181;">{{$t('user.auctionM.shipped')}}</text>
+											<text v-if="item.status === 4" style="color: #1DD181;">{{$t('user.auctionM.receive')}}</text>
+											<text v-if="item.status === 5" style="color: #1DD181;">{{$t('user.auctionM.beConfirmed')}}</text>
+											<text v-if="item.status === 6" style="color: #999999;">{{item.select_way == 1 ? $t('user.auctionM.cash') : $t('user.order.yiwanc')}}</text>
+										</template>
 									</view>
 								</view>
 								<view class="top-bidding">
@@ -181,12 +181,13 @@
 											</view>
 										</template>
 										<template v-if="item.status === 5">
-											<view class="r-button-gray" @click.stop="onAfterSale(item)">
-												{{$t('user.auctionM.appeal')}}
-											</view>
-											<view class="r-button-border" @click.stop="onConfirmOrder(item)">
-												{{$t('user.auctionM.confirmOrder')}}
-											</view>
+											<template v-if="item.is_complain === 0">
+												<view class="r-button-gray" @click.stop="onAfterSale(item)">{{$t('user.auctionM.appeal')}}</view>
+											</template>
+											<!-- <template v-else>
+												<view class="r-button-gray" @click.stop="toAppealDetail(item)">{{$t('user.auctionM.viewAppeal')}}</view>
+											</template> -->
+											<view class="r-button-border" @click.stop="onConfirmOrder(item)">{{$t('user.auctionM.confirmOrder')}}</view>
 										</template>
 										<template v-if="item.status === 6">
 											<view class="r-button-gray" @click.stop="toDetail(item.order_no)">
@@ -531,6 +532,16 @@
 			}
 		},
 		methods: {
+			toAppealDetail(item) {
+				uni.navigateTo({
+					url: '/pages/mine/order/appeal?info=' + JSON.stringify(item)
+				});
+			},
+			toAuctionDetail(id) {
+				uni.navigateTo({
+					url: '/pages/auction/detail?id=' + id
+				});
+			},
 			onCopyText(text) {
 				uni.setClipboardData({
 					data: text
@@ -1868,7 +1879,6 @@
 					}
 
 					p {
-						margin-left: 8rpx;
 						font-size: 24rpx;
 						color: rgb(10, 198, 142);
 					}
@@ -1888,6 +1898,7 @@
 					background: rgba(255, 0, 0, 0.1);
 					border: 1rpx solid rgb(255, 197, 182);
 					border-radius: 100rpx;
+					overflow: hidden;
 					display: flex;
 					justify-content: flex-start;
 					align-items: center;

@@ -569,7 +569,14 @@
 		{
 			"path": "pages/mine/order/ptzcpt",
 			"style": {
-				"navigationBarTitleText": "%top.ddxq%",
+				"navigationBarTitleText": "%top.appeal%",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/mine/order/appeal",
+			"style": {
+				"navigationBarTitleText": "%top.appealDetail%",
 				"enablePullDownRefresh": false
 			}
 		},
