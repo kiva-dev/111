@@ -44,7 +44,7 @@
 					<view>{{$t('new.wdkz')}}</view>
 					<image src="/static/images/products/right.png"></image>
 				</view>
-				<view class="info-price">{{kdiamond || 0}}</view>
+				<view class="info-price">{{kdiamond*1 || 0}}</view>
 			</view>
 			<view class="info" @click="navClick('/pages/mine/points-detail')"
 				style="background: url('/static/images/new-index/wallet_jf.png') no-repeat;background-size: 332rpx 168rpx;">

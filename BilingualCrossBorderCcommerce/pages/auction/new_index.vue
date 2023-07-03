@@ -377,7 +377,16 @@
 							<view class="cent">
 								<view class="li-img">
 									<image class="img" :src="item.avatar"></image>
-									<view class="vip">LV{{item.level}}</view>
+									<view class="box-name-level">
+										<view class="level-icon">
+											<image src="@/static/images/mine/mine_icon_vip.png" mode="widthFix"></image>
+										</view>
+										<view class="level-num">Lv.{{item.level}}</view>
+									</view>
+									<!-- <view class="vip">
+										<image src="@/static/images/mine/mine_icon_vip.png" mode="widthFix"></image>
+										<view>LV{{item.level}}</view>
+									</view> -->
 								</view>
 								<view class="li-txt">
 									<view class="li-h">
@@ -617,10 +626,14 @@
 					<image src="/static/images/kbrick/right.png"></image>
 				</view>
 
-				<view class="mode-switch">
-					<!-- <image src="/static/images/new-index/wxz.png"></image>
-					<view>(Bonus for 10K diamonds)</view> -->
+				<view class="mode-switch" v-if="can_use_invite_money_rate>0">
+					<image src="/static/images/new-index/wxz.png" v-show="!useInvite" @click="useInvite=!useInvite">
+					</image>
+					<image src="/static/images/new-index/xz.png" v-show="useInvite" @click="useInvite=!useInvite">
+					</image>
+					<view>(Bonuses can be used to deduct 10% K diamonds)</view>
 				</view>
+				<view class="mode-switch" v-else></view>
 
 				<view class="mode-btn" @click.stop="$noMultipleClicks(onPayClick)">{{$t('new.payment')}}</view>
 
@@ -793,6 +806,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 	export default {
 		data() {
 			return {
+				useInvite: false, //是否使用赠金
 				kdiamondSelect: false,
 				showRmToKdiamond: false,
 				isBottoming: false,
@@ -934,7 +948,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				selectNotice: {}, //当前显示的公告
 				showNotice: false, //是否显示公告
 				notice: {}, //公告信息
-				jinPaiTimer: ''
+				jinPaiTimer: '',
+				can_use_invite_money_rate: 0, //可使用的增加比例
 			}
 		},
 		watch: {
@@ -1816,6 +1831,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					auction_goods_id: e.auction_goods_id
 				}).then(res => {
 					if (res.code == 1) {
+						this.can_use_invite_money_rate = res.data.can_use_invite_money_rate
 						this.money = res.data.recharge_money_balance
 						this.balance = res.data.k_diamond_wallet
 						this.auction_num = (e.auction_type == 2 && e.total_least_num == 0) ? res.data
@@ -1869,7 +1885,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				}
 				this.shopNum = (this.shopCont.auction_price * Number(this.isauctionNum)).toFixed(2)
 				this.$refs.pwdPopup.close()
-				this.$refs.pwdPopup2.open()
+				this.onOrderReferCartOrder()
 			},
 			// 点击有剩余次数取消
 			ongoPayQuery() {
@@ -2010,7 +2026,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					money: this.shopNum, // 支付总金额
 					pay_pwd: pay_pwd, // rsa加密后的支付密码
 					is_use_recharge: 2,
-					is_use_invite: 2,
+					is_use_invite: this.useInvite ? 1 : 2,
 					is_use_k_diamond: 1,
 					is_balance_convert_k_diamond: this.kdiamondSelect ? 1 : 2
 				}).then(res => {
@@ -4584,7 +4600,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						}
 
 						.vip {
-							width: 72rpx;
+							width: 102rpx;
 							height: 28rpx;
 							text-indent: 32rpx;
 							font-size: 16rpx;
@@ -4592,14 +4608,40 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							margin-left: -4rpx;
 							line-height: 25rpx;
 							background: url('/static/images/new-index/vips.png') no-repeat;
-							background-size: 72rpx 28rpx;
+							background-size: 102rpx 28rpx;
 							border-radius: 12rpx;
 							margin-top: 8rpx;
+						}
+						
+						.box-name-level {
+							width: 120rpx;
+							height: 40rpx;
+							margin-left: 20rpx;
+							background: rgb(253, 240, 226);
+							border-radius: 100rpx;
+							display: flex;
+							margin-left: -20rpx;
+						
+							.level-icon {
+								width: 40rpx;
+								height: 40rpx;
+						
+								image {
+									width: 100%;
+								}
+							}
+						
+							.level-num {
+								margin-left: 8rpx;
+								color: rgb(219, 132, 37);
+								font-size: 20rpx;
+								line-height: 40rpx;
+							}
 						}
 
 						.li-txt {
 							width: 540rpx;
-							word-break: break-all;
+							// word-break: break-all;
 							flex: 1;
 
 							.li-h {

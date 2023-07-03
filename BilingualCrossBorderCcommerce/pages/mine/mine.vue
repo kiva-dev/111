@@ -61,7 +61,7 @@
 				<view class="container-tit">
 					<view class="ct-left">
 						<view class="ct-left-icon">
-							<image src="@/static/images/mine/mine_icon_wallet.png" mode="widthFix"></image>
+							<image src="@/static/images/mine/assets.png" mode="widthFix"></image>
 						</view>
 						<view class="ct-left-name">{{$t('mine.assets')}}</view>
 					</view>
@@ -564,7 +564,7 @@
 							}
 
 							.box-name-level {
-								width: 100rpx;
+								width: 120rpx;
 								height: 40rpx;
 								margin-left: 20rpx;
 								background: rgb(253, 240, 226);

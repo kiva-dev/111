@@ -21,7 +21,7 @@
 		<!--商品列表-->
 		<view class="list">
 			<view class="list-head">
-				<image src="/static/images/me/auth1.png"></image>
+				<image :src="shopInfo.shop_logo"></image>
 				<view>{{shopInfo.shop_name}}</view>
 			</view>
 			<view class="item" v-for="(data,index) in OrderList" :key="data.id">
@@ -53,6 +53,7 @@
 			<view class="pay-info" v-for="(item,k) in orderPayList" :key="item.id">
 				<image :src="item.img" class="pay-info-logo"></image>
 				<view class="pay-info-name">{{item.title}}</view>
+				<view class="pay-info-price" v-if="item.id==1">(RM{{userCont.recharge_money_balance*1}})</view>
 				<image src="/static/images/new-index/wxz.png" class="pay-info-xz" v-show="!item.isShow"
 					@click="selectPayType(item)"></image>
 				<image src="/static/images/new-index/xz.png" class="pay-info-xz" v-show="item.isShow"
@@ -245,20 +246,16 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		},
 		onShow() {
 			this.onAddressList()
-			this.onMineInfo()
+			// this.onMineInfo()
 			this.getOrderInfo()
 
 			if (uni.getStorageSync('token')) {
 				// 实名认证
-				this.$http.post(this.$apiObj.MineAuthDetail).then(res => {
-					if (res.code == 1) {
-						this.MineCont = res.data
-					}
-				})
 				// 判断是否设置支付密码
 				this.$http.post(this.$apiObj.MineInfo).then(res => {
 					if (res.code == 1) {
 						this.set_paypwd = res.data.set_paypwd
+						this.userCont = res.data
 					}
 				})
 			}
@@ -842,6 +839,11 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				.pay-info-name {
 					font-size: 24rpx;
 					color: rgb(51, 51, 51);
+				}
+				
+				.pay-info-price{
+					font-size: 24rpx;
+					color: rgb(255, 57, 57);
 				}
 
 				.pay-info-xz {

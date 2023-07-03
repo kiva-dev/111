@@ -934,6 +934,20 @@
 				"navigationBarTitleText": "%top.ddxq%",
 				"enablePullDownRefresh": false
 			}
+		},
+		{
+			"path": "pages/auction/customer_service",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/cart/order_success",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
 		}
 	],
 	"globalStyle": {

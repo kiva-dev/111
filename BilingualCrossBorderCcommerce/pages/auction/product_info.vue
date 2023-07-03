@@ -544,7 +544,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			if (!this.isClick) {
 				if (res.scrollTop >= this.heightList[0] && res.scrollTop < this.heightList[1]) this.navId = 1
 				else if (res.scrollTop >= this.heightList[1] && res.scrollTop < this.heightList[2]) this.navId = 2
-				else if (res.scrollTop >= this.heightList[2] ) this.navId = 3
+				else if (res.scrollTop >= this.heightList[2]) this.navId = 3
 				// else this.navId = 4
 			}
 
@@ -630,15 +630,18 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					group_type: 0,
 					major_no: 0
 				}).then(res => {
-					uni.showToast({
-						title: res.msg,
-						icon: 'none'
-					})
-					setTimeout(() => {
-						uni.navigateTo({
-							url: '/pages/cart/orderinfo?order_no=' + res.data.order_no
+					if (res.code == 1) {
+						uni.showToast({
+							title: res.msg,
+							icon: 'none'
 						})
-					},1500)
+						setTimeout(() => {
+							uni.navigateTo({
+								url: '/pages/cart/orderinfo?order_no=' + res.data.order_no
+							})
+						}, 1500)
+					}
+
 
 				})
 
@@ -2310,6 +2313,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				.item-price {
 					position: absolute;
 					bottom: 2rpx;
+
 					span {
 						color: rgb(255, 57, 57);
 						font-size: 32rpx;

@@ -261,6 +261,8 @@
 				</view>
 				<view class="six-article" v-if="isShopCont" v-html="shopCont.english_content"></view>
 				<view class="six-article" v-else v-html="shopCont.content"></view>
+				<view class="six-article" v-if="isShopCont" v-html="shopCont.en_auction_bottom_desc"></view>
+				<view class="six-article" v-else v-html="shopCont.zh_auction_bottom_desc"></view>
 			</view>
 			<div id="div4"></div>
 			<!--竞拍记录-->
@@ -316,7 +318,7 @@
 				<div id="div5"></div>
 				<view class="six-tit">
 					<view class="line"></view>
-					<text>{{$t('auction.detail.jingpaijilu')}}</text>
+					<text>{{$t('newDetail.guize')}}</text>
 					<view class="line"></view>
 				</view>
 				<view style="background: #fff;">
@@ -515,11 +517,13 @@
 					<view class="tit">{{$t('new.jh')}}:</view>
 					<image src="/static/images/kbrick/diamond.png" class="logo"></image>
 					<view class="num">{{(shopNum*1 - balance*1)>0 ? shopNum*1 - balance*1 : 0}}</view>
-					<view class="price">RM <text>{{(shopNum*1 - balance*1)>0 ? shopNum*1 - balance*1 : 0}}</text></view>
+					<view class="price">RM <text>{{(shopNum*1 - balance*1) > 0 ? shopNum*1 - balance*1 : 0}}</text></view>
 					<image src="/static/images/new-index/wxz.png" class="select"
-						v-show="!kdiamondSelect && (shopNum*1 - balance*1)>0" @click="kdiamondSelect=true"></image>
+						v-show="!kdiamondSelect && (shopNum*1 - balance*1) > 0 && money*1 >= shopNum*1"
+						@click="kdiamondSelect=true"></image>
 					<image src="/static/images/new-index/xz.png" class="select"
-						v-show="kdiamondSelect && (shopNum*1 - balance*1)>0" @click="kdiamondSelect=false"></image>
+						v-show="kdiamondSelect && (shopNum*1 - balance*1) > 0 && money*1 >= shopNum*1"
+						@click="kdiamondSelect=false"></image>
 				</view>
 
 				<view class="mode-cz">
@@ -527,10 +531,14 @@
 					<image src="/static/images/kbrick/right.png"></image>
 				</view>
 
-				<view class="mode-switch">
-					<!-- <image src="/static/images/new-index/wxz.png"></image>
-					<view>(Bonus for 10K diamonds)</view> -->
+				<view class="mode-switch" v-if="can_use_invite_money_rate>0">
+					<image src="/static/images/new-index/wxz.png" v-show="!useInvite" @click="useInvite=!useInvite">
+					</image>
+					<image src="/static/images/new-index/xz.png" v-show="useInvite" @click="useInvite=!useInvite">
+					</image>
+					<view>(Bonuses can be used to deduct 10% K diamonds)</view>
 				</view>
+				<view class="mode-switch" v-else></view>
 
 				<view class="mode-btn" @click.stop="$noMultipleClicks(onPayClick)">{{$t('new.payment')}}</view>
 
@@ -592,6 +600,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		},
 		data() {
 			return {
+				useInvite: false, //是否使用赠金
 				kdiamondSelect: false,
 				showRmToKdiamond: false,
 				likeList: [{
@@ -671,21 +680,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				timer: "", //定时器
 				hotList: [], //热门推荐
 				youLikeList: [], //猜你喜欢
-			}
-		},
-		watch: {
-			money: {
-				handler(e, m) {
-					this.orderPayList = [{
-						id: 1,
-						title: this.$t('auction.detail.yuerzhifu'),
-						isShow: false
-					}, {
-						id: 2,
-						title: this.$t('new.zfjezf'),
-						isShow: false
-					}]
-				}
+				can_use_invite_money_rate: 0, //可使用的增加比例
 			}
 		},
 		onLoad(e) {
@@ -1168,6 +1163,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					auction_goods_id: this.id
 				}).then(res => {
 					if (res.code == 1) {
+						this.can_use_invite_money_rate = res.data.can_use_invite_money_rate
 						this.money = res.data.recharge_money_balance
 						this.balance = res.data.k_diamond_wallet
 						this.auction_num = (this.shopCont.auction_type == 2 && this.shopCont.total_least_num ==
@@ -1222,8 +1218,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				this.shopNum = (this.shopCont.auction_price * Number(this.isauctionNum)).toFixed(2)
 				// this.$refs.qiangpaiShow.close()
 				this.qiangpaiShow = false
-				this.jingpaiShow = true
-				// this.$refs.jingpaiShow.open()
+
+				this.onOrderReferCartOrder()
 			},
 			onQuanClick(item) {
 				item.isShow = !item.isShow
@@ -1434,7 +1430,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					money: this.shopNum, // 支付总金额
 					pay_pwd: pay_pwd, // rsa加密后的支付密码
 					is_use_recharge: 2,
-					is_use_invite: 2,
+					is_use_invite: this.useInvite ? 1 : 2,
 					is_use_k_diamond: 1,
 					is_balance_convert_k_diamond: this.kdiamondSelect ? 1 : 2
 				}).then(res => {
@@ -1703,6 +1699,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				.item-price {
 					position: absolute;
 					bottom: 2rpx;
+
 					span {
 						color: rgb(255, 57, 57);
 						font-size: 32rpx;
@@ -3697,6 +3694,10 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		.six-article {
 			padding: 30rpx;
 			word-break: break-all;
+
+			/deep/ img {
+				width: 690rpx;
+			}
 		}
 	}
 

@@ -47,9 +47,9 @@
 		</view>
 
 		<!--支付方式-->
-		<view class="pay-type">
+		<view class="pay-type" v-show="!payAll">
 			<view class="pay-head">Payment method</view>
-			<view class="pay-info" v-for="(item,k) in orderPayList" :key="item.id">
+			<view class="pay-info" v-for="(item,k) in orderPayList.slice(0,2)" :key="item.id">
 				<image :src="item.img" class="pay-info-logo"></image>
 				<view class="pay-info-name">{{item.title}}</view>
 				<image src="/static/images/new-index/wxz.png" class="pay-info-xz" v-show="!item.isShow"
@@ -63,6 +63,17 @@
 				<image src="../../static/images/new-index/btm.png"></image>
 			</view> -->
 		</view>
+		<!-- <view class="pay-type" v-show="payAll">
+			<view class="pay-head">Payment method</view>
+			<view class="pay-info" v-for="(item,k) in orderPayList" :key="item.id">
+				<image :src="item.img" class="pay-info-logo"></image>
+				<view class="pay-info-name">{{item.title}}</view>
+				<image src="/static/images/new-index/wxz.png" class="pay-info-xz" v-show="!item.isShow"
+					@click="selectPayType(item)"></image>
+				<image src="/static/images/new-index/xz.png" class="pay-info-xz" v-show="item.isShow"
+					@click="selectPayType(item)"></image>
+			</view>
+		</view> -->
 
 
 		<view class="sub-fixed">
@@ -190,6 +201,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				order_no: '', // 小订单号
 				pay_pwd: '', // 支付密码
 				use_limit: 0, // 优惠券满足条件
+				time: '',
 				orderPayList: [{
 					id: 1,
 					title: this.$t('order.yezf'),
@@ -197,14 +209,14 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					img: '../../static/images/new-index/balance.png'
 				}, {
 					id: 2,
-					title: this.$t('order.sfzf'),
+					title: 'PayEssence',
 					isShow: false,
-					img: '@/static/images/new-index/cards.png'
+					img: '/static/images/new-index/pe.png'
 				}, {
 					id: 3,
-					title: 'Apple Pay',
+					title: 'Combination payment',
 					isShow: false,
-					img: '@/static/images/new-index/apple.png'
+					img: '/static/images/new-index/zh.png'
 				}, ],
 				orderCont: '',
 				isShopCont: false, // 中文还是英文
@@ -212,31 +224,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				MineCont: {}
 			}
 		},
-		watch: {
-			total: {
-				handler(e, m) {
-					if (e < 10) {
-						this.orderPayList = [{
-							id: 1,
-							title: this.$t('auction.detail.yuerzhifu'),
-							isShow: false
-						}]
-					} else {
-						this.orderPayList = [{
-							id: 1,
-							title: this.$t('auction.detail.yuerzhifu'),
-							isShow: false,
-							img: '/static/images/new-index/balance.png'
-						}, {
-							id: 2,
-							title: this.$t('auction.detail.sfzfu'),
-							isShow: false,
-							img: '/static/images/new-index/cards.png'
-						}]
-					}
-				}
-			},
-		},
+
 		onLoad(e) {
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
 			this.cart_ids = e.cart_ids
@@ -446,6 +434,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					if (res.code == 1) {
 						this.major_no = res.data.major_no
 						this.order_no = res.data.order_no
+						this.time = res.time
 
 						// uni.showToast({
 						// 	icon: 'none',
@@ -564,7 +553,9 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 						setTimeout(() => {
 							uni.redirectTo({
-								url: '/pages/mine/order/order?tabIndex=10'
+								url: '/pages/cart/order_success?order_price=' + price +
+									'&order_no=' + (this.major_no ? this.major_no : this
+									.order_no) + '&time='+this.time
 							})
 						}, 2000)
 
