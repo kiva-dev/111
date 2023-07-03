@@ -141,10 +141,14 @@
 											<text style="color: #1DD181;">{{$t('user.auctionM.inAppeal')}}</text>
 										</template>
 										<template v-else>
-											<text v-if="item.status === 2 || item.status === 3" style="color: #1DD181;">{{$t('user.auctionM.shipped')}}</text>
-											<text v-if="item.status === 4" style="color: #1DD181;">{{$t('user.auctionM.receive')}}</text>
-											<text v-if="item.status === 5" style="color: #1DD181;">{{$t('user.auctionM.beConfirmed')}}</text>
-											<text v-if="item.status === 6" style="color: #999999;">{{item.select_way == 1 ? $t('user.auctionM.cash') : $t('user.order.yiwanc')}}</text>
+											<text v-if="item.status === 2 || item.status === 3"
+												style="color: #1DD181;">{{$t('user.auctionM.shipped')}}</text>
+											<text v-if="item.status === 4"
+												style="color: #1DD181;">{{$t('user.auctionM.receive')}}</text>
+											<text v-if="item.status === 5"
+												style="color: #1DD181;">{{$t('user.auctionM.beConfirmed')}}</text>
+											<text v-if="item.status === 6"
+												style="color: #999999;">{{item.select_way == 1 ? $t('user.auctionM.cash') : $t('user.order.yiwanc')}}</text>
 										</template>
 									</view>
 								</view>
@@ -182,12 +186,14 @@
 										</template>
 										<template v-if="item.status === 5">
 											<template v-if="item.is_complain === 0">
-												<view class="r-button-gray" @click.stop="onAfterSale(item)">{{$t('user.auctionM.appeal')}}</view>
+												<view class="r-button-gray" @click.stop="onAfterSale(item)">
+													{{$t('user.auctionM.appeal')}}</view>
 											</template>
 											<!-- <template v-else>
 												<view class="r-button-gray" @click.stop="toAppealDetail(item)">{{$t('user.auctionM.viewAppeal')}}</view>
 											</template> -->
-											<view class="r-button-border" @click.stop="onConfirmOrder(item)">{{$t('user.auctionM.confirmOrder')}}</view>
+											<view class="r-button-border" @click.stop="onConfirmOrder(item)">
+												{{$t('user.auctionM.confirmOrder')}}</view>
 										</template>
 										<template v-if="item.status === 6">
 											<view class="r-button-gray" @click.stop="toDetail(item.order_no)">
@@ -307,10 +313,10 @@
 					<view class="order-item-status" style="background: #FF3939;" v-if="item.win === '0'">
 						{{$t('user.auctionM.going')}}
 					</view>
-					<view class="order-item-status" style="background: #1DD181;" v-if="item.win === '2'">
+					<view class="order-item-status" style="background: #1DD181;" v-if="item.win === '1'">
 						{{$t('user.auctionM.captured')}}
 					</view>
-					<view class="order-item-status" style="background: #CCCCCC;" v-if="item.win === '1'">
+					<view class="order-item-status" style="background: #CCCCCC;" v-if="item.win*1 >= 2">
 						{{$t('user.auctionM.miss')}}
 					</view>
 					<view class="order-item-cover">
@@ -2042,8 +2048,8 @@
 						color: rgb(255, 57, 57);
 						font-size: 32rpx;
 						font-weight: bold;
-						
-						image{
+
+						image {
 							width: 24rpx;
 							height: 24rpx;
 						}
