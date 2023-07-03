@@ -196,9 +196,8 @@
 												{{$t('user.auctionM.confirmOrder')}}</view>
 										</template>
 										<template v-if="item.status === 6">
-											<view class="r-button-gray" @click.stop="toDetail(item.order_no)">
-												{{$t('user.auctionM.award')}}
-											</view>
+											<!-- <view class="r-button-gray" @click.stop="toDetail(item.order_no)">{{$t('user.auctionM.award')}}</view> -->
+											<view class="r-button-gray" @click.stop="toAppealDetail(item)">{{$t('user.auctionM.viewAppeal')}}</view>
 										</template>
 									</view>
 								</view>

@@ -668,7 +668,6 @@
 		<!--支付方式弹出 end-->
 		<!--支付密码弹出 start-->
 		<uni-popup ref="pwdsPopup" type="center">
-
 			<view class="pay-pwd">
 				<image src="/static/images/kbrick/close.png" class="pay-pwd-close" @click="onPwdQuery"></image>
 				<view class="pay-pwd-info">
@@ -682,12 +681,10 @@
 					<view class="pay-pwd-info-btn" @click="onPwdClick">{{$t('auction.detail.btnsub')}}</view>
 				</view>
 			</view>
-
 		</uni-popup>
 		<!--支付密码弹出 end-->
 		<!--支付成功弹出 start-->
 		<uni-popup ref="payPopup" type="center">
-
 			<view class="pay-pwd">
 				<view class="pay-pwd-info" style="height: 308rpx;">
 					<view class="pay-pwd-info-tit" style="font-size: 32rpx;">{{$t('auction.detail.gxnzfcgznzp')}}</view>
@@ -3713,9 +3710,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						margin-left: 40rpx;
 					}
 				}
-
 			}
-
 		}
 
 

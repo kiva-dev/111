@@ -19,7 +19,7 @@
 			}
 		},
 		onShow() {
-			this.setMallTabbar();
+			// this.setMallTabbar();
 		},
 		methods: {
 			setMallTabbar() {

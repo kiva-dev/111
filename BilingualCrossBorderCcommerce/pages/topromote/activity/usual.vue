@@ -1,7 +1,7 @@
 <template>
 	<view class="share">
 		<view class="share-head">
-			<image src="/static/images/mine/index.png" class="share-head-index" @click="toindex"></image>
+			<image src="/static/images/mine/index.png"class="share-head-index" @click="toindex"></image>
 			<image src="/static/images/mine/share.png" class="share-head-share" @click="open"></image>
 			<image src="/static/images/mine/but.png" class="share-head-btn" @click="toregister"></image>
 		</view>
@@ -114,7 +114,8 @@
 		width: 100%;
 		min-height: 100vh;
 		background: linear-gradient(225.00deg, rgba(169, 20, 19, 1.00) 0%, rgba(225, 46, 0, 1.00) 26.712%, rgba(242, 105, 75, 1.00) 71.679%, rgba(255, 134, 114, 1.00) 100%);
-
+		position: relative;
+		
 		.share-head {
 			position: relative;
 			width: 750rpx;

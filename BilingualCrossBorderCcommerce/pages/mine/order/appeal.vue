@@ -16,42 +16,13 @@
 					<view class="product-info-box">
 						<view class="box-goods">{{goodsInfo.goods_name}}</view>
 						<view class="box-detail">
-							<view class="box-detail-l">
-								<p class="l-current"><text>RM</text>{{goodsInfo.auction_original_price}}</p>
-								<p class="l-original">RM{{goodsInfo.price}}</p>
-							</view>
-							<view class="box-detail-r">x{{goodsInfo.auction_count}}</view>
+							<view class="box-detail-tit">original price:</view>
+							<view class="box-detail-price"><text>RM</text>{{goodsInfo.auction_original_price}}</view>
 						</view>
 					</view>
 				</view>
 			</view>
 			<view class="al-c-data">
-				<view class="data-item">
-					<view class="data-item-l">{{$t('auction.detail.commodity')}}</view>
-					<view class="data-item-r">{{goodsInfo.stage_num}}</view>
-				</view>
-				<view class="data-item">
-					<view class="data-item-l">{{$t('auction.detail.market')}}</view>
-					<view class="data-item-r">RM {{goodsInfo.price}}</view>
-				</view>
-				<view class="data-item">
-					<view class="data-item-l">{{$t('auction.detail.bid')}}</view>
-					<view class="data-item-r">RM {{goodsInfo.auction_price}}</view>
-				</view>
-				<view class="data-item">
-					<view class="data-item-l">{{$t('auction.detail.number')}}</view>
-					<view class="data-item-r">x{{goodsInfo.auction_count}}</view>
-				</view>
-				<view class="data-item">
-					<view class="data-item-l">{{$t('auction.detail.bidding')}}</view>
-					<view class="data-item-r price"><text>RM</text>{{goodsInfo.auction_amount}}</view>
-				</view>
-			</view>
-			<view class="al-c-data">
-				<view class="data-item">
-					<view class="data-item-l">{{$t('auction.detail.recharge')}}</view>
-					<view class="data-item-r">RM {{goodsInfo.recharge_money}}</view>
-				</view>
 				<view class="data-item">
 					<view class="data-item-l">{{$t('auction.detail.gift')}}</view>
 					<view class="data-item-r">RM {{goodsInfo.use_presentation_money}}</view>
@@ -61,6 +32,9 @@
 					<view class="data-item-r price"><text>RM</text>{{goodsInfo.pay_price}}</view>
 				</view>
 			</view>
+		</view>
+		<view class="al-description">
+			
 		</view>
 	</view>
 </template>
@@ -175,32 +149,21 @@
 						
 						.box-detail {
 							width: 100%;
-							display: flex;
-							justify-content: space-between;
-							align-items: center;
 							
-							.box-detail-l {
-								
-								.l-current {
-									color: rgb(51, 51, 51);
-									font-size: 32rpx;
-									font-weight: bold;
-									
-									text {
-										font-size: 20rpx;
-									}
-								}
-								
-								.l-original {
-									color: rgb(153, 153, 153);
-									font-size: 16rpx;
-									text-decoration: line-through;
-								}
+							.box-detail-tit {
+								color: rgb(102, 102, 102);
+								font-size: 24rpx;
 							}
 							
-							.box-detail-r {
-								color: rgb(153, 153, 153);
-								font-size: 20rpx;
+							.box-detail-price {
+								margin-top: 8rpx;
+								color: rgb(51, 51, 51);
+								font-size: 32rpx;
+								font-weight: bold;
+								
+								text {
+									font-size: 20rpx;
+								}
 							}
 						}
 					}
@@ -209,12 +172,6 @@
 			
 			.al-c-data {
 				width: 100%;
-				border-bottom: 1px solid rgb(204, 204, 204);
-				box-sizing: border-box;
-				
-				&:last-child {
-					border: none;
-				}
 				
 				.data-item {
 					display: flex;
@@ -244,6 +201,13 @@
 					}
 				}
 			}
+		}
+		
+		.al-description {
+			width: 100%;
+			padding: 32rpx 24rpx;
+			box-sizing: border-box;
+			background: #FFFFFF;
 		}
 	}
 </style>

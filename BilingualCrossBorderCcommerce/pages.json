@@ -4,7 +4,7 @@
 	},
 	"pages": [
 		//pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-		
+
 		{
 			"path": "pages/auction/new_index",
 			"style": {
@@ -962,8 +962,7 @@
 		"selectedColor": "#1DD181",
 		"backgroundColor": "#FFF",
 		"borderStyle": "#fff",
-		"list": [
-			{
+		"list": [{
 				"pagePath": "pages/auction/new_index",
 				"text": "%tab.home%",
 				"iconPath": "/static/images/new-index/Home.png",
@@ -975,11 +974,17 @@
 				"iconPath": "/static/images/new-index/Products.png",
 				"selectedIconPath": "/static/images/new-index/Products1.png"
 			},
+			// {
+			// 	"pagePath": "pages/auction/lucky",
+			// 	"text": "%auction.xyzq%",
+			// 	"iconPath": "/static/images/new-index/Lucky.png",
+			// 	"selectedIconPath": "/static/images/new-index/Lucky1.png"
+			// },
 			{
-				"pagePath": "pages/auction/lucky",
-				"text": "%auction.xyzq%",
-				"iconPath": "/static/images/new-index/Lucky.png",
-				"selectedIconPath": "/static/images/new-index/Lucky1.png"
+				"pagePath": "pages/auction/auction",
+				"text": "%tab.auction%",
+				"iconPath": "/static/images/new-index/Auction.png",
+				"selectedIconPath": "/static/images/new-index/Auction1.png"
 			},
 			{
 				"pagePath": "pages/mine/mine",
