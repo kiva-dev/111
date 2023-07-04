@@ -502,6 +502,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				uni.setStorageSync('invite_code', e.invite_code)
 			}
 			if (uni.getStorageSync('token')) {
+				this.getAllAddress()
 				this.$http.post(this.$apiObj.MineInfo).then(res => {
 					if (res.code == 1) {
 						this.qrUrl = 'https://h5.kolibrimall.com/h5/#/pages/auction/detail?id=' + e.id +
@@ -529,7 +530,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 		},
 		onShow() {
-			this.getAllAddress()
+			
 		},
 		onHide() {
 			clearInterval(this.timer)

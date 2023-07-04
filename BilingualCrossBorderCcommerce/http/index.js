@@ -53,8 +53,8 @@ request.interceptors.response.use(function(response) { //不要使用箭头函�
 		if (code == 0) {
 			let isShopCont = uni.getStorageSync('locale') == 'en' ? true : false // 中文还是英文
 			let zhStr = msg
-			let appid = '20220914001342711'
-			let userkey = 'QzytrtrDkXeAeaEp_yW3'
+			let appid = '20230630001729096'
+			let userkey = '8e_t3vzBtUjLMRNafCp5'
 			let salt = (new Date).getTime()
 			const str = `${appid}${zhStr}${salt}${userkey}`;
 			const sign = md5(str); /* md5加密，生成签名 */
@@ -117,7 +117,9 @@ request.interceptors.response.use(function(response) { //不要使用箭头函�
 			let isEnglish = uni.getStorageSync('locale') == 'en' ? true : false;
 			uni.showModal({
 				title: isEnglish ? 'Tips' : '温馨提示',
-				content: isEnglish ? 'You are not logged in or your identity has expired, please go to login.' : '您暂未登录或身份过期，请前往登录。',
+				content: isEnglish ?
+					'You are not logged in or your identity has expired, please go to login.' :
+					'您暂未登录或身份过期，请前往登录。',
 				success: (res) => {
 					if (res.confirm) {
 						uni.redirectTo({

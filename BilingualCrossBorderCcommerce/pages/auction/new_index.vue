@@ -349,7 +349,7 @@
 				</view>
 			</block>
 
-			<view class="luck_list">
+			<!-- 			<view class="luck_list">
 				<view class="head">
 					<image src="/static/images/new-index/lv-start.png" class="head_img"></image>
 					<view class="head_txt">
@@ -376,10 +376,6 @@
 										</view>
 										<view class="level-num">Lv.{{item.level}}</view>
 									</view>
-									<!-- <view class="vip">
-										<image src="@/static/images/mine/mine_icon_vip.png" mode="widthFix"></image>
-										<view>LV{{item.level}}</view>
-									</view> -->
 								</view>
 								<view class="li-txt">
 									<view class="li-h">
@@ -439,7 +435,7 @@
 					</view>
 				</view>
 
-			</view>
+			</view> -->
 
 		</view>
 
@@ -1161,12 +1157,12 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			clearInterval(this.jinPaiTimer)
 		},
 		methods: {
-			toXyzx(){
+			toXyzx() {
 				uni.switchTab({
-					url:'/pages/auction/lucky'
+					url: '/pages/auction/lucky'
 				})
 			},
-			
+
 			//添加购物车
 			addCart(item) {
 				this.$http.post(this.$apiObj.CartAdd, {
@@ -1222,14 +1218,9 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				})
 			},
 			productMore() {
-				if (this.productId == 1) {
-					uni.setStorageSync('productId', 1)
-					uni.switchTab({
-						url: '/pages/auction/jjks'
-					})
-				} else {
-					this.toMore(1)
-				}
+				uni.switchTab({
+					url: '/pages/auction/jjks'
+				})
 			},
 			//查看更多
 			toMore(id) {
@@ -1252,7 +1243,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			//首页logo页面跳转
 			switchLogoToProduct(id) {
 				uni.setStorageSync('switch_id', id)
-				uni.setStorageSync('productId', 1)
 				uni.switchTab({
 					url: '/pages/auction/jjks'
 				})
@@ -1811,7 +1801,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			// 个人信息获取剩余竞拍次数
 			onMineInfo(e) {
 				let that = this
-
 				this.isauctionNum = ''
 				this.shopCont = e
 				that.pay_pwd = ''
@@ -4578,7 +4567,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							border-radius: 12rpx;
 							margin-top: 8rpx;
 						}
-						
+
 						.box-name-level {
 							width: 120rpx;
 							height: 40rpx;
@@ -4587,16 +4576,16 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							border-radius: 100rpx;
 							display: flex;
 							margin-left: -20rpx;
-						
+
 							.level-icon {
 								width: 40rpx;
 								height: 40rpx;
-						
+
 								image {
 									width: 100%;
 								}
 							}
-						
+
 							.level-num {
 								margin-left: 8rpx;
 								color: rgb(219, 132, 37);

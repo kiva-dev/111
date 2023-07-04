@@ -403,6 +403,20 @@
 									</block>
 									<block v-else>{{auction_num}}</block>
 								</view>
+
+								<view class="protocol">
+									<image src="/static/images/new-index/wxz.png" class="protocol_img"
+										v-show="!selectProtocol" @click="selectProtocol=true"></image>
+									<image src="/static/images/new-index/xz.png" class="protocol_img"
+										v-show="selectProtocol" @click="selectProtocol=false"></image>
+									<view class="protocol_info">
+										<view class="protocol_txt1">{{$t('auction.detail.brywqydbty')}}</view>
+										<navigator url="../mine/jpxy" hover-class="none" class="protocol_txt2">
+											《{{$t('auction.detail.jphdgommzxy')}}》
+										</navigator>
+									</view>
+
+								</view>
 							</view>
 						</view>
 						<view class="qiangpai-btn">
@@ -517,7 +531,8 @@
 					<view class="tit">{{$t('new.jh')}}:</view>
 					<image src="/static/images/kbrick/diamond.png" class="logo"></image>
 					<view class="num">{{(shopNum*1 - balance*1)>0 ? shopNum*1 - balance*1 : 0}}</view>
-					<view class="price">RM <text>{{(shopNum*1 - balance*1) > 0 ? shopNum*1 - balance*1 : 0}}</text></view>
+					<view class="price">RM <text>{{(shopNum*1 - balance*1) > 0 ? shopNum*1 - balance*1 : 0}}</text>
+					</view>
 					<image src="/static/images/new-index/wxz.png" class="select"
 						v-show="!kdiamondSelect && (shopNum*1 - balance*1) > 0 && money*1 >= shopNum*1"
 						@click="kdiamondSelect=true"></image>
@@ -600,6 +615,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		},
 		data() {
 			return {
+				selectProtocol: false, //默认不勾选协议
 				useInvite: false, //是否使用赠金
 				kdiamondSelect: false,
 				showRmToKdiamond: false,
@@ -1195,6 +1211,12 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					icon: 'none',
 					title: this.$t('user.auctionM.qtxqpcs')
 				})
+				
+				if(!this.selectProtocol) return uni.showToast({
+					icon: 'none',
+					title: this.$t('login.qydxybty')
+				})
+				
 				if (this.shopCont.auction_type == 1) {
 					// 限额竞拍
 					// 判断抢拍次数 > 剩余次数 return
@@ -2437,6 +2459,38 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							margin-top: 30rpx;
 							color: rgb(10, 198, 142);
 						}
+
+						.protocol {
+							width: 542rpx;
+							display: flex;
+							margin: 32rpx auto 0 auto;
+
+							.protocol_img {
+								display: block;
+								width: 40rpx;
+								height: 40rpx;
+							}
+
+							.protocol_info {
+								width: 432rpx;
+								font-size: 24rpx;
+								margin-left: 16rpx;
+								text-align: left;
+								// word-break: break-all;
+
+								.protocol_txt1 {
+									display: inline;
+									color: rgb(102, 102, 102);
+								}
+
+								.protocol_txt2 {
+									display: inline;
+									color: rgb(51, 51, 51);
+								}
+							}
+
+						}
+
 					}
 				}
 

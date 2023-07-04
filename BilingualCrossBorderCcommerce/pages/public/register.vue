@@ -8,17 +8,21 @@
 				<block v-if="blockNum==1">
 					<view class="switchLoginType">
 						<view class="info" @click="emailOrPhone=1">
-							<image src="/static/images/kbrick/login_email.png" class="email" v-show="emailOrPhone!=1"></image>
-							<image src="/static/images/kbrick/login_email_select.png" class="email" v-show="emailOrPhone==1"></image>
+							<image src="/static/images/kbrick/login_email.png" class="email" v-show="emailOrPhone!=1">
+							</image>
+							<image src="/static/images/kbrick/login_email_select.png" class="email"
+								v-show="emailOrPhone==1"></image>
 							<view class="email_tit" :class="emailOrPhone==1?'select_tit':''">Email</view>
 						</view>
 						<view class="info" @click="emailOrPhone=2">
 							<view class="phone_tit" :class="emailOrPhone==2?'select_tit':''">Phone</view>
-							<image src="/static/images/kbrick/login_phone.png" class="phone" v-show="emailOrPhone!=2"></image>
-							<image src="/static/images/kbrick/login_phone_select.png" class="phone" v-show="emailOrPhone==2"></image>
+							<image src="/static/images/kbrick/login_phone.png" class="phone" v-show="emailOrPhone!=2">
+							</image>
+							<image src="/static/images/kbrick/login_phone_select.png" class="phone"
+								v-show="emailOrPhone==2"></image>
 						</view>
 					</view>
-					
+
 					<view class="register-input" v-show="emailOrPhone==1">
 						<view class="input">
 							<u--input :placeholder="$t('login.qsryx')" v-model="email" border="none" clearable
@@ -310,6 +314,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					title: this.$t('login.qsrsjhm'),
 					icon: 'none'
 				})
+				if (this.codeTxt1 != this.$t('login.hqyzm')) return 
+				
 				if (this.mobile_area_code == 86) {
 					if (this.mobile) {
 						var reg_tel =
@@ -410,6 +416,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					title: this.$t('login.qsryx'),
 					icon: 'none'
 				})
+				if (this.codeTxt != this.$t('login.hqyzm')) return 
+				
 				if (this.email) {
 					var reg_tel = /^[a-zA-Z0-9]+([-_.][a-zA-Z0-9]+)*@([a-zA-Z0-9]+[-.])+[A-Za-zd]{2,5}$/
 					if (!reg_tel.test(this.email)) return uni.showToast({
@@ -462,9 +470,9 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					email_code: this.email_code
 				}).then(res => {
 					if (res.code == 1) {
-						setTimeout(()=>{
+						setTimeout(() => {
 							this.blockNum = 3
-						},200)
+						}, 200)
 						this.showErrCode = false
 					} else {
 						this.showErrCode = true
@@ -472,7 +480,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				})
 			},
 			//手机验证码验证
-			LoginVerifyPhone(){
+			LoginVerifyPhone() {
 				if (!this.email_code) {
 					uni.showToast({
 						title: this.$t('login.qsryzm'),
@@ -486,9 +494,9 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					code: this.email_code
 				}).then(res => {
 					if (res.code == 1) {
-						setTimeout(()=>{
+						setTimeout(() => {
 							this.blockNum = 3
-						},200)
+						}, 200)
 						this.showErrCode = false
 					} else {
 						this.showErrCode = true
@@ -606,7 +614,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 <style lang="less" scoped>
 	.register-page {
-	
+
 		.switchLoginType {
 			position: relative;
 			width: 332rpx;
@@ -617,45 +625,45 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			border: 1rpx solid rgb(10, 198, 142);
 			border-radius: 80rpx;
 			margin: 50rpx 0 -18rpx 32rpx;
-			
-			.info{
+
+			.info {
 				display: flex;
 				align-items: center;
 			}
-		
+
 			.email {
 				width: 64rpx;
 				height: 64rpx;
 				margin-left: 8rpx;
 			}
-		
+
 			.email_tit {
 				font-size: 24rpx;
 				color: rgb(153, 153, 153);
 				margin-left: 12rpx;
 			}
-		
+
 			.phone {
 				position: absolute;
 				right: 8rpx;
 				width: 64rpx;
 				height: 64rpx;
 			}
-		
+
 			.phone_tit {
 				position: absolute;
 				right: 80rpx;
 				font-size: 24rpx;
 				color: rgb(153, 153, 153);
 			}
-			
-			.select_tit{
+
+			.select_tit {
 				font-weight: bold;
 				color: rgb(10, 198, 142);
 			}
-		
+
 		}
-		
+
 		.register-email {
 			width: 100%;
 			margin-top: 32rpx;
