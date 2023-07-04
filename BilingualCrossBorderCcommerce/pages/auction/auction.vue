@@ -340,7 +340,7 @@
 		<uni-popup ref="pwdPopup" type="center">
 			<view class="qiangpaiShow">
 				<!-- <image src="../../static/images/new/tck.png" class="kct"></image> -->
-				<view class="query" @click="onQueryClick">
+				<view class="query" @click="$refs.pwdPopup.close()">
 					<image src="/static/images/kbrick/close.png"> </image>
 				</view>
 				<view class="qiangpaiCont">
@@ -378,8 +378,8 @@
 				<view class="cont">
 					<view></view>
 					<view class="right">
-						<view class="name" @click="onQuery">{{$t('auction.detail.query')}}</view>
-						<view class="ljfx" @click="onFengxiang">{{$t('auction.detail.lijifenxiang')}}</view>
+						<view class="name" @click="$refs.pwdPopup3.close()">{{$t('auction.detail.query')}}</view>
+						<!-- <view class="ljfx" @click="onFengxiang">{{$t('auction.detail.lijifenxiang')}}</view> -->
 					</view>
 				</view>
 			</view>
@@ -413,7 +413,7 @@
 					<view class="cont">
 						<view></view>
 						<view class="right">
-							<view class="name" @click="ongoPayQuery">{{$t('auction.detail.query')}}</view>
+							<view class="name" @click="$refs.pwdPopup2.close()">{{$t('auction.detail.query')}}</view>
 							<view class="ljfx" @click="onOrderReferCartOrder">{{$t('auction.detail.btnsub')}}</view>
 						</view>
 					</view>
@@ -425,7 +425,7 @@
 		<!--支付方式弹出 start-->
 		<uni-popup ref="popup1" type="bottom">
 			<view class="mode-pop">
-				<image src="/static/images/close1.png" class="mode-close" @click="toggle1Close"></image>
+				<image src="/static/images/close1.png" class="mode-close" @click="$refs.popup1.close()"></image>
 				<view class="mode-tit">
 					<image src="/static/images/kbrick/diamond.png"></image>
 					<view>{{shopNum}}</view>
@@ -470,7 +470,7 @@
 		<!--支付密码弹出 start-->
 		<uni-popup ref="pwdsPopup" type="center">
 			<view class="pay-pwd">
-				<image src="/static/images/kbrick/close.png" class="pay-pwd-close" @click="onPwdQuery"></image>
+				<image src="/static/images/kbrick/close.png" class="pay-pwd-close" @click="$refs.pwdsPopup.close()"></image>
 				<view class="pay-pwd-info">
 					<view class="pay-pwd-info-tit">{{$t('auction.detail.qsrzfmm')}}</view>
 					<view class="pay-pwd-info-line"></view>
@@ -494,7 +494,7 @@
 						{{$t('auction.detail.zpydzpjlgg')}}
 					</view>
 					<view class="pay-pwd-list">
-						<view class="pay-pwd-list-cancel" @click="onpayQuery">{{$t('auction.detail.query')}}</view>
+						<view class="pay-pwd-list-cancel" @click="$refs.payPopup.close()">{{$t('auction.detail.query')}}</view>
 						<view class="pay-pwd-list-ok" @click="onQiangpai" v-if="isShowAegin">
 							{{$t('auction.detail.zaipaiyd')}}
 						</view>
@@ -522,13 +522,11 @@
 				kdiamondSelect: false,
 				showRmToKdiamond: false,
 				isBottoming: false,
-				switch_id: 0,
 				id: 2, //决定当前页面展示那个竞拍数据
 				title: 'Ongoing', //标题显示
 				selectId: 1, //不同的显示形式
 				productId: 0,
 				balanceOrOther: 0,
-				selectProductsId: 0,
 				isShowAegin: true,
 				indicatorDots: true,
 				autoplay: true,
@@ -549,10 +547,8 @@
 				date_start: '', // 选择日期
 				show: false,
 				value1: Number(new Date()),
-				keyword: '', // 搜索子
+				keyword: '', // 搜索关键字
 				isShopCont: false, // 商品详情显示中文还是英文
-				cancelText: '',
-				confirmText: '',
 				auction_num: '', // 剩余竞拍次数
 				isauctionNum: '', // 输入的抢拍次数
 				shopCont: '', // 商品详情
@@ -582,7 +578,6 @@
 				monthList: [],
 				// 日列表
 				dateList: [],
-				dateTimePickerTempValue: [0, 0, 1],
 				dateTimePickerValue: [0, 0, 1],
 				locales: [{
 						text: this.$t('locale.en'),
@@ -599,29 +594,6 @@
 			}
 		},
 		watch: {
-			keyword: {
-				handler(e, m) {
-					if (this.navId == 1) {
-						this.pagenum = 5
-					} else [
-						this.pagenum = 10
-					]
-					this.date_start = ''
-					this.page = 1
-					// this.navId = id
-					this.newsjpId = 1
-					this.jijiangId = 1
-					this.lishiId = 1
-					this.jingpaiList = []
-					this.newsjingpaiList = []
-					this.historyList = []
-					this.LuckyList = []
-					this.onAuctionNewGoods()
-					this.onAuctionNotbeginGoods()
-					this.onAuctionHistoryGoods()
-					this.onAuctionLuckyList()
-				}
-			},
 			money: {
 				handler(e, m) {
 					if (e < 10) {
@@ -647,47 +619,6 @@
 					}
 				}
 			},
-			dateTimePickerTempValue: {
-				// 侦听开始之后立即调用
-				immediate: true,
-				handler(newValue) {
-					this.yearList = [
-						new Date().getFullYear() - 1,
-						new Date().getFullYear(),
-						new Date().getFullYear() + 1,
-						new Date().getFullYear() + 2,
-						new Date().getFullYear() + 3,
-						new Date().getFullYear() + 4,
-					]
-					// 当前年
-					const currentYear = new Date().getFullYear()
-					// 当前月
-					const currentMonth = new Date().getMonth() + 1
-					// 当前天
-					const currentDate = new Date().getDate()
-					const year = this.yearList[newValue[2]]
-					if (year === currentYear) {
-						// 当前年
-						const arr = []
-						for (let index = currentMonth; index <= 12; index++) {
-							arr.push(String(index).padStart(2, '0'))
-						}
-						this.monthList = arr
-					} else {
-						this.monthList = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
-					}
-			
-					const month = this.monthList[newValue[0]]
-					// 获取这个月的天数
-					// new Date()第3个参数默认为1，就是每个月的1号，把它设置为0时， new Date()会返回上一个月的最后一天，然后通过getDate()方法得到天数
-					const dayCount = new Date(year, month, 0).getDate()
-					const arr = []
-					for (let index = 1; index <= +dayCount; index++) {
-						arr.push(String(index).padStart(2, '0'))
-					}
-					this.dateList = arr
-				},
-			},
 		},
 		onLoad() {
 			let systemInfo = uni.getSystemInfoSync();
@@ -696,18 +627,10 @@
 			this.isAndroid = systemInfo.platform.toLowerCase() === 'android';
 			uni.onLocaleChange((e) => {
 				this.applicationLocale = e.locale;
-			})
+			});
 		},
 		onShow() {
-			uni.pageScrollTo({
-				scrollTop: 0,
-				duration: 0
-			})
-			this.scrollToTop = 0
-			this.switch_id = 0
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
-			this.cancelText = uni.getStorageSync('locale') == 'en' ? 'cancel' : '取消'
-			this.confirmText = uni.getStorageSync('locale') == 'en' ? 'confirm' : '确认'
 			this.page = 1
 			this.newsjpId = 1
 			this.jijiangId = 1
@@ -716,102 +639,38 @@
 			this.newsjingpaiList = []
 			this.historyList = []
 			this.LuckyList = []
-			this.keyword = ''
 			this.date_start = ''
 			this.navId = 3
 			this.id = 2
 			this.title = this.$t('new.jjks')
 			this.getProductOrJinpai()
 		},
-		onHide() {
-			this.selectProductsId = 0;
-		},
 		onReachBottom() {
-			// 判断是否还有数据
-			// 最新竞拍
-			// this.$bus.$emit('onReachBottom', this.selectProductsId)
-			if (this.page * this.pagenum >= this.totalPageNum) return
-		
-			if (this.productId == 1) {
-				this.page++
-				this.getAllProducts(this.productInfoId)
-			} else {
-				this.page++
-				if (this.id == 1) this.onAuctionNewGoods()
-				else if (this.id == 2) this.onAuctionNotbeginGoods()
-				else this.onAuctionHistoryGoods()
-			}
+			if (this.page * this.pagenum >= this.totalPageNum) return;
+			this.page++;
+			if (this.id == 1) this.onAuctionNewGoods();
+			else if (this.id == 2) this.onAuctionNotbeginGoods();
+			else this.onAuctionHistoryGoods();
 		},
 		methods: {
-			//添加购物车
-			addCart(item) {
-				this.$http.post(this.$apiObj.CartAdd, {
-					goods_spec_id: item.litestore_goods_spec[0].goods_spec_id,
-					num: 1
-				}).then(res => {
-					if (res.code == 1) {
-						uni.showToast({
-							icon: 'none',
-							title: this.isShopCont ? 'Successfully added to shopping cart' : '加入购物车成功'
-						})
-					}
-				})
-			},
-			//获取当前展示普通商品还是竞拍商品
 			getProductOrJinpai() {
-				//如果有值说明是从首页点击更多进入
-				let product = uni.getStorageSync('productId')
-				if (product == 1) {
-					this.switch_id = uni.getStorageSync('switch_id') || 0
-					this.productId = 1
-					this.getAllProducts(this.switch_id)
-					return
-				} else if (product == 2) {
-					this.productId = 2
-					// 最新竞拍
-					this.onAuctionNewGoods()
-					// 最新竞拍
-					this.onAuctionNotbeginGoods()
-					// 历史竞拍
-					this.onAuctionHistoryGoods()
-					//记住当前竞拍选择的品类
-					let id = uni.getStorageSync('jinpaiId')
-					if (id) {
-						this.id = id
-						this.switchJinpai(id)
-					}
-					return
+				// 最新竞拍
+				this.onAuctionNewGoods()
+				// 最新竞拍
+				this.onAuctionNotbeginGoods()
+				// 历史竞拍
+				this.onAuctionHistoryGoods()
+				//记住当前竞拍选择的品类
+				let id = uni.getStorageSync('jinpaiId')
+				if (id) {
+					this.id = id
+					this.switchJinpai(id)
 				}
-				this.$http.post(this.$apiObj.IndexSetting, {
-					fields: 'whether_to_enable_ordinary_mall'
-				}).then(res => {
-					//如果开启了普通商品，当前页面展示普通商品，否则展示竞拍商品数据
-					if (res.data.whether_to_enable_ordinary_mall == 1) {
-						this.productId = 1
-						this.getAllProducts(0)
-					} else {
-						this.productId = 2
-						// 最新竞拍
-						this.onAuctionNewGoods()
-						// 最新竞拍
-						this.onAuctionNotbeginGoods()
-						// 历史竞拍
-						this.onAuctionHistoryGoods()
-					}
-					let id = uni.getStorageSync('jinpaiId')
-					if (id) {
-						this.id = id
-						this.switchJinpai(id)
-						uni.removeStorageSync('jinpaiId')
-					}
-				})
 			},
-			
 			//数据切换
 			switchJinpai(id) {
 				this.id = id
 				this.selectId = 1
-				uni.setStorageSync('productId', 2)
 				if (this.id == 1) {
 					this.title = this.$t('new.zzjp')
 					uni.setStorageSync('jinpaiId', 1) //更新当前选择的竞拍id
@@ -826,163 +685,6 @@
 					this.onAuctionHistoryGoods()
 				}
 			},
-			
-			switchSelection() {
-				this.$on.switchSelection()
-			},
-			toProductInfo(id) {
-				uni.setStorageSync('productInfo', false)
-				uni.navigateTo({
-					url: '/pages/auction/product_info?goodsId=' + id
-				})
-			},
-			//切换选择分类
-			switchSelect(id) {
-				this.switch_id = id
-				uni.setStorageSync('switch_id', id)
-				this.page = 1
-				this.getAllProducts(id)
-			},
-			//获取首页数据
-			getAllProducts(id) {
-				this.productInfoId = id
-				this.$http.post(this.$apiObj.LitestoregoodsIndex, {
-					page: this.page,
-					pagenum: this.pagenum,
-					category_id: id == 0 ? '' : id
-				}).then(res => {
-					if (res.code == 1) {
-						this.totalPageNum = res.data.total
-						res.data.data.forEach(item => {
-							item.litestore_tag.forEach(data => {
-								let arr = data.name.split("|")
-								if (!this.isShopCont) data.name = arr[0]
-								else data.name = arr[1]
-							})
-						})
-						this.productList = this.page == 1 ? res.data.data : [...this.productList, ...res.data
-							.data
-						];
-					}
-				})
-			},
-			toClassify(item) {
-				uni.navigateTo({
-					url: '/pages/auction/classify?id=' + item.id + '&name=' + item.name
-				})
-			},
-			//退出登录
-			onLogout() {
-				this.$http.post(this.$apiObj.MineLoginOut).then(res => {
-					if (res.code == 1) {
-						uni.showToast({
-							title: this.isShopCont ? 'Exit succeeded' : '退出成功',
-							icon: 'none'
-						})
-						uni.removeStorageSync('token');
-						uni.navigateTo({
-							url: '../public/login'
-						})
-						this.$refs.logout.close()
-					}
-				})
-			},
-			//前往登录
-			toLogin() {
-				uni.navigateTo({
-					url: '/pages/public/login'
-				})
-			},
-			//切换语言
-			onChangeLanuage(e) {
-				uni.setStorageSync('UNI_LOCALE', e.code)
-				uni.setStorageSync('locale', e.code)
-				this.$i18n.locale = e.code;
-				if (this.isAndroid) {
-					uni.showModal({
-						content: this.$t('index.language-change-confirm'),
-						success: (res) => {
-							if (res.confirm) {
-								uni.setLocale(e.code);
-							}
-						}
-					})
-				} else {
-					uni.setLocale(e.code);
-					this.$i18n.locale = e.code;
-				}
-				location.reload()
-			},
-			// 选择日期时间
-			handleSelectDateTime() {
-				this.$refs.dateTimePopup.open()
-			},
-			// 日期时间选择器改变
-			handleDateTimePickerChange(event) {
-				// console.log(event.detail.value)
-				const value = event.detail.value
-				this.dateTimePickerTempValue = value
-			},
-			// 日期时间选择器取消
-			handleDateTimePopupCancel() {
-				this.dateTimePickerTempValue = this.dateTimePickerValue
-				this.$refs.dateTimePopup.close()
-			},
-			// 日期时间选择器确定
-			handleDateTimePopupConfirm() {
-			
-				this.dateTimePickerValue = this.dateTimePickerTempValue
-				const year = this.yearList[this.dateTimePickerValue[0]]
-				const month = this.monthList[this.dateTimePickerValue[1]]
-				const date = this.dateList[this.dateTimePickerValue[2]]
-				console.log({
-					year,
-					month,
-					date
-				})
-			
-				this.date_start = `${year}-${month}-${date}`
-				this.show = false
-				this.historyList = []
-				this.page = 1
-				this.onAuctionHistoryGoods()
-				this.$refs.dateTimePopup.close()
-			},
-			onopenClick() {
-				this.$refs.dateTimePopup.open()
-			},
-			onfacebook() {
-				let qrUrl = 'https://h5.kolibrimall.com/h5/#/pages/auction/detail?id=' + this.shopCont.id // 生成二维码的链接
-				let url = `https://www.facebook.com/sharer/sharer.php?u=${qrUrl}`
-				// #ifdef H5
-				window.open(url)
-				// #endif
-				// #ifndef H5
-				plus.runtime.openURL(
-					url,
-					// 打开url失败，执行，如打开的是tabao://但是手机没安装，就会执行报错
-					function(err) {
-						console.log(err);
-					}
-				);
-				// #endif
-			},
-			ontweet() {
-				let qrUrl = 'https://h5.kolibrimall.com/h5/#/pages/auction/detail?id=' + this.shopCont.id // 生成二维码的链接
-				let url = `https://twitter.com/intent/tweet?url=${qrUrl}`
-				// #ifdef H5
-				window.open(url)
-				// #endif
-				// #ifndef H5
-				plus.runtime.openURL(
-					url,
-					// 打开url失败，执行，如打开的是tabao://但是手机没安装，就会执行报错
-					function(err) {
-						console.log(err);
-					}
-				);
-				// #endif
-			},
 			getCaption(str, state) {
 				if (state == 1) {
 					var indexs = str.indexOf("|")
@@ -992,94 +694,6 @@
 					str = str.substring(0, index);
 				}
 				return str;
-			},
-			// 商品关注、取消关注
-			onMineFocus(item) {
-				this.$http.post(this.$apiObj.MineFocus, {
-					type: 3,
-					data_id: item.auction_goods_id
-				}).then(res => {
-					if (res.code == 1) {
-						if (item.goods_focus == 1) {
-							uni.showToast({
-								icon: 'none',
-								title: this.$t('auction.query')
-							})
-						} else {
-							uni.showToast({
-								icon: 'none',
-								title: this.$t('auction.btnsub')
-							})
-						}
-						this.newsjingpaiList = []
-						this.page = 1
-						this.onAuctionNotbeginGoods()
-					}
-				})
-			},
-			formatter(type, value) {
-				let year = uni.getStorageSync('locale') == 'en' ? 'year' : '年'
-				let month = uni.getStorageSync('locale') == 'en' ? 'month' : '月'
-				let day = uni.getStorageSync('locale') == 'en' ? 'day' : '日'
-				if (type === 'year') {
-					return `${value}${year}`
-				}
-				if (type === 'month') {
-					return `${value}${month}`
-				}
-				if (type === 'day') {
-					return `${value}${day}`
-				}
-				return value
-			},
-			onNavClick(id) {
-				if (id == 1) {
-					this.pagenum = 5
-				} else {
-					this.pagenum = 10
-				}
-				if (id == 2) {
-					uni.switchTab({
-						url: '/pages/auction/auction'
-					});
-				} else if (id == 5) {
-					uni.switchTab({
-						url: '/pages/auction/xyzx'
-					});
-				} else {
-					this.navId = id
-				}
-				this.keyword = ''
-				this.date_start = ''
-				this.page = 1
-				this.newsjpId = 1
-				this.jijiangId = 1
-				this.lishiId = 1
-				this.jingpaiList = []
-				this.newsjingpaiList = []
-				this.historyList = []
-				this.LuckyList = []
-				if (id == 1) {
-					this.onAuctionNewGoods()
-					this.onAuctionNotbeginGoods()
-					this.onAuctionHistoryGoods()
-					this.onAuctionLuckyList()
-				} else if (id == 2) {
-					this.onAuctionNewGoods()
-				} else if (id == 3) {
-					this.onAuctionNotbeginGoods()
-				} else if (id == 4) {
-					this.onAuctionHistoryGoods()
-				} else if (id == 5) {
-					this.onAuctionLuckyList()
-				}
-			},
-			// 点击最新竞拍筛选
-			onZxjpClick(id) {
-				this.newsjpId = id
-				this.jingpaiList = []
-				this.page = 1
-				this.onAuctionNewGoods()
 			},
 			// 最新竞拍
 			onAuctionNewGoods() {
@@ -1115,13 +729,6 @@
 			
 					}
 				})
-			},
-			// 点击即将开始筛选
-			onjjksClick(id) {
-				this.jijiangId = id
-				this.newsjingpaiList = []
-				this.page = 1
-				this.onAuctionNotbeginGoods()
 			},
 			// 即将开始
 			onAuctionNotbeginGoods() {
@@ -1167,20 +774,6 @@
 						if (this.id == 2) this.productList = this.newsjingpaiList
 					}
 				})
-			},
-			onlishiClick(id) {
-				this.lishiId = id
-				this.historyList = []
-				this.page = 1
-				this.onAuctionHistoryGoods()
-			},
-			onconfirm(e) {
-				const timeFormat = uni.$u.timeFormat
-				this.date_start = timeFormat(e.value, 'yyyy-mm-dd')
-				this.show = false
-				this.historyList = []
-				this.page = 1
-				this.onAuctionHistoryGoods()
 			},
 			// 历史竞拍
 			onAuctionHistoryGoods() {
@@ -1250,18 +843,6 @@
 					}
 				})
 			},
-			// 点赞|取消点赞幸运之星记录
-			onAuctionFocusLucky(id) {
-				this.$http.post(this.$apiObj.AuctionFocusLucky, {
-					lucky_id: id
-				}).then(res => {
-					if (res.code == 1) {
-						this.page = 1
-						this.LuckyList = []
-						this.onAuctionLuckyList()
-					}
-				})
-			},
 			// 倒计时
 			daojishi(mss) {
 				let s = mss % 60;
@@ -1274,9 +855,6 @@
 				return d + this.$t('auction.day') + h + this.$t('auction.shi') + m + this.$t('auction.fen') + s + this.$t(
 					'auction.miao')
 			},
-			onChange(e) {
-				this.timeData = e
-			},
 			// 点击竞拍列表
 			onJingPai(item) {
 				uni.setStorageSync('productInfo', true)
@@ -1284,7 +862,6 @@
 					url: './detail?id=' + item.auction_goods_id
 				})
 			},
-			//导航点击的跳转处理函数
 			navClick(url) {
 				uni.navigateTo({
 					url
@@ -1328,9 +905,6 @@
 					}
 				})
 			},
-			onQueryClick() {
-				this.$refs.pwdPopup.close()
-			},
 			// 点击提交抢拍次数数据
 			onBtnSub() {
 				if (this.shopCont.auction_type == 1) {
@@ -1346,10 +920,6 @@
 				this.shopNum = this.shopCont.auction_price * Number(this.isauctionNum)
 				this.$refs.pwdPopup.close()
 				this.$refs.pwdPopup2.open()
-			},
-			// 点击有剩余次数取消
-			ongoPayQuery() {
-				this.$refs.pwdPopup2.close()
 			},
 			// 提交订单
 			onOrderReferCartOrder() {
@@ -1377,7 +947,7 @@
 						icon: 'none',
 						title: 'K钻余额不足'
 					})
-					return
+					return;
 				}
 				let price = this.shopNum * 1 - this.balance * 1
 				if (price > this.money) {
@@ -1385,90 +955,16 @@
 						icon: 'none',
 						title: '充值余额不足' + price
 					})
-					return
+					return;
 				}
-			
-				this.$refs.popup1.close()
+				this.$refs.popup1.close();
 				if (true) {
 					// 余额支付弹框
-					this.$refs.pwdsPopup.open()
+					this.$refs.pwdsPopup.open();
 				} else if (isNum.length > 5) {
 					this.balanceOrOther = 2
-					this.$refs.pwdsPopup.open()
-			
-					/**
-					// 3方支付
-					this.$http.post(this.$apiObj.AuctionorderReferOrder, {
-						auction_type: 2, // 1竞拍商品原价购买，2参与竞拍价购买
-						num: 1, // 购买数量
-						coupon_id: '', // 优惠券id
-						address_id: '', // 地址id
-						remark: '', // 备注
-						money: this.shopCont.auction_price, // 总金额
-						auction_goods_id: this.shopCont.id, // 竞拍商品id
-					}).then(res => {
-						if (res.code == 1) {
-							this.$http.post(this.$apiObj.MineInfo, {
-								auction_goods_id: this.shopCont.auction_goods_id
-							}).then(res => {
-								if (res.code == 1) {
-									this.money = res.data.money
-									this.auction_num = res.data.auction_num
-								}
-							})
-							this.$http.post(this.$apiObj.AuctionorderMalaysiaPay, {
-								order_no: res.data.order_no,
-								money: this.shopCont.auction_price
-							}).then(res => {
-								if (res.code == 1) {
-									const formStr = `<form action="${res.data.action_url}" method="POST" >
-			            <input name="MerchantCode" value="${res.data.MerchantCode}">
-			            <input name="TransNum" value="${res.data.TransNum}">
-			            <input name="Currency" value="${res.data.Currency}">
-			            <input name="Amount" value="${res.data.Amount}">
-			            <input name="PaymentDesc" value="${res.data.PaymentDesc}">
-			            <input name="FirstName" value="${res.data.FirstName}">
-			            <input name="LastName" value="${res.data.LastName}">
-			            <input name="EmailAddress" value="${res.data.EmailAddress}">
-			            <input name="PhoneNum" value="${res.data.PhoneNum}">
-			            <input name="Address" value="${res.data.Address}">
-			            <input name="City" value="${res.data.City}">
-			            <input name="State" value="${res.data.State}">
-			            <input name="Country" value="${res.data.Country}">
-			            <input name="Postcode" value="${res.data.Postcode}">
-			            <input name="MerchantRemark" value="${res.data.MerchantRemark}">
-			            <input name="Signature" value="${res.data.Signature}">
-			          </form>`
-									// #ifdef H5
-									const div = document.createElement('div')
-									div.innerHTML = formStr
-									div.setAttribute('style',
-										'position: absolute; width: 0; height: 0; overflow: hidden;')
-									const form = div.querySelector('form')
-									document.body.appendChild(div)
-									form.submit()
-									document.body.removeChild(div)
-									//  #endif
-									// #ifdef APP-PLUS  
-									uni.navigateTo({
-										url: '/pages/mine/webview?url=' + formStr
-									});
-									//  #endif
-								}
-							})
-			
-						}
-					})**/
+					this.$refs.pwdsPopup.open();
 				}
-			},
-			// 关闭支付密码
-			onPwdQuery() {
-				this.$refs.pwdsPopup.close()
-				// uni.navigateBack({ delta: 1 })
-			},
-			// 点击支付成功取消按钮
-			onpayQuery() {
-				this.$refs.payPopup.close()
 			},
 			// 点击支付密码
 			onPwdClick() {
@@ -1506,37 +1002,17 @@
 									this.shopCont = item
 								}
 							})
-							console.log(this.shopCont)
 							this.$refs.pwdsPopup.close()
 							this.$refs.payPopup.open()
 						}, 500);
-			
 					}
 				})
-			
-			},
-			
-			onQuanClick(item) {
-				item.isShow = !item.isShow
-			},
-			toggle1Close() {
-				this.$refs.popup1.close()
-			},
-			toggle2Close() {
-				this.$refs.popup2.close()
 			},
 			// 点击抢拍
 			onQiangpai() {
 				this.$refs.payPopup.close()
 				this.onMineInfo(this.shopCont)
 			},
-			onQuery() {
-				this.$refs.pwdPopup3.close()
-			},
-			onFengxiang() {
-				this.$refs.pwdPopup.close()
-				this.$refs.popup2.open()
-			}
 		}
 	}
 </script>

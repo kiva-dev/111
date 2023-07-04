@@ -24,7 +24,7 @@
 							{{$t('user.order.received')}}</view>
 						<view class="header-status" style="color: #999999;" v-if="item.status === '5'">
 							{{$t('user.order.confirmed')}}</view>
-						<view class="header-status" style="color: #999999;" v-if="item.status === '6'">
+						<view class="header-status" style="color: #999999;" v-if="item.status === '6' || item.status === '-1' || item.status === '-2'">
 							{{$t('user.order.closed')}}</view>
 					</view>
 					<view class="ll-item-info" v-for="goods in item.goods" :key="goods.goods_id">
