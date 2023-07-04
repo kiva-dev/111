@@ -398,21 +398,42 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		methods: {
 			//添加购物车
 			addCart(item) {
+				console.log(item)
 				clearTimeout(this.addCartTimer)
 				this.addCartTimer = setTimeout(() => {
-					this.$http.post(this.$apiObj.CartAdd, {
-						goods_spec_id: item.litestore_goods_spec[0].goods_spec_id,
-						num: 1
-					}).then(res => {
-						if (res.code == 1) {
-							uni.showToast({
-								icon: 'none',
-								title: this.isShopCont ? 'Successfully added to shopping cart' :
-									'加入购物车成功'
-							})
-						}
+					//检查库存
+					this.$http.post(this.$apiObj.CartList).then(res => {
+						res.data.data.forEach(data=>{
+							if(item.admin_id == data.admin_id){
+								data.goods.forEach(data2=>{
+									if(data2.goods_id == item.goods_id){
+										// console.log(data2.goods_id == item.goods_id)
+										if(data2.stock_num < (data2.num+1)){
+											uni.showToast({
+												title: '库存不足',
+												icon: 'none',
+												duration: 2000
+											})
+										}else{
+											this.$http.post(this.$apiObj.CartAdd, {
+												goods_spec_id: item.litestore_goods_spec[0].goods_spec_id,
+												num: 1
+											}).then(addRes => {
+												if (addRes.code == 1) {
+													uni.showToast({
+														icon: 'none',
+														title: this.isShopCont ? 'Successfully added to shopping cart' :
+															'加入购物车成功'
+													})
+												}
+											})
+										}
+									}
+								})
+							}
+						})
 					})
-				},1000)
+				}, 1000)
 			},
 			//获取当前展示普通商品还是竞拍商品
 			getProductOrJinpai() {

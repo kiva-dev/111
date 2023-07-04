@@ -699,12 +699,8 @@
 		{
 			"path": "pages/auction/lucky",
 			"style": {
-				"navigationBarTitleText": "",
-				"navigationStyle": "custom",
-				"app-plus": {
-					"titleNView": false,
-					"bounce": "none"
-				}
+				"navigationBarTitleText": "%xyzx%",
+				"enablePullDownRefresh": false
 			}
 		},
 		{
@@ -944,6 +940,20 @@
 		},
 		{
 			"path": "pages/cart/order_success",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/auction/xyzx",
+			"style": {
+				"navigationBarTitleText": "%xyzx%",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/auction/testPay",
 			"style": {
 				"navigationBarTitleText": "",
 				"navigationStyle": "custom"

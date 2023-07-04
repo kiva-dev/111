@@ -10,7 +10,7 @@
 					<view class="container-box">
 						<view class="cb-left">
 							<span>{{$t('new.total')}}</span>
-							<span>9</span>
+							<span>{{totalNum}}</span>
 						</view>
 						<view class="cb-right" @click="capture()">{{$t('new.ljyq')}}</view>
 					</view>
@@ -106,6 +106,7 @@
 				lange: '',
 				userCont: {},
 				isShopCont: false, // 中文还是英文
+				totalNum:0,//总人数
 			}
 		},
 		onLoad(option) {
@@ -156,6 +157,13 @@
 					if (res.code === 1) {
 						let arr = res.data.data || [];
 						this.memberArr = this.memberArr.concat(arr);
+						
+						//计算总人数
+						this.totalNum = this.memberArr.length
+						this.memberArr.forEach(item => {
+							this.totalNum+=item.invite_count
+						})
+						
 						arr.length < 10 ? this.status = 'nomore' : this.status = 'loadmore';
 					}
 				})
@@ -356,14 +364,14 @@
 				.yl-text {
 					flex: 1;
 					margin-left: 24rpx;
-					
+
 					.yl-text-name {
 						margin: 10rpx 0;
 						color: rgb(51, 51, 51);
 						font-size: 28rpx;
 						font-weight: bold;
 					}
-					
+
 					.yl-text-info {
 						margin: 10rpx 0;
 						color: rgb(102, 102, 102);
@@ -389,15 +397,15 @@
 					display: flex;
 					justify-content: space-between;
 					align-items: center;
-					
+
 					.yl-item-box {
 						display: flex;
 						align-items: center;
-						
+
 						.yl-item-avatar {
 							width: 132rpx;
 							height: 132rpx;
-						
+
 							image {
 								width: 100%;
 								height: 100%;
@@ -405,30 +413,30 @@
 								box-shadow: 0rpx 2rpx 4rpx rgba(190, 190, 190, 0.3);
 							}
 						}
-						
+
 						.yl-item-info {
 							flex: 1;
 							margin-left: 24rpx;
-						
+
 							.info-name {
 								font-size: 28rpx;
 								color: rgb(51, 51, 51);
 								font-size: 14px;
 								font-weight: bold;
 							}
-						
+
 							.info-amount {
-								
+
 								span {
 									color: rgb(44, 44, 44);
 									font-size: 24rpx;
 									font-weight: 400;
-									
+
 									&:nth-child(2) {
 										color: #FF3939;
 										font-weight: bold;
 									}
-									
+
 									&:last-child {
 										font-size: 32rpx;
 										color: #FF3939;
@@ -436,7 +444,7 @@
 									}
 								}
 							}
-						
+
 							.info-people {
 								margin: 16rpx 0;
 								color: rgb(44, 44, 44);
@@ -445,11 +453,11 @@
 							}
 						}
 					}
-					
+
 					.yl-item-right {
 						width: 32rpx;
 						height: 32rpx;
-						
+
 						image {
 							width: 100%;
 						}

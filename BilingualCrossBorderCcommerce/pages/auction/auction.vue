@@ -2,14 +2,16 @@
 	<view class="auction-page">
 		<view class="top-layout">
 			<view class="tl-header">
+				<view></view>
 				<view class="tl-header-btn">
 					<image src="/static/images/new-index/mycz.png" mode="widthFix"></image>
-					<p>{{$t('top.auctionDetail')}}</p>
+					<p>{{$t('mine.auction')}}</p>
 				</view>
 			</view>
 			<view class="bid-layout">
 				<view class="bl-container" v-if="id !== 1">
-					<view class="bl-container-head" style="background: linear-gradient(180.00deg, rgb(254, 226, 151),rgba(255, 255, 255, 0) 98.871%);">
+					<view class="bl-container-head"
+						style="background: linear-gradient(180.00deg, rgb(254, 226, 151),rgba(255, 255, 255, 0) 98.871%);">
 						<view class="head-left">
 							<image src="/static/images/new-index/ongoing.png" mode="widthFix"></image>
 							<view>{{$t('new.zzjp')}}</view>
@@ -20,12 +22,14 @@
 						</view>
 					</view>
 					<view class="bl-container-center">
-						<view class="center-item" v-for="item in jingpaiList.slice(0,2)" :key="item.id" @click="onJingPai(item)">
+						<view class="center-item" v-for="item in jingpaiList.slice(0,2)" :key="item.id"
+							@click="onJingPai(item)">
 							<view class="center-item-cover">
 								<image :src="item.image" mode="aspectFill"></image>
 							</view>
 							<view class="center-item-progress">
-								<progress class="progress" :percent="item.finish_rate*100" stroke-width="5" activeColor="#FF4E2F" backgroundColor="#EBEBEB" />
+								<progress class="progress" :percent="item.finish_rate*100" stroke-width="5"
+									activeColor="#FF4E2F" backgroundColor="#EBEBEB" />
 							</view>
 							<view class="center-item-old">RM{{item.price}}</view>
 							<view class="center-item-new">
@@ -36,7 +40,8 @@
 					</view>
 				</view>
 				<view class="bl-container" v-if="id !== 2">
-					<view class="bl-container-head" style="background: linear-gradient(rgb(255, 198, 198), rgba(255, 255, 255, 0) 98.871%);">
+					<view class="bl-container-head"
+						style="background: linear-gradient(rgb(255, 198, 198), rgba(255, 255, 255, 0) 98.871%);">
 						<view class="head-left">
 							<image src="/static/images/new-index/start-soon.png" mode="widthFix"></image>
 							<view>{{$t('new.jjks')}}</view>
@@ -47,7 +52,8 @@
 						</view>
 					</view>
 					<view class="bl-container-center">
-						<view class="center-item" v-for="item in newsjingpaiList.slice(0,2)" :key="item.id" @click="onJingPai(item)">
+						<view class="center-item" v-for="item in newsjingpaiList.slice(0,2)" :key="item.id"
+							@click="onJingPai(item)">
 							<view class="center-item-cover">
 								<image :src="item.image" mode="aspectFill"></image>
 							</view>
@@ -63,7 +69,8 @@
 					</view>
 				</view>
 				<view class="bl-container" v-if="id !== 3">
-					<view class="bl-container-head" style="background: linear-gradient(180deg, #c2c2ff, rgba(255, 255, 255, 0) 98.871%);">
+					<view class="bl-container-head"
+						style="background: linear-gradient(180deg, #c2c2ff, rgba(255, 255, 255, 0) 98.871%);">
 						<view class="head-left">
 							<image src="/static/images/new-index/historical.png" mode="widthFix"></image>
 							<view>{{$t('new.lsjl')}}</view>
@@ -74,7 +81,8 @@
 						</view>
 					</view>
 					<view class="bl-container-center">
-						<view class="center-item" v-for="item in historyList.slice(0,2)" :key="item.id" @click="onJingPai(item)">
+						<view class="center-item" v-for="item in historyList.slice(0,2)" :key="item.id"
+							@click="onJingPai(item)">
 							<view class="center-item-cover">
 								<image :src="item.image" mode="aspectFill"></image>
 							</view>
@@ -90,7 +98,7 @@
 					</view>
 				</view>
 			</view>
-			<view class="lucky-layout">
+			<view class="lucky-layout" @click="navClick('/pages/auction/lucky')">
 				<view class="ll-icon">
 					<image src="@/static/images/mine/lucky_icon_trophy.png" mode="widthFix"></image>
 				</view>
@@ -108,7 +116,8 @@
 				<view class="ll-header-left">
 					<view class="left-icon">
 						<image v-if="id == 1" src="@/static/images/new-index/ongoing.png" mode="widthFix"></image>
-						<image v-else-if="id == 2" src="@/static/images/new-index/start-soon.png" mode="widthFix"></image>
+						<image v-else-if="id == 2" src="@/static/images/new-index/start-soon.png" mode="widthFix">
+						</image>
 						<image v-else src="@/static/images/new-index/historical.png" mode="widthFix"></image>
 					</view>
 					<view class="left-text">
@@ -120,15 +129,18 @@
 				</view>
 				<view class="ll-header-right" v-if="id !== 3">
 					<view class="right-icon">
-						<image v-if="selectId !== 1" src="/static/images/new-index/sx.png" mode="widthFix" @click="selectId = 1"></image>
+						<image v-if="selectId !== 1" src="/static/images/new-index/sx.png" mode="widthFix"
+							@click="selectId = 1"></image>
 						<image v-else src="/static/images/new-index/sx1.png" mode="widthFix"></image>
 					</view>
 					<view class="right-icon">
-						<image v-if="selectId !== 2" src="/static/images/new-index/mf.png" mode="widthFix" @click="selectId = 2"></image>
+						<image v-if="selectId !== 2" src="/static/images/new-index/mf.png" mode="widthFix"
+							@click="selectId = 2"></image>
 						<image v-else src="/static/images/new-index/mf1.png" mode="widthFix"></image>
 					</view>
 					<view class="right-icon">
-						<image v-if="selectId !== 3" src="/static/images/new-index/p.png" mode="widthFix" @click="selectId = 3"></image>
+						<image v-if="selectId !== 3" src="/static/images/new-index/p.png" mode="widthFix"
+							@click="selectId = 3"></image>
 						<image v-else src="/static/images/new-index/p1.png" mode="widthFix"></image>
 					</view>
 				</view>
@@ -152,7 +164,7 @@
 								<image :src="data.image"></image>
 							</block>
 						</view>
-		
+
 						<view class="new-list-item-right-start">
 							<view class="new-list-item-right-start-info">
 								<image src="../../static/images/new-index/xx.png"></image>
@@ -167,7 +179,7 @@
 								<view>{{item.litestore_goods_comment_total}}</view>
 							</view>
 						</view>
-		
+
 						<view class="new-list-item-right-jd" v-if="id==1">
 							<view class="new-list-item-right-jd-data">
 								<view>{{(item.finish_rate*100).toFixed(0)}}%</view>
@@ -180,7 +192,7 @@
 								</block>
 							</view>
 						</view>
-		
+
 						<view class="new-list-item-btm">
 							<view class="new-list-item-btm-price">
 								<view class="new">
@@ -189,13 +201,13 @@
 								</view>
 								<view class="old">RM{{item.price}}</view>
 							</view>
-		
-		
+
+
 							<view class="new-list-item-btm-btn" v-if="id==1">
 								<image src="../../static/images/new-index/lvxcz.png"></image>
 								<view @click.stop="onMineInfo(item)">{{$t('shop.qiangpai')}}</view>
 							</view>
-		
+
 							<view class="new-list-item-btm-btn" v-if="id==2"
 								style="border: 1rpx solid rgb(248, 155, 0);">
 								<image src="/static/images/new-index/time1.png" style="width: 20rpx;height: 20rpx;">
@@ -203,7 +215,7 @@
 								<u-count-down :time="item.datetime" format="HH:mm:ss"></u-count-down>
 							</view>
 						</view>
-		
+
 						<view class="mask" v-show="item.isMask">
 							<image src="/static/images/new-index/close.png" class="close"
 								@click.stop="item.isMask=false"></image>
@@ -213,9 +225,9 @@
 								<view><u-parse :content="isShopCont?data.en_desc:data.zh_desc"></u-parse></view>
 							</view>
 						</view>
-		
+
 					</view>
-		
+
 					<view class="item-historical-des" v-else>
 						<view class="des-tit">{{item.goods_name}}</view>
 						<view class="des-center">
@@ -236,48 +248,48 @@
 							<view class="right">{{$u.timeFormat(item.end_time, 'yyyy/mm/dd hh:MM')}}</view>
 						</view>
 					</view>
-		
+
 					<view class="item-status1" v-if="item.check_status==3">
 						<view>Closure</view>
 					</view>
-		
+
 					<view class="item-status2" v-if="item.check_status==4">
 						<view>Unsold</view>
 					</view>
-		
+
 				</view>
 			</template>
-		
+
 			<!--一行双列显示-->
 			<template v-else-if="selectId == 2">
 				<view class="new-list-item-two">
 					<view class="info" v-for="(item,i) in productList" :key="i" @click="onJingPai(item)">
 						<image :src="item.image" class="info-img"></image>
 						<view class="info-tit">{{item.goods_name}}</view>
-		
+
 						<view class="info-tags">
 							<view class="info-tag">
 								<image src="/static/images/new-index/xx.png"></image>
 								<view>{{item.litestore_goods_focus_total}}</view>
 							</view>
-		
+
 							<view class="info-tag">
 								<image src="/static/images/new-index/xcz.png"></image>
 								<view>{{item.auction_goods_total}}</view>
 							</view>
-		
+
 							<view class="info-tag">
 								<image src="/static/images/new-index/pl.png"></image>
 								<view>{{item.litestore_goods_comment_total}}</view>
 							</view>
 						</view>
-		
+
 						<view class="info-jd" v-if="id==1">
 							<image src="/static/images/new-index/select-jd.png"
 								:style="`width: ${(item.finish_rate*100).toFixed(0)}%;`"></image>
 							<view>{{(item.finish_rate*100).toFixed(0)}}%</view>
 						</view>
-		
+
 						<view class="info-btm">
 							<view class="info-price">
 								<view class="new">
@@ -286,12 +298,12 @@
 								</view>
 								<view class="old">RM{{item.price}}</view>
 							</view>
-		
+
 							<view class="info-btn" v-if="id==1">
 								<image src="/static/images/new-index/lvxcz.png"></image>
 								<view @click.stop="onMineInfo(item)">{{$t('shop.qiangpai')}}</view>
 							</view>
-		
+
 							<view class="new-list-item-btm-btn" v-if="id==2"
 								style="border: 1rpx solid rgb(248, 155, 0);">
 								<image src="/static/images/new-index/time1.png" style="width: 20rpx;height: 20rpx;">
@@ -303,13 +315,13 @@
 					</view>
 				</view>
 			</template>
-		
+
 			<!--竖向单行显示-->
 			<template v-else>
 				<view class="new-list-line" v-for="(item,i) in productList" :key="i" @click="onJingPai(item)">
 					<image :src="item.image" class="product_img"></image>
 					<view class="product_txt">{{item.goods_name}}</view>
-		
+
 					<view class="info">
 						<view class="info-left">
 							<view class="info_jd" v-if="id==1">
@@ -325,17 +337,17 @@
 								<view class="old">RM{{item.price}}</view>
 							</view>
 						</view>
-		
+
 						<view class="info-right" v-if="id==1">
 							<image src="/static/images/new-index/lvxcz.png"></image>
 							<view @click.stop="onMineInfo(item)">{{$t('shop.qiangpai')}}</view>
 						</view>
 					</view>
-		
+
 				</view>
 			</template>
 		</view>
-		
+
 		<!--抢拍次数 start-->
 		<uni-popup ref="pwdPopup" type="center">
 			<view class="qiangpaiShow">
@@ -359,6 +371,19 @@
 									</block>
 									<block v-else>{{auction_num}}</block>
 								</view>
+								<view class="protocol">
+									<image src="/static/images/new-index/wxz.png" class="protocol_img"
+										v-show="!selectProtocol" @click="selectProtocol=true"></image>
+									<image src="/static/images/new-index/xz.png" class="protocol_img"
+										v-show="selectProtocol" @click="selectProtocol=false"></image>
+									<view class="protocol_info">
+										<view class="protocol_txt1">{{$t('auction.detail.brywqydbty')}}</view>
+										<navigator url="../mine/jpxy" hover-class="none" class="protocol_txt2">
+											《{{$t('auction.detail.jphdgommzxy')}}》
+										</navigator>
+									</view>
+
+								</view>
 							</view>
 						</view>
 						<view class="qiangpai-btn">
@@ -369,7 +394,7 @@
 			</view>
 		</uni-popup>
 		<!--抢拍次数 end-->
-		
+
 		<!--竞拍次数为0 start-->
 		<uni-popup ref="pwdPopup3" type="center">
 			<view class="jingpai-pop">
@@ -385,7 +410,7 @@
 			</view>
 		</uni-popup>
 		<!--竞拍次数为0 end-->
-		
+
 		<!--竞拍次数大于0 start-->
 		<uni-popup ref="pwdPopup2" type="center">
 			<view class="jingpai-ok">
@@ -421,7 +446,7 @@
 			</view>
 		</uni-popup>
 		<!--竞拍次数大于0 end-->
-		
+
 		<!--支付方式弹出 start-->
 		<uni-popup ref="popup1" type="bottom">
 			<view class="mode-pop">
@@ -458,19 +483,25 @@
 					<view @click="navClick('/pages/mine/K_brick_detail')">{{$t('new.qcz')}}</view>
 					<image src="/static/images/kbrick/right.png"></image>
 				</view>
-				<view class="mode-switch">
-					<!-- <image src="/static/images/new-index/wxz.png"></image>
-					<view>(Bonus for 10K diamonds)</view> -->
+
+				<view class="mode-switch" v-if="can_use_invite_money_rate>0">
+					<image src="/static/images/new-index/wxz.png" v-show="!useInvite" @click="useInvite=!useInvite">
+					</image>
+					<image src="/static/images/new-index/xz.png" v-show="useInvite" @click="useInvite=!useInvite">
+					</image>
+					<view>({{$t('new.zjkc')}} {{can_use_invite_money_rate}}% {{$t('new.kz')}})</view>
 				</view>
+				<view class="mode-switch" v-else></view>
 				<view class="mode-btn" @click.stop="$noMultipleClicks(onPayClick)">{{$t('new.payment')}}</view>
 			</view>
 		</uni-popup>
 		<!--支付方式弹出 end-->
-		
+
 		<!--支付密码弹出 start-->
 		<uni-popup ref="pwdsPopup" type="center">
 			<view class="pay-pwd">
-				<image src="/static/images/kbrick/close.png" class="pay-pwd-close" @click="$refs.pwdsPopup.close()"></image>
+				<image src="/static/images/kbrick/close.png" class="pay-pwd-close" @click="$refs.pwdsPopup.close()">
+				</image>
 				<view class="pay-pwd-info">
 					<view class="pay-pwd-info-tit">{{$t('auction.detail.qsrzfmm')}}</view>
 					<view class="pay-pwd-info-line"></view>
@@ -484,7 +515,7 @@
 			</view>
 		</uni-popup>
 		<!--支付密码弹出 end-->
-		
+
 		<!--支付成功弹出 start-->
 		<uni-popup ref="payPopup" type="center">
 			<view class="pay-pwd">
@@ -494,7 +525,8 @@
 						{{$t('auction.detail.zpydzpjlgg')}}
 					</view>
 					<view class="pay-pwd-list">
-						<view class="pay-pwd-list-cancel" @click="$refs.payPopup.close()">{{$t('auction.detail.query')}}</view>
+						<view class="pay-pwd-list-cancel" @click="$refs.payPopup.close()">{{$t('auction.detail.query')}}
+						</view>
 						<view class="pay-pwd-list-ok" @click="onQiangpai" v-if="isShowAegin">
 							{{$t('auction.detail.zaipaiyd')}}
 						</view>
@@ -519,6 +551,9 @@
 	export default {
 		data() {
 			return {
+				useInvite: false, //是否使用赠金
+				can_use_invite_money_rate: 0, //可使用的增金比例
+				selectProtocol: false,
 				kdiamondSelect: false,
 				showRmToKdiamond: false,
 				isBottoming: false,
@@ -535,7 +570,9 @@
 				navId: 3, // 头部id
 				page: 1, // 页码
 				pagenum: 10, // 每页显示商品数目
-				totalPageNum: 0, // 总条数
+				totalPageNum: 0, // 最新竞拍总条数
+				newTotalPageNum: 0, // 即将开始竞拍总条数
+				historyTotalPageNum: 0, // 最新竞拍总条数
 				newsjpId: 1, // 最新竞拍头部id
 				jijiangId: 1, // 即将开始头部id
 				lishiId: '', // 历史竞拍头部id
@@ -646,11 +683,16 @@
 			this.getProductOrJinpai()
 		},
 		onReachBottom() {
-			if (this.page * this.pagenum >= this.totalPageNum) return;
-			this.page++;
-			if (this.id == 1) this.onAuctionNewGoods();
-			else if (this.id == 2) this.onAuctionNotbeginGoods();
-			else this.onAuctionHistoryGoods();
+			if (this.page * this.pagenum < this.totalPageNum && this.id == 1){
+				this.page++;
+				this.onAuctionNewGoods();
+			}else if(this.page * this.pagenum < this.newTotalPageNum && this.id == 2){
+				this.page++;
+				this.onAuctionNotbeginGoods();
+			}else if(this.page * this.pagenum < this.historyTotalPageNum && this.id == 3){
+				this.page++;
+				this.onAuctionHistoryGoods();
+			}
 		},
 		methods: {
 			getProductOrJinpai() {
@@ -724,9 +766,9 @@
 						})
 						this.totalPageNum = res.data.total
 						this.jingpaiList = this.page == 1 ? res.data.data : [...this.jingpaiList, ...res.data.data]
-			
+
 						if (this.id == 1) this.productList = this.jingpaiList
-			
+
 					}
 				})
 			},
@@ -767,7 +809,7 @@
 								1000
 							this.$set(item, 'datetime', time)
 						})
-						this.totalPageNum = res.data.total
+						this.newTotalPageNum = res.data.total
 						this.newsjingpaiList = this.page == 1 ? res.data.data : [...this.newsjingpaiList, ...res
 							.data.data
 						]
@@ -803,46 +845,16 @@
 						res.data.data.map(item => {
 							item.continue_time = this.daojishi(item.continue_time)
 						})
-						this.totalPageNum = res.data.total
+						this.historyTotalPageNum = res.data.total
 						this.historyList = this.page == 1 ? res.data.data : [...this.historyList, ...res.data
 							.data
 						]
 						if (this.id == 3) this.productList = this.historyList
-			
+
 					}
 				})
 			},
 			// 幸运之星
-			onAuctionLuckyList() {
-				this.$http.post(this.$apiObj.AuctionLuckyList, {
-					page: this.page,
-					pagenum: this.pagenum,
-					keyword: this.keyword
-				}).then(res => {
-					if (res.code == 1) {
-						if (this.isShopCont) {
-							res.data.data.map(item => {
-								item.goods_mark = this.getCaption(item.goods_mark, 1) ? this.getCaption(
-									item.goods_mark, 1) : item.goods_mark
-								item.goods_name = this.getCaption(item.goods_name, 1) ? this.getCaption(
-									item.goods_name, 1) : item.goods_name
-							})
-						} else {
-							res.data.data.map(item => {
-								item.goods_mark = this.getCaption(item.goods_mark, 0) ? this.getCaption(
-									item.goods_mark, 0) : item.goods_mark
-								item.goods_name = this.getCaption(item.goods_name, 0) ? this.getCaption(
-									item.goods_name, 0) : item.goods_name
-							})
-						}
-						// res.data.data.map(item => {
-						// item.continue_time = this.daojishi(item.continue_time)
-						this.totalPageNum = res.data.total
-						this.LuckyList = this.page == 1 ? res.data.data : [...this.LuckyList, ...res.data.data]
-						// })
-					}
-				})
-			},
 			// 倒计时
 			daojishi(mss) {
 				let s = mss % 60;
@@ -875,7 +887,8 @@
 				that.pay_pwd = ''
 				that.kdiamondSelect = false
 				that.showRmToKdiamond = false
-			
+				this.selectProtocol = false
+
 				that.orderPayList.forEach(item => {
 					item.isShow = false
 				})
@@ -883,6 +896,7 @@
 					auction_goods_id: e.auction_goods_id
 				}).then(res => {
 					if (res.code == 1) {
+						this.can_use_invite_money_rate = res.data.can_use_invite_money_rate
 						this.money = res.data.recharge_money_balance
 						this.balance = res.data.k_diamond_wallet
 						// this.auction_num = res.data.auction_num
@@ -917,9 +931,14 @@
 					icon: 'none',
 					title: this.$t('user.auctionM.qtxdcsbndysy')
 				})
+				if (!this.selectProtocol) return uni.showToast({
+					icon: 'none',
+					title: this.$t('login.qydxybty')
+				})
+
 				this.shopNum = this.shopCont.auction_price * Number(this.isauctionNum)
 				this.$refs.pwdPopup.close()
-				this.$refs.pwdPopup2.open()
+				this.onOrderReferCartOrder()
 			},
 			// 提交订单
 			onOrderReferCartOrder() {
@@ -978,13 +997,13 @@
 					if (item.isShow) arr.push(item.id)
 					else arr.push(10)
 				})
-			
+
 				this.$http.post(this.$apiObj.AuctionorderBalancePay, {
 					order_no: this.order_no, // 小订单号
 					money: this.shopNum, // 支付总金额
 					pay_pwd: pay_pwd, // rsa加密后的支付密码
 					is_use_recharge: 2,
-					is_use_invite: 2,
+					is_use_invite: this.useInvite ? 1 : 2,
 					is_use_k_diamond: 1,
 					is_balance_convert_k_diamond: this.kdiamondSelect ? 1 : 2
 				}).then(res => {
@@ -1021,14 +1040,14 @@
 	.auction-page {
 		width: 100%;
 		background: #FFFFFF;
-		
+
 		.top-layout {
 			width: 100%;
 			background: url('/static/images/auction/auction_bg.png') no-repeat;
 			background-size: 100% 100%;
 			padding: 88rpx 0 40rpx;
 			box-sizing: border-box;
-			
+
 			.tl-header {
 				width: 100%;
 				height: 88rpx;
@@ -1037,7 +1056,7 @@
 				display: flex;
 				justify-content: flex-end;
 				align-items: center;
-			
+
 				.tl-header-btn {
 					padding: 20rpx;
 					box-sizing: border-box;
@@ -1045,12 +1064,12 @@
 					align-items: center;
 					background: rgb(255, 255, 255);
 					border-radius: 100rpx;
-			
+
 					image {
 						width: 30rpx;
 						margin-right: 6rpx;
 					}
-					
+
 					p {
 						font-size: 20rpx;
 						font-weight: bold;
@@ -1058,7 +1077,7 @@
 					}
 				}
 			}
-			
+
 			.bid-layout {
 				width: 100%;
 				margin-top: 40rpx;
@@ -1066,12 +1085,12 @@
 				box-sizing: border-box;
 				display: flex;
 				justify-content: space-between;
-			
+
 				.bl-container {
 					width: 332rpx;
 					background: #fff;
 					border-radius: 16rpx;
-			
+
 					.bl-container-head {
 						width: 100%;
 						height: 60rpx;
@@ -1082,21 +1101,21 @@
 						align-items: center;
 						background: linear-gradient(180.00deg, rgba(194.37, 193.57, 255, 1.00), rgba(255, 254.75, 254.75, 0.00) 98.871%);
 						border-radius: 16rpx 16rpx 0 0;
-						
+
 						.head-left {
 							display: flex;
 							align-items: center;
-							
+
 							image {
 								width: 36rpx;
 							}
-							
+
 							view {
 								font-size: 24rpx;
 								color: rgb(51, 51, 51);
 								margin-left: 8rpx;
 								position: relative;
-								
+
 								&::after {
 									content: "";
 									width: 72rpx;
@@ -1110,24 +1129,24 @@
 								}
 							}
 						}
-			
+
 						.head-right {
 							display: flex;
 							align-items: center;
-			
+
 							p {
 								margin-right: 8rpx;
 								font-size: 24rpx;
 								color: rgb(51, 51, 51);
 							}
-							
+
 							image {
 								width: 16rpx;
 								transform: translateY(4rpx);
 							}
 						}
 					}
-			
+
 					.bl-container-center {
 						width: 100%;
 						margin-top: 6rpx;
@@ -1136,27 +1155,27 @@
 						display: flex;
 						justify-content: space-between;
 						align-items: center;
-			
+
 						.center-item {
 							display: flex;
 							flex-direction: column;
 							align-items: center;
-							
+
 							.center-item-cover {
 								width: 132rpx;
 								height: 132rpx;
-								
+
 								image {
 									width: 100%;
 									height: 100%;
 								}
 							}
-							
+
 							.center-item-progress {
 								width: 108rpx;
 								margin: 8rpx auto;
 							}
-							
+
 							.center-item-old {
 								width: 100%;
 								font-size: 16rpx;
@@ -1164,24 +1183,24 @@
 								text-decoration: line-through;
 								text-align: center;
 							}
-										
+
 							.center-item-new {
 								width: 100%;
 								font-size: 16rpx;
 								font-weight: bold;
 								color: rgb(255, 57, 57);
 								text-align: center;
-										
+
 								image {
 									width: 24rpx;
 								}
-										
+
 								span {
 									margin-left: 6rpx;
 									font-size: 28rpx;
 								}
 							}
-			
+
 							.center-item-time {
 								margin: 8rpx auto;
 								padding: 6rpx 8rpx;
@@ -1191,48 +1210,48 @@
 								display: flex;
 								align-items: center;
 								justify-content: center;
-			
+
 								image {
 									width: 20rpx;
 									margin-right: 6rpx;
 								}
-								
+
 								/deep/ .u-count-down__text {
 									font-size: 14rpx;
 									color: rgb(255, 57, 57);
 									line-height: 28rpx;
 								}
 							}
-			
+
 							.center-item-auth {
 								width: 100%;
 								display: flex;
 								align-items: center;
 								margin: 8rpx auto;
-			
+
 								image {
 									width: 24rpx;
 									height: 24rpx;
 									border-radius: 50%;
 								}
-								
+
 								p {
 									margin-left: 8rpx;
 									color: rgb(51, 51, 51);
 									font-size: 16rpx;
 								}
 							}
-			
+
 							.center-item-price {
 								width: 100%;
 								font-size: 16rpx;
 								color: rgb(255, 57, 57);
 								text-align: center;
-			
+
 								image {
 									width: 24rpx;
 								}
-			
+
 								span {
 									margin-left: 6rpx;
 									font-size: 28rpx;
@@ -1243,36 +1262,36 @@
 					}
 				}
 			}
-			
+
 			.lucky-layout {
 				margin: 24rpx 32rpx 0;
 				background: rgb(255, 255, 255);
-				border-radius:8rpx;
+				border-radius: 8rpx;
 				padding: 16rpx 24rpx;
 				box-sizing: border-box;
 				display: flex;
 				justify-content: space-between;
 				align-items: center;
-				
+
 				.ll-icon {
 					width: 32rpx;
 					height: 32rpx;
-					
+
 					image {
 						width: 100%;
 					}
 				}
-				
+
 				.ll-text {
 					display: flex;
 					align-items: center;
-					
+
 					image {
 						width: 38rpx;
 						height: 38rpx;
 						border-radius: 50%;
 					}
-					
+
 					view {
 						max-width: 440rpx;
 						margin-left: 16rpx;
@@ -1281,25 +1300,25 @@
 						font-weight: bold;
 					}
 				}
-				
+
 				.ll-right {
 					width: 24rpx;
 					height: 24rpx;
-					
+
 					image {
 						width: 100%;
 					}
 				}
 			}
 		}
-	
+
 		.list-layout {
 			width: 100%;
 			min-height: 800rpx;
 			margin-top: -16rpx;
 			background: #FFFFFF;
 			border-radius: 16rpx 16rpx 0 0;
-		
+
 			.ll-header {
 				width: 100%;
 				padding: 24rpx 32rpx;
@@ -1307,30 +1326,30 @@
 				display: flex;
 				justify-content: space-between;
 				align-items: center;
-				
+
 				.ll-header-left {
 					display: flex;
 					align-items: center;
-					
+
 					.left-icon {
 						width: 48rpx;
 						display: flex;
-						
+
 						image {
 							width: 100%;
 						}
 					}
-					
+
 					.left-text {
 						position: relative;
-							
+
 						p {
 							font-size: 32rpx;
 							color: rgb(51, 51, 51);
 							margin-left: 8rpx;
 							font-weight: bold;
 						}
-							
+
 						span {
 							width: 92rpx;
 							height: 8rpx;
@@ -1343,22 +1362,22 @@
 						}
 					}
 				}
-				
+
 				.ll-header-right {
 					display: flex;
 					align-items: center;
-					
+
 					.right-icon {
 						width: 32rpx;
 						margin-left: 28rpx;
-						
+
 						image {
 							width: 100%;
 						}
 					}
 				}
 			}
-		
+
 			//单行显示
 			.new-list-item {
 				position: relative;
@@ -1370,19 +1389,19 @@
 				box-shadow: 0px 4rpx 12rpx rgba(198, 198, 198, 0.3);
 				border-radius: 20rpx;
 				margin: 0 auto 16rpx auto;
-		
+
 				.new-list-item-left {
 					width: 272rpx;
 					height: 272rpx;
 					border-radius: 20rpx 0 0 20rpx;
 				}
-		
+
 				.item-historical {
 					position: relative;
 					width: 206rpx;
 					height: 272rpx;
 					margin: 0 16rpx;
-		
+
 					.item-historical-info {
 						position: absolute;
 						top: 50%;
@@ -1391,13 +1410,13 @@
 						width: 206rpx;
 						height: 206rpx;
 						border-radius: 16rpx;
-		
+
 						image {
 							width: 206rpx;
 							height: 206rpx;
 							border-radius: 16rpx;
 						}
-		
+
 						view {
 							position: absolute;
 							bottom: 0;
@@ -1412,14 +1431,14 @@
 						}
 					}
 				}
-		
+
 				.new-list-item-right {
 					position: relative;
 					width: 352rpx;
 					height: 100%;
 					margin-left: 24rpx;
-		
-		
+
+
 					.new-list-item-right-txt {
 						position: absolute;
 						top: 20rpx;
@@ -1431,7 +1450,7 @@
 						text-overflow: ellipsis;
 						white-space: nowrap;
 					}
-		
+
 					.product-right-txt {
 						position: absolute;
 						top: 20rpx;
@@ -1446,7 +1465,7 @@
 						-webkit-box-orient: vertical;
 						-webkit-line-clamp: 2;
 					}
-		
+
 					.new-list-item-right-tags {
 						position: absolute;
 						top: 64rpx;
@@ -1455,7 +1474,7 @@
 						color: rgb(102, 102, 102);
 						display: flex;
 						align-items: center;
-		
+
 						view {
 							padding: 4rpx 8rpx;
 							box-sizing: border-box;
@@ -1463,7 +1482,7 @@
 							border-radius: 4rpx;
 							margin-right: 12rpx;
 						}
-		
+
 						image {
 							width: 28rpx;
 							height: 28rpx;
@@ -1471,14 +1490,14 @@
 							margin-right: 16rpx;
 						}
 					}
-		
+
 					.new-list-item-right-start {
 						position: absolute;
 						top: 110rpx;
 						width: 100%;
 						display: flex;
 						align-items: center;
-		
+
 						.new-list-item-right-start-info {
 							margin-right: 16rpx;
 							padding-right: 14rpx;
@@ -1486,38 +1505,38 @@
 							border-right: 1rpx solid rgb(204, 204, 204);
 							display: flex;
 							align-items: center;
-							
+
 							&:last-child {
 								border-right: none;
 							}
-		
+
 							image {
 								width: 24rpx;
 								height: 24rpx;
 								margin-right: 8rpx;
 							}
-							
+
 							view {
 								font-size: 16rpx;
 								color: rgb(102, 102, 102);
 							}
 						}
 					}
-		
+
 					.new-list-item-right-jd {
 						position: absolute;
 						top: 146rpx;
 						width: 100%;
 						display: flex;
 						align-items: center;
-		
+
 						.new-list-item-right-jd-data {
 							position: relative;
 							width: 280rpx;
 							height: 32rpx;
 							background: url('/static/images/new-index/jd-bj.png') no-repeat;
 							background-size: 280rpx 32rpx;
-		
+
 							view {
 								position: absolute;
 								top: 50%;
@@ -1527,7 +1546,7 @@
 								color: rgb(255, 255, 255);
 								z-index: 2;
 							}
-		
+
 							image {
 								position: absolute;
 								top: 50%;
@@ -1538,13 +1557,13 @@
 								border-radius: 28rpx;
 								z-index: 1;
 							}
-		
+
 						}
-		
+
 						.new-list-item-right-jd-auth {
 							display: flex;
 							align-items: center;
-		
+
 							image {
 								position: relative;
 								width: 32rpx;
@@ -1553,13 +1572,13 @@
 								margin-left: 4rpx;
 								z-index: 3;
 							}
-		
+
 							image:nth-child(2) {
 								position: relative;
 								margin-left: -14rpx;
 								z-index: 2;
 							}
-		
+
 							image:nth-child(3) {
 								position: relative;
 								margin-left: -14rpx;
@@ -1567,7 +1586,7 @@
 							}
 						}
 					}
-		
+
 					.new-list-item-btm {
 						position: absolute;
 						bottom: 24rpx;
@@ -1575,32 +1594,32 @@
 						display: flex;
 						align-items: center;
 						justify-content: space-between;
-		
+
 						.new-list-item-btm-price {
-		
+
 							.new {
 								font-size: 20rpx;
 								font-weight: bold;
 								color: rgb(255, 57, 57);
-		
+
 								image {
 									width: 24rpx;
 									height: 24rpx;
 								}
-		
+
 								span {
 									margin-left: 6rpx;
 									font-size: 32rpx;
 								}
 							}
-		
+
 							.old {
 								font-size: 16rpx;
 								color: rgb(153, 153, 153);
 								text-decoration: line-through;
 							}
 						}
-		
+
 						.new-list-item-btm-btn {
 							padding: 6rpx 10rpx;
 							box-sizing: border-box;
@@ -1611,19 +1630,19 @@
 							border-radius: 100rpx;
 							display: flex;
 							align-items: center;
-		
+
 							image {
 								width: 28rpx;
 								height: 28rpx;
 								margin-right: 6rpx;
 							}
-							
+
 							/deep/ .u-count-down__text {
 								color: #F89B00;
 							}
 						}
 					}
-		
+
 					.mask {
 						position: absolute;
 						width: 100%;
@@ -1631,7 +1650,7 @@
 						background: rgba(0, 0, 0, 0.86);
 						border-radius: 0 20rpx 20rpx 0;
 						z-index: 15;
-		
+
 						.close {
 							position: absolute;
 							right: 16rpx;
@@ -1639,7 +1658,7 @@
 							width: 24rpx;
 							height: 24rpx;
 						}
-		
+
 						.mask-info {
 							width: 100%;
 							font-size: 16rpx;
@@ -1647,7 +1666,7 @@
 							display: flex;
 							align-items: center;
 							margin-bottom: 20rpx;
-		
+
 							image {
 								width: 36rpx;
 								height: 36rpx;
@@ -1656,7 +1675,7 @@
 						}
 					}
 				}
-		
+
 				//历史商品状态
 				.item-status1 {
 					position: absolute;
@@ -1666,7 +1685,7 @@
 					height: 120rpx;
 					background: url('/static/images/new-index/status2.png') no-repeat;
 					background-size: 120rpx 120rpx;
-		
+
 					view {
 						position: absolute;
 						top: 28%;
@@ -1675,9 +1694,9 @@
 						color: #fff;
 						transform: rotate(45deg);
 					}
-		
+
 				}
-		
+
 				.item-status2 {
 					position: absolute;
 					top: 0;
@@ -1686,7 +1705,7 @@
 					height: 120rpx;
 					background: url('/static/images/new-index/status3.png') no-repeat;
 					background-size: 120rpx 120rpx;
-		
+
 					view {
 						position: absolute;
 						top: 28%;
@@ -1696,13 +1715,13 @@
 						transform: rotate(45deg);
 					}
 				}
-		
+
 				//历史商品展示
 				.item-historical-des {
 					position: relative;
 					width: 412rpx;
 					height: 100%;
-		
+
 					.des-tit {
 						position: absolute;
 						top: 24rpx;
@@ -1717,7 +1736,7 @@
 						-webkit-box-orient: vertical;
 						-webkit-line-clamp: 2;
 					}
-		
+
 					.des-center {
 						position: absolute;
 						top: 112rpx;
@@ -1725,36 +1744,36 @@
 						display: flex;
 						align-items: center;
 						justify-content: space-between;
-		
+
 						.des-center-price {
 							.new {
 								font-size: 20rpx;
 								font-weight: bold;
 								color: rgb(255, 57, 57);
-		
+
 								image {
 									width: 24rpx;
 									height: 24rpx;
 								}
-		
+
 								span {
 									font-size: 32rpx;
 								}
 							}
-		
+
 							.old {
 								font-size: 16rpx;
 								color: rgb(153, 153, 153);
 								text-decoration: line-through;
 							}
 						}
-		
+
 						.des-center-num {
 							font-size: 16rpx;
 							color: rgb(153, 153, 153);
 						}
 					}
-		
+
 					.des-btm {
 						position: absolute;
 						bottom: 24rpx;
@@ -1762,24 +1781,24 @@
 						display: flex;
 						align-items: center;
 						justify-content: space-between;
-		
+
 						.left {
 							display: flex;
 							align-items: center;
-		
+
 							image {
 								width: 32rpx;
 								height: 32rpx;
 								border-radius: 50%;
 							}
-		
+
 							.left-name {
 								font-size: 20rpx;
 								color: rgb(51, 51, 51);
 								margin-left: 8rpx;
 							}
 						}
-		
+
 						.right {
 							font-size: 16rpx;
 							color: rgb(153, 153, 153);
@@ -1787,7 +1806,7 @@
 					}
 				}
 			}
-		
+
 			//一行多列显示
 			.new-list-item-two {
 				width: 686rpx;
@@ -1796,7 +1815,7 @@
 				align-items: center;
 				justify-content: space-between;
 				margin: 0 auto;
-		
+
 				.info {
 					width: 336rpx;
 					min-height: 524rpx;
@@ -1805,14 +1824,14 @@
 					box-shadow: 0px 4rpx 12rpx rgba(198, 198, 198, 0.3);
 					border-radius: 20rpx;
 					margin-bottom: 20rpx;
-		
+
 					.info-img {
 						display: block;
 						width: 336rpx;
 						height: 336rpx;
 						border-radius: 20rpx 20rpx 0 0;
 					}
-		
+
 					.info-tit {
 						width: 302rpx;
 						font-size: 24rpx;
@@ -1822,37 +1841,37 @@
 						white-space: nowrap;
 						margin: 16rpx auto;
 					}
-		
+
 					.info-tags {
 						min-width: 302rpx;
 						display: flex;
 						align-items: center;
-		
+
 						.info-tag {
 							display: flex;
 							align-items: center;
 							padding: 0 16rpx;
-		
+
 							image {
 								width: 24rpx;
 								height: 24rpx;
 							}
-		
+
 							view {
 								font-size: 16rpx;
 								color: rgb(102, 102, 102);
 								margin-left: 8rpx;
 							}
 						}
-		
+
 						.info-tag:nth-child(2) {
 							border: 1rpx solid rgb(204, 204, 204);
 							border-top: none;
 							border-bottom: none;
 						}
-		
+
 					}
-		
+
 					.info-jd {
 						position: relative;
 						width: 296rpx;
@@ -1860,7 +1879,7 @@
 						background: url('/static/images/new-index/jd-bj.png') no-repeat;
 						background-size: 296rpx 32rpx;
 						margin: 24rpx auto 28rpx auto;
-		
+
 						image {
 							position: absolute;
 							top: 50%;
@@ -1870,7 +1889,7 @@
 							height: 28rpx;
 							border-radius: 28rpx;
 						}
-		
+
 						view {
 							position: absolute;
 							top: 50%;
@@ -1879,16 +1898,16 @@
 							font-size: 20rpx;
 							color: rgb(255, 255, 255);
 						}
-		
+
 					}
-		
+
 					.info-btm {
 						width: 302rpx;
 						display: flex;
 						align-items: center;
 						justify-content: space-between;
 						margin: 0 auto;
-		
+
 						.new-list-item-btm-btn {
 							padding: 6rpx 10rpx;
 							box-sizing: border-box;
@@ -1899,41 +1918,41 @@
 							display: flex;
 							align-items: center;
 							justify-content: center;
-		
+
 							image {
 								width: 24rpx;
 								height: 24rpx;
 								margin-right: 8rpx;
 							}
-							
+
 							/deep/ .u-count-down__text {
 								color: rgb(248, 155, 0);
 							}
 						}
-		
+
 						.info-price {
 							.new {
 								font-size: 20rpx;
 								font-weight: bold;
 								color: rgb(255, 57, 57);
-		
+
 								image {
 									width: 24rpx;
 									height: 24rpx;
 								}
-		
+
 								span {
 									font-size: 32rpx;
 								}
 							}
-		
+
 							.old {
 								font-size: 16rpx;
 								color: rgb(153, 153, 153);
 								text-decoration: line-through;
 							}
 						}
-		
+
 						.info-btn {
 							width: 124rpx;
 							height: 48rpx;
@@ -1943,12 +1962,12 @@
 							box-sizing: border-box;
 							border: 2rpx solid rgb(10, 198, 142);
 							border-radius: 100rpx;
-		
+
 							image {
 								width: 24rpx;
 								height: 24rpx;
 							}
-		
+
 							view {
 								font-size: 24rpx;
 								color: rgb(10, 198, 142);
@@ -1958,7 +1977,7 @@
 					}
 				}
 			}
-		
+
 			//竖向单行显示
 			.new-list-line {
 				width: 686rpx;
@@ -1967,37 +1986,37 @@
 				border-radius: 20rpx;
 				box-shadow: 0px 4rpx 12rpx rgba(198, 198, 198, 0.3);
 				margin: 0 auto 20rpx auto;
-		
+
 				.product_img {
 					display: block;
 					width: 686rpx;
 					height: 686rpx;
 					border-radius: 20rpx 20rpx 0 0;
 				}
-		
+
 				.product_txt {
 					width: 628rpx;
 					font-size: 28rpx;
 					color: rgb(51, 51, 51);
 					margin: 16rpx auto 24rpx auto;
 				}
-		
+
 				.info {
 					width: 628rpx;
 					display: flex;
 					align-items: center;
 					justify-content: space-between;
 					margin: 0 auto;
-		
+
 					.info-left {
-		
+
 						.info_jd {
 							position: relative;
 							width: 386rpx;
 							height: 32rpx;
 							background: url('/static/images/new-index/jd-bj.png') no-repeat;
 							background-size: 386rpx 32rpx;
-		
+
 							image {
 								position: absolute;
 								top: 50%;
@@ -2007,7 +2026,7 @@
 								height: 28rpx;
 								border-radius: 28rpx;
 							}
-		
+
 							view {
 								position: absolute;
 								top: 50%;
@@ -2017,28 +2036,28 @@
 								color: rgb(255, 255, 255);
 							}
 						}
-		
+
 						.info_price {
 							display: flex;
 							align-items: flex-end;
 							margin-top: 14rpx;
-		
+
 							.new {
 								font-size: 24rpx;
 								font-weight: bold;
 								color: rgb(255, 57, 57);
 								margin-right: 8rpx;
-		
+
 								image {
 									width: 24rpx;
 									height: 24rpx;
 								}
-		
+
 								span {
 									font-size: 40rpx;
 								}
 							}
-		
+
 							.old {
 								font-size: 16rpx;
 								color: rgb(153, 153, 153);
@@ -2046,7 +2065,7 @@
 							}
 						}
 					}
-		
+
 					.info-right {
 						width: 176rpx;
 						height: 68rpx;
@@ -2056,13 +2075,13 @@
 						display: flex;
 						align-items: center;
 						justify-content: center;
-		
+
 						image {
 							width: 36rpx;
 							height: 36rpx;
 							margin-right: 8rpx;
 						}
-		
+
 						view {
 							font-size: 32rpx;
 							color: rgb(10, 198, 142);
@@ -2071,24 +2090,24 @@
 				}
 			}
 		}
-		
+
 		// 抢拍次数
 		.qiangpaiShow {
 			position: relative;
-			
+
 			.query {
 				position: absolute;
 				top: 20rpx;
 				right: 60rpx;
 				z-index: 20;
-			
+
 				image {
 					position: absolute;
 					width: 36rpx;
 					height: 36rpx;
 				}
 			}
-			
+
 			.qiangpaiCont {
 				width: 686rpx;
 				background: #fff;
@@ -2097,20 +2116,20 @@
 				// border: 4rpx solid rgb(10, 198, 142);
 				border-radius: 16rpx;
 				z-index: 9;
-			
+
 				.center {
 					.maxtitle {
 						position: relative;
 						display: flex;
 						align-items: center;
-			
+
 						image {
 							position: absolute;
 							left: 62rpx;
 							width: 72rpx;
 							height: 72rpx;
 						}
-			
+
 						.title {
 							width: 100%;
 							text-align: center;
@@ -2120,12 +2139,12 @@
 							margin-left: 20rpx;
 						}
 					}
-			
+
 					.cent {
 						margin: 0rpx auto 40rpx;
 						display: flex;
-			
-			
+
+
 						.txt {
 							margin-top: 5rpx;
 							font-size: 30rpx;
@@ -2133,12 +2152,12 @@
 							margin-right: 10rpx;
 							max-width: 180rpx;
 						}
-			
+
 						.cont {
 							width: 566rpx;
 							margin: 10rpx auto 0;
 							text-align: center;
-			
+
 							.tit {
 								width: 100%;
 								font-size: 28rpx;
@@ -2147,24 +2166,24 @@
 								text-align: center;
 								margin-bottom: 20rpx;
 							}
-			
-			
+
+
 							.my-input {
 								width: 566rpx;
 								display: flex;
 								align-items: center;
 								background: rgb(241, 241, 241);
 								border-radius: 16rpx;
-			
+
 								image {
 									display: block;
 									width: 32rpx;
 									height: 32rpx;
 									margin: 0 16rpx 0 24rpx;
 								}
-			
+
 							}
-			
+
 							uni-input {
 								width: 480rpx;
 								height: 80rpx;
@@ -2172,7 +2191,7 @@
 								font-size: 28rpx;
 								text-align: left;
 							}
-			
+
 							.num {
 								display: flex;
 								align-items: center;
@@ -2181,15 +2200,48 @@
 								margin-top: 30rpx;
 								color: rgb(10, 198, 142);
 							}
+
+							.protocol {
+								width: 542rpx;
+								display: flex;
+								margin: 32rpx auto 0 auto;
+
+								.protocol_img {
+									display: block;
+									width: 40rpx;
+									height: 40rpx;
+								}
+
+								.protocol_info {
+									width: 432rpx;
+									font-size: 24rpx;
+									margin-left: 16rpx;
+									text-align: left;
+									// word-break: break-all;
+
+									.protocol_txt1 {
+										display: inline;
+										color: rgb(102, 102, 102);
+									}
+
+									.protocol_txt2 {
+										display: inline;
+										color: rgb(51, 51, 51);
+									}
+								}
+
+							}
+
+
 						}
 					}
-			
+
 					.qiangpai-btn {
 						width: 100%;
 						display: flex;
 						align-items: center;
 						justify-content: center;
-			
+
 						.qiangpai-cancel {
 							width: 206rpx;
 							height: 70rpx;
@@ -2201,9 +2253,9 @@
 							background: rgb(10, 198, 142);
 							margin-right: 30rpx;
 						}
-			
+
 					}
-			
+
 					.btnsub {
 						width: 406rpx;
 						height: 70rpx;
@@ -2217,7 +2269,7 @@
 				}
 			}
 		}
-		
+
 		// 竞拍次数为0
 		.jingpai-pop {
 			width: 686rpx;
@@ -2225,7 +2277,7 @@
 			border-radius: 20rpx;
 			padding: 45rpx 0;
 			// border: 4rpx solid rgb(10, 198, 142);
-		
+
 			.title {
 				width: 100%;
 				font-size: 32rpx;
@@ -2233,7 +2285,7 @@
 				font-weight: bold;
 				text-align: center;
 			}
-		
+
 			.txt {
 				width: 100%;
 				margin-top: 24rpx;
@@ -2241,7 +2293,7 @@
 				color: rgb(10, 198, 142);
 				text-align: center;
 			}
-		
+
 			.cent {
 				width: 100%;
 				display: flex;
@@ -2250,13 +2302,13 @@
 				// display: flex;
 				// align-items: center;
 				justify-content: center;
-		
+
 				.imgs {
 					width: 26rpx;
 					height: 26rpx;
 					margin-right: 10rpx;
 				}
-		
+
 				.txt1 {
 					max-width: 240rpx;
 					font-size: 24rpx;
@@ -2264,7 +2316,7 @@
 					text-align: center;
 					margin: 0 10rpx;
 				}
-		
+
 				.txt2 {
 					max-width: 288rpx;
 					font-size: 24rpx;
@@ -2272,15 +2324,15 @@
 					text-align: center;
 				}
 			}
-		
+
 			.cont {
 				margin-top: 50rpx;
 				display: flex;
 				justify-content: center;
-		
+
 				.right {
 					display: flex;
-		
+
 					view {
 						width: 240rpx;
 						height: 60rpx;
@@ -2289,34 +2341,34 @@
 						text-align: center;
 						border-radius: 16rpx;
 					}
-		
+
 					.name {
 						font-size: 32rpx;
 						color: #999;
 						border: 1rpx solid rgb(10, 198, 142);
 						margin-right: 97rpx;
 					}
-		
+
 					.ljfx {
 						color: #fff;
 						background: rgb(10, 198, 142);
-		
+
 					}
 				}
 			}
 		}
-		
+
 		// 竞拍次数大于0
 		.jingpai-ok {
 			position: relative;
-			
+
 			.jingpai-pop {
 				width: 686rpx;
 				background: #ffffff;
 				border-radius: 20rpx;
 				padding: 45rpx 0;
 				// border: 4rpx solid rgb(10, 198, 142);
-			
+
 				.title {
 					width: 100%;
 					font-size: 32rpx;
@@ -2324,7 +2376,7 @@
 					font-weight: bold;
 					text-align: center;
 				}
-			
+
 				.txt {
 					width: 100%;
 					margin-top: 24rpx;
@@ -2332,7 +2384,7 @@
 					color: rgb(10, 198, 142);
 					text-align: center;
 				}
-			
+
 				.cent {
 					width: 100%;
 					display: flex;
@@ -2341,13 +2393,13 @@
 					// display: flex;
 					// align-items: center;
 					justify-content: center;
-			
+
 					.imgs {
 						width: 26rpx;
 						height: 26rpx;
 						margin-right: 10rpx;
 					}
-			
+
 					.txt1 {
 						max-width: 240rpx;
 						font-size: 24rpx;
@@ -2355,7 +2407,7 @@
 						text-align: center;
 						margin: 0 10rpx;
 					}
-			
+
 					.txt2 {
 						max-width: 288rpx;
 						font-size: 24rpx;
@@ -2363,15 +2415,15 @@
 						text-align: center;
 					}
 				}
-			
+
 				.cont {
 					margin-top: 50rpx;
 					display: flex;
 					justify-content: center;
-			
+
 					.right {
 						display: flex;
-			
+
 						view {
 							width: 240rpx;
 							height: 60rpx;
@@ -2380,24 +2432,24 @@
 							text-align: center;
 							border-radius: 16rpx;
 						}
-			
+
 						.name {
 							font-size: 32rpx;
 							color: #999;
 							border: 1rpx solid rgb(10, 198, 142);
 							margin-right: 97rpx;
 						}
-			
+
 						.ljfx {
 							color: #fff;
 							background: rgb(10, 198, 142);
-			
+
 						}
 					}
 				}
 			}
 		}
-		
+
 		// 支付方式弹出
 		.mode-pop {
 			background: #ffffff;
@@ -2408,7 +2460,7 @@
 			width: 100%;
 			padding-top: 88rpx;
 			padding-bottom: 24rpx;
-		
+
 			.mode-close {
 				position: absolute;
 				top: 40rpx;
@@ -2416,25 +2468,25 @@
 				width: 32rpx;
 				height: 32rpx;
 			}
-		
+
 			.mode-tit {
 				display: flex;
 				align-items: center;
 				justify-content: center;
-		
+
 				image {
 					width: 40rpx;
 					height: 40rpx;
 					margin-right: 20rpx;
 				}
-		
+
 				view {
 					font-size: 56rpx;
 					font-weight: bold;
 					color: rgb(51, 51, 51);
 				}
 			}
-		
+
 			.mode-des {
 				width: 100%;
 				font-size: 28rpx;
@@ -2442,7 +2494,7 @@
 				text-align: center;
 				margin-top: 24rpx;
 			}
-		
+
 			.mode-banlace {
 				width: 100%;
 				font-size: 28rpx;
@@ -2450,39 +2502,39 @@
 				text-align: center;
 				margin-top: 12rpx;
 			}
-		
+
 			.mode-info {
 				position: relative;
 				width: 100%;
 				display: flex;
 				align-items: center;
 				margin-top: 136rpx;
-		
+
 				.logo {
 					width: 48rpx;
 					height: 48rpx;
 					margin-left: 40rpx;
 				}
-		
+
 				.info-tit {
 					margin-left: 24rpx;
-		
+
 					.info-name {
 						font-size: 28rpx;
 						color: rgb(51, 51, 51);
 					}
-		
+
 					.info-price {
 						font-size: 24rpx;
 						color: rgb(102, 102, 102);
-		
+
 						text {
 							color: rgb(10, 198, 142);
 							margin-left: 8rpx;
 						}
 					}
 				}
-		
+
 				.mode-info-right {
 					position: absolute;
 					right: 40rpx;
@@ -2490,14 +2542,14 @@
 					color: rgb(102, 102, 102);
 					display: flex;
 					align-items: center;
-		
+
 					image {
 						width: 24rpx;
 						height: 24rpx;
 						margin-left: 8rpx;
 					}
 				}
-		
+
 				.select {
 					position: absolute;
 					right: 40rpx;
@@ -2505,39 +2557,39 @@
 					height: 40rpx;
 				}
 			}
-		
+
 			.mode-more {
 				position: relative;
 				width: 100%;
 				display: flex;
 				align-items: center;
 				margin-top: 20rpx;
-		
+
 				.tit {
 					font-size: 28rpx;
 					color: rgb(51, 51, 51);
 					margin-left: 112rpx;
 				}
-		
+
 				.logo {
 					width: 32rpx;
 					height: 32rpx;
 					margin-left: 20rpx;
 				}
-		
+
 				.num {
 					font-size: 28rpx;
 					color: rgb(102, 102, 102);
 					margin-left: 8rpx;
 				}
-		
+
 				.price {
 					position: absolute;
 					right: 100rpx;
 					font-size: 24rpx;
 					color: rgb(255, 57, 57);
 				}
-		
+
 				.select {
 					position: absolute;
 					right: 40rpx;
@@ -2545,7 +2597,7 @@
 					height: 40rpx;
 				}
 			}
-		
+
 			.mode-cz {
 				font-size: 24rpx;
 				color: rgb(10, 198, 142);
@@ -2553,21 +2605,21 @@
 				align-items: center;
 				margin-left: 112rpx;
 				margin-top: 20rpx;
-		
+
 				image {
 					width: 24rpx;
 					height: 24rpx;
 					margin-left: 8rpx;
 				}
 			}
-		
+
 			.mode-switch {
 				font-size: 24rpx;
 				color: rgb(102, 102, 102);
 				display: flex;
 				align-items: center;
 				margin-top: 240rpx;
-		
+
 				image {
 					display: block;
 					width: 32rpx;
@@ -2575,7 +2627,7 @@
 					margin: 0 12rpx 0 32rpx;
 				}
 			}
-		
+
 			.mode-btn {
 				width: 686rpx;
 				height: 88rpx;
@@ -2588,18 +2640,18 @@
 				margin: 24rpx auto;
 			}
 		}
-		
+
 		// 支付密码弹出 支付成功弹出
 		.pay-pwd {
 			position: relative;
-		
+
 			.pay-pwd-img {
 				display: block;
 				width: 600rpx;
 				height: 600rpx;
 				margin: 0 auto -210rpx auto;
 			}
-		
+
 			.pay-pwd-close {
 				position: absolute;
 				top: 20rpx;
@@ -2609,7 +2661,7 @@
 				height: 36rpx;
 				z-index: 10;
 			}
-		
+
 			.pay-pwd-info {
 				width: 686rpx;
 				// height: 428rpx;
@@ -2618,7 +2670,7 @@
 				background: #FFF;
 				// border: 4rpx solid rgb(10, 198, 142);
 				border-radius: 16rpx;
-		
+
 				.pay-pwd-info-tit {
 					width: 80%;
 					font-size: 40rpx;
@@ -2626,20 +2678,20 @@
 					text-align: center;
 					margin: 0 auto;
 				}
-		
+
 				.pay-pwd-info-line {
 					width: 600rpx;
 					border-bottom: 2rpx solid rgb(189, 189, 189);
 					margin: 20rpx auto;
 				}
-		
+
 				.pay-pwd-info-price {
 					width: 100%;
 					font-size: 38rpx;
 					color: rgb(10, 198, 142);
 					text-align: center;
 				}
-		
+
 				.pay-pwd-info-input {
 					width: 520rpx;
 					height: 80rpx;
@@ -2647,7 +2699,7 @@
 					border-radius: 10rpx;
 					padding: 0 20rpx;
 					margin: 20rpx auto;
-		
+
 					.input {
 						width: 100%;
 						height: 80rpx;
@@ -2655,7 +2707,7 @@
 						text-align: left;
 					}
 				}
-		
+
 				.pay-pwd-info-btn {
 					width: 400rpx;
 					height: 80rpx;
@@ -2667,14 +2719,14 @@
 					border-radius: 16rpx;
 					margin: 40rpx auto;
 				}
-		
+
 				.pay-pwd-list {
 					width: 100%;
 					display: flex;
 					align-items: center;
 					justify-content: center;
 					margin-top: 60rpx;
-		
+
 					view {
 						width: 220rpx;
 						height: 60rpx;
@@ -2683,11 +2735,11 @@
 						text-align: center;
 						border-radius: 16rpx;
 					}
-		
+
 					.pay-pwd-list-cancel {
 						border: 2rpx solid rgb(10, 198, 142);
 					}
-		
+
 					.pay-pwd-list-ok {
 						color: #fff;
 						background: rgb(10, 198, 142);

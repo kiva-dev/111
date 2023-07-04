@@ -4,276 +4,37 @@
 		<image src="/static/images/new-index/luckstar-cn.png" class="xyzx-header" v-if="!isShopCont"></image>
 		<image src="/static/images/new-index/luckstar-en.png" class="xyzx-header" v-if="isShopCont"></image>
 		<!--auct-head end-->
-		<!--头部导航 end-->
-		<block v-if="navId==1">
-			<!--轮播图 start-->
-			<view class="auct-banner">
-				<swiper class="swiper" circular :indicator-dots="indicatorDots" :autoplay="autoplay"
-					:interval="interval" :duration="duration">
-					<swiper-item v-for="item in banner" :key="item.id">
-						<view class="swiper-item">
-							<navigator :url="'./detail?id=' + item.good_id" hover-class="none" class="banner-img">
-								<image class="img" :src="item.image"></image>
-							</navigator>
-						</view>
-					</swiper-item>
-				</swiper>
-			</view>
-			<!--轮播图 end-->
-			<!--1级分类 start-->
-			<view class="auct-class">
-				<navigator :url="'./classify?id='+item.id+'&name='+item.name" hover-class="none"
-					v-for="item in FirstList" :key="item.id" class="li">
-					<view class="icon">
-						<image class="img" :src="item.image"></image>
-					</view>
-					<view class="t">{{item.name}}</view>
-				</navigator>
-			</view>
-			<!--1级分类 end-->
-		</block>
-		<!--最新竞拍 start-->
-		<block v-if="navId==1">
-			<view class="auct-new">
-				<view class="auct-title">
-					<view class="t">{{$t('auction.zxjp')}}</view>
-					<view class="more" @click="onNavClick(2)">
-						<text>{{$t('auction.more')}}</text>
-						<view class="icon">
-							<image class="img" src="../../static/images/index/more.png"></image>
-						</view>
-					</view>
+		<view class="luck_list">
+			<view class="head">
+				<image src="/static/images/new-index/lv-start.png" class="head_img"></image>
+				<view class="head_txt">
+					<view>Lucky Star</view>
+					<span></span>
 				</view>
 			</view>
-		</block>
-		<block v-if="navId==2">
-			<view class="zxjpCont">
-				<view v-for="item in newsjpList" :key="item.id" class="li" :class="item.id==newsjpId?'active':''"
-					@click="onZxjpClick(item.id)">{{item.title}}</view>
-			</view>
-		</block>
-		<!-- 最新竞拍列表 -->
-		<block v-if="navId==1||navId==2">
-			<view class="auct-new">
-				<view v-for="item in jingpaiList" :key="item.auction_goods_id" class="new-li" @click="onJingPai(item)">
-					<view class="li-img">
-						<image class="img" :src="item.image"></image>
-						<view class="li-date" v-if="item.auction_type==2">
-							<u-count-down :time="item.remain_time" format="HH:mm:ss"></u-count-down>
-						</view>
-						<view class="li-t">{{item.stage_num}}{{$t('auction.qi')}}</view>
-					</view>
-					<view class="li-txt">
-						<view class="li-h">
-							<view class="name">{{item.goods_name}}</view>
-							<view class="s">{{item.shop_name}}{{$t('auction.tigong')}}</view>
-						</view>
-						<view class="t">{{item.goods_mark}}</view>
-						<view class="li-tags">
-							<block v-for="(items,index) in item.tags" :key="{index}">
-								<view v-if="items.tag_id==2" class="tag">{{items.name}}</view>
-								<block v-if="item.limit==1">
-									<view v-if="index==0" class="tag yellow">
-										{{$t('auction.xianpai')}}{{item.limit_num}}{{$t('auction.ci')}}
-									</view>
-								</block>
-								<view v-if="items.tag_id==1" class="tag red">{{$t('auction.baokuan')}}</view>
-							</block>
-						</view>
-						<view class="li-price">
-							<view class="price-fl">
-								<text class="red">{{$t('auction.qiangpaijia')}}RM{{item.auction_price}}</text>
-								<text class="gray">{{$t('auction.shichangjia')}}RM{{item.price}}</text>
-							</view>
-							<button class="price-btn" @click.stop="onMineInfo(item)">{{$t('auction.qiangpai')}}</button>
-						</view>
-						<view class="li-b">
-							<text v-if="item.finish_rate==100">{{$t('auction.yiwancheng')}}</text>
-							<text v-else>{{$t('auction.jinxingzhong')}}</text>
-							<view class="li-pro">
-								<view class="pro" :style="'width:'+item.finish_rate*100+'%;'"></view>
-							</view>
-							<text>{{(item.finish_rate*100).toFixed(0)}}%</text>
-						</view>
-					</view>
-				</view>
-			</view>
-		</block>
-		<!--最新竞拍 end-->
-		<!--即将开始 start-->
-		<block v-if="navId==1">
-			<!--auct-start start-->
-			<view class="auct-start">
-				<view class="auct-title">
-					<view class="t">{{$t('auction.jijiangkaishi')}}</view>
-					<view class="more" @click="onNavClick(3)">
-						<text>{{$t('auction.more')}}</text>
-						<view class="icon">
-							<image class="img" src="../../static/images/index/more.png"></image>
-						</view>
-					</view>
-				</view>
-			</view>
-		</block>
-		<block v-if="navId==3">
-			<view class="zxjpCont">
-				<view v-for="item in jijiangList" :key="item.id" class="li" :class="item.id==jijiangId?'active':''"
-					@click="onjjksClick(item.id)">{{item.title}}</view>
-			</view>
-		</block>
-		<block v-if="navId==1||navId==3">
-			<view class="auct-start">
-				<!--new-li start-->
-				<view class="new-li" v-for="item in newsjingpaiList" :key="item.id" @click="onJingPai(item)">
-					<view class="li-img">
-						<image class="img" :src="item.image"></image>
-						<view class="li-date">{{item.countdown}}</view>
-						<view class="li-t">{{item.stage_num}}{{$t('auction.qi')}}</view>
-					</view>
-					<view class="li-txt">
-						<view class="li-h">
-							<view class="name">{{item.goods_name}}</view>
-							<view class="s">{{item.shop_name}}{{$t('auction.tigong')}}</view>
-						</view>
-						<view class="t">{{item.goods_mark}}</view>
-						<view class="li-tags">
-							<block v-for="(items,index) in item.tags" :key="{index}">
-								<view v-if="items.tag_id==2" class="tag">{{items.name}}</view>
-								<block v-if="item.limit==1">
-									<view v-if="index==0" class="tag yellow">
-										{{$t('auction.xianpai')}}{{item.limit_num}}{{$t('auction.ci')}}
-									</view>
-								</block>
-								<view v-if="items.tag_id==1" class="tag red">{{$t('auction.baokuan')}}</view>
-							</block>
-						</view>
-						<view class="li-price">
-							<view class="price-fl">
-								<text class="red">{{$t('auction.qiangpaijia')}}RM{{item.auction_price}}</text>
-								<text class="gray">{{$t('auction.shichangjia')}}RM{{item.price}}</text>
-							</view>
-						</view>
-						<view class="li-b">
-							<button class="price-btn" @click.stop="onMineFocus(item)"
-								v-if="item.goods_focus">{{$t('home.shop.yiguanzhu')}}</button>
-							<button class="price-btn" @click.stop="onMineFocus(item)"
-								v-else>{{$t('home.shop.guanzhu')}}</button>
-						</view>
-					</view>
-				</view>
-				<!--new-li end-->
-			</view>
-		</block>
-		<!--即将开始 end-->
-		<!-- 历史竞拍 start -->
-		<block v-if="navId==1">
-			<!--auct-start start-->
-			<view class="auct-his">
-				<view class="auct-title">
-					<view class="t">{{$t('auction.lishijingpai')}}</view>
-					<view class="more" @click="onNavClick(4)">
-						<text>{{$t('auction.more')}}</text>
-						<view class="icon">
-							<image class="img" src="../../static/images/index/more.png"></image>
-						</view>
-					</view>
-				</view>
-			</view>
-		</block>
-		<block v-if="navId==4">
-			<view class="zxjpCont">
-				<view class="li" :class="date_start?'active':''" @click="onopenClick">{{$t('auction.xuanzerqi')}}</view>
-				<view v-for="item,k in lishiList" :key="k" class="li" :class="item.id==lishiId?'active':''"
-					@click="onlishiClick(item.id)">{{item.title}}</view>
-			</view>
-		</block>
-		<block v-if="navId==1||navId==4">
-			<view class="auct-his">
-				<!--new-li start-->
-				<view class="new-li" v-for="item in historyList" :key="item.auction_goods_id" @click="onJingPai(item)">
-					<view class="li-img">
-						<image class="img" :src="item.image"></image>
-						<view class="li-t">{{item.stage_num}}{{$t('auction.qi')}}</view>
-					</view>
-					<view class="li-txt">
-						<view class="li-h">
-							<view class="name">{{item.goods_name}}</view>
-							<view class="s">{{item.shop_name}}{{$t('auction.tigong')}}</view>
-						</view>
-						<view class="li-price">
-							<view class="price-fl">
-								<text class="red">{{$t('auction.qiangpaijia')}} RM{{item.auction_price}}</text>
-								<text class="gray">{{$t('auction.shichangjia')}} RM{{item.price}}</text>
-							</view>
-						</view>
-						<view class="li-time">{{$t('auction.lishi')}}：{{item.continue_time}}</view>
-						<view class="li-b">{{$filter.to_date_time(item.end_time)}} <text v-if="item.check_status==3">
-								<block v-if="item.part_fengpan==1">
-									<block v-if="isShopCont">Partial sealing disc</block>
-									<block v-else></block>
-								</block>
-								<block v-else>
-									{{$t('auction.chenggongjingpai')}}
-								</block>
-							</text>
-							<text style="color:#999" v-if="item.check_status==4">{{$t('auction.yiliupai')}}</text>
-						</view>
-					</view>
-				</view>
-				<!--new-li end-->
-			</view>
-		</block>
-		<!-- 历史竞拍 end -->
-		<block v-if="navId==1">
-			<!--auct-his end-->
-			<!--auct-luck start-->
-			<view class="auct-luck">
-				<view class="auct-title">
-					<view class="t">{{$t('auction.xyzq')}}</view>
-					<view class="more" @click="onNavClick(5)">
-						<text>{{$t('auction.more')}}</text>
-						<view class="icon">
-							<image class="img" src="../../static/images/index/more.png"></image>
-						</view>
-					</view>
-				</view>
-			</view>
-			<!--auct-luck end-->
-		</block>
-		<block v-if="navId==1||navId==5">
-			
-			<view class="luck_list">
-				<view class="head">
-					<image src="/static/images/new-index/lv-start.png" class="head_img"></image>
-					<view class="head_txt">
-						<view>Lucky Star</view>
-						<span></span>
-					</view>
-				</view>
 
-				<view class="auct-luck">
-					<view class="luck-ul">
-						<navigator :url="`/pages/auction/detail?id=${item.auction_goods_id}&type=4`"
-							open-type="navigate" hover-class="none" class="luck-li" v-for="item,k in LuckyList"
-							:key="k">
-							<view class="cent">
-								<view class="li-img">
-									<image class="img" :src="item.avatar"></image>
-									<view class="vip">LV{{item.level}}</view>
-								</view>
-								<view class="li-txt">
-									<view class="li-h">
-										<view class="h-fl">
-											<text class="name">{{item.nickname}}</text>
-										</view>
-										<view class="right">
-											<view class="lis" @click.stop="onAuctionFocusLucky(item)">
-												<image v-if="item.is_zan==1" src="/static/images/new/dz1.png" mode="" />
-												<image v-else src="/static/images/new/dz.png" mode="" />{{item.zan_num}}
-											</view>
+			<view class="auct-luck">
+				<view class="luck-ul">
+					<navigator :url="`/pages/auction/detail?id=${item.auction_goods_id}&type=4`" open-type="navigate"
+						hover-class="none" class="luck-li" v-for="item,k in LuckyList" :key="k">
+						<view class="cent">
+							<view class="li-img">
+								<image class="img" :src="item.avatar"></image>
+								<view class="vip">LV{{item.level}}</view>
+							</view>
+							<view class="li-txt">
+								<view class="li-h">
+									<view class="h-fl">
+										<text class="name">{{item.nickname}}</text>
+									</view>
+									<view class="right">
+										<view class="lis" @click.stop="onAuctionFocusLucky(item)">
+											<image v-if="item.is_zan==1" src="/static/images/new/dz1.png" mode="" />
+											<image v-else src="/static/images/new/dz.png" mode="" />{{item.zan_num}}
 										</view>
 									</view>
-									<!-- <view class="li-c">
+								</view>
+								<view class="li-c">
 										{{$t('auction.zaiyiu')}}<text class="color-purse"
 											style="color: rgb(93, 191, 254);">{{item.shop_name}}</text>
 										{{$t('auction.tigdjphd')}}<text class="color-red"
@@ -282,24 +43,23 @@
 											style="color: rgb(255, 78, 47);">RM{{item.price}}</text>
 										<block v-if="isShopCont">of </block>
 										<block v-else>的</block>{{item.goods_name}}
-									</view> -->
-									<view class="li-date-f">
-										<view class="bottom">
-											<view class="li-date">{{$filter.to_date_time(item.update_time)}}</view>
-											<view class="h-c" style="color: rgb(190,190,190);">
-												{{item.stage_num}}{{$t('auction.qi')}}
-											</view>
+									</view>
+								<view class="li-date-f">
+									<view class="bottom">
+										<view class="li-date">{{$filter.to_date_time(item.update_time)}}</view>
+										<view class="h-c" style="color: rgb(190,190,190);">
+											{{item.stage_num}}{{$t('auction.qi')}}
 										</view>
 									</view>
-
 								</view>
+
 							</view>
-							<view class="luck-li-line" v-if="(k+1) < LuckyList.length"></view>
-						</navigator>
-					</view>
+						</view>
+						<view class="luck-li-line" v-if="(k+1) < LuckyList.length"></view>
+					</navigator>
 				</view>
 			</view>
-		</block>
+		</view>
 
 	</view>
 </template>
@@ -521,7 +281,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			uni.removeStorageSync('productId')
 			uni.removeStorageSync('switch_id')
 			uni.removeStorageSync('jinpaiId')
-			
+
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
 			this.cancelText = uni.getStorageSync('locale') == 'en' ? 'cancel' : '取消'
 			this.confirmText = uni.getStorageSync('locale') == 'en' ? 'confirm' : '确认'
@@ -945,7 +705,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						if (item.is_zan == 0) {
 							item.is_zan = 1
 							item.zan_num += 1
-						}else{
+						} else {
 							item.is_zan = 0
 							item.zan_num -= 1
 						}
@@ -1857,6 +1617,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			width: 686rpx;
 			min-height: 800rpx;
 			margin: 0 auto;
+
 			.auct-title {
 				margin-bottom: 30rpx;
 			}
@@ -1989,7 +1750,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			border-radius: 16rpx 16rpx 0 0;
 			margin-top: -380rpx;
 			z-index: 10;
-			
+
 			.head {
 				position: relative;
 				width: 100%;

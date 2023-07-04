@@ -551,7 +551,7 @@
 					</image>
 					<image src="/static/images/new-index/xz.png" v-show="useInvite" @click="useInvite=!useInvite">
 					</image>
-					<view>(Bonuses can be used to deduct 10% K diamonds)</view>
+					<view>({{$t('new.zjkc')}} {{can_use_invite_money_rate}}% {{$t('new.kz')}})</view>
 				</view>
 				<view class="mode-switch" v-else></view>
 
@@ -559,7 +559,7 @@
 
 			</view>
 		</view>
-		<!--支付密码弹出 start-->
+
 		<view class="fenxiang" v-if="zhipassShow">
 			<view class="pay-pwd">
 				<!-- <image src="../../static/images/new/tck-my.png" class="pay-pwd-img"></image> -->
@@ -696,7 +696,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				timer: "", //定时器
 				hotList: [], //热门推荐
 				youLikeList: [], //猜你喜欢
-				can_use_invite_money_rate: 0, //可使用的增加比例
+				can_use_invite_money_rate: 0, //可使用的增金比例
 			}
 		},
 		onLoad(e) {
@@ -1179,6 +1179,13 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					auction_goods_id: this.id
 				}).then(res => {
 					if (res.code == 1) {
+						if(res.data.set_paypwd!=1){
+							uni.showToast({
+								title: this.$t('new.qszmm'),
+								icon: 'none'
+							})
+							return
+						}
 						this.can_use_invite_money_rate = res.data.can_use_invite_money_rate
 						this.money = res.data.recharge_money_balance
 						this.balance = res.data.k_diamond_wallet
