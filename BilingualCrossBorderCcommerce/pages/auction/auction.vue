@@ -1035,14 +1035,12 @@
 
 
 		<!-- 联系我们 -->
-		<u-popup :show="showContact" mode="center" bgColor="transparent">
+<!-- 		<u-popup :show="showContact" mode="center" bgColor="transparent">
 			<view class="contact">
-				<!-- <image src="../../static/images/new/tck-xy.png" class="contact-head"></image> -->
 				<image src="../../static/images/new/close.png" class="contact-info-close" @click="showContact = false">
 				</image>
 				<view class="contact-info">
 					<view class="contact-info-tit">{{$t('user.myCont.ptkf')}}</view>
-					<!--fb://profile/100089663415703-->
 					<a href="fb://page/119896577745123" target="_blank" v-if="isFacebookApp && device=='android'">
 						<view class="contact-info-des">
 							<image src="../../static/images/new/face book.png"></image>
@@ -1091,7 +1089,7 @@
 					</view>
 				</view>
 			</view>
-		</u-popup>
+		</u-popup> -->
 		<u-popup :show="showConfirm" mode="center" bgColor="transparent">
 			<view class="showConfirm">
 				<view class="showConfirm-txt">{{$t('new.wazyy')}}</view>
@@ -1119,9 +1117,9 @@
 			<image src="/static/images/new-index/addImg.png" class="newListImg" @click="transformImg" v-else></image>
 		</view> -->
 
-		<view class="leftSider" @click="showContact = true">
+		<!-- <view class="leftSider" @click="showContact = true">
 			<image src="@/static/xuyuan/guanzhu.png" class="gz"></image>
-		</view>
+		</view> -->
 
 		<!-- 许愿 -->
 		<view class="containerXy" v-if="list.length!=0">
