@@ -796,7 +796,11 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			numBlur() {
 				if (this.isauctionNum < 1) {
 					this.isauctionNum = 1
-				} else if (this.auction_num != '-1' && this.isauctionNum > this.auction_num) {
+				} else if (this.auction_num != '-1' && this.isauctionNum <= this.auction_num) {
+					let arr = this.isauctionNum.split('.')
+					if(arr.length>1) this.isauctionNum = arr[0]
+					else this.isauctionNum = this.auction_num
+				}else if(this.auction_num != '-1' && this.isauctionNum > this.auction_num){
 					this.isauctionNum = this.auction_num
 				}
 			},

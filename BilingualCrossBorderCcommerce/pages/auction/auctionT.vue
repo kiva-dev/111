@@ -99,7 +99,7 @@
 
 							<view class="new-list-item-btm-btn" v-if="id==1">
 								<image src="../../static/images/new-index/lvxcz.png"></image>
-								<view @click.stop="onMineInfo(item)">{{$t('shop.qiangpai')}}</view>
+								<view @click.stop="onMineInfo(item)">{{$t('tab.xy')}}</view>
 							</view>
 
 							<view class="new-list-item-btm-btn" v-if="id==2"
@@ -195,7 +195,7 @@
 
 							<view class="info-btn" v-if="id==1">
 								<image src="/static/images/new-index/lvxcz.png"></image>
-								<view @click.stop="onMineInfo(item)">{{$t('shop.qiangpai')}}</view>
+								<view @click.stop="onMineInfo(item)">{{$t('tab.xy')}}</view>
 							</view>
 
 							<view class="new-list-item-btm-btn" v-if="id==2"
@@ -234,7 +234,7 @@
 
 						<view class="info-right" v-if="id==1">
 							<image src="/static/images/new-index/lvxcz.png"></image>
-							<view @click.stop="onMineInfo(item)">{{$t('shop.qiangpai')}}</view>
+							<view @click.stop="onMineInfo(item)">{{$t('tab.xy')}}</view>
 						</view>
 					</view>
 
@@ -254,10 +254,21 @@
 						<view class="cent">
 							<view class="cont">
 								<view class="tit">{{$t('new.qpsl')}}</view>
+								
 								<view class="my-input">
-									<image src="/static/images/kbrick/lv-cz.png"></image>
-									<input type="number" :placeholder="$t('new.srqpsl')" v-model="isauctionNum">
+									<view class="input-img" @click="isauctionNum>1?isauctionNum--:isauctionNum">
+										<image src="/static/images/kbrick/jian.png"></image>
+									</view>
+									<view class="input-info">
+										<input type="number" v-model="isauctionNum" :value="isauctionNum"
+											@blur="numBlur()"></input>
+									</view>
+									<view class="input-img"
+										@click="auction_num == '-1' ? isauctionNum++ : isauctionNum < auction_num ? isauctionNum++:isauctionNum">
+										<image src="/static/images/kbrick/jia.png"></image>
+									</view>
 								</view>
+								
 								<view class="num">
 									<view style="color:#2c2c2c">{{$t('user.auctionM.syqpcs')}}</view>：
 									<block v-if="auction_num == '-1'">
@@ -616,8 +627,21 @@
 				}
 			},
 		},
-		onLoad() {
+		onLoad(e) {
 			this.getAllProducts() //列表数据
+			if(e.id==1){
+				this.id = e.id
+				this.title = this.$t('tab.zzxy')
+				this.onAuctionNewGoods()
+			}else if(e.id==2){
+				this.id = e.id
+				this.title = this.$t('new.jjks')
+				this.onAuctionNotbeginGoods()
+			}else{
+				this.id = e.id
+				this.title = this.$t('new.lsjl')
+				this.onAuctionHistoryGoods()
+			}
 			let systemInfo = uni.getSystemInfoSync();
 			this.systemLocale = systemInfo.language;
 			this.applicationLocale = uni.getLocale();
@@ -638,9 +662,9 @@
 			this.LuckyList = []
 			this.date_start = ''
 			this.navId = 3
-			this.id = 2
-			this.title = this.$t('new.jjks')
-			this.getProductOrJinpai()
+			// this.id = 2
+			// this.title = this.$t('new.jjks')
+			// this.getProductOrJinpai()
 		},
 		onReachBottom() {
 			if (this.page * this.pagenum < this.totalPageNum && this.id == 1) {
@@ -664,6 +688,17 @@
 			}, 1000)
 		},
 		methods: {
+			numBlur() {
+				if (this.isauctionNum < 1) {
+					this.isauctionNum = 1
+				} else if (this.auction_num != '-1' && this.isauctionNum <= this.auction_num) {
+					let arr = this.isauctionNum.split('.')
+					if(arr.length>1) this.isauctionNum = arr[0]
+					else this.isauctionNum = this.auction_num
+				}else if(this.auction_num != '-1' && this.isauctionNum > this.auction_num){
+					this.isauctionNum = this.auction_num
+				}
+			},
 			//获取许愿列表
 			getAllProducts() {
 				this.$http.post(this.$apiObj.LitestoregoodsIndex, {
@@ -685,11 +720,11 @@
 			},
 			getProductOrJinpai() {
 				// 最新竞拍
-				this.onAuctionNewGoods()
+				
 				// 最新竞拍
-				this.onAuctionNotbeginGoods()
+				
 				// 历史竞拍
-				this.onAuctionHistoryGoods()
+				
 				//记住当前竞拍选择的品类
 				let id = uni.getStorageSync('jinpaiId')
 				if (id) {
@@ -753,9 +788,7 @@
 							item.remain_time = item.remain_time * 1000
 						})
 						this.totalPageNum = res.data.total
-						this.jingpaiList = this.page == 1 ? res.data.data : [...this.jingpaiList, ...res.data.data]
-
-						if (this.id == 1) this.productList = this.jingpaiList
+						this.productList = this.page == 1 ? res.data.data : [...this.productList, ...res.data.data]
 
 					}
 				})
@@ -798,10 +831,9 @@
 							this.$set(item, 'datetime', time)
 						})
 						this.newTotalPageNum = res.data.total
-						this.newsjingpaiList = this.page == 1 ? res.data.data : [...this.newsjingpaiList, ...res
+						this.productList = this.page == 1 ? res.data.data : [...this.productList, ...res
 							.data.data
 						]
-						if (this.id == 2) this.productList = this.newsjingpaiList
 					}
 				})
 			},
@@ -834,10 +866,9 @@
 							item.continue_time = this.daojishi(item.continue_time)
 						})
 						this.historyTotalPageNum = res.data.total
-						this.historyList = this.page == 1 ? res.data.data : [...this.historyList, ...res.data
+						this.productList = this.page == 1 ? res.data.data : [...this.productList, ...res.data
 							.data
 						]
-						if (this.id == 3) this.productList = this.historyList
 
 					}
 				})
@@ -870,7 +901,7 @@
 			// 个人信息获取剩余竞拍次数
 			onMineInfo(e) {
 				let that = this
-				this.isauctionNum = ''
+				this.isauctionNum = 1
 				this.shopCont = e
 				that.pay_pwd = ''
 				that.kdiamondSelect = false
@@ -2431,27 +2462,43 @@
 
 
 							.my-input {
-								width: 566rpx;
+								width: 400rpx;
 								display: flex;
 								align-items: center;
-								background: rgb(241, 241, 241);
+								// background: rgb(241, 241, 241);
 								border-radius: 16rpx;
-
+								margin: 0 auto;
+							
+								.input-img {
+									width: 124rpx;
+									height: 72rpx;
+									display: flex;
+									align-items: center;
+									justify-content: center;
+									background: rgb(241, 241, 241);
+								}
+							
+								.input-info {
+									width: 152rpx;
+									height: 72rpx;
+									background: rgb(250, 251, 253);
+								}
+							
 								image {
 									display: block;
-									width: 32rpx;
-									height: 32rpx;
+									width: 28rpx;
+									height: 28rpx;
 									margin: 0 16rpx 0 24rpx;
 								}
-
+							
 							}
 
 							uni-input {
-								width: 480rpx;
-								height: 80rpx;
+								width: 100%;
+								height: 100%;
 								border: none;
 								font-size: 28rpx;
-								text-align: left;
+								text-align: text;
 							}
 
 							.num {

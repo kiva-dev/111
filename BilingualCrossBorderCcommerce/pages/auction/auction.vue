@@ -25,7 +25,7 @@
 							<!-- <view>{{$t('new.zzjp')}}</view> -->
 							<view>{{$t('tab.zzxy')}}</view>
 						</view>
-						<view class="head-right" @click="switchJinpai(1)">
+						<view class="head-right" @click="toInfo(1)">
 							<p>{{$t('auction.topMore')}}</p>
 							<image src="/static/images/products/right.png" mode="widthFix"></image>
 						</view>
@@ -55,7 +55,7 @@
 							<image src="/static/images/new-index/start-soon.png" mode="widthFix"></image>
 							<view>{{$t('new.jjks')}}</view>
 						</view>
-						<view class="head-right" @click="switchJinpai(2)">
+						<view class="head-right" @click="toInfo(2)">
 							<p>{{$t('auction.topMore')}}</p>
 							<image src="/static/images/products/right.png" mode="widthFix"></image>
 						</view>
@@ -84,7 +84,7 @@
 							<image src="/static/images/new-index/historical.png" mode="widthFix"></image>
 							<view>{{$t('new.lsjl')}}</view>
 						</view>
-						<view class="head-right" @click="switchJinpai(3)">
+						<view class="head-right" @click="toInfo(3)">
 							<p>{{$t('auction.topMore')}}</p>
 							<image src="/static/images/products/right.png" mode="widthFix"></image>
 						</view>
@@ -163,7 +163,7 @@
 							<image v-else src="/static/images/new-index/p1.png" mode="widthFix"></image>
 						</view>
 					</view>
-					<view class="more" @click.top="switchJinpai(1)">
+					<view class="more" @click.top="toInfo(1)">
 						<text>{{$t('auction.topMore')}}</text>
 						<img class="moreRight" src="../../static/xuyuan/r.png" alt="">
 					</view>
@@ -204,7 +204,7 @@
 							</view>
 						</view>
 
-						<view class="new-list-item-right-jd" >
+						<view class="new-list-item-right-jd">
 							<view class="new-list-item-right-jd-data">
 								<view>{{(item.finish_rate*100).toFixed(0)}}%</view>
 								<image src="../../static/images/new-index/select-jd.png"
@@ -334,7 +334,7 @@
 
 					<view class="info">
 						<view class="info-left">
-							<view class="info_jd" >
+							<view class="info_jd">
 								<image src="/static/images/new-index/select-jd.png"
 									:style="`width: ${(item.finish_rate*100).toFixed(0)}%;`"></image>
 								<view>{{(item.finish_rate*100).toFixed(0)}}%</view>
@@ -389,7 +389,7 @@
 							<image v-else src="/static/images/new-index/p1.png" mode="widthFix"></image>
 						</view>
 					</view>
-					<view class="more" @click.top="switchJinpai(2)">
+					<view class="more" @click.top="toInfo(2)">
 						<text>{{$t('auction.topMore')}}</text>
 						<img class="moreRight" src="../../static/xuyuan/r.png" alt="">
 					</view>
@@ -414,7 +414,6 @@
 								<image :src="data.image"></image>
 							</block>
 						</view>
-
 						<view class="new-list-item-right-start">
 							<view class="new-list-item-right-start-info">
 								<image src="../../static/images/new-index/xx.png"></image>
@@ -430,19 +429,6 @@
 							</view>
 						</view>
 
-						<view class="new-list-item-right-jd" v-if="id==1">
-							<view class="new-list-item-right-jd-data">
-								<view>{{(item.finish_rate*100).toFixed(0)}}%</view>
-								<image src="../../static/images/new-index/select-jd.png"
-									:style="`width: ${(item.finish_rate*100).toFixed(0)}%;`"></image>
-							</view>
-							<view class="new-list-item-right-jd-auth">
-								<block v-for="img in item.new_auction_avatar">
-									<image :src="img"></image>
-								</block>
-							</view>
-						</view>
-
 						<view class="new-list-item-btm">
 							<view class="new-list-item-btm-price">
 								<view class="new">
@@ -452,13 +438,7 @@
 								<view class="old">RM{{item.price}}</view>
 							</view>
 
-
-							<view class="new-list-item-btm-btn" v-if="id==1">
-								<image src="../../static/images/new-index/lvxcz.png"></image>
-								<view @click.stop="onMineInfo(item)">{{$t('shop.qiangpai')}}</view>
-							</view>
-
-							<view class="new-list-item-btm-btn" v-if="id==2"
+							<view class="new-list-item-btm-btn" 
 								style="border: 1rpx solid rgb(248, 155, 0);">
 								<image src="/static/images/new-index/time1.png" style="width: 20rpx;height: 20rpx;">
 								</image>
@@ -628,7 +608,7 @@
 							<image v-else src="/static/images/new-index/p1.png" mode="widthFix"></image>
 						</view>
 					</view>
-					<view class="more" @click.top="switchJinpai(3)">
+					<view class="more" @click.top="toInfo(3)">
 						<text>{{$t('auction.topMore')}}</text>
 						<img class="moreRight" src="../../static/xuyuan/r.png" alt="">
 					</view>
@@ -849,10 +829,21 @@
 						<view class="cent">
 							<view class="cont">
 								<view class="tit">{{$t('new.qpsl')}}</view>
+								
 								<view class="my-input">
-									<image src="/static/images/kbrick/lv-cz.png"></image>
-									<input type="number" :placeholder="$t('new.srqpsl')" v-model="isauctionNum">
+									<view class="input-img" @click="isauctionNum>1?isauctionNum--:isauctionNum">
+										<image src="/static/images/kbrick/jian.png"></image>
+									</view>
+									<view class="input-info">
+										<input type="number" v-model="isauctionNum" :value="isauctionNum"
+											@blur="numBlur()"></input>
+									</view>
+									<view class="input-img"
+										@click="auction_num == '-1' ? isauctionNum++ : isauctionNum < auction_num ? isauctionNum++:isauctionNum">
+										<image src="/static/images/kbrick/jia.png"></image>
+									</view>
 								</view>
+								
 								<view class="num">
 									<view style="color:#2c2c2c">{{$t('user.auctionM.syqpcs')}}</view>：
 									<block v-if="auction_num == '-1'">
@@ -868,7 +859,7 @@
 									<view class="protocol_info">
 										<view class="protocol_txt1">{{$t('auction.detail.brywqydbty')}}</view>
 										<navigator url="../mine/jpxy" hover-class="none" class="protocol_txt2">
-											《{{$t('auction.detail.jphdgommzxy')}}》
+											{{$t('auction.detail.jphdgommzxy')}}
 										</navigator>
 									</view>
 
@@ -1177,14 +1168,14 @@
 				timer: '', //记录定时器状态
 				imgShow: true, //三个图标入口
 				useInvite: false, //是否使用赠金
-				rmtoKdiamondNum:0,
+				rmtoKdiamondNum: 0,
 				useInviteRmNum: 0, //勾选使用赠金后rm可用数量
 				can_use_invite_money_rate: 0, //可使用的增金比例
 				selectProtocol: false,
 				kdiamondSelect: false,
 				showRmToKdiamond: false,
 				isBottoming: false,
-				id: 2, //决定当前页面展示那个竞拍数据
+				id: 1, //决定当前页面展示那个竞拍数据
 				title: 'Ongoing', //标题显示
 				selectId: 1, //不同的显示形式
 				productId: 0,
@@ -1312,8 +1303,6 @@
 			this.LuckyList = []
 			this.date_start = ''
 			this.navId = 3
-			this.id = 2
-			this.title = this.$t('new.jjks')
 			this.getProductOrJinpai()
 		},
 		onReachBottom() {
@@ -1338,12 +1327,27 @@
 			}, 1000)
 		},
 		methods: {
-			
-		myIndex(){
-			uni.navigateTo({
-				url: "../mine/auctionM"
-			})
-		},
+			numBlur() {
+				if (this.isauctionNum < 1) {
+					this.isauctionNum = 1
+				} else if (this.auction_num != '-1' && this.isauctionNum <= this.auction_num) {
+					let arr = this.isauctionNum.split('.')
+					if(arr.length>1) this.isauctionNum = arr[0]
+					else this.isauctionNum = this.auction_num
+				}else if(this.auction_num != '-1' && this.isauctionNum > this.auction_num){
+					this.isauctionNum = this.auction_num
+				}
+			},
+			toInfo(id){
+				uni.navigateTo({
+					url: "/pages/auction/auctionT?id="+id
+				})
+			},
+			myIndex() {
+				uni.navigateTo({
+					url: "../mine/auctionM"
+				})
+			},
 			//获取许愿列表
 			getAllProducts() {
 				this.$http.post(this.$apiObj.LitestoregoodsIndex, {
@@ -1410,21 +1414,21 @@
 					uni.setStorageSync('jinpaiId', 1) //更新当前选择的竞拍id
 					this.onAuctionNewGoods()
 					uni.navigateTo({
-						url: "./auctionT"
+						url: "/pages/auction/auctionT"
 					})
 				} else if (this.id == 2) {
 					this.title = this.$t('new.jjks')
 					uni.setStorageSync('jinpaiId', 2) //更新当前选择的竞拍id
 					this.onAuctionNotbeginGoods()
 					uni.navigateTo({
-						url: "./auctionT"
+						url: "/pages/auction/auctionT"
 					})
 				} else {
 					this.title = this.$t('new.lsjl')
 					uni.setStorageSync('jinpaiId', 3) //更新当前选择的竞拍id
 					this.onAuctionHistoryGoods()
 					uni.navigateTo({
-						url: "./auctionT"
+						url: "/pages/auction/auctionT"
 					})
 				}
 			},
@@ -1584,7 +1588,7 @@
 			// 个人信息获取剩余竞拍次数
 			onMineInfo(e) {
 				let that = this
-				this.isauctionNum = ''
+				this.isauctionNum = 1
 				this.shopCont = e
 				that.pay_pwd = ''
 				that.kdiamondSelect = false
@@ -1641,13 +1645,13 @@
 
 				this.shopNum = this.shopCont.auction_price * Number(this.isauctionNum)
 				this.$refs.pwdPopup.close()
-				
+
 				//RM最多兑换多少k钻
 				this.rmtoKdiamondNum = this.shopNum * 1 > this.balance * 1 ? this.shopNum * 1 - this.balance * 1 : 0
-				
+
 				//最多使用多少赠金
 				let zjPrice = (this.shopNum * 1) * (this.can_use_invite_money_rate * 1 / 100)
-				
+
 				if (this.balance * 1 < this.shopNum * 1 && this.balance * 1 < (zjPrice > this.invite_money_balance * 1 ?
 						this.shopNum * 1 - this.invite_money_balance * 1 : this.shopNum * 1 - zjPrice)) {
 					//如果最大赠金小于自己的赠金
@@ -1659,7 +1663,7 @@
 						this.useInviteRmNum = this.shopNum * 1 - this.invite_money_balance * 1 - this.balance * 1
 					}
 				}
-				
+
 				this.onOrderReferCartOrder()
 			},
 			// 提交订单
@@ -1691,7 +1695,7 @@
 					})
 					return
 				}
-				
+
 				//k钻加赠金
 				if (this.useInvite && this.balance * 1 < this.shopNum && !this.kdiamondSelect) {
 					let zj = this.shopNum * 1 * this.can_use_invite_money_rate //最多赠金
@@ -1714,7 +1718,7 @@
 						}
 					}
 				}
-				
+
 				//k钻加赠金加兑换
 				if (this.useInvite && this.kdiamondSelect) {
 					if (this.money * 1 < this.useInviteRmNum * 1) {
@@ -1725,7 +1729,7 @@
 						return
 					}
 				}
-				
+
 				this.$refs.popup1.close();
 				if (true) {
 					// 余额支付弹框
@@ -3151,27 +3155,43 @@
 
 
 							.my-input {
-								width: 566rpx;
+								width: 400rpx;
 								display: flex;
 								align-items: center;
-								background: rgb(241, 241, 241);
+								// background: rgb(241, 241, 241);
 								border-radius: 16rpx;
-
+								margin: 0 auto;
+							
+								.input-img {
+									width: 124rpx;
+									height: 72rpx;
+									display: flex;
+									align-items: center;
+									justify-content: center;
+									background: rgb(241, 241, 241);
+								}
+							
+								.input-info {
+									width: 152rpx;
+									height: 72rpx;
+									background: rgb(250, 251, 253);
+								}
+							
 								image {
 									display: block;
-									width: 32rpx;
-									height: 32rpx;
+									width: 28rpx;
+									height: 28rpx;
 									margin: 0 16rpx 0 24rpx;
 								}
-
+							
 							}
 
 							uni-input {
-								width: 480rpx;
-								height: 80rpx;
+								width: 100%;
+								height: 100%;
 								border: none;
 								font-size: 28rpx;
-								text-align: left;
+								text-align: text;
 							}
 
 							.num {

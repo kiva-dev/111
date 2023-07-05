@@ -14,7 +14,7 @@
 
 		<view class="info-ts">
 			<image src="/static/images/kbrick/kbx.png"></image>
-			<view>{{$t('new.scfl')}}</view>
+			<view v-html="kdiamondxy">{{$t('new.scfl')}}</view>
 		</view>
 
 		<view class="title">{{$t('new.kzcz')}}</view>
@@ -65,7 +65,8 @@
 		<view class="protocol">
 			<image src="/static/images/new-index/wxz.png" v-show="!selectProtocol" @click="selectProtocol=true"></image>
 			<image src="/static/images/new-index/xz.png" v-show="selectProtocol" @click="selectProtocol=false"></image>
-			<view>{{$t('auction.detail.brywqydbty')}} <text @click="navCilck('/pages/mine/kzxy')">《{{$t('new.kzczxy')}}》</text></view>
+			<view>{{$t('auction.detail.brywqydbty')}} <text
+					@click="navCilck('/pages/mine/kzxy')">《{{$t('new.kzczxy')}}》</text></view>
 		</view>
 
 		<view class="topay" v-show="!showPay">{{$t('user.order.qzf')}}</view>
@@ -92,18 +93,27 @@
 					url: '/static/images/new-index/pe.png',
 					select: false,
 					name: 'PayEssence'
-				}]
+				}],
+				kdiamondxy: ''
 			}
 		},
 		onShow() {
+			let isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
 			this.$http.post(this.$apiObj.MineInfo).then(res => {
 				this.balance = res.data.k_diamond_wallet
+			})
+
+			this.$http.post(this.$apiObj.IndexSetting, {
+				fields: 'en_k_diamond_recharge_activity_desc,zh_k_diamond_recharge_activity_desc'
+			}).then(res => {
+				this.kdiamondxy = isShopCont ? res.data.en_k_diamond_recharge_activity_desc : res.data
+					.zh_k_diamond_recharge_activity_desc
 			})
 
 			this.getKdiamondList()
 		},
 		methods: {
-			navCilck(url){
+			navCilck(url) {
 				uni.navigateTo({
 					url
 				})
@@ -401,6 +411,7 @@
 			color: rgb(27, 161, 255);
 			display: flex;
 			align-items: center;
+			word-break: break-all;
 			background: rgb(226, 239, 249);
 			border-radius: 64rpx;
 			margin: 0 auto 24rpx auto;
@@ -459,15 +470,15 @@
 				height: 40rpx;
 				margin-right: 16rpx;
 			}
-			
-			view{
+
+			view {
 				width: 640rpx;
 			}
-			
-			text{
+
+			text {
 				color: rgb(51, 51, 51);
 			}
-			
+
 		}
 
 		.topay {
