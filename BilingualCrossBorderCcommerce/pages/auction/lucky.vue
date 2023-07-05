@@ -52,7 +52,7 @@
 							<view class="item-right-content">
 								在
 								<text style="color: rgb(10, 198, 142);">{{item.shop_name}}</text>
-								提供的竞拍活动中，以
+								提供的许愿活动中，以
 								<text style="color: rgb(255, 57, 57); font-weight: bold;">
 									<image src="/static/images/kbrick/diamond.png"></image>{{item.pay_price}}
 								</text>
@@ -101,6 +101,7 @@
 					pagenum: 10,
 					keyword: '',
 				}).then(res => {
+					console.log(res)
 					if (res.code === 1) {
 						let arr = res.data.data || [];
 						if (this.page > 1) {

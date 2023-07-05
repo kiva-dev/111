@@ -442,29 +442,6 @@
 		<image src="/static/images/new-index/gwc.png" v-show="productId==1" class="gwc"
 			@click="navClick('/pages/cart/cart')"></image>
 
-<view class="leftSider" :class="[transformClass?'removeRightX':'removeLeftX','shopCart']">
-			<!-- 关注我们、社区、客服入口 -->
-			<view class="imgArr" v-if="imgShow">
-				<view>
-					<img src="/static/images/mine/aixin.png" class="minImg" alt="">
-				</view>
-				<view class="people">
-					<img src="/static/images/mine/p.png" class="pImg" alt="">
-				</view>
-				<view>
-					<img src="/static/images/mine/listener.png" class="minImg" alt="">
-				</view>
-			</view>
-			<!-- 总图标 + X -->
-			<image src="/static/images/new-index/addImg.png" class="newListImgDeg" v-if="imgShow" @click="transformImg">
-			</image>
-			<image src="/static/images/new-index/addImg.png" class="newListImg" @click="transformImg" v-else></image>
-			<!-- 购物车 -->
-			<view>
-				<image src="/static/images/new-index/gwc.png" v-show="productId==1" class="gwc"
-					@click="navClick('/pages/cart/cart')"></image>
-			</view>
-		</view>
 
 
 		<!--登录提醒-->
@@ -783,8 +760,8 @@
 				</view>
 			</view>
 		</uni-popup>
-		
-	<!-- 	<view class="leftSider" :class="[transformClass?'removeRightX':'removeLeftX','shopCart']">
+
+		<!-- <view class="leftSider" :class="[transformClass?'removeRightX':'removeLeftX','shopCart']">
 			<view class="imgArr" v-if="imgShow">
 				<view>
 					<img src="/static/images/mine/aixin.png" class="minImg" alt="">
@@ -805,10 +782,16 @@
 					@click="navClick('/pages/cart/cart')"></image>
 			</view>
 		</view> -->
-		
-		<view>
-			<image src="/static/images/new-index/gwc.png" v-show="productId==1" class="gwc"
-				@click="navClick('/pages/cart/cart')"></image>
+
+		<view class="leftSider">
+			<view>
+				<image src="@/static/xuyuan/guanzhu.png" class="gz"></image>
+			</view>
+			<!-- 购物车 -->
+			<!-- <view>
+				<image src="/static/images/new-index/gwc.png" v-show="productId==1" class="gwc"
+					@click="navClick('/pages/cart/cart')"></image>
+			</view> -->
 		</view>
 
 		<!--公告-->
@@ -1212,6 +1195,10 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			clearInterval(this.jinPaiTimer)
 		},
 		methods: {
+			//点击图片出现入口并且图片旋转
+			transformImg() {
+				this.imgShow = !this.imgShow
+			},
 			toXyzx() {
 				uni.switchTab({
 					url: '/pages/auction/lucky'
@@ -2134,15 +2121,15 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				this.onAuctionHistoryGoods()
 			}
 		},
-        //监听页面滚动
-        onPageScroll(e) {
-        	this.transformClass = true
-        	clearTimeout(this.timer) //每次滚动前 清除一次
-        	// 如果停留则表示滚动结束  一旦空了1s就判定为滚动结束
-        	this.timer = setTimeout(() => {
-        		this.transformClass = false //滚动结束清除class类名
-        	}, 1000)
-        },
+		//监听页面滚动
+		onPageScroll(e) {
+			this.transformClass = true
+			clearTimeout(this.timer) //每次滚动前 清除一次
+			// 如果停留则表示滚动结束  一旦空了1s就判定为滚动结束
+			this.timer = setTimeout(() => {
+				this.transformClass = false //滚动结束清除class类名
+			}, 1000)
+		},
 	}
 </script>
 <style>
@@ -2157,11 +2144,12 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		transform: translateX(80rpx);
 		transition: all 0.5s ease;
 	}
-	
+
 	.removeLeftX {
 		transform: translateX(0);
 		transition: all 0.5s ease;
 	}
+
 	.indicator {
 		@include flex(row);
 		justify-content: center;
@@ -3185,56 +3173,61 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 		}
 
-	.leftSider {
-		position: fixed;
-		right: 32rpx; //-50
-		bottom: 200rpx;
-		z-index: 100;
-	
-		.gwc {
-			width: 92rpx;
-			height: 92rpx;
-		}
-	
-		.newListImg {
-			width: 92rpx;
-			height: 92rpx;
-		}
-	
-		.newListImgDeg {
-			width: 92rpx;
-			height: 92rpx;
-			margin-top: 30rpx;
-			transform: rotate(-45deg);
-		}
-	
-		//三个入口
-		.imgArr {
-			background: #fff;
-			width: 92rpx;
-			height: 280rpx;
-			border-radius: 45rpx;
-			box-shadow: 0 0 20rpx rgba(198, 198, 198, 0.3);
-			text-align: center;
-	
-			.people {
+		.leftSider {
+			position: fixed;
+			right: 32rpx; //-50
+			bottom: 200rpx;
+			z-index: 100;
+
+			.gwc {
+				width: 92rpx;
+				height: 92rpx;
+			}
+
+			.gz {
+				width: 92rpx;
+				height: 92rpx;
+			}
+
+			.newListImg {
+				width: 92rpx;
+				height: 92rpx;
+			}
+
+			.newListImgDeg {
+				width: 92rpx;
+				height: 92rpx;
 				margin-top: 30rpx;
-	
-				.pImg {
+				transform: rotate(-45deg);
+			}
+
+			//三个入口
+			.imgArr {
+				background: #fff;
+				width: 92rpx;
+				height: 280rpx;
+				border-radius: 45rpx;
+				box-shadow: 0 0 20rpx rgba(198, 198, 198, 0.3);
+				text-align: center;
+
+				.people {
+					margin-top: 30rpx;
+
+					.pImg {
+						width: 45rpx;
+						height: 40rpx;
+					}
+				}
+
+				.minImg {
 					width: 45rpx;
-					height: 40rpx;
+					height: 45rpx;
+					text-align: center;
+					margin-top: 40rpx;
 				}
 			}
-	
-			.minImg {
-				width: 45rpx;
-				height: 45rpx;
-				text-align: center;
-				margin-top: 40rpx;
-			}
+
 		}
-	
-	}
 
 		//未登录提醒
 		.not_login {

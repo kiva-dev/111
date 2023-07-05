@@ -2,18 +2,18 @@
 	<view class="auct-page">
 		<view class="ap-header">
 			<view class="ap-header-container">
-				<p>{{$t('mine.auction')}}</p>
+				<p>{{$t('tab.MymakeAwish')}}</p>
 				<image @click="tomine" src="@/static/images/mine/collect_icon_back.png" mode="widthFix"></image>
 			</view>
 		</view>
 		<view class="ap-switch">
-			<view :class="type === 1 ? 'active':''" @click="onTypeClcik(1)">{{$t('user.auctionM.jpz')}}</view>
+			<view :class="type === 1 ? 'active':''" @click="onTypeClcik(1)">{{$t('tab.xyz')}}</view>
 			<template v-if="navId==1">
-				<view :class="type === 5 ? 'active':''" @click="onTypeClcik(5)">{{$t('user.auctionM.jpdd')}}</view>
+				<view :class="type === 5 ? 'active':''" @click="onTypeClcik(5)">{{$t('tab.Wishorder')}}</view>
 			</template>
 			<view :class="type === 3 ? 'active':''" @click="onTypeClcik(3)">{{$t('user.auctionM.zpjl')}}</view>
 			<template v-if="navId==1">
-				<view :class="type === 4 ? 'active':''" @click="onTypeClcik(4)">{{$t('user.auctionM.jpjl')}}</view>
+				<view :class="type === 4 ? 'active':''" @click="onTypeClcik(4)">{{$t('tab.record')}}</view>
 			</template>
 			<view class="ap-switch-line" :style="{left: shifting}"></view>
 		</view>

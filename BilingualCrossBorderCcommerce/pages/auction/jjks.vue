@@ -471,7 +471,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				this.$http.post(this.$apiObj.LitestoregoodsIndex, {
 					page: this.page,
 					pagenum: this.pagenum,
-					category_id: id == 0 ? '' : id
+					category_id: id == 0 ? '' : id,
+					goods_listing_type:1
 				}).then(res => {
 					if (res.code == 1) {
 						this.totalPageNum = res.data.total

@@ -114,7 +114,7 @@
 		</view>
 		<view class="ml-auction">
 			<view class="ml-auction-top">
-				<view class="top-name">{{$t('top.wdjp')}}</view>
+				<view class="top-name">{{$t('tab.MymakeAwish')}}</view>
 				<view class="top-more" @click="toAuction(1)">
 					<p>{{$t('user.myCont.ckqb')}}</p>
 					<view class="top-more-icon">
@@ -125,11 +125,11 @@
 			<view class="ml-auction-content">
 				<view class="content-box" @click="toAuction(1)">
 					<image src="@/static/images/mine/mine_icon_ongoing.png" mode="widthFix"></image>
-					<p>{{$t('user.auctionM.jpz')}}</p>
+					<p>{{$t('tab.xyz')}}</p>
 				</view>
 				<view class="content-box" @click="toAuction(5)">
 					<image src="@/static/images/mine/mine_icon_oder.png" mode="widthFix"></image>
-					<p>{{$t('user.auctionM.jpdd')}}</p>
+					<p>{{$t('tab.Wishorder')}}</p>
 				</view>
 				<view class="content-box" @click="toAuction(3)">
 					<image src="@/static/images/mine/mine_icon_winning.png" mode="widthFix"></image>
@@ -137,7 +137,7 @@
 				</view>
 				<view class="content-box" @click="toAuction(4)">
 					<image src="@/static/images/mine/mine_icon_records.png" mode="widthFix"></image>
-					<p>{{$t('user.auctionM.jpjl')}}</p>
+					<p>{{$t('tab.record')}}</p>
 				</view>
 			</view>
 		</view>
