@@ -1344,6 +1344,12 @@
 			}, 1000)
 		},
 		methods: {
+			
+		myIndex(){
+			uni.navigateTo({
+				url: "../mine/auctionM"
+			})
+		},
 			//获取许愿列表
 			getAllProducts() {
 				this.$http.post(this.$apiObj.LitestoregoodsIndex, {
