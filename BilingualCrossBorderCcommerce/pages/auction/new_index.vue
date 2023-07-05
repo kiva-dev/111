@@ -197,7 +197,7 @@
 								<image src="../../static/images/new-index/liulan.png"></image>
 								<view>{{item.auction_goods_total}}</view>
 							</view>
-							<view class="new-list-item-right-start-info">
+							<view class="new-list-item-right-start-info" v-if="item.litestore_goods_comment_total">
 								<image src="../../static/images/new-index/jianbei.png"></image>
 								<view>{{item.litestore_goods_comment_total}}</view>
 							</view>

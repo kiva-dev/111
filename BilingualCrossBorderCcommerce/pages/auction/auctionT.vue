@@ -1224,7 +1224,6 @@
 				.itemImg {
 					width: 336rpx;
 					height: 336rpx;
-					background: gray;
 					border-radius: 20rpx 20rpx 0 0;
 					margin-bottom: 20rpx;
 				}
