@@ -3788,7 +3788,6 @@
 			.itemBox_a {
 				width: 336rpx;
 				height: 510rpx;
-				border: 1px solid red;
 				border-radius: 20rpx;
 				margin-bottom: 20rpx;
 				background: #fff;
@@ -3796,7 +3795,6 @@
 				.itemImg {
 					width: 336rpx;
 					height: 336rpx;
-					background: gray;
 					border-radius: 20rpx 20rpx 0 0;
 					margin-bottom: 20rpx;
 				}
