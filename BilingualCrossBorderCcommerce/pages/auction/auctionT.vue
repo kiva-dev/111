@@ -366,12 +366,20 @@
 				<view class="mode-more" v-show="showRmToKdiamond">
 					<view class="tit">{{$t('new.jh')}}:</view>
 					<image src="/static/images/kbrick/diamond.png" class="logo"></image>
-					<view class="num">{{(shopNum*1 - balance*1)>0 ? shopNum*1 - balance*1 : 0}}</view>
-					<view class="price">RM <text>{{(shopNum*1 - balance*1)>0 ? shopNum*1 - balance*1 : 0}}</text></view>
+					<template v-if="!useInvite">
+						<view class="num">{{(rmtoKdiamondNum*1).toFixed(2)}}</view>
+						<view class="price">RM <text>{{(rmtoKdiamondNum*1).toFixed(2)}}</text></view>
+					</template>
+					<template v-else>
+						<view class="num">{{(useInviteRmNum*1).toFixed(2)}}</view>
+						<view class="price">RM <text>{{(useInviteRmNum*1).toFixed(2)}}</text></view>
+					</template>
 					<image src="/static/images/new-index/wxz.png" class="select"
-						v-show="!kdiamondSelect && (shopNum*1 - balance*1)>0" @click="kdiamondSelect=true"></image>
+						v-show="!kdiamondSelect && (((shopNum*1 - balance*1) > 0 && money*1 >= (shopNum*1 - balance*1)) && !useInvite || (can_use_invite_money_rate > 0 && money *1 >=useInviteRmNum && useInvite && balance*1 < shopNum*1 && useInviteRmNum>0)) "
+						@click="kdiamondSelect=true"></image>
 					<image src="/static/images/new-index/xz.png" class="select"
-						v-show="kdiamondSelect && (shopNum*1 - balance*1)>0" @click="kdiamondSelect=false"></image>
+						v-show="kdiamondSelect && (((shopNum*1 - balance*1) > 0 && money*1 >= shopNum*1) && !useInvite || (can_use_invite_money_rate>0 && money *1 >=useInviteRmNum && useInvite && balance*1 < shopNum*1 && useInviteRmNum>0))"
+						@click="kdiamondSelect=false"></image>
 				</view>
 				<view class="mode-cz">
 					<view @click="navClick('/pages/mine/K_brick_detail')">{{$t('new.qcz')}}</view>
@@ -499,6 +507,9 @@
 				timer: '', //记录定时器状态
 				imgShow: true, //三个图标入口
 				useInvite: false, //是否使用赠金
+				rmtoKdiamondNum:0,
+				useInviteRmNum: 0, //勾选使用赠金后rm可用数量
+				invite_money_balance:0,
 				can_use_invite_money_rate: 0, //可使用的增金比例
 				selectProtocol: false,
 				kdiamondSelect: false,
@@ -873,6 +884,7 @@
 					auction_goods_id: e.auction_goods_id
 				}).then(res => {
 					if (res.code == 1) {
+						this.invite_money_balance = res.data.invite_money_balance
 						this.can_use_invite_money_rate = res.data.can_use_invite_money_rate
 						this.money = res.data.recharge_money_balance
 						this.balance = res.data.k_diamond_wallet
@@ -915,6 +927,25 @@
 
 				this.shopNum = this.shopCont.auction_price * Number(this.isauctionNum)
 				this.$refs.pwdPopup.close()
+				
+				//RM最多兑换多少k钻
+				this.rmtoKdiamondNum = this.shopNum * 1 > this.balance * 1 ? this.shopNum * 1 - this.balance * 1 : 0
+				
+				//最多使用多少赠金
+				let zjPrice = (this.shopNum * 1) * (this.can_use_invite_money_rate * 1 / 100)
+				
+				if (this.balance * 1 < this.shopNum * 1 && this.balance * 1 < (zjPrice > this.invite_money_balance * 1 ?
+						this.shopNum * 1 - this.invite_money_balance * 1 : this.shopNum * 1 - zjPrice)) {
+					//如果最大赠金小于自己的赠金
+					if (zjPrice <= this.invite_money_balance * 1) {
+						//计算使用赠金后的兑换金额
+						this.useInviteRmNum = this.shopNum * 1 - zjPrice - this.balance * 1
+					} else {
+						//赠金不足
+						this.useInviteRmNum = this.shopNum * 1 - this.invite_money_balance * 1 - this.balance * 1
+					}
+				}
+				
 				this.onOrderReferCartOrder()
 			},
 			// 提交订单
@@ -938,20 +969,47 @@
 			},
 			// 点击竞拍去支付
 			onPayClick() {
-				if (this.balance * 1 < this.shopNum && !this.kdiamondSelect) {
+				//如果单纯使用k钻支付
+				if (this.balance * 1 < this.shopNum && !this.kdiamondSelect && !this.useInvite) {
 					return uni.showToast({
 						icon: 'none',
 						title: 'K钻余额不足'
 					})
-					return;
+					return
 				}
-				let price = this.shopNum * 1 - this.balance * 1
-				if (price > this.money) {
-					return uni.showToast({
-						icon: 'none',
-						title: '充值余额不足' + price
-					})
-					return;
+				
+				//k钻加赠金
+				if (this.useInvite && this.balance * 1 < this.shopNum && !this.kdiamondSelect) {
+					let zj = this.shopNum * 1 * this.can_use_invite_money_rate //最多赠金
+					let flag = zj <= this.invite_money_balance * 1
+					if (flag) { //赠金足够
+						if ((this.shopNum * 1 - zj) > this.balance * 1) {
+							return uni.showToast({
+								icon: 'none',
+								title: 'K钻余额不足'
+							})
+							return
+						}
+					} else {
+						if ((this.shopNum * 1 - this.invite_money_balance * 1) > this.balance * 1) {
+							return uni.showToast({
+								icon: 'none',
+								title: 'K钻余额不足'
+							})
+							return
+						}
+					}
+				}
+				
+				//k钻加赠金加兑换
+				if (this.useInvite && this.kdiamondSelect) {
+					if (this.money * 1 < this.useInviteRmNum * 1) {
+						return uni.showToast({
+							icon: 'none',
+							title: '充值余额不足' + this.useInviteRmNum
+						})
+						return
+					}
 				}
 				this.$refs.popup1.close();
 				if (true) {

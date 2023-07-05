@@ -2,15 +2,15 @@
 	<view class="order-success">
 		<view class="success-head-info">
 			<view class="success-head">
-				<image src="/static/images/auth/left.png"></image>
+				<image src="/static/images/auth/left.png" @click="toBack()"></image>
 				<view>{{$t('top.tjdd')}}</view>
 			</view>
 			<view class="content">
 				<view class="content-des">
 					<image src="/static/images/service/order_success.png"></image>
 					<view class="content-info">
-						<view>Payment successful!</view>
-						<view style="font-size: 24rpx;">Thank you for your purchase</view>
+						<view>{{$t('top.zhifucg')}}</view>
+						<view style="font-size: 24rpx;">{{$t('new.thankbuy')}}</view>
 					</view>
 				</view>
 			</view>
@@ -19,7 +19,7 @@
 		<view class="info">
 			<view class="info-price">RM<text>{{price}}</text></view>
 			<view class="info-des">
-				<view class="info-key">Order number</view>
+				<view class="info-key">{{$t('new.order_no')}}</view>
 				<view class="info-value">
 					<view>{{order_no}}</view>
 					<image src="/static/images/mine/mine_btn_copy.png"></image>
@@ -27,15 +27,15 @@
 			</view>
 
 			<view class="info-des">
-				<view class="info-key">Order time</view>
+				<view class="info-key">{{$t('new.order_time')}}</view>
 				<view class="info-value">
 					<view>{{$u.timeFormat(time, 'yyyy/mm/dd hh:MM:ss')}}</view>
 				</view>
 			</view>
 		</view>
 
-		<view class="success-view" @click="toOrder()">View order</view>
-		<view class="success-index" @click="toIndex()">Homepage</view>
+		<view class="success-view" @click="toOrder()">{{$t('new.view_order')}}</view>
+		<view class="success-index" @click="toIndex()">{{$t('new.toindex')}}</view>
 
 	</view>
 </template>
@@ -58,9 +58,12 @@
 			// this.getOrderInfo()
 		},
 		methods: {
+			toBack(){
+				uni.navigateBack()
+			},
 			toOrder() {
 				uni.redirectTo({
-					url: '/mine/order/order?tabIndex=10'
+					url: '/pages/mine/order/order?tabIndex=10'
 				})
 			},
 			toIndex() {

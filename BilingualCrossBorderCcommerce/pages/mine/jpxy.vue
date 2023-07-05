@@ -18,7 +18,9 @@ export default {
   },
   onShow () {
     this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
-    this.$http.post(this.$apiObj.IndexSetting).then(res => {
+    this.$http.post(this.$apiObj.IndexSetting,{
+		fields:'auction_agree,e_auction_agree'
+	}).then(res => {
       if (res.code == 1) {
         res.data.auction_agree = this.onHtmlcont(res.data.auction_agree)
         res.data.e_auction_agree = this.onHtmlcont(res.data.e_auction_agree)

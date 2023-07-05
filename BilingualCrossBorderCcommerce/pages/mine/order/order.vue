@@ -129,7 +129,8 @@
 				uni.navigateBack();
 			},
 			onChangeTab(id) {
-				this.tabIndex = id;
+				if(id==6) this.tabIndex = [-1,-2,6].toString()
+				else this.tabIndex = id
 				this.page = 1;
 				this.getOrderList();
 			},

@@ -9,11 +9,20 @@
 			<view class="newpwd">
 				<view class="newpwd-info">
 					<view class="myinput">
-						<u--input :placeholder="$t('login.qsryzm')" border="none" type="text"
-							v-model="code"></u--input>
+						<u--input :placeholder="$t('login.qsryzm')" border="none" type="text" v-model="code"></u--input>
 					</view>
 				</view>
-				<view class="getcode" @click.stop="$noMultipleClicks(onLoginSendEmailCode)">{{codeTxt}}</view>
+				<template v-if="Inv==1">
+					<view class="getcode" v-if="codeTxt==$t('login.hqyzm')"
+						@click.stop="$noMultipleClicks(onLoginSendEmailCode)">{{codeTxt}}</view>
+					<view class="getcode" v-else>{{codeTxt}}</view>
+				</template>
+				<template v-else>
+					<view class="getcode" v-if="codeTxt1==$t('login.hqyzm')"
+						@click.stop="$noMultipleClicks(onLoginSendMobileCode)">{{codeTxt1}}</view>
+					<view class="getcode" v-else>{{codeTxt1}}</view>
+				</template>
+
 
 				<view class="btn" v-if="Inv==1" @click="LoginVerifyCode()">{{$t('login.xyb')}}</view>
 				<view class="btn" v-else @click="LoginVerifyPhone()">{{$t('login.xyb')}}</view>
@@ -52,14 +61,15 @@
 						@click="isPwdOkShow=!isPwdOkShow"></image>
 				</view>
 
-				<view class="btn" @click="$noMultipleClicks(onLoginForgetPwdByEmail)">{{$t('new.updatePwd')}}</view>
+				<view class="btn" v-if="Inv==1" @click="$noMultipleClicks(onLoginForgetPwdByEmail)">{{$t('new.updatePwd')}}</view>
+				<view class="btn" v-else @click="$noMultipleClicks(onLoginForgetPwdByMobile)">{{$t('new.updatePwd')}}</view>
 			</view>
 		</block>
 
 
 
 		<!--register-box start-->
-		<view class="register-box" v-show="Inv == 0">
+		<view class="register-box" v-show="Inv == 2">
 
 			<!--login-ul start-->
 			<view class="login-ul">
@@ -167,7 +177,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				isShopCont: false, // 中文还是英文
 				isPwdShow: false,
 				isPwdOkShow: false,
-				showErrCode:false
+				showErrCode: false
 			}
 		},
 		onShow() {
@@ -221,7 +231,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				})
 			},
 			//手机验证码验证
-			LoginVerifyPhone(){
+			LoginVerifyPhone() {
 				if (!this.code) {
 					uni.showToast({
 						title: this.$t('login.qsryzm'),
@@ -454,7 +464,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				text-decoration: underline;
 				margin-top: 20rpx;
 			}
-			
+
 			.btn {
 				width: 686rpx;
 				height: 88rpx;

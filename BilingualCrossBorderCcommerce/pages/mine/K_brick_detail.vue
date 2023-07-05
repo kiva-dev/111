@@ -63,9 +63,9 @@
 		</view>
 
 		<view class="protocol">
-			<image src="/static/images/new-index/wxz.png" v-show="!selectProtocol"></image>
-			<image src="/static/images/new-index/xz.png" v-show="selectProtocol"></image>
-			<view>I have fully read and agree to the <text>《User Recharge Agreement》</text></view>
+			<image src="/static/images/new-index/wxz.png" v-show="!selectProtocol" @click="selectProtocol=true"></image>
+			<image src="/static/images/new-index/xz.png" v-show="selectProtocol" @click="selectProtocol=false"></image>
+			<view>{{$t('auction.detail.brywqydbty')}} <text @click="navCilck('/pages/mine/kzxy')">《{{$t('new.kzczxy')}}》</text></view>
 		</view>
 
 		<view class="topay" v-show="!showPay">{{$t('user.order.qzf')}}</view>
@@ -103,6 +103,11 @@
 			this.getKdiamondList()
 		},
 		methods: {
+			navCilck(url){
+				uni.navigateTo({
+					url
+				})
+			},
 			getKdiamondList() {
 				this.$http.post(this.$apiObj.RechargeKdiamond).then(res => {
 					this.list = res.data
@@ -134,6 +139,14 @@
 				if (this.payNum && this.payNum * 1 < 10) {
 					uni.showToast({
 						title: this.$t('new.czjejx'),
+						icon: 'none',
+						duration: 2000
+					})
+					return
+				}
+				if (!this.selectProtocol) {
+					uni.showToast({
+						title: this.$t('login.qydxybty'),
 						icon: 'none',
 						duration: 2000
 					})
@@ -445,6 +458,10 @@
 				width: 40rpx;
 				height: 40rpx;
 				margin-right: 16rpx;
+			}
+			
+			view{
+				width: 640rpx;
 			}
 			
 			text{

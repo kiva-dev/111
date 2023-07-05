@@ -21,7 +21,7 @@
 				<view class="label">{{$t('user.xitong.yuyan')}}</view>
 				<view class="li-r">
 					<text>
-						<block v-if="isShopCont">english</block>
+						<block v-if="isShopCont">English</block>
 						<block v-else>中文</block>
 					</text>
 					<view class="more">

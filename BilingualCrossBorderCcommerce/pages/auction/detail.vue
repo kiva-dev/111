@@ -392,8 +392,17 @@
 								<view class="tit">{{$t('new.qpsl')}}</view>
 
 								<view class="my-input">
-									<image src="/static/images/kbrick/lv-cz.png"></image>
-									<input type="number" :placeholder="$t('new.srqpsl')" v-model="isauctionNum">
+									<view class="input-img" @click="isauctionNum>1?isauctionNum--:isauctionNum">
+										<image src="/static/images/kbrick/jian.png"></image>
+									</view>
+									<view class="input-info">
+										<input type="number" v-model="isauctionNum" :value="isauctionNum"
+											@blur="numBlur()"></input>
+									</view>
+									<view class="input-img"
+										@click="auction_num == '-1' ? isauctionNum++ : isauctionNum < auction_num ? isauctionNum++:isauctionNum">
+										<image src="/static/images/kbrick/jia.png"></image>
+									</view>
 								</view>
 
 								<view class="num">
@@ -530,14 +539,19 @@
 				<view class="mode-more" v-show="showRmToKdiamond">
 					<view class="tit">{{$t('new.jh')}}:</view>
 					<image src="/static/images/kbrick/diamond.png" class="logo"></image>
-					<view class="num">{{(shopNum*1 - balance*1)>0 ? shopNum*1 - balance*1 : 0}}</view>
-					<view class="price">RM <text>{{(shopNum*1 - balance*1) > 0 ? shopNum*1 - balance*1 : 0}}</text>
-					</view>
+					<template v-if="!useInvite">
+						<view class="num">{{(rmtoKdiamondNum*1).toFixed(2)}}</view>
+						<view class="price">RM <text>{{(rmtoKdiamondNum*1).toFixed(2)}}</text></view>
+					</template>
+					<template v-else>
+						<view class="num">{{(useInviteRmNum*1).toFixed(2)}}</view>
+						<view class="price">RM <text>{{(useInviteRmNum*1).toFixed(2)}}</text></view>
+					</template>
 					<image src="/static/images/new-index/wxz.png" class="select"
-						v-show="!kdiamondSelect && (shopNum*1 - balance*1) > 0 && money*1 >= shopNum*1"
+						v-show="!kdiamondSelect && (((shopNum*1 - balance*1) > 0 && money*1 >= (shopNum*1 - balance*1))&&!useInvite || (can_use_invite_money_rate > 0 && money *1 >=useInviteRmNum && useInvite && balance*1 < shopNum*1 && useInviteRmNum>0)) "
 						@click="kdiamondSelect=true"></image>
 					<image src="/static/images/new-index/xz.png" class="select"
-						v-show="kdiamondSelect && (shopNum*1 - balance*1) > 0 && money*1 >= shopNum*1"
+						v-show="kdiamondSelect && (((shopNum*1 - balance*1) > 0 && money*1 >= shopNum*1)&&!useInvite || (can_use_invite_money_rate>0 && money *1 >=useInviteRmNum && useInvite && balance*1 < shopNum*1 && useInviteRmNum>0))"
 						@click="kdiamondSelect=false"></image>
 				</view>
 
@@ -580,7 +594,7 @@
 		<view class="fenxiang" v-if='zhichenShow'>
 			<view class="pay-pwd">
 				<!-- <image src="../../static/images/new/tck-cg.png" class="pay-pwd-img"></image> -->
-				<image src="../../static/images/new/close.png" class="pay-pwd-close" @click="onpayQuery"></image>
+				<image src="/static/images/kbrick/close.png" class="pay-pwd-close" @click="onpayQuery"></image>
 				<view class="pay-pwd-info">
 					<view class="pay-pwd-info-tit" style="font-size: 32rpx;">{{$t('auction.detail.gxnzfcgznzp')}}</view>
 					<view class="pay-pwd-info-price" style="font-size: 26rpx;margin-top: 30rpx;">
@@ -619,6 +633,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				useInvite: false, //是否使用赠金
 				kdiamondSelect: false,
 				showRmToKdiamond: false,
+				rmtoKdiamondNum: 0, //rm兑换k钻的可用数量
+				useInviteRmNum: 0, //勾选使用赠金后rm可用数量
 				likeList: [{
 					list: [1, 1, 1, 1, 1, 1]
 				}, {
@@ -675,7 +691,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				JudgeList: [], // 评价列表
 				money: 0, // 充值余额
 				balance: 0,
-				isauctionNum: '', // 填写金额
+				isauctionNum: 1, // 填写金额
 				shopNum: '',
 				totalPageNums: 0,
 				qrUrl: '', // 页面地址
@@ -697,6 +713,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				hotList: [], //热门推荐
 				youLikeList: [], //猜你喜欢
 				can_use_invite_money_rate: 0, //可使用的增金比例
+				invite_money_balance: 0, //赠金数量
 			}
 		},
 		onLoad(e) {
@@ -776,6 +793,13 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 		},
 		methods: {
+			numBlur() {
+				if (this.isauctionNum < 1) {
+					this.isauctionNum = 1
+				} else if (this.auction_num != '-1' && this.isauctionNum > this.auction_num) {
+					this.isauctionNum = this.auction_num
+				}
+			},
 			navClick(url) {
 				uni.navigateTo({
 					url
@@ -1168,10 +1192,12 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			},
 			// 个人信息获取剩余竞拍次数
 			onMineInfos() {
-				this.isauctionNum = ''
+				this.isauctionNum = 1
 				this.pay_pwd = ''
 				this.kdiamondSelect = false
 				this.showRmToKdiamond = false
+				this.selectProtocol = false
+				this.useInvite = false
 				this.orderPayList.forEach(item => {
 					item.isShow = false
 				})
@@ -1179,13 +1205,14 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					auction_goods_id: this.id
 				}).then(res => {
 					if (res.code == 1) {
-						if(res.data.set_paypwd!=1){
+						if (res.data.set_paypwd != 1) {
 							uni.showToast({
 								title: this.$t('new.qszmm'),
 								icon: 'none'
 							})
 							return
 						}
+						this.invite_money_balance = res.data.invite_money_balance
 						this.can_use_invite_money_rate = res.data.can_use_invite_money_rate
 						this.money = res.data.recharge_money_balance
 						this.balance = res.data.k_diamond_wallet
@@ -1218,12 +1245,12 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					icon: 'none',
 					title: this.$t('user.auctionM.qtxqpcs')
 				})
-				
-				if(!this.selectProtocol) return uni.showToast({
+
+				if (!this.selectProtocol) return uni.showToast({
 					icon: 'none',
 					title: this.$t('login.qydxybty')
 				})
-				
+
 				if (this.shopCont.auction_type == 1) {
 					// 限额竞拍
 					// 判断抢拍次数 > 剩余次数 return
@@ -1247,6 +1274,27 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				this.shopNum = (this.shopCont.auction_price * Number(this.isauctionNum)).toFixed(2)
 				// this.$refs.qiangpaiShow.close()
 				this.qiangpaiShow = false
+
+				//RM最多兑换多少k钻
+				this.rmtoKdiamondNum = this.shopNum * 1 > this.balance * 1 ? this.shopNum * 1 - this.balance * 1 : 0
+
+				//最多使用多少赠金
+				let zjPrice = (this.shopNum * 1) * (this.can_use_invite_money_rate * 1 / 100)
+
+				if (this.balance * 1 < this.shopNum * 1 && this.balance * 1 < (zjPrice > this.invite_money_balance * 1 ?
+						this.shopNum * 1 - this.invite_money_balance * 1 : this.shopNum * 1 - zjPrice)) {
+					//如果最大赠金小于自己的赠金
+					if (zjPrice <= this.invite_money_balance * 1) {
+						//计算使用赠金后的兑换金额
+						this.useInviteRmNum = this.shopNum * 1 - zjPrice - this.balance * 1
+					} else {
+						//赠金不足
+						this.useInviteRmNum = this.shopNum * 1 - this.invite_money_balance * 1 - this.balance * 1
+					}
+				}
+
+
+				// this.showRmToKdiamond = this.rmtoKdiamondNum > 0 && this.money * 1 >= this.shopNum * 1
 
 				this.onOrderReferCartOrder()
 			},
@@ -1355,20 +1403,47 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			},
 			// 点击竞拍去支付
 			onPayClick() {
-				if (this.balance * 1 < this.shopNum && !this.kdiamondSelect) {
+				//如果单纯使用k钻支付
+				if (this.balance * 1 < this.shopNum && !this.kdiamondSelect && !this.useInvite) {
 					return uni.showToast({
 						icon: 'none',
 						title: 'K钻余额不足'
 					})
 					return
 				}
-				let price = this.shopNum * 1 - this.balance * 1
-				if (price > this.money) {
-					return uni.showToast({
-						icon: 'none',
-						title: '充值余额不足' + price
-					})
-					return
+
+				//k钻加赠金
+				if (this.useInvite && this.balance * 1 < this.shopNum && !this.kdiamondSelect) {
+					let zj = this.shopNum * 1 * this.can_use_invite_money_rate //最多赠金
+					let flag = zj <= this.invite_money_balance * 1
+					if (flag) { //赠金足够
+						if ((this.shopNum * 1 - zj) > this.balance * 1) {
+							return uni.showToast({
+								icon: 'none',
+								title: 'K钻余额不足'
+							})
+							return
+						}
+					} else {
+						if ((this.shopNum * 1 - this.invite_money_balance * 1) > this.balance * 1) {
+							return uni.showToast({
+								icon: 'none',
+								title: 'K钻余额不足'
+							})
+							return
+						}
+					}
+				}
+
+				//k钻加赠金加兑换
+				if (this.useInvite && this.kdiamondSelect) {
+					if (this.money * 1 < this.useInviteRmNum * 1) {
+						return uni.showToast({
+							icon: 'none',
+							title: '充值余额不足' + this.useInviteRmNum
+						})
+						return
+					}
 				}
 
 				this.zhifushow = false
@@ -2435,27 +2510,43 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 
 						.my-input {
-							width: 566rpx;
+							width: 400rpx;
 							display: flex;
 							align-items: center;
-							background: rgb(241, 241, 241);
+							// background: rgb(241, 241, 241);
 							border-radius: 16rpx;
+							margin: 0 auto;
+
+							.input-img {
+								width: 124rpx;
+								height: 72rpx;
+								display: flex;
+								align-items: center;
+								justify-content: center;
+								background: rgb(241, 241, 241);
+							}
+
+							.input-info {
+								width: 152rpx;
+								height: 72rpx;
+								background: rgb(250, 251, 253);
+							}
 
 							image {
 								display: block;
-								width: 32rpx;
-								height: 32rpx;
+								width: 28rpx;
+								height: 28rpx;
 								margin: 0 16rpx 0 24rpx;
 							}
 
 						}
 
 						uni-input {
-							width: 480rpx;
-							height: 80rpx;
+							width: 100%;
+							height: 100%;
 							border: none;
 							font-size: 28rpx;
-							text-align: left;
+							text-align: center;
 						}
 
 						.num {

@@ -128,7 +128,7 @@
 					<image class="luck-zpjl-banner" v-if="!isShopCont" src="../../static/images/auction/gxzj.png">
 					</image>
 					<image class="luck-zpjl-banner" v-else src="../../static/images/new/xyzx1.png"></image>
-					<view class="luck-zpjl-item" v-for="(item,index) in LuckyList" :key="item.id">
+					<view class="luck-zpjl-item" v-for="(item,index) in LuckyList" :key="item.id" @click="toAwardDetail(item)">
 						<view class="item-cover">
 							<image :src="item.image" mode="aspectFill"></image>
 						</view>
@@ -153,6 +153,7 @@
 									</view>
 								</view>
 								<view class="top-bidding">
+									<image src="/static/images/kbrick/diamond.png"></image>
 									<p>{{$t('user.auctionM.bidding')}}: RM{{item.auction_price}}</p>
 								</view>
 							</view>
@@ -308,7 +309,7 @@
 		<!--我的竞拍-竞拍记录 auct-box start-->
 		<view class="auct-box" v-if="type == 4">
 			<template v-if="recordList && recordList.length">
-				<view class="order-item" v-for="item in recordList" :key="item.id" @click="toDetail(item.order_no)">
+				<view class="order-item" v-for="item in recordList" :key="item.id" @click="toDetailInfo(item.auction_goods_id)">
 					<view class="order-item-status" style="background: #FF3939;" v-if="item.win === '0'">
 						{{$t('user.auctionM.going')}}
 					</view>
@@ -368,7 +369,7 @@
 					<view class="cp-option-lab">
 						<view class="lab-left">
 							<image src="@/static/images/auction/cash.png" mode="widthFix"></image>
-							<p>{{$t('user.auctionM.claimCash')}}</p>
+							<p>{{$t('user.auctionM.cash')}}</p>
 						</view>
 						<view class="lab-right" @click="chooseDraw = 1">
 							<image v-if="chooseDraw === 1" src="@/static/images/auction/choose.png" mode="widthFix">
@@ -537,6 +538,14 @@
 			}
 		},
 		methods: {
+			toAwardDetail(item){
+				if(item.status != 2){
+					return
+				}
+				uni.navigateTo({
+					url:'/pages/mine/order/award_details?id='+item.id
+				})
+			},
 			toAppealDetail(item) {
 				uni.navigateTo({
 					url: '/pages/mine/order/appeal?info=' + JSON.stringify(item)
@@ -600,6 +609,11 @@
 			toDetail(id) {
 				uni.navigateTo({
 					url: '/pages/mine/auctionDetail?orderNo=' + id
+				})
+			},
+			toDetailInfo(id){
+				uni.navigateTo({
+					url:'/pages/auction/detail?id='+id
 				})
 			},
 			tomine() {
@@ -858,7 +872,6 @@
 					page: this.page,
 					pagenum: this.pagenum
 				}).then(res => {
-					console.log(res);
 					if (res.code == 1) {
 						this.no_select = res.data.no_select
 						res.data.list.data.map(item => {
@@ -1620,7 +1633,12 @@
 						.top-bidding {
 							width: 100%;
 							display: flex;
-							justify-content: space-between;
+							align-items: center;
+							
+							image{
+								width:24rpx;
+								height: 24rpx;
+							}
 
 							p {
 								color: rgb(153, 153, 153);

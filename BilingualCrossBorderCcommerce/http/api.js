@@ -98,6 +98,7 @@ let apiObj = {
 	MineFocusWinAuction: 'Mine/focusWinAuction', // 我的关注中拍记录
 	AuctionorderMineOrder: 'Auctionorder/mineOrder', // 竞拍订单
 	AuctionOrderDetail: 'Auctionorder/auctionOrderDetail', // 竞拍订单
+	OrderAuctionRecordDetail:"Auctionorder/orderAuctionRecordDetail",//竞拍领奖信息
 	// 优惠券列表
 	MineCouponList: 'Mine/couponList', // 我的优惠券列表
 	MineSetPwd: 'Mine/setPwd', // 设置支付密码

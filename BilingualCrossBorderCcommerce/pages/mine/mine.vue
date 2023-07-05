@@ -198,9 +198,9 @@
 				<view class="ul-li" @click="showContact = true">
 					<view class="ul-li-l">
 						<view class="l-icon">
-							<image src="@/static/images/mine/mine_icon_contact.png" mode="widthFix"></image>
+							<image src="@/static/images/mine/follow_us.png" mode="widthFix"></image>
 						</view>
-						<view class="l-name">{{$t('user.myCont.ptkf')}}</view>
+						<view class="l-name">{{$t('new.gzwm')}}</view>
 					</view>
 					<view class="ul-li-r">
 						<image src="@/static/images/mine/mine_icon_right.png" mode="widthFix"></image>
@@ -239,13 +239,52 @@
 						<image src="@/static/images/mine/mine_icon_right.png" mode="widthFix"></image>
 					</view>
 				</view>
+				
+				<!-- <view class="ul-li">
+					<view class="ul-li-l">
+						<view class="l-icon">
+							<image src="@/static/images/mine/follow_us.png" mode="widthFix"></image>
+						</view>
+						<view class="l-name">{{$t('new.gzwm')}}</view>
+					</view>
+					<view class="ul-li-r">
+						<image src="@/static/images/mine/mine_icon_right.png" mode="widthFix"></image>
+					</view>
+				</view>
+				<view class="ul-li">
+					<view class="ul-li-l">
+						<view class="l-icon">
+							<image src="@/static/images/mine/association.png" mode="widthFix"></image>
+						</view>
+						<view class="l-name">{{$t('new.association')}}</view>
+					</view>
+					<view class="ul-li-r">
+						<image src="@/static/images/mine/mine_icon_right.png" mode="widthFix"></image>
+					</view>
+				</view>
+				<view class="ul-li">
+					<view class="ul-li-l">
+						<view class="l-icon">
+							<image src="@/static/images/mine/customer_service.png" mode="widthFix"></image>
+						</view>
+						<view class="l-name">{{$t('new.customer_service')}}</view>
+					</view>
+					<view class="ul-li-r">
+						<image src="@/static/images/mine/mine_icon_right.png" mode="widthFix"></image>
+					</view>
+				</view> -->
+				
 			</view>
 		</view>
 		<!-- 联系我们 -->
 		<u-popup :show="showContact" mode="center" bgColor="transparent">
 			<view class="contact">
+<<<<<<< Updated upstream
 				<!-- <image src="../../static/images/new/tck-xy.png" class="contact-head"></image> -->
 				<image src="../../static/images/new/close.png" class="contact-info-close" @click="showContact = false">
+=======
+				<image src="/static/images/kbrick/close.png" class="contact-info-close" @click="showContact = false">
+>>>>>>> Stashed changes
 				</image>
 				<view class="contact-info">
 					<view class="contact-info-tit">{{$t('user.myCont.ptkf')}}</view>
@@ -1117,25 +1156,18 @@
 			position: relative;
 			width: 686rpx;
 
-			.contact-head {
-				display: block;
-				width: 686rpx;
-				height: 426rpx;
-				margin-bottom: -56rpx;
-				z-index: 9;
-			}
-
 			.contact-info-close {
 				position: absolute;
 				top: 30rpx;
 				right: 20rpx;
-				width: 60rpx;
-				height: 60rpx;
+				width: 36rpx;
+				height: 36rpx;
 				z-index: 10;
 			}
 
 			.contact-info {
 				padding: 46rpx 0;
+				box-sizing: border-box;
 				border: 4rpx solid rgb(10, 198, 142);
 				background: #fff;
 				border-radius: 16rpx;
@@ -1159,7 +1191,7 @@
 					display: flex;
 					align-items: center;
 					border-radius: 50rpx;
-					box-shadow: 0rpx 0rpx 8rpx rgba(255, 78, 47, 0.3);
+					box-shadow: 0rpx 0rpx 8rpx rgba(10, 198, 142, 0.3);
 					margin: 40rpx auto 0 auto;
 
 					image {

@@ -471,7 +471,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				isBottoming: false,
 				youLikeList: [],
 				addressList: [],
-				addressInfo: {}
+				addressInfo: {},
 			}
 		},
 		watch: {
@@ -863,7 +863,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			// 竞拍商品详情
 			getProductInfo() {
 				this.$http.post(this.$apiObj.ProductInfo, {
-					goods_id: this.id
+					goods_id: this.id,
+					goods_listing_type:1
 				}).then(res => {
 					if (res.code == 1) {
 						res.data.litestore_tag.forEach(item => {

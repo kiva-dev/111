@@ -70,22 +70,19 @@
 			}
 		},
 		onShow() {
-			if (uni.getStorageSync('yhkList')) {
-				this.CardCont = uni.getStorageSync('yhkList')
-			} else {
-				this.$http.post(this.$apiObj.MineBankCardList).then(res => {
-					if (res.code == 1) {
-						this.CardCont = res.data[0]
-					}
-				})
-			}
+
+			this.$http.post(this.$apiObj.MineBankCardList).then(res => {
+				if (res.code == 1) {
+					this.CardCont = res.data[0]
+				}
+			})
 			// 获取个人信息
 			this.$http.post(this.$apiObj.MineInfo).then(res => {
 				if (res.code == 1) {
 					this.money = res.data.tocash_money
 				}
 			})
-			this.$http.post(this.$apiObj.IndexSetting,{
+			this.$http.post(this.$apiObj.IndexSetting, {
 				fields: 'user_tocash_rate'
 			}).then(res => {
 				if (res.code == 1) {
@@ -101,7 +98,7 @@
 				})
 			},
 			onQuanbu() {
-				this.moneys = this.money
+				this.moneys = (this.money * 1).toFixed(2)
 			},
 			// 立即提现
 			onRechargeTocash() {

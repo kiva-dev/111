@@ -25,13 +25,13 @@
 				<view class="commission-rule-des-info">
 					<view class="commission-rule-des-info-num">3</view>
 					<view class="commission-rule-des-info-txt">
-						{{$t('new.gz3')}}
+						{{$t('new.gz31')}} {{info.were_invite_user_consume_rebate_rate*1}}% {{$t('new.gz32')}}
 					</view>
 				</view>
 				<view class="commission-rule-des-info">
 					<view class="commission-rule-des-info-num">4</view>
 					<view class="commission-rule-des-info-txt">
-						{{$t('new.gz4')}}
+						{{$t('new.gz41')}} RM{{info.user_consume_rebate_start_money*1}} {{$t('new.gz42')}} {{info.user_consume_rebate_rate*1}}% {{$t('new.gz43')}}
 					</view>
 				</view>
 			</view>
@@ -95,12 +95,16 @@
 				lange: '',
 				userCont: {},
 				isShopCont: false, // 中文还是英文
+				info:{}
 			}
 		},
 		onLoad() {
 			this.lange = uni.getStorageSync('locale')
-		},
-		onShow() {
+			this.$http.post(this.$apiObj.IndexSetting,{
+				fields:'were_invite_user_consume_rebate_rate,user_consume_rebate_start_money,user_consume_rebate_rate'
+			}).then(res=>{
+				this.info=res.data
+			})
 			// 获取个人信息
 			this.$http.post(this.$apiObj.MineInfo).then(res => {
 				if (res.code == 1) {
@@ -114,6 +118,9 @@
 					this.createQrcode()
 				}
 			})
+		},
+		onShow() {
+			
 		},
 		methods: {
 			capture() {

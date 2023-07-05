@@ -980,6 +980,20 @@
 				"navigationBarTitleText": "",
 				"navigationStyle": "custom"
 			}
+		},
+		{
+			"path": "pages/mine/kzxy",
+			"style": {
+				"navigationBarTitleText": "%new.kzczxy%",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/mine/order/award_details",
+			"style": {
+				"navigationBarTitleText": "领奖详情",
+				"enablePullDownRefresh": false
+			}
 		}
 	],
 	"globalStyle": {

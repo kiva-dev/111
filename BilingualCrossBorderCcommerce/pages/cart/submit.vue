@@ -51,7 +51,7 @@
 			<view class="pay-head">Payment method</view>
 			<view class="pay-info" v-for="(item,k) in orderPayList.slice(0,2)" :key="item.id">
 				<image :src="item.img" class="pay-info-logo"></image>
-				<view class="pay-info-name">{{item.title}}</view>
+				<view class="pay-info-name">{{item.title}} <text v-if="item.id==1">(RM{{userCont.recharge_money_balance}})</text></view>
 				<image src="/static/images/new-index/wxz.png" class="pay-info-xz" v-show="!item.isShow"
 					@click="selectPayType(item)"></image>
 				<image src="/static/images/new-index/xz.png" class="pay-info-xz" v-show="item.isShow"
@@ -221,7 +221,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				orderCont: '',
 				isShopCont: false, // 中文还是英文
 				set_paypwd: '',
-				MineCont: {}
+				MineCont: {},
 			}
 		},
 
@@ -235,7 +235,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		},
 		onShow() {
 			this.onAddressList()
-			this.onMineInfo()
 
 			if (uni.getStorageSync('token')) {
 				// 实名认证
@@ -247,6 +246,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				// 判断是否设置支付密码
 				this.$http.post(this.$apiObj.MineInfo).then(res => {
 					if (res.code == 1) {
+						this.userCont = res.data
 						this.set_paypwd = res.data.set_paypwd
 					}
 				})
@@ -275,13 +275,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					str = str.substring(0, index);
 				}
 				return str;
-			},
-			onMineInfo() {
-				this.$http.post(this.$apiObj.MineInfo).then(res => {
-					if (res.code == 1) {
-						this.userCont = res.data
-					}
-				})
 			},
 			onQuanClick(item, k) {
 				if (item.id == 1 && this.set_paypwd != '1') return uni.navigateTo({
@@ -555,7 +548,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							uni.redirectTo({
 								url: '/pages/cart/order_success?order_price=' + price +
 									'&order_no=' + (this.major_no ? this.major_no : this
-									.order_no) + '&time='+this.time
+										.order_no) + '&time=' + this.time
 							})
 						}, 2000)
 

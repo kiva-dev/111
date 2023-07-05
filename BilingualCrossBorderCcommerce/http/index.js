@@ -140,12 +140,12 @@ request.interceptors.response.use(function(response) { //不要使用箭头函�
 			return
 		}
 		// 实名认证
-		if (code === 5) {
-			uni.navigateTo({
-				url: '/pages/mine/Vid'
-			})
-			return
-		}
+		// if (code === 5) {
+		// 	uni.navigateTo({
+		// 		url: '/pages/mine/Vid'
+		// 	})
+		// 	return
+		// }
 		// 账号不存在
 		if (code == 6) {
 			let isShopCont = uni.getStorageSync('locale') == 'en' ? true : false

@@ -455,7 +455,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			toProductInfo(id) {
 				uni.setStorageSync('productInfo', true)
 				uni.navigateTo({
-					url: '/pages/auction/product_info?goodsId=' + id
+					url: '/pages/auction/product_info?goodsId=' + id+'&type=2'
 				})
 			},
 			//切换选择分类

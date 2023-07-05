@@ -1339,10 +1339,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			},
 			//查看更多
 			toMore(id) {
-				uni.setStorageSync('productId', 2)
-				uni.setStorageSync('jinpaiId', id)
 				uni.switchTab({
-					url: '/pages/auction/jjks'
+					url: '/pages/auction/auction'
 				})
 			},
 			//普通商品或竞拍商品跳转

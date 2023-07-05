@@ -75,10 +75,17 @@
 						<view>
 							<view class="code-info-err" v-show="showErrCode">{{$t('new.yzmcw')}}</view>
 						</view>
-						<view class="code" @click="onLoginSendEmailCode()" v-show="emailOrPhone==1">
+						<view class="code" v-if="codeTxt==$t('login.hqyzm')" @click="onLoginSendEmailCode()" v-show="emailOrPhone==1">
 							<span>{{codeTxt}}</span>
 						</view>
-						<view class="code" @click="onLoginSendMobileCode()" v-show="emailOrPhone==2">
+						<view class="code" v-else v-show="emailOrPhone==1">
+							<span>{{codeTxt}}</span>
+						</view>
+						
+						<view class="code" v-if="codeTxt1==$t('login.hqyzm')" @click="onLoginSendMobileCode()" v-show="emailOrPhone==2">
+							<span>{{codeTxt1}}</span>
+						</view>
+						<view class="code" v-else v-show="emailOrPhone==2">
 							<span>{{codeTxt1}}</span>
 						</view>
 					</view>
