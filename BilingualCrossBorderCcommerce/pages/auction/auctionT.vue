@@ -659,7 +659,7 @@
 					page: this.page,
 					pagenum: this.pagenum,
 					category_id: 1,
-					goods_listing_type: 1
+					goods_listing_type: 2
 				}).then(res => {
 					this.list = res.data.data
 				})
