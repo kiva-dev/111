@@ -51,7 +51,7 @@
 					style="background: linear-gradient(180.00deg, rgba(255,198.2,198.2,1.00),rgba(255,254.75,254.75,0.00) 98.871%);">
 					<image src="/static/images/new-index/ongoing.png" class="ongoing-type-left-head-logo"></image>
 					<view class="ongoing-type-left-txt">
-						<view>{{$t('new.zzjp')}}</view> <span style="rgba(255, 64, 41, 0.4)"></span>
+						<view>{{$t('tab.zzxy')}}</view> <span style="rgba(255, 64, 41, 0.4)"></span>
 					</view>
 					<view class="ongoing-type-left-more" @click="toMore(1)">
 						<view>{{$t('auction.topMore')}}</view>
@@ -784,7 +784,7 @@
 		</view> -->
 
 		<view class="leftSider">
-			<view>
+			<view @click="showContact = true">
 				<image src="@/static/xuyuan/guanzhu.png" class="gz"></image>
 			</view>
 			<!-- 购物车 -->
@@ -793,6 +793,73 @@
 					@click="navClick('/pages/cart/cart')"></image>
 			</view> -->
 		</view>
+		<!-- 联系我们 -->
+		<u-popup :show="showContact" mode="center" bgColor="transparent">
+			<view class="contact">
+				<image src="../../static/images/new/close.png" class="contact-info-close" @click="showContact = false">
+				</image>
+				<view class="contact-info">
+					<view class="contact-info-tit">{{$t('user.myCont.ptkf')}}</view>
+					<!--fb://profile/100089663415703-->
+					<a href="fb://page/119896577745123" target="_blank" v-if="isFacebookApp && device=='android'">
+						<view class="contact-info-des">
+							<image src="../../static/images/new/face book.png"></image>
+							<view>Face book</view>
+						</view>
+					</a>
+					<a href="fb://page?id=119896577745123" target="_blank" v-else-if="isFacebookApp && device=='ios'">
+						<view class="contact-info-des">
+							<image src="../../static/images/new/face book.png"></image>
+							<view>Face book</view>
+						</view>
+					</a>
+					<view class="contact-info-des" v-else @click="showContact=false;showConfirm=true">
+						<image src="../../static/images/new/face book.png"></image>
+						<view>Face book</view>
+					</view>
+					<a href="twitter://user?screen_name=Kolibrimall2023" target="_blank" v-if="isTwitterApp">
+						<view class="contact-info-des" id="twitter">
+							<image src="../../static/images/share21.png"></image>
+							<view>Twitter</view>
+						</view>
+					</a>
+					<view class="contact-info-des" v-else @click="showContact=false;showConfirm=true">
+						<image src="../../static/images/share21.png"></image>
+						<view>Twitter</view>
+					</view>
+					<a href="tg://resolve?domain=Kolibrimall" target="_blank" v-if="isTelegramApp">
+						<view class="contact-info-des">
+							<image src="../../static/images/new/Telegram.png"></image>
+							<view>Telegram</view>
+						</view>
+					</a>
+					<view class="contact-info-des" v-else @click="showContact=false;showConfirm=true">
+						<image src="../../static/images/new/Telegram.png"></image>
+						<view>Telegram</view>
+					</view>
+					<a href="whatsapp://send?phone=+60 11-14338082" target="_blank" v-if="isWhatsApp">
+						<view class="contact-info-des">
+							<image src="../../static/images/new/WhatsAPP.png"></image>
+							<view>WhatsAPP</view>
+						</view>
+					</a>
+					<view class="contact-info-des" v-else @click="showContact=false;showConfirm=true">
+						<image src="../../static/images/new/WhatsAPP.png"></image>
+						<view>WhatsAPP</view>
+					</view>
+				</view>
+			</view>
+		</u-popup>
+		<u-popup :show="showConfirm" mode="center" bgColor="transparent">
+			<view class="showConfirm">
+				<view class="showConfirm-txt">{{$t('new.wazyy')}}</view>
+				<view class="showConfirm-btn">
+					<view class="showConfirm-btn-cancel" @click="showConfirm=false">{{$t('home.search.query')}}</view>
+					<view class="showConfirm-btn-ok" @click="checkApp()">{{$t('auction.detail.btnsub')}}</view>
+				</view>
+			</view>
+		</u-popup>
+
 
 		<!--公告-->
 		<u-popup :show="showNotice" mode="center" bgColor="transparent" @touchmove.stop="">
@@ -830,6 +897,12 @@ NoR+zv3KaEmPSHtooQIDAQAB
 	export default {
 		data() {
 			return {
+				isTwitterApp: false,
+				isFacebookApp: false,
+				isWhatsApp: false,
+				isTelegramApp: false,
+				showContact: false,
+				showConfirm: false,
 				transformClass: false, //购物车icon是否添加平移效果
 				timer: '', //记录定时器状态
 				imgShow: true, //三个图标入口
@@ -2139,6 +2212,119 @@ NoR+zv3KaEmPSHtooQIDAQAB
 </style>
 
 <style lang="scss">
+	// 联系我们
+	.contact {
+		position: relative;
+		width: 686rpx;
+
+		.contact-head {
+			display: block;
+			width: 686rpx;
+			height: 426rpx;
+			margin-bottom: -56rpx;
+			z-index: 9;
+		}
+
+		.contact-info-close {
+			position: absolute;
+			top: 30rpx;
+			right: 20rpx;
+			width: 60rpx;
+			height: 60rpx;
+			z-index: 10;
+		}
+
+		.contact-info {
+			padding: 46rpx 0;
+			border: 4rpx solid rgb(10, 198, 142);
+			background: #fff;
+			border-radius: 16rpx;
+
+			.contact-info-tit {
+				width: 100%;
+				font-size: 40rpx;
+				font-weight: 700;
+				text-align: center;
+			}
+
+			a {
+				text-decoration: none;
+			}
+
+			.contact-info-des {
+				width: 434rpx;
+				height: 100rpx;
+				font-size: 32rpx;
+				color: rgb(44, 44, 44);
+				display: flex;
+				align-items: center;
+				border-radius: 50rpx;
+				box-shadow: 0rpx 0rpx 8rpx rgba(255, 78, 47, 0.3);
+				margin: 40rpx auto 0 auto;
+
+				image {
+					width: 100rpx;
+					height: 100rpx;
+					border-radius: 50%;
+				}
+
+				view {
+					margin-left: 40rpx;
+				}
+			}
+		}
+	}
+
+	// 确认弹框
+	.showConfirm {
+		width: 686rpx;
+		padding: 40rpx;
+		background: #FFF;
+		box-sizing: border-box;
+		border-radius: 16rpx;
+		border: 2rpx solid rgb(10, 198, 142);
+
+		.showConfirm-txt {
+			width: 80%;
+			font-size: 28rpx;
+			font-weight: bold;
+			color: rgb(44, 44, 44);
+			text-align: center;
+			margin: 0 auto;
+		}
+
+		.showConfirm-btn {
+			width: 100%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin-top: 40rpx;
+
+			view {
+				width: 240rpx;
+				height: 60rpx;
+				line-height: 60rpx;
+				font-size: 32rpx;
+				text-align: center;
+				box-sizing: border-box;
+				border-radius: 16rpx;
+				margin: 0 20rpx;
+			}
+
+			.showConfirm-btn-cancel {
+				color: rgb(44, 44, 44);
+				border: 2rpx solid rgb(10, 198, 142);
+			}
+
+			.showConfirm-btn-ok {
+				color: #fff;
+				background: rgb(10, 198, 142);
+			}
+
+		}
+
+	}
+
 	//右侧固定栏滚动
 	.removeRightX {
 		transform: translateX(80rpx);

@@ -216,6 +216,33 @@
 					<text>{{$t('home.shop.txt')}}</text>
 					<view class="line"></view>
 				</view>
+
+				<!-- 配货中 -->
+				<view class="wish" v-if="jingpaiList.length==0&&newsjingpaiList.length==0">
+					<view class="ll-header-left">
+						<view class="left-icon">
+							<image src="@/static/images/new-index/ongoing.png" mode="widthFix"></image>
+						</view>
+						<view class="left-text">
+							<p>{{$t('tab.zzxy')}}</p>
+							<span style="background: rgba(255, 64, 41, 0.4);"></span>
+						</view>
+					</view>
+					<view class="distributed">
+						<view class="con">
+							<image src="../../static/x.png" class="conImg"></image>
+							<view class="conTxt">
+								The merchant of this product is actively distributing goods and will irregularly launch
+								wishing activities in the future. Stay tuned! The collected products will be notified to
+								you as soon as the event is launched!
+							</view>
+						</view>
+						<view class="btn" :class="shopCont.goods_focus == 0 ?'btn':'btn2'" @click="onFocusProduct">
+							<image src="../../static/xuyuan/iconx.png" mode="" class="img"></image>
+							<text class="txt">Colloct</text>
+						</view>
+					</view>
+				</view>
 				<!-- 许愿列表 许愿中 -->
 				<view class="wish">
 					<view class="ll-header-left">
@@ -229,10 +256,38 @@
 					</view>
 					<!-- 列表 -->
 					<view class="ongingList">
-						<view v-for="item in 3" :key="item" class="ongingList-item">
-							<img src="" alt="" class="ongingListItemImg">
+						<view v-for="(item,i) in jingpaiList" :key="i" class="ongingList-item" @click="newCk">
+							<img :src="item.image" alt="" class="ongingListItemImg">
 							<view>
-								<!-- <text>20230620-06-88 issues</text> -->
+								<text class="title">{{item.stage_num}} &nbsp;&nbsp;{{item.goods_name}}</text>
+								<view class="jping-jd">
+									<view class="jping-jd-box">
+										<image :style="`width: ${(item.finish_rate*100).toFixed(0)}%;`"
+											src="@/static/images/new-index/select-jd.png" mode="aspectFill"></image>
+										<view class="box-progress">{{(item.finish_rate*100).toFixed(0)}}%</view>
+									</view>
+									<view class="new-list-item-right-jd-auth">
+										<block v-for="img in item.new_auction_avatar">
+											<image :src="img"></image>
+										</block>
+									</view>
+								</view>
+								<view class="rowIndex">
+									<view class="left">
+										<image src="/static/images/kbrick/diamond.png" mode="widthFix" class="zsImg">
+										</image>
+										<span class="span">{{item.auction_price}}</span>
+									</view>
+									<view class="new-list-item-btm-btn" v-if="id==1">
+										<image src="../../static/images/new-index/lvxcz.png"></image>
+										<view @click.stop="onMineInfo(item)">{{$t('shop.qiangpai')}}</view>
+									</view>
+
+									<view class="new-list-item-btm-btn"
+										style="border: 1px solid rgb(10, 198, 142);font-weight: bold;">
+										{{$t('tab.xy')}}
+									</view>
+								</view>
 							</view>
 						</view>
 					</view>
@@ -251,25 +306,27 @@
 				</view>
 				<!-- 列表 -->
 				<view class="ongingList">
-					<view v-for="item in 3" :key="item" class="ongingList-item">
-						<img src="" alt="" class="ongingListItemImg">
+					<view v-for="(item,i) in newsjingpaiList" :key="i" class="ongingList-item">
+						<img :src="item.image" alt="" class="ongingListItemImg">
 						<view class="zsItem">
-							<text class="title">20230620-06-88 &nbsp;&nbsp;issues</text>
+							<text class="title">{{item.stage_num}} &nbsp;&nbsp;{{item.goods_name}}</text>
 							<view class="row">
 								<view class="left">
 									<image src="/static/images/kbrick/diamond.png" mode="widthFix" class="zsImg">
 									</image>
-									<span class="span">10.00</span>
+									<span class="span">{{item.auction_price}}</span>
 								</view>
-								<!-- <view class="new-list-item-btm-btn" v-if="id==1">
-								 	<image src="../../static/images/new-index/lvxcz.png"></image>
-								 	<view @click.stop="onMineInfo(item)">{{$t('shop.qiangpai')}}</view>
-								 </view> -->
+								<view class="new-list-item-btm-btn" v-if="id==1">
+									<image src="../../static/images/new-index/lvxcz.png"></image>
+									<view @click.stop="onMineInfo(item)">{{$t('shop.qiangpai')}}</view>
+								</view>
 
-								<view class="new-list-item-btm-btn" style="border: 1rpx solid rgb(248, 155, 0);">
+								<view class="new-list-item-btm-btn" style="border: 1rpx solid rgb(248, 155, 0);"
+									@click="onJingPai(item)">
 									<image src="/static/images/new-index/time1.png" style="width: 20rpx;height: 20rpx;">
 									</image>
-									<u-count-down time="20" format="HH:mm:ss"></u-count-down>
+									<u-count-down :time="item.datetime" format="HH:mm:ss"
+										style="color: rgb(248, 155, 0);"></u-count-down>
 								</view>
 							</view>
 						</view>
@@ -287,21 +344,27 @@
 						<span style="background: rgba(99, 97, 250, 0.4);"></span>
 					</view>
 				</view>
-				<view>
-					<view>
-						<text class="title">20230620-06-88 &nbsp;&nbsp;issues</text>
-						<view>
-							<img src="" alt="" class="avatar">
-							<text>Jackie Chen</text>
+				<view class="hisy" v-for="(item,i) in historyList" :key="i">
+					<view class="left">
+						<text class="title">{{item.stage_num}} &nbsp;&nbsp;{{item.goods_name}}</text>
+						<view class="bootmTxt">
+							<img :src="item.image" mode="widthFix" style="width: 45rpx;">
+							<text class="name" style="margin-left: 10rpx;">{{item.shop_name}}</text>
 							<view>
-								<img src="" alt="" class="jiang">
+								<img src="@/static/images/kbrick/diamond.png" mode="widthFix" class="rImg">
 							</view>
 						</view>
 					</view>
+					<view class="right">
+						<img src="/static/images/kbrick/diamond.png" style="width: 24rpx;" alt="">
+						<span class="span" style="margin-left: 10rpx;">{{item.price}}</span>
+					</view>
 				</view>
-
-
+				<view class="bottomAdd" @tap="more" v-if="isOpen">查看更多
+					<img src="/static/xuyuan/top.png" alt="" class="image">
+				</view>
 			</view>
+
 		</block>
 		<!--分享弹出 start-->
 		<view class="fenxiang" v-if="onfenxingShow">
@@ -428,6 +491,13 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		},
 		data() {
 			return {
+				jingpaiList: [], // 竞拍列表
+				max: 3, //默认展示几条数据
+				isOpen: true,
+				total: 6, //总条数
+				historyList: [], // 历史竞拍
+				btnShow: true,
+				aa: false,
 				status: false,
 				noClick: true, // 防止重复点击 
 				id: '',
@@ -469,7 +539,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				isBottoming: false,
 				youLikeList: [],
 				addressList: [],
-				addressInfo: {}
+				addressInfo: {},
+				newsjingpaiList: [], // 即将开始
 			}
 		},
 		watch: {
@@ -518,9 +589,11 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 			//获取最新竞拍列表
 			this.getNewList()
+			this.onAuctionNewGoods()
 
 			//获取即将开始列表
 			this.getStartGoodsList()
+			this.onAuctionNotbeginGoods()
 
 			//获取历史竞拍列表
 			this.getHistoryList()
@@ -552,6 +625,147 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 		},
 		methods: {
+			// 点击竞拍列表
+			onJingPai(item) {
+				uni.setStorageSync('productInfo', true)
+				uni.navigateTo({
+					url: './detail?id=' + item.auction_goods_id
+				})
+			},
+			//跳转页面
+			newCk() {
+				uni.navigateTo({
+					url: './auctionT'
+				})
+			},
+			// 查看更多
+			more() {
+				this.isOpen = !this.isOpen
+			},
+			// 即将开始
+			onAuctionNotbeginGoods() {
+				this.$http.post(this.$apiObj.AuctionNotbeginGoods, {
+					sort: this.jijiangId,
+					page: this.page,
+					pagenum: this.pagenum,
+					keyword: this.keyword
+				}).then(res => {
+					if (res.code == 1) {
+						if (this.isShopCont) {
+							res.data.data.map(item => {
+								item.tags.map(items => {
+									items.name = this.getCaption(items.name, 1) ? this.getCaption(
+										items.name, 1) : items.name
+								})
+								item.goods_mark = this.getCaption(item.goods_mark, 1) ? this.getCaption(
+									item.goods_mark, 1) : item.goods_mark
+								item.goods_name = this.getCaption(item.goods_name, 1) ? this.getCaption(
+									item.goods_name, 1) : item.goods_name
+							})
+						} else {
+							res.data.data.map(item => {
+								item.tags.map(items => {
+									items.name = this.getCaption(items.name, 0) ? this.getCaption(
+										items.name, 0) : items.name
+								})
+								item.goods_mark = this.getCaption(item.goods_mark, 0) ? this.getCaption(
+									item.goods_mark, 0) : item.goods_mark
+								item.goods_name = this.getCaption(item.goods_name, 0) ? this.getCaption(
+									item.goods_name, 0) : item.goods_name
+							})
+						}
+						res.data.data.map(item => {
+							let time = (item.start_time - Date.parse(new Date()) / 1000) *
+								1000
+							this.$set(item, 'datetime', time)
+						})
+						this.newTotalPageNum = res.data.total
+						this.newsjingpaiList = this.page == 1 ? res.data.data : [...this.newsjingpaiList, ...res
+							.data.data
+						]
+						if (this.id == 2) this.productList = this.newsjingpaiList
+					}
+				})
+			},
+			// 历史竞拍
+			onAuctionHistoryGoods() {
+				this.$http.post(this.$apiObj.AuctionHistoryGoods, {
+					sort: this.lishiId,
+					page: this.page,
+					pagenum: this.pagenum,
+					keyword: this.keyword,
+					date_start: this.date_start
+				}).then(res => {
+					console.log(res.data.data)
+					if (res.code == 1) {
+						if (this.isShopCont) {
+							res.data.data.map(item => {
+								item.goods_mark = this.getCaption(item.goods_mark, 1) ? this.getCaption(
+									item.goods_mark, 1) : item.goods_mark
+								item.goods_name = this.getCaption(item.goods_name, 1) ? this.getCaption(
+									item.goods_name, 1) : item.goods_name
+							})
+						} else {
+							res.data.data.map(item => {
+								item.goods_mark = this.getCaption(item.goods_mark, 0) ? this.getCaption(
+									item.goods_mark, 0) : item.goods_mark
+								item.goods_name = this.getCaption(item.goods_name, 0) ? this.getCaption(
+									item.goods_name, 0) : item.goods_name
+							})
+						}
+						res.data.data.map(item => {
+							item.continue_time = this.daojishi(item.continue_time)
+						})
+						this.historyTotalPageNum = res.data.total
+						this.historyList = this.page == 1 ? res.data.data : [...this.historyList, ...res.data
+							.data
+						]
+						if (this.id == 3) this.productList = this.historyList
+
+						if (this.isOpen == true) {
+							this.historyList = this.historyList
+						}
+						if (this.isOpen == true) {
+							this.historyList = this.historyList.splice(0, 3)
+						}
+					}
+				})
+			},
+			// 最新竞拍
+			onAuctionNewGoods() {
+				this.$http.post(this.$apiObj.AuctionNewGoods, {
+					sort: this.newsjpId,
+					page: this.page,
+					pagenum: this.pagenum,
+					keyword: this.keyword
+				}).then(res => {
+					console.log(res.data.data)
+					if (res.code == 1) {
+						if (this.isShopCont) {
+							res.data.data.map(item => {
+								item.goods_mark = this.getCaption(item.goods_mark, 1) ? this.getCaption(
+									item.goods_mark, 1) : item.goods_mark
+								item.goods_name = this.getCaption(item.goods_name, 1) ? this.getCaption(
+									item.goods_name, 1) : item.goods_name
+							})
+						} else {
+							res.data.data.map(item => {
+								item.goods_mark = this.getCaption(item.goods_mark, 0) ? this.getCaption(
+									item.goods_mark, 0) : item.goods_mark
+								item.goods_name = this.getCaption(item.goods_name, 0) ? this.getCaption(
+									item.goods_name, 0) : item.goods_name
+							})
+						}
+						res.data.data.map(item => {
+							item.remain_time = item.remain_time * 1000
+						})
+						this.totalPageNum = res.data.total
+						this.jingpaiList = this.page == 1 ? res.data.data : [...this.jingpaiList, ...res.data.data]
+
+						if (this.id == 1) this.productList = this.jingpaiList
+					}
+				})
+			},
 			// 倒计时
 			daojishi(mss) {
 				let s = mss % 60;
@@ -1490,6 +1704,113 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		text-decoration: none;
 	}
 
+	.new-list-item-right-jd-auth {
+		display: flex;
+		align-items: center;
+
+		image {
+			position: relative;
+			width: 32rpx;
+			height: 32rpx;
+			border-radius: 50%;
+			margin-left: 4rpx;
+			z-index: 3;
+		}
+
+		image:nth-child(2) {
+			position: relative;
+			margin-left: -14rpx;
+			z-index: 2;
+		}
+
+		image:nth-child(3) {
+			position: relative;
+			margin-left: -14rpx;
+			z-index: 1;
+		}
+	}
+
+	.rImg {
+		width: 24rpx;
+		margin-top: 10rpx;
+		margin-left: 10rpx;
+	}
+
+	// 配货中
+	.distributed {
+		width: 85%;
+		height: 500rpx;
+		background: #fff;
+		margin: auto;
+		margin-top: 32rpx;
+		justify-content: space-between;
+
+		.con {
+			display: flex;
+			margin-top: 80rpx;
+
+			.conImg {
+				width: 280rpx;
+				height: 280rpx;
+			}
+
+			.conTxt {
+				width: 350rpx;
+				color: #666;
+			}
+		}
+
+		.btn {
+			width: 230rpx;
+			height: 72rpx;
+			line-height: 72rpx;
+			border-radius: 50rpx;
+			background: rgb(10, 198, 142);
+			margin: auto;
+			margin-top: 20rpx;
+			display: flex;
+			align-items: center;
+
+			.img {
+				width: 40rpx;
+				height: 40rpx;
+				margin-left: 40rpx;
+			}
+
+			.txt {
+				color: #fff;
+				font-size: 28rpx;
+				font-weight: bold;
+				margin-left: 10rpx;
+			}
+		}
+
+		.btn2 {
+			width: 230rpx;
+			height: 72rpx;
+			line-height: 72rpx;
+			border-radius: 50rpx;
+			background: #ccc;
+			margin: auto;
+			margin-top: 20rpx;
+			display: flex;
+			align-items: center;
+
+			.img {
+				width: 40rpx;
+				height: 40rpx;
+				margin-left: 40rpx;
+			}
+
+			.txt {
+				color: #fff;
+				font-size: 28rpx;
+				font-weight: bold;
+				margin-left: 10rpx;
+			}
+		}
+	}
+
 	//商品详情之后的页面
 	.detailImg {
 		width: 625rpx;
@@ -1510,6 +1831,31 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		background: #fff;
 		margin-top: 30rpx;
 
+		.bottomAdd {
+			text-align: center;
+			padding-bottom: 20rpx;
+			color: #666;
+			font-size: 24rpx;
+			display: block;
+
+			.image {
+				width: 24rpx;
+				height: 24rpx;
+			}
+		}
+
+		.title {
+			font-size: 24rpx;
+			color: #333;
+			font-weight: bold;
+			display: block;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			display: -webkit-box;
+			-webkit-line-clamp: 3;
+			-webkit-box-orient: vertical;
+		}
+
 		.ongingList {
 			width: 100%;
 			margin: 24rpx 0;
@@ -1517,10 +1863,11 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			.ongingList-item {
 				width: 686rpx;
 				height: 180rpx;
-				border: 1px solid red;
 				margin: auto;
 				margin-bottom: 30rpx;
 				display: flex;
+				align-items: center;
+				box-shadow: 0px 4rpx 12rpx rgba(198, 198, 198, 0.3);
 
 				.ongingListItemImg {
 					width: 180rpx;
@@ -1539,18 +1886,27 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				font-size: 24rpx;
 				display: block;
 				font-weight: bold;
+				margin-left: 5rpx;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				display: -webkit-box;
+				-webkit-line-clamp: 2;
+				-webkit-box-orient: vertical;
 			}
 
 			.row {
-				margin-top: 80rpx;
+				width: 480rpx;
+				margin-top: 40rpx;
 				display: flex;
 				justify-content: space-between;
 				align-items: center;
 
+				.zsImg {
+					width: 30rpx;
+				}
+
 				.left {
-					.zsImg {
-						width: 30rpx;
-					}
+
 
 					.span {
 						font-weight: bold;
@@ -1583,6 +1939,53 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						color: #F89B00;
 					}
 				}
+			}
+		}
+	}
+
+	.rowIndex {
+		width: 480rpx;
+		margin-top: 20rpx;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+
+		.zsImg {
+			width: 30rpx;
+		}
+
+		.left {
+
+
+			.span {
+				font-weight: bold;
+				font-size: 32rpx;
+				color: rgb(255, 57, 57);
+				margin-left: 8rpx;
+			}
+		}
+
+		.new-list-item-btm-btn {
+			padding: 6rpx 20rpx;
+			box-sizing: border-box;
+			font-size: 24rpx;
+			color: rgb(10, 198, 142);
+			box-sizing: border-box;
+			border: 1rpx solid rgb(10, 198, 142);
+			border-radius: 100rpx;
+			display: flex;
+			align-items: center;
+			margin-left: 90rpx;
+			margin-top: -10rpx;
+
+			image {
+				width: 28rpx;
+				height: 28rpx;
+				margin-right: 6rpx;
+			}
+
+			/deep/ .u-count-down__text {
+				color: #F89B00;
 			}
 		}
 	}
@@ -1623,6 +2026,85 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				bottom: -4rpx;
 				transform: translateX(-50%);
 			}
+		}
+	}
+
+	//进度条
+	.jping-jd {
+		width: 100%;
+		display: flex;
+		align-items: center;
+		margin-top: 20rpx;
+
+		.jping-jd-box {
+			width: 280rpx;
+			height: 32rpx;
+			box-sizing: border-box;
+			background: rgba(255, 0, 0, 0.1);
+			border: 1rpx solid rgb(255, 197, 182);
+			border-radius: 100rpx;
+			overflow: hidden;
+			display: flex;
+			justify-content: flex-start;
+			align-items: center;
+			position: relative;
+			margin-right: 20rpx;
+
+			image {
+				height: 32rpx;
+				border-radius: 100rpx;
+			}
+
+			.box-progress {
+				color: rgb(255, 255, 255);
+				font-size: 20rpx;
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				z-index: 9;
+			}
+		}
+	}
+
+	.hisy {
+		width: 688rpx;
+		height: 100rpx;
+		border-bottom: 1px solid rgb(204, 204, 204);
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin: auto;
+		margin-top: 30rpx;
+		margin-bottom: 30rpx;
+		padding-bottom: 30rpx;
+
+
+		.left {
+
+			.title {
+				font-size: 24rpx;
+				color: #333;
+				font-weight: bold;
+			}
+
+			.bootmTxt {
+				margin-top: 10rpx;
+				display: flex;
+
+				.name {
+					font-size: 20rpx;
+					color: #333;
+				}
+			}
+		}
+	}
+
+	.right {
+		.span {
+			font-size: 28rpx;
+			color: rgb(255, 57, 57);
+			font-weight: bold;
 		}
 	}
 

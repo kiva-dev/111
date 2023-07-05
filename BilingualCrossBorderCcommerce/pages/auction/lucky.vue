@@ -56,7 +56,7 @@
 								<text style="color: rgb(255, 57, 57); font-weight: bold;">
 									<image src="/static/images/kbrick/diamond.png"></image>{{item.pay_price}}
 								</text>
-								的价格，幸运地拍中价值
+								的价格，幸运地获得了价值
 								<text style="color: rgb(255, 57, 57); font-weight: bold;">RM{{item.price}}</text>
 								的
 								{{item.goods_name}}

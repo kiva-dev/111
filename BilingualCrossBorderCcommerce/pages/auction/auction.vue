@@ -112,8 +112,19 @@
 					<image src="@/static/images/mine/lucky_icon_trophy.png" mode="widthFix"></image>
 				</view>
 				<view class="ll-text">
-					<image src="@/static/images/products/auth.png" mode="aspectFill"></image>
-					<view>latest lucky star，Joint Contribution Sales is up XXX</view>
+					<image :src="avatar" mode="aspectFill"></image>
+					<view class="item-right-content">
+						In the Joint contribution sales activities provided by{{' '}}
+						<text style="color: rgb(10, 198, 142);">{{shop_name}}</text>
+						,at the price of{{' '}}
+						<text style="color: rgb(255, 57, 57); font-weight: bold;">
+							<image src="/static/images/kbrick/diamond.png"></image>{{pay_price}}
+						</text>
+						,I was lucky to win a
+						{{goods_name}}
+						{{' '}}worth{{' '}}
+						<text style="color: rgb(255, 57, 57); font-weight: bold;">RM{{price}}</text>
+					</view>
 				</view>
 				<view class="ll-right">
 					<image src="@/static/images/products/right.png" mode="widthFix"></image>
@@ -126,12 +137,12 @@
 			<view class="ll-header">
 				<view class="ll-header-left">
 					<view class="left-icon">
-						<image  src="@/static/images/new-index/ongoing.png" mode="widthFix"></image>
+						<image src="@/static/images/new-index/ongoing.png" mode="widthFix"></image>
 					</view>
 					<view class="left-text">
 						<!-- <p>{{$t('new.zzjp')}}</p> -->
 						<p>{{$t('tab.zzxy')}}</p>
-						<span  style="background: rgba(255, 64, 41, 0.4);"></span>
+						<span style="background: rgba(255, 64, 41, 0.4);"></span>
 					</view>
 				</view>
 				<view style="display: flex;">
@@ -610,7 +621,7 @@
 					</view>
 					<view class="left-text">
 						<p>{{$t('new.lsjl')}}</p>
-						<span  style="background: rgba(99, 97, 250, 0.4);"></span>
+						<span style="background: rgba(99, 97, 250, 0.4);"></span>
 					</view>
 				</view>
 				<view style="display: flex;">
@@ -1028,6 +1039,74 @@
 		</uni-popup>
 		<!--支付成功弹出 end-->
 
+
+		<!-- 联系我们 -->
+		<u-popup :show="showContact" mode="center" bgColor="transparent">
+			<view class="contact">
+				<!-- <image src="../../static/images/new/tck-xy.png" class="contact-head"></image> -->
+				<image src="../../static/images/new/close.png" class="contact-info-close" @click="showContact = false">
+				</image>
+				<view class="contact-info">
+					<view class="contact-info-tit">{{$t('user.myCont.ptkf')}}</view>
+					<!--fb://profile/100089663415703-->
+					<a href="fb://page/119896577745123" target="_blank" v-if="isFacebookApp && device=='android'">
+						<view class="contact-info-des">
+							<image src="../../static/images/new/face book.png"></image>
+							<view>Face book</view>
+						</view>
+					</a>
+					<a href="fb://page?id=119896577745123" target="_blank" v-else-if="isFacebookApp && device=='ios'">
+						<view class="contact-info-des">
+							<image src="../../static/images/new/face book.png"></image>
+							<view>Face book</view>
+						</view>
+					</a>
+					<view class="contact-info-des" v-else @click="showContact=false;showConfirm=true">
+						<image src="../../static/images/new/face book.png"></image>
+						<view>Face book</view>
+					</view>
+					<a href="twitter://user?screen_name=Kolibrimall2023" target="_blank" v-if="isTwitterApp">
+						<view class="contact-info-des" id="twitter">
+							<image src="../../static/images/share21.png"></image>
+							<view>Twitter</view>
+						</view>
+					</a>
+					<view class="contact-info-des" v-else @click="showContact=false;showConfirm=true">
+						<image src="../../static/images/share21.png"></image>
+						<view>Twitter</view>
+					</view>
+					<a href="tg://resolve?domain=Kolibrimall" target="_blank" v-if="isTelegramApp">
+						<view class="contact-info-des">
+							<image src="../../static/images/new/Telegram.png"></image>
+							<view>Telegram</view>
+						</view>
+					</a>
+					<view class="contact-info-des" v-else @click="showContact=false;showConfirm=true">
+						<image src="../../static/images/new/Telegram.png"></image>
+						<view>Telegram</view>
+					</view>
+					<a href="whatsapp://send?phone=+60 11-14338082" target="_blank" v-if="isWhatsApp">
+						<view class="contact-info-des">
+							<image src="../../static/images/new/WhatsAPP.png"></image>
+							<view>WhatsAPP</view>
+						</view>
+					</a>
+					<view class="contact-info-des" v-else @click="showContact=false;showConfirm=true">
+						<image src="../../static/images/new/WhatsAPP.png"></image>
+						<view>WhatsAPP</view>
+					</view>
+				</view>
+			</view>
+		</u-popup>
+		<u-popup :show="showConfirm" mode="center" bgColor="transparent">
+			<view class="showConfirm">
+				<view class="showConfirm-txt">{{$t('new.wazyy')}}</view>
+				<view class="showConfirm-btn">
+					<view class="showConfirm-btn-cancel" @click="showConfirm=false">{{$t('home.search.query')}}</view>
+					<view class="showConfirm-btn-ok" @click="checkApp()">{{$t('auction.detail.btnsub')}}</view>
+				</view>
+			</view>
+		</u-popup>
 		<!-- 右侧固定栏 -->
 		<!-- <view class="leftSider" :class="[transformClass?'removeRightX':'removeLeftX','shopCart']">
 			<view class="imgArr" v-if="imgShow">
@@ -1046,7 +1125,7 @@
 			<image src="/static/images/new-index/addImg.png" class="newListImg" @click="transformImg" v-else></image>
 		</view> -->
 
-		<view class="leftSider">
+		<view class="leftSider" @click="showContact = true">
 			<image src="@/static/xuyuan/guanzhu.png" class="gz"></image>
 		</view>
 
@@ -1095,6 +1174,12 @@
 	export default {
 		data() {
 			return {
+				isTwitterApp: false,
+				isFacebookApp: false,
+				isWhatsApp: false,
+				isTelegramApp: false,
+				showContact: false,
+				showConfirm: false,
 				list: [], //许愿列表
 				transformClass: false, //购物车icon是否添加平移效果
 				timer: '', //记录定时器状态
@@ -1176,6 +1261,11 @@
 				productList: [],
 				productInfoId: 0,
 				jinPaiTimer: '',
+				shop_name: "",
+				pay_price: "",
+				price: "",
+				goods_name: "",
+				avatar: ""
 			}
 		},
 		watch: {
@@ -1214,6 +1304,7 @@
 			uni.onLocaleChange((e) => {
 				this.applicationLocale = e.locale;
 			});
+			this.getLuckyList()
 		},
 		onShow() {
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
@@ -1267,7 +1358,7 @@
 			//获取许愿列表详情页
 			toProductInfo(item) {
 				uni.navigateTo({
-					url: './autionDetail?goodsId='+item.goods_id
+					url: './autionDetail?goodsId=' + item.goods_id
 				})
 			},
 			getLuckyList() {
@@ -1276,14 +1367,20 @@
 					pagenum: 10,
 					keyword: '',
 				}).then(res => {
-					if (res.code === 1) {
-						let arr = res.data.data || [];
-						if (this.page > 1) {
-							this.luckyList = this.luckyList.concat(arr);
-						} else {
-							this.luckyList = arr;
-						}
-					}
+					this.luckyList = res.data.data;
+					this.shop_name = res.data.data[0].shop_name
+					this.pay_price = res.data.data[0].pay_price
+					this.price = res.data.data[0].price
+					this.goods_name = res.data.data[0].goods_name
+					this.avatar = res.data.data[0].avatar
+					// if (res.code === 1) {
+					// 	let arr = res.data.data || [];
+					// 	if (this.page > 1) {
+					// 		this.luckyList = this.luckyList.concat(arr);							
+					// 	} else {
+					// 		this.luckyList = arr;
+					// 	}
+					// }
 				})
 			},
 			//点击图片出现入口并且图片旋转
@@ -1309,7 +1406,7 @@
 				this.id = id
 				this.selectId = 1
 				if (this.id == 1) {
-					this.title = this.$t('new.zzjp')
+					this.title = this.$t('tab.zzxy')
 					uni.setStorageSync('jinpaiId', 1) //更新当前选择的竞拍id
 					this.onAuctionNewGoods()
 					uni.navigateTo({
@@ -1642,6 +1739,127 @@
 </script>
 
 <style lang="less" scoped>
+	// 联系我们
+	.contact {
+		position: relative;
+		width: 686rpx;
+
+		.contact-head {
+			display: block;
+			width: 686rpx;
+			height: 426rpx;
+			margin-bottom: -56rpx;
+			z-index: 9;
+		}
+
+		.contact-info-close {
+			position: absolute;
+			top: 30rpx;
+			right: 20rpx;
+			width: 60rpx;
+			height: 60rpx;
+			z-index: 10;
+		}
+
+		.contact-info {
+			padding: 46rpx 0;
+			border: 4rpx solid rgb(10, 198, 142);
+			background: #fff;
+			border-radius: 16rpx;
+
+			.contact-info-tit {
+				width: 100%;
+				font-size: 40rpx;
+				font-weight: 700;
+				text-align: center;
+			}
+
+			a {
+				text-decoration: none;
+			}
+
+			.contact-info-des {
+				width: 434rpx;
+				height: 100rpx;
+				font-size: 32rpx;
+				color: rgb(44, 44, 44);
+				display: flex;
+				align-items: center;
+				border-radius: 50rpx;
+				box-shadow: 0rpx 0rpx 8rpx rgba(255, 78, 47, 0.3);
+				margin: 40rpx auto 0 auto;
+
+				image {
+					width: 100rpx;
+					height: 100rpx;
+					border-radius: 50%;
+				}
+
+				view {
+					margin-left: 40rpx;
+				}
+			}
+		}
+	}
+
+	// 确认弹框
+	.showConfirm {
+		width: 686rpx;
+		padding: 40rpx;
+		background: #FFF;
+		box-sizing: border-box;
+		border-radius: 16rpx;
+		border: 2rpx solid rgb(10, 198, 142);
+
+		.showConfirm-txt {
+			width: 80%;
+			font-size: 28rpx;
+			font-weight: bold;
+			color: rgb(44, 44, 44);
+			text-align: center;
+			margin: 0 auto;
+		}
+
+		.showConfirm-btn {
+			width: 100%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin-top: 40rpx;
+
+			view {
+				width: 240rpx;
+				height: 60rpx;
+				line-height: 60rpx;
+				font-size: 32rpx;
+				text-align: center;
+				box-sizing: border-box;
+				border-radius: 16rpx;
+				margin: 0 20rpx;
+			}
+
+			.showConfirm-btn-cancel {
+				color: rgb(44, 44, 44);
+				border: 2rpx solid rgb(10, 198, 142);
+			}
+
+			.showConfirm-btn-ok {
+				color: #fff;
+				background: rgb(10, 198, 142);
+			}
+
+		}
+
+	}
+
+	.item-right-content {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+	}
+
 	//头部
 	.head {
 		margin: 12px 16px 0;
@@ -1744,7 +1962,6 @@
 			background-size: 100% 100%;
 			padding: 88rpx 0 40rpx;
 			box-sizing: border-box;
-			border: 1px solid red;
 			// position: fixed;
 			// z-index: 100;
 

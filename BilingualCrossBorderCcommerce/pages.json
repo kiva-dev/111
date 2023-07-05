@@ -1015,8 +1015,8 @@
 			{
 				"pagePath": "pages/auction/auction",
 				"text": "%tab.makeAwish%",
-				"iconPath": "/static/images/new-index/Auction.png",
-				"selectedIconPath": "/static/images/new-index/Auction1.png"
+				"iconPath": "/static/xuyuan/wishS.png",
+				"selectedIconPath": "/static/xuyuan/wish.png"
 			},
 			{
 				"pagePath": "pages/mine/mine",

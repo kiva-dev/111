@@ -575,7 +575,7 @@
 				productList: [],
 				productInfoId: 0,
 				jinPaiTimer: '',
-				list:[],//列表
+				list: [], //列表
 			}
 		},
 		watch: {
@@ -606,7 +606,7 @@
 			},
 		},
 		onLoad() {
-			this.getAllProducts()//列表数据
+			this.getAllProducts() //列表数据
 			let systemInfo = uni.getSystemInfoSync();
 			this.systemLocale = systemInfo.language;
 			this.applicationLocale = uni.getLocale();
@@ -661,7 +661,7 @@
 					category_id: 1,
 					goods_listing_type: 1
 				}).then(res => {
-					this.list=res.data.data
+					this.list = res.data.data
 				})
 			},
 			//点击返回按钮、
@@ -1145,11 +1145,11 @@
 					color: #333;
 					font-size: 24rpx;
 					font-weight: bold;
-					  white-space: nowrap;
-					    overflow: hidden;
-					    text-overflow: ellipsis;
-						display: block;
-						margin: auto;
+					white-space: nowrap;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					display: block;
+					margin: auto;
 				}
 
 				.iconArr {
@@ -1181,12 +1181,12 @@
 					font-weight: bold;
 					color: rgb(255, 57, 57);
 					margin-top: 15rpx;
-				
+
 					image {
 						width: 24rpx;
 						height: 24rpx;
 					}
-				
+
 					span {
 						font-size: 32rpx;
 					}

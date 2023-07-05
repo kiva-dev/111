@@ -103,7 +103,8 @@
 				<view class="container-btn">
 					<!-- <view class="container-btn-withdrawal" @click="navClick('Withdrawal')">{{$t('user.wallet.tixian')}}</view> -->
 					<view class="container-btn-recharge" @click="navClick('/pages/mine/K_brick_detail')">
-						{{$t('top.cz')}}</view>
+						{{$t('top.cz')}}
+					</view>
 				</view>
 			</view>
 		</view>
@@ -243,7 +244,7 @@
 		<!-- 联系我们 -->
 		<u-popup :show="showContact" mode="center" bgColor="transparent">
 			<view class="contact">
-				<image src="../../static/images/new/tck-xy.png" class="contact-head"></image>
+				<!-- <image src="../../static/images/new/tck-xy.png" class="contact-head"></image> -->
 				<image src="../../static/images/new/close.png" class="contact-info-close" @click="showContact = false">
 				</image>
 				<view class="contact-info">
@@ -309,7 +310,7 @@
 		</u-popup>
 
 		<!-- 右侧固定栏 -->
-<!-- 		<view class="leftSider" :class="[transformClass?'removeRightX':'removeLeftX','shopCart']">
+		<!-- 		<view class="leftSider" :class="[transformClass?'removeRightX':'removeLeftX','shopCart']">
 			<view class="imgArr" v-if="imgShow">
 				<view>
 					<img src="/static/images/mine/aixin.png" class="minImg" alt="">
@@ -1126,7 +1127,7 @@
 
 			.contact-info-close {
 				position: absolute;
-				top: 390rpx;
+				top: 30rpx;
 				right: 20rpx;
 				width: 60rpx;
 				height: 60rpx;
@@ -1135,7 +1136,7 @@
 
 			.contact-info {
 				padding: 46rpx 0;
-				border: 4rpx solid rgb(255, 78, 47);
+				border: 4rpx solid rgb(10, 198, 142);
 				background: #fff;
 				border-radius: 16rpx;
 

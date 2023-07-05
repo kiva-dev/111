@@ -35,7 +35,7 @@
 						</view>
 						<view class="t" v-if="item.type==5">
 							<view class="dian" v-if="item.read_status=='0'"></view>
-							<view class="title">{{isShopCont ? 'Notice of Auction' : '竞拍通知'}}</view>
+							<view class="title">{{isShopCont ? 'Notice of Auction' : '许愿通知'}}</view>
 						</view>
 						<view class="t" v-if="item.type==6">
 							<view class="dian" v-if="item.read_status=='0'"></view>
