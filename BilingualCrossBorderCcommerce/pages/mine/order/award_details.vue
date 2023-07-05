@@ -16,7 +16,10 @@
 			<view class="head">
 				<image :src="info.shop_logo"></image>
 				<view class="header-name">{{info.shop_name}}</view>
-				<view class="header-tag">{{$t('user.auctionM.receive')}}</view>
+				<view class="header-tag" v-if="info.status==2 || info.status == 3">{{$t('user.auctionM.shipped')}}</view>
+				<view class="header-tag" v-else-if="info.status==4">{{$t('user.auctionM.receive')}}</view>
+				<view class="header-tag" v-else-if="info.status==5">{{$t('user.auctionM.beConfirmed')}}</view>
+				<view class="header-tag" v-else-if="info.status==6">{{$t('user.order.ywc')}}</view>
 			</view>
 			<view class="detail_des">
 				<image :src="info.image"></image>
@@ -90,7 +93,7 @@
 			<view class="des_info">
 				<view class="des_info_key">{{$t('new.fhsj')}}</view>
 				<view class="des_info_value">
-					<text>{{info.send_time!=0? $u.timeFormat(info.send_time, 'yyyy/mm/dd hh:MM:ss') : 0}}</text>
+					<text>{{info.send_company}}</text>
 				</view>
 			</view>
 			

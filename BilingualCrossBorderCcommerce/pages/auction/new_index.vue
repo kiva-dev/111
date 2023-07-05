@@ -1338,8 +1338,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			},
 			//查看更多
 			toMore(id) {
-				uni.switchTab({
-					url: '/pages/auction/auction'
+				uni.navigateTo({
+					url: '/pages/auction/auctionT?id='+id
 				})
 			},
 			//普通商品或竞拍商品跳转

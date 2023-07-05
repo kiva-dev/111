@@ -470,9 +470,10 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					email_code: this.email_code
 				}).then(res => {
 					if (res.code == 1) {
+						this.blockNum = 0
 						setTimeout(() => {
 							this.blockNum = 3
-						}, 200)
+						}, 300)
 						this.showErrCode = false
 					} else {
 						this.showErrCode = true
@@ -494,9 +495,10 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					code: this.email_code
 				}).then(res => {
 					if (res.code == 1) {
+						this.blockNum = 0
 						setTimeout(() => {
 							this.blockNum = 3
-						}, 200)
+						}, 300)
 						this.showErrCode = false
 					} else {
 						this.showErrCode = true

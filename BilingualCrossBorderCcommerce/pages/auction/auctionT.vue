@@ -21,7 +21,7 @@
 						<span v-else style="background: rgba(99, 97, 250, 0.4);"></span>
 					</view>
 				</view>
-				<view class="ll-header-right" v-if="id !== 3">
+				<view class="ll-header-right" v-if="id != 3">
 					<view class="right-icon">
 						<image v-if="selectId !== 1" src="/static/images/new-index/sx.png" mode="widthFix"
 							@click="selectId = 1"></image>

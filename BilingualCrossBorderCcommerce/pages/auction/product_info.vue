@@ -501,17 +501,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			if (e.invite_code) {
 				uni.setStorageSync('invite_code', e.invite_code)
 			}
-			if (uni.getStorageSync('token')) {
-				this.getAllAddress()
-				this.$http.post(this.$apiObj.MineInfo).then(res => {
-					if (res.code == 1) {
-						this.qrUrl = 'https://h5.kolibrimall.com/h5/#/pages/auction/detail?id=' + e.id +
-							'&invite_code=' + res.data.invite_code // 生成二维码的链接
-					}
-				})
-			} else {
-				this.qrUrl = 'https://h5.kolibrimall.com/h5/#/pages/auction/detail?id=' + e.id // 生成二维码的链接
-			}
+			
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
 
 			this.id = e.goodsId
@@ -530,7 +520,17 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 		},
 		onShow() {
-			
+			if (uni.getStorageSync('token')) {
+				this.getAllAddress()
+				this.$http.post(this.$apiObj.MineInfo).then(res => {
+					if (res.code == 1) {
+						this.qrUrl = 'https://h5.kolibrimall.com/h5/#/pages/auction/detail?id=' + e.id +
+							'&invite_code=' + res.data.invite_code // 生成二维码的链接
+					}
+				})
+			} else {
+				this.qrUrl = 'https://h5.kolibrimall.com/h5/#/pages/auction/detail?id=' + e.id // 生成二维码的链接
+			}
 		},
 		onHide() {
 			clearInterval(this.timer)

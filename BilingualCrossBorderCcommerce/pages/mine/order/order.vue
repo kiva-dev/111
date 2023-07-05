@@ -102,6 +102,7 @@
 				page: 1,
 				orderList: [],
 				scrollLeft: 0,
+				sendTit:10
 			}
 		},
 		onLoad(option) {
@@ -129,8 +130,9 @@
 				uni.navigateBack();
 			},
 			onChangeTab(id) {
-				if(id==6) this.tabIndex = [-1,-2,6].toString()
-				else this.tabIndex = id
+				if(id==6) this.sendTit = [-1,-2,6].toString()
+				else this.sendTit = id
+				this.tabIndex = id
 				this.page = 1;
 				this.getOrderList();
 			},
@@ -138,7 +140,7 @@
 				this.$http.post(this.$apiObj.OrderOrderList, {
 					page: this.page,
 					pagenum: 10,
-					type: this.tabIndex === 10 ? null : this.tabIndex
+					type: this.sendTit === 10 ? null : this.sendTit
 				}).then((res) => {
 					if (res.code === 1) {
 						let arr = res.data.data || [];

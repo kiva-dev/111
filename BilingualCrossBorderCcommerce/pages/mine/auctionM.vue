@@ -539,12 +539,12 @@
 		},
 		methods: {
 			toAwardDetail(item){
-				if(item.status != 2){
-					return
+				if(item.select_way == 2){
+					uni.navigateTo({
+						url:'/pages/mine/order/award_details?id='+item.id
+					})
 				}
-				uni.navigateTo({
-					url:'/pages/mine/order/award_details?id='+item.id
-				})
+				
 			},
 			toAppealDetail(item) {
 				uni.navigateTo({

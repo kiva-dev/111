@@ -591,23 +591,7 @@
 					</view>
 				</view>
 				<view style="display: flex;">
-					<view class="ll-header-right" v-if="id !== 3">
-						<view class="right-icon">
-							<image v-if="selectId !== 1" src="/static/images/new-index/sx.png" mode="widthFix"
-								@click="selectId = 1"></image>
-							<image v-else src="/static/images/new-index/sx1.png" mode="widthFix"></image>
-						</view>
-						<view class="right-icon">
-							<image v-if="selectId !== 2" src="/static/images/new-index/mf.png" mode="widthFix"
-								@click="selectId = 2"></image>
-							<image v-else src="/static/images/new-index/mf1.png" mode="widthFix"></image>
-						</view>
-						<view class="right-icon">
-							<image v-if="selectId !== 3" src="/static/images/new-index/p.png" mode="widthFix"
-								@click="selectId = 3"></image>
-							<image v-else src="/static/images/new-index/p1.png" mode="widthFix"></image>
-						</view>
-					</view>
+	
 					<view class="more" @click.top="toInfo(3)">
 						<text>{{$t('auction.topMore')}}</text>
 						<img class="moreRight" src="../../static/xuyuan/r.png" alt="">

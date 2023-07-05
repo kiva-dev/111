@@ -6,7 +6,7 @@
 				<view class="il-container-top" v-for="item in orderInfo.goods" :key="item.goods_id">
 					<view class="top-bar">
 						<view class="top-bar-shop">
-							<image src="@/static/images/new-index/detail_demo_cover.png" mode="aspectFill"></image>
+							<image :src="orderInfo.shop_logo" mode="aspectFill"></image>
 							<p>{{orderInfo.shop_name || ''}}</p>
 						</view>
 						<view class="top-bar-status">
