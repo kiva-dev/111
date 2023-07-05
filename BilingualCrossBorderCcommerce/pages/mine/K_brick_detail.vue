@@ -12,13 +12,21 @@
 			<image src="/static/images/kbrick/diamond.png"></image>
 		</view>
 
+		<view class="info-ts">
+			<image src="/static/images/kbrick/kbx.png"></image>
+			<view>{{$t('new.scfl')}}</view>
+		</view>
+
 		<view class="title">{{$t('new.kzcz')}}</view>
 
 		<view class="list">
 			<view class="item"
 				:style="select==(i+1)?'height:216rpx;background: rgb(224, 242, 255);box-sizing: border-box;border: 4rpx solid rgb(27, 161, 255);':''"
 				v-for="(item,i) in list" :key="i" @click="switchCzNum(i+1)">
-				<view class="item-tags" v-show="item.activity_money">Give {{item.activity_money*1}}</view>
+				<view class="item-tags" v-show="item.activity_money">
+					<image src="/static/images/kbrick/white_bx.png"></image>
+					Free RM {{item.activity_money*1}}
+				</view>
 				<view class="item-num">
 					<image src="/static/images/kbrick/diamond.png"></image>
 					<view>{{item.k_diamond}}</view>
@@ -31,8 +39,8 @@
 		<view class="customize" :class="selectPayNum?'select_customize':''">
 			<image src="/static/images/kbrick/diamond.png" class="logo"></image>
 			<view class="customize-input">
-				<input type="text" v-model="payNum" @focus="selectPayNum=true;select=0"
-					:placeholder="$t('new.qtczje')" style="font-size: 24rpx;color: rgb(102, 102, 102);" />
+				<input type="text" v-model="payNum" @focus="selectPayNum=true;select=0" :placeholder="$t('new.qtczje')"
+					style="font-size: 24rpx;color: rgb(102, 102, 102);" />
 			</view>
 			<view class="customize-right" v-show="false">
 				<image src="/static/images/kbrick/white_bx.png"></image>
@@ -40,26 +48,30 @@
 			</view>
 		</view>
 
-		<view class="info-ts">
-			<image src="/static/images/kbrick/kbx.png"></image>
-			<view>{{$t('new.scfl')}}</view>
-		</view>
+
 		<view class="info-ts-sm">{{$t('new.kzsm')}}</view>
 
-		<!-- <view class="title">{{$t('top.zffs')}}</view> -->
+		<view class="title">{{$t('top.zffs')}}</view>
 
-		<!-- <view class="pay-info" v-for="item in payList" :key="item.id">
+		<view class="pay-info" v-for="item in payList" :key="item.id">
 			<image :src="item.url" class="logo"></image>
 			<view>{{item.name}}</view>
 			<image src="/static/images/new-index/wxz.png" class="select" v-show="!item.select" @click="changPay(item)">
 			</image>
 			<image src="/static/images/new-index/xz.png" class="select" v-show="item.select" @click="changPay(item)">
 			</image>
-		</view> -->
+		</view>
+
+		<view class="protocol">
+			<image src="/static/images/new-index/wxz.png" v-show="!selectProtocol"></image>
+			<image src="/static/images/new-index/xz.png" v-show="selectProtocol"></image>
+			<view>I have fully read and agree to the <text>《User Recharge Agreement》</text></view>
+		</view>
 
 		<view class="topay" v-show="!showPay">{{$t('user.order.qzf')}}</view>
 		<view class="topay" style="background: rgb(10, 198, 142);" v-show="showPay" @click="addDiamond()">
-			{{$t('user.order.qzf')}}</view>
+			{{$t('user.order.qzf')}}
+		</view>
 
 	</view>
 </template>
@@ -72,13 +84,14 @@
 				select: 1,
 				payNum: '',
 				selectPayNum: false,
+				selectProtocol: false,
 				list: [],
-				showPay: true,
+				showPay: false,
 				payList: [{
 					id: 1,
-					url: '/static/images/new-index/apple.png',
+					url: '/static/images/new-index/pe.png',
 					select: false,
-					name: this.$t('order.dsfzf')
+					name: 'PayEssence'
 				}]
 			}
 		},
@@ -86,13 +99,13 @@
 			this.$http.post(this.$apiObj.MineInfo).then(res => {
 				this.balance = res.data.k_diamond_wallet
 			})
-			
+
 			this.getKdiamondList()
 		},
 		methods: {
-			getKdiamondList(){
-				this.$http.post(this.$apiObj.RechargeKdiamond).then(res=>{
-					this.list=res.data
+			getKdiamondList() {
+				this.$http.post(this.$apiObj.RechargeKdiamond).then(res => {
+					this.list = res.data
 				})
 			},
 			onReturn() {
@@ -294,7 +307,7 @@
 					position: absolute;
 					top: 0;
 					left: 0;
-					min-width: 112rpx;
+					min-width: 182rpx;
 					height: 40rpx;
 					line-height: 40rpx;
 					font-size: 20rpx;
@@ -302,6 +315,12 @@
 					text-align: center;
 					background: rgb(27, 161, 255);
 					border-radius: 18rpx 0 24rpx 0;
+
+					image {
+						width: 20rpx;
+						height: 20rpx;
+						margin-right: 4rpx;
+					}
 				}
 
 			}
@@ -371,7 +390,7 @@
 			align-items: center;
 			background: rgb(226, 239, 249);
 			border-radius: 64rpx;
-			margin: 0 auto;
+			margin: 0 auto 24rpx auto;
 
 			image {
 				width: 32rpx;
@@ -415,6 +434,25 @@
 
 		}
 
+		.protocol {
+			width: 686rpx;
+			font-size: 24rpx;
+			color: rgb(102, 102, 102);
+			display: flex;
+			margin: 80rpx auto 0 auto;
+
+			image {
+				width: 40rpx;
+				height: 40rpx;
+				margin-right: 16rpx;
+			}
+			
+			text{
+				color: rgb(51, 51, 51);
+			}
+			
+		}
+
 		.topay {
 			width: 686rpx;
 			height: 88rpx;
@@ -425,7 +463,7 @@
 			text-align: center;
 			background: rgba(10, 198, 142, 0.5);
 			border-radius: 88rpx;
-			margin: 62rpx auto 0 auto;
+			margin: 12rpx auto 0 auto;
 		}
 
 		.selectPay {
