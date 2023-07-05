@@ -784,9 +784,9 @@
 		</view> -->
 
 		<view class="leftSider">
-			<view @click="showContact = true">
+			<!-- <view @click="showContact = true">
 				<image src="@/static/xuyuan/guanzhu.png" class="gz"></image>
-			</view>
+			</view> -->
 			<!-- 购物车 -->
 			<view>
 				<image src="/static/images/new-index/gwc.png" v-show="productId==1" class="gwc"
