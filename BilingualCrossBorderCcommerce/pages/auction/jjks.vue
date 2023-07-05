@@ -391,6 +391,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			uni.onLocaleChange((e) => {
 				this.applicationLocale = e.locale;
 			})
+
+			this.getAllProducts(1)
 		},
 		beforeDestroy() {
 
@@ -403,26 +405,30 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				this.addCartTimer = setTimeout(() => {
 					//检查库存
 					this.$http.post(this.$apiObj.CartList).then(res => {
-						res.data.data.forEach(data=>{
-							if(item.admin_id == data.admin_id){
-								data.goods.forEach(data2=>{
-									if(data2.goods_id == item.goods_id){
+						res.data.data.forEach(data => {
+							if (item.admin_id == data.admin_id) {
+								data.goods.forEach(data2 => {
+									if (data2.goods_id == item.goods_id) {
 										// console.log(data2.goods_id == item.goods_id)
-										if(data2.stock_num < (data2.num+1)){
+										if (data2.stock_num < (data2.num + 1)) {
 											uni.showToast({
 												title: '库存不足',
 												icon: 'none',
 												duration: 2000
 											})
-										}else{
+										} else {
 											this.$http.post(this.$apiObj.CartAdd, {
-												goods_spec_id: item.litestore_goods_spec[0].goods_spec_id,
+												goods_spec_id: item
+													.litestore_goods_spec[0]
+													.goods_spec_id,
 												num: 1
 											}).then(addRes => {
 												if (addRes.code == 1) {
 													uni.showToast({
 														icon: 'none',
-														title: this.isShopCont ? 'Successfully added to shopping cart' :
+														title: this
+															.isShopCont ?
+															'Successfully added to shopping cart' :
 															'加入购物车成功'
 													})
 												}
@@ -455,7 +461,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			toProductInfo(id) {
 				uni.setStorageSync('productInfo', true)
 				uni.navigateTo({
-					url: '/pages/auction/product_info?goodsId=' + id+'&type=2'
+					url: '/pages/auction/product_info?goodsId=' + id + '&type=2'
 				})
 			},
 			//切换选择分类
@@ -472,7 +478,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					page: this.page,
 					pagenum: this.pagenum,
 					category_id: id == 0 ? '' : id,
-					goods_listing_type:1
+					goods_listing_type: 1
 				}).then(res => {
 					if (res.code == 1) {
 						this.totalPageNum = res.data.total
@@ -482,11 +488,14 @@ NoR+zv3KaEmPSHtooQIDAQAB
 								if (!this.isShopCont) data.name = arr[0]
 								else data.name = arr[1]
 							})
+							if (item.is_belong_to_mall == 1 && item.goods_status == 10) {
+								this.productList = this.page == 1 ? res.data.data : [...this.productList,
+									...res.data.data
+								];
+							}
 						})
-						this.productList = this.page == 1 ? res.data.data : [...this.productList, ...res.data
-							.data
-						];
 					}
+
 				})
 			},
 			toClassify(item) {
