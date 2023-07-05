@@ -535,6 +535,54 @@
 			</view>
 		</uni-popup>
 		<!--支付成功弹出 end-->
+
+		<!-- 右侧固定栏 -->
+		<!-- <view class="leftSider" :class="[transformClass?'removeRightX':'removeLeftX','shopCart']">
+			<view class="imgArr" v-if="imgShow">
+				<view>
+					<img src="/static/images/mine/aixin.png" class="minImg" alt="">
+				</view>
+				<view class="people">
+					<img src="/static/images/mine/p.png" class="pImg" alt="">
+				</view>
+				<view>
+					<img src="/static/images/mine/listener.png" class="minImg" alt="">
+				</view>
+			</view>
+			<image src="/static/images/new-index/addImg.png" class="newListImgDeg" v-if="imgShow" @click="transformImg">
+			</image>
+			<image src="/static/images/new-index/addImg.png" class="newListImg" @click="transformImg" v-else></image>
+		</view> -->
+
+		<!-- 许愿 -->
+		<view class="containerXy">
+			<text class="txt">Wishing Items</text>
+			<text class="btn">have all that is necessary</text>
+			<view class="itemBox">
+				<view class="itemBox_a" v-for="item in 9" :key="item">
+					<img src="" alt="" class="itemImg">
+					<text class="title">Xiaomi 33W Power Bank...</text>
+					<view class="iconArr">
+						<view class="iconArr_item">
+							<img src="" alt="">
+							<text class="iconArr_txt">7.9K</text>
+						</view>
+						<view class="iconArr_item">
+							<img src="" alt="">
+							<text class="iconArr_txt">868</text>
+						</view>
+						<view class="iconArr_item">
+							<img src="" alt="">
+							<text class="iconArr_txt">24</text>
+						</view>
+					</view>
+					<view class="money">
+						<text class="fh">RM</text>
+						<text class="pay">199.0</text>
+					</view>
+				</view>
+			</view>
+		</view>
 	</view>
 </template>
 
@@ -551,6 +599,9 @@
 	export default {
 		data() {
 			return {
+				transformClass: false, //购物车icon是否添加平移效果
+				timer: '', //记录定时器状态
+				imgShow: true, //三个图标入口
 				useInvite: false, //是否使用赠金
 				can_use_invite_money_rate: 0, //可使用的增金比例
 				selectProtocol: false,
@@ -683,16 +734,25 @@
 			this.getProductOrJinpai()
 		},
 		onReachBottom() {
-			if (this.page * this.pagenum < this.totalPageNum && this.id == 1){
+			if (this.page * this.pagenum < this.totalPageNum && this.id == 1) {
 				this.page++;
 				this.onAuctionNewGoods();
-			}else if(this.page * this.pagenum < this.newTotalPageNum && this.id == 2){
+			} else if (this.page * this.pagenum < this.newTotalPageNum && this.id == 2) {
 				this.page++;
 				this.onAuctionNotbeginGoods();
-			}else if(this.page * this.pagenum < this.historyTotalPageNum && this.id == 3){
+			} else if (this.page * this.pagenum < this.historyTotalPageNum && this.id == 3) {
 				this.page++;
 				this.onAuctionHistoryGoods();
 			}
+		},
+		//监听页面滚动
+		onPageScroll(e) {
+			this.transformClass = true
+			clearTimeout(this.timer) //每次滚动前 清除一次
+			// 如果停留则表示滚动结束  一旦空了1s就判定为滚动结束
+			this.timer = setTimeout(() => {
+				this.transformClass = false //滚动结束清除class类名
+			}, 1000)
 		},
 		methods: {
 			getProductOrJinpai() {
@@ -1037,6 +1097,168 @@
 </script>
 
 <style lang="less" scoped>
+	//右侧固定栏滚动
+	.removeRightX {
+		transform: translateX(80rpx);
+		transition: all 0.5s ease;
+	}
+
+	.removeLeftX {
+		transform: translateX(0);
+		transition: all 0.5s ease;
+	}
+
+	.leftSider {
+		position: fixed;
+		right: 32rpx; //-50
+		bottom: 200rpx;
+		z-index: 100;
+
+		.newListImg {
+			width: 92rpx;
+			height: 92rpx;
+		}
+
+		.newListImgDeg {
+			width: 92rpx;
+			height: 92rpx;
+			margin-top: 30rpx;
+			transform: rotate(-45deg);
+		}
+
+		//三个入口
+		.imgArr {
+			background: #fff;
+			width: 92rpx;
+			height: 280rpx;
+			border-radius: 45rpx;
+			box-shadow: 0 0 20rpx rgba(198, 198, 198, 0.3);
+			text-align: center;
+
+			.people {
+				margin-top: 30rpx;
+
+				.pImg {
+					width: 45rpx;
+					height: 40rpx;
+				}
+			}
+
+			.minImg {
+				width: 45rpx;
+				height: 45rpx;
+				text-align: center;
+				margin-top: 40rpx;
+			}
+		}
+
+	}
+
+	.containerXy {
+		width: 100%;
+		text-align: center;
+
+		.txt {
+			color: rgb(255, 255, 255);
+			background: #000;
+			font-family: SF Pro Display;
+			font-size: 50rpx;
+			padding-top: 50rpx;
+			display: block;
+		}
+
+		.btn {
+			width: 340rpx;
+			height: 48rpx;
+			box-sizing: border-box;
+			background: rgb(255, 255, 255);
+			border-radius: 50rpx;
+			border: 1px solid rgb(255, 57, 57);
+			display: block;
+			margin: auto;
+			margin-top: 30rpx;
+			color: rgb(255, 57, 57);
+			line-height: 40rpx;
+			font-size: 24rpx;
+		}
+
+		.itemBox {
+			width: 92%;
+			margin: auto;
+			margin-top: 30rpx;
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: space-between;
+
+			.itemBox_a {
+				width: 336rpx;
+				height: 510rpx;
+				border: 1px solid red;
+				border-radius: 20rpx;
+				margin-bottom: 20rpx;
+				background: #fff;
+
+				.itemImg {
+					width: 336rpx;
+					height: 336rpx;
+					background: gray;
+					border-radius: 20rpx 20rpx 0 0;
+					margin-bottom: 20rpx;
+				}
+
+				.title {
+					width: 296rpx;
+					color: #333;
+					font-size: 24rpx;
+					font-weight: bold;
+					white-space: nowrap; //禁止换行
+					overflow: hidden;
+					text-overflow: ellipsis; //...		
+				}
+
+				.iconArr {
+					width: 80%;
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
+					margin: auto;
+					margin-top: 10rpx;
+
+					img {
+						width: 20rpx;
+						height: 20rpx;
+						background: red;
+						vertical-align: middle;
+						margin-right: 8rpx;
+					}
+
+					.iconArr_item {
+						width: 100rpx;
+						border-right: 1px solid #e8e8e8;
+					}
+
+					.iconArr_item:nth-child(3) {
+						border: none;
+					}
+				}
+
+				.money {
+					color: rgb(255, 57, 57);
+					margin-top: 20rpx;
+					font-weight: bold;
+
+					.fh {
+						font-size: 20rpx;
+					}
+
+					.pay {
+						font-size: 30rpx;
+					}
+				}
+			}
+		}
+	}
+
 	.auction-page {
 		width: 100%;
 		background: #FFFFFF;

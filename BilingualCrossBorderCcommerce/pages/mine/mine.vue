@@ -102,7 +102,8 @@
 				</view>
 				<view class="container-btn">
 					<!-- <view class="container-btn-withdrawal" @click="navClick('Withdrawal')">{{$t('user.wallet.tixian')}}</view> -->
-					<view class="container-btn-recharge" @click="navClick('/pages/mine/K_brick_detail')">{{$t('top.cz')}}</view>
+					<view class="container-btn-recharge" @click="navClick('/pages/mine/K_brick_detail')">
+						{{$t('top.cz')}}</view>
 				</view>
 			</view>
 		</view>
@@ -306,6 +307,24 @@
 				</view>
 			</view>
 		</u-popup>
+
+		<!-- 右侧固定栏 -->
+<!-- 		<view class="leftSider" :class="[transformClass?'removeRightX':'removeLeftX','shopCart']">
+			<view class="imgArr" v-if="imgShow">
+				<view>
+					<img src="/static/images/mine/aixin.png" class="minImg" alt="">
+				</view>
+				<view class="people">
+					<img src="/static/images/mine/p.png" class="pImg" alt="">
+				</view>
+				<view>
+					<img src="/static/images/mine/listener.png" class="minImg" alt="">
+				</view>
+			</view>
+			<image src="/static/images/new-index/addImg.png" class="newListImgDeg" v-if="imgShow" @click="transformImg">
+			</image>
+			<image src="/static/images/new-index/addImg.png" class="newListImg" @click="transformImg" v-else></image>
+		</view> -->
 	</view>
 </template>
 
@@ -314,10 +333,13 @@
 <script src="./jssocials-1.4.0/jssocials.min.js"></script>
 <script>
 	import tool from "@/utils/tool.js"
-	
+
 	export default {
 		data() {
 			return {
+				transformClass: false, //购物车icon是否添加平移效果
+				timer: '', //记录定时器状态
+				imgShow: true, //三个图标入口
 				userCont: '', // 个人信息
 				showContact: false,
 				showConfirm: false,
@@ -356,7 +378,7 @@
 			uni.removeStorageSync('productId')
 			uni.removeStorageSync('switch_id')
 			uni.removeStorageSync('jinpaiId')
-			
+
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false;
 			if (uni.getStorageSync('token')) {
 				this.isLogin = true;
@@ -487,11 +509,77 @@
 					}
 				})
 			},
-		}
+		},
+		//监听页面滚动
+		onPageScroll(e) {
+			this.transformClass = true
+			clearTimeout(this.timer) //每次滚动前 清除一次
+			// 如果停留则表示滚动结束  一旦空了1s就判定为滚动结束
+			this.timer = setTimeout(() => {
+				this.transformClass = false //滚动结束清除class类名
+			}, 1000)
+		},
 	}
 </script>
 
 <style lang="less" scoped>
+	//右侧固定栏滚动
+	.removeRightX {
+		transform: translateX(80rpx);
+		transition: all 0.5s ease;
+	}
+
+	.removeLeftX {
+		transform: translateX(0);
+		transition: all 0.5s ease;
+	}
+
+	.leftSider {
+		position: fixed;
+		right: 32rpx; //-50
+		bottom: 200rpx;
+		z-index: 100;
+
+		.newListImg {
+			width: 92rpx;
+			height: 92rpx;
+		}
+
+		.newListImgDeg {
+			width: 92rpx;
+			height: 92rpx;
+			margin-top: 30rpx;
+			transform: rotate(-45deg);
+		}
+
+		//三个入口
+		.imgArr {
+			background: #fff;
+			width: 92rpx;
+			height: 280rpx;
+			border-radius: 45rpx;
+			box-shadow: 0 0 20rpx rgba(198, 198, 198, 0.3);
+			text-align: center;
+
+			.people {
+				margin-top: 30rpx;
+
+				.pImg {
+					width: 45rpx;
+					height: 40rpx;
+				}
+			}
+
+			.minImg {
+				width: 45rpx;
+				height: 45rpx;
+				text-align: center;
+				margin-top: 40rpx;
+			}
+		}
+
+	}
+
 	.mine-layout {
 		width: 100%;
 		min-height: 100vh;
@@ -771,7 +859,7 @@
 								display: flex;
 								justify-content: center;
 								align-items: center;
-								
+
 								image {
 									width: 28rpx;
 								}
