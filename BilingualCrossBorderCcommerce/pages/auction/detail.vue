@@ -3,7 +3,7 @@
 		<view class="detail-header" :style="`background: rgba(255,255,255,${myOpacity});`">
 			<view class="detail-head">
 				<image src="@/static/images/new-index/detail_btn_back.png" class="return" @click="toIndex()"></image>
-				<image src="@/static/images/new-index/detail_btn_car.png" class="gwc" @click="toMyCart()"></image>
+				<!-- <image src="@/static/images/new-index/detail_btn_car.png" class="gwc" @click="toMyCart()"></image> -->
 				<image src="@/static/images/new-index/detail_btn_share.png" class="fx" @click="onfenxingShow=true"></image>
 				<view :style="`opacity: ${myOpacity};`">{{$t('top.jpxq')}}</view>
 			</view>
@@ -348,12 +348,12 @@
 				</view>
 			</view> -->
 			<view class="bottom-layout">
-				<view class="bl-left">
+				<!-- <view class="bl-left">
 					<view class="bl-left-box" @click="toMyCart()">
 						<image src="@/static/images/new-index/detail_btn_car2.png" mode="widthFix"></image>
 						<p>My Cart</p>
 					</view>
-				</view>
+				</view> -->
 				<view class="bl-right">
 					<!-- <view class="bl-right-buy" @click="toPay()">
 						<p class="buy-name">Buy Now</p>
@@ -3123,7 +3123,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			padding: 6rpx 32rpx;
 			box-sizing: border-box;
 			display: flex;
-			justify-content: space-between;
+			justify-content: flex-end;
 			align-items: center;
 			position: fixed;
 			left: 0;

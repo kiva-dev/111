@@ -3,7 +3,7 @@
 		<view class="detail-header" :style="`background: rgba(255,255,255,${myOpacity});`">
 			<view class="detail-head">
 				<image src="@/static/images/new-index/detail_btn_back.png" class="return" @click="toIndex()"></image>
-				<image src="@/static/images/new-index/detail_btn_car.png" class="gwc" @click="toMyCart()"></image>
+				<!-- <image src="@/static/images/new-index/detail_btn_car.png" class="gwc" @click="toMyCart()"></image> -->
 				<image src="@/static/images/new-index/detail_btn_share.png" class="fx" @click="onfenxingShow=true"></image>
 				<view :style="`opacity: ${myOpacity};`">{{$t('top.shop')}}</view>
 			</view>
