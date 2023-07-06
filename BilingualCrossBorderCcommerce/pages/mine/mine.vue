@@ -125,19 +125,19 @@
 			</view>
 			<view class="ml-auction-content">
 				<view class="content-box" @click="toAuction(1)">
-					<image src="@/static/xuyuan/hd.png" mode="widthFix"></image>
-					<p>{{$t('tab.xyz')}}</p>
+					<image src="@/static/images/mine/ongoing.png" mode="widthFix"></image>
+					<p>{{$t('tab.zzxy')}}</p>
 				</view>
 				<view class="content-box" @click="toAuction(5)">
-					<image src="@/static/xuyuan/hdt.png" mode="widthFix"></image>
+					<image src="@/static/images/mine/wishing_orders.png" mode="widthFix"></image>
 					<p>{{$t('tab.Wishorder')}}</p>
 				</view>
 				<view class="content-box" @click="toAuction(3)">
-					<image src="@/static/images/mine/mine_icon_winning.png" mode="widthFix"></image>
+					<image src="@/static/images/mine/luck_record.png" mode="widthFix"></image>
 					<p>{{$t('user.auctionM.zpjl')}}</p>
 				</view>
 				<view class="content-box" @click="toAuction(4)">
-					<image src="@/static/images/mine/mine_icon_records.png" mode="widthFix"></image>
+					<image src="@/static/images/mine/wish_record.png" mode="widthFix"></image>
 					<p>{{$t('tab.record')}}</p>
 				</view>
 			</view>

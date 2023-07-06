@@ -240,7 +240,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				email_code: '', // 邮箱验证码
 				second: 120,
 				codeTxt: this.$t('login.hqyzm'),
-				seconds: 60,
+				seconds: 120,
 				codeTxt1: this.$t('login.hqyzm'),
 				isQuanShow: false,
 				isShopCont: false, // 中文还是英文
@@ -346,7 +346,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					this.codeTxt1 = this.seconds + 'S'
 					if (this.seconds < 0) {
 						clearInterval(this.results)
-						this.seconds = 60
+						this.seconds = 120
 						this.codeTxt1 = this.$t('login.hqyzm')
 					}
 				}, 1000)
@@ -365,20 +365,18 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					title: this.$t('login.qsrmm'),
 					icon: 'none'
 				})
+				if (this.pwd) {
+					let reg =/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d\W_]{8,16}$/
+				
+					if (!reg.test(this.pwd)) return uni.showToast({
+						title: this.$t('pwdcd'),
+						icon: 'none'
+					})
+				}
 				if (!this.pwd2) return uni.showToast({
 					title: this.$t('login.qqrmm'),
 					icon: 'none'
 				})
-				if (this.mobile_area_code == 86) {
-					if (this.mobile) {
-						var reg_tel =
-							/^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/ //11位手机号码正则
-						if (!reg_tel.test(this.mobile)) return uni.showToast({
-							title: this.$t('login.qsrzqsjh'),
-							icon: 'none'
-						})
-					}
-				}
 				if (this.pwd !== this.pwd2) return uni.showToast({
 					title: this.$t('login.lcmmbyzqcxsr'),
 					icon: 'none'

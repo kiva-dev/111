@@ -7,7 +7,7 @@
 			</view>
 		</view>
 		<view class="ap-switch">
-			<view :class="type === 1 ? 'active':''" @click="onTypeClcik(1)">{{$t('tab.xyz')}}</view>
+			<view :class="type === 1 ? 'active':''" @click="onTypeClcik(1)">{{$t('tab.zzxy')}}</view>
 			<template v-if="navId==1">
 				<view :class="type === 5 ? 'active':''" @click="onTypeClcik(5)">{{$t('tab.Wishorder')}}</view>
 			</template>
