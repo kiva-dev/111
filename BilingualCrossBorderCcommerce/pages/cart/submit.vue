@@ -462,7 +462,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							if (this.MineCont.length < 1) return uni.showToast({
 								icon: 'none',
 								title: this.$t('smrz'),
-								duration:3000
+								duration: 3000
 							})
 							if (this.MineCont.status == 0) return uni.showToast({
 								icon: 'none',
@@ -480,7 +480,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							// 3方支付
 							this.$http.post(this.$apiObj.OrderMalaysiaPay, {
 								major_no: res.data.major_no ? res.data.major_no : res.data.order_no,
-								money: price * 1
+								money: price * 1,
+								data: JSON.stringify(this.OrderList)
 							}).then(res => {
 								if (res.code == 1) {
 									const formStr = `<form action="${res.data.action_url}" method="POST" >
@@ -553,6 +554,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					order_no: this.order_no, // 小订单号
 					money: price * 1, // 支付总金额
 					pay_pwd: pay_pwd, // rsa加密后的支付密码
+					data: JSON.stringify(this.OrderList)
 				}).then(res => {
 					if (res.code == 1) {
 						uni.showToast({
