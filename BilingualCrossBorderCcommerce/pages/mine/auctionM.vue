@@ -537,7 +537,7 @@
 		},
 		methods: {
 			toAwardDetail(item) {
-				if (item.select_way == 2) {
+				if (item.select_way == 2 && item.win) {
 					uni.navigateTo({
 						url: '/pages/mine/order/award_details?id=' + item.id
 					})

@@ -71,17 +71,6 @@
 								<image src="../../static/images/new-index/xx.png"></image>
 								<view>{{item.litestore_goods_focus_total}}</view>
 							</view>
-<<<<<<< Updated upstream
-							<view class="new-list-item-right-start-info" :class="item.litestore_goods_comment_total?'new-list-item-right-start-info':'new-list-item-right-start-info2'">
-								<image src="../../static/images/new-index/xcz.png"></image>
-								<view>{{item.auction_goods_total}}</view>
-							</view>
-							<view class="new-list-item-right-start-info" v-if="item.litestore_goods_comment_total">
-								<image src="../../static/images/new-index/pl.png"></image>
-								<view>{{item.litestore_goods_comment_total}}</view>
-							</view>
-=======
->>>>>>> Stashed changes
 						</view>
 
 						<view class="new-list-item-btm">
@@ -118,19 +107,6 @@
 								<image src="/static/images/new-index/xx.png"></image>
 								<view>{{item.litestore_goods_focus_total}}</view>
 							</view>
-<<<<<<< Updated upstream
-
-							<view class="info-tag" :class="item.litestore_goods_comment_total?'info-tag':'info-tag2'">
-								<image src="/static/images/new-index/xcz.png"></image>
-								<view>{{item.auction_goods_total}}</view>
-							</view>
-
-							<view class="info-tag" v-if="item.litestore_goods_comment_total">
-								<image src="/static/images/new-index/pl.png"></image>
-								<view>{{item.litestore_goods_comment_total}}</view>
-							</view>
-=======
->>>>>>> Stashed changes
 						</view>
 
 
