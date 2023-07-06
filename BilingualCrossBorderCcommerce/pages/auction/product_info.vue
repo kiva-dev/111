@@ -652,7 +652,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					if (res.code == 1) {
 						uni.showToast({
 							icon: 'none',
-							title: this.isShopCont ? 'Successfully added to shopping cart' : '加入购物车成功'
+							title: this.isShopCont ? 'Order submitted successfully' : '提交订单成功'
 						})
 					}
 				})
@@ -1139,7 +1139,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					if (res.code == 1) {
 						uni.showToast({
 							icon: 'none',
-							title: this.$t('auction.detail.success')
+							title:this.shopCont.goods_focus? this.$t('auction.detail.err'):this.$t('auction.detail.success')
 						})
 						this.getProductInfo()
 					}

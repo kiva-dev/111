@@ -188,12 +188,12 @@
 							</block>
 						</view>
 
-						<!-- <view class="new-list-item-right-start" :style="productId==1 ? 'top: 158rpx;':''">
+						<view class="new-list-item-right-start" :style="productId==1 ? 'top: 158rpx;':''">
 							<view class="new-list-item-right-start-info">
 								<image src="../../static/images/new-index/xx.png"></image>
 								<view>{{item.litestore_goods_focus_total}}</view>
 							</view>
-						</view> -->
+						</view>
 
 						<view class="new-list-item-right-jd" v-if="productId==2">
 							<view class="new-list-item-right-jd-data">
@@ -259,12 +259,12 @@
 						<image :src="item.image" class="info-img"></image>
 						<view class="info-tit">{{item.goods_name}}</view>
 
-						<!-- <view class="info-tags">
+						<view class="info-tags">
 							<view class="info-tag">
 								<image src="/static/images/new-index/xx.png"></image>
 								<view>{{item.litestore_goods_focus_total}}</view>
 							</view>
-						</view> -->
+						</view>
 
 						<view class="info-jd" v-if="productId==2">
 							<image src="/static/images/new-index/select-jd.png"

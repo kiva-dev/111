@@ -1339,6 +1339,10 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					data_id: this.shopCont.goods_id
 				}).then(res => {
 					if (res.code == 1) {
+						uni.showToast({
+							icon: 'none',
+							title:this.shopCont.goods_focus? this.$t('auction.detail.err'):this.$t('auction.detail.success')
+						})
 						this.getProductInfo()
 					}
 				})
