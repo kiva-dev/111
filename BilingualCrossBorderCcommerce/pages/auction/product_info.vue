@@ -3,7 +3,7 @@
 		<view class="detail-header" :style="`background: rgba(255,255,255,${myOpacity});`">
 			<view class="detail-head">
 				<image src="@/static/images/new-index/detail_btn_back.png" class="return" @click="toIndex()"></image>
-				<image src="@/static/images/new-index/detail_btn_car.png" class="gwc"></image>
+				<image src="@/static/images/new-index/detail_btn_car.png" class="gwc" @click="toMyCart()"></image>
 				<image src="@/static/images/new-index/detail_btn_share.png" class="fx"></image>
 				<view :style="`opacity: ${myOpacity};`">{{$t('top.shop')}}</view>
 			</view>
@@ -40,21 +40,21 @@
 
 			</view>
 
-			<view class="operate-layout">
-				<view class="ol-container" @click="onFocusProduct">
+			<view class="operate-layout" v-if="false">
+				<!-- <view class="ol-container" @click="onFocusProduct">
 					<image
 						:src="shopCont.goods_focus == 0 ? require('@/static/images/new-index/detail_icon_collect.png') : require('@/static/images/new-index/detail_icon_iscollect.png')"
 						mode="widthFix"></image>
 					<p>{{shopCont.litestore_goods_focus_total}}</p>
-				</view>
-				<view class="ol-container">
+				</view> -->
+				<!-- <view class="ol-container">
 					<image src="@/static/images/new-index/detail_icon_clap.png" mode="widthFix"></image>
 					<p>{{shopCont.auction_goods_total}}</p>
-				</view>
-				<view class="ol-container">
+				</view> -->
+				<!-- <view class="ol-container">
 					<image src="@/static/images/new-index/detail_icon_share.png" mode="widthFix"></image>
 					<p>{{shopCont.appear_want_num}}</p>
-				</view>
+				</view> -->
 			</view>
 			<view class="select-layout">
 				<!--@click="$refs.specsPopup.open()"-->
@@ -93,7 +93,8 @@
 					</view>
 				</view>
 			</view>
-			<view class="detail-comment">
+			
+			<!-- <view class="detail-comment">
 				<div id="div2"></div>
 				<view class="detail-comment-head">
 					<view class="detail-comment-tit">{{$t('newDetail.pinglun')}} <span>（{{JudgeList.length}}）</span>
@@ -124,7 +125,8 @@
 				<block v-else>
 					<view class="detail-comment-not">{{$t('newDetail.not')}}</view>
 				</block>
-			</view>
+			</view> -->
+			
 			<!--店铺信息-->
 			<view class="detail-five">
 				<view class="five-hd">
@@ -287,6 +289,12 @@
 			</view>
 			<!--底部 start-->
 			<view class="bottom-layout">
+				<view class="bl-left" @click="onFocusProduct()">
+					<view class="bl-left-box">
+						<image :src="shopCont.goods_focus == 0 ? require('@/static/images/auction/sc.png') : require('@/static/images/auction/sc1.png')" mode="widthFix"></image>
+						<p>{{$t('auction.shoucang')}}</p>
+					</view>
+				</view>
 				<view class="bl-left" @click="toMyCart()">
 					<view class="bl-left-box">
 						<image src="@/static/images/new-index/detail_btn_car2.png" mode="widthFix"></image>
@@ -436,10 +444,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				navList: [{
 					id: 1,
 					title: this.$t('newDetail.shangpin')
-				}, {
-					id: 2,
-					title: this.$t('newDetail.pinglun')
-				}, {
+				},{
 					id: 3,
 					title: this.$t('newDetail.xianqin')
 				}],
@@ -520,17 +525,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 		},
 		onShow() {
-			if (uni.getStorageSync('token')) {
-				this.getAllAddress()
-				this.$http.post(this.$apiObj.MineInfo).then(res => {
-					if (res.code == 1) {
-						this.qrUrl = 'https://h5.kolibrimall.com/h5/#/pages/auction/detail?id=' + e.id +
-							'&invite_code=' + res.data.invite_code // 生成二维码的链接
-					}
-				})
-			} else {
-				this.qrUrl = 'https://h5.kolibrimall.com/h5/#/pages/auction/detail?id=' + e.id // 生成二维码的链接
-			}
+			
 		},
 		onHide() {
 			clearInterval(this.timer)
@@ -544,7 +539,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			}
 			if (!this.isClick) {
 				if (res.scrollTop >= this.heightList[0] && res.scrollTop < this.heightList[1]) this.navId = 1
-				else if (res.scrollTop >= this.heightList[1] && res.scrollTop < this.heightList[2]) this.navId = 2
+				// else if (res.scrollTop >= this.heightList[1] && res.scrollTop < this.heightList[2]) this.navId = 2
 				else if (res.scrollTop >= this.heightList[2]) this.navId = 3
 				// else this.navId = 4
 			}
@@ -1771,7 +1766,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			text-align: center;
 
 			.li {
-				width: 25%;
+				width: 50%;
 				font-size: 26rpx;
 				text-align: center;
 				position: relative;

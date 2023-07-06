@@ -200,7 +200,6 @@
 											</view>
 										</template>
 										<template v-if="item.status === 6 && item.is_complain === 1">
-
 											<view class="r-button-gray" @click.stop="toAppealDetail(item)">
 												{{$t('user.auctionM.viewAppeal')}}
 											</view>
@@ -537,7 +536,7 @@
 		},
 		methods: {
 			toAwardDetail(item) {
-				if (item.select_way == 2 && item.win) {
+				if (item.select_way == 2 && item.win == 1 && item.is_complain!=1) {
 					uni.navigateTo({
 						url: '/pages/mine/order/award_details?id=' + item.id
 					})
