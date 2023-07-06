@@ -262,12 +262,12 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				pwd: '', // 密码
 				pwd2: '', // 再次输入的密码
 				email_code: '', // 邮箱验证码
-				second: 60,
+				second: 120,
 				codeTxt: this.$t('login.hqyzm'),
 				mobile: '', // 手机号
 				code: '', // 手机验证码
 				mobile_area_code: '', // 区号
-				seconds: 60,
+				seconds: 120,
 				codeTxt1: this.$t('login.hqyzm'),
 				isShopCont: false, // 中文还是英文
 				isOnSendEmail:false,
@@ -410,7 +410,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					this.codeTxt1 = this.seconds + 'S'
 					if (this.seconds < 0) {
 						clearInterval(this.results)
-						this.seconds = 60
+						this.seconds = 120
 						this.codeTxt1 = this.$t('login.hqyzm')
 					}
 				}, 1000)
@@ -421,14 +421,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					title: this.$t('login.qsrsjh'),
 					icon: 'none'
 				})
-				if (this.mobile) {
-					var reg_tel =
-						/^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/ //11位手机号码正则
-					if (!reg_tel.test(this.mobile)) return uni.showToast({
-						title: this.$t('login.qsrzqsjh'),
-						icon: 'none'
-					})
-				}
 				if (!this.email_code) return uni.showToast({
 					title: this.$t('login.qsryzm'),
 					icon: 'none'
@@ -499,7 +491,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					this.codeTxt = this.second + 'S'
 					if (this.second < 0) {
 						clearInterval(this.result)
-						this.second = 60
+						this.second = 120
 						this.codeTxt = this.$t('login.hqyzm')
 					}
 				}, 1000)
