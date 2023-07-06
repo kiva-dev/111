@@ -71,6 +71,7 @@
 								<image src="../../static/images/new-index/xx.png"></image>
 								<view>{{item.litestore_goods_focus_total}}</view>
 							</view>
+<<<<<<< Updated upstream
 							<view class="new-list-item-right-start-info" :class="item.litestore_goods_comment_total?'new-list-item-right-start-info':'new-list-item-right-start-info2'">
 								<image src="../../static/images/new-index/xcz.png"></image>
 								<view>{{item.auction_goods_total}}</view>
@@ -79,6 +80,8 @@
 								<image src="../../static/images/new-index/pl.png"></image>
 								<view>{{item.litestore_goods_comment_total}}</view>
 							</view>
+=======
+>>>>>>> Stashed changes
 						</view>
 
 						<view class="new-list-item-btm">
@@ -115,6 +118,7 @@
 								<image src="/static/images/new-index/xx.png"></image>
 								<view>{{item.litestore_goods_focus_total}}</view>
 							</view>
+<<<<<<< Updated upstream
 
 							<view class="info-tag" :class="item.litestore_goods_comment_total?'info-tag':'info-tag2'">
 								<image src="/static/images/new-index/xcz.png"></image>
@@ -125,6 +129,8 @@
 								<image src="/static/images/new-index/pl.png"></image>
 								<view>{{item.litestore_goods_comment_total}}</view>
 							</view>
+=======
+>>>>>>> Stashed changes
 						</view>
 
 
@@ -374,14 +380,18 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			if (uni.getStorageSync('token')) {
 				this.isLogin = true
 			}
-			this.id = 2
-			this.title = this.$t('new.jjks')
-
-			this.getProductOrJinpai()
+			if (!uni.getStorageSync('productInfo')) {
+				uni.pageScrollTo({
+					scrollTop: 0,
+					duration: 0
+				})
+				this.getAllProducts(this.switch_id)
+			}
 
 		},
 		onHide() {
 			this.selectProductsId = 0
+			clearTimeout(this.addCartTimer)
 		},
 		onLoad() {
 			let systemInfo = uni.getSystemInfoSync();
@@ -391,8 +401,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			uni.onLocaleChange((e) => {
 				this.applicationLocale = e.locale;
 			})
-
-			this.getAllProducts(1)
 		},
 		beforeDestroy() {
 
@@ -400,50 +408,25 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		methods: {
 			//添加购物车
 			addCart(item) {
-				console.log(item)
 				clearTimeout(this.addCartTimer)
 				this.addCartTimer = setTimeout(() => {
-					//检查库存
-					this.$http.post(this.$apiObj.CartList).then(res => {
-						res.data.data.forEach(data => {
-							if (item.admin_id == data.admin_id) {
-								data.goods.forEach(data2 => {
-									if (data2.goods_id == item.goods_id) {
-										// console.log(data2.goods_id == item.goods_id)
-										if (data2.stock_num < (data2.num + 1)) {
-											uni.showToast({
-												title: '库存不足',
-												icon: 'none',
-												duration: 2000
-											})
-										} else {
-											this.$http.post(this.$apiObj.CartAdd, {
-												goods_spec_id: item
-													.litestore_goods_spec[0]
-													.goods_spec_id,
-												num: 1
-											}).then(addRes => {
-												if (addRes.code == 1) {
-													uni.showToast({
-														icon: 'none',
-														title: this
-															.isShopCont ?
-															'Successfully added to shopping cart' :
-															'加入购物车成功'
-													})
-												}
-											})
-										}
-									}
-								})
-							}
-						})
+					this.$http.post(this.$apiObj.CartAdd, {
+						goods_spec_id: item
+							.litestore_goods_spec[0]
+							.goods_spec_id,
+						num: 1
+					}).then(addRes => {
+						if (addRes.code == 1) {
+							uni.showToast({
+								icon: 'none',
+								title: this
+									.isShopCont ?
+									'Successfully added to shopping cart' : '加入购物车成功'
+							})
+						}
 					})
 				}, 1000)
-			},
-			//获取当前展示普通商品还是竞拍商品
-			getProductOrJinpai() {
-				this.getAllProducts(this.switch_id)
+
 			},
 			getCaption(str, state) {
 				if (state == 1) {

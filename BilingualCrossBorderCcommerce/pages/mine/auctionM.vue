@@ -128,7 +128,8 @@
 					<image class="luck-zpjl-banner" v-if="!isShopCont" src="../../static/images/auction/gxzj.png">
 					</image>
 					<image class="luck-zpjl-banner" v-else src="../../static/images/new/xyzx1.png"></image>
-					<view class="luck-zpjl-item" v-for="(item,index) in LuckyList" :key="item.id" @click="toAwardDetail(item)">
+					<view class="luck-zpjl-item" v-for="(item,index) in LuckyList" :key="item.id"
+						@click="toAwardDetail(item)">
 						<view class="item-cover">
 							<image :src="item.image" mode="aspectFill"></image>
 						</view>
@@ -188,17 +189,21 @@
 										<template v-if="item.status === 5">
 											<template v-if="item.is_complain === 0">
 												<view class="r-button-gray" @click.stop="onAfterSale(item)">
-													{{$t('user.auctionM.appeal')}}</view>
+													{{$t('user.auctionM.appeal')}}
+												</view>
 											</template>
 											<!-- <template v-else>
 												<view class="r-button-gray" @click.stop="toAppealDetail(item)">{{$t('user.auctionM.viewAppeal')}}</view>
 											</template> -->
 											<view class="r-button-border" @click.stop="onConfirmOrder(item)">
-												{{$t('user.auctionM.confirmOrder')}}</view>
+												{{$t('user.auctionM.confirmOrder')}}
+											</view>
 										</template>
-										<template v-if="item.status === 6">
-											<!-- <view class="r-button-gray" @click.stop="toDetail(item.order_no)">{{$t('user.auctionM.award')}}</view> -->
-											<view class="r-button-gray" @click.stop="toAppealDetail(item)">{{$t('user.auctionM.viewAppeal')}}</view>
+										<template v-if="item.status === 6 && item.is_complain === 1">
+
+											<view class="r-button-gray" @click.stop="toAppealDetail(item)">
+												{{$t('user.auctionM.viewAppeal')}}
+											</view>
 										</template>
 									</view>
 								</view>
@@ -309,7 +314,8 @@
 		<!--我的竞拍-竞拍记录 auct-box start-->
 		<view class="auct-box" v-if="type == 4">
 			<template v-if="recordList && recordList.length">
-				<view class="order-item" v-for="item in recordList" :key="item.id" @click="toDetailInfo(item.auction_goods_id)">
+				<view class="order-item" v-for="item in recordList" :key="item.id"
+					@click="toDetailInfo(item.auction_goods_id)">
 					<view class="order-item-status" style="background: #FF3939;" v-if="item.win === '0'">
 						{{$t('user.auctionM.going')}}
 					</view>
@@ -349,7 +355,7 @@
 									<image :src="item.shop_logo" mode="widthFix"></image>
 									<p>{{item.shop_name}}</p>
 								</view>
-								<view class="info-detail-right">{{$filter.to_date_time(item.pay_time)}}</view>
+								<view class="info-detail-right">{{$u.timeFormat(item.pay_time, 'yyyy/mm/dd')}}</view>
 							</view>
 						</view>
 					</view>
@@ -520,36 +526,31 @@
 		},
 		onShow() {
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false;
-			if (this.navId == 1) {
-				// 我的竞拍
-				this.onMineAttendAuction();
-				// 中拍记录
-				setTimeout(() => {
-					this.onMineWinAuction();
-				}, 500);
-				// 竞拍记录
-				this.onMineRecordList();
-				this.AuctionorderMineOrder();
-			} else {
-				// 我的竞拍
-				this.onMineFocusAuction();
-				// 中拍记录
-				this.onMineFocusWinAuction();
-			}
+			// 我的竞拍
+			this.onMineAttendAuction();
+
+			this.onMineWinAuction();
+
+			this.onMineRecordList();
+			this.AuctionorderMineOrder();
+
 		},
 		methods: {
-			toAwardDetail(item){
-				if(item.select_way == 2){
+			toAwardDetail(item) {
+				if (item.select_way == 2) {
 					uni.navigateTo({
-						url:'/pages/mine/order/award_details?id='+item.id
+						url: '/pages/mine/order/award_details?id=' + item.id
 					})
 				}
-				
+
 			},
 			toAppealDetail(item) {
-				uni.navigateTo({
-					url: '/pages/mine/order/appeal?info=' + JSON.stringify(item)
-				});
+				if (item.is_complain === 1) {
+					uni.navigateTo({
+						url: '/pages/mine/order/appeal?info=' + JSON.stringify(item)
+					});
+				}
+
 			},
 			toAuctionDetail(id) {
 				uni.navigateTo({
@@ -611,9 +612,9 @@
 					url: '/pages/mine/auctionDetail?orderNo=' + id
 				})
 			},
-			toDetailInfo(id){
+			toDetailInfo(id) {
 				uni.navigateTo({
-					url:'/pages/auction/detail?id='+id
+					url: '/pages/auction/detail?id=' + id
 				})
 			},
 			tomine() {
@@ -1634,9 +1635,9 @@
 							width: 100%;
 							display: flex;
 							align-items: center;
-							
-							image{
-								width:24rpx;
+
+							image {
+								width: 24rpx;
 								height: 24rpx;
 							}
 

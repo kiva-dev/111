@@ -284,7 +284,7 @@
 									<view class="protocol_info">
 										<view class="protocol_txt1">{{$t('auction.detail.brywqydbty')}}</view>
 										<navigator url="../mine/jpxy" hover-class="none" class="protocol_txt2">
-											《{{$t('auction.detail.jphdgommzxy')}}》
+											{{$t('auction.detail.jphdgommzxy')}}
 										</navigator>
 									</view>
 
@@ -441,7 +441,7 @@
 						<view class="pay-pwd-list-cancel" @click="$refs.payPopup.close()">{{$t('auction.detail.query')}}
 						</view>
 						<view class="pay-pwd-list-ok" @click="onQiangpai" v-if="isShowAegin">
-							{{$t('auction.detail.zaipaiyd')}}
+							{{$t('tab.xy')}}
 						</view>
 					</view>
 				</view>
@@ -700,8 +700,7 @@
 				} else if (this.auction_num != '-1' && this.isauctionNum <= this.auction_num) {
 					let arr = this.isauctionNum.split('.')
 					if (arr.length > 1) this.isauctionNum = arr[0]
-					else this.isauctionNum = this.auction_num
-				} else if (this.auction_num != '-1' && this.isauctionNum > this.auction_num) {
+				}else if(this.auction_num != '-1' && this.isauctionNum > this.auction_num){
 					this.isauctionNum = this.auction_num
 				}
 			},

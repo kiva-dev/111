@@ -148,18 +148,18 @@
 				<view style="display: flex;">
 					<view class="ll-header-right" v-if="id !== 3">
 						<view class="right-icon">
-							<image v-if="selectId !== 1" src="/static/images/new-index/sx.png" mode="widthFix"
-								@click="selectId = 1"></image>
+							<image v-if="jinpaiSelectId !== 1" src="/static/images/new-index/sx.png" mode="widthFix"
+								@click="jinpaiSelectId = 1"></image>
 							<image v-else src="/static/images/new-index/sx1.png" mode="widthFix"></image>
 						</view>
 						<view class="right-icon">
-							<image v-if="selectId !== 2" src="/static/images/new-index/mf.png" mode="widthFix"
-								@click="selectId = 2"></image>
+							<image v-if="jinpaiSelectId !== 2" src="/static/images/new-index/mf.png" mode="widthFix"
+								@click="jinpaiSelectId = 2"></image>
 							<image v-else src="/static/images/new-index/mf1.png" mode="widthFix"></image>
 						</view>
 						<view class="right-icon">
-							<image v-if="selectId !== 3" src="/static/images/new-index/p.png" mode="widthFix"
-								@click="selectId = 3"></image>
+							<image v-if="jinpaiSelectId !== 3" src="/static/images/new-index/p.png" mode="widthFix"
+								@click="jinpaiSelectId = 3"></image>
 							<image v-else src="/static/images/new-index/p1.png" mode="widthFix"></image>
 						</view>
 					</view>
@@ -170,7 +170,7 @@
 				</view>
 			</view>
 			<!--单行显示-->
-			<template v-if="selectId == 1">
+			<template v-if="jinpaiSelectId == 1">
 				<view class="new-list-item" v-for="(item,i) in jingpaiList" :key="i" @click="onJingPai(item)"
 					@longpress="item.isMask=true">
 					<image :src="item.image" class="new-list-item-left"
@@ -195,11 +195,11 @@
 								<view>{{item.litestore_goods_focus_total}}</view>
 							</view>
 							<view class="new-list-item-right-start-info">
-								<image src="../../static/images/new-index/xcz.png"></image>
+								<image src="../../static/images/new-index/liulan.png"></image>
 								<view>{{item.auction_goods_total}}</view>
 							</view>
 							<view class="new-list-item-right-start-info">
-								<image src="/static/images/new-index/pl.png"></image>
+								<image src="/static/images/new-index/jianbei.png"></image>
 								<view>{{item.litestore_goods_comment_total}}</view>
 							</view>
 						</view>
@@ -278,7 +278,7 @@
 			</template>
 
 			<!--一行双列显示-->
-			<template v-else-if="selectId == 2">
+			<template v-else-if="jinpaiSelectId == 2">
 				<view class="new-list-item-two">
 					<view class="info" v-for="(item,i) in jingpaiList" :key="i" @click="onJingPai(item)">
 						<image :src="item.image" class="info-img"></image>
@@ -374,18 +374,18 @@
 				<view style="display: flex;">
 					<view class="ll-header-right" v-if="id !== 3">
 						<view class="right-icon">
-							<image v-if="selectId !== 1" src="/static/images/new-index/sx.png" mode="widthFix"
-								@click="selectId = 1"></image>
+							<image v-if="newSelectId !== 1" src="/static/images/new-index/sx.png" mode="widthFix"
+								@click="newSelectId = 1"></image>
 							<image v-else src="/static/images/new-index/sx1.png" mode="widthFix"></image>
 						</view>
 						<view class="right-icon">
-							<image v-if="selectId !== 2" src="/static/images/new-index/mf.png" mode="widthFix"
-								@click="selectId = 2"></image>
+							<image v-if="newSelectId !== 2" src="/static/images/new-index/mf.png" mode="widthFix"
+								@click="newSelectId = 2"></image>
 							<image v-else src="/static/images/new-index/mf1.png" mode="widthFix"></image>
 						</view>
 						<view class="right-icon">
-							<image v-if="selectId !== 3" src="/static/images/new-index/p.png" mode="widthFix"
-								@click="selectId = 3"></image>
+							<image v-if="newSelectId !== 3" src="/static/images/new-index/p.png" mode="widthFix"
+								@click="newSelectId = 3"></image>
 							<image v-else src="/static/images/new-index/p1.png" mode="widthFix"></image>
 						</view>
 					</view>
@@ -396,7 +396,7 @@
 				</view>
 			</view>
 			<!--单行显示-->
-			<template v-if="selectId == 1">
+			<template v-if="newSelectId == 1">
 				<view class="new-list-item" v-for="(item,i) in newsjingpaiList" :key="i" @click="onJingPai(item)"
 					@longpress="item.isMask=true">
 					<image :src="item.image" class="new-list-item-left"
@@ -490,7 +490,7 @@
 			</template>
 
 			<!--一行双列显示-->
-			<template v-else-if="selectId == 2">
+			<template v-else-if="newSelectId == 2">
 				<view class="new-list-item-two">
 					<view class="info" v-for="(item,i) in newsjingpaiList" :key="i" @click="onJingPai(item)">
 						<image :src="item.image" class="info-img"></image>
@@ -513,11 +513,6 @@
 							</view>
 						</view>
 
-						<view class="info-jd" v-if="id==1">
-							<image src="/static/images/new-index/select-jd.png"
-								:style="`width: ${(item.finish_rate*100).toFixed(0)}%;`"></image>
-							<view>{{(item.finish_rate*100).toFixed(0)}}%</view>
-						</view>
 
 						<view class="info-btm">
 							<view class="info-price">
@@ -528,12 +523,8 @@
 								<view class="old">RM{{item.price}}</view>
 							</view>
 
-							<view class="info-btn" v-if="id==1">
-								<image src="/static/images/new-index/lvxcz.png"></image>
-								<view @click.stop="onMineInfo(item)">{{$t('shop.qiangpai')}}</view>
-							</view>
 
-							<view class="new-list-item-btm-btn" v-if="id==2"
+							<view class="new-list-item-btm-btn"
 								style="border: 1rpx solid rgb(248, 155, 0);">
 								<image src="/static/images/new-index/time1.png" style="width: 20rpx;height: 20rpx;">
 								</image>
@@ -553,11 +544,6 @@
 
 					<view class="info">
 						<view class="info-left">
-							<view class="info_jd" v-if="id==1">
-								<image src="/static/images/new-index/select-jd.png"
-									:style="`width: ${(item.finish_rate*100).toFixed(0)}%;`"></image>
-								<view>{{(item.finish_rate*100).toFixed(0)}}%</view>
-							</view>
 							<view class="info_price">
 								<view class="new">
 									<image src="/static/images/kbrick/diamond.png"></image>
@@ -566,10 +552,13 @@
 								<view class="old">RM{{item.price}}</view>
 							</view>
 						</view>
-
-						<view class="info-right" v-if="id==1">
-							<image src="/static/images/new-index/lvxcz.png"></image>
-							<view @click.stop="onMineInfo(item)">{{$t('shop.qiangpai')}}</view>
+						
+						<view class="new-list-item-btm-btn"
+							style="border: 1rpx solid rgb(248, 155, 0);">
+							<image src="/static/images/new-index/time1.png" style="width: 20rpx;height: 20rpx;">
+							</image>
+							<u-count-down :time="item.datetime" format="HH:mm:ss"
+								style="color: rgb(248, 155, 0);"></u-count-down>
 						</view>
 					</view>
 
@@ -598,7 +587,7 @@
 				</view>
 			</view>
 			<!--单行显示-->
-			<template v-if="selectId == 1">
+			<template >
 				<view class="new-list-item" v-for="(item,i) in historyList" :key="i" @click="onJingPai(item)"
 					@longpress="item.isMask=true">
 					<image :src="item.image" class="new-list-item-left"
@@ -712,92 +701,6 @@
 				</view>
 			</template>
 
-			<!--一行双列显示-->
-			<template v-else-if="selectId == 2">
-				<view class="new-list-item-two">
-					<view class="info" v-for="(item,i) in historyList" :key="i" @click="onJingPai(item)">
-						<image :src="item.image" class="info-img"></image>
-						<view class="info-tit">{{item.goods_name}}</view>
-
-						<view class="info-tags">
-							<view class="info-tag">
-								<image src="/static/images/new-index/xx.png"></image>
-								<view>{{item.litestore_goods_focus_total}}</view>
-							</view>
-
-							<view class="info-tag">
-								<image src="/static/images/new-index/xcz.png"></image>
-								<view>{{item.auction_goods_total}}</view>
-							</view>
-
-							<view class="info-tag">
-								<image src="/static/images/new-index/pl.png"></image>
-								<view>{{item.litestore_goods_comment_total}}</view>
-							</view>
-						</view>
-
-						<view class="info-jd" v-if="id==1">
-							<image src="/static/images/new-index/select-jd.png"
-								:style="`width: ${(item.finish_rate*100).toFixed(0)}%;`"></image>
-							<view>{{(item.finish_rate*100).toFixed(0)}}%</view>
-						</view>
-
-						<view class="info-btm">
-							<view class="info-price">
-								<view class="new">
-									<image src="/static/images/kbrick/diamond.png"></image>
-									<span>{{item.auction_price}}</span>
-								</view>
-								<view class="old">RM{{item.price}}</view>
-							</view>
-
-							<view class="info-btn" v-if="id==1">
-								<image src="/static/images/new-index/lvxcz.png"></image>
-								<view @click.stop="onMineInfo(item)">{{$t('shop.qiangpai')}}</view>
-							</view>
-
-							<view class="new-list-item-btm-btn" v-if="id==2"
-								style="border: 1rpx solid rgb(248, 155, 0);">
-								<image src="/static/images/new-index/time1.png" style="width: 20rpx;height: 20rpx;">
-								</image>
-								<u-count-down :time="item.datetime" format="HH:mm:ss"
-									style="color: rgb(248, 155, 0);"></u-count-down>
-							</view>
-						</view>
-					</view>
-				</view>
-			</template>
-
-			<!--竖向单行显示-->
-			<template v-else>
-				<view class="new-list-line" v-for="(item,i) in historyList" :key="i" @click="onJingPai(item)">
-					<image :src="item.image" class="product_img"></image>
-					<view class="product_txt">{{item.goods_name}}</view>
-
-					<view class="info">
-						<view class="info-left">
-							<view class="info_jd" v-if="id==1">
-								<image src="/static/images/new-index/select-jd.png"
-									:style="`width: ${(item.finish_rate*100).toFixed(0)}%;`"></image>
-								<view>{{(item.finish_rate*100).toFixed(0)}}%</view>
-							</view>
-							<view class="info_price">
-								<view class="new">
-									<image src="/static/images/kbrick/diamond.png"></image>
-									<span>{{item.auction_price}}</span>
-								</view>
-								<view class="old">RM{{item.price}}</view>
-							</view>
-						</view>
-
-						<view class="info-right" v-if="id==1">
-							<image src="/static/images/new-index/lvxcz.png"></image>
-							<view @click.stop="onMineInfo(item)">{{$t('shop.qiangpai')}}</view>
-						</view>
-					</view>
-
-				</view>
-			</template>
 		</view>
 
 		<!--抢拍次数 start-->
@@ -999,7 +902,7 @@
 						<view class="pay-pwd-list-cancel" @click="$refs.payPopup.close()">{{$t('auction.detail.query')}}
 						</view>
 						<view class="pay-pwd-list-ok" @click="onQiangpai" v-if="isShowAegin">
-							{{$t('auction.detail.zaipaiyd')}}
+							{{$t('tab.xy')}}
 						</view>
 					</view>
 				</view>
@@ -1160,7 +1063,8 @@
 				isBottoming: false,
 				id: 1, //决定当前页面展示那个竞拍数据
 				title: 'Ongoing', //标题显示
-				selectId: 1, //不同的显示形式
+				jinpaiSelectId: 1, //不同的显示形式
+				newSelectId:1,
 				productId: 0,
 				balanceOrOther: 0,
 				isShowAegin: true,
@@ -1315,9 +1219,8 @@
 					this.isauctionNum = 1
 				} else if (this.auction_num != '-1' && this.isauctionNum <= this.auction_num) {
 					let arr = this.isauctionNum.split('.')
-					if (arr.length > 1) this.isauctionNum = arr[0]
-					else this.isauctionNum = this.auction_num
-				} else if (this.auction_num != '-1' && this.isauctionNum > this.auction_num) {
+					if(arr.length>1) this.isauctionNum = arr[0]
+				}else if(this.auction_num != '-1' && this.isauctionNum > this.auction_num){
 					this.isauctionNum = this.auction_num
 				}
 			},
@@ -1366,14 +1269,6 @@
 					this.price = res.data.data[0].price
 					this.goods_name = res.data.data[0].goods_name
 					this.avatar = res.data.data[0].avatar
-					// if (res.code === 1) {
-					// 	let arr = res.data.data || [];
-					// 	if (this.page > 1) {
-					// 		this.luckyList = this.luckyList.concat(arr);							
-					// 	} else {
-					// 		this.luckyList = arr;
-					// 	}
-					// }
 				})
 			},
 			//点击图片出现入口并且图片旋转
@@ -1780,6 +1675,29 @@
 </script>
 
 <style lang="less" scoped>
+	
+	.new-list-item-btm-btn {
+		padding: 6rpx 10rpx;
+		box-sizing: border-box;
+		font-size: 24rpx;
+		color: rgb(10, 198, 142);
+		box-sizing: border-box;
+		border: 1rpx solid rgb(10, 198, 142);
+		border-radius: 100rpx;
+		display: flex;
+		align-items: center;
+	
+		image {
+			width: 28rpx;
+			height: 28rpx;
+			margin-right: 6rpx;
+		}
+	
+		/deep/ .u-count-down__text {
+			color: #F89B00;
+		}
+	}
+	
 	// 联系我们
 	.contact {
 		position: relative;

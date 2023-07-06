@@ -90,7 +90,8 @@
 			<scroll-view scroll-x style="width: 750rpx;white-space: nowrap;">
 				<view v-for="(item,i) in hotList" :key="i" style="display: inline-block;width: 750rpx;">
 					<view class="hotinfo">
-						<view class="hotitem" v-for="data in item.list" :key="data.auction_goods_id">
+						<view class="hotitem" v-for="data in item.list" :key="data.auction_goods_id"
+							@click="toYouLikeOrHot(data.auction_goods_id)">
 							<image :src="data.image"></image>
 							<view class="name">{{data.goods_name}}</view>
 							<view class="price">RM<text>{{data.price}}</text></view>
@@ -189,12 +190,18 @@
 			}
 		},
 		onShow() {
+			this.isSelectAll = false
 			this.getCartList()
 		},
 		onHide() {
 
 		},
 		methods: {
+			toYouLikeOrHot(id) {
+				uni.navigateTo({
+					url: '/pages/auction/detail?id=' + id
+				})
+			},
 			toProductInfo(id) {
 				uni.navigateTo({
 					url: '/pages/auction/product_info?goodsId=' + id
@@ -240,8 +247,13 @@
 					res.data.data.forEach(item => {
 						this.$set(item, 'select', false)
 						item.goods.forEach(data => {
+							console.log(data)
 							data.attrs = data.attrs.toString()
 							this.$set(data, 'select', false)
+							if (data.num > data.stock_num) {
+								data.num = data.stock_num
+								this.editCartProductNum(data)
+							}
 							// this.totalPrice += (data.goods_price * 1) * data.num
 						})
 					})
@@ -272,11 +284,12 @@
 					goods_spec_id: data.goods_spec_id,
 					num: data.num
 				}).then(res => {
-					if (res.code ==1) {
-						this.totalPrice=0
-						this.productList.forEach(item=>{
-							item.goods.forEach(items=>{
-								if (items.select) this.totalPrice += (items.goods_price * 1) * items.num
+					if (res.code == 1) {
+						this.totalPrice = 0
+						this.productList.forEach(item => {
+							item.goods.forEach(items => {
+								if (items.select) this.totalPrice += (items.goods_price * 1) *
+									items.num
 							})
 						})
 					}
@@ -368,11 +381,11 @@
 					item.goods.forEach(data => {
 						data.select = this.isSelectAll ? true : false
 						if (data.select) {
-							this.totalPrice += (data.goods_price * 1) *data.num
+							this.totalPrice += (data.goods_price * 1) * data.num
 							this.deleteNum++
 							this.selectNum++
-						}else{
-							this.totalPrice -= (data.goods_price * 1) *data.num
+						} else {
+							this.totalPrice -= (data.goods_price * 1) * data.num
 						}
 					})
 				})

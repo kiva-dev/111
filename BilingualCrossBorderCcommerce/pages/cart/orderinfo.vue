@@ -256,6 +256,21 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				this.$http.post(this.$apiObj.MineInfo).then(res => {
 					if (res.code == 1) {
 						this.set_paypwd = res.data.set_paypwd
+						if(res.data.set_paypwd != 1){
+							uni.showModal({
+								title: this.$t('mine.tip'),
+								content: this.$t('new.qqwszmm'),
+								success: (res) => {
+									if (res.confirm) {
+										uni.navigateTo({
+											url: '/pages/mine/setPassword'
+										})
+									}else{
+										uni.navigateBack()
+									}
+								},
+							})
+						}
 						this.userCont = res.data
 					}
 				})
@@ -514,15 +529,15 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			onPwdQuery() {
 				this.$refs.pwdPopup.close()
 				this.pay_pwd=''
-				// uni.showToast({
-				// 	title: this.$t('order.nyqxddzf'),
-				// 	icon: 'none'
-				// })
-				// setTimeout(() => {
-				// 	uni.navigateBack({
-				// 		delta: 1
-				// 	})
-				// }, 2000);
+				uni.showToast({
+					title: this.$t('order.nyqxddzf'),
+					icon: 'none'
+				})
+				setTimeout(() => {
+					uni.navigateBack({
+						delta: 1
+					})
+				}, 2000);
 			},
 			// 点击支付密码
 			onPwdClick() {

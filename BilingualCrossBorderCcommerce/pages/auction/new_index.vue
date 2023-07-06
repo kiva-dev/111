@@ -193,14 +193,6 @@
 								<image src="../../static/images/new-index/xx.png"></image>
 								<view>{{item.litestore_goods_focus_total}}</view>
 							</view>
-							<view class="new-list-item-right-start-info" :class="item.litestore_goods_comment_total?'new-list-item-right-start-info':'new-list-item-right-start-info2'">
-								<image src="../../static/images/new-index/liulan.png"></image>
-								<view>{{item.auction_goods_total}}</view>
-							</view>
-							<view class="new-list-item-right-start-info" v-if="item.litestore_goods_comment_total">
-								<image src="../../static/images/new-index/jianbei.png"></image>
-								<view>{{item.litestore_goods_comment_total}}</view>
-							</view>
 						</view>
 
 						<view class="new-list-item-right-jd" v-if="productId==2">
@@ -271,16 +263,6 @@
 							<view class="info-tag">
 								<image src="/static/images/new-index/xx.png"></image>
 								<view>{{item.litestore_goods_focus_total}}</view>
-							</view>
-
-							<view class="info-tag" :class="item.litestore_goods_comment_total?'info-tag':'info-tag2'">
-								<image src="../../static/images/new-index/liulan.png"></image>
-								<view>{{item.auction_goods_total}}</view>
-							</view>
-
-							<view class="info-tag" v-if="item.litestore_goods_comment_total">
-								<image src="../../static/images/new-index/jianbei.png"></image>
-								<view>{{item.litestore_goods_comment_total}}</view>
 							</view>
 						</view>
 

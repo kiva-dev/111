@@ -56,20 +56,8 @@
 					<p>{{shopCont.appear_want_num}}</p>
 				</view>
 			</view>
-			<view class="select-layout">
-				<!--@click="$refs.specsPopup.open()"-->
-				<!-- <view class="sl-category" >
-					<view class="sl-category-left">
-						<view class="left-name">Select</view>
-						<view class="left-option">256GB,10000mAh,Pro,White,Yellow,Black fashioWhite,Yellow,Black
-							fashioWhite,Yellow,Black fashio</view>
-					</view>
-					<view class="sl-category-right">
-						<image src="@/static/images/new-index/detail_btn_arrow.png" mode="widthFix"></image>
-					</view>
-				</view> -->
+			<!-- <view class="select-layout">
 				<view class="sl-address">
-					<!---->
 					<view class="sl-address-choose" @click="$refs.popupAddress.open()">
 						<view class="choose-left">
 							<view class="choose-left-name">Address</view>
@@ -92,7 +80,7 @@
 						A-15-09 Tower Suite,No8,Jalan Kerinci Bangsar South, Wp KLaKuala,No8,Jalan Kerinci Bangsar South
 					</view>
 				</view>
-			</view>
+			</view> -->
 			<view class="detail-comment">
 				<div id="div2"></div>
 				<view class="detail-comment-head">
@@ -256,7 +244,7 @@
 					</view>
 					<!-- 列表 -->
 					<view class="ongingList">
-						<view v-for="(item,i) in jingpaiList" :key="i" class="ongingList-item" @click="newCk">
+						<view v-for="(item,i) in jingpaiList" :key="i" class="ongingList-item" @click="toDrawInfo(item.auction_goods_id)">
 							<img :src="item.image" alt="" class="ongingListItemImg">
 							<view>
 								<text class="title">{{item.stage_num}} &nbsp;&nbsp;{{item.goods_name}}</text>
@@ -272,20 +260,17 @@
 										</block>
 									</view>
 								</view>
+								
 								<view class="rowIndex">
 									<view class="left">
 										<image src="/static/images/kbrick/diamond.png" mode="widthFix" class="zsImg">
 										</image>
 										<span class="span">{{item.auction_price}}</span>
 									</view>
-									<view class="new-list-item-btm-btn" v-if="id==1">
-										<image src="../../static/images/new-index/lvxcz.png"></image>
-										<view @click.stop="onMineInfo(item)">{{$t('shop.qiangpai')}}</view>
-									</view>
 
 									<view class="new-list-item-btm-btn"
 										style="border: 1px solid rgb(10, 198, 142);font-weight: bold;">
-										{{$t('tab.xy')}}
+										{{$t('home.psuccess.ckxq')}}
 									</view>
 								</view>
 							</view>
@@ -306,23 +291,18 @@
 				</view>
 				<!-- 列表 -->
 				<view class="ongingList">
-					<view v-for="(item,i) in newsjingpaiList" :key="i" class="ongingList-item">
+					<view v-for="(item,i) in newsjingpaiList" :key="i" class="ongingList-item" @click="toDrawInfo(item.auction_goods_id)">
 						<img :src="item.image" alt="" class="ongingListItemImg">
 						<view class="zsItem">
-							<text class="title">{{item.stage_num}} &nbsp;&nbsp;{{item.goods_name}}</text>
+							<text class="title" style="margin-top: 0;">{{item.stage_num}} &nbsp;&nbsp;{{item.goods_name}}</text>
 							<view class="row">
 								<view class="left">
 									<image src="/static/images/kbrick/diamond.png" mode="widthFix" class="zsImg">
 									</image>
 									<span class="span">{{item.auction_price}}</span>
 								</view>
-								<view class="new-list-item-btm-btn" v-if="id==1">
-									<image src="../../static/images/new-index/lvxcz.png"></image>
-									<view @click.stop="onMineInfo(item)">{{$t('shop.qiangpai')}}</view>
-								</view>
 
-								<view class="new-list-item-btm-btn" style="border: 1rpx solid rgb(248, 155, 0);"
-									@click="onJingPai(item)">
+								<view class="new-list-item-btm-btn" style="border: 1rpx solid rgb(248, 155, 0);">
 									<image src="/static/images/new-index/time1.png" style="width: 20rpx;height: 20rpx;">
 									</image>
 									<u-count-down :time="item.datetime" format="HH:mm:ss"
@@ -344,23 +324,19 @@
 						<span style="background: rgba(99, 97, 250, 0.4);"></span>
 					</view>
 				</view>
-				<view class="hisy" v-for="(item,i) in historyList" :key="i">
-					<view class="left">
-						<text class="title">{{item.stage_num}} &nbsp;&nbsp;{{item.goods_name}}</text>
-						<view class="bootmTxt">
-							<img :src="item.image" mode="widthFix" style="width: 45rpx;">
-							<text class="name" style="margin-left: 10rpx;">{{item.shop_name}}</text>
-							<view>
-								<img src="@/static/images/kbrick/diamond.png" mode="widthFix" class="rImg">
-							</view>
-						</view>
+				<view class="hisy" v-for="(item,i) in historyList" :key="i" @click="toDrawInfo(item.auction_goods_id)">
+					<view class="hisy_tit">{{item.goods_name}}</view>
+					<view class="hisy_info">
+						<image :src="item.user_info.avatar" class="hisy_info_auth"></image>
+						<view class="hisy_info_name">{{item.user_info.nickname}}</view>
+						<image src="/static/images/new-index/lv-start.png" class="hisy_info_jb"></image>
 					</view>
-					<view class="right">
-						<img src="/static/images/kbrick/diamond.png" style="width: 24rpx;" alt="">
-						<span class="span" style="margin-left: 10rpx;">{{item.price}}</span>
+					<view class="hisy_right">
+						<image src="/static/images/kbrick/diamond.png"></image>
+						<text>{{item.auction_price}}</text>
 					</view>
 				</view>
-				<view class="bottomAdd" @tap="more" v-if="isOpen">查看更多
+				<view class="bottomAdd" @tap="more" v-if="isOpen && historyList.length >0">查看更多
 					<img src="/static/xuyuan/top.png" alt="" class="image">
 				</view>
 			</view>
@@ -588,11 +564,11 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			this.getProductInfo()
 
 			//获取最新竞拍列表
-			this.getNewList()
+			// this.getNewList()
 			this.onAuctionNewGoods()
 
 			//获取即将开始列表
-			this.getStartGoodsList()
+			// this.getStartGoodsList()
 			this.onAuctionNotbeginGoods()
 
 			//获取历史竞拍列表
@@ -647,7 +623,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				this.$http.post(this.$apiObj.AuctionNotbeginGoods, {
 					sort: this.jijiangId,
 					page: this.page,
-					pagenum: this.pagenum,
+					pagenum: 3,
 					keyword: this.keyword
 				}).then(res => {
 					if (res.code == 1) {
@@ -736,10 +712,9 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				this.$http.post(this.$apiObj.AuctionNewGoods, {
 					sort: this.newsjpId,
 					page: this.page,
-					pagenum: this.pagenum,
+					pagenum: 3,
 					keyword: this.keyword
 				}).then(res => {
-					console.log(res.data.data)
 					if (res.code == 1) {
 						if (this.isShopCont) {
 							res.data.data.map(item => {
@@ -1088,7 +1063,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			getProductInfo() {
 				this.$http.post(this.$apiObj.ProductInfo, {
 					goods_id: this.id,
-					goods_listing_type: 1
+					goods_listing_type: 2
 				}).then(res => {
 					if (res.code == 1) {
 						res.data.litestore_tag.forEach(item => {
@@ -1827,6 +1802,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 	//许愿中
 	.wish {
 		width: 100%;
+		padding-bottom: 20rpx;
 		margin-bottom: 50rpx;
 		background: #fff;
 		margin-top: 30rpx;
@@ -1837,6 +1813,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			color: #666;
 			font-size: 24rpx;
 			display: block;
+			margin-top:20rpx;
 
 			.image {
 				width: 24rpx;
@@ -1845,6 +1822,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		}
 
 		.title {
+			position: absolute;
+			top: 10rpx;
 			font-size: 24rpx;
 			color: #333;
 			font-weight: bold;
@@ -1861,6 +1840,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			margin: 24rpx 0;
 
 			.ongingList-item {
+				position: relative;
 				width: 686rpx;
 				height: 180rpx;
 				margin: auto;
@@ -1880,8 +1860,13 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		}
 
 		.zsItem {
+			position: relative;
+			width: 480rpx;
+			height: 180rpx;
+			
 			.title {
-				margin-top: 16rpx;
+				position: absolute;
+				top: 10rpx;
 				color: #333;
 				font-size: 24rpx;
 				display: block;
@@ -1895,8 +1880,10 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			}
 
 			.row {
+				position: absolute;
+				right: 0rpx;
+				bottom: 10rpx;
 				width: 480rpx;
-				margin-top: 40rpx;
 				display: flex;
 				justify-content: space-between;
 				align-items: center;
@@ -1917,6 +1904,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				}
 
 				.new-list-item-btm-btn {
+					
 					padding: 6rpx 10rpx;
 					box-sizing: border-box;
 					font-size: 24rpx;
@@ -1926,7 +1914,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					border-radius: 100rpx;
 					display: flex;
 					align-items: center;
-					margin-left: 90rpx;
+					margin-left: 60rpx;
 					margin-top: -10rpx;
 
 					image {
@@ -1944,8 +1932,9 @@ NoR+zv3KaEmPSHtooQIDAQAB
 	}
 
 	.rowIndex {
+		position: absolute;
+		bottom: 10rpx;
 		width: 480rpx;
-		margin-top: 20rpx;
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
@@ -1966,6 +1955,9 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		}
 
 		.new-list-item-btm-btn {
+			position: absolute;
+			bottom: 0rpx;
+			right: 12rpx;
 			padding: 6rpx 20rpx;
 			box-sizing: border-box;
 			font-size: 24rpx;
@@ -2031,6 +2023,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 	//进度条
 	.jping-jd {
+		position: absolute;
+		bottom: 70rpx;
 		width: 100%;
 		display: flex;
 		align-items: center;
@@ -2068,36 +2062,61 @@ NoR+zv3KaEmPSHtooQIDAQAB
 	}
 
 	.hisy {
+		position: relative;
 		width: 688rpx;
 		height: 100rpx;
 		border-bottom: 1px solid rgb(204, 204, 204);
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		margin: auto;
-		margin-top: 30rpx;
-		margin-bottom: 30rpx;
-		padding-bottom: 30rpx;
-
-
-		.left {
-
-			.title {
-				font-size: 24rpx;
-				color: #333;
-				font-weight: bold;
+		margin: 30rpx auto;
+		
+		.hisy_tit{
+			position: absolute;
+			top: 0;
+			left: 0;
+			font-size: 24rpx;
+			color: rgb(51, 51, 51);
+		}
+		
+		.hisy_info{
+			position: absolute;
+			left: 0;
+			bottom: 20rpx;
+			display: flex;
+			align-items: center;
+			
+			.hisy_info_auth{
+				width: 32rpx;
+				height: 32rpx;
+				border-radius: 50%;
 			}
-
-			.bootmTxt {
-				margin-top: 10rpx;
-				display: flex;
-
-				.name {
-					font-size: 20rpx;
-					color: #333;
-				}
+			
+			.hisy_info_name{
+				font-size: 20rpx;
+				color: rgb(51, 51, 51);
+				margin: 0 8rpx;
+			}
+			
+			.hisy_info_jb{
+				width: 24rpx;
+				height: 24rpx;
+			}
+			
+		}
+		
+		.hisy_right{
+			position: absolute;
+			right: 20rpx;
+			bottom: 40rpx;
+			font-size: 28rpx;
+			font-weight: bold;
+			color: rgb(255, 57, 57);
+			
+			image{
+				width: 24rpx;
+				height: 24rpx;
+				margin-right: 12rpx;
 			}
 		}
+		
 	}
 
 	.right {

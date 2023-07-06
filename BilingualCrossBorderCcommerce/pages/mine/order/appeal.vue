@@ -16,16 +16,16 @@
 					<view class="product-info-box">
 						<view class="box-goods">{{goodsInfo.goods_name}}</view>
 						<view class="box-detail">
-							<view class="box-detail-tit">original price:</view>
-							<view class="box-detail-price"><text>RM</text>{{goodsInfo.auction_original_price}}</view>
+							<view class="box-detail-tit">{{$t('user.auctionM.original')}}:</view>
+							<view class="box-detail-price"><text>RM</text>{{goodsInfo.price}}</view>
 						</view>
 					</view>
 				</view>
 			</view>
 			<view class="al-c-data">
 				<view class="data-item">
-					<view class="data-item-l">{{$t('auction.detail.gift')}}</view>
-					<view class="data-item-r">RM {{goodsInfo.use_presentation_money}}</view>
+					<view class="data-item-l">{{$t('new.xyje')}}</view>
+					<view class="data-item-r">RM {{goodsInfo.pay_price}}</view>
 				</view>
 				<view class="data-item">
 					<view class="data-item-l">{{$t('auction.detail.total')}}</view>
@@ -33,8 +33,15 @@
 				</view>
 			</view>
 		</view>
+		
 		<view class="al-description">
-			
+			<view class="al-description-head">{{$t('new.shsm')}}</view>
+			<view class="al-description-des">
+				{{appealInfo.mark}}
+			</view>
+			<view class="al-description-imgs">
+				<image :src="item" v-for="item in appealInfo.images"></image>
+			</view>
 		</view>
 	</view>
 </template>
@@ -50,7 +57,7 @@
 		onLoad(option) {
 			this.goodsInfo = JSON.parse(option.info);
 			console.log(this.goodsInfo);
-			this.getAppealDetail(option.id);
+			this.getAppealDetail(this.goodsInfo.id);
 		},
 		methods: {
 			getAppealDetail(id) {
@@ -204,10 +211,45 @@
 		}
 		
 		.al-description {
-			width: 100%;
+			width: 686rpx;
 			padding: 32rpx 24rpx;
 			box-sizing: border-box;
 			background: #FFFFFF;
+			border-radius: 20rpx;
+			margin-top: 24rpx;
+			
+			.al-description-head{
+				font-size: 28rpx;
+				font-weight: bold;
+				color: rgb(51, 51, 51);
+				margin-left: 14rpx;
+			}
+			
+			.al-description-des{
+				width: 638rpx;
+				line-height: 40rpx;
+				font-size: 28rpx;
+				color: rgb(51, 51, 51);
+				margin: 32rpx 0 32rpx 14rpx;
+			}
+			
+			.al-description-imgs{
+				width: 686rpx;
+				display: flex;
+				flex-wrap: wrap;
+				align-items: center;
+				margin: 0 auto;
+				
+				image{
+					display: block;
+					width: 148rpx;
+					height: 148rpx;
+					border-radius: 8rpx;
+					margin-right: 16rpx;
+					margin-bottom: 20rpx;
+				}
+			}
+			
 		}
 	}
 </style>

@@ -321,7 +321,7 @@
 					<text>{{$t('newDetail.guize')}}</text>
 					<view class="line"></view>
 				</view>
-				<view style="background: #fff;">
+				<view style="background: #fff;margin-top: 10rpx;">
 					<view class="agree-box" v-if="isShopCont" v-html="e_auction_rule"></view>
 					<view class="agree-box" v-else v-html="auction_rule"></view>
 				</view>
@@ -368,7 +368,7 @@
 					</view>
 					<view class="bl-right-add" v-else-if="auction_num>='-1'&&auction_num!=0||shopCont.check_status==2"
 						@click="onMineInfos">
-						<p>{{$t('auction.detail.qiangpai')}}</p>
+						<p>{{$t('tab.xy')}}</p>
 					</view>
 					<view class="bl-right-add" v-else>
 						<p>{{$t('auction.detail.jingpaiwan')}}</p>
@@ -421,7 +421,7 @@
 									<view class="protocol_info">
 										<view class="protocol_txt1">{{$t('auction.detail.brywqydbty')}}</view>
 										<navigator url="../mine/jpxy" hover-class="none" class="protocol_txt2">
-											《{{$t('auction.detail.jphdgommzxy')}}》
+											{{$t('auction.detail.jphdgommzxy')}}
 										</navigator>
 									</view>
 
@@ -603,7 +603,7 @@
 					<view class="pay-pwd-list">
 						<view class="pay-pwd-list-cancel" @click="onpayQuery">{{$t('auction.detail.query')}}</view>
 						<view class="pay-pwd-list-ok" @click="onQiangpai" v-if="auction_num > isauctionNum">
-							{{$t('auction.detail.zaipaiyd')}}
+							{{$t('tab.xy')}}
 						</view>
 					</view>
 				</view>
@@ -796,11 +796,10 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			numBlur() {
 				if (this.isauctionNum < 1) {
 					this.isauctionNum = 1
-				} else if (this.auction_num != '-1' && this.isauctionNum <= this.auction_num) {
+				} else if (this.auction_num != '-1' && this.isauctionNum * 1 <= this.auction_num) {
 					let arr = this.isauctionNum.split('.')
 					if(arr.length>1) this.isauctionNum = arr[0]
-					else this.isauctionNum = this.auction_num
-				}else if(this.auction_num != '-1' && this.isauctionNum > this.auction_num){
+				}else if(this.auction_num != '-1' && this.isauctionNum *1 > this.auction_num){
 					this.isauctionNum = this.auction_num
 				}
 			},

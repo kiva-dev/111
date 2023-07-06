@@ -107,6 +107,7 @@
 		},
 		onLoad(option) {
 			this.tabIndex = parseInt(option.tabIndex);
+			this.sendTit = parseInt(option.tabIndex);
 			this.getOrderList();
 		},
 		onShow() {

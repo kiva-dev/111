@@ -51,7 +51,8 @@
 			<view class="pay-head">Payment method</view>
 			<view class="pay-info" v-for="(item,k) in orderPayList.slice(0,2)" :key="item.id">
 				<image :src="item.img" class="pay-info-logo"></image>
-				<view class="pay-info-name">{{item.title}} <text v-if="item.id==1">(RM{{userCont.recharge_money_balance}})</text></view>
+				<view class="pay-info-name">{{item.title}} <text
+						v-if="item.id==1">(RM{{userCont.recharge_money_balance*1}})</text></view>
 				<image src="/static/images/new-index/wxz.png" class="pay-info-xz" v-show="!item.isShow"
 					@click="selectPayType(item)"></image>
 				<image src="/static/images/new-index/xz.png" class="pay-info-xz" v-show="item.isShow"
@@ -243,11 +244,27 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						this.MineCont = res.data
 					}
 				})
+				console.log(111)
 				// 判断是否设置支付密码
 				this.$http.post(this.$apiObj.MineInfo).then(res => {
 					if (res.code == 1) {
 						this.userCont = res.data
 						this.set_paypwd = res.data.set_paypwd
+						if (res.data.set_paypwd != 1) {
+							uni.showModal({
+								title: this.$t('mine.tip'),
+								content: this.$t('new.qqwszmm'),
+								success: (res) => {
+									if (res.confirm) {
+										uni.navigateTo({
+											url: '/pages/mine/setPassword'
+										})
+									} else {
+										uni.navigateBack()
+									}
+								},
+							})
+						}
 					}
 				})
 			}
@@ -841,6 +858,10 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				.pay-info-name {
 					font-size: 24rpx;
 					color: rgb(51, 51, 51);
+
+					text {
+						color: rgb(255, 57, 57);
+					}
 				}
 
 				.pay-info-xz {
