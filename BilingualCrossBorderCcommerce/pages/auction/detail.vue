@@ -516,7 +516,10 @@
 
 				<view class="mode-tit">
 					<image src="/static/images/kbrick/diamond.png"></image>
-					<view>{{shopNum}}</view>
+					<view v-if="!useInvite">{{shopNum}}</view>
+					<view v-else>
+						{{shopNum * 1 - (invite_money_balance*1 > shopNum * 1 * (can_use_invite_money_rate*1/100) ? shopNum * 1 * (can_use_invite_money_rate*1/100):invite_money_balance*1)}}
+					</view>
 				</view>
 
 				<view class="mode-des">{{$t('new.xyzf')}}</view>
@@ -554,8 +557,11 @@
 						v-show="kdiamondSelect && (((shopNum*1 - balance*1) > 0 && money*1 >= shopNum*1)&&!useInvite || (can_use_invite_money_rate>0 && money *1 >=useInviteRmNum && useInvite && balance*1 < shopNum*1 && useInviteRmNum>0))"
 						@click="kdiamondSelect=false"></image>
 				</view>
+				
+				<view style="color: rgb(102, 102, 102);margin: 12rpx 0 0 100rpx;" v-if="useInvite">({{$t('new.zjkc')}}
+					{{(invite_money_balance*1 > shopNum * 1 * (can_use_invite_money_rate*1/100) ? shopNum * 1 * (can_use_invite_money_rate*1/100):invite_money_balance*1)}} {{$t('new.kz')}})</view>
 
-				<view class="mode-cz">
+				<view class="mode-cz" v-if="balance*1 < shopNum*1">
 					<view @click="navClick('/pages/mine/K_brick_detail')">{{$t('new.qcz')}}</view>
 					<image src="/static/images/kbrick/right.png"></image>
 				</view>

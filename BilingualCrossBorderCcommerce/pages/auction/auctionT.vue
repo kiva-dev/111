@@ -257,7 +257,7 @@
 										<image src="/static/images/kbrick/jian.png"></image>
 									</view>
 									<view class="input-info">
-										<input type="number" v-model="isauctionNum"  @blur="numBlur()"></input>
+										<input type="number" v-model="isauctionNum" @blur="numBlur()"></input>
 									</view>
 									<view class="input-img"
 										@click="auction_num == '-1' ? isauctionNum++ : isauctionNum < auction_num ? isauctionNum++:isauctionNum">
@@ -354,7 +354,10 @@
 				<image src="/static/images/close1.png" class="mode-close" @click="$refs.popup1.close()"></image>
 				<view class="mode-tit">
 					<image src="/static/images/kbrick/diamond.png"></image>
-					<view>{{shopNum}}</view>
+					<view v-if="!useInvite">{{shopNum}}</view>
+					<view v-else>
+						{{shopNum * 1 - (invite_money_balance*1 > shopNum * 1 * (can_use_invite_money_rate*1/100) ? shopNum * 1 * (can_use_invite_money_rate*1/100):invite_money_balance*1)}}
+					</view>
 				</view>
 				<view class="mode-des">{{$t('new.xyzf')}}</view>
 				<view class="mode-banlace" v-show="balance*1 < shopNum">{{$t('new.kzyebz')}}</view>
@@ -388,7 +391,11 @@
 						v-show="kdiamondSelect && (((shopNum*1 - balance*1) > 0 && money*1 >= shopNum*1) && !useInvite || (can_use_invite_money_rate>0 && money *1 >=useInviteRmNum && useInvite && balance*1 < shopNum*1 && useInviteRmNum>0))"
 						@click="kdiamondSelect=false"></image>
 				</view>
-				<view class="mode-cz">
+
+				<view style="color: rgb(102, 102, 102);margin: 12rpx 0 0 100rpx;" v-if="useInvite">({{$t('new.zjkc')}}
+					{{(invite_money_balance*1 > shopNum * 1 * (can_use_invite_money_rate*1/100) ? shopNum * 1 * (can_use_invite_money_rate*1/100):invite_money_balance*1)}} {{$t('new.kz')}})</view>
+
+				<view class="mode-cz" v-if="balance*1 < shopNum*1">
 					<view @click="navClick('/pages/mine/K_brick_detail')">{{$t('new.qcz')}}</view>
 					<image src="/static/images/kbrick/right.png"></image>
 				</view>
@@ -464,34 +471,36 @@
 		</view> -->
 
 		<!-- 许愿 -->
-	<view class="containerXy" v-if="list.length!=0">
-		<view class="xy"><image src="/static/xuyuan/xy.png" alt="" class="xyImg" /></view>
-		<text class="txt">{{$t('xylist')}}</text>
-		<text class="btn">{{$t('xytitle')}}</text>
-		<view class="itemBox">
-			<view class="itemBox_a" v-for="item in list" :key="item.id" @click.top="toProductInfo(item)">
-				<image :src="item.image"  class="itemImg" />
-				<text class="title">{{item.goods_name}}</text>
-				<view class="iconArr">
-					<view class="iconArr_item">
-						<image src="/static/xuyuan/xx.png" ></image>
-						<text class="iconArr_txt">{{item.wishing_pool_goods_focus_total || 0}}</text>
+		<view class="containerXy" v-if="list.length!=0">
+			<view class="xy">
+				<image src="/static/xuyuan/xy.png" alt="" class="xyImg" />
+			</view>
+			<text class="txt">{{$t('xylist')}}</text>
+			<text class="btn">{{$t('xytitle')}}</text>
+			<view class="itemBox">
+				<view class="itemBox_a" v-for="item in list" :key="item.id" @click.top="toProductInfo(item)">
+					<image :src="item.image" class="itemImg" />
+					<text class="title">{{item.goods_name}}</text>
+					<view class="iconArr">
+						<view class="iconArr_item">
+							<image src="/static/xuyuan/xx.png"></image>
+							<text class="iconArr_txt">{{item.wishing_pool_goods_focus_total || 0}}</text>
+						</view>
+						<view class="iconArr_item">
+							<image src="/static/xuyuan/ax.png"></image>
+							<text class="iconArr_txt">{{item.wishing_pool_goods_appear_watch_num_total || 0}}</text>
+						</view>
+						<view class="iconArr_item" v-if="item.wishing_pool_goods_lucky_total>0">
+							<image src="/static/xuyuan/jiang.png"></image>
+							<text class="iconArr_txt">{{item.wishing_pool_goods_lucky_total || 0}}</text>
+						</view>
 					</view>
-					<view class="iconArr_item">
-						<image src="/static/xuyuan/ax.png"></image>
-						<text class="iconArr_txt">{{item.wishing_pool_goods_appear_watch_num_total || 0}}</text>
+					<view class="new-list-item-btm-price">
+						<view class="new">RM<span>{{item.litestore_goods_spec[0].goods_price}}</span></view>
 					</view>
-					<view class="iconArr_item" v-if="item.wishing_pool_goods_lucky_total>0">
-						<image src="/static/xuyuan/jiang.png"></image>
-						<text class="iconArr_txt">{{item.wishing_pool_goods_lucky_total || 0}}</text>
-					</view>
-				</view>
-				<view class="new-list-item-btm-price">
-					<view class="new">RM<span>{{item.litestore_goods_spec[0].goods_price}}</span></view>
 				</view>
 			</view>
 		</view>
-	</view>
 	</view>
 </template>
 
@@ -696,7 +705,7 @@
 				} else if (this.auction_num != '-1' && this.isauctionNum <= this.auction_num) {
 					let arr = this.isauctionNum.split('.')
 					if (arr.length > 1) this.isauctionNum = arr[0]
-				}else if(this.auction_num != '-1' && this.isauctionNum > this.auction_num){
+				} else if (this.auction_num != '-1' && this.isauctionNum > this.auction_num) {
 					this.isauctionNum = this.auction_num
 				}
 			},
@@ -908,6 +917,7 @@
 				that.kdiamondSelect = false
 				that.showRmToKdiamond = false
 				this.selectProtocol = false
+				this.useInvite = false
 
 				that.orderPayList.forEach(item => {
 					item.isShow = false
@@ -1161,7 +1171,7 @@
 
 	}
 
-// 许愿
+	// 许愿
 	.containerXy {
 		width: 100%;
 		text-align: center;
@@ -1257,7 +1267,8 @@
 						width: 100rpx;
 						border-right: 1px solid #e8e8e8;
 					}
-					.iconArr_item:nth-child(2){
+
+					.iconArr_item:nth-child(2) {
 						border: none;
 					}
 
@@ -1284,6 +1295,7 @@
 			}
 		}
 	}
+
 	.auction-page {
 		width: 100%;
 		background: #FFFFFF;
