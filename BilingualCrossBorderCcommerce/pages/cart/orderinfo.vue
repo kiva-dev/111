@@ -202,13 +202,13 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					title: this.$t('order.sfzf'),
 					isShow: false,
 					img: '@/static/images/new-index/cards.png'
-				} ],
+				}],
 				orderCont: '',
 				isShopCont: false, // 中文还是英文
 				set_paypwd: '',
-				MineCont: {},
+				MineCont: [],
 				shopInfo: {},
-				order_no:""
+				order_no: ""
 			}
 		},
 		watch: {
@@ -256,7 +256,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				this.$http.post(this.$apiObj.MineInfo).then(res => {
 					if (res.code == 1) {
 						this.set_paypwd = res.data.set_paypwd
-						if(res.data.set_paypwd != 1){
+						if (res.data.set_paypwd != 1) {
 							uni.showModal({
 								title: this.$t('mine.tip'),
 								content: this.$t('new.qqwszmm'),
@@ -265,7 +265,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 										uni.navigateTo({
 											url: '/pages/mine/setPassword'
 										})
-									}else{
+									} else {
 										uni.navigateBack()
 									}
 								},
@@ -285,9 +285,9 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				this.$http.post(this.$apiObj.OrderDetailOrder, {
 					order_no: this.order_no
 				}).then(res => {
-					this.major_no=res.data.major_no
-					this.order_no=res.data.order_no
-					this.total = res.data.goods[0].total_price
+					this.major_no = res.data.major_no
+					this.order_no = res.data.order_no
+					this.total = res.data.total_price
 					this.shopInfo = res.data
 					this.OrderList = res.data.goods
 				})
@@ -469,9 +469,10 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					// 余额支付弹框
 					this.$refs.pwdPopup.open()
 				} else if (isNum == 2) {
-					if (this.MineCont === null) return uni.showToast({
+					if (this.MineCont.length < 1) return uni.showToast({
 						icon: 'none',
-						title: this.$t('smrz')
+						title: this.$t('smrz'),
+						duration: 3000
 					})
 					if (this.MineCont.status == 0) return uni.showToast({
 						icon: 'none',
@@ -484,7 +485,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					// 3方支付
 					this.$http.post(this.$apiObj.OrderMalaysiaPay, {
 						// major_no: res.data.major_no ? res.data.major_no : res.data.order_no,					
-						major_no:this.major_no?this.major_no:this.order_no,
+						major_no: this.major_no ? this.major_no : this.order_no,
 						money: this.total * 1
 					}).then(res => {
 						if (res.code == 1) {
@@ -528,7 +529,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			// 关闭支付密码
 			onPwdQuery() {
 				this.$refs.pwdPopup.close()
-				this.pay_pwd=''
+				this.pay_pwd = ''
 				uni.showToast({
 					title: this.$t('order.nyqxddzf'),
 					icon: 'none'
@@ -857,8 +858,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					font-size: 24rpx;
 					color: rgb(51, 51, 51);
 				}
-				
-				.pay-info-price{
+
+				.pay-info-price {
 					font-size: 24rpx;
 					color: rgb(255, 57, 57);
 				}

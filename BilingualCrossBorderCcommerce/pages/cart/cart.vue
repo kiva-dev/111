@@ -248,7 +248,6 @@
 					res.data.data.forEach(item => {
 						this.$set(item, 'select', false)
 						item.goods.forEach(data => {
-							console.log(data)
 							data.attrs = data.attrs.toString()
 							this.$set(data, 'select', false)
 							if (data.num > data.stock_num) {

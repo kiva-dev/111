@@ -1343,7 +1343,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					this.totalNum = res.data.total
 					let arr = []
 					res.data.data.forEach(item => {
-						if (item.is_belong_to_wishing_pool == 0 && item.wishing_pool_goods_status == 10) {
+						if (item.is_belong_to_mall == 1 && item.goods_status == 10) {
 							arr.push(item)
 						}
 					})

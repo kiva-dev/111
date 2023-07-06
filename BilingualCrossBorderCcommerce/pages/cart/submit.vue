@@ -222,7 +222,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				orderCont: '',
 				isShopCont: false, // 中文还是英文
 				set_paypwd: '',
-				MineCont: {},
+				MineCont: [],
 			}
 		},
 
@@ -244,7 +244,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						this.MineCont = res.data
 					}
 				})
-				console.log(111)
 				// 判断是否设置支付密码
 				this.$http.post(this.$apiObj.MineInfo).then(res => {
 					if (res.code == 1) {
@@ -460,9 +459,10 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							// 余额支付弹框
 							this.$refs.pwdPopup.open()
 						} else if (isNum == 2) {
-							if (this.MineCont === null) return uni.showToast({
+							if (this.MineCont.length < 1) return uni.showToast({
 								icon: 'none',
-								title: this.$t('smrz')
+								title: this.$t('smrz'),
+								duration:3000
 							})
 							if (this.MineCont.status == 0) return uni.showToast({
 								icon: 'none',
