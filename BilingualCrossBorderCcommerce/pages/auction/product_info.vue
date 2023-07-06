@@ -93,7 +93,7 @@
 					</view>
 				</view>
 			</view>
-			
+
 			<!-- <view class="detail-comment">
 				<div id="div2"></div>
 				<view class="detail-comment-head">
@@ -126,7 +126,7 @@
 					<view class="detail-comment-not">{{$t('newDetail.not')}}</view>
 				</block>
 			</view> -->
-			
+
 			<!--店铺信息-->
 			<view class="detail-five">
 				<view class="five-hd">
@@ -291,7 +291,9 @@
 			<view class="bottom-layout">
 				<view class="bl-left" @click="onFocusProduct()">
 					<view class="bl-left-box">
-						<image :src="shopCont.goods_focus == 0 ? require('@/static/images/auction/sc.png') : require('@/static/images/auction/sc1.png')" mode="widthFix"></image>
+						<image
+							:src="shopCont.goods_focus == 0 ? require('@/static/images/auction/sc.png') : require('@/static/images/auction/sc1.png')"
+							mode="widthFix"></image>
 						<p>{{$t('auction.shoucang')}}</p>
 					</view>
 				</view>
@@ -444,7 +446,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				navList: [{
 					id: 1,
 					title: this.$t('newDetail.shangpin')
-				},{
+				}, {
 					id: 3,
 					title: this.$t('newDetail.xianqin')
 				}],
@@ -525,7 +527,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 		},
 		onShow() {
-			
+			this.getAllAddress()
 		},
 		onHide() {
 			clearInterval(this.timer)
