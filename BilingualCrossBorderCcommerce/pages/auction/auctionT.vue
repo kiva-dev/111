@@ -62,15 +62,15 @@
 						<view class="new-list-item-right-start">
 							<view class="new-list-item-right-start-info">
 								<image src="../../static/images/new-index/xx.png"></image>
-								<view>{{item.litestore_goods_focus_total}}</view>
+								<view>{{item.wishing_pool_goods_focus_total}}</view>
 							</view>
 							<view class="new-list-item-right-start-info">
-								<image src="../../static/images/new-index/xcz.png"></image>
-								<view>{{item.auction_goods_total}}</view>
+								<image src="../../static/images/new-index/liulan.png"></image>
+								<view>{{item.wishing_pool_goods_appear_watch_num_total}}</view>
 							</view>
-							<view class="new-list-item-right-start-info">
-								<image src="/static/images/new-index/pl.png"></image>
-								<view>{{item.litestore_goods_comment_total}}</view>
+							<view class="new-list-item-right-start-info" v-if="item.wishing_pool_goods_lucky_total>0">
+								<image src="/static/images/new-index/jianbei.png"></image>
+								<view>{{item.wishing_pool_goods_lucky_total}}</view>
 							</view>
 						</view>
 
@@ -164,17 +164,17 @@
 						<view class="info-tags">
 							<view class="info-tag">
 								<image src="/static/images/new-index/xx.png"></image>
-								<view>{{item.litestore_goods_focus_total}}</view>
+								<view>{{item.wishing_pool_goods_focus_total}}</view>
 							</view>
 
 							<view class="info-tag">
-								<image src="/static/images/new-index/xcz.png"></image>
-								<view>{{item.auction_goods_total}}</view>
+								<image src="/static/images/new-index/liulan.png"></image>
+								<view>{{item.wishing_pool_goods_appear_watch_num_total}}</view>
 							</view>
 
-							<view class="info-tag">
-								<image src="/static/images/new-index/pl.png"></image>
-								<view>{{item.litestore_goods_comment_total}}</view>
+							<view class="info-tag" v-if="item.wishing_pool_goods_lucky_total>0">
+								<image src="/static/images/new-index/jianbei.png"></image>
+								<view>{{item.wishing_pool_goods_lucky_total}}</view>
 							</view>
 						</view>
 
@@ -2165,6 +2165,7 @@
 							border: 1rpx solid rgb(204, 204, 204);
 							border-top: none;
 							border-bottom: none;
+							border-right: none;
 						}
 
 					}
