@@ -191,6 +191,7 @@
 		},
 		onShow() {
 			this.isSelectAll = false
+			this.showEditbtm = false,
 			this.getCartList()
 		},
 		onHide() {
