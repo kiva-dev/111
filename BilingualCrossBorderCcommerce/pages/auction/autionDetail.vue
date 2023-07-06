@@ -48,11 +48,11 @@
 					<p>{{shopCont.litestore_goods_focus_total}}</p>
 				</view>
 				<view class="ol-container">
-					<image src="@/static/images/new-index/detail_icon_clap.png" mode="widthFix"></image>
+					<image src="@/static/xuyuan/ax.png" mode="widthFix"></image>
 					<p>{{shopCont.auction_goods_total}}</p>
 				</view>
 				<view class="ol-container">
-					<image src="@/static/images/new-index/detail_icon_share.png" mode="widthFix"></image>
+					<image src="@/static/xuyuan/jiang.png" mode="widthFix"></image>
 					<p>{{shopCont.appear_want_num}}</p>
 				</view>
 			</view>

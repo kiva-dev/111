@@ -23,7 +23,7 @@
 			</view>
 
 			<block v-for="(data,i) in item.goods" :key="data.id">
-				<scroll-view scroll-x style="width: 750rpx;">
+				<scroll-view scroll-x style="width: 750rpx;" scroll-with-animation="true">
 					<view class="item" @click.stop="toProductInfo(data.goods_id)">
 						<view class="item-info">
 							<view class="detail">
