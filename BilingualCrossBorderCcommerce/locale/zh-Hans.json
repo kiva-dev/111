@@ -596,7 +596,7 @@
 	"user.auctionM.wdgz": "我的关注",
 	"user.auctionM.jpz": "竞拍中",
 	"user.auctionM.lsjp": "历史竞拍",
-	"user.auctionM.zpjl": "幸运记录",
+	"user.auctionM.zpjl": "许愿记录",
 	"user.auctionM.qi": "期",
 	"user.auctionM.tigong": "提供",
 	"user.auctionM.xqsp": "稀缺商品",
@@ -921,6 +921,8 @@
 	"user.refund.detail.tjiaocg": "提交成功",
 	"user.refund.detail.fuzhicg": "复制成功",
 	"user.refund.detail.shcg": "收货成功",
+	"xyc":"许愿池",
+	"title":"Mv愿望清单",
 
 	"login.qsrsjh": "请输入手机号",
 	"login.pwd": "密码",

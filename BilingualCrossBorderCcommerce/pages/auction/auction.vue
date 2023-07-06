@@ -9,10 +9,10 @@
 				</view>
 			</view> -->
 			<view class="head">
-				<text class="head-title">Wishing Pool</text>
+				<text class="head-title">{{$t('xyc')}}</text>
 				<view class="head-right" @click.top="myIndex">
 					<img src="/static/xuyuan/time.png" alt="" class="time">
-					<text>Mv Wish List</text>
+					<text>{{$t('title')}}</text>
 					<img src="/static/xuyuan/headRi.png" alt="" class="r">
 				</view>
 			</view>
@@ -111,7 +111,7 @@
 				<view class="ll-icon">
 					<image src="@/static/images/mine/lucky_icon_trophy.png" mode="widthFix"></image>
 				</view>
-				<view class="ll-text">
+				<view class="ll-text" v-if="isEnglish">
 					<image :src="avatar" mode="aspectFill"></image>
 					<view class="item-right-content">
 						In the Joint contribution sales activities provided by{{' '}}
@@ -126,6 +126,22 @@
 						<text style="color: rgb(255, 57, 57); font-weight: bold;">RM{{price}}</text>
 					</view>
 				</view>
+				<view class="ll-text" v-else>
+					<image :src="avatar" mode="aspectFill"></image>
+					<view class="item-right-content">
+						在
+						<text style="color: rgb(10, 198, 142);">{{shop_name}}</text>
+						提供的许愿活动中，以
+						<text style="color: rgb(255, 57, 57); font-weight: bold;">
+							<image src="/static/images/kbrick/diamond.png"></image>{{pay_price}}
+						</text>
+							的价格，幸运地获得了价值
+						<text style="color: rgb(255, 57, 57); font-weight: bold;">RM{{price}}</text>
+						的
+						{{goods_name}}
+					</view>
+				</view>
+				
 				<view class="ll-right">
 					<image src="@/static/images/products/right.png" mode="widthFix"></image>
 				</view>
@@ -1039,6 +1055,7 @@
 	export default {
 		data() {
 			return {
+				isEnglish: uni.getStorageSync('locale') === 'en' ? true : false,
 				isTwitterApp: false,
 				isFacebookApp: false,
 				isWhatsApp: false,

@@ -672,6 +672,8 @@
 	"user.auctionM.appeal": "Appeal",
 	"user.auctionM.viewAppeal": "View appeal",
 	"user.auctionM.confirmOrder": "Confirm order",
+	"xyc": "Wishing Pool",
+	"title": "Mv Wish List",
 
 	"user.Feedback.wtms": "Problem description",
 	"user.Feedback.qsrnr": "Please enter the content",
@@ -924,7 +926,7 @@
 	"user.refund.detail.shcg": "Goods received successfully",
 
 
-    "login.kg": "The password cannot contain Spaces",
+	"login.kg": "The password cannot contain Spaces",
 	"login.hz": "Do not enter Chinese characters in the password",
 	"login.qsrsjh": "Please enter your mobile number",
 	"login.pwd": "Password",
@@ -1501,5 +1503,5 @@
 	"new.shsm": "Appeal Description",
 	"new.qqwszmm": "Please go to the personal center to set the payment password",
 	"new.wish_code": "Wish Code",
-	"new.ljxq":"Award Details"
+	"new.ljxq": "Award Details"
 }
