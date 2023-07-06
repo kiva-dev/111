@@ -117,11 +117,15 @@
 		},
 		onLoad(option) {
 			this.tabIndex = parseInt(option.tabIndex);
-			this.sendTit = parseInt(option.tabIndex);
+			if(option.tabIndex == 6){
+				this.sendTit = [-1, -2, 6].toString()
+			}else{
+				this.sendTit = parseInt(option.tabIndex);
+			}
+			
 			this.getOrderList();
 			setTimeout(() => {
 				if (this.tabIndex === 5 || this.tabIndex === 6) {
-					console.log(this.tabIndex)
 					this.scrollLeft = 500;
 				} else {
 					this.scrollLeft = 0;
