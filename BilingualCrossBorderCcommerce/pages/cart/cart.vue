@@ -272,7 +272,7 @@
 			editCartProductNum(data) {
 				if (data.stock_num < data.num) {
 					uni.showToast({
-						title: '库存不足',
+						title: this.$t('cart.kzbz'),
 						icon: 'none',
 						duration: 2000
 					})

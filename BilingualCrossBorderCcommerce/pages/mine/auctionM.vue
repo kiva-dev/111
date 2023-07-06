@@ -1596,7 +1596,7 @@
 
 				.item-info {
 					flex: 1;
-					height: 206rpx;
+					// height: 206rpx;
 					margin-left: 16rpx;
 					display: flex;
 					flex-direction: column;

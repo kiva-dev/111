@@ -180,7 +180,7 @@
 				<view class="gl-content">
 					<u-grid :border="false">
 						<u-grid-item v-for="item in youLikeList.slice(0,6)" :key="item.goods_id"
-							@click="toYouLikeOrHot(item.goods_id)">
+							@click="toYouLikeOrHot(item)">
 							<view class="gl-content-item">
 								<view class="item-cover">
 									<image :src="item.image" mode="aspectFill">
@@ -586,9 +586,9 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				})
 			},
 			//猜你喜欢以及热门推荐跳转
-			toYouLikeOrHot(id) {
+			toYouLikeOrHot(item) {
 				uni.navigateTo({
-					url: '/pages/auction/product_info?goods_id=' + id
+					url: '/pages/auction/product_info?goodsId=' + item.goods_id
 				})
 			},
 			getYouLikeList() {
@@ -633,8 +633,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				}).then(res => {
 					if (res.code == 1) {
 						uni.showToast({
-							title: res.msg,
-							icon: 'none'
+							title: this.$t('cart.tjdd'),
+							icon: 'none',
 						})
 						setTimeout(() => {
 							uni.navigateTo({
@@ -1140,6 +1140,10 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					data_id: this.shopCont.goods_id
 				}).then(res => {
 					if (res.code == 1) {
+						uni.showToast({
+							icon: 'none',
+							title: this.$t('auction.detail.success')
+						})
 						this.getProductInfo()
 					}
 				})
