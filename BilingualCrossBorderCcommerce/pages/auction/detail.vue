@@ -396,8 +396,7 @@
 										<image src="/static/images/kbrick/jian.png"></image>
 									</view>
 									<view class="input-info">
-										<input type="number" v-model="isauctionNum" :value="isauctionNum"
-											@blur="numBlur()"></input>
+										<input type="number" v-model="isauctionNum" @blur="numBlur()"></input>
 									</view>
 									<view class="input-img"
 										@click="auction_num == '-1' ? isauctionNum++ : isauctionNum < auction_num ? isauctionNum++:isauctionNum">

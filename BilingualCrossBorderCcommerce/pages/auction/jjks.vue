@@ -441,6 +441,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				}).then(res => {
 					if (res.code == 1) {
 						this.totalPageNum = res.data.total
+						let arrs = []
 						res.data.data.forEach(item => {
 							item.litestore_tag.forEach(data => {
 								let arr = data.name.split("|")
@@ -448,13 +449,13 @@ NoR+zv3KaEmPSHtooQIDAQAB
 								else data.name = arr[1]
 							})
 							if (item.is_belong_to_mall == 1 && item.goods_status == 10) {
-								this.productList = this.page == 1 ? res.data.data : [...this.productList,
-									...res.data.data
-								];
+								arrs.push(item)
 							}
 						})
+						this.productList = this.page == 1 ? arrs : [...this.productList,
+							...arrs
+						];
 					}
-
 				})
 			},
 			toClassify(item) {
@@ -625,8 +626,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			// 最新竞拍
 			// this.$bus.$emit('onReachBottom', this.selectProductsId)
 			if (this.page * this.pagenum >= this.totalPageNum) return
-
-
 			this.page++
 			this.getAllProducts(this.productInfoId)
 
@@ -1085,7 +1084,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							border-top: none;
 							border-bottom: none;
 						}
-						.new-list-item-right-start-info2:nth-child(2){
+
+						.new-list-item-right-start-info2:nth-child(2) {
 							border-right: none;
 						}
 
@@ -1439,7 +1439,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							border-top: none;
 							border-bottom: none;
 						}
-						.info-tag2:nth-child(2){
+
+						.info-tag2:nth-child(2) {
 							border-right: none;
 						}
 

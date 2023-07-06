@@ -165,7 +165,7 @@
 					</view>
 					<view class="more" @click.top="toInfo(1)">
 						<text>{{$t('auction.topMore')}}</text>
-						<img class="moreRight" src="../../static/xuyuan/r.png" alt="">
+						<image src="/static/images/products/right.png" class="moreRight"></image>
 					</view>
 				</view>
 			</view>
@@ -229,7 +229,7 @@
 
 							<view class="new-list-item-btm-btn">
 								<image src="../../static/images/new-index/lvxcz.png"></image>
-								<view @click.stop="onMineInfo(item)">{{$t('shop.qiangpai')}}</view>
+								<view @click.stop="onMineInfo(item)">{{$t('tab.xy')}}</view>
 							</view>
 						</view>
 
@@ -316,7 +316,7 @@
 
 							<view class="info-btn">
 								<image src="/static/images/new-index/lvxcz.png"></image>
-								<view @click.stop="onMineInfo(item)">{{$t('shop.qiangpai')}}</view>
+								<view @click.stop="onMineInfo(item)">{{$t('tab.xy')}}</view>
 							</view>
 
 						</view>
@@ -348,7 +348,7 @@
 
 						<view class="info-right">
 							<image src="/static/images/new-index/lvxcz.png"></image>
-							<view @click.stop="onMineInfo(item)">{{$t('shop.qiangpai')}}</view>
+							<view @click.stop="onMineInfo(item)">{{$t('tab.xy')}}</view>
 						</view>
 					</view>
 
@@ -389,7 +389,7 @@
 					</view>
 					<view class="more" @click.top="toInfo(2)">
 						<text>{{$t('auction.topMore')}}</text>
-						<img class="moreRight" src="../../static/xuyuan/r.png" alt="">
+						<image src="/static/images/products/right.png" class="moreRight"></image>
 					</view>
 				</view>
 			</view>
@@ -579,7 +579,7 @@
 
 					<view class="more" @click.top="toInfo(3)">
 						<text>{{$t('auction.topMore')}}</text>
-						<img class="moreRight" src="../../static/xuyuan/r.png" alt="">
+						<image src="/static/images/products/right.png" class="moreRight"></image>
 					</view>
 				</view>
 			</view>
@@ -718,8 +718,7 @@
 										<image src="/static/images/kbrick/jian.png"></image>
 									</view>
 									<view class="input-info">
-										<input type="number" v-model="isauctionNum" :value="isauctionNum"
-											@blur="numBlur()"></input>
+										<input type="number" v-model="isauctionNum" @blur="numBlur()"/>
 									</view>
 									<view class="input-img"
 										@click="auction_num == '-1' ? isauctionNum++ : isauctionNum < auction_num ? isauctionNum++:isauctionNum">
@@ -1002,19 +1001,19 @@
 			<text class="btn">have all that is necessary</text>
 			<view class="itemBox">
 				<view class="itemBox_a" v-for="item in list" :key="item.id" @click.top="toProductInfo(item)">
-					<img :src="item.image" alt="" class="itemImg">
+					<img :src="item.image"  class="itemImg">
 					<text class="title">{{item.goods_name}}</text>
 					<view class="iconArr">
 						<view class="iconArr_item">
-							<img src="@/static/xuyuan/xx.png" alt="">
+							<image src="/static/xuyuan/xx.png" ></image>
 							<text class="iconArr_txt">{{item.wishing_pool_goods_focus_total || 0}}</text>
 						</view>
 						<view class="iconArr_item">
-							<img src="@/static/xuyuan/ax.png" alt="">
+							<image src="/static/xuyuan/ax.png"></image>
 							<text class="iconArr_txt">{{item.wishing_pool_goods_appear_watch_num_total || 0}}</text>
 						</view>
 						<view class="iconArr_item">
-							<img src="@/static/xuyuan/jiang.png" alt="">
+							<image src="/static/xuyuan/jiang.png"></image>
 							<text class="iconArr_txt">{{item.wishing_pool_goods_lucky_total || 0}}</text>
 						</view>
 					</view>
@@ -2253,7 +2252,7 @@
 
 					.right-icon {
 						width: 32rpx;
-						margin-left: 28rpx;
+						margin-left: 14rpx;
 
 						image {
 							width: 100%;
@@ -2264,12 +2263,14 @@
 				}
 
 				.more {
+					display: flex;
+					align-items: center;
 					margin-left: 28rpx;
 					color: #333;
 
 					.moreRight {
-						width: 10rpx;
-						margin-left: 10rpx;
+						width: 16rpx;
+						height: 16rpx;
 					}
 				}
 			}
@@ -3750,7 +3751,7 @@
 					margin: auto;
 					margin-top: 10rpx;
 
-					img {
+					image {
 						width: 20rpx;
 						height: 20rpx;
 						margin-right: 8rpx;
