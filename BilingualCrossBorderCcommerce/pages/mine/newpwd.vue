@@ -224,7 +224,10 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					email_code: this.code
 				}).then(res => {
 					if (res.code == 1) {
-						this.blockNum = 2
+						this.blockNum = 0
+						setTimeout(()=>{
+							this.blockNum = 2
+						},200)
 						this.showErrCode = false
 					} else {
 						this.showErrCode = true
@@ -246,7 +249,10 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					code: this.code
 				}).then(res => {
 					if (res.code == 1) {
-						this.blockNum = 2
+						this.blockNum = 0
+						setTimeout(()=>{
+							this.blockNum = 2
+						},200)
 						this.showErrCode = false
 					} else {
 						this.showErrCode = true
@@ -293,14 +299,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					title: this.$t('login.qsrsjhm'),
 					icon: 'none'
 				})
-				if (this.mobile) {
-					var reg_tel =
-						/^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/ //11位手机号码正则
-					if (!reg_tel.test(this.mobile)) return uni.showToast({
-						title: this.$t('login.qsrzqsjh'),
-						icon: 'none'
-					})
-				}
+
 				if (!this.code) return uni.showToast({
 					title: this.$t('login.qsryzm'),
 					icon: 'none'
@@ -321,7 +320,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				this.$http.post(this.$apiObj.MineSetPaypwdByMobile, {
 					mobile: this.mobile, // 邮箱
 					code: this.code, // 邮箱验证码 
-					mobile_area_code: this.mobile_area_code.slice(1),
+					mobile_area_code: this.mobile_area_code,
 					pay_pwd: pwd, // 密码
 					// pwd2: pwd,// 再次输入的密码 
 				}).then(res => {

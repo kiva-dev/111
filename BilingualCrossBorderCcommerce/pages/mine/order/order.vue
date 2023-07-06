@@ -74,7 +74,7 @@
 			</view>
 		</template>
 		<template v-else>
-			<uni-empty message="暂无内容"></uni-empty>
+			<uni-empty :message="$t('home.search.zwnr')"></uni-empty>
 		</template>
 	</view>
 </template>
