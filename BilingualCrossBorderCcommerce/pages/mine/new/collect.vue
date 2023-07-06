@@ -123,7 +123,7 @@
 			},
 			toProductInfo(item) {
 				uni.navigateTo({
-					url: '/pages/auction/product_info?goodsId=' + item.goods_id
+					url: '/pages/auction/autionDetail?goodsId=' + item.goods_id
 				});
 			},
 			deleteGoods(item) {

@@ -94,13 +94,18 @@
 					select: false,
 					name: 'PayEssence'
 				}],
-				kdiamondxy: ''
+				kdiamondxy: '',
+				infoData: []
 			}
 		},
 		onShow() {
 			let isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
 			this.$http.post(this.$apiObj.MineInfo).then(res => {
 				this.balance = res.data.k_diamond_wallet
+			})
+
+			this.$http.post(this.$apiObj.MineAuthDetail).then(res => {
+				this.infoData = res.data
 			})
 
 			this.$http.post(this.$apiObj.IndexSetting, {
@@ -162,6 +167,20 @@
 					})
 					return
 				}
+				if (this.infoData.length < 1) {
+					uni.showToast({
+						title: this.$t('smrz'),
+						icon: 'none',
+						duration: 3000
+					})
+					setTimeout(() => {
+						uni.navigateTo({
+							url: '/pages/mine/Vid'
+						})
+					},3000)
+					return
+				}
+
 				this.$http.post(this.$apiObj.addDiamond, {
 					money: this.payNum ? this.payNum : this.list[this.select - 1].k_diamond
 				}).then(res => {

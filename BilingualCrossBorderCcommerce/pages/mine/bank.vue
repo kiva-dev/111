@@ -12,7 +12,7 @@
 					<text>{{$t('user.bank.tjyhzh')}}</text>
 				</view>
 			</view>
-			
+
 			<view class="bank-ul">
 				<view v-for="item,k in CardList" :key="k" class="bank-li" :class="k%3==1?'green':k%3==2?'blue':''"
 					@click="onClick(item)">
@@ -31,9 +31,9 @@
 				</view>
 
 			</view>
-			
+
 		</view>
-		
+
 		<uni-popup ref="popup1" type="center">
 			<view class="public-pop">
 				<view class="pop-con">
@@ -47,7 +47,7 @@
 				</view>
 			</view>
 		</uni-popup>
-		
+
 	</view>
 </template>
 
@@ -102,12 +102,14 @@
 				this.$http.post(this.$apiObj.MineBankCardList).then(res => {
 					if (res.code == 1) {
 						this.CardList = res.data
+						uni.setStorageSync('yhkList', res.data[0])
 					}
 				})
 			},
 			onseach(item) {
 				this.id = item.id
 				this.name = item.bank_name + item.account.substr(-4)
+
 				this.$refs.popup1.open()
 			},
 			toggleClose() {

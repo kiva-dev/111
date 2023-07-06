@@ -991,7 +991,7 @@
 		{
 			"path": "pages/mine/order/award_details",
 			"style": {
-				"navigationBarTitleText": "领奖详情",
+				"navigationBarTitleText": "%new.ljxq%",
 				"enablePullDownRefresh": false
 			}
 		}

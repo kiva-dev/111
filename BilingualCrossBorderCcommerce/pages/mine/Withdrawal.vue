@@ -70,10 +70,10 @@
 			}
 		},
 		onShow() {
-
+			this.CardCont = uni.getStorageSync('yhkList')
 			this.$http.post(this.$apiObj.MineBankCardList).then(res => {
 				if (res.code == 1) {
-					this.CardCont = res.data[0]
+					
 				}
 			})
 			// 获取个人信息

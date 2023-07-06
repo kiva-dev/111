@@ -19,7 +19,8 @@
 				<view class="header-tag" v-if="info.status==2 || info.status == 3">{{$t('user.auctionM.shipped')}}</view>
 				<view class="header-tag" v-else-if="info.status==4">{{$t('user.auctionM.receive')}}</view>
 				<view class="header-tag" v-else-if="info.status==5">{{$t('user.auctionM.beConfirmed')}}</view>
-				<view class="header-tag" v-else-if="info.status==6">{{$t('user.order.ywc')}}</view>
+				<view class="header-tag" v-else-if="info.status==6 && info.is_complain==0">{{$t('user.order.ywc')}}</view>
+				<view class="header-tag" v-else-if="info.status==6 && info.is_complain==1">{{$t('user.auctionM.inAppeal')}}</view>
 			</view>
 			<view class="detail_des">
 				<image :src="info.image"></image>

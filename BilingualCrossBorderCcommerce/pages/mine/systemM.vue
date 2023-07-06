@@ -103,37 +103,37 @@
 						this.onMineSysmsgList()
 					}
 				})
-				if (item.type == 1) {
-					uni.navigateTo({
-						url: './wallet'
-					})
-				} else if (item.type == 2) {
-					uni.navigateTo({
-						url: './wallet'
-					})
-				} else if (item.type == 3) {
-					uni.navigateTo({
-						url: './order/detail?order_no=' + item.order_no
-					})
-				} else if (item.type == 4) {
-					uni.navigateTo({
-						url: './refund/detail?id=' + item.data_id
-					})
-				} else if (item.type == 5) {
-					uni.navigateTo({
-					  url: "/pages/auction/detail?id=" + item.data_id
-					})
-				} else if (item.type == 6) {
-					if (item.data_id == 0) {
-						uni.navigateTo({
-							url: "./coupon"
-						})
-					} else {
-						uni.navigateTo({
-							url: '/pages/class/search'
-						});
-					}
-				}
+				// if (item.type == 1) {
+				// 	uni.navigateTo({
+				// 		url: './wallet'
+				// 	})
+				// } else if (item.type == 2) {
+				// 	uni.navigateTo({
+				// 		url: './wallet'
+				// 	})
+				// } else if (item.type == 3) {
+				// 	uni.navigateTo({
+				// 		url: './order/detail?order_no=' + item.order_no
+				// 	})
+				// } else if (item.type == 4) {
+				// 	uni.navigateTo({
+				// 		url: './refund/detail?id=' + item.data_id
+				// 	})
+				// } else if (item.type == 5) {
+				// 	uni.navigateTo({
+				// 	  url: "/pages/auction/detail?id=" + item.data_id
+				// 	})
+				// } else if (item.type == 6) {
+				// 	if (item.data_id == 0) {
+				// 		uni.navigateTo({
+				// 			url: "./coupon"
+				// 		})
+				// 	} else {
+				// 		uni.navigateTo({
+				// 			url: '/pages/class/search'
+				// 		});
+				// 	}
+				// }
 			},
 		},
 		// 页面滑动到底部

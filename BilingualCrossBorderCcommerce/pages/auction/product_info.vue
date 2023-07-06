@@ -289,14 +289,14 @@
 			</view>
 			<!--底部 start-->
 			<view class="bottom-layout">
-				<view class="bl-left" @click="onFocusProduct()">
+				<!-- <view class="bl-left" @click="onFocusProduct()">
 					<view class="bl-left-box">
 						<image
 							:src="shopCont.goods_focus == 0 ? require('@/static/images/auction/sc.png') : require('@/static/images/auction/sc1.png')"
 							mode="widthFix"></image>
 						<p>{{$t('auction.shoucang')}}</p>
 					</view>
-				</view>
+				</view> -->
 				<view class="bl-left" @click="toMyCart()">
 					<view class="bl-left-box">
 						<image src="@/static/images/new-index/detail_btn_car2.png" mode="widthFix"></image>
