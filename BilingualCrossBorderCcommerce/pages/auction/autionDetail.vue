@@ -51,7 +51,7 @@
 					<image src="@/static/xuyuan/ax.png" mode="widthFix"></image>
 					<p>{{shopCont.auction_goods_total}}</p>
 				</view>
-				<view class="ol-container">
+				<view class="ol-container" v-if="shopCont.appear_want_num>0">
 					<image src="@/static/xuyuan/jiang.png" mode="widthFix"></image>
 					<p>{{shopCont.appear_want_num}}</p>
 				</view>
@@ -1011,7 +1011,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					}
 				);
 				// #endif
-				this.onAuctionorderShare()
+				// this.onAuctionorderShare()
 			},
 			ontweet() {
 				let url = `https://twitter.com/intent/tweet?url=${this.qrUrl}`
@@ -1027,7 +1027,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					}
 				);
 				// #endif
-				this.onAuctionorderShare()
+				// this.onAuctionorderShare()
 			},
 			// 轮播图数字变
 			change(e) {
@@ -1575,7 +1575,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			},
 			// 点击复制链接
 			onUrlClick() {
-				this.onAuctionorderShare()
+				// this.onAuctionorderShare()
 				// this.$emit('copy', this.shopCont.tui_express_no);
 				// #ifdef H5
 				let oInput = document.createElement('input');

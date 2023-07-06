@@ -4,7 +4,8 @@
 			<view class="detail-head">
 				<image src="@/static/images/new-index/detail_btn_back.png" class="return" @click="toIndex()"></image>
 				<image src="@/static/images/new-index/detail_btn_car.png" class="gwc" @click="toMyCart()"></image>
-				<image src="@/static/images/new-index/detail_btn_share.png" class="fx" @click="onfenxingShow=true"></image>
+				<image src="@/static/images/new-index/detail_btn_share.png" class="fx" @click="onfenxingShow=true">
+				</image>
 				<view :style="`opacity: ${myOpacity};`">{{$t('top.shop')}}</view>
 			</view>
 			<!--头部导航 start-->
@@ -508,7 +509,17 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			if (e.invite_code) {
 				uni.setStorageSync('invite_code', e.invite_code)
 			}
-			
+			if (uni.getStorageSync('token')) {
+				this.$http.post(this.$apiObj.MineInfo).then(res => {
+					if (res.code == 1) {
+						this.qrUrl = 'https://h5.kolibrimall.com/h5/#/pages/auction/detail?id=' + e.goodsId +
+							'&invite_code=' + res.data.invite_code // 生成二维码的链接
+					}
+				})
+			} else {
+				this.qrUrl = 'https://h5.kolibrimall.com/h5/#/pages/auction/detail?id=' + e.goodsId // 生成二维码的链接
+			}
+
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
 
 			this.id = e.goodsId
@@ -809,7 +820,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					}
 				);
 				// #endif
-				this.onAuctionorderShare()
+				// this.onAuctionorderShare()
 			},
 			ontweet() {
 				let url = `https://twitter.com/intent/tweet?url=${this.qrUrl}`
@@ -825,7 +836,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					}
 				);
 				// #endif
-				this.onAuctionorderShare()
+				// this.onAuctionorderShare()
 			},
 			// 轮播图数字变
 			change(e) {
@@ -861,7 +872,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			getProductInfo() {
 				this.$http.post(this.$apiObj.ProductInfo, {
 					goods_id: this.id,
-					goods_listing_type:1
+					goods_listing_type: 1
 				}).then(res => {
 					if (res.code == 1) {
 						res.data.litestore_tag.forEach(item => {
@@ -1139,7 +1150,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					if (res.code == 1) {
 						uni.showToast({
 							icon: 'none',
-							title:this.shopCont.goods_focus? this.$t('auction.detail.err'):this.$t('auction.detail.success')
+							title: this.shopCont.goods_focus ? this.$t('auction.detail.err') : this.$t(
+								'auction.detail.success')
 						})
 						this.getProductInfo()
 					}
@@ -1373,7 +1385,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			},
 			// 点击复制链接
 			onUrlClick() {
-				this.onAuctionorderShare()
+				// this.onAuctionorderShare()
 				// this.$emit('copy', this.shopCont.tui_express_no);
 				// #ifdef H5
 				let oInput = document.createElement('input');

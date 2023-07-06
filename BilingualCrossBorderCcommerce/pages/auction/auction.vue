@@ -1028,7 +1028,7 @@
 							<image src="/static/xuyuan/ax.png"></image>
 							<text class="iconArr_txt">{{item.wishing_pool_goods_appear_watch_num_total || 0}}</text>
 						</view>
-						<view class="iconArr_item">
+						<view class="iconArr_item" v-if="item.wishing_pool_goods_lucky_total>0">
 							<image src="/static/xuyuan/jiang.png"></image>
 							<text class="iconArr_txt">{{item.wishing_pool_goods_lucky_total || 0}}</text>
 						</view>
@@ -3763,7 +3763,6 @@
 				.iconArr {
 					width: 80%;
 					display: flex;
-					justify-content: space-between;
 					align-items: center;
 					margin: auto;
 					margin-top: 10rpx;
@@ -3777,6 +3776,9 @@
 					.iconArr_item {
 						width: 100rpx;
 						border-right: 1px solid #e8e8e8;
+					}
+					.iconArr_item:nth-child(2){
+						border: none;
 					}
 
 					.iconArr_item:nth-child(3) {

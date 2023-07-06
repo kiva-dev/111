@@ -216,7 +216,7 @@
 								<view class="item-text">{{item.goods_name}}</view>
 								<view class="item-price">
 									<span>RM</span>
-									<span>{{item.litestore_goods_spec[0].goods_price}}</span>
+									<span>{{item.price}}</span>
 								</view>
 							</view>
 						</u-grid-item>
@@ -722,12 +722,12 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			if (uni.getStorageSync('token')) {
 				this.$http.post(this.$apiObj.MineInfo).then(res => {
 					if (res.code == 1) {
-						this.qrUrl = 'https://h5.kolibrimall.com/h5/#/pages/auction/detail?id=' + e.id +
+						this.qrUrl = this.$baseUrl + 'pages/auction/detail?id=' + e.id +
 							'&invite_code=' + res.data.invite_code // 生成二维码的链接
 					}
 				})
 			} else {
-				this.qrUrl = 'https://h5.kolibrimall.com/h5/#/pages/auction/detail?id=' + e.id // 生成二维码的链接
+				this.qrUrl = this.$baseUrl + 'pages/auction/detail?id=' + e.id // 生成二维码的链接
 			}
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
 			// 竞拍规则
