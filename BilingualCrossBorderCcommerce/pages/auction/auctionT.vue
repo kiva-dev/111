@@ -467,34 +467,34 @@
 		</view> -->
 
 		<!-- 许愿 -->
-		<view class="containerXy">
-			<view class="xy"><img src="@/static/xuyuan/xy.png" alt="" class="xyImg"></view>
-			<text class="txt">Wishing Items</text>
-			<text class="btn">have all that is necessary</text>
-			<view class="itemBox">
-				<view class="itemBox_a" v-for="item in list" :key="item.id" @click.top="toProductInfo(item)">
-					<img :src="item.image" alt="" class="itemImg">
-					<text class="title">{{item.goods_name}}</text>
-					<view class="iconArr">
-						<view class="iconArr_item">
-							<img src="@/static/xuyuan/xx.png" alt="">
-							<text class="iconArr_txt">{{item.litestore_goods_focus_total}}</text>
-						</view>
-						<view class="iconArr_item">
-							<img src="@/static/xuyuan/ax.png" alt="">
-							<text class="iconArr_txt">{{item.auction_goods_total}}</text>
-						</view>
-						<view class="iconArr_item">
-							<img src="@/static/xuyuan/jiang.png" alt="">
-							<text class="iconArr_txt">{{item.litestore_goods_comment_total}}</text>
-						</view>
+	<view class="containerXy" v-if="list.length!=0">
+		<view class="xy"><image src="/static/xuyuan/xy.png" alt="" class="xyImg" /></view>
+		<text class="txt">{{$t('xylist')}}</text>
+		<text class="btn">{{$t('xytitle')}}</text>
+		<view class="itemBox">
+			<view class="itemBox_a" v-for="item in list" :key="item.id" @click.top="toProductInfo(item)">
+				<image :src="item.image"  class="itemImg" />
+				<text class="title">{{item.goods_name}}</text>
+				<view class="iconArr">
+					<view class="iconArr_item">
+						<image src="/static/xuyuan/xx.png" ></image>
+						<text class="iconArr_txt">{{item.wishing_pool_goods_focus_total || 0}}</text>
 					</view>
-					<view class="new-list-item-btm-price">
-						<view class="new">RM<span>{{item.litestore_goods_spec[0].goods_price}}</span></view>
+					<view class="iconArr_item">
+						<image src="/static/xuyuan/ax.png"></image>
+						<text class="iconArr_txt">{{item.wishing_pool_goods_appear_watch_num_total || 0}}</text>
 					</view>
+					<view class="iconArr_item" v-if="item.wishing_pool_goods_lucky_total>0">
+						<image src="/static/xuyuan/jiang.png"></image>
+						<text class="iconArr_txt">{{item.wishing_pool_goods_lucky_total || 0}}</text>
+					</view>
+				</view>
+				<view class="new-list-item-btm-price">
+					<view class="new">RM<span>{{item.litestore_goods_spec[0].goods_price}}</span></view>
 				</view>
 			</view>
 		</view>
+	</view>
 	</view>
 </template>
 
@@ -1164,7 +1164,7 @@
 
 	}
 
-	// 许愿
+// 许愿
 	.containerXy {
 		width: 100%;
 		text-align: center;
@@ -1220,7 +1220,6 @@
 			.itemBox_a {
 				width: 336rpx;
 				height: 510rpx;
-				border: 1px solid red;
 				border-radius: 20rpx;
 				margin-bottom: 20rpx;
 				background: #fff;
@@ -1247,12 +1246,11 @@
 				.iconArr {
 					width: 80%;
 					display: flex;
-					justify-content: space-between;
 					align-items: center;
 					margin: auto;
 					margin-top: 10rpx;
 
-					img {
+					image {
 						width: 20rpx;
 						height: 20rpx;
 						margin-right: 8rpx;
@@ -1261,6 +1259,9 @@
 					.iconArr_item {
 						width: 100rpx;
 						border-right: 1px solid #e8e8e8;
+					}
+					.iconArr_item:nth-child(2){
+						border: none;
 					}
 
 					.iconArr_item:nth-child(3) {
@@ -1286,7 +1287,6 @@
 			}
 		}
 	}
-
 	.auction-page {
 		width: 100%;
 		background: #FFFFFF;

@@ -1012,12 +1012,12 @@
 
 		<!-- 许愿 -->
 		<view class="containerXy" v-if="list.length!=0">
-			<view class="xy"><img src="@/static/xuyuan/xy.png" alt="" class="xyImg"></view>
+			<view class="xy"><image src="/static/xuyuan/xy.png" alt="" class="xyImg" /></view>
 			<text class="txt">{{$t('xylist')}}</text>
 			<text class="btn">{{$t('xytitle')}}</text>
 			<view class="itemBox">
 				<view class="itemBox_a" v-for="item in list" :key="item.id" @click.top="toProductInfo(item)">
-					<img :src="item.image"  class="itemImg">
+					<image :src="item.image"  class="itemImg" />
 					<text class="title">{{item.goods_name}}</text>
 					<view class="iconArr">
 						<view class="iconArr_item">
