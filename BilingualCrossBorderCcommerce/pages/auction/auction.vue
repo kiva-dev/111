@@ -1830,11 +1830,11 @@
 	}
 
 	.item-right-content {
+		width: 500rpx;
+		font-size: 24rpx;
 		overflow: hidden;
 		text-overflow: ellipsis;
-		display: -webkit-box;
-		-webkit-line-clamp: 1;
-		-webkit-box-orient: vertical;
+		white-space: nowrap;
 	}
 
 	//头部
