@@ -125,11 +125,11 @@
 			</view>
 			<view class="ml-auction-content">
 				<view class="content-box" @click="toAuction(1)">
-					<image src="@/static/images/mine/mine_icon_ongoing.png" mode="widthFix"></image>
+					<image src="@/static/xuyuan/hd.png" mode="widthFix"></image>
 					<p>{{$t('tab.xyz')}}</p>
 				</view>
 				<view class="content-box" @click="toAuction(5)">
-					<image src="@/static/images/mine/mine_icon_oder.png" mode="widthFix"></image>
+					<image src="@/static/xuyuan/hdt.png" mode="widthFix"></image>
 					<p>{{$t('tab.Wishorder')}}</p>
 				</view>
 				<view class="content-box" @click="toAuction(3)">

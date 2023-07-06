@@ -114,13 +114,14 @@
 				<view class="ll-text" v-if="isEnglish">
 					<image :src="avatar" mode="aspectFill"></image>
 					<view class="item-right-content">
-						In the Joint contribution sales activities provided by{{' '}}
-						<text style="color: rgb(10, 198, 142);">{{shop_name}}</text>
-						,at the price of{{' '}}
-						<text style="color: rgb(255, 57, 57); font-weight: bold;">
+					<!-- 	In the Joint contribution sales activities provided by{{' '}}
+						<text style="color: rgb(10, 198, 142);">{{shop_name}}</text> -->
+						<!-- ,at the price of{{' '}} -->
+						<!-- <text style="color: rgb(255, 57, 57); font-weight: bold;">
 							<image src="/static/images/kbrick/diamond.png"></image>{{pay_price}}
-						</text>
-						,I was lucky to win a
+						</text> -->
+						<!-- , -->
+						I was lucky to win a
 						{{goods_name}}
 						{{' '}}worth{{' '}}
 						<text style="color: rgb(255, 57, 57); font-weight: bold;">RM{{price}}</text>
@@ -129,13 +130,14 @@
 				<view class="ll-text" v-else>
 					<image :src="avatar" mode="aspectFill"></image>
 					<view class="item-right-content">
-						在
+					<!-- 	在
 						<text style="color: rgb(10, 198, 142);">{{shop_name}}</text>
-						提供的许愿活动中，以
-						<text style="color: rgb(255, 57, 57); font-weight: bold;">
+						提供的许愿活动中，以 -->
+						<!-- <text style="color: rgb(255, 57, 57); font-weight: bold;">
 							<image src="/static/images/kbrick/diamond.png"></image>{{pay_price}}
-						</text>
-							的价格，幸运地获得了价值
+						</text> -->
+							<!-- 的价格， -->
+							幸运地获得了价值
 						<text style="color: rgb(255, 57, 57); font-weight: bold;">RM{{price}}</text>
 						的
 						{{goods_name}}
@@ -244,7 +246,6 @@
 
 
 							<view class="new-list-item-btm-btn">
-								<image src="../../static/images/new-index/lvxcz.png"></image>
 								<view @click.stop="onMineInfo(item)">{{$t('tab.xy')}}</view>
 							</view>
 						</view>
@@ -331,7 +332,6 @@
 							</view>
 
 							<view class="info-btn">
-								<image src="/static/images/new-index/lvxcz.png"></image>
 								<view @click.stop="onMineInfo(item)">{{$t('tab.xy')}}</view>
 							</view>
 
@@ -1834,7 +1834,7 @@
 		overflow: hidden;
 		text-overflow: ellipsis;
 		display: -webkit-box;
-		-webkit-line-clamp: 2;
+		-webkit-line-clamp: 1;
 		-webkit-box-orient: vertical;
 	}
 
