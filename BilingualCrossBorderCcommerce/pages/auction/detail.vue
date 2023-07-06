@@ -4,7 +4,8 @@
 			<view class="detail-head">
 				<image src="@/static/images/new-index/detail_btn_back.png" class="return" @click="toIndex()"></image>
 				<!-- <image src="@/static/images/new-index/detail_btn_car.png" class="gwc" @click="toMyCart()"></image> -->
-				<image src="@/static/images/new-index/detail_btn_share.png" class="fx" @click="onfenxingShow=true"></image>
+				<image src="@/static/images/new-index/detail_btn_share.png" class="fx" @click="onfenxingShow=true">
+				</image>
 				<view :style="`opacity: ${myOpacity};`">{{$t('top.jpxq')}}</view>
 			</view>
 			<!--头部导航 start-->
@@ -60,15 +61,15 @@
 			<view class="operate-layout">
 				<view class="ol-container">
 					<image src="@/static/images/new-index/detail_icon_collect.png" mode="widthFix"></image>
-					<p>{{shopCont.litestore_goods_focus_total}}</p>
+					<p>{{shopCont.wishing_pool_goods_focus_total}}</p>
 				</view>
 				<view class="ol-container">
 					<image src="@/static/xuyuan/ax.png" mode="widthFix"></image>
-					<p>{{shopCont.auction_goods_total}}</p>
+					<p>{{shopCont.wishing_pool_goods_appear_watch_num_total}}</p>
 				</view>
-				<view class="ol-container" v-if="shopCont.appear_want_num>0">
+				<view class="ol-container" v-if="shopCont.wishing_pool_goods_lucky_total>0">
 					<image src="@/static/xuyuan/jiang.png" mode="widthFix"></image>
-					<p>{{shopCont.appear_want_num}}</p>
+					<p>{{shopCont.wishing_pool_goods_lucky_total}}</p>
 				</view>
 			</view>
 			<!--幸运之星-->
@@ -797,8 +798,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					this.isauctionNum = 1
 				} else if (this.auction_num != '-1' && this.isauctionNum * 1 <= this.auction_num) {
 					let arr = this.isauctionNum.split('.')
-					if(arr.length>1) this.isauctionNum = arr[0]
-				}else if(this.auction_num != '-1' && this.isauctionNum *1 > this.auction_num){
+					if (arr.length > 1) this.isauctionNum = arr[0]
+				} else if (this.auction_num != '-1' && this.isauctionNum * 1 > this.auction_num) {
 					this.isauctionNum = this.auction_num
 				}
 			},
@@ -940,7 +941,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				// #ifdef H5
 				window.open(url)
 				// #endif
-				// #ifndef H5
+				// #ifndef APP-PLUS
 				plus.runtime.openURL(
 					url,
 					// 打开url失败，执行，如打开的是tabao://但是手机没安装，就会执行报错
@@ -956,7 +957,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				// #ifdef H5
 				window.open(url)
 				// #endif
-				// #ifndef H5
+				// #ifndef APP-PLUS
 				plus.runtime.openURL(
 					url,
 					// 打开url失败，执行，如打开的是tabao://但是手机没安装，就会执行报错

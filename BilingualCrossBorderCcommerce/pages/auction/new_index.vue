@@ -33,7 +33,7 @@
 			<scroll-view class="sl-scroll" scroll-x="true" @scrolltoupper="isBottoming = false"
 				@scrolltolower="isBottoming = true">
 				<view class="sl-scroll-box" v-for="item in FirstList" :key="item.id"
-					@click="switchLogoToProduct(item.id);">
+					@click="switchLogoToProduct(item.id,item.name);">
 					<image :src="item.image" mode="widthFix"></image>
 					<view :style="switch_id==item.id?'color: rgb(51, 222, 114);':''">{{item.name}}</view>
 				</view>
@@ -1334,10 +1334,10 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				})
 			},
 			//首页logo页面跳转
-			switchLogoToProduct(id) {
+			switchLogoToProduct(id,name) {
 				uni.setStorageSync('switch_id', id)
-				uni.switchTab({
-					url: '/pages/auction/jjks'
+				uni.navigateTo({
+					url: '/pages/auction/product_list?id='+id+'&name='+name
 				})
 			},
 

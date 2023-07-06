@@ -811,7 +811,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				// #ifdef H5
 				window.open(url)
 				// #endif
-				// #ifndef H5
+				// #ifndef APP-PLUS
 				plus.runtime.openURL(
 					url,
 					// 打开url失败，执行，如打开的是tabao://但是手机没安装，就会执行报错
@@ -827,7 +827,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				// #ifdef H5
 				window.open(url)
 				// #endif
-				// #ifndef H5
+				// #ifndef APP-PLUS
 				plus.runtime.openURL(
 					url,
 					// 打开url失败，执行，如打开的是tabao://但是手机没安装，就会执行报错

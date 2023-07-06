@@ -182,19 +182,20 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		},
 		onShow() {
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
-			if (uni.getStorageSync('phoneCont')) {
-				this.mobile_area_code = JSON.parse(uni.getStorageSync('phoneCont')).code
-			} else {
-				this.mobile_area_code = '+60'
-				let title = {
-					city: this.$t('phone.mlxy'),
-					code: "+60",
-					"sou": "M"
-				}
-				uni.setStorageSync('phoneCont', JSON.stringify(title))
-			}
+			// if (uni.getStorageSync('phoneCont')) {
+			// 	this.mobile_area_code = JSON.parse(uni.getStorageSync('phoneCont')).code
+			// } else {
+			// 	this.mobile_area_code = '+60'
+			// 	let title = {
+			// 		city: this.$t('phone.mlxy'),
+			// 		code: "+60",
+			// 		"sou": "M"
+			// 	}
+			// 	uni.setStorageSync('phoneCont', JSON.stringify(title))
+			// }
 			if (uni.getStorageSync('token')) {
 				this.$http.post(this.$apiObj.MineInfo).then(res => {
+					console.log(res)
 					if (res.data.email) {
 						this.email = res.data.email
 						this.Inv = 1
@@ -262,21 +263,11 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					title: this.$t('login.qsrsjh'),
 					icon: 'none'
 				})
-				if (this.mobile_area_code == 86) {
-					if (this.mobile) {
-						var reg_tel =
-							/^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/ //11位手机号码正则
-						if (!reg_tel.test(this.mobile)) return uni.showToast({
-							title: this.$t('login.qsrzqsjh'),
-							icon: 'none'
-						})
-					}
-				}
 				this.$http.post(this.$apiObj.LoginSendMobileCode, {
 					mobile: this.mobile,
-					mobile_area_code: this.mobile_area_code.slice(1)
+					mobile_area_code: this.mobile_area_code
 				}).then(res => {
-					if (res.code == 200) {
+					if (res.code == 1) {
 						uni.showToast({
 							title: this.$t('login.fscg'),
 							icon: 'none'

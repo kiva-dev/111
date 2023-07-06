@@ -68,7 +68,7 @@
 				</view>
 			</template>
 			<template v-else>
-				<uni-empty message="暂无内容"></uni-empty>
+				<uni-empty :message="$t('home.search.zwnr')"></uni-empty>
 			</template>
 		</view>
 		<!--我的竞拍-竞拍中 auct-box end-->
@@ -116,7 +116,7 @@
 				</view>
 			</template>
 			<template v-else>
-				<uni-empty message="暂无内容"></uni-empty>
+				<uni-empty :message="$t('home.search.zwnr')"></uni-empty>
 			</template>
 		</view>
 		<!--我的竞拍-竞拍订单 auct-box end-->
@@ -220,7 +220,7 @@
 					</view>
 				</template>
 				<template v-else>
-					<uni-empty message="暂无内容"></uni-empty>
+					<uni-empty :message="$t('home.search.zwnr')"></uni-empty>
 				</template>
 			</block>
 			<block v-if="navId==2">
@@ -265,7 +265,7 @@
 					</navigator>
 				</template>
 				<template v-else>
-					<uni-empty message="暂无内容"></uni-empty>
+					<uni-empty :message="$t('home.search.zwnr')"></uni-empty>
 				</template>
 			</block>
 		</view>
@@ -305,7 +305,7 @@
 				</navigator>
 			</template>
 			<template v-else>
-				<uni-empty message="暂无内容"></uni-empty>
+				<uni-empty :message="$t('home.search.zwnr')"></uni-empty>
 			</template>
 		</view>
 		<!--我的竞拍-历史竞拍 end-->
@@ -361,7 +361,7 @@
 				</view>
 			</template>
 			<template v-else>
-				<uni-empty message="暂无内容"></uni-empty>
+				<uni-empty :message="$t('home.search.zwnr')"></uni-empty>
 			</template>
 		</view>
 		<!--我的竞拍-竞拍记录 auct-box end-->

@@ -239,7 +239,7 @@
 						<image src="@/static/images/mine/mine_icon_right.png" mode="widthFix"></image>
 					</view>
 				</view>
-				
+
 				<!-- <view class="ul-li">
 					<view class="ul-li-l">
 						<view class="l-icon">
@@ -273,65 +273,36 @@
 						<image src="@/static/images/mine/mine_icon_right.png" mode="widthFix"></image>
 					</view>
 				</view> -->
-				
+
 			</view>
 		</view>
 		<!-- 联系我们 -->
-<!-- 		<u-popup :show="showContact" mode="center" bgColor="transparent">
+		<u-popup :show="showContact" mode="center" bgColor="transparent">
 			<view class="contact">
 				<image src="/static/images/kbrick/close.png" class="contact-info-close" @click="showContact = false">
 				</image>
 				<view class="contact-info">
-					<view class="contact-info-tit">{{$t('user.myCont.ptkf')}}</view>
-					<a href="fb://page/119896577745123" target="_blank" v-if="isFacebookApp && device=='android'">
-						<view class="contact-info-des">
-							<image src="../../static/images/new/face book.png"></image>
-							<view>Face book</view>
-						</view>
-					</a>
-					<a href="fb://page?id=119896577745123" target="_blank" v-else-if="isFacebookApp && device=='ios'">
-						<view class="contact-info-des">
-							<image src="../../static/images/new/face book.png"></image>
-							<view>Face book</view>
-						</view>
-					</a>
-					<view class="contact-info-des" v-else @click="showContact=false;showConfirm=true">
+
+					<view class="contact-info-des" @click="onfacebook()">
 						<image src="../../static/images/new/face book.png"></image>
 						<view>Face book</view>
 					</view>
-					<a href="twitter://user?screen_name=Kolibrimall2023" target="_blank" v-if="isTwitterApp">
-						<view class="contact-info-des" id="twitter">
-							<image src="../../static/images/share21.png"></image>
-							<view>Twitter</view>
-						</view>
-					</a>
-					<view class="contact-info-des" v-else @click="showContact=false;showConfirm=true">
+					<view class="contact-info-des" @click="ontweet()">
 						<image src="../../static/images/share21.png"></image>
 						<view>Twitter</view>
 					</view>
-					<a href="tg://resolve?domain=Kolibrimall" target="_blank" v-if="isTelegramApp">
-						<view class="contact-info-des">
-							<image src="../../static/images/new/Telegram.png"></image>
-							<view>Telegram</view>
-						</view>
-					</a>
-					<view class="contact-info-des" v-else @click="showContact=false;showConfirm=true">
+					<view class="contact-info-des" @click="onTelegram()">
 						<image src="../../static/images/new/Telegram.png"></image>
 						<view>Telegram</view>
 					</view>
-					<a href="whatsapp://send?phone=+60 11-14338082" target="_blank" v-if="isWhatsApp">
-						<view class="contact-info-des">
-							<image src="../../static/images/new/WhatsAPP.png"></image>
-							<view>WhatsAPP</view>
-						</view>
-					</a>
-					<view class="contact-info-des" v-else @click="showContact=false;showConfirm=true">
+
+					<view class="contact-info-des" @click="onWhatsAPP()">
 						<image src="../../static/images/new/WhatsAPP.png"></image>
 						<view>WhatsAPP</view>
 					</view>
 				</view>
 			</view>
-		</u-popup> -->
+		</u-popup>
 		<u-popup :show="showConfirm" mode="center" bgColor="transparent">
 			<view class="showConfirm">
 				<view class="showConfirm-txt">{{$t('new.wazyy')}}</view>
@@ -427,6 +398,66 @@
 			this.showConfirm = false
 		},
 		methods: {
+			onfacebook() {
+				let url = `https://www.facebook.com/sharer/sharer.php?u=`+this.$baseUrl
+				// #ifdef H5
+				window.open(url)
+				// #endif
+				// #ifndef H5
+				plus.runtime.openURL(
+					url,
+					// 打开url失败，执行，如打开的是tabao://但是手机没安装，就会执行报错
+					function(err) {
+						console.log(err);
+					}
+				);
+				// #endif
+			},
+			ontweet() {
+				let url = `https://twitter.com/intent/tweet?url=`+this.$baseUrl
+				// #ifdef H5
+				window.open(url)
+				// #endif
+				// #ifndef H5
+				plus.runtime.openURL(
+					url,
+					// 打开url失败，执行，如打开的是tabao://但是手机没安装，就会执行报错
+					function(err) {
+						console.log(err);
+					}
+				);
+				// #endif
+			},
+			onTelegram(){
+				let url = `http://t.me/Kolibrimall`
+				// #ifdef H5
+				window.open(url)
+				// #endif
+				// #ifndef H5
+				plus.runtime.openURL(
+					url,
+					// 打开url失败，执行，如打开的是tabao://但是手机没安装，就会执行报错
+					function(err) {
+						console.log(err);
+					}
+				);
+				// #endif
+			},
+			onWhatsAPP(){
+				let url = `https://wa.me/message/NAZMJSVWAJ3XA1`
+				// #ifdef H5
+				window.open(url)
+				// #endif
+				// #ifndef H5
+				plus.runtime.openURL(
+					url,
+					// 打开url失败，执行，如打开的是tabao://但是手机没安装，就会执行报错
+					function(err) {
+						console.log(err);
+					}
+				);
+				// #endif
+			},
 			//获取所有积分
 			getAllPoints() {
 				this.$http.post(this.$apiObj.GetPoints, {

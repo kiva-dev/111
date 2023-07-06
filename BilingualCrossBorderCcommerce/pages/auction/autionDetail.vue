@@ -45,15 +45,15 @@
 					<image
 						:src="shopCont.goods_focus == 0 ? require('@/static/images/new-index/detail_icon_collect.png') : require('@/static/images/new-index/detail_icon_iscollect.png')"
 						mode="widthFix"></image>
-					<p>{{shopCont.litestore_goods_focus_total}}</p>
+					<p>{{shopCont.wishing_pool_goods_focus_total}}</p>
 				</view>
 				<view class="ol-container">
 					<image src="@/static/xuyuan/ax.png" mode="widthFix"></image>
-					<p>{{shopCont.auction_goods_total}}</p>
+					<p>{{shopCont.wishing_pool_goods_appear_watch_num_total}}</p>
 				</view>
-				<view class="ol-container" v-if="shopCont.appear_want_num>0">
+				<view class="ol-container" v-if="shopCont.wishing_pool_goods_lucky_total>0">
 					<image src="@/static/xuyuan/jiang.png" mode="widthFix"></image>
-					<p>{{shopCont.appear_want_num}}</p>
+					<p>{{shopCont.wishing_pool_goods_lucky_total}}</p>
 				</view>
 			</view>
 			<!-- <view class="select-layout">
@@ -1002,7 +1002,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				// #ifdef H5
 				window.open(url)
 				// #endif
-				// #ifndef H5
+				// #ifndef APP-PLUS
 				plus.runtime.openURL(
 					url,
 					// 打开url失败，执行，如打开的是tabao://但是手机没安装，就会执行报错
@@ -1018,7 +1018,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				// #ifdef H5
 				window.open(url)
 				// #endif
-				// #ifndef H5
+				// #ifndef APP-PLUS
 				plus.runtime.openURL(
 					url,
 					// 打开url失败，执行，如打开的是tabao://但是手机没安装，就会执行报错

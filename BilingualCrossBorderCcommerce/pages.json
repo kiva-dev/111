@@ -994,6 +994,13 @@
 				"navigationBarTitleText": "%new.ljxq%",
 				"enablePullDownRefresh": false
 			}
+		},
+		{
+			"path": "pages/auction/product_list",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
 		}
 	],
 	"globalStyle": {
