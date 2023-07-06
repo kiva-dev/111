@@ -112,38 +112,37 @@
 					<image src="@/static/images/mine/lucky_icon_trophy.png" mode="widthFix"></image>
 				</view>
 				<view class="ll-text" v-if="isEnglish">
-					<image :src="avatar" mode="aspectFill"></image>
+					<view class="image"><image :src="avatar" mode="aspectFill"  class="image"></image></view>
 					<view class="item-right-content">
-					<!-- 	In the Joint contribution sales activities provided by{{' '}}
+						<!-- 	In the Joint contribution sales activities provided by{{' '}}
 						<text style="color: rgb(10, 198, 142);">{{shop_name}}</text> -->
 						<!-- ,at the price of{{' '}} -->
 						<!-- <text style="color: rgb(255, 57, 57); font-weight: bold;">
 							<image src="/static/images/kbrick/diamond.png"></image>{{pay_price}}
 						</text> -->
 						<!-- , -->
-						I was lucky to win a
+						<text style="color: rgb(10, 198, 142);">{{nickname}}</text> &nbsp; was lucky to win a
 						{{goods_name}}
 						{{' '}}worth{{' '}}
 						<text style="color: rgb(255, 57, 57); font-weight: bold;">RM{{price}}</text>
 					</view>
 				</view>
 				<view class="ll-text" v-else>
-					<image :src="avatar" mode="aspectFill"></image>
+				<view class="image"><image :src="avatar" mode="aspectFill"  class="image"></image></view>
 					<view class="item-right-content">
-					<!-- 	在
+						<!-- 	在
 						<text style="color: rgb(10, 198, 142);">{{shop_name}}</text>
 						提供的许愿活动中，以 -->
 						<!-- <text style="color: rgb(255, 57, 57); font-weight: bold;">
 							<image src="/static/images/kbrick/diamond.png"></image>{{pay_price}}
 						</text> -->
-							<!-- 的价格， -->
-							幸运地获得了价值
-						<text style="color: rgb(255, 57, 57); font-weight: bold;">RM{{price}}</text>
-						的
-						{{goods_name}}
+						<!-- 的价格， -->
+						<text style="color: rgb(10, 198, 142);">{{nickname}}</text>
+						幸运地获得了价值<text
+							style="color: rgb(255, 57, 57); font-weight: bold;">RM{{price}}</text>的{{goods_name}}
 					</view>
 				</view>
-				
+
 				<view class="ll-right">
 					<image src="@/static/images/products/right.png" mode="widthFix"></image>
 				</view>
@@ -428,7 +427,7 @@
 								<image :src="data.image"></image>
 							</block>
 						</view>
-						
+
 						<view class="new-list-item-right-start">
 							<view class="new-list-item-right-start-info">
 								<image src="../../static/images/new-index/xx.png"></image>
@@ -537,8 +536,7 @@
 							</view>
 
 
-							<view class="new-list-item-btm-btn"
-								style="border: 1rpx solid rgb(248, 155, 0);">
+							<view class="new-list-item-btm-btn" style="border: 1rpx solid rgb(248, 155, 0);">
 								<image src="/static/images/new-index/time1.png" style="width: 20rpx;height: 20rpx;">
 								</image>
 								<u-count-down :time="item.datetime" format="HH:mm:ss"
@@ -565,9 +563,8 @@
 								<view class="old">RM{{item.price}}</view>
 							</view>
 						</view>
-						
-						<view class="new-list-item-btm-btn"
-							style="border: 1rpx solid rgb(248, 155, 0);">
+
+						<view class="new-list-item-btm-btn" style="border: 1rpx solid rgb(248, 155, 0);">
 							<image src="/static/images/new-index/time1.png" style="width: 20rpx;height: 20rpx;">
 							</image>
 							<u-count-down :time="item.datetime" format="HH:mm:ss"
@@ -600,7 +597,7 @@
 				</view>
 			</view>
 			<!--单行显示-->
-			<template >
+			<template>
 				<view class="new-list-item" v-for="(item,i) in historyList" :key="i" @click="onJingPai(item)"
 					@longpress="item.isMask=true">
 					<image :src="item.image" class="new-list-item-left"
@@ -734,7 +731,7 @@
 										<image src="/static/images/kbrick/jian.png"></image>
 									</view>
 									<view class="input-info">
-										<input type="number" v-model="isauctionNum" @blur="numBlur()"/>
+										<input type="number" v-model="isauctionNum" @blur="numBlur()" />
 									</view>
 									<view class="input-img"
 										@click="auction_num == '-1' ? isauctionNum++ : isauctionNum < auction_num ? isauctionNum++:isauctionNum">
@@ -1012,16 +1009,18 @@
 
 		<!-- 许愿 -->
 		<view class="containerXy" v-if="list.length!=0">
-			<view class="xy"><image src="/static/xuyuan/xy.png" alt="" class="xyImg" /></view>
+			<view class="xy">
+				<image src="/static/xuyuan/xy.png" alt="" class="xyImg" />
+			</view>
 			<text class="txt">{{$t('xylist')}}</text>
 			<text class="btn">{{$t('xytitle')}}</text>
 			<view class="itemBox">
 				<view class="itemBox_a" v-for="item in list" :key="item.id" @click.top="toProductInfo(item)">
-					<image :src="item.image"  class="itemImg" />
+					<image :src="item.image" class="itemImg" />
 					<text class="title">{{item.goods_name}}</text>
 					<view class="iconArr">
 						<view class="iconArr_item">
-							<image src="/static/xuyuan/xx.png" ></image>
+							<image src="/static/xuyuan/xx.png"></image>
 							<text class="iconArr_txt">{{item.wishing_pool_goods_focus_total || 0}}</text>
 						</view>
 						<view class="iconArr_item">
@@ -1077,7 +1076,7 @@
 				id: 1, //决定当前页面展示那个竞拍数据
 				title: 'Ongoing', //标题显示
 				jinpaiSelectId: 1, //不同的显示形式
-				newSelectId:1,
+				newSelectId: 1,
 				productId: 0,
 				balanceOrOther: 0,
 				isShowAegin: true,
@@ -1150,7 +1149,8 @@
 				pay_price: "",
 				price: "",
 				goods_name: "",
-				avatar: ""
+				avatar: "",
+				nickname: ""
 			}
 		},
 		watch: {
@@ -1197,7 +1197,7 @@
 			uni.removeStorageSync('productId')
 			uni.removeStorageSync('switch_id')
 			uni.removeStorageSync('jinpaiId')
-			
+
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
 			this.page = 1
 			this.newsjpId = 1
@@ -1238,8 +1238,8 @@
 					this.isauctionNum = 1
 				} else if (this.auction_num != '-1' && this.isauctionNum <= this.auction_num) {
 					let arr = this.isauctionNum.split('.')
-					if(arr.length>1) this.isauctionNum = arr[0]
-				}else if(this.auction_num != '-1' && this.isauctionNum > this.auction_num){
+					if (arr.length > 1) this.isauctionNum = arr[0]
+				} else if (this.auction_num != '-1' && this.isauctionNum > this.auction_num) {
 					this.isauctionNum = this.auction_num
 				}
 			},
@@ -1265,7 +1265,7 @@
 					// "wishing_pool_goods_status": "10", //许愿池商品上架状态: 10=上架, 20=下架
 					res.data.data.forEach(item => {
 						if (item.is_belong_to_wishing_pool == 1 && item.wishing_pool_goods_status == 10) {
-                            this.list=res.data.data
+							this.list = res.data.data
 						}
 					})
 				})
@@ -1288,6 +1288,8 @@
 					this.price = res.data.data[0].price
 					this.goods_name = res.data.data[0].goods_name
 					this.avatar = res.data.data[0].avatar
+					this.nickname = res.data.data[0].nickname
+
 				})
 			},
 			//点击图片出现入口并且图片旋转
@@ -1694,7 +1696,6 @@
 </script>
 
 <style lang="less" scoped>
-	
 	.new-list-item-btm-btn {
 		padding: 6rpx 10rpx;
 		box-sizing: border-box;
@@ -1705,18 +1706,18 @@
 		border-radius: 100rpx;
 		display: flex;
 		align-items: center;
-	
+
 		image {
 			width: 28rpx;
 			height: 28rpx;
 			margin-right: 6rpx;
 		}
-	
+
 		/deep/ .u-count-down__text {
 			color: #F89B00;
 		}
 	}
-	
+
 	// 联系我们
 	.contact {
 		position: relative;
@@ -2181,15 +2182,14 @@
 					display: flex;
 					align-items: center;
 
-					image {
+					.image {
 						width: 38rpx;
 						height: 38rpx;
 						border-radius: 50%;
 					}
 
 					view {
-						max-width: 440rpx;
-						margin-left: 16rpx;
+						margin-left: 10rpx;
 						color: rgb(51, 51, 51);
 						font-size: 12rpx;
 						font-weight: bold;
@@ -3777,7 +3777,8 @@
 						width: 100rpx;
 						border-right: 1px solid #e8e8e8;
 					}
-					.iconArr_item:nth-child(2){
+
+					.iconArr_item:nth-child(2) {
 						border: none;
 					}
 
