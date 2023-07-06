@@ -538,7 +538,9 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 		},
 		onShow() {
-			this.getAllAddress()
+			if(uni.getStorageSync('token')){
+				this.getAllAddress()
+			}
 		},
 		onHide() {
 			clearInterval(this.timer)
