@@ -1125,7 +1125,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			},
 		},
 		onLoad(e) {
-
 			let systemInfo = uni.getSystemInfoSync();
 			this.systemLocale = systemInfo.language;
 			this.applicationLocale = uni.getLocale();

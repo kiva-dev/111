@@ -787,7 +787,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			//猜你喜欢以及热门推荐跳转
 			toYouLikeOrHot(id) {
 				uni.navigateTo({
-					url: '/pages/auction/product_info?id=' + id
+					url: '/pages/auction/product_info?goodsId=' + id
 				})
 			},
 			getYouLikeList() {

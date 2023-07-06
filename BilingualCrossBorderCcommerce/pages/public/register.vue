@@ -314,8 +314,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					title: this.$t('login.qsrsjhm'),
 					icon: 'none'
 				})
-				if (this.codeTxt1 != this.$t('login.hqyzm')) return 
-				
+				if (this.codeTxt1 != this.$t('login.hqyzm')) return
+
 				if (this.mobile_area_code == 86) {
 					if (this.mobile) {
 						var reg_tel =
@@ -416,8 +416,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					title: this.$t('login.qsryx'),
 					icon: 'none'
 				})
-				if (this.codeTxt != this.$t('login.hqyzm')) return 
-				
+				if (this.codeTxt != this.$t('login.hqyzm')) return
+
 				if (this.email) {
 					var reg_tel = /^[a-zA-Z0-9]+([-_.][a-zA-Z0-9]+)*@([a-zA-Z0-9]+[-.])+[A-Za-zd]{2,5}$/
 					if (!reg_tel.test(this.email)) return uni.showToast({
@@ -540,6 +540,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					title: this.$t('login.qqrmm'),
 					icon: 'none'
 				})
+				//两次密码不一致
 				if (this.pwd !== this.pwd2) {
 					this.showPwdErr = true
 					uni.showToast({
@@ -552,7 +553,22 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					title: this.$t('login.qydxybty'),
 					icon: 'none'
 				})
-
+				//密码不能输入空格
+				let re = /^(?!\s+).*(?<!\s)$/;
+				if (re.test(this.pwd||this.pwd2) == true) {
+					uni.showToast({
+						title: this.$t('login.kg'),
+						icon: 'none'
+					})
+				}
+				//密码中不能输入汉字
+				let h=/[\u4E00-\u9FA5]/g;
+				if (h.test(this.pwd||this.pwd2) == true) {
+					uni.showToast({
+						title: this.$t('login.hz'),
+						icon: 'none'
+					})
+				}
 				const pwd = jsencrypt.setEncrypt(publiukey, String(this.pwd))
 				uni.showLoading({
 					title: '请求中',

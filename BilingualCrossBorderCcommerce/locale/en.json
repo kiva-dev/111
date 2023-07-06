@@ -304,7 +304,7 @@
 	"auction.detail.qxzzffs": "Please select a payment method",
 	"auction.detail.qingsshumm": "Please input a password",
 	"auction.detail.title": "The maximum number of snap shots is",
-	"auction.detail.dy": "subscribe",
+	"auction.detail.dy": "Subscribe",
 	"auction.detail.querydy": "unsubscribe",
 	"auction.detail.commodity": "Commodity issue",
 	"auction.detail.market": "Commodity market price",
@@ -314,8 +314,9 @@
 	"auction.detail.recharge": "Recharge Amount",
 	"auction.detail.gift": "Amount Of Gift",
 	"auction.detail.total": "Total Payment",
-	"auction.detail.success":"Successful collection",
-	
+	"auction.detail.success": "Successful collection",
+	"auction.detail.err": "uncollect",
+
 
 	"cart.guanli": "Administration",
 	"cart.wancheng": "Complete",
@@ -327,8 +328,8 @@
 	"cart.nqdyscxxspm": "Are you sure you want to delete the selected item?",
 	"cart.qxzyscdsj": "Please select the data to delete",
 	"cart.qxzsp": "Please select an item",
-	"cart.kzbz":"Insufficient stock",
-	"cart.tjdd":"Submit an order",
+	"cart.kzbz": "Insufficient stock",
+	"cart.tjdd": "Submit an order",
 
 	"order.addContXuanze": "Please select the receiving address",
 	"order.liuyan": "Leaving a message",
@@ -922,6 +923,9 @@
 	"user.refund.detail.fuzhicg": "Copy succeeded",
 	"user.refund.detail.shcg": "Goods received successfully",
 
+
+    "login.kg": "The password cannot contain Spaces",
+	"login.hz": "Do not enter Chinese characters in the password",
 	"login.qsrsjh": "Please enter your mobile number",
 	"login.pwd": "Password",
 	"login.qsrmm": "Please input a password",
@@ -1486,15 +1490,15 @@
 	"new.order_time": "Order time",
 	"new.view_order": "View order",
 	"new.toindex": "Homepage",
-	"new.xyje":"Wishing amount",
-	"new.xyxx":"Wishing information",
-	"new.spqs":"Commodity period",
-	"new.xym":"Wish Code",
-	"new.xdsj":"Order time",
-	"new.lqsj":"Pick up time",
-	"new.fhm":"Shipping order number",
-	"new.fhsj":"Shipping company name",
-	"new.shsm":"Appeal Description",
-	"new.qqwszmm":"Please go to the personal center to set the payment password",
-	"new.wish_code":"Wish Code"
+	"new.xyje": "Wishing amount",
+	"new.xyxx": "Wishing information",
+	"new.spqs": "Commodity period",
+	"new.xym": "Wish Code",
+	"new.xdsj": "Order time",
+	"new.lqsj": "Pick up time",
+	"new.fhm": "Shipping order number",
+	"new.fhsj": "Shipping company name",
+	"new.shsm": "Appeal Description",
+	"new.qqwszmm": "Please go to the personal center to set the payment password",
+	"new.wish_code": "Wish Code"
 }

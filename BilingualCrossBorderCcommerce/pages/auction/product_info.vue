@@ -506,7 +506,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			if (e.invite_code) {
 				uni.setStorageSync('invite_code', e.invite_code)
 			}
-			
+
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
 
 			this.id = e.goodsId
@@ -859,7 +859,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			getProductInfo() {
 				this.$http.post(this.$apiObj.ProductInfo, {
 					goods_id: this.id,
-					goods_listing_type:1
+					goods_listing_type: 1
 				}).then(res => {
 					if (res.code == 1) {
 						res.data.litestore_tag.forEach(item => {
@@ -1137,7 +1137,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					if (res.code == 1) {
 						uni.showToast({
 							icon: 'none',
-							title: this.$t('auction.detail.success')
+							title: this.shopCont.goods_focus ? this.$t('auction.detail.err') : this.$t(
+								'auction.detail.success')
 						})
 						this.getProductInfo()
 					}
