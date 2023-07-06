@@ -66,12 +66,12 @@
 							</block>
 						</view>
 
-						<view class="new-list-item-right-start" style="top: 158rpx;">
+						<!-- <view class="new-list-item-right-start" style="top: 158rpx;">
 							<view class="new-list-item-right-start-info">
 								<image src="../../static/images/new-index/xx.png"></image>
 								<view>{{item.litestore_goods_focus_total}}</view>
 							</view>
-						</view>
+						</view> -->
 
 						<view class="new-list-item-btm">
 							<view class="new-list-item-btm-price">
@@ -102,12 +102,12 @@
 						<image :src="item.image" class="info-img"></image>
 						<view class="info-tit">{{item.goods_name}}</view>
 
-						<view class="info-tags">
+						<!-- <view class="info-tags">
 							<view class="info-tag">
 								<image src="/static/images/new-index/xx.png"></image>
 								<view>{{item.litestore_goods_focus_total}}</view>
 							</view>
-						</view>
+						</view> -->
 
 
 						<view class="info-btm" style="margin-top: 32rpx;">
