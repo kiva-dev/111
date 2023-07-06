@@ -207,7 +207,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				isShopCont: false, // 中文还是英文
 				set_paypwd: '',
 				MineCont: {},
-				shopInfo: {}
+				shopInfo: {},
+				order_no:""
 			}
 		},
 		watch: {
@@ -270,6 +271,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					order_no: this.order_no
 				}).then(res => {
 					this.major_no=res.data.major_no
+					this.order_no=res.data.order_no
 					this.total = res.data.goods[0].total_price
 					this.shopInfo = res.data
 					this.OrderList = res.data.goods
@@ -433,7 +435,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			},
 			// 购物车提交订单
 			onOrderReferCartOrder() {
-				// console.log(111)
 				if (!this.addCont) return uni.showToast({
 					icon: 'none',
 					title: this.$t('order.addContXuanze')
@@ -467,7 +468,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					})
 					// 3方支付
 					this.$http.post(this.$apiObj.OrderMalaysiaPay, {
-						major_no: res.data.major_no ? res.data.major_no : res.data.order_no,
+						// major_no: res.data.major_no ? res.data.major_no : res.data.order_no,					
+						major_no:this.major_no?this.major_no:this.order_no,
 						money: this.total * 1
 					}).then(res => {
 						if (res.code == 1) {

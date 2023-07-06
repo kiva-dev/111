@@ -334,7 +334,7 @@
 				</view>
 			</view>
 			<!-- 许愿列表 历史记录 -->
-			<view class="wish">
+			<view class="wish" v-if="historyList.length!=0">
 				<view class="ll-header-left">
 					<view class="left-icon">
 						<image src="@/static/images/new-index/historical.png" mode="widthFix"></image>
@@ -493,7 +493,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			return {
 				jingpaiList: [], // 竞拍列表
 				max: 3, //默认展示几条数据
-				isOpen: true,
+				isOpen: false,
 				total: 6, //总条数
 				historyList: [], // 历史竞拍
 				btnShow: true,
@@ -696,7 +696,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					keyword: this.keyword,
 					date_start: this.date_start
 				}).then(res => {
-					console.log(res.data.data)
 					if (res.code == 1) {
 						if (this.isShopCont) {
 							res.data.data.map(item => {
@@ -722,11 +721,12 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						]
 						if (this.id == 3) this.productList = this.historyList
 
-						if (this.isOpen == true) {
-							this.historyList = this.historyList
+						if (this.isOpen == false) {
+							this.historyList = this.historyList.splice(0, 3)
+							this.isOpen == true
 						}
 						if (this.isOpen == true) {
-							this.historyList = this.historyList.splice(0, 3)
+							this.historyList = this.historyList
 						}
 					}
 				})

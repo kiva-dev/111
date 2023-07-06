@@ -101,7 +101,6 @@
 					pagenum: 10,
 					keyword: '',
 				}).then(res => {
-					console.log(res)
 					if (res.code === 1) {
 						let arr = res.data.data || [];
 						if (this.page > 1) {

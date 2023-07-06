@@ -178,7 +178,7 @@
 					</view>
 				</view>
 				<view class="gl-content">
-					<u-grid :border="false" @click="click">
+					<u-grid :border="false">
 						<u-grid-item v-for="item in youLikeList.slice(0,6)" :key="item.goods_id"
 							@click="toYouLikeOrHot(item.goods_id)">
 							<view class="gl-content-item">
@@ -588,7 +588,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			//猜你喜欢以及热门推荐跳转
 			toYouLikeOrHot(id) {
 				uni.navigateTo({
-					url: '/pages/auction/product_info?id=' + id
+					url: '/pages/auction/product_info?goods_id=' + id
 				})
 			},
 			getYouLikeList() {
@@ -3469,9 +3469,9 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					}
 
 					.item-default {
-						width: 150rpx;
+						width: 200rpx;
 						height: 36rpx;
-						line-height: 36rpx;
+						// line-height: 36rpx;
 						font-size: 20rpx;
 						color: rgb(10, 198, 142);
 						text-align: center;

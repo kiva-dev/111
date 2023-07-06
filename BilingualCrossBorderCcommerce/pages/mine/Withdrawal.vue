@@ -111,6 +111,10 @@
 					title: this.$t('user.drawal.txjebndyktxje'),
 					icon: 'none'
 				})
+				if(this.CardCont==undefined) return uni.showToast({
+					title:"未绑定银行卡",
+					icon: 'none'
+				})
 				this.$http.post(this.$apiObj.RechargeTocash, {
 					money: this.moneys,
 					bank_id: this.CardCont.id

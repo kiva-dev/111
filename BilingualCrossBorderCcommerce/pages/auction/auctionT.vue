@@ -254,7 +254,7 @@
 						<view class="cent">
 							<view class="cont">
 								<view class="tit">{{$t('new.qpsl')}}</view>
-								
+
 								<view class="my-input">
 									<view class="input-img" @click="isauctionNum>1?isauctionNum--:isauctionNum">
 										<image src="/static/images/kbrick/jian.png"></image>
@@ -268,7 +268,7 @@
 										<image src="/static/images/kbrick/jia.png"></image>
 									</view>
 								</view>
-								
+
 								<view class="num">
 									<view style="color:#2c2c2c">{{$t('user.auctionM.syqpcs')}}</view>：
 									<block v-if="auction_num == '-1'">
@@ -473,7 +473,7 @@
 			<text class="txt">Wishing Items</text>
 			<text class="btn">have all that is necessary</text>
 			<view class="itemBox">
-				<view class="itemBox_a" v-for="item in list" :key="item.id">
+				<view class="itemBox_a" v-for="item in list" :key="item.id" @click.top="toProductInfo(item)">
 					<img :src="item.image" alt="" class="itemImg">
 					<text class="title">{{item.goods_name}}</text>
 					<view class="iconArr">
@@ -518,9 +518,9 @@
 				timer: '', //记录定时器状态
 				imgShow: true, //三个图标入口
 				useInvite: false, //是否使用赠金
-				rmtoKdiamondNum:0,
+				rmtoKdiamondNum: 0,
 				useInviteRmNum: 0, //勾选使用赠金后rm可用数量
-				invite_money_balance:0,
+				invite_money_balance: 0,
 				can_use_invite_money_rate: 0, //可使用的增金比例
 				selectProtocol: false,
 				kdiamondSelect: false,
@@ -629,15 +629,15 @@
 		},
 		onLoad(e) {
 			this.getAllProducts() //列表数据
-			if(e.id==1){
+			if (e.id == 1) {
 				this.id = e.id
 				this.title = this.$t('tab.zzxy')
 				this.onAuctionNewGoods()
-			}else if(e.id==2){
+			} else if (e.id == 2) {
 				this.id = e.id
 				this.title = this.$t('new.jjks')
 				this.onAuctionNotbeginGoods()
-			}else{
+			} else {
 				this.id = e.id
 				this.title = this.$t('new.lsjl')
 				this.onAuctionHistoryGoods()
@@ -688,14 +688,20 @@
 			}, 1000)
 		},
 		methods: {
+			//获取许愿列表详情页
+			toProductInfo(item) {
+				uni.navigateTo({
+					url: './autionDetail?goodsId=' + item.goods_id
+				})
+			},
 			numBlur() {
 				if (this.isauctionNum < 1) {
 					this.isauctionNum = 1
 				} else if (this.auction_num != '-1' && this.isauctionNum <= this.auction_num) {
 					let arr = this.isauctionNum.split('.')
-					if(arr.length>1) this.isauctionNum = arr[0]
+					if (arr.length > 1) this.isauctionNum = arr[0]
 					else this.isauctionNum = this.auction_num
-				}else if(this.auction_num != '-1' && this.isauctionNum > this.auction_num){
+				} else if (this.auction_num != '-1' && this.isauctionNum > this.auction_num) {
 					this.isauctionNum = this.auction_num
 				}
 			},
@@ -720,11 +726,11 @@
 			},
 			getProductOrJinpai() {
 				// 最新竞拍
-				
+
 				// 最新竞拍
-				
+
 				// 历史竞拍
-				
+
 				//记住当前竞拍选择的品类
 				let id = uni.getStorageSync('jinpaiId')
 				if (id) {
@@ -958,13 +964,13 @@
 
 				this.shopNum = this.shopCont.auction_price * Number(this.isauctionNum)
 				this.$refs.pwdPopup.close()
-				
+
 				//RM最多兑换多少k钻
 				this.rmtoKdiamondNum = this.shopNum * 1 > this.balance * 1 ? this.shopNum * 1 - this.balance * 1 : 0
-				
+
 				//最多使用多少赠金
 				let zjPrice = (this.shopNum * 1) * (this.can_use_invite_money_rate * 1 / 100)
-				
+
 				if (this.balance * 1 < this.shopNum * 1 && this.balance * 1 < (zjPrice > this.invite_money_balance * 1 ?
 						this.shopNum * 1 - this.invite_money_balance * 1 : this.shopNum * 1 - zjPrice)) {
 					//如果最大赠金小于自己的赠金
@@ -976,7 +982,7 @@
 						this.useInviteRmNum = this.shopNum * 1 - this.invite_money_balance * 1 - this.balance * 1
 					}
 				}
-				
+
 				this.onOrderReferCartOrder()
 			},
 			// 提交订单
@@ -1008,7 +1014,7 @@
 					})
 					return
 				}
-				
+
 				//k钻加赠金
 				if (this.useInvite && this.balance * 1 < this.shopNum && !this.kdiamondSelect) {
 					let zj = this.shopNum * 1 * this.can_use_invite_money_rate //最多赠金
@@ -1031,7 +1037,7 @@
 						}
 					}
 				}
-				
+
 				//k钻加赠金加兑换
 				if (this.useInvite && this.kdiamondSelect) {
 					if (this.money * 1 < this.useInviteRmNum * 1) {
@@ -2467,7 +2473,7 @@
 								// background: rgb(241, 241, 241);
 								border-radius: 16rpx;
 								margin: 0 auto;
-							
+
 								.input-img {
 									width: 124rpx;
 									height: 72rpx;
@@ -2476,20 +2482,20 @@
 									justify-content: center;
 									background: rgb(241, 241, 241);
 								}
-							
+
 								.input-info {
 									width: 152rpx;
 									height: 72rpx;
 									background: rgb(250, 251, 253);
 								}
-							
+
 								image {
 									display: block;
 									width: 28rpx;
 									height: 28rpx;
 									margin: 0 16rpx 0 24rpx;
 								}
-							
+
 							}
 
 							uni-input {

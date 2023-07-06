@@ -71,11 +71,11 @@
 								<image src="../../static/images/new-index/xx.png"></image>
 								<view>{{item.litestore_goods_focus_total}}</view>
 							</view>
-							<view class="new-list-item-right-start-info">
+							<view class="new-list-item-right-start-info" :class="item.litestore_goods_comment_total?'new-list-item-right-start-info':'new-list-item-right-start-info2'">
 								<image src="../../static/images/new-index/xcz.png"></image>
 								<view>{{item.auction_goods_total}}</view>
 							</view>
-							<view class="new-list-item-right-start-info">
+							<view class="new-list-item-right-start-info" v-if="item.litestore_goods_comment_total">
 								<image src="../../static/images/new-index/pl.png"></image>
 								<view>{{item.litestore_goods_comment_total}}</view>
 							</view>
@@ -116,12 +116,12 @@
 								<view>{{item.litestore_goods_focus_total}}</view>
 							</view>
 
-							<view class="info-tag">
+							<view class="info-tag" :class="item.litestore_goods_comment_total?'info-tag':'info-tag2'">
 								<image src="/static/images/new-index/xcz.png"></image>
 								<view>{{item.auction_goods_total}}</view>
 							</view>
 
-							<view class="info-tag">
+							<view class="info-tag" v-if="item.litestore_goods_comment_total">
 								<image src="/static/images/new-index/pl.png"></image>
 								<view>{{item.litestore_goods_comment_total}}</view>
 							</view>
@@ -1126,6 +1126,9 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							border-top: none;
 							border-bottom: none;
 						}
+						.new-list-item-right-start-info2:nth-child(2){
+							border-right: none;
+						}
 
 					}
 
@@ -1476,6 +1479,9 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							border: 1rpx solid rgb(204, 204, 204);
 							border-top: none;
 							border-bottom: none;
+						}
+						.info-tag2:nth-child(2){
+							border-right: none;
 						}
 
 					}

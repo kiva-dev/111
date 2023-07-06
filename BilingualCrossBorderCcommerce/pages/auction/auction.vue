@@ -438,8 +438,7 @@
 								<view class="old">RM{{item.price}}</view>
 							</view>
 
-							<view class="new-list-item-btm-btn" 
-								style="border: 1rpx solid rgb(248, 155, 0);">
+							<view class="new-list-item-btm-btn" style="border: 1rpx solid rgb(248, 155, 0);">
 								<image src="/static/images/new-index/time1.png" style="width: 20rpx;height: 20rpx;">
 								</image>
 								<u-count-down :time="item.datetime" format="HH:mm:ss"></u-count-down>
@@ -591,7 +590,7 @@
 					</view>
 				</view>
 				<view style="display: flex;">
-	
+
 					<view class="more" @click.top="toInfo(3)">
 						<text>{{$t('auction.topMore')}}</text>
 						<img class="moreRight" src="../../static/xuyuan/r.png" alt="">
@@ -813,7 +812,7 @@
 						<view class="cent">
 							<view class="cont">
 								<view class="tit">{{$t('new.qpsl')}}</view>
-								
+
 								<view class="my-input">
 									<view class="input-img" @click="isauctionNum>1?isauctionNum--:isauctionNum">
 										<image src="/static/images/kbrick/jian.png"></image>
@@ -827,7 +826,7 @@
 										<image src="/static/images/kbrick/jia.png"></image>
 									</view>
 								</view>
-								
+
 								<view class="num">
 									<view style="color:#2c2c2c">{{$t('user.auctionM.syqpcs')}}</view>：
 									<block v-if="auction_num == '-1'">
@@ -1010,7 +1009,7 @@
 
 
 		<!-- 联系我们 -->
-<!-- 		<u-popup :show="showContact" mode="center" bgColor="transparent">
+		<!-- 		<u-popup :show="showContact" mode="center" bgColor="transparent">
 			<view class="contact">
 				<image src="../../static/images/new/close.png" class="contact-info-close" @click="showContact = false">
 				</image>
@@ -1316,15 +1315,15 @@
 					this.isauctionNum = 1
 				} else if (this.auction_num != '-1' && this.isauctionNum <= this.auction_num) {
 					let arr = this.isauctionNum.split('.')
-					if(arr.length>1) this.isauctionNum = arr[0]
+					if (arr.length > 1) this.isauctionNum = arr[0]
 					else this.isauctionNum = this.auction_num
-				}else if(this.auction_num != '-1' && this.isauctionNum > this.auction_num){
+				} else if (this.auction_num != '-1' && this.isauctionNum > this.auction_num) {
 					this.isauctionNum = this.auction_num
 				}
 			},
-			toInfo(id){
+			toInfo(id) {
 				uni.navigateTo({
-					url: "/pages/auction/auctionT?id="+id
+					url: "/pages/auction/auctionT?id=" + id
 				})
 			},
 			myIndex() {
@@ -1340,7 +1339,13 @@
 					category_id: 1,
 					goods_listing_type: 2
 				}).then(res => {
-					this.list = res.data.data
+					// "is_belong_to_wishing_pool": 0, //是否属于许愿池: 0=不属于, 2=属于
+					// "wishing_pool_goods_status": "10", //许愿池商品上架状态: 10=上架, 20=下架
+					res.data.data.forEach(item => {
+						if (item.is_belong_to_wishing_pool == 1 && item.wishing_pool_goods_status == 10) {
+                            this.list=res.data.data
+						}
+					})
 				})
 			},
 			//获取许愿列表详情页
@@ -3145,7 +3150,7 @@
 								// background: rgb(241, 241, 241);
 								border-radius: 16rpx;
 								margin: 0 auto;
-							
+
 								.input-img {
 									width: 124rpx;
 									height: 72rpx;
@@ -3154,20 +3159,20 @@
 									justify-content: center;
 									background: rgb(241, 241, 241);
 								}
-							
+
 								.input-info {
 									width: 152rpx;
 									height: 72rpx;
 									background: rgb(250, 251, 253);
 								}
-							
+
 								image {
 									display: block;
 									width: 28rpx;
 									height: 28rpx;
 									margin: 0 16rpx 0 24rpx;
 								}
-							
+
 							}
 
 							uni-input {
