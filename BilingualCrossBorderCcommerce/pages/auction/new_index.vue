@@ -776,7 +776,7 @@
 			</view>
 		</view>
 		<!-- 联系我们 -->
-<!-- 		<u-popup :show="showContact" mode="center" bgColor="transparent">
+		<!-- 		<u-popup :show="showContact" mode="center" bgColor="transparent">
 			<view class="contact">
 				<image src="../../static/images/new/close.png" class="contact-info-close" @click="showContact = false">
 				</image>
@@ -1031,6 +1031,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				notice: {}, //公告信息
 				jinPaiTimer: '',
 				can_use_invite_money_rate: 0, //可使用的增加比例
+				totalNum: 0
 			}
 		},
 		watch: {
@@ -1165,12 +1166,15 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			}, 100);
 
 			this.getProductOrJinpai()
+			// 最新竞拍
+			this.onAuctionNewGoods()
+			// 即将开始
+			this.onAuctionNotbeginGoods()
+
+			//普通商品
+			if (this.productId == 1) this.getProductList(this.selectProductId)
 		},
 		onShow() {
-			uni.pageScrollTo({
-				scrollTop: 0,
-				duration: 0
-			})
 			this.switch_id = 0
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
 			this.cancelText = uni.getStorageSync('locale') == 'en' ? 'cancel' : '取消'
@@ -1225,23 +1229,11 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					}
 				})
 			}, 1200);
-			// 最新竞拍
-			this.onAuctionNewGoods()
-			// 即将开始
-			this.onAuctionNotbeginGoods()
-			// 历史竞拍
-			this.onAuctionHistoryGoods()
-			// 幸运之星
-			this.onAuctionLuckyList()
-			//公告
-			// this.getNotice()
 
-			//普通商品
-			if (this.productId == 1) this.getProductList(this.selectProductId)
 
-			this.jinPaiTimer = setInterval(() => {
-				this.showJinpaiData()
-			}, 1200000)
+			// this.jinPaiTimer = setInterval(() => {
+			// 	this.showJinpaiData()
+			// }, 1200000)
 
 		},
 		onHide() {
@@ -1320,7 +1312,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			//查看更多
 			toMore(id) {
 				uni.navigateTo({
-					url: '/pages/auction/auctionT?id='+id
+					url: '/pages/auction/auctionT?id=' + id
 				})
 			},
 			//普通商品或竞拍商品跳转
@@ -1334,10 +1326,10 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				})
 			},
 			//首页logo页面跳转
-			switchLogoToProduct(id,name) {
+			switchLogoToProduct(id, name) {
 				uni.setStorageSync('switch_id', id)
 				uni.navigateTo({
-					url: '/pages/auction/product_list?id='+id+'&name='+name
+					url: '/pages/auction/product_list?id=' + id + '&name=' + name
 				})
 			},
 
@@ -1348,22 +1340,14 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					pagenum: this.pagenum,
 					category_id: id > 0 ? id : ''
 				}).then(res => {
+					this.totalNum = res.data.total
+					let arr = []
 					res.data.data.forEach(item => {
-						item.litestore_tag.forEach(items => {
-							let arr = items.name.split('|')
-							if (!this.isShopCont) {
-								items.name = arr[0]
-							} else {
-								if (arr.length < 2) {
-									items.name = arr[0]
-								} else {
-									items.name = arr[1]
-								}
-							}
-						})
-						this.$set(item, 'tags', item.litestore_tag)
+						if (item.is_belong_to_wishing_pool == 0 && item.wishing_pool_goods_status == 10) {
+							arr.push(item)
+						}
 					})
-					this.productList = res.data.data
+					this.productList = this.page == 1 ? arr : [...this.productList, ...arr]
 				})
 			},
 			//查看公告信息
@@ -1433,6 +1417,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				uni.setStorageSync('UNI_LOCALE', e.code)
 				uni.setStorageSync('locale', e.code)
 				this.$i18n.locale = e.code;
+				// #ifdef APP-PLUS
+				console.log(111)
 				if (this.isAndroid) {
 					uni.showModal({
 						content: this.$t('index.language-change-confirm'),
@@ -1446,6 +1432,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					uni.setLocale(e.code);
 					this.$i18n.locale = e.code;
 				}
+				// #endif
 				location.reload()
 			},
 			//倒计时
@@ -2155,22 +2142,22 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		// 页面滑动到底部
 		onReachBottom() {
 			// 判断是否还有数据
-			if (this.navId == 1) {
-				// 最新竞拍
-				if (this.totalPageNum <= this.page * this.pagenum) return
-				this.page++
-				this.onAuctionNewGoods()
-			} else if (this.navId == 2) {
-				// 即将开始
-				if (this.totalPageNum <= this.page * this.pagenum) return
-				this.page++
-				this.onAuctionNotbeginGoods()
-			} else if (this.navId == 3) {
-				// 历史竞拍
-				if (this.totalPageNum <= this.page * this.pagenum) return
-				this.page++
-				this.onAuctionHistoryGoods()
-			}
+			// if (this.navId == 1) {
+			// 	if (this.totalPageNum <= this.page * this.pagenum) return
+			// 	this.page++
+			// 	this.onAuctionNewGoods()
+			// } else if (this.navId == 2) {
+			// 	if (this.totalPageNum <= this.page * this.pagenum) return
+			// 	this.page++
+			// 	this.onAuctionNotbeginGoods()
+			// } else if (this.navId == 3) {
+			// 	if (this.totalPageNum <= this.page * this.pagenum) return
+			// 	this.page++
+			// 	this.onAuctionHistoryGoods()
+			// }
+			if (this.totalNum <= this.page * this.pagenum) return
+			this.page++
+			this.getProductList()
 		},
 		//监听页面滚动
 		onPageScroll(e) {
@@ -2839,7 +2826,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							border-top: none;
 							border-bottom: none;
 						}
-						.new-list-item-right-start-info2:nth-child(2){
+
+						.new-list-item-right-start-info2:nth-child(2) {
 							border-right: none;
 						}
 
@@ -3063,8 +3051,9 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							border-top: none;
 							border-bottom: none;
 						}
-						.info-tag2:nth-child(2){
-							border-right:none;
+
+						.info-tag2:nth-child(2) {
+							border-right: none;
 						}
 
 					}

@@ -1148,7 +1148,8 @@
 				price: "",
 				goods_name: "",
 				avatar: "",
-				nickname: ""
+				nickname: "",
+				totalNum:0
 			}
 		},
 		watch: {
@@ -1210,16 +1211,19 @@
 			this.getProductOrJinpai()
 		},
 		onReachBottom() {
-			if (this.page * this.pagenum < this.totalPageNum && this.id == 1) {
-				this.page++;
-				this.onAuctionNewGoods();
-			} else if (this.page * this.pagenum < this.newTotalPageNum && this.id == 2) {
-				this.page++;
-				this.onAuctionNotbeginGoods();
-			} else if (this.page * this.pagenum < this.historyTotalPageNum && this.id == 3) {
-				this.page++;
-				this.onAuctionHistoryGoods();
-			}
+			// if (this.page * this.pagenum < this.totalPageNum && this.id == 1) {
+			// 	this.page++;
+			// 	this.onAuctionNewGoods();
+			// } else if (this.page * this.pagenum < this.newTotalPageNum && this.id == 2) {
+			// 	this.page++;
+			// 	this.onAuctionNotbeginGoods();
+			// } else if (this.page * this.pagenum < this.historyTotalPageNum && this.id == 3) {
+			// 	this.page++;
+			// 	this.onAuctionHistoryGoods();
+			// }
+			if (this.page * this.pagenum >= this.totalNum) return
+			this.page++
+			this.getAllProducts()
 		},
 		//监听页面滚动
 		onPageScroll(e) {
@@ -1259,13 +1263,16 @@
 					category_id: 1,
 					goods_listing_type: 2
 				}).then(res => {
-					// "is_belong_to_wishing_pool": 0, //是否属于许愿池: 0=不属于, 2=属于
+					// "is_belong_to_wishing_pool": 0, //是否属于许愿池: 0=不属于, 1=属于
 					// "wishing_pool_goods_status": "10", //许愿池商品上架状态: 10=上架, 20=下架
+					this.totalNum = res.data.total
+					let arr = []
 					res.data.data.forEach(item => {
 						if (item.is_belong_to_wishing_pool == 1 && item.wishing_pool_goods_status == 10) {
-							this.list = res.data.data
+							arr.push(item)
 						}
 					})
+					this.list = this.page == 1 ? res.data.data : [...this.list,...res.data.data]
 				})
 			},
 			//获取许愿列表详情页
