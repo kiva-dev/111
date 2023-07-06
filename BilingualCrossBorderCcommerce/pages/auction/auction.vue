@@ -1180,7 +1180,7 @@
 			},
 		},
 		onLoad() {
-			this.getAllProducts() //许愿列表数据
+			
 			let systemInfo = uni.getSystemInfoSync();
 			this.systemLocale = systemInfo.language;
 			this.applicationLocale = uni.getLocale();
@@ -1208,6 +1208,8 @@
 			this.LuckyList = []
 			this.date_start = ''
 			this.navId = 3
+			this.list=[]
+			this.getAllProducts() //许愿列表数据
 			this.getProductOrJinpai()
 		},
 		onReachBottom() {
@@ -2194,9 +2196,10 @@
 					}
 
 					view {
+						width: 500rpx;
 						margin-left: 10rpx;
 						color: rgb(51, 51, 51);
-						font-size: 12rpx;
+						font-size: 24rpx;
 						font-weight: bold;
 					}
 				}
