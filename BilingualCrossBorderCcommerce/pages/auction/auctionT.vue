@@ -98,7 +98,6 @@
 
 
 							<view class="new-list-item-btm-btn" v-if="id==1">
-								<image src="../../static/images/new-index/lvxcz.png"></image>
 								<view @click.stop="onMineInfo(item)">{{$t('tab.xy')}}</view>
 							</view>
 
@@ -194,7 +193,6 @@
 							</view>
 
 							<view class="info-btn" v-if="id==1">
-								<image src="/static/images/new-index/lvxcz.png"></image>
 								<view @click.stop="onMineInfo(item)">{{$t('tab.xy')}}</view>
 							</view>
 
@@ -233,7 +231,6 @@
 						</view>
 
 						<view class="info-right" v-if="id==1">
-							<image src="/static/images/new-index/lvxcz.png"></image>
 							<view @click.stop="onMineInfo(item)">{{$t('tab.xy')}}</view>
 						</view>
 					</view>
