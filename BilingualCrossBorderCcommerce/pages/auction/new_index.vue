@@ -2819,7 +2819,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						align-items: center;
 
 						.new-list-item-right-start-info {
-							min-width: 86rpx;
+							// min-width: 86rpx;
 							font-size: 16rpx;
 							color: rgb(102, 102, 102);
 							text-align: center;
