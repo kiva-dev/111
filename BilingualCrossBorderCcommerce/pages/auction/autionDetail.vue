@@ -232,7 +232,7 @@
 					</view>
 				</view>
 				<!-- 许愿列表 许愿中 -->
-				<view class="wish">
+				<view class="wish" v-if="jingpaiList.length!=0">
 					<view class="ll-header-left">
 						<view class="left-icon">
 							<image src="@/static/images/new-index/ongoing.png" mode="widthFix"></image>
@@ -279,7 +279,7 @@
 				</view>
 			</view>
 			<!-- 许愿列表 即将许愿 -->
-			<view class="wish">
+			<view class="wish" v-if="newsjingpaiList.length!=0">
 				<view class="ll-header-left">
 					<view class="left-icon">
 						<image src="@/static/images/new-index/start-soon.png" mode="widthFix"></image>
