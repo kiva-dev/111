@@ -53,10 +53,9 @@
 				<image :src="item.img" class="pay-info-logo"></image>
 				<view class="pay-info-name">{{item.title}} <text
 						v-if="item.id==1">(RM{{userCont.recharge_money_balance*1}})</text></view>
-
 				<template v-if="item.id==1">
 					<image src="/static/images/new-index/wxz.png" class="pay-info-xz"
-						v-show="!item.isShow && userCont.recharge_money_balance*1>0" @click="selectPayType(item)">
+						v-show="!item.isShow && userCont.recharge_money_balance*1>0 && userCont.recharge_money_balance*1 >= total" @click="selectPayType(item)">
 					</image>
 					<image src="/static/images/new-index/xz.png" class="pay-info-xz" v-show="item.isShow"
 						@click="selectPayType(item)"></image>
@@ -369,7 +368,15 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							}
 						}
 						this.num = num
-						this.total = res.data.total
+						// this.total = res.data.total
+						
+						let arr = res.data.total.split(',')
+						let price = ''
+						arr.forEach(item => {
+							price += item
+						})
+						this.total=price
+						
 						this.totalNum = res.data.total
 					}
 				})

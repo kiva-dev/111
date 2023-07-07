@@ -56,7 +56,7 @@
 				<view class="pay-info-price" v-if="item.id==1">(RM{{userCont.recharge_money_balance*1}})</view>
 				<template v-if="item.id==1">
 					<image src="/static/images/new-index/wxz.png" class="pay-info-xz"
-						v-show="!item.isShow && userCont.recharge_money_balance*1>0" @click="selectPayType(item)">
+						v-show="!item.isShow && userCont.recharge_money_balance*1>0 && userCont.recharge_money_balance*1 >= total" @click="selectPayType(item)">
 					</image>
 					<image src="/static/images/new-index/xz.png" class="pay-info-xz" v-show="item.isShow"
 						@click="selectPayType(item)"></image>
