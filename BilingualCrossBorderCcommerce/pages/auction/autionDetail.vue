@@ -199,7 +199,7 @@
 					<img src="@/static/xuyuan/shopDetail.png" alt="">
 				</view>
 				<!-- 许愿相关 -->
-				<view class="six-tit" style="margin-top: 30rpx;">
+				<view class="six-tit" style="margin-top: 30rpx;" id="div4">
 					<view class="line"></view>
 					<text>{{$t('home.shop.txt')}}</text>
 					<view class="line"></view>
@@ -486,7 +486,12 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				}, {
 					id: 3,
 					title: this.$t('newDetail.xianqin')
-				}],
+				},
+				{
+					id: 4,
+					title: this.$t('newDetail.xy')
+				}
+				],
 				navId: 1,
 				current: 0,
 				mode: 'nav',
@@ -591,9 +596,9 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			}
 			if (!this.isClick) {
 				if (res.scrollTop >= this.heightList[0] && res.scrollTop < this.heightList[1]) this.navId = 1
-				else if (res.scrollTop >= this.heightList[1] && res.scrollTop < this.heightList[2]) this.navId = 2
-				else if (res.scrollTop >= this.heightList[2]) this.navId = 3
-				// else this.navId = 4
+				else if (res.scrollTop >= this.heightList[1] && res.scrollTop <( this.heightList[2])) this.navId = 2
+				else if (res.scrollTop >= this.heightList[2] && res.scrollTop < (this.heightList[3])) this.navId = 3
+				else  this.navId = 4
 			}
 
 		},
