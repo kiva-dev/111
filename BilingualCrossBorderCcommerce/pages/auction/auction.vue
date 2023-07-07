@@ -112,7 +112,9 @@
 					<image src="@/static/images/mine/lucky_icon_trophy.png" mode="widthFix"></image>
 				</view>
 				<view class="ll-text" v-if="isEnglish">
-					<view class="image"><image :src="avatar" mode="aspectFill"  class="image"></image></view>
+					<view class="image">
+						<image :src="avatar" mode="aspectFill" class="image"></image>
+					</view>
 					<view class="item-right-content">
 						<!-- 	In the Joint contribution sales activities provided by{{' '}}
 						<text style="color: rgb(10, 198, 142);">{{shop_name}}</text> -->
@@ -128,7 +130,9 @@
 					</view>
 				</view>
 				<view class="ll-text" v-else>
-				<view class="image"><image :src="avatar" mode="aspectFill"  class="image"></image></view>
+					<view class="image">
+						<image :src="avatar" mode="aspectFill" class="image"></image>
+					</view>
 					<view class="item-right-content">
 						<!-- 	在
 						<text style="color: rgb(10, 198, 142);">{{shop_name}}</text>
@@ -828,7 +832,7 @@
 					<image src="/static/images/kbrick/diamond.png"></image>
 					<view v-if="!useInvite">{{shopNum}}</view>
 					<view v-else>
-						{{shopNum * 1 - (invite_money_balance*1 > shopNum * 1 * (can_use_invite_money_rate*1/100) ? shopNum * 1 * (can_use_invite_money_rate*1/100):invite_money_balance*1)}}
+						{{changShopNum.toFixed(2)}}
 					</view>
 				</view>
 				<view class="mode-des">{{$t('new.xyzf')}}</view>
@@ -863,10 +867,12 @@
 						v-show="kdiamondSelect && (((shopNum*1 - balance*1) > 0 && money*1 >= shopNum*1) && !useInvite || (can_use_invite_money_rate>0 && money *1 >=useInviteRmNum && useInvite && balance*1 < shopNum*1 && useInviteRmNum>0))"
 						@click="kdiamondSelect=false"></image>
 				</view>
-				
+
 				<view style="color: rgb(102, 102, 102);margin: 12rpx 0 0 100rpx;" v-if="useInvite">({{$t('new.zjkc')}}
-					{{(invite_money_balance*1 > shopNum * 1 * (can_use_invite_money_rate*1/100) ? shopNum * 1 * (can_use_invite_money_rate*1/100):invite_money_balance*1)}} {{$t('new.kz')}})</view>
-				
+					{{zenjinToRmNum.toFixed(2)}}
+					{{$t('new.kz')}})
+				</view>
+
 				<view class="mode-cz" v-if="balance*1 < shopNum*1">
 					<view @click="navClick('/pages/mine/K_brick_detail')">{{$t('new.qcz')}}</view>
 					<image src="/static/images/kbrick/right.png"></image>
@@ -1156,7 +1162,9 @@
 				goods_name: "",
 				avatar: "",
 				nickname: "",
-				totalNum:0
+				totalNum: 0,
+				zenjinToRmNum: 0, //赠金可以用于扣除的数量
+				changShopNum: 0, //使用赠金后的k钻
 			}
 		},
 		watch: {
@@ -1187,7 +1195,7 @@
 			},
 		},
 		onLoad() {
-			
+
 			let systemInfo = uni.getSystemInfoSync();
 			this.systemLocale = systemInfo.language;
 			this.applicationLocale = uni.getLocale();
@@ -1215,7 +1223,7 @@
 			this.LuckyList = []
 			this.date_start = ''
 			this.navId = 3
-			this.list=[]
+			this.list = []
 			this.getAllProducts() //许愿列表数据
 			this.getProductOrJinpai()
 		},
@@ -1281,7 +1289,7 @@
 							arr.push(item)
 						}
 					})
-					this.list = this.page == 1 ? res.data.data : [...this.list,...res.data.data]
+					this.list = this.page == 1 ? res.data.data : [...this.list, ...res.data.data]
 				})
 			},
 			//获取许愿列表详情页
@@ -1510,7 +1518,7 @@
 				this.isauctionNum = 1
 				this.shopCont = e
 				that.pay_pwd = ''
-				this.useInvite=false
+				this.useInvite = false
 				that.kdiamondSelect = false
 				that.showRmToKdiamond = false
 				this.selectProtocol = false
@@ -1568,6 +1576,14 @@
 
 				//RM最多兑换多少k钻
 				this.rmtoKdiamondNum = this.shopNum * 1 > this.balance * 1 ? this.shopNum * 1 - this.balance * 1 : 0
+				//使用赠金后的k钻数量
+				this.changShopNum = this.shopNum * 1 - (this.invite_money_balance * 1 > this.shopNum * 1 * (this
+					.can_use_invite_money_rate * 1 / 100) ? this.shopNum * 1 * (this.can_use_invite_money_rate *
+					1 / 100) : this.invite_money_balance * 1)
+				//赠金可抵扣rm的数量
+				this.zenjinToRmNum = (this.invite_money_balance * 1 > this.shopNum * 1 * (this.can_use_invite_money_rate *
+						1 / 100) ? this.shopNum * 1 * (this.can_use_invite_money_rate * 1 / 100) : this
+					.invite_money_balance * 1)
 
 				//最多使用多少赠金
 				let zjPrice = (this.shopNum * 1) * (this.can_use_invite_money_rate * 1 / 100)

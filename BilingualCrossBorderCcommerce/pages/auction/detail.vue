@@ -275,7 +275,10 @@
 				</view>
 				<block v-if="goodlucky.length">
 					<view class="jingpaiCont-jpjl">
-						<view class="max-title" style="color: #FF4E2F;">获奖名单</view>
+						<view class="max-title">
+							<image src="/static/images/mine/lucky_icon_trophy.png"></image>
+							<p>{{$t('xyzx')}}<text></text></p>
+						</view>
 
 						<view class="conter" style="margin-bottom:50rpx;">
 							<view v-for="item,k in goodlucky" :key="k" class="list">
@@ -288,7 +291,7 @@
 								<view class="time">{{$filter.to_dateTimes(item.update_time)}}</view>
 								<!-- <view class="pay">RM{{item.pay_price}}</view> -->
 								<view class="order">{{item.num_id}}
-									<image src="../../static/images/new/copy.png" mode="scaleToFill"
+									<image src="/static/images/mine/k_copy.png" mode="scaleToFill"
 										@click="onnumidClick(item)" />
 								</view>
 							</view>
@@ -306,7 +309,7 @@
 								<view class="name">{{item.nickname}}</view>
 								<view class="time">{{$filter.to_dateTimes(item.pay_time)}}</view>
 								<view class="order">{{item.num_id}}
-									<image src="../../static/images/new/copy.png" mode="scaleToFill"
+									<image src="/static/images/mine/k_copy.png" mode="scaleToFill"
 										@click="onnumidClick(item)" />
 								</view>
 							</view>
@@ -518,7 +521,7 @@
 					<image src="/static/images/kbrick/diamond.png"></image>
 					<view v-if="!useInvite">{{shopNum}}</view>
 					<view v-else>
-						{{shopNum * 1 - (invite_money_balance*1 > shopNum * 1 * (can_use_invite_money_rate*1/100) ? shopNum * 1 * (can_use_invite_money_rate*1/100):invite_money_balance*1)}}
+						{{changShopNum.toFixed(2)}}
 					</view>
 				</view>
 
@@ -557,9 +560,10 @@
 						v-show="kdiamondSelect && (((shopNum*1 - balance*1) > 0 && money*1 >= shopNum*1)&&!useInvite || (can_use_invite_money_rate>0 && money *1 >=useInviteRmNum && useInvite && balance*1 < shopNum*1 && useInviteRmNum>0))"
 						@click="kdiamondSelect=false"></image>
 				</view>
-				
+
 				<view style="color: rgb(102, 102, 102);margin: 12rpx 0 0 100rpx;" v-if="useInvite">({{$t('new.zjkc')}}
-					{{(invite_money_balance*1 > shopNum * 1 * (can_use_invite_money_rate*1/100) ? shopNum * 1 * (can_use_invite_money_rate*1/100):invite_money_balance*1)}} {{$t('new.kz')}})</view>
+					{{zenjinToRmNum.toFixed(2)}} {{$t('new.kz')}})
+				</view>
 
 				<view class="mode-cz" v-if="balance*1 < shopNum*1">
 					<view @click="navClick('/pages/mine/K_brick_detail')">{{$t('new.qcz')}}</view>
@@ -720,6 +724,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				youLikeList: [], //猜你喜欢
 				can_use_invite_money_rate: 0, //可使用的增金比例
 				invite_money_balance: 0, //赠金数量
+				zenjinToRmNum: 0, //赠金可以用于扣除的数量
+				changShopNum: 0, //使用赠金后的k钻
 			}
 		},
 		onLoad(e) {
@@ -1286,6 +1292,14 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 				//RM最多兑换多少k钻
 				this.rmtoKdiamondNum = this.shopNum * 1 > this.balance * 1 ? this.shopNum * 1 - this.balance * 1 : 0
+				//使用赠金后的k钻数量
+				this.changShopNum = this.shopNum * 1 - (this.invite_money_balance * 1 > this.shopNum * 1 * (this
+					.can_use_invite_money_rate * 1 / 100) ? this.shopNum * 1 * (this.can_use_invite_money_rate *
+					1 / 100) : this.invite_money_balance * 1)
+				//赠金可抵扣rm的数量
+				this.zenjinToRmNum = (this.invite_money_balance * 1 > this.shopNum * 1 * (this.can_use_invite_money_rate *
+						1 / 100) ? this.shopNum * 1 * (this.can_use_invite_money_rate * 1 / 100) : this
+					.invite_money_balance * 1)
 
 				//最多使用多少赠金
 				let zjPrice = (this.shopNum * 1) * (this.can_use_invite_money_rate * 1 / 100)
@@ -3869,6 +3883,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		font-size: 32rpx;
 		font-weight: 700;
 		color: rgb(51, 51, 51);
+		margin-bottom: 10rpx;
 
 		.line {
 			width: 200rpx;
@@ -3952,7 +3967,36 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 	.max-title {
 		font-size: 32rpx;
+		font-weight: bold;
+		color: rgb(102, 102, 102);
+		display: flex;
+		align-items: center;
 		margin-left: 30rpx;
 		margin-bottom: 20rpx;
+
+		image {
+			width: 44rpx;
+			height: 44rpx;
+			margin-right: 8rpx;
+		}
+		
+		p{
+			position: relative;
+			z-index: 4;
+			
+			text {
+				width: 92rpx;
+				height: 8rpx;
+				border-radius: 100rpx;
+				display: block;
+				position: absolute;
+				left: 50%;
+				bottom: -8rpx;
+				transform: translateX(-50%);
+				background: rgba(10, 198, 142,0.5);
+				z-index: 1;
+			}
+		}	
+
 	}
 </style>

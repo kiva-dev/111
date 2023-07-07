@@ -356,7 +356,7 @@
 					<image src="/static/images/kbrick/diamond.png"></image>
 					<view v-if="!useInvite">{{shopNum}}</view>
 					<view v-else>
-						{{shopNum * 1 - (invite_money_balance*1 > shopNum * 1 * (can_use_invite_money_rate*1/100) ? shopNum * 1 * (can_use_invite_money_rate*1/100):invite_money_balance*1)}}
+						{{changShopNum.toFixed(2)}}
 					</view>
 				</view>
 				<view class="mode-des">{{$t('new.xyzf')}}</view>
@@ -393,7 +393,9 @@
 				</view>
 
 				<view style="color: rgb(102, 102, 102);margin: 12rpx 0 0 100rpx;" v-if="useInvite">({{$t('new.zjkc')}}
-					{{(invite_money_balance*1 > shopNum * 1 * (can_use_invite_money_rate*1/100) ? shopNum * 1 * (can_use_invite_money_rate*1/100):invite_money_balance*1)}} {{$t('new.kz')}})</view>
+					{{zenjinToRmNum.toFixed(2)}}
+					{{$t('new.kz')}})
+				</view>
 
 				<view class="mode-cz" v-if="balance*1 < shopNum*1">
 					<view @click="navClick('/pages/mine/K_brick_detail')">{{$t('new.qcz')}}</view>
@@ -603,6 +605,8 @@
 				productInfoId: 0,
 				jinPaiTimer: '',
 				list: [], //列表
+				zenjinToRmNum: 0, //赠金可以用于扣除的数量
+				changShopNum: 0, //使用赠金后的k钻
 			}
 		},
 		watch: {
@@ -972,6 +976,14 @@
 
 				//RM最多兑换多少k钻
 				this.rmtoKdiamondNum = this.shopNum * 1 > this.balance * 1 ? this.shopNum * 1 - this.balance * 1 : 0
+				//使用赠金后的k钻数量
+				this.changShopNum = this.shopNum * 1 - (this.invite_money_balance * 1 > this.shopNum * 1 * (this
+					.can_use_invite_money_rate * 1 / 100) ? this.shopNum * 1 * (this.can_use_invite_money_rate *
+					1 / 100) : this.invite_money_balance * 1)
+				//赠金可抵扣rm的数量
+				this.zenjinToRmNum = (this.invite_money_balance * 1 > this.shopNum * 1 * (this.can_use_invite_money_rate *
+						1 / 100) ? this.shopNum * 1 * (this.can_use_invite_money_rate * 1 / 100) : this
+					.invite_money_balance * 1)
 
 				//最多使用多少赠金
 				let zjPrice = (this.shopNum * 1) * (this.can_use_invite_money_rate * 1 / 100)

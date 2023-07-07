@@ -14,7 +14,7 @@
 					<view class="t">{{addCont.detail}}</view>
 				</view>
 			</view>
-			
+
 			<view class="head-fl" v-else>
 				<view class="icon">
 					<image class="img" src="@/static/images/new-index/address.png"></image>
@@ -53,44 +53,48 @@
 				</view>
 			</view>
 			<!--li-item end-->
-		
+
 			<view class="sub-line"></view>
-			
+
 			<view class="info" style="margin-top: 20rpx;">
-				<view class="info-key">{{$t('order.jpcs')}}</view>
+				<view class="info-key">{{$t('new.xycs')}}</view>
 				<view class="info-value">{{shopCont.can_select}}</view>
 			</view>
-			
+
 			<view class="info">
-				<view class="info-key">{{$t('order.jpje')}}</view>
-				<view class="info-value">RM{{shopCont.auction_price}}</view>
+				<view class="info-key">{{$t('new.xyje')}}</view>
+				<view class="info-value">
+					<image src="/static/images/kbrick/diamond.png"></image>{{shopCont.auction_price}}
+				</view>
 			</view>
-			
+
 			<view class="info">
-				<view class="info-key">{{$t('user.order.sfk')}}</view>
-				<view class="info-value" style="font-size: 32rpx;color: rgb(255, 78, 47);font-weight: 550;">RM{{shopCont.pay_price}}</view>
+				<view class="info-key">{{$t('auction.detail.total')}}</view>
+				<view class="info-value" style="font-size: 32rpx;color: rgb(255, 78, 47);font-weight: 550;">
+					<image src="/static/images/kbrick/diamond.png">{{shopCont.pay_price}}
+				</view>
 			</view>
-			
+
 			<view class="sub-line" style="margin-top: 20rpx;"></view>
-			
-			<view class="sub-jp-tit">{{$t('jingpaixx')}}</view>
-			
+
+			<view class="sub-jp-tit">{{$t('new.xyxx')}}</view>
+
 			<view class="info">
-				<view class="info-key">{{$t('jingpaiqishu')}}</view>
+				<view class="info-key">{{$t('new.spqs')}}</view>
 				<view class="info-value">{{shopCont.stage_num}}</view>
 			</view>
-			
+
 			<view class="info">
-				<view class="info-key">{{$t('dueihuanma')}}</view>
+				<view class="info-key">{{$t('new.xym')}}</view>
 				<view class="info-value">{{shopCont.num_id}}</view>
 			</view>
-			
+
 			<view class="info">
 				<view class="info-key">{{$t('xiadantime')}}</view>
 				<view class="info-value">{{$filter.to_date_time(shopCont.update_time)}}</view>
 			</view>
-			
-			
+
+
 			<!-- <view class="sub-bot">
 				<view class="bot-li">
 					<view class="t">{{$t('order.jingbiaojiner')}}</view>
@@ -129,7 +133,9 @@
 		<!--竞拍信息 end-->
 		<!--底部 start-->
 		<view class="sub-fixed">
-			<view class="sub-fixed-button" @click.stop="$noMultipleClicks(onAuctionorderReferPick)">{{$t('lijilinghuo')}}</view>
+			<view class="sub-fixed-button" @click.stop="$noMultipleClicks(onAuctionorderReferPick)">
+				{{$t('lijilinghuo')}}
+			</view>
 		</view>
 		<!--底部 end-->
 	</view>
@@ -158,6 +164,8 @@
 		methods: {
 			// 收货地址
 			onAddressList() {
+				this.addCont = ''
+				this.address_id = 0
 				this.$http.post(this.$apiObj.AddressList, {
 					page: 1,
 					pagenum: 1000
@@ -319,8 +327,8 @@
 					height: 200rpx;
 					border-radius: 16rpx;
 					margin-right: 20rpx;
-					
-					image{
+
+					image {
 						width: 200rpx;
 						height: 200rpx;
 						border-radius: 16rpx;
@@ -346,20 +354,20 @@
 						color: rgb(44, 44, 44);
 						line-height: 40rpx;
 					}
-					
+
 					.b-container {
 						width: 100%;
-						
+
 						.b-tit {
 							color: rgb(102, 102, 102);
 							font-size: 20rpx;
 						}
-						
+
 						.b-price {
 							color: rgb(51, 51, 51);
 							font-size: 32rpx;
 							font-weight: bold;
-							
+
 							text {
 								font-size: 20rpx;
 							}
@@ -430,19 +438,19 @@
 					}
 				}
 			}
-			
-			.sub-line{
+
+			.sub-line {
 				width: 656rpx;
 				border-bottom: 1rpx solid rgb(190, 190, 190);
 			}
-			
-			.sub-jp-tit{
+
+			.sub-jp-tit {
 				font-size: 32rpx;
 				color: rgb(44, 44, 44);
 				margin: 20rpx 0 20rpx 10rpx;
 			}
-			
-			.info{
+
+			.info {
 				width: 100%;
 				line-height: 50rpx;
 				font-size: 24rpx;
@@ -450,16 +458,22 @@
 				display: flex;
 				align-items: center;
 				justify-content: space-between;
-				
-				.info-key{
-					margin-left: 48rpx;
+
+				.info-key {
+					margin-left: 32rpx;
 				}
-				
-				.info-value{
-					margin-right: 48rpx;
+
+				.info-value {
+					margin-right: 32rpx;
+					
+					image{
+						width: 24rpx;
+						height: 24rpx;
+						right: 8rpx;
+					}
 				}
 			}
-			
+
 			.li-leave {
 				display: flex;
 				align-items: center;
@@ -540,7 +554,7 @@
 			bottom: 0;
 			width: 100%;
 			z-index: 99;
-			
+
 			.sub-fixed-button {
 				width: 100%;
 				height: 88rpx;

@@ -62,7 +62,7 @@
 				<view class="des_info_value">
 					<text>{{info.num_id}}</text>
 					<image src="/static/images/mine/k_copy.png"
-						style="width: 32rpx;height: 32rpx;margin-left: 16rpx;margin-right: 0;"></image>
+						style="width: 32rpx;height: 32rpx;margin-left: 16rpx;margin-right: 0;" @click="copyVal(info.num_id)"></image>
 				</view>
 			</view>
 
@@ -87,7 +87,7 @@
 				<view class="des_info_value">
 					<text>{{info.send_number}}</text>
 					<image src="/static/images/mine/k_copy.png"
-						style="width: 32rpx;height: 32rpx;margin-left: 16rpx;margin-right: 0;"></image>
+						style="width: 32rpx;height: 32rpx;margin-left: 16rpx;margin-right: 0;" @click="copyVal(info.num_id)"></image>
 				</view>
 			</view>
 			
@@ -126,6 +126,18 @@
 				}).then(res=>{
 					this.info=res.data
 				})
+			},
+			copyVal(val){
+				uni.setClipboardData({
+					data: val,
+					success: () => {
+						uni.showToast({
+							icon: 'none',
+							title: this.$t('user.order.detail.fzcg'),
+							duration:2000
+						})
+					}
+				});
 			}
 		}
 	}
