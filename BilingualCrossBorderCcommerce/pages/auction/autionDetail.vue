@@ -213,14 +213,13 @@
 						<view class="con">
 							<image src="../../static/x.png" class="conImg"></image>
 							<view class="conTxt">
-								The merchant of this product is actively distributing goods and will irregularly launch
-								wishing activities in the future. Stay tuned! The collected products will be notified to
-								you as soon as the event is launched!
+								{{$t('new.xycsm')}}
 							</view>
 						</view>
 						<view class="btn" :class="shopCont.goods_focus == 0 ?'btn':'btn2'" @click="onFocusProduct">
 							<image src="../../static/xuyuan/iconx.png" mode="" class="img"></image>
-							<text class="txt">Colloct</text>
+							<text
+								class="txt">{{shopCont.goods_focus == 0?$t('auction.shoucang'):$t('auction.yishoucang')}}</text>
 						</view>
 					</view>
 				</view>
@@ -238,7 +237,7 @@
 					<!-- 列表 -->
 					<view class="ongingList">
 						<view v-for="(item,i) in jingpaiList" :key="i" class="ongingList-item"
-							@click="toDrawInfo(item.goods_id)">
+							@click="toDrawInfo(item.auction_goods_id)">
 							<img :src="item.image" alt="" class="ongingListItemImg">
 							<view>
 								<text class="title">{{item.stage_num}} &nbsp;&nbsp;{{item.goods_name}}</text>
@@ -286,7 +285,7 @@
 				<!-- 列表 -->
 				<view class="ongingList">
 					<view v-for="(item,i) in newsjingpaiList" :key="i" class="ongingList-item"
-						@click="toDrawInfo(item.goods_id)">
+						@click="toDrawInfo(item.auction_goods_id)">
 						<img :src="item.image" alt="" class="ongingListItemImg">
 						<view class="zsItem">
 							<text class="title" style="margin-top: 0;">{{item.stage_num}}
@@ -1732,6 +1731,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 		.con {
 			display: flex;
+			align-items: center;
 			margin-top: 80rpx;
 
 			.conImg {
@@ -1741,6 +1741,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 			.conTxt {
 				width: 350rpx;
+				line-height: 40rpx;
 				color: #666;
 			}
 		}
@@ -1752,21 +1753,21 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			border-radius: 50rpx;
 			background: rgb(10, 198, 142);
 			margin: auto;
-			margin-top: 20rpx;
+			margin-top: 40rpx;
 			display: flex;
 			align-items: center;
+			justify-content: center;
 
 			.img {
 				width: 40rpx;
 				height: 40rpx;
-				margin-left: 40rpx;
+				margin-right: 10rpx;
 			}
 
 			.txt {
 				color: #fff;
 				font-size: 28rpx;
 				font-weight: bold;
-				margin-left: 10rpx;
 			}
 		}
 
@@ -1777,21 +1778,20 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			border-radius: 50rpx;
 			background: #ccc;
 			margin: auto;
-			margin-top: 20rpx;
+			margin-top: 40rpx;
 			display: flex;
 			align-items: center;
 
 			.img {
 				width: 40rpx;
 				height: 40rpx;
-				margin-left: 40rpx;
+				margin-right: 10rpx;
 			}
 
 			.txt {
 				color: #fff;
 				font-size: 28rpx;
 				font-weight: bold;
-				margin-left: 10rpx;
 			}
 		}
 	}

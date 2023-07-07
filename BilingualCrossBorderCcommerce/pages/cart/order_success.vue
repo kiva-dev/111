@@ -22,7 +22,7 @@
 				<view class="info-key">{{$t('new.order_no')}}</view>
 				<view class="info-value">
 					<view>{{order_no}}</view>
-					<image src="/static/images/mine/mine_btn_copy.png"></image>
+					<image src="/static/images/mine/mine_btn_copy.png" @click="copyVal(order_no)"></image>
 				</view>
 			</view>
 
@@ -58,7 +58,7 @@
 			// this.getOrderInfo()
 		},
 		methods: {
-			toBack(){
+			toBack() {
 				uni.navigateBack()
 			},
 			toOrder() {
@@ -76,6 +76,17 @@
 					order_no: this.order_no
 				}).then(res => {
 
+				})
+			},
+			copyVal(val) {
+				uni.setClipboardData({
+					data: val,
+					success: () => {
+						uni.showToast({
+							icon: 'none',
+							title: this.$t('user.order.detail.fzcg')
+						})
+					}
 				})
 			}
 		}

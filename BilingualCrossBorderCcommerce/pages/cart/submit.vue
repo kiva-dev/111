@@ -53,10 +53,20 @@
 				<image :src="item.img" class="pay-info-logo"></image>
 				<view class="pay-info-name">{{item.title}} <text
 						v-if="item.id==1">(RM{{userCont.recharge_money_balance*1}})</text></view>
-				<image src="/static/images/new-index/wxz.png" class="pay-info-xz" v-show="!item.isShow"
-					@click="selectPayType(item)"></image>
-				<image src="/static/images/new-index/xz.png" class="pay-info-xz" v-show="item.isShow"
-					@click="selectPayType(item)"></image>
+
+				<template v-if="item.id==1">
+					<image src="/static/images/new-index/wxz.png" class="pay-info-xz"
+						v-show="!item.isShow && userCont.recharge_money_balance*1>0" @click="selectPayType(item)">
+					</image>
+					<image src="/static/images/new-index/xz.png" class="pay-info-xz" v-show="item.isShow"
+						@click="selectPayType(item)"></image>
+				</template>
+				<template v-else>
+					<image src="/static/images/new-index/wxz.png" class="pay-info-xz" v-show="!item.isShow"
+						@click="selectPayType(item)"></image>
+					<image src="/static/images/new-index/xz.png" class="pay-info-xz" v-show="item.isShow"
+						@click="selectPayType(item)"></image>
+				</template>
 			</view>
 
 			<!-- <view class="pay-all" @click="payAll=true">
@@ -145,7 +155,7 @@
 		</uni-popup>
 		<!--支付方式弹出 end-->
 		<!--支付密码弹出 start-->
-		<uni-popup ref="pwdPopup" type="center">
+		<uni-popup ref="pwdPopup" type="center" :mask-click="false">
 			<view class="public-pop">
 				<view class="pop-con">
 					<view class="pop-t">
@@ -223,6 +233,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				isShopCont: false, // 中文还是英文
 				set_paypwd: '',
 				MineCont: [],
+				toPayNum:1,
+				threePay:1
 			}
 		},
 
@@ -230,7 +242,14 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
 			this.cart_ids = e.cart_ids
 			// 获取购物车里面的订单列表
-			this.onOrderConfirmCartOrder()
+			if(!uni.getStorageSync('cart_id')){
+				this.onOrderConfirmCartOrder()
+			}else{
+				uni.redirectTo({
+					url:'/pages/cart/cart'
+				})
+			}
+			
 			// 获取优惠券
 			this.onMineCouponList()
 		},
@@ -420,7 +439,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			},
 			// 购物车提交订单
 			onOrderReferCartOrder() {
-				// console.log(111)
+				if(this.toPayNum!=1) return
+				
 				if (!this.addCont) return uni.showToast({
 					icon: 'none',
 					title: this.$t('order.addContXuanze')
@@ -441,25 +461,16 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					coupon_id: this.coupon_id
 				}).then(res => {
 					if (res.code == 1) {
+						this.toPayNum = 2
 						this.major_no = res.data.major_no
 						this.order_no = res.data.order_no
 						this.time = res.time
-
-						// uni.showToast({
-						// 	icon: 'none',
-						// 	title: '暂未开放支付'
-						// })
-						// setTimeout(() => {
-						// 	uni.navigateBack({
-						// 		delta: 1
-						// 	})
-						// }, 2000);
 
 						if (isNum == 1) {
 							// 余额支付弹框
 							this.$refs.pwdPopup.open()
 						} else if (isNum == 2) {
-							if (this.MineCont.length < 1) return uni.showToast({
+							if (!this.MineCont) return uni.showToast({
 								icon: 'none',
 								title: this.$t('smrz'),
 								duration: 3000
@@ -478,10 +489,14 @@ NoR+zv3KaEmPSHtooQIDAQAB
 								price += item
 							})
 							// 3方支付
-							this.$http.post(this.$apiObj.OrderMalaysiaPay, {
-								major_no: res.data.major_no ? res.data.major_no : res.data.order_no,
+							this.$http.post(this.$apiObj.SelectPayType, {
 								money: price * 1,
-								data: JSON.stringify(this.OrderList)
+								data: JSON.stringify(this.OrderList),
+								pay_type: 2,
+								buy_type: 2,
+								address_id: this.address_id,
+								coupon_id: this.coupon_id,
+								major_no: res.data.major_no
 							}).then(res => {
 								if (res.code == 1) {
 									const formStr = `<form action="${res.data.action_url}" method="POST" >
@@ -503,6 +518,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
                         <input name="Signature" value="${res.data.Signature}">
                       </form>`
 									// #ifdef H5
+									uni.setStorageSync('cart_id',2)
 									const div = document.createElement('div')
 									div.innerHTML = formStr
 									div.setAttribute('style',
@@ -549,12 +565,14 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				arr.forEach(item => {
 					price += item
 				})
-				this.$http.post(this.$apiObj.OrderBalancePay, {
-					major_no: this.major_no, // 购物车支付的主订单号
-					order_no: this.order_no, // 小订单号
-					money: price * 1, // 支付总金额
-					pay_pwd: pay_pwd, // rsa加密后的支付密码
-					data: JSON.stringify(this.OrderList)
+				this.$http.post(this.$apiObj.SelectPayType, {
+					money: price * 1,
+					data: JSON.stringify(this.OrderList),
+					pay_type: 1,
+					buy_type: 2,
+					address_id: this.address_id,
+					coupon_id: this.coupon_id,
+					pay_pwd: pay_pwd
 				}).then(res => {
 					if (res.code == 1) {
 						uni.showToast({

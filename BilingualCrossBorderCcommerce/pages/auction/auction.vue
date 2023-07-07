@@ -1625,9 +1625,17 @@
 			onPayClick() {
 				//如果单纯使用k钻支付
 				if (this.balance * 1 < this.shopNum && !this.kdiamondSelect && !this.useInvite) {
-					return uni.showToast({
+					uni.showToast({
 						icon: 'none',
-						title: 'K钻余额不足'
+						title: this.$t('new.kzyebz'),
+						duration: 3000,
+						success: () => {
+							setTimeout(() => {
+								uni.navigateTo({
+									url: '/pages/mine/K_brick_detail'
+								})
+							},2500)
+						}
 					})
 					return
 				}
@@ -1638,17 +1646,33 @@
 					let flag = zj <= this.invite_money_balance * 1
 					if (flag) { //赠金足够
 						if ((this.shopNum * 1 - zj) > this.balance * 1) {
-							return uni.showToast({
+							uni.showToast({
 								icon: 'none',
-								title: 'K钻余额不足'
+								title: this.$t('new.kzyebz'),
+								duration: 3000,
+								success: () => {
+									setTimeout(() => {
+										uni.navigateTo({
+											url: '/pages/mine/K_brick_detail'
+										})
+									},2500)
+								}
 							})
 							return
 						}
 					} else {
 						if ((this.shopNum * 1 - this.invite_money_balance * 1) > this.balance * 1) {
-							return uni.showToast({
+							uni.showToast({
 								icon: 'none',
-								title: 'K钻余额不足'
+								title: this.$t('new.kzyebz'),
+								duration: 3000,
+								success: () => {
+									setTimeout(() => {
+										uni.navigateTo({
+											url: '/pages/mine/K_brick_detail'
+										})
+									},2500)
+								}
 							})
 							return
 						}

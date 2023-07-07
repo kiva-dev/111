@@ -325,7 +325,7 @@
 	"cart.shanchu": "删除",
 	"cart.gwckkry": "购物车空空如也",
 	"cart.nqdyscxxspm": "您确定要删除所选商品吗？",
-	"cart.qxzyscdsj": "请选择要删除的数据",
+	"cart.qxzyscdsj": "请选择要删除的商品",
 	"cart.qxzsp": "请选择商品",
 	"cart.kzbz": "库存不足",
 
@@ -496,6 +496,7 @@
 	"user.vid.xs": "姓氏",
 	"user.vid.qsrxs": "请输入姓氏",
 	"user.vid.sfzh": "身份证",
+	"user.vid.sfzh1": "身份证",
 	"user.vid.qsrsfzh": "请输入您的身份证号",
 	"user.vid.jszh": "驾驶证",
 	"user.vid.qsrjszh": "请输入您的驾驶证号",
@@ -1507,5 +1508,6 @@
 	"new.wish_code": "愿望码",
 	"new.noData":"还没有记录",
 	"new.ljxq":"领奖详情",
-	"new.xycs":"许愿次数"
+	"new.xycs":"许愿次数",
+	"new.xycsm":"该商品商家正在积极配货，后续将会不定期开启许愿活动。敬请期待!收藏商品将在活动发起的第一时间通知您!"
 }

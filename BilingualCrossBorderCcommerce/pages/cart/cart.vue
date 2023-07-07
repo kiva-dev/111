@@ -190,6 +190,7 @@
 			}
 		},
 		onShow() {
+			uni.removeStorageSync('cart_id')
 			this.isSelectAll = false
 			this.showEditbtm = false,
 			this.getCartList()
@@ -428,7 +429,7 @@
 				if (arr.length < 1) {
 					uni.showToast({
 						icon: 'none',
-						title: '请选择要删除的商品'
+						title: this.$t('cart.qxzyscdsj')
 					})
 					this.$refs.popdel.close()
 					return
@@ -464,7 +465,7 @@
 				if (arr.length < 1) {
 					uni.showToast({
 						icon: 'none',
-						title: '请选择商品'
+						title: this.$t('cart.qxzsp')
 					})
 					return
 				}
@@ -481,7 +482,9 @@
 			},
 
 			toBack() {
-				uni.navigateBack()
+				uni.switchTab({
+					url:'/pages/auction/new_index'
+				})
 			},
 			//加减数字
 			changNum(type, data) {

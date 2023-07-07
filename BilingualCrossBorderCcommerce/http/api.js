@@ -82,6 +82,8 @@ let apiObj = {
 	OrderWaitJudgeGoods: 'Order/waitJudgeGoods', // 待评价商品列表
 	OrderJudgeOrder: 'Order/judgeOrder', // 提交评价
 	OrderAuctionOrderList: 'Order/auctionOrderList', // 原价购买竞拍商品订单列表
+	SelectPayType:"/Order/selectPayType",//普通商品通用支付
+	
 	// OrderDetailOrder: 'Order/detailOrder', // 原价购买竞拍商品订单详情
 	// 售后订单
 	AfterList: 'After/list', // 售后订单列表

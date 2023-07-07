@@ -665,7 +665,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					if (res.code == 1) {
 						uni.showToast({
 							icon: 'none',
-							title: this.isShopCont ? 'Order submitted successfully' : '提交订单成功'
+							title: this.isShopCont ? 'Add to Cart successful' : '加入购物车成功'
 						})
 					}
 				})

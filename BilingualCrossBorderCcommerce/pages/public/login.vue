@@ -587,6 +587,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					})
 					return
 				}
+				console.log(google)
 				//  #endif
 				// #ifdef APP-PLUS
 				uni.login({

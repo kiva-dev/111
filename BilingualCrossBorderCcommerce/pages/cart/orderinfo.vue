@@ -54,10 +54,19 @@
 				<image :src="item.img" class="pay-info-logo"></image>
 				<view class="pay-info-name">{{item.title}}</view>
 				<view class="pay-info-price" v-if="item.id==1">(RM{{userCont.recharge_money_balance*1}})</view>
-				<image src="/static/images/new-index/wxz.png" class="pay-info-xz" v-show="!item.isShow"
-					@click="selectPayType(item)"></image>
-				<image src="/static/images/new-index/xz.png" class="pay-info-xz" v-show="item.isShow"
-					@click="selectPayType(item)"></image>
+				<template v-if="item.id==1">
+					<image src="/static/images/new-index/wxz.png" class="pay-info-xz"
+						v-show="!item.isShow && userCont.recharge_money_balance*1>0" @click="selectPayType(item)">
+					</image>
+					<image src="/static/images/new-index/xz.png" class="pay-info-xz" v-show="item.isShow"
+						@click="selectPayType(item)"></image>
+				</template>
+				<template v-else>
+					<image src="/static/images/new-index/wxz.png" class="pay-info-xz" v-show="!item.isShow"
+						@click="selectPayType(item)"></image>
+					<image src="/static/images/new-index/xz.png" class="pay-info-xz" v-show="item.isShow"
+						@click="selectPayType(item)"></image>
+				</template>
 			</view>
 
 			<!-- <view class="pay-all" @click="payAll=true">
@@ -201,7 +210,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					id: 2,
 					title: this.$t('order.sfzf'),
 					isShow: false,
-					img: '@/static/images/new-index/cards.png'
+					img: '/static/images/new-index/cards.png'
 				}],
 				orderCont: '',
 				isShopCont: false, // 中文还是英文
@@ -210,31 +219,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				shopInfo: {},
 				order_no: ""
 			}
-		},
-		watch: {
-			total: {
-				handler(e, m) {
-					if (e < 10) {
-						this.orderPayList = [{
-							id: 1,
-							title: this.$t('auction.detail.yuerzhifu'),
-							isShow: false
-						}]
-					} else {
-						this.orderPayList = [{
-							id: 1,
-							title: this.$t('auction.detail.yuerzhifu'),
-							isShow: false,
-							img: '/static/images/new-index/balance.png'
-						}, {
-							id: 2,
-							title: this.$t('auction.detail.sfzfu'),
-							isShow: false,
-							img: '/static/images/new-index/cards.png'
-						}]
-					}
-				}
-			},
 		},
 		onLoad(e) {
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
@@ -252,6 +236,9 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 			if (uni.getStorageSync('token')) {
 				// 实名认证
+				this.$http.post(this.$apiObj.MineAuthDetail).then(res => {
+					this.MineCont = res.data
+				})
 				// 判断是否设置支付密码
 				this.$http.post(this.$apiObj.MineInfo).then(res => {
 					if (res.code == 1) {
@@ -450,6 +437,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			},
 			// 购物车提交订单
 			onOrderReferCartOrder() {
+				// console.log(111)
 				if (!this.addCont) return uni.showToast({
 					icon: 'none',
 					title: this.$t('order.addContXuanze')
@@ -469,7 +457,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					// 余额支付弹框
 					this.$refs.pwdPopup.open()
 				} else if (isNum == 2) {
-					if (this.MineCont.length < 1) return uni.showToast({
+
+					if (!this.MineCont) return uni.showToast({
 						icon: 'none',
 						title: this.$t('smrz'),
 						duration: 3000
@@ -482,36 +471,46 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						icon: 'none',
 						title: this.$t('smrzwtg')
 					})
-					// 3方支付
-					this.$http.post(this.$apiObj.OrderMalaysiaPay, {
-						// major_no: res.data.major_no ? res.data.major_no : res.data.order_no,					
-						major_no: this.major_no ? this.major_no : this.order_no,
-						money: this.total * 1
+
+					let arr = this.total.split(',')
+					let price = ''
+					arr.forEach(item => {
+						price += item
+					})
+					this.$http.post(this.$apiObj.SelectPayType, {
+						pay_type: isNum,
+						buy_type: 1,
+						money: price * 1, // 支付总金额
+						data: JSON.stringify(this.OrderList),
+						address_id: this.address_id,
+						coupon_id: this.coupon_id,
+						order_no:this.order_no
 					}).then(res => {
 						if (res.code == 1) {
 							const formStr = `<form action="${res.data.action_url}" method="POST" >
-				  <input name="MerchantCode" value="${res.data.MerchantCode}">
-				  <input name="TransNum" value="${res.data.TransNum}">
-				  <input name="Currency" value="${res.data.Currency}">
-				  <input name="Amount" value="${res.data.Amount}">
-				  <input name="PaymentDesc" value="${res.data.PaymentDesc}">
-				  <input name="FirstName" value="${res.data.FirstName}">
-				  <input name="LastName" value="${res.data.LastName}">
-				  <input name="EmailAddress" value="${res.data.EmailAddress}">
-				  <input name="PhoneNum" value="${res.data.PhoneNum}">
-				  <input name="Address" value="${res.data.Address}">
-				  <input name="City" value="${res.data.City}">
-				  <input name="State" value="${res.data.State}">
-				  <input name="Country" value="${res.data.Country}">
-				  <input name="Postcode" value="${res.data.Postcode}">
-				  <input name="MerchantRemark" value="${res.data.MerchantRemark}">
-				  <input name="Signature" value="${res.data.Signature}">
-				</form>`
+						  <input name="MerchantCode" value="${res.data.MerchantCode}">
+						  <input name="TransNum" value="${res.data.TransNum}">
+						  <input name="Currency" value="${res.data.Currency}">
+						  <input name="Amount" value="${res.data.Amount}">
+						  <input name="PaymentDesc" value="${res.data.PaymentDesc}">
+						  <input name="FirstName" value="${res.data.FirstName}">
+						  <input name="LastName" value="${res.data.LastName}">
+						  <input name="EmailAddress" value="${res.data.EmailAddress}">
+						  <input name="PhoneNum" value="${res.data.PhoneNum}">
+						  <input name="Address" value="${res.data.Address}">
+						  <input name="City" value="${res.data.City}">
+						  <input name="State" value="${res.data.State}">
+						  <input name="Country" value="${res.data.Country}">
+						  <input name="Postcode" value="${res.data.Postcode}">
+						  <input name="MerchantRemark" value="${res.data.MerchantRemark}">
+						  <input name="Signature" value="${res.data.Signature}">
+						</form>`
 							// #ifdef H5
 							const div = document.createElement('div')
 							div.innerHTML = formStr
 							div.setAttribute('style',
-								'position: absolute; width: 0; height: 0; overflow: hidden;')
+								'position: absolute; width: 0; height: 0; overflow: hidden;'
+							)
 							const form = div.querySelector('form')
 							document.body.appendChild(div)
 							form.submit()
@@ -542,17 +541,36 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			},
 			// 点击支付密码
 			onPwdClick() {
+
+				let isNum
+				for (let i in this.orderPayList) {
+					if (this.orderPayList[i].isShow) {
+						isNum = this.orderPayList[i].id
+					}
+				}
+
 				if (!this.pay_pwd) return uni.showToast({
 					title: this.$t('order.qsrmm'),
 					icon: 'none'
 				})
+
 				const pay_pwd = jsencrypt.setEncrypt(publiukey, String(this.pay_pwd))
 
-				this.$http.post(this.$apiObj.OrderBalancePay, {
-					major_no: '', // 购物车支付的主订单号
-					order_no: this.order_no, // 小订单号
-					money: this.total * 1, // 支付总金额
-					pay_pwd: pay_pwd, // rsa加密后的支付密码
+				let arr = this.total.split(',')
+				let price = ''
+				arr.forEach(item => {
+					price += item
+				})
+
+				this.$http.post(this.$apiObj.SelectPayType, {
+					pay_type: isNum,
+					buy_type: 1,
+					money: price * 1, // 支付总金额
+					data: JSON.stringify(this.OrderList),
+					address_id: this.address_id,
+					coupon_id: this.coupon_id,
+					pay_pwd: isNum == 1 ? pay_pwd : '',
+					order_no:this.order_no
 				}).then(res => {
 					if (res.code == 1) {
 						uni.showToast({
@@ -563,11 +581,10 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 						setTimeout(() => {
 							uni.redirectTo({
-								url: '/pages/mine/order/order'
+								url: '/pages/cart/order_success?order_price=' + price +
+									'&order_no=' + (res.data.major_no ? res.data.major_no : res.data.order_no) + '&time=' + new Date().getTime()
 							})
 						}, 2000)
-
-						// pages/index/Psuccess
 					}
 				})
 			},

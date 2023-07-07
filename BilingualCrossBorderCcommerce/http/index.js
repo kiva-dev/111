@@ -118,7 +118,7 @@ request.interceptors.response.use(function(response) { //不要使用箭头函�
 			uni.showModal({
 				title: isEnglish ? 'Tips' : '温馨提示',
 				content: isEnglish ?
-					'Please relog back into your account.' :
+					'You have not logged in or your identity has expired, please log in.' :
 					'您暂未登录或身份过期，请前往登录。',
 				success: (res) => {
 					if (res.confirm) {

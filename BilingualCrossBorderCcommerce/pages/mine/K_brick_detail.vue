@@ -169,7 +169,7 @@
 				}
 				if (this.infoData.length < 1) {
 					uni.showToast({
-						title: this.$t('smrz') + ',' + this.$t('jjwntz'),
+						title: this.$t('smrz'),
 						icon: 'none',
 						duration: 3000
 					})

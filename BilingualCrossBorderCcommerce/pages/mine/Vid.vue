@@ -39,7 +39,7 @@
 					:placeholder="$t('user.vid.qsrxs')" />
 			</view>
 			<view class="li" v-if="index==0">
-				<view class="label">{{$t('user.vid.sfzh')}}</view>
+				<view class="label">{{$t('user.vid.sfzh1')}}</view>
 				<input class="input" v-model="idcard" v-if="status==='0'" disabled placeholder-class="color-999"
 					:placeholder="$t('user.vid.qsrsfzh')" />
 				<input class="input" v-model="idcard" v-else placeholder-class="color-999"
