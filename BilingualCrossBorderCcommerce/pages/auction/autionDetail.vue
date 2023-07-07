@@ -4,7 +4,8 @@
 			<view class="detail-head">
 				<image src="@/static/images/new-index/detail_btn_back.png" class="return" @click="toIndex()"></image>
 				<!-- <image src="@/static/images/new-index/detail_btn_car.png" class="gwc" @click="toMyCart()"></image> -->
-				<image src="@/static/images/new-index/detail_btn_share.png" class="fx" @click="onfenxingShow=true"></image>
+				<image src="@/static/images/new-index/detail_btn_share.png" class="fx" @click="onfenxingShow=true">
+				</image>
 				<view :style="`opacity: ${myOpacity};`">{{$t('top.shop')}}</view>
 			</view>
 			<!--头部导航 start-->
@@ -207,15 +208,7 @@
 
 				<!-- 配货中 -->
 				<view class="wish" v-if="jingpaiList.length==0&&newsjingpaiList.length==0">
-					<view class="ll-header-left">
-						<view class="left-icon">
-							<image src="@/static/images/new-index/ongoing.png" mode="widthFix"></image>
-						</view>
-						<view class="left-text">
-							<p>{{$t('tab.zzxy')}}</p>
-							<span style="background: rgba(255, 64, 41, 0.4);"></span>
-						</view>
-					</view>
+					<view class="ll-header-left"></view>
 					<view class="distributed">
 						<view class="con">
 							<image src="../../static/x.png" class="conImg"></image>
@@ -244,7 +237,8 @@
 					</view>
 					<!-- 列表 -->
 					<view class="ongingList">
-						<view v-for="(item,i) in jingpaiList" :key="i" class="ongingList-item" @click="toDrawInfo(item.auction_goods_id)">
+						<view v-for="(item,i) in jingpaiList" :key="i" class="ongingList-item"
+							@click="toDrawInfo(item.goods_id)">
 							<img :src="item.image" alt="" class="ongingListItemImg">
 							<view>
 								<text class="title">{{item.stage_num}} &nbsp;&nbsp;{{item.goods_name}}</text>
@@ -260,7 +254,7 @@
 										</block>
 									</view>
 								</view>
-								
+
 								<view class="rowIndex">
 									<view class="left">
 										<image src="/static/images/kbrick/diamond.png" mode="widthFix" class="zsImg">
@@ -291,10 +285,12 @@
 				</view>
 				<!-- 列表 -->
 				<view class="ongingList">
-					<view v-for="(item,i) in newsjingpaiList" :key="i" class="ongingList-item" @click="toDrawInfo(item.auction_goods_id)">
+					<view v-for="(item,i) in newsjingpaiList" :key="i" class="ongingList-item"
+						@click="toDrawInfo(item.goods_id)">
 						<img :src="item.image" alt="" class="ongingListItemImg">
 						<view class="zsItem">
-							<text class="title" style="margin-top: 0;">{{item.stage_num}} &nbsp;&nbsp;{{item.goods_name}}</text>
+							<text class="title" style="margin-top: 0;">{{item.stage_num}}
+								&nbsp;&nbsp;{{item.goods_name}}</text>
 							<view class="row">
 								<view class="left">
 									<image src="/static/images/kbrick/diamond.png" mode="widthFix" class="zsImg">
@@ -478,19 +474,19 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				noClick: true, // 防止重复点击 
 				id: '',
 				navList: [{
-					id: 1,
-					title: this.$t('newDetail.shangpin')
-				}, {
-					id: 2,
-					title: this.$t('newDetail.pinglun')
-				}, {
-					id: 3,
-					title: this.$t('newDetail.xianqin')
-				},
-				{
-					id: 4,
-					title: this.$t('newDetail.xy')
-				}
+						id: 1,
+						title: this.$t('newDetail.shangpin')
+					}, {
+						id: 2,
+						title: this.$t('newDetail.pinglun')
+					}, {
+						id: 3,
+						title: this.$t('newDetail.xianqin')
+					},
+					{
+						id: 4,
+						title: this.$t('newDetail.xy')
+					}
 				],
 				navId: 1,
 				current: 0,
@@ -596,9 +592,9 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			}
 			if (!this.isClick) {
 				if (res.scrollTop >= this.heightList[0] && res.scrollTop < this.heightList[1]) this.navId = 1
-				else if (res.scrollTop >= this.heightList[1] && res.scrollTop <( this.heightList[2])) this.navId = 2
+				else if (res.scrollTop >= this.heightList[1] && res.scrollTop < (this.heightList[2])) this.navId = 2
 				else if (res.scrollTop >= this.heightList[2] && res.scrollTop < (this.heightList[3])) this.navId = 3
-				else  this.navId = 4
+				else this.navId = 4
 			}
 
 		},
@@ -629,7 +625,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					sort: this.jijiangId,
 					page: this.page,
 					pagenum: 3,
-					keyword: this.keyword
+					keyword: this.keyword,
+					goods_id: this.id
 				}).then(res => {
 					if (res.code == 1) {
 						if (this.isShopCont) {
@@ -675,7 +672,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					page: this.page,
 					pagenum: this.pagenum,
 					keyword: this.keyword,
-					date_start: this.date_start
+					date_start: this.date_start,
+					goods_id: this.id
 				}).then(res => {
 					if (res.code == 1) {
 						if (this.isShopCont) {
@@ -718,7 +716,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					sort: this.newsjpId,
 					page: this.page,
 					pagenum: 3,
-					keyword: this.keyword
+					keyword: this.keyword,
+					goods_id: this.id
 				}).then(res => {
 					if (res.code == 1) {
 						if (this.isShopCont) {
@@ -1081,6 +1080,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						})
 						this.status = true
 						this.shopCont = res.data
+						console.log(res.data)
 						// 评价列表
 						this.getCommentList()
 						//猜你喜欢
@@ -1346,7 +1346,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					if (res.code == 1) {
 						uni.showToast({
 							icon: 'none',
-							title:this.shopCont.goods_focus? this.$t('auction.detail.err'):this.$t('auction.detail.success')
+							title: this.shopCont.goods_focus ? this.$t('auction.detail.err') : this.$t(
+								'auction.detail.success')
 						})
 						this.getProductInfo()
 					}
@@ -1822,7 +1823,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			color: #666;
 			font-size: 24rpx;
 			display: block;
-			margin-top:20rpx;
+			margin-top: 20rpx;
 
 			.image {
 				width: 24rpx;
@@ -1872,7 +1873,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			position: relative;
 			width: 480rpx;
 			height: 180rpx;
-			
+
 			.title {
 				position: absolute;
 				top: 10rpx;
@@ -1913,7 +1914,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				}
 
 				.new-list-item-btm-btn {
-					
+
 					padding: 6rpx 10rpx;
 					box-sizing: border-box;
 					font-size: 24rpx;
@@ -2076,56 +2077,56 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		height: 100rpx;
 		border-bottom: 1px solid rgb(204, 204, 204);
 		margin: 30rpx auto;
-		
-		.hisy_tit{
+
+		.hisy_tit {
 			position: absolute;
 			top: 0;
 			left: 0;
 			font-size: 24rpx;
 			color: rgb(51, 51, 51);
 		}
-		
-		.hisy_info{
+
+		.hisy_info {
 			position: absolute;
 			left: 0;
 			bottom: 20rpx;
 			display: flex;
 			align-items: center;
-			
-			.hisy_info_auth{
+
+			.hisy_info_auth {
 				width: 32rpx;
 				height: 32rpx;
 				border-radius: 50%;
 			}
-			
-			.hisy_info_name{
+
+			.hisy_info_name {
 				font-size: 20rpx;
 				color: rgb(51, 51, 51);
 				margin: 0 8rpx;
 			}
-			
-			.hisy_info_jb{
+
+			.hisy_info_jb {
 				width: 24rpx;
 				height: 24rpx;
 			}
-			
+
 		}
-		
-		.hisy_right{
+
+		.hisy_right {
 			position: absolute;
 			right: 20rpx;
 			bottom: 40rpx;
 			font-size: 28rpx;
 			font-weight: bold;
 			color: rgb(255, 57, 57);
-			
-			image{
+
+			image {
 				width: 24rpx;
 				height: 24rpx;
 				margin-right: 12rpx;
 			}
 		}
-		
+
 	}
 
 	.right {

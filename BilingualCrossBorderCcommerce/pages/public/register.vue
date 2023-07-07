@@ -290,7 +290,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			verifyData(val) {
 				if (!this.isQuanShow) {
 					uni.showToast({
-						title: '请勾选用户协议',
+						title: this.$t('login.gx'),
 						icon: 'none'
 					})
 					return
@@ -424,7 +424,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					})
 				}
 				uni.showLoading({
-					title: '请求中',
+					title: this.$t('login.qq'),
 					mask: true
 				});
 				this.$http.post(this.$apiObj.LoginSendEmailCode, {
@@ -569,7 +569,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				}
 				const pwd = jsencrypt.setEncrypt(publiukey, String(this.pwd))
 				uni.showLoading({
-					title: '请求中',
+					title: this.$t('login.qq'),
 					mask: true
 				});
 				this.$http.post(this.$apiObj.LoginEmailRegister, {
