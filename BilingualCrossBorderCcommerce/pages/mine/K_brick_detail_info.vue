@@ -1,5 +1,5 @@
 <template>
-	<view class="detail-info">
+	<view class="detail-info" v-if="list.length!=0">
 		<view class="info-head">
 			<image src="../../static/images/kbrick/kleft.png" @click="onReturn()"></image>
 			<view>{{$t('new.kzmx')}}</view>
@@ -14,7 +14,17 @@
 			</view>
 			<view class="item-price" :style="item.money*1 < 1 ?'color: rgb(153, 153, 153);':''"><text v-show="item.money*1 > 0">+</text>{{item.money*1}}</view>
 		</view>
-
+	</view>
+	<view class="NoDataAvailable" v-else>
+		<view class="info-head">
+			<image src="/static/images/kbrick/kleft.png" @click="onReturn()"></image>
+			<view>{{$t('new.kzmx')}}</view>
+		</view>
+		
+		<view class="item">
+			<view class="img"><image src="/static/images/noData.png"></image></view>
+			<text class="txt">{{$t('new.noData')}}~</text>
+		</view>
 	</view>
 </template>
 
@@ -94,6 +104,57 @@
 </script>
 
 <style lang="less" scoped>
+	
+	.NoDataAvailable{
+		width: 100%;
+		min-height: 100vh;
+		padding-bottom: 40rpx;
+		background: #f8f8f8!important;
+		margin: auto;
+		text-align: center;
+		.info-head {
+			position: relative;
+			width: 100%;
+			height: 88rpx;
+			padding-top: 88rpx;
+			display: flex;
+			align-items: center;
+			border-bottom: 1rpx solid rgb(204, 204, 204);
+			background-color: #fff;
+		
+			image {
+				position: absolute;
+				left: 32rpx;
+				width: 40rpx;
+				height: 40rpx;
+				z-index: 5;
+			}
+		
+			view {
+				width: 100%;
+				font-size: 40rpx;
+				font-weight: bold;
+				color: rgb(51, 51, 51);
+				text-align: center;
+			}
+		
+		}
+		.item{
+			.img{
+				width: 100%;
+				margin-top:80rpx;
+				image{
+				width: 480rpx;
+				height: 480rpx;
+			}
+			}
+			.txt{
+				color: #999;
+				font-size: 28rpx;
+				margin-top: 24rpx;
+			}
+		}
+	}
 	.detail-info {
 		width: 100%;
 		min-height: 100vh;

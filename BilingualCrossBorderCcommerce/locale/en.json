@@ -1508,5 +1508,6 @@
 	"new.shsm": "Appeal Description",
 	"new.qqwszmm": "Please go to the personal center to set the payment password",
 	"new.wish_code": "Wish Code",
-	"new.ljxq": "Award Details"
+	"new.ljxq": "Award Details",
+	"new.noData":"No record yet"
 }
