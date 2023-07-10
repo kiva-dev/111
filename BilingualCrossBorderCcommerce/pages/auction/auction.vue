@@ -1076,7 +1076,7 @@
 							<image v-else src="/static/images/new-index/p1.png" mode="widthFix"></image>
 						</view>
 					</view>
-					<view class="more" @click.top="toInfo(4)">
+					<view class="more" @click.top="toInfoAll">
 						<text>{{$t('auction.topMore')}}</text>
 						<image src="/static/images/products/right.png" class="moreRight"></image>
 					</view>
@@ -1383,6 +1383,12 @@
 			toInfo(id) {
 				uni.navigateTo({
 					url: "/pages/auction/auctionT?id=" + id
+				})
+			},
+			toInfoAll(){
+				console.log(11)
+				uni.reLaunch({
+					url: "/pages/auction/jjks" 
 				})
 			},
 			myIndex() {

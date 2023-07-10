@@ -12,17 +12,13 @@
 						<image v-if="id == 1" src="@/static/images/new-index/ongoing.png" mode="widthFix"></image>
 						<image v-else-if="id == 2" src="@/static/images/new-index/start-soon.png" mode="widthFix">
 						</image>
-						<image v-else-if="id == 3" src="@/static/images/new-index/historical.png" mode="widthFix">
-						</image>
+						<image v-else src="@/static/images/new-index/historical.png" mode="widthFix"></image>
 					</view>
-					<view class="left-text" v-if="id!=4">
+					<view class="left-text">
 						<p>{{title}}</p>
 						<span v-if="id == 1" style="background: rgba(255, 64, 41, 0.4);"></span>
 						<span v-else-if="id == 2" style="background: rgb(254, 204, 171);"></span>
-						<span v-else-if="id == 3" style="background: rgba(99, 97, 250, 0.4);"></span>
-					</view>
-					<view class="left-text" v-if="id==4" style="margin-left: -48rpx;">
-						<p>{{title}}</p>
+						<span v-else style="background: rgba(99, 97, 250, 0.4);"></span>
 					</view>
 				</view>
 				<view class="ll-header-right" v-if="id != 3">
@@ -553,7 +549,6 @@
 				totalPageNum: 0, // 最新竞拍总条数
 				newTotalPageNum: 0, // 即将开始竞拍总条数
 				historyTotalPageNum: 0, // 最新竞拍总条数
-				shopPageNum: 0, //所有商品总数
 				newsjpId: 1, // 最新竞拍头部id
 				jijiangId: 1, // 即将开始头部id
 				lishiId: '', // 历史竞拍头部id
@@ -651,14 +646,10 @@
 				this.id = e.id
 				this.title = this.$t('new.jjks')
 				this.onAuctionNotbeginGoods()
-			} else if (e.id == 3) {
+			} else {
 				this.id = e.id
 				this.title = this.$t('new.lsjl')
 				this.onAuctionHistoryGoods()
-			} else {
-				this.id = e.id
-				this.title = this.$t('newDetail.shangpin')
-				this.getAllProductsT()
 			}
 			let systemInfo = uni.getSystemInfoSync();
 			this.systemLocale = systemInfo.language;
@@ -694,9 +685,6 @@
 			} else if (this.page * this.pagenum < this.historyTotalPageNum && this.id == 3) {
 				this.page++;
 				this.onAuctionHistoryGoods();
-			} else if (this.page * this.pagenum < this.shopPageNum && this.id == 4) {
-				this.page++;
-				this.getAllProductsT()
 			}
 		},
 		//监听页面滚动
@@ -770,14 +758,10 @@
 					this.title = this.$t('new.jjks')
 					uni.setStorageSync('jinpaiId', 2) //更新当前选择的竞拍id
 					this.onAuctionNotbeginGoods()
-				} else if (this.id == 3) {
+				} else {
 					this.title = this.$t('new.lsjl')
 					uni.setStorageSync('jinpaiId', 3) //更新当前选择的竞拍id
 					this.onAuctionHistoryGoods()
-				} else {
-					this.title = this.$t('newDetail.shangpin')
-					uni.setStorageSync('jinpaiId', 4) //更新当前选择的竞拍id
-					this.getAllProductsT()
 				}
 			},
 			getCaption(str, state) {
@@ -903,32 +887,6 @@
 					}
 				})
 			},
-			//获取商品列表
-			getAllProductsT(id) {
-				this.productInfoId = id
-				this.$http.post(this.$apiObj.LitestoregoodsIndex, {
-					page: this.page,
-					pagenum: this.pagenum,
-					category_id: id == 0 ? '' : id,
-					goods_listing_type: 1
-				}).then(res => {
-					if (res.code == 1) {
-						this.totalPageNum = res.data.total
-						let arrs = []
-						res.data.data.forEach(item => {
-							item.litestore_tag.forEach(data => {
-								let arr = data.name.split("|")
-								if (!this.isShopCont) data.name = arr[0]
-								else data.name = arr[1]
-							})
-							if (item.is_belong_to_mall == 1 && item.goods_status == 10) {
-								arrs.push(item)
-							}
-						})
-						this.productList = this.page == 1 ? arrs : [...this.productList, ...arrs];
-					}
-				})
-			},
 			// 幸运之星
 			// 倒计时
 			daojishi(mss) {
@@ -945,15 +903,9 @@
 			// 点击竞拍列表
 			onJingPai(item) {
 				uni.setStorageSync('productInfo', true)
-				if (this.id == 4) {
-					uni.navigateTo({
-						url: '/pages/auction/product_info?goodsId=' + item.goods_id + '&type=2'
-					})
-				} else {
-					uni.navigateTo({
-						url: './detail?id=' + item.auction_goods_id
-					})
-				}
+				uni.navigateTo({
+					url: './detail?id=' + item.auction_goods_id
+				})
 			},
 			navClick(url) {
 				uni.navigateTo({
@@ -1082,7 +1034,7 @@
 								uni.navigateTo({
 									url: '/pages/mine/K_brick_detail'
 								})
-							}, 2500)
+							},2500)
 						}
 					})
 					return
@@ -1103,7 +1055,7 @@
 										uni.navigateTo({
 											url: '/pages/mine/K_brick_detail'
 										})
-									}, 2500)
+									},2500)
 								}
 							})
 							return
@@ -1119,7 +1071,7 @@
 										uni.navigateTo({
 											url: '/pages/mine/K_brick_detail'
 										})
-									}, 2500)
+									},2500)
 								}
 							})
 							return
