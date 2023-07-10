@@ -26,6 +26,18 @@
 			}
 		},
 		{
+			"path": "pages/auction/Newproduct",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"titleNView": false,
+					"bounce": "none"
+				}
+			}
+		},
+		{
 			"path": "pages/auction/auctionT",
 			"style": {
 				"navigationBarTitleText": "",

@@ -31,16 +31,26 @@
 			</uni-swiper-dot>
 		</view>
 		<block v-if="status">
-			<view class="detail-money">RM{{shopCont.litestore_goods_spec[0].goods_price}}</view>
+			<!-- 价格 k钻 -->
+			<view class="detail-money">
+				<view>
+					<view class="imgBottom">
+						<image src="/static/images/kbrick/diamond.png" mode=""></image>
+					    <text class="zs">111</text>
+					</view>
+					<text style="text-decoration: line-through;">RM{{shopCont.litestore_goods_spec[0].goods_price}}</text>
+				</view>
+				<view>{{$t('new.xylb')}}</view>
+			</view>
 			<view class="detail-top">
 				<view class="detail-title">{{shopCont.goods_name}}</view>
-				
+
 				<view class="li-tags">
 					<view class="li-icon" v-for="item in shopCont.litestore_tag" :key="item.id">
 						<image :src="item.image" mode="widthFix"></image>
 					</view>
 				</view>
-				
+
 				<view class="operate-layout">
 					<view class="ol-container" @click="onFocusProduct">
 						<image
@@ -58,7 +68,7 @@
 					</view>
 				</view>
 			</view>
-			
+
 			<!-- <view class="select-layout">
 				<view class="sl-address">
 					<view class="sl-address-choose" @click="$refs.popupAddress.open()">
@@ -200,7 +210,7 @@
 				<!-- 详情图片 -->
 				<view class="six-article" v-if="isShopCont" v-html="shopCont.english_content"></view>
 				<view class="six-article" v-else v-html="shopCont.content"></view>
-				
+
 				<!-- 许愿相关 -->
 				<view class="six-tit" style="margin-top: 30rpx;" id="div4">
 					<view class="line"></view>
@@ -210,7 +220,7 @@
 
 				<!-- 配货中 -->
 				<view class="wish" v-if="jingpaiList.length==0&&newsjingpaiList.length==0">
-					<view class="ll-header-left"></view>
+					<!-- <view class="ll-header-left"></view> -->
 					<view class="distributed">
 						<view class="con">
 							<image src="../../static/x.png" class="conImg"></image>
@@ -1731,9 +1741,12 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		justify-content: space-between;
 
 		.con {
-			display: flex;
-			align-items: center;
+			width: 100%;
+			// display: flex;
+			// align-items: center;
+			margin: auto;
 			margin-top: 80rpx;
+			text-align: center;
 
 			.conImg {
 				width: 280rpx;
@@ -1741,7 +1754,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			}
 
 			.conTxt {
-				width: 350rpx;
 				line-height: 40rpx;
 				color: #666;
 			}
@@ -2507,15 +2519,30 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		width: 100%;
 		height: 92rpx;
 		background: rgb(255, 57, 57);
+		border: 1px solid red;
 		padding: 0 32rpx;
 		box-sizing: border-box;
-		line-height: 92rpx;
-		color: rgb(255, 255, 255);
-		font-size: 40rpx;
-		font-weight: 700;
+	 display: flex;
+		color:#fff;
+		justify-content: space-between;
+		align-items: center;
+		font-size: 26rpx;
+		.imgBottom {
+			margin-top: 5rpx;
+		
+			image {
+				width: 40rpx;
+				height: 30rpx;
+			}
+			.zs{
+				font-size: 30rpx;
+				font-weight: bold;
+				margin-left: 10rpx;
+			}
+		}
 	}
-	
-	.detail-top{
+
+	.detail-top {
 		padding-top: 24rpx;
 		background: #fff;
 	}

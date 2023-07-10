@@ -37,18 +37,27 @@
 					<view class="detail-price-new">
 						<image src="/static/images/kbrick/diamond.png">{{shopCont.auction_price}}
 					</view>
+					<view class="detail-price-time" v-if="shopCont.check_status==3||shopCont.check_status==4">
+						{{$u.timeFormat(shopCont.end_time, 'yyyy/mm/dd hh:MM:ss')}} {{$t('auction.detail.yijs')}}
+					</view>
+					<view class="detail-price-time" v-else-if="shopCont.check_status==2">
+						{{$t('new.jljs')}}：{{hour}}:{{minute}}:{{second}}
+					</view>
+					<view class="detail-price-time" v-else>
+						{{$t('new.jlks')}}：<u-count-down :time="(shopCont.start_time*1000)"
+							format="HH:mm:ss"></u-count-down>
+					</view>
+				</view>
+				<view class="detail-price-right">
 					<view class="detail-price-old">RM{{shopCont.price}}</view>
+					<view class="imgCont">
+						<view class="headImgBox">
+							<image src="/static/images/kbrick/diamond.png"></image>
+						</view>
+						<text class="txt">1K {{$t('new.zs')}} = RM1</text>
+					</view>
 				</view>
-				<view class="detail-price-time" v-if="shopCont.check_status==3||shopCont.check_status==4">
-					{{$u.timeFormat(shopCont.end_time, 'yyyy/mm/dd hh:MM:ss')}} {{$t('auction.detail.yijs')}}
-				</view>
-				<view class="detail-price-time" v-else-if="shopCont.check_status==2">
-					{{$t('new.jljs')}}：{{hour}}:{{minute}}:{{second}}
-				</view>
-				<view class="detail-price-time" v-else>
-					{{$t('new.jlks')}}：<u-count-down :time="(shopCont.start_time*1000)"
-						format="HH:mm:ss"></u-count-down>
-				</view>
+
 			</view>
 			<view class="detail-title">{{shopCont.goods_name}}</view>
 			<!--标签-->
@@ -1437,7 +1446,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 								uni.navigateTo({
 									url: '/pages/mine/K_brick_detail'
 								})
-							},2500)
+							}, 2500)
 						}
 					})
 					return
@@ -1458,7 +1467,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 										uni.navigateTo({
 											url: '/pages/mine/K_brick_detail'
 										})
-									},2500)
+									}, 2500)
 								}
 							})
 							return
@@ -1474,7 +1483,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 										uni.navigateTo({
 											url: '/pages/mine/K_brick_detail'
 										})
-									},2500)
+									}, 2500)
 								}
 							})
 							return
@@ -1496,7 +1505,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				this.zhifushow = false
 				if (true) {
 					// 余额支付弹框
-					this.zhipassShow = true
+					this.zhipassShow = true					
 				} else if (isNum.length > 5) {
 					/**
 					if (this.MineCont === null) return uni.showToast({
@@ -1939,11 +1948,15 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		background: rgb(255, 57, 57);
 		padding: 0 32rpx;
 		box-sizing: border-box;
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
+		// display: flex;
+		// justify-content: space-between;
+		// align-items: center;
 
 		.detail-price-left {
+			width: 100%;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
 
 			.detail-price-new {
 				font-size: 40rpx;
@@ -1955,15 +1968,48 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					height: 24rpx;
 				}
 			}
+		}
+
+		.detail-price-right {
+			width: 100%;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
 
 			.detail-price-old {
 				font-size: 24rpx;
 				color: rgb(248, 248, 248);
 				text-decoration: line-through;
 			}
+
+			.imgCont {
+				display: flex;
+				align-content: center;
+				text-align: center;
+				font-size: 24rpx;
+
+				.headImgBox {
+					width: 30rpx;
+					height: 30rpx;
+					background-color: #fff;
+					border-radius: 50%;
+
+					image {
+						width: 24rpx;
+						height: 24rpx;
+						margin-top: 5rpx;
+					}
+				}
+
+				.txt {
+					color: #fff;
+					margin-left: 10rpx;
+				}
+			}
 		}
 
 		.detail-price-time {
+			display: flex;
 			font-size: 32rpx;
 			color: rgb(255, 255, 255);
 		}
@@ -4003,11 +4049,11 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			height: 44rpx;
 			margin-right: 8rpx;
 		}
-		
-		p{
+
+		p {
 			position: relative;
 			z-index: 4;
-			
+
 			text {
 				width: 92rpx;
 				height: 8rpx;
@@ -4017,10 +4063,10 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				left: 50%;
 				bottom: -8rpx;
 				transform: translateX(-50%);
-				background: rgba(10, 198, 142,0.5);
+				background: rgba(10, 198, 142, 0.5);
 				z-index: 1;
 			}
-		}	
+		}
 
 	}
 </style>

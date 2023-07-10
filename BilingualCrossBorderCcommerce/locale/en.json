@@ -228,7 +228,7 @@
 	"auction.fen": "Branch",
 	"auction.miao": "Second",
 	"auction.shoucang": "Collect",
-	"auction.yishoucang": "Favorite",
+	"auction.yishoucang": "Collected",
 	"auction.login": "Login",
 	"auction.logout": "Logout",
 
@@ -675,8 +675,8 @@
 	"user.auctionM.confirmOrder": "Confirm order",
 	"xyc": "Wishing Pool",
 	"title": "My Wish List",
-	"xylist":"Wishing Items",
-	"xytitle":"Have all that is Necessary",
+	"xylist": "Wishing Items",
+	"xytitle": "Have all that is Necessary",
 
 	"user.Feedback.wtms": "Problem Description",
 	"user.Feedback.qsrnr": "Please enter the content",
@@ -928,8 +928,8 @@
 	"user.refund.detail.fuzhicg": "Copy succeeded",
 	"user.refund.detail.shcg": "Goods received successfully",
 
-    "login.gx":"Please agree with our terms and agreements",
-    "login.qq":"Loading",
+	"login.gx": "Please agree with our terms and agreements",
+	"login.qq": "Loading",
 	"login.kg": "The password cannot contain Spaces",
 	"login.hz": "Do not enter Chinese characters in the password",
 	"login.qsrsjh": "Please enter your mobile number",
@@ -1297,7 +1297,7 @@
 	"zhhbcz": "Account number does not exist",
 	"jphdwjs": "The auction is not over, please accept the prize after it is over",
 	"smrz": "Please complete Real Name Authentication before payment",
-	"jjwntz":"After three seconds, it will jump to the real name, please wait a moment",
+	"jjwntz": "After three seconds, it will jump to the real name, please wait a moment",
 	"smrzshh": "Your real name authentication is currently under review and payment can only be made after it is approved",
 	"smrzwtg": "Your real name authentication has not been passed. Please re authenticate your real name authentication",
 	"monthNum": "The recharge amount cannot be less than 10",
@@ -1319,8 +1319,9 @@
 
 	"newDetail.pinglun": "Comments",
 	"newDetail.shangpin": "Products",
+	"newDetail.shangpinAll": "All Products",
 	"newDetail.xianqin": "Details",
-	"newDetail.xy":"Wish",
+	"newDetail.xy": "Wish",
 	"newDetail.jilu": "Records",
 	"newDetail.guize": "Rules",
 	"newDetail.not": "There are currently no comments, come and comment!",
@@ -1330,6 +1331,7 @@
 	"new.lsjl": "Historical",
 	"new.lxfs": "Contact information",
 	"new.sctp": "Pictures",
+	"new.xylb": "Wishing Items",
 	"new.qsrlxfs": "Please enter contact information",
 	"new.qms": "Please provide a detailed description of your issue so that we can provide you with better assistance",
 	"new.yhlp": "Regretful streaming",
@@ -1510,7 +1512,8 @@
 	"new.qqwszmm": "Please go to the personal center to set the payment password",
 	"new.wish_code": "Wish Code",
 	"new.ljxq": "Award Details",
-	"new.noData":"No record yet",
-	"new.xycs":"Number of wishes",
-	"new.xycsm":"The merchant of this product is actively distributing goods and will irregularly launchwishing activities in the future. Stay tuned! The collected products will be notified toyou as soon as the event is launched!"
+	"new.noData": "No record yet",
+	"new.xycs": "Number of wishes",
+	"new.zs": "Diamonds",
+	"new.xycsm": "Urge Merchants To lnitiate Wishing Activities"
 }

@@ -1318,6 +1318,7 @@
 
 	"newDetail.pinglun": "评论",
 	"newDetail.shangpin": "商品",
+	"newDetail.shangpinAll": "所有商品",
 	"newDetail.xianqin": "详情",
 	"newDetail.xy": "许愿",
 	"newDetail.jilu": "记录",
@@ -1380,6 +1381,7 @@
 	"new.wdyq": "我的邀请",
 	"new.yqrs": "邀请人数",
 	"new.tdfy": "Ta的返佣",
+	"new.xylb": "许愿列表",
 	"new.bctpsb": "保存图片失败",
 	"new.qsrtgm": "请输入推广码",
 	"new.wazyy": "未安装该应用,是否跳转至应用商店？",
@@ -1506,8 +1508,9 @@
 	"new.shsm": "申诉说明",
 	"new.qqwszmm": "请前往个人中心设置支付密码",
 	"new.wish_code": "愿望码",
-	"new.noData":"还没有记录",
-	"new.ljxq":"领奖详情",
-	"new.xycs":"许愿次数",
-	"new.xycsm":"该商品商家正在积极配货，后续将会不定期开启许愿活动。敬请期待!收藏商品将在活动发起的第一时间通知您!"
+	"new.noData": "还没有记录",
+	"new.ljxq": "领奖详情",
+	"new.xycs": "许愿次数",
+	"new.zs": "钻石",
+	"new.xycsm": "想要，催促商家发起许愿活动"
 }
