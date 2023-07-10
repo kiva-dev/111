@@ -315,20 +315,26 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		},
 
 		onShow() {
-			// if (!uni.getStorageSync('productInfo')) {
-			// 	uni.pageScrollTo({
-			// 		scrollTop: 0,
-			// 		duration: 0
-			// 	})
-			// }
-
 			this.scrollToTop = 0
-			this.switch_id = uni.getStorageSync('switch_id') || 0
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
 			this.cancelText = uni.getStorageSync('locale') == 'en' ? 'cancel' : '取消'
 			this.confirmText = uni.getStorageSync('locale') == 'en' ? 'confirm' : '确认'
+		},
+		onHide() {
+			this.selectProductsId = 0
+			clearTimeout(this.addCartTimer)
+		},
+		onLoad() {
+			let systemInfo = uni.getSystemInfoSync();
+			this.systemLocale = systemInfo.language;
+			this.applicationLocale = uni.getLocale();
+			this.isAndroid = systemInfo.platform.toLowerCase() === 'android';
+			uni.onLocaleChange((e) => {
+				this.applicationLocale = e.locale;
+			})
+			
 			this.page = 1
-
+			
 			// 轮播图
 			this.$http.post(this.$apiObj.AuctionBanner).then(res => {
 				if (res.code == 1) {
@@ -352,7 +358,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					this.FirstList = res.data
 				}
 			})
-
+			
 			if (uni.getStorageSync('token')) {
 				this.isLogin = true
 			}
@@ -363,20 +369,20 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				})
 				this.getAllProducts(this.switch_id)
 			}
-
+			
 		},
-		onHide() {
-			this.selectProductsId = 0
-			clearTimeout(this.addCartTimer)
-		},
-		onLoad() {
-			let systemInfo = uni.getSystemInfoSync();
-			this.systemLocale = systemInfo.language;
-			this.applicationLocale = uni.getLocale();
-			this.isAndroid = systemInfo.platform.toLowerCase() === 'android';
-			uni.onLocaleChange((e) => {
-				this.applicationLocale = e.locale;
-			})
+		onPullDownRefresh() {
+			this.page = 1
+			if (!uni.getStorageSync('productInfo')) {
+				uni.pageScrollTo({
+					scrollTop: 0,
+					duration: 0
+				})
+				this.getAllProducts(this.switch_id)
+			}
+			setTimeout(()=>{
+				uni.stopPullDownRefresh()
+			},1000)
 		},
 		beforeDestroy() {
 
@@ -426,7 +432,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			//切换选择分类
 			switchSelect(id) {
 				this.switch_id = id
-				uni.setStorageSync('switch_id', id)
 				this.page = 1
 				this.getAllProducts(id)
 			},

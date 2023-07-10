@@ -32,31 +32,33 @@
 		</view>
 		<block v-if="status">
 			<view class="detail-money">RM{{shopCont.litestore_goods_spec[0].goods_price}}</view>
-			<view class="detail-title">{{shopCont.goods_name}}</view>
-
-			<view class="li-tags">
-				<view class="li-icon" v-for="item in shopCont.litestore_tag" :key="item.id">
-					<image :src="item.image" mode="widthFix"></image>
+			<view class="detail-top">
+				<view class="detail-title">{{shopCont.goods_name}}</view>
+				
+				<view class="li-tags">
+					<view class="li-icon" v-for="item in shopCont.litestore_tag" :key="item.id">
+						<image :src="item.image" mode="widthFix"></image>
+					</view>
 				</view>
-
+				
+				<view class="operate-layout">
+					<view class="ol-container" @click="onFocusProduct">
+						<image
+							:src="shopCont.goods_focus == 0 ? require('@/static/images/new-index/detail_icon_collect.png') : require('@/static/images/new-index/detail_icon_iscollect.png')"
+							mode="widthFix"></image>
+						<p>{{shopCont.wishing_pool_goods_focus_total}}</p>
+					</view>
+					<view class="ol-container">
+						<image src="@/static/xuyuan/ax.png" mode="widthFix"></image>
+						<p>{{shopCont.wishing_pool_goods_appear_watch_num_total}}</p>
+					</view>
+					<view class="ol-container" v-if="shopCont.wishing_pool_goods_lucky_total>0">
+						<image src="@/static/xuyuan/jiang.png" mode="widthFix"></image>
+						<p>{{shopCont.wishing_pool_goods_lucky_total}}</p>
+					</view>
+				</view>
 			</view>
-
-			<view class="operate-layout">
-				<view class="ol-container" @click="onFocusProduct">
-					<image
-						:src="shopCont.goods_focus == 0 ? require('@/static/images/new-index/detail_icon_collect.png') : require('@/static/images/new-index/detail_icon_iscollect.png')"
-						mode="widthFix"></image>
-					<p>{{shopCont.wishing_pool_goods_focus_total}}</p>
-				</view>
-				<view class="ol-container">
-					<image src="@/static/xuyuan/ax.png" mode="widthFix"></image>
-					<p>{{shopCont.wishing_pool_goods_appear_watch_num_total}}</p>
-				</view>
-				<view class="ol-container" v-if="shopCont.wishing_pool_goods_lucky_total>0">
-					<image src="@/static/xuyuan/jiang.png" mode="widthFix"></image>
-					<p>{{shopCont.wishing_pool_goods_lucky_total}}</p>
-				</view>
-			</view>
+			
 			<!-- <view class="select-layout">
 				<view class="sl-address">
 					<view class="sl-address-choose" @click="$refs.popupAddress.open()">
@@ -1079,7 +1081,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						})
 						this.status = true
 						this.shopCont = res.data
-						console.log(res.data)
 						// 评价列表
 						this.getCommentList()
 						//猜你喜欢
@@ -2513,11 +2514,14 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		font-size: 40rpx;
 		font-weight: 700;
 	}
+	
+	.detail-top{
+		padding-top: 24rpx;
+		background: #fff;
+	}
 
 	.detail-title {
-		width: 100%;
-		background: rgb(255, 255, 255);
-		padding: 24rpx 32rpx 20rpx;
+		width: 692rpx;
 		box-sizing: border-box;
 		line-height: 48rpx;
 		font-size: 32rpx;
@@ -2528,6 +2532,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		display: -webkit-box;
 		-webkit-box-orient: vertical;
 		-webkit-line-clamp: 2;
+		margin: 0 auto 16rpx auto;
 	}
 
 	.li-tags {

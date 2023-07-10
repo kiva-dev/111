@@ -361,30 +361,23 @@
 			}
 		},
 		onLoad() {
+			
+			if (uni.getStorageSync('token')) {
+				this.isLogin = true;
+				this.getMineInfo();
+				this.getMineWinAuction();
+				this.getCollectGoods();
+				this.getCollectStore();
+			}
+
 			// #ifdef APP-PLUS
-			this.isTwitterApp = plus.runtime.isApplicationExist({
-				pname: 'com.twitter.android'
-			})
-			this.isFacebookApp = plus.runtime.isApplicationExist({
-				pname: 'com.facebook.katana'
-			})
-			this.isWhatsApp = plus.runtime.isApplicationExist({
-				pname: 'com.whatsapp'
-			})
-			this.isTelegramApp = plus.runtime.isApplicationExist({
-				pname: 'org.telegram.messenger'
-			})
 			this.device = uni.getSystemInfoSync().platform;
 			// #endif
 		},
 		onShow() {
 			//删除缓存临时数据
-			uni.removeStorageSync('productInfo')
-			uni.removeStorageSync('productId')
-			uni.removeStorageSync('switch_id')
-			uni.removeStorageSync('jinpaiId')
-
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false;
+			
 			if (uni.getStorageSync('token')) {
 				this.isLogin = true;
 				this.getMineInfo();
@@ -399,7 +392,7 @@
 		},
 		methods: {
 			onfacebook() {
-				let url = `https://www.facebook.com/sharer/sharer.php?u=`+this.$baseUrl
+				let url = `https://www.facebook.com/sharer/sharer.php?u=` + this.$baseUrl
 				// #ifdef H5
 				window.open(url)
 				// #endif
@@ -414,7 +407,7 @@
 				// #endif
 			},
 			ontweet() {
-				let url = `https://twitter.com/intent/tweet?url=`+this.$baseUrl
+				let url = `https://twitter.com/intent/tweet?url=` + this.$baseUrl
 				// #ifdef H5
 				window.open(url)
 				// #endif
@@ -428,7 +421,7 @@
 				);
 				// #endif
 			},
-			onTelegram(){
+			onTelegram() {
 				let url = `http://t.me/Kolibrimall`
 				// #ifdef H5
 				window.open(url)
@@ -443,7 +436,7 @@
 				);
 				// #endif
 			},
-			onWhatsAPP(){
+			onWhatsAPP() {
 				let url = `https://wa.me/message/NAZMJSVWAJ3XA1`
 				// #ifdef H5
 				window.open(url)

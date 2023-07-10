@@ -109,7 +109,7 @@
 									<image :src="item.shop_logo" mode="widthFix"></image>
 									<p>{{item.shop_name}}</p>
 								</view>
-								<view class="info-detail-right">{{onConversionTime(item.addtime) || ''}}</view>
+								<view class="info-detail-right">{{$u.timeFormat(item.addtime, 'mm/dd hh:MM:ss') || ''}}</view>
 							</view>
 						</view>
 					</view>
@@ -354,7 +354,7 @@
 									<image :src="item.shop_logo" mode="widthFix"></image>
 									<p>{{item.shop_name}}</p>
 								</view>
-								<view class="info-detail-right">{{$u.timeFormat(item.pay_time, 'yyyy/mm/dd')}}</view>
+								<view class="info-detail-right">{{$u.timeFormat(item.pay_time, 'mm/dd hh:MM:ss')}}</view>
 							</view>
 						</view>
 					</view>

@@ -9,8 +9,8 @@
 			"path": "pages/auction/new_index",
 			"style": {
 				"navigationBarTitleText": "",
-				"navigationStyle": "custom"
-				// "enablePullDownRefresh": true
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": true
 			}
 		},
 		{
@@ -18,6 +18,7 @@
 			"style": {
 				"navigationBarTitleText": "",
 				"navigationStyle": "custom",
+				"enablePullDownRefresh": true,
 				"app-plus": {
 					"titleNView": false,
 					"bounce": "none"
@@ -712,6 +713,7 @@
 			"style": {
 				"navigationBarTitleText": "",
 				"navigationStyle": "custom",
+				"enablePullDownRefresh": true,
 				"app-plus": {
 					"titleNView": false,
 					"bounce": "none"
@@ -1027,12 +1029,6 @@
 				"iconPath": "/static/images/new-index/Products.png",
 				"selectedIconPath": "/static/images/new-index/Products1.png"
 			},
-			// {
-			// 	"pagePath": "pages/auction/lucky",
-			// 	"text": "%auction.xyzq%",
-			// 	"iconPath": "/static/images/new-index/Lucky.png",
-			// 	"selectedIconPath": "/static/images/new-index/Lucky1.png"
-			// },
 			{
 				"pagePath": "pages/auction/auction",
 				"text": "%tab.makeAwish%",

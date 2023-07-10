@@ -1035,29 +1035,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			}
 		},
 		watch: {
-			keyword: {
-				handler(e, m) {
-					if (this.navId == 1) {
-						this.pagenum = 5
-					} else [
-						this.pagenum = 10
-					]
-					this.date_start = ''
-					this.page = 1
-					// this.navId = id
-					this.newsjpId = 1
-					this.jijiangId = 1
-					this.lishiId = 1
-					this.jingpaiList = []
-					this.newsjingpaiList = []
-					this.historyList = []
-					this.LuckyList = []
-					this.onAuctionNewGoods()
-					this.onAuctionNotbeginGoods()
-					this.onAuctionHistoryGoods()
-					this.onAuctionLuckyList()
-				}
-			},
 			money: {
 				handler(e, m) {
 					if (e < 10) {
@@ -1134,58 +1111,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				this.applicationLocale = e.locale;
 			})
 
-			if (e.invite_code) {
-				uni.removeStorageSync('token');
-				sessionStorage.setItem("invite_code", e.invite_code);
-				// uni.setStorageSync('invite_code', e.invite_code)
-				// 取数据
-				let arr = uni.getStorageSync('inviteCode') || []
-				let cont = {
-					inviteCode: e.invite_code
-				}
-				let num = 0
-				for (let i in arr) {
-					if (arr[i].inviteCode === e.invite_code) {
-						num = num + 1
-					}
-				}
-				if (num === 0) {
-					this.$http.post(this.$apiObj.LoginClickNum, {
-						invite_code: e.invite_code
-					}).then(res => {})
-					arr.push(cont)
-				}
-				// 存数据
-				uni.setStorageSync('inviteCode', arr)
-			}
-			setTimeout(() => {
-				if (e.tab) {
-					this.pagenum = 10
-					this.navId = Number(e.tab)
-				}
-			}, 100);
-
-			this.getProductOrJinpai()
-			// 最新竞拍
-			this.onAuctionNewGoods()
-			// 即将开始
-			this.onAuctionNotbeginGoods()
-
-			//普通商品
-			if (this.productId == 1) this.getProductList(this.selectProductId)
-		},
-		onShow() {
-			this.switch_id = 0
-			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
-			this.cancelText = uni.getStorageSync('locale') == 'en' ? 'cancel' : '取消'
-			this.confirmText = uni.getStorageSync('locale') == 'en' ? 'confirm' : '确认'
-
-			//删除缓存临时数据
-			uni.removeStorageSync('productInfo')
-			uni.removeStorageSync('productId')
-			uni.removeStorageSync('switch_id')
-			uni.removeStorageSync('jinpaiId')
-
 			// 轮播图
 			this.$http.post(this.$apiObj.AuctionBanner).then(res => {
 				if (res.code == 1) {
@@ -1231,9 +1156,71 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			}, 1200);
 
 
-			// this.jinPaiTimer = setInterval(() => {
-			// 	this.showJinpaiData()
-			// }, 1200000)
+			if (e.invite_code) {
+				uni.removeStorageSync('token');
+				sessionStorage.setItem("invite_code", e.invite_code);
+				// uni.setStorageSync('invite_code', e.invite_code)
+				// 取数据
+				let arr = uni.getStorageSync('inviteCode') || []
+				let cont = {
+					inviteCode: e.invite_code
+				}
+				let num = 0
+				for (let i in arr) {
+					if (arr[i].inviteCode === e.invite_code) {
+						num = num + 1
+					}
+				}
+				if (num === 0) {
+					this.$http.post(this.$apiObj.LoginClickNum, {
+						invite_code: e.invite_code
+					}).then(res => {})
+					arr.push(cont)
+				}
+				// 存数据
+				uni.setStorageSync('inviteCode', arr)
+			}
+			setTimeout(() => {
+				if (e.tab) {
+					this.pagenum = 10
+					this.navId = Number(e.tab)
+				}
+			}, 100);
+
+			this.getProductOrJinpai()
+			// 最新竞拍
+			this.onAuctionNewGoods()
+			// 即将开始
+			this.onAuctionNotbeginGoods()
+
+			//普通商品
+			if (this.productId == 1) this.getProductList(this.selectProductId)
+		},
+		onPullDownRefresh() {
+			this.page = 1
+			this.getProductOrJinpai()
+			// 最新竞拍
+			this.onAuctionNewGoods()
+			// 即将开始
+			this.onAuctionNotbeginGoods()
+
+			//普通商品
+			if (this.productId == 1) this.getProductList(this.selectProductId)
+
+			setTimeout(() => {
+				uni.stopPullDownRefresh()
+			}, 1000)
+		},
+		onShow() {
+			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
+			this.cancelText = uni.getStorageSync('locale') == 'en' ? 'cancel' : '取消'
+			this.confirmText = uni.getStorageSync('locale') == 'en' ? 'confirm' : '确认'
+
+			//删除缓存临时数据
+			// uni.removeStorageSync('productInfo')
+			// uni.removeStorageSync('productId')
+			// uni.removeStorageSync('switch_id')
+			// uni.removeStorageSync('jinpaiId')
 
 		},
 		onHide() {

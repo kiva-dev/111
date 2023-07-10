@@ -1204,40 +1204,29 @@
 				this.applicationLocale = e.locale;
 			});
 			this.getLuckyList()
-		},
-		onShow() {
-			//删除缓存临时数据
-			uni.removeStorageSync('productInfo')
-			uni.removeStorageSync('productId')
-			uni.removeStorageSync('switch_id')
-			uni.removeStorageSync('jinpaiId')
-
-			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
-			this.page = 1
-			this.newsjpId = 1
-			this.jijiangId = 1
-			this.lishiId = 1
-			this.jingpaiList = []
-			this.newsjingpaiList = []
-			this.historyList = []
-			this.LuckyList = []
-			this.date_start = ''
-			this.navId = 3
-			this.list = []
 			this.getAllProducts() //许愿列表数据
 			this.getProductOrJinpai()
 		},
+		onPullDownRefresh() {
+			this.page = 1
+			this.getLuckyList()
+			this.getAllProducts() //许愿列表数据
+			this.getProductOrJinpai()
+			setTimeout(() => {
+				uni.stopPullDownRefresh()
+			}, 1000)
+		},
+		onShow() {
+			//删除缓存临时数据
+
+			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
+			this.newsjpId = 1
+			this.jijiangId = 1
+			this.lishiId = 1
+			this.date_start = ''
+			this.navId = 3
+		},
 		onReachBottom() {
-			// if (this.page * this.pagenum < this.totalPageNum && this.id == 1) {
-			// 	this.page++;
-			// 	this.onAuctionNewGoods();
-			// } else if (this.page * this.pagenum < this.newTotalPageNum && this.id == 2) {
-			// 	this.page++;
-			// 	this.onAuctionNotbeginGoods();
-			// } else if (this.page * this.pagenum < this.historyTotalPageNum && this.id == 3) {
-			// 	this.page++;
-			// 	this.onAuctionHistoryGoods();
-			// }
 			if (this.page * this.pagenum >= this.totalNum) return
 			this.page++
 			this.getAllProducts()
@@ -1325,38 +1314,20 @@
 				this.onAuctionNotbeginGoods()
 				// 历史竞拍
 				this.onAuctionHistoryGoods()
-				//记住当前竞拍选择的品类
-				let id = uni.getStorageSync('jinpaiId')
-				if (id) {
-					this.id = id
-					this.switchJinpai(id)
-				}
 			},
 			//数据切换
 			switchJinpai(id) {
 				this.id = id
 				this.selectId = 1
 				if (this.id == 1) {
-					this.title = this.$t('tab.zzxy')
-					uni.setStorageSync('jinpaiId', 1) //更新当前选择的竞拍id
-					this.onAuctionNewGoods()
 					uni.navigateTo({
 						url: "/pages/auction/auctionT"
 					})
 				} else if (this.id == 2) {
 					this.title = this.$t('new.jjks')
-					uni.setStorageSync('jinpaiId', 2) //更新当前选择的竞拍id
-					this.onAuctionNotbeginGoods()
-					uni.navigateTo({
-						url: "/pages/auction/auctionT"
-					})
 				} else {
 					this.title = this.$t('new.lsjl')
 					uni.setStorageSync('jinpaiId', 3) //更新当前选择的竞拍id
-					this.onAuctionHistoryGoods()
-					uni.navigateTo({
-						url: "/pages/auction/auctionT"
-					})
 				}
 			},
 			getCaption(str, state) {
@@ -1502,7 +1473,6 @@
 			},
 			// 点击竞拍列表
 			onJingPai(item) {
-				uni.setStorageSync('productInfo', true)
 				uni.navigateTo({
 					url: './detail?id=' + item.auction_goods_id
 				})
@@ -1634,7 +1604,7 @@
 								uni.navigateTo({
 									url: '/pages/mine/K_brick_detail'
 								})
-							},2500)
+							}, 2500)
 						}
 					})
 					return
@@ -1655,7 +1625,7 @@
 										uni.navigateTo({
 											url: '/pages/mine/K_brick_detail'
 										})
-									},2500)
+									}, 2500)
 								}
 							})
 							return
@@ -1671,7 +1641,7 @@
 										uni.navigateTo({
 											url: '/pages/mine/K_brick_detail'
 										})
-									},2500)
+									}, 2500)
 								}
 							})
 							return
