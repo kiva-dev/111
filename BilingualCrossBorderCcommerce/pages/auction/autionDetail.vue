@@ -196,9 +196,9 @@
 				</view>
 
 				<!-- 详情图片 -->
-				<view class="detailImg">
-					<img src="@/static/xuyuan/shopDetail.png" alt="">
-				</view>
+				<view class="six-article" v-if="isShopCont" v-html="shopCont.english_content"></view>
+				<view class="six-article" v-else v-html="shopCont.content"></view>
+				
 				<!-- 许愿相关 -->
 				<view class="six-tit" style="margin-top: 30rpx;" id="div4">
 					<view class="line"></view>
