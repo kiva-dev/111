@@ -332,9 +332,9 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			uni.onLocaleChange((e) => {
 				this.applicationLocale = e.locale;
 			})
-			
+
 			this.page = 1
-			
+
 			// 轮播图
 			this.$http.post(this.$apiObj.AuctionBanner).then(res => {
 				if (res.code == 1) {
@@ -358,7 +358,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					this.FirstList = res.data
 				}
 			})
-			
+
 			if (uni.getStorageSync('token')) {
 				this.isLogin = true
 			}
@@ -369,7 +369,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				})
 				this.getAllProducts(this.switch_id)
 			}
-			
+			this.getAllProducts(this.switch_id)
 		},
 		onPullDownRefresh() {
 			this.page = 1
@@ -380,9 +380,9 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				})
 				this.getAllProducts(this.switch_id)
 			}
-			setTimeout(()=>{
+			setTimeout(() => {
 				uni.stopPullDownRefresh()
-			},1000)
+			}, 1000)
 		},
 		beforeDestroy() {
 

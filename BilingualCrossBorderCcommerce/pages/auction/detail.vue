@@ -16,7 +16,7 @@
 		</view>
 		<!--轮播图 start-->
 		<view class="detail-big">
-			<div id="div1"></div>
+			<view id="div1"></view>
 			<uni-swiper-dot class="uni-swiper-dot-box" :info="shopCont.images" :current="current" :mode="mode"
 				field="content">
 				<swiper class="swiper-box" autoplay="true" :circular="true" @change="change">
@@ -117,10 +117,10 @@
 					{{shopCont.last_pay_time}}
 				</view>
 			</view>
-			<div id="div2"></div>
+			<view id="div2"></view>
 			<!--评论-->
 			<view class="detail-comment">
-				<div id="div2"></div>
+				<view id="div2"></view>
 				<view class="detail-comment-head">
 					<view class="detail-comment-tit">{{$t('newDetail.pinglun')}} <span>（{{JudgeList.length}}）</span>
 					</view>
@@ -252,7 +252,7 @@
 					</u-grid>
 				</view>
 			</view>
-			<div id="div3"></div>
+			<view id="div3"></view>
 			<!--商品详情-->
 			<view class="detail-six">
 				<view class="six-tit">
@@ -265,7 +265,7 @@
 				<view class="six-article" v-if="isShopCont" v-html="shopCont.en_auction_bottom_desc"></view>
 				<view class="six-article" v-else v-html="shopCont.zh_auction_bottom_desc"></view>
 			</view>
-			<div id="div4"></div>
+			<view id="div4"></view>
 			<!--竞拍记录-->
 			<view class="jingpaiCont">
 				<view class="six-tit">
@@ -319,7 +319,7 @@
 			</view>
 			<!--竞拍规则-->
 			<view>
-				<div id="div5"></div>
+				<view id="div5"></view>
 				<view class="six-tit">
 					<view class="line"></view>
 					<text>{{$t('newDetail.guize')}}</text>

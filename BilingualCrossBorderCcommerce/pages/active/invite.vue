@@ -17,16 +17,16 @@
 		<view class="il-rebate">
 			<view class="il-rebate-title">{{$t('active.rebateTit')}}</view>
 			<view class="il-rebate-flow">
-				<div class="flow-arrow">
+				<view class="flow-arrow">
 					<image src="@/static/images/active/active_icon_arrow.png" mode="widthFix"></image>
-				</div>
+				</view>
 				<image src="@/static/images/active/active_icon_rebate1.png" mode="widthFix"></image>
 				<p>{{$t('active.rebate1')}}</p>
 			</view>
 			<view class="il-rebate-flow">
-				<div class="flow-arrow">
+				<view class="flow-arrow">
 					<image src="@/static/images/active/active_icon_arrow.png" mode="widthFix"></image>
-				</div>
+				</view>
 				<image src="@/static/images/active/active_icon_rebate2.png" mode="widthFix"></image>
 				<p>{{$t('active.rebate2')}}</p>
 			</view>
