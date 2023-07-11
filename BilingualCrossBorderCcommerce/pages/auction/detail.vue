@@ -1509,6 +1509,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 				if (this.kdiamondSelect) {
 					if (this.set_paypwd != 1) {
+
 						uni.showToast({
 							title: this.$t('new.qszmm'),
 							icon: 'none',

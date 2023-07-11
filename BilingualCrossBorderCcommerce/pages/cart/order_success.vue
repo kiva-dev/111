@@ -3,7 +3,7 @@
 		<view class="success-head-info">
 			<view class="success-head">
 				<image src="/static/images/auth/left.png" @click="toBack()"></image>
-				<view>{{$t('top.tjdd')}}</view>
+				<view>{{$t('top.zhifucg')}}</view>
 			</view>
 			<view class="content">
 				<view class="content-des">

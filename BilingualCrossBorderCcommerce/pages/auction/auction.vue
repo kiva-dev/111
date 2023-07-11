@@ -1,6 +1,6 @@
 <template>
 	<view class="auction-page">
-	
+
 		<view class="fixed">
 			<!-- <view class="tl-header">
 				<view></view>
@@ -26,7 +26,7 @@
 				</view>
 			</view>
 		</view>
-		<view class="top-layout">	
+		<view class="top-layout">
 			<view class="bid-layout">
 				<view class="bl-container" v-if="id !== 1">
 					<view class="bl-container-head"
@@ -157,13 +157,13 @@
 							style="color: rgb(255, 57, 57); font-weight: bold;">RM{{price}}</text>的{{goods_name}}
 					</view>
 				</view>
-			
+
 				<view class="ll-right">
 					<image src="@/static/images/products/right.png" mode="widthFix"></image>
 				</view>
-			</view>	
+			</view>
 		</view>
-	
+
 		<!-- 商品分类 -->
 		<view class="switch-layout">
 			<scroll-view class="sl-scroll" scroll-x="true" @scrolltoupper="isBottoming = false"
@@ -1243,7 +1243,6 @@
 			this.getLuckyList()
 			this.getAllProducts() //许愿列表数据
 			this.getProductOrJinpai()
-
 			// 一级分类
 			setTimeout(() => {
 				this.$http.post(this.$apiObj.IndexFirstCate).then(res => {
@@ -1267,7 +1266,7 @@
 			if (uni.getStorageSync('token')) {
 				this.$http.post(this.$apiObj.MineInfo).then(res => {
 					if (res.code == 1) {
-						// 判断是否设置支付密码
+						this.balance = res.data.k_diamond_wallet
 						this.set_paypwd = res.data.set_paypwd
 					}
 				})
@@ -1742,6 +1741,7 @@
 				}
 
 				if (this.kdiamondSelect) {
+
 					if (this.set_paypwd != 1) {
 						uni.showToast({
 							title: this.$t('new.qszmm'),
@@ -2074,8 +2074,9 @@
 	.auction-page {
 		width: 100%;
 		background: #FFFFFF;
+
 		//顶部固定
-		.fixed{
+		.fixed {
 			width: 100%;
 			position: fixed;
 			top: 0;

@@ -955,7 +955,8 @@
 			"path": "pages/mine/K_brick_detail",
 			"style": {
 				"navigationBarTitleText": "",
-				"navigationStyle": "custom"
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": true
 			}
 		},
 		{

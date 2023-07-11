@@ -73,9 +73,9 @@
 		<view class="topay" style="background: rgb(10, 198, 142);" v-show="showPay" @click="addDiamond()">
 			{{$t('user.order.qzf')}}
 		</view>
-		
+
+
 		<view style="height: 40rpx;"></view>
-		
 	</view>
 </template>
 
@@ -106,7 +106,11 @@
 			}
 		},
 		onShow() {
+
+		},
+		onLoad() {
 			let isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
+
 			this.$http.post(this.$apiObj.MineInfo).then(res => {
 				this.balance = res.data.k_diamond_wallet
 			})
@@ -123,7 +127,15 @@
 			})
 
 			this.getKdiamondList()
-			console.log(this.$baseUrl)
+		},
+		onPullDownRefresh() {
+			this.getKdiamondList()
+			this.$http.post(this.$apiObj.MineInfo).then(res => {
+				this.balance = res.data.k_diamond_wallet
+			})
+			setTimeout(() => {
+				uni.stopPullDownRefresh()
+			}, 1000)
 		},
 		methods: {
 			navCilck(url) {
@@ -252,16 +264,21 @@
 					money: this.payNum ? this.payNum : this.list[this.select - 1].k_diamond,
 					recharge_type: 2
 				}).then(res => {
-
+					console.log(res.data.href_url)
 					if (res.code == 1) {
 						// #ifdef H5
-							window.open(res.data.href_url)
+						window.open(res.data.href_url)
 						// #endif
 						// #ifdef APP-PLUS
-							plus.runtime.openURL(res.data.href_url)
+						plus.runtime.openURL(
+							res.data.href_url,
+							function(err) {
+								console.log(err)
+							}
+						)
 						//  #endif
 					}
-					
+
 
 				})
 			}

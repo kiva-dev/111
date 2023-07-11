@@ -1118,23 +1118,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				}
 			})
 
-			if (uni.getStorageSync('token')) {
-				this.showNotLogin = false
-				// 判断是否设置支付密码
-				this.$http.post(this.$apiObj.MineInfo).then(res => {
-					if (res.code == 1) {
-						this.set_paypwd = res.data.set_paypwd
-					}
-				})
-				// 实名认证
-				this.$http.post(this.$apiObj.MineAuthDetail).then(res => {
-					if (res.code == 1) {
-						this.MineCont = res.data
-					}
-				})
-			} else {
-				this.showNotLogin = true
-			}
 			// 一级分类
 			setTimeout(() => {
 				this.$http.post(this.$apiObj.IndexFirstCate).then(res => {
@@ -1216,11 +1199,23 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			this.cancelText = uni.getStorageSync('locale') == 'en' ? 'cancel' : '取消'
 			this.confirmText = uni.getStorageSync('locale') == 'en' ? 'confirm' : '确认'
 
-			//删除缓存临时数据
-			// uni.removeStorageSync('productInfo')
-			// uni.removeStorageSync('productId')
-			// uni.removeStorageSync('switch_id')
-			// uni.removeStorageSync('jinpaiId')
+			if (uni.getStorageSync('token')) {
+				this.showNotLogin = false
+				// 判断是否设置支付密码
+				this.$http.post(this.$apiObj.MineInfo).then(res => {
+					if (res.code == 1) {
+						this.set_paypwd = res.data.set_paypwd
+					}
+				})
+				// 实名认证
+				this.$http.post(this.$apiObj.MineAuthDetail).then(res => {
+					if (res.code == 1) {
+						this.MineCont = res.data
+					}
+				})
+			} else {
+				this.showNotLogin = true
+			}
 
 		},
 		onHide() {
