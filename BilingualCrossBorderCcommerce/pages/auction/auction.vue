@@ -1,6 +1,7 @@
 <template>
 	<view class="auction-page">
-		<view class="top-layout">
+	
+		<view class="fixed">
 			<!-- <view class="tl-header">
 				<view></view>
 				<view class="tl-header-btn">
@@ -24,6 +25,8 @@
 					<img src="/static/xuyuan/headRi.png" alt="" class="r">
 				</view>
 			</view>
+		</view>
+		<view class="top-layout">	
 			<view class="bid-layout">
 				<view class="bl-container" v-if="id !== 1">
 					<view class="bl-container-head"
@@ -154,12 +157,13 @@
 							style="color: rgb(255, 57, 57); font-weight: bold;">RM{{price}}</text>的{{goods_name}}
 					</view>
 				</view>
-
+			
 				<view class="ll-right">
 					<image src="@/static/images/products/right.png" mode="widthFix"></image>
 				</view>
-			</view>
+			</view>	
 		</view>
+	
 		<!-- 商品分类 -->
 		<view class="switch-layout">
 			<scroll-view class="sl-scroll" scroll-x="true" @scrolltoupper="isBottoming = false"
@@ -174,6 +178,7 @@
 				<view class="sl-line-bg" :style="{ left: isBottoming ? '14rpx':'0'}"></view>
 			</view>
 		</view>
+
 
 		<!-- 1 -->
 		<view class="list-layout">
@@ -1070,7 +1075,7 @@
 					</view>
 					<view class="imgBottom">
 						<image src="/static/images/kbrick/diamond.png" mode=""></image>
-					    <text class="zs">{{item.litestore_goods_spec[0].goods_price}}</text>
+						<text class="zs">{{item.wish_price}}</text>
 					</view>
 
 				</view>
@@ -1305,18 +1310,19 @@
 		},
 		//监听页面滚动
 		onPageScroll(e) {
-			this.transformClass = true
-			clearTimeout(this.timer) //每次滚动前 清除一次
-			// 如果停留则表示滚动结束  一旦空了1s就判定为滚动结束
-			this.timer = setTimeout(() => {
-				this.transformClass = false //滚动结束清除class类名
-			}, 1000)
+			// this.transformClass = true
+			// clearTimeout(this.timer) //每次滚动前 清除一次
+			// // 如果停留则表示滚动结束  一旦空了1s就判定为滚动结束
+			// this.timer = setTimeout(() => {
+			// 	this.transformClass = false //滚动结束清除class类名
+			// }, 1000)
 		},
 		methods: {
 			//商品分类logo页面跳转
-			switchLogoToProduct() {
+			switchLogoToProduct(id, name) {
+				uni.setStorageSync('switch_id', id)
 				uni.navigateTo({
-					url: '/pages/auction/Newproduct'
+					url: '/pages/auction/Newproduct?id=' + id + '&name=' + name
 				})
 			},
 			toRecharge() {
@@ -1736,15 +1742,15 @@
 				}
 
 				if (this.kdiamondSelect) {
-					if (this.set_paypwd != 1 ) {
+					if (this.set_paypwd != 1) {
 						uni.showToast({
 							title: this.$t('new.qszmm'),
 							icon: 'none',
 							success: () => {
 								uni.setStorageSync('recharge', true)
-								setTimeout(()=>{
+								setTimeout(() => {
 									this.navClick('/pages/mine/setPassword')
-								},2000)
+								}, 2000)
 							}
 						})
 						return
@@ -2068,6 +2074,18 @@
 	.auction-page {
 		width: 100%;
 		background: #FFFFFF;
+		//顶部固定
+		.fixed{
+			width: 100%;
+			position: fixed;
+			top: 0;
+			z-index: 100;
+			background: url("/static/xuyuan/navBg.png") no-repeat;
+			padding: 40rpx 0 0;
+			padding-bottom: 20rpx;
+			object-fit: cover;
+			box-sizing: border-box;
+		}
 
 		.top-layout {
 			width: 100%;
@@ -2075,10 +2093,7 @@
 			background-size: 100% 100%;
 			padding: 40rpx 0 0;
 			box-sizing: border-box;
-			position: fixed;
-			z-index: 100;
 			padding-bottom: 20rpx;
-			top: 0;
 
 			.tl-header {
 				width: 100%;
@@ -2112,7 +2127,7 @@
 
 			.bid-layout {
 				width: 100%;
-				margin-top: 40rpx;
+				margin-top: 170rpx;
 				padding: 0 32rpx;
 				box-sizing: border-box;
 				display: flex;
@@ -3822,7 +3837,7 @@
 	.containerXy {
 		width: 100%;
 		text-align: center;
-		background-image: url("../../static/xuyuan/bg.png");
+		background-color: rgb(255, 85, 91);
 		// padding-top: -50rpx;
 		display: block;
 
@@ -3869,7 +3884,8 @@
 				width: 30rpx;
 				height: 30rpx;
 			}
-			.zs{
+
+			.zs {
 				font-size: 30rpx;
 				font-weight: bold;
 				color: rgb(255, 57, 57);
@@ -3956,7 +3972,7 @@
 	//一级分类图标
 	.switch-layout {
 		width: 100%;
-		margin-top: 600rpx;
+		margin-top: 20rpx;
 		background: rgb(255, 255, 255);
 		padding: 24rpx 0 20rpx;
 		box-sizing: border-box;

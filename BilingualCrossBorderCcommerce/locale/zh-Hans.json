@@ -227,8 +227,8 @@
 	"auction.shi": "小时",
 	"auction.fen": "分",
 	"auction.miao": "秒",
-	"auction.shoucang": "收藏",
-	"auction.yishoucang": "已收藏",
+	"auction.shoucang": "督促商家",
+	"auction.cancle": "取消",
 	"auction.login": "登录",
 	"auction.logout": "登出",
 
@@ -314,8 +314,9 @@
 	"auction.detail.recharge": "充值金额",
 	"auction.detail.gift": "赠金金额",
 	"auction.detail.total": "付款总额",
-	"auction.detail.err": "取消收藏",
-	"auction.detail.success": "收藏成功",
+	"auction.detail.err": "取消",
+	"auction.detail.success": "商家已收到您的催促，正在积极配货，我们将在活动发起的第一时间通知您!",
+	"auction.text":"您可以收藏商品并催促商家尽快开启许愿活动",
 	"cart.tjdd": "提交订单",
 	"cart.guanli": "管理",
 	"cart.wancheng": "完成",
@@ -1512,5 +1513,5 @@
 	"new.ljxq": "领奖详情",
 	"new.xycs": "许愿次数",
 	"new.zs": "钻石",
-	"new.xycsm": "想要，催促商家发起许愿活动"
+	"new.xycsm": "该商品商家正在积极配货，后续将会不定期开启许愿活动。敬请期待！收藏商品将在活动发起的第一时间通知您！"
 }

@@ -475,7 +475,7 @@
 		<!-- 许愿 -->
 		<view class="containerXy" v-if="list.length!=0">
 			<view class="xy">
-				<image src="/static/xuyuan/xy.png" class="xyImg" />
+				<img src="/static/xuyuan/xy.png" class="xyImg" />
 			</view>
 			<text class="txt">{{$t('xylist')}}</text>
 			<text class="btn">{{$t('xytitle')}}</text>
@@ -1104,7 +1104,7 @@
 				}
 
 				if (this.kdiamondSelect) {
-					if (this.set_paypwd != 1 ) {
+					if (this.set_paypwd != 1) {
 						uni.showToast({
 							title: this.$t('new.qszmm'),
 							icon: 'none',
@@ -1233,8 +1233,7 @@
 	.containerXy {
 		width: 100%;
 		text-align: center;
-		background-image: url("../../static/xuyuan/bg.png");
-		// padding-top: -50rpx;
+		background-color: rgb(255, 85, 91);
 		display: block;
 
 		.xy {

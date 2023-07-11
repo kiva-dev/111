@@ -227,8 +227,8 @@
 	"auction.shi": "Hour",
 	"auction.fen": "Branch",
 	"auction.miao": "Second",
-	"auction.shoucang": "Collect",
-	"auction.yishoucang": "Collected",
+	"auction.shoucang": "Urging Merchants",
+	"auction.cancel": "Cancel",
 	"auction.login": "Login",
 	"auction.logout": "Logout",
 
@@ -314,8 +314,10 @@
 	"auction.detail.recharge": "Recharge Amount",
 	"auction.detail.gift": "Amount Of Gift",
 	"auction.detail.total": "Total Payment",
-	"auction.detail.success": "Successful collection",
-	"auction.detail.err": "Uncollect",
+	"auction.detail.success": "Merchants have received your urging and are actively distributing goods. We will inform you as soon as the event is launched!",
+	"auction.detail.err": "Cancel",
+	"auction.cancle": "Cancel",
+	"auction.text":"You can collect goods and urge merchants to start wishing activities as soon as possible.",
 
 
 	"cart.guanli": "Administration",
@@ -1515,5 +1517,5 @@
 	"new.noData": "No record yet",
 	"new.xycs": "Number of wishes",
 	"new.zs": "Diamonds",
-	"new.xycsm": "Urge Merchants To lnitiate Wishing Activities"
+	"new.xycsm": "The merchant of this product is actively distributing goods and will irregularly launch wishing activities in the future. Stay tuned! The collected products will be notified to you as soon as the event is launched!"
 }

@@ -3,7 +3,7 @@
 		<view class="detail-header" :style="`background: rgba(255,255,255,${myOpacity});`">
 			<view class="detail-head">
 				<image src="@/static/images/new-index/detail_btn_back.png" class="return" @click="toIndex()"></image>
-				<!-- <image src="@/static/images/new-index/detail_btn_car.png" class="gwc" @click="toMyCart()"></image> -->
+				<image src="@/static/images/new-index/detail_btn_car.png" class="gwc" @click="toMyCart()"></image>
 				<image src="@/static/images/new-index/detail_btn_share.png" class="fx" @click="onfenxingShow=true">
 				</image>
 				<view :style="`opacity: ${myOpacity};`">{{$t('top.shop')}}</view>
@@ -31,7 +31,6 @@
 			</uni-swiper-dot>
 		</view>
 		<block v-if="status">
-			<!-- 价格 k钻 -->
 			<view class="detail-money">
 				<view>
 					<view class="imgBottom">
@@ -41,37 +40,46 @@
 					<text
 						style="text-decoration: line-through;">RM{{shopCont.litestore_goods_spec[0].goods_price}}</text>
 				</view>
-				<view>{{$t('new.xylb')}}</view>
 			</view>
-			<view class="detail-top">
-				<view class="detail-title">{{shopCont.goods_name}}</view>
+			<view class="detail-title">{{shopCont.goods_name}}</view>
 
-				<view class="li-tags">
-					<view class="li-icon" v-for="item in shopCont.litestore_tag" :key="item.id">
-						<image :src="item.image" mode="widthFix"></image>
-					</view>
+			<view class="li-tags">
+				<view class="li-icon" v-for="item in shopCont.litestore_tag" :key="item.id">
+					<image :src="item.image" mode="widthFix"></image>
 				</view>
 
-				<view class="operate-layout">
-					<view class="ol-container" @click="onFocusProduct">
-						<image
-							:src="shopCont.goods_focus == 0 ? require('@/static/images/new-index/detail_icon_collect.png') : require('@/static/images/new-index/detail_icon_iscollect.png')"
-							mode="widthFix"></image>
-						<p>{{shopCont.wishing_pool_goods_focus_total}}</p>
-					</view>
-					<view class="ol-container">
-						<image src="@/static/xuyuan/ax.png" mode="widthFix"></image>
-						<p>{{shopCont.wishing_pool_goods_appear_watch_num_total}}</p>
-					</view>
-					<view class="ol-container" v-if="shopCont.wishing_pool_goods_lucky_total>0">
-						<image src="@/static/xuyuan/jiang.png" mode="widthFix"></image>
-						<p>{{shopCont.wishing_pool_goods_lucky_total}}</p>
-					</view>
-				</view>
 			</view>
 
-			<!-- <view class="select-layout">
+			<view class="operate-layout" v-if="false">
+				<!-- <view class="ol-container" @click="onFocusProduct">
+					<image
+						:src="shopCont.goods_focus == 0 ? require('@/static/images/new-index/detail_icon_collect.png') : require('@/static/images/new-index/detail_icon_iscollect.png')"
+						mode="widthFix"></image>
+					<p>{{shopCont.litestore_goods_focus_total}}</p>
+				</view> -->
+				<!-- <view class="ol-container">
+					<image src="@/static/images/new-index/detail_icon_clap.png" mode="widthFix"></image>
+					<p>{{shopCont.auction_goods_total}}</p>
+				</view> -->
+				<!-- <view class="ol-container">
+					<image src="@/static/images/new-index/detail_icon_share.png" mode="widthFix"></image>
+					<p>{{shopCont.appear_want_num}}</p>
+				</view> -->
+			</view>
+			<view class="select-layout">
+				<!--@click="$refs.specsPopup.open()"-->
+				<!-- <view class="sl-category" >
+					<view class="sl-category-left">
+						<view class="left-name">Select</view>
+						<view class="left-option">256GB,10000mAh,Pro,White,Yellow,Black fashioWhite,Yellow,Black
+							fashioWhite,Yellow,Black fashio</view>
+					</view>
+					<view class="sl-category-right">
+						<image src="@/static/images/new-index/detail_btn_arrow.png" mode="widthFix"></image>
+					</view>
+				</view> -->
 				<view class="sl-address">
+					<!---->
 					<view class="sl-address-choose" @click="$refs.popupAddress.open()">
 						<view class="choose-left">
 							<view class="choose-left-name">Address</view>
@@ -94,8 +102,9 @@
 						A-15-09 Tower Suite,No8,Jalan Kerinci Bangsar South, Wp KLaKuala,No8,Jalan Kerinci Bangsar South
 					</view>
 				</view>
-			</view> -->
-			<view class="detail-comment">
+			</view>
+
+			<!-- <view class="detail-comment">
 				<div id="div2"></div>
 				<view class="detail-comment-head">
 					<view class="detail-comment-tit">{{$t('newDetail.pinglun')}} <span>（{{JudgeList.length}}）</span>
@@ -126,7 +135,8 @@
 				<block v-else>
 					<view class="detail-comment-not">{{$t('newDetail.not')}}</view>
 				</block>
-			</view>
+			</view> -->
+
 			<!--店铺信息-->
 			<view class="detail-five">
 				<view class="five-hd">
@@ -180,9 +190,9 @@
 					</view>
 				</view>
 				<view class="gl-content">
-					<u-grid :border="false" @click="click">
+					<u-grid :border="false">
 						<u-grid-item v-for="item in youLikeList.slice(0,6)" :key="item.goods_id"
-							@click="toYouLikeOrHot(item.goods_id)">
+							@click="toYouLikeOrHot(item)">
 							<view class="gl-content-item">
 								<view class="item-cover">
 									<image :src="item.image" mode="aspectFill">
@@ -207,149 +217,113 @@
 					<text>{{$t('home.shop.title')}}</text>
 					<view class="line"></view>
 				</view>
-
-				<!-- 详情图片 -->
-				<view class="six-article" v-if="isShopCont" v-html="shopCont.english_content"></view>
-				<view class="six-article" v-else v-html="shopCont.content"></view>
-
-				<!-- 许愿相关 -->
-				<view class="six-tit" style="margin-top: 30rpx;" id="div4">
-					<view class="line"></view>
-					<text>{{$t('home.shop.txt')}}</text>
-					<view class="line"></view>
+				<view class="six-article" v-if="isShopCont" v-html="shopCont.english_content">
+					<!-- <u-parse :content="shopCont.english_content"></u-parse> -->
 				</view>
+				<view class="six-article" v-else v-html="shopCont.content">
+					<!-- <u-parse :content="shopCont.content"></u-parse> -->
+				</view>
+			</view>
 
-				<!-- 配货中 -->
-				<view class="wish" v-if="jingpaiList.length==0&&newsjingpaiList.length==0">
-					<view class="ll-header-left"></view>
-					<view class="distributed">
-						<view class="con">
-							<image src="../../static/x.png" class="conImg"></image>
-							<view class="conTxt">
-								{{$t('new.xycsm')}}
+			<!-- <div id="div4"></div> -->
+			<!--竞拍记录-->
+			<view class="product-jilu" v-if="false">
+				<view class="six-tit">
+					<view class="line">
+						<image class="img" src="/static/images/products/line.png"></image>
+					</view>
+					<text>Related Auction</text>
+					<view class="line">
+						<image class="img" src="/static/images/products/line.png"></image>
+					</view>
+				</view>
+				<!--最新竞拍-->
+				<view class="product-jilu-new">
+					<view class="product-jilu-new-tit">{{$t('new.zzjp')}}</view>
+					<view class="product-item" v-for="item in newGoodsList" :key="item.auction_goods_id">
+						<image :src="item.image" class="product-item-img"></image>
+						<view class="product-item-info">
+							<view class="products-item-info-time">
+								<image src="/static/images/products/sysj.png"></image>
+								<view>
+									<u-count-down :time="item.djs" format="HH:mm:ss"></u-count-down>
+								</view>
 							</view>
+							<view class="product-item-qi">{{item.stage_num}}{{$t('shop.qi')}}</view>
 						</view>
-						<view class="btn" :class="shopCont.goods_focus == 0 ?'btn':'btn2'" @click="onFocusProduct">
-							<image src="../../static/xuyuan/iconx.png" mode="" class="img"></image>
-							<text
-								class="txt">{{shopCont.goods_focus == 0?$t('auction.shoucang'):$t('auction.cancle')}}</text>
+						<view class="progressBox">
+							<Mprogress :percent="item.finish_rate*100" :size="100" id='a'></Mprogress>
+							<view class="centerTxt">{{item.finish_rate*100}}%</view>
 						</view>
-						<view class="text">{{$t('auction.text')}}</view>
+						<view class="product-item-btn" @click="toDrawInfo(item.auction_goods_id)">
+							<view class="product-item-btn-name">{{$t('shop.qiangpai')}}</view>
+							<view class="product-item-btn-price">RM{{item.auction_price}}</view>
+						</view>
 					</view>
 				</view>
-				<!-- 许愿列表 许愿中 -->
-				<view class="wish" v-if="jingpaiList.length!=0">
-					<view class="ll-header-left">
-						<view class="left-icon">
-							<image src="@/static/images/new-index/ongoing.png" mode="widthFix"></image>
-						</view>
-						<view class="left-text">
-							<p>{{$t('tab.zzxy')}}</p>
-							<span style="background: rgba(255, 64, 41, 0.4);"></span>
-						</view>
-					</view>
-					<!-- 列表 -->
-					<view class="ongingList">
-						<view v-for="(item,i) in jingpaiList" :key="i" class="ongingList-item"
+				<!--即将开始-->
+				<view class="product-start">
+					<view class="product-start-tit">{{$t('new.jjks')}}</view>
+					<view class="product-start-list">
+						<view class="product-start-item" v-for="item in startGoodsList"
 							@click="toDrawInfo(item.auction_goods_id)">
-							<img :src="item.image" alt="" class="ongingListItemImg">
-							<view>
-								<text class="title">{{item.stage_num}} &nbsp;&nbsp;{{item.goods_name}}</text>
-								<view class="jping-jd">
-									<view class="jping-jd-box">
-										<image :style="`width: ${(item.finish_rate*100).toFixed(0)}%;`"
-											src="@/static/images/new-index/select-jd.png" mode="aspectFill"></image>
-										<view class="box-progress">{{(item.finish_rate*100).toFixed(0)}}%</view>
-									</view>
-									<view class="new-list-item-right-jd-auth">
-										<block v-for="img in item.new_auction_avatar">
-											<image :src="img"></image>
-										</block>
-									</view>
-								</view>
-
-								<view class="rowIndex">
-									<view class="left">
-										<image src="/static/images/kbrick/diamond.png" mode="widthFix" class="zsImg">
-										</image>
-										<span class="span">{{item.auction_price}}</span>
-									</view>
-
-									<view class="new-list-item-btm-btn"
-										style="border: 1px solid rgb(10, 198, 142);font-weight: bold;">
-										{{$t('home.psuccess.ckxq')}}
-									</view>
+							<view class="product-start-time">
+								<image src="../../static/images/products/jjks.png"></image>
+								<view>
+									<u-count-down :time="item.djs" format="HH:mm:ss"></u-count-down>
 								</view>
 							</view>
+							<view class="product-start-qi">{{item.stage_num}}{{$t('shop.qi')}}</view>
+							<view class="product-start-price">RM<span>{{item.auction_price}}</span></view>
 						</view>
 					</view>
 				</view>
-			</view>
-			<!-- 许愿列表 即将许愿 -->
-			<view class="wish" v-if="newsjingpaiList.length!=0">
-				<view class="ll-header-left">
-					<view class="left-icon">
-						<image src="@/static/images/new-index/start-soon.png" mode="widthFix"></image>
-					</view>
-					<view class="left-text">
-						<p>{{$t('new.jjks')}}</p>
-						<span style="background: rgb(254, 204, 171);"></span>
-					</view>
-				</view>
-				<!-- 列表 -->
-				<view class="ongingList">
-					<view v-for="(item,i) in newsjingpaiList" :key="i" class="ongingList-item"
+				<!--历史记录-->
+				<view class="historical">
+					<view class="historical-tit">{{$t('new.lsjl')}}</view>
+					<view class="historical-item" v-for="item in historyList"
 						@click="toDrawInfo(item.auction_goods_id)">
-						<img :src="item.image" alt="" class="ongingListItemImg">
-						<view class="zsItem">
-							<text class="title" style="margin-top: 0;">{{item.stage_num}}
-								&nbsp;&nbsp;{{item.goods_name}}</text>
-							<view class="row">
-								<view class="left">
-									<image src="/static/images/kbrick/diamond.png" mode="widthFix" class="zsImg">
-									</image>
-									<span class="span">{{item.auction_price}}</span>
-								</view>
-
-								<view class="new-list-item-btm-btn" style="border: 1rpx solid rgb(248, 155, 0);">
-									<image src="/static/images/new-index/time1.png" style="width: 20rpx;height: 20rpx;">
-									</image>
-									<u-count-down :time="item.datetime" format="HH:mm:ss"
-										style="color: rgb(248, 155, 0);"></u-count-down>
-								</view>
-							</view>
+						<view class="historical-item-qi">{{item.stage_num}}{{$t('shop.qi')}}</view>
+						<view class="historical-item-price">RM{{item.auction_price}}</view>
+						<image :src="item.user_info.avatar" class="historical-item-auth" v-if="item.check_status==3">
+						</image>
+						<image src="/static/images/products/star.png" class="historical-item-star"
+							v-if="item.check_status!=4"></image>
+						<image src="../../static/images/new/yihan.png" class="historical-item-auth"
+							v-if="item.check_status==4"></image>
+						<view class="historical-item-name" v-if="item.check_status==3">{{item.user_info.nickname}}
 						</view>
+						<view class="historical-item-name" v-if="item.check_status==4">{{$t('new.yhlp')}}</view>
 					</view>
 				</view>
 			</view>
-			<!-- 许愿列表 历史记录 -->
-			<view class="wish" v-if="historyList.length!=0">
-				<view class="ll-header-left">
-					<view class="left-icon">
-						<image src="@/static/images/new-index/historical.png" mode="widthFix"></image>
+			<!--底部 start-->
+			<view class="bottom-layout">
+				<!-- <view class="bl-left" @click="onFocusProduct()">
+					<view class="bl-left-box">
+						<image
+							:src="shopCont.goods_focus == 0 ? require('@/static/images/auction/sc.png') : require('@/static/images/auction/sc1.png')"
+							mode="widthFix"></image>
+						<p>{{$t('auction.shoucang')}}</p>
 					</view>
-					<view class="left-text">
-						<p>{{$t('new.lsjl')}}</p>
-						<span style="background: rgba(99, 97, 250, 0.4);"></span>
-					</view>
-				</view>
-				<view class="hisy" v-for="(item,i) in historyList" :key="i" @click="toDrawInfo(item.auction_goods_id)">
-					<view class="hisy_tit">{{item.goods_name}}</view>
-					<view class="hisy_info">
-						<image :src="item.user_info.avatar" class="hisy_info_auth"></image>
-						<view class="hisy_info_name">{{item.user_info.nickname}}</view>
-						<image src="/static/images/new-index/lv-start.png" class="hisy_info_jb"></image>
-					</view>
-					<view class="hisy_right">
-						<image src="/static/images/kbrick/diamond.png"></image>
-						<text>{{item.auction_price}}</text>
+				</view> -->
+				<view class="bl-left" @click="toMyCart()">
+					<view class="bl-left-box">
+						<image src="@/static/images/new-index/detail_btn_car2.png" mode="widthFix"></image>
+						<p>{{$t('home.shop.shpping')}}</p>
 					</view>
 				</view>
-				<view class="bottomAdd" @tap="more" v-if="isOpen && historyList.length >0">查看更多
-					<img src="/static/xuyuan/top.png" alt="" class="image">
+				<view class="bl-right">
+					<view class="bl-right-buy" @click="toPay()">
+						<p class="buy-name">{{$t('home.shop.buynow')}}</p>
+						<p class="buy-info"><span>RM</span>{{shopCont.litestore_goods_spec[0].goods_price}}</p>
+					</view>
+					<view class="bl-right-add" @click="addCart()">
+						<p>{{$t('detail.addCart')}}</p>
+					</view>
 				</view>
 			</view>
-
+			<!--底部 end-->
 		</block>
 		<!--分享弹出 start-->
 		<view class="fenxiang" v-if="onfenxingShow">
@@ -476,31 +450,16 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		},
 		data() {
 			return {
-				jingpaiList: [], // 竞拍列表
-				max: 3, //默认展示几条数据
-				isOpen: false,
-				total: 6, //总条数
-				historyList: [], // 历史竞拍
-				btnShow: true,
-				aa: false,
 				status: false,
 				noClick: true, // 防止重复点击 
 				id: '',
 				navList: [{
-						id: 1,
-						title: this.$t('newDetail.shangpin')
-					}, {
-						id: 2,
-						title: this.$t('newDetail.pinglun')
-					}, {
-						id: 3,
-						title: this.$t('newDetail.xianqin')
-					},
-					{
-						id: 4,
-						title: this.$t('newDetail.xy')
-					}
-				],
+					id: 1,
+					title: this.$t('newDetail.shangpin')
+				}, {
+					id: 3,
+					title: this.$t('newDetail.xianqin')
+				}],
 				navId: 1,
 				current: 0,
 				mode: 'nav',
@@ -530,7 +489,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				youLikeList: [],
 				addressList: [],
 				addressInfo: {},
-				newsjingpaiList: [], // 即将开始
 			}
 		},
 		watch: {
@@ -561,16 +519,16 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				uni.setStorageSync('invite_code', e.invite_code)
 			}
 			if (uni.getStorageSync('token')) {
-				this.getAllAddress()
 				this.$http.post(this.$apiObj.MineInfo).then(res => {
 					if (res.code == 1) {
-						this.qrUrl = 'https://h5.kolibrimall.com/h5/#/pages/auction/detail?id=' + e.id +
+						this.qrUrl = 'https://h5.kolibrimall.com/h5/#/pages/auction/detail?id=' + e.goodsId +
 							'&invite_code=' + res.data.invite_code // 生成二维码的链接
 					}
 				})
 			} else {
-				this.qrUrl = 'https://h5.kolibrimall.com/h5/#/pages/auction/detail?id=' + e.id // 生成二维码的链接
+				this.qrUrl = 'https://h5.kolibrimall.com/h5/#/pages/auction/detail?id=' + e.goodsId // 生成二维码的链接
 			}
+
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
 
 			this.id = e.goodsId
@@ -578,12 +536,10 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			this.getProductInfo()
 
 			//获取最新竞拍列表
-			// this.getNewList()
-			this.onAuctionNewGoods()
+			this.getNewList()
 
 			//获取即将开始列表
-			// this.getStartGoodsList()
-			this.onAuctionNotbeginGoods()
+			this.getStartGoodsList()
 
 			//获取历史竞拍列表
 			this.getHistoryList()
@@ -591,7 +547,9 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 		},
 		onShow() {
-
+			if (uni.getStorageSync('token')) {
+				this.getAllAddress()
+			}
 		},
 		onHide() {
 			clearInterval(this.timer)
@@ -605,9 +563,9 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			}
 			if (!this.isClick) {
 				if (res.scrollTop >= this.heightList[0] && res.scrollTop < this.heightList[1]) this.navId = 1
-				else if (res.scrollTop >= this.heightList[1] && res.scrollTop < (this.heightList[2])) this.navId = 2
-				else if (res.scrollTop >= this.heightList[2] && res.scrollTop < (this.heightList[3])) this.navId = 3
-				else this.navId = 4
+				// else if (res.scrollTop >= this.heightList[1] && res.scrollTop < this.heightList[2]) this.navId = 2
+				else if (res.scrollTop >= this.heightList[2]) this.navId = 3
+				// else this.navId = 4
 			}
 
 		},
@@ -615,161 +573,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 		},
 		methods: {
-			// 点击竞拍列表
-			onJingPai(item) {
-				uni.setStorageSync('productInfo', true)
-				uni.navigateTo({
-					url: './detail?id=' + item.auction_goods_id
-				})
-			},
-			//跳转页面
-			newCk() {
-				uni.navigateTo({
-					url: './auctionT'
-				})
-			},
-			// 查看更多
-			more() {
-				this.isOpen = !this.isOpen
-			},
-			// 即将开始
-			onAuctionNotbeginGoods() {
-				this.$http.post(this.$apiObj.AuctionNotbeginGoods, {
-					sort: this.jijiangId,
-					page: this.page,
-					pagenum: 3,
-					keyword: this.keyword,
-					goods_id: this.id
-				}).then(res => {
-					if (res.code == 1) {
-						if (this.isShopCont) {
-							res.data.data.map(item => {
-								item.tags.map(items => {
-									items.name = this.getCaption(items.name, 1) ? this.getCaption(
-										items.name, 1) : items.name
-								})
-								item.goods_mark = this.getCaption(item.goods_mark, 1) ? this.getCaption(
-									item.goods_mark, 1) : item.goods_mark
-								item.goods_name = this.getCaption(item.goods_name, 1) ? this.getCaption(
-									item.goods_name, 1) : item.goods_name
-							})
-						} else {
-							res.data.data.map(item => {
-								item.tags.map(items => {
-									items.name = this.getCaption(items.name, 0) ? this.getCaption(
-										items.name, 0) : items.name
-								})
-								item.goods_mark = this.getCaption(item.goods_mark, 0) ? this.getCaption(
-									item.goods_mark, 0) : item.goods_mark
-								item.goods_name = this.getCaption(item.goods_name, 0) ? this.getCaption(
-									item.goods_name, 0) : item.goods_name
-							})
-						}
-						res.data.data.map(item => {
-							let time = (item.start_time - Date.parse(new Date()) / 1000) *
-								1000
-							this.$set(item, 'datetime', time)
-						})
-						this.newTotalPageNum = res.data.total
-						this.newsjingpaiList = this.page == 1 ? res.data.data : [...this.newsjingpaiList, ...res
-							.data.data
-						]
-						if (this.id == 2) this.productList = this.newsjingpaiList
-					}
-				})
-			},
-			// 历史竞拍
-			onAuctionHistoryGoods() {
-				this.$http.post(this.$apiObj.AuctionHistoryGoods, {
-					sort: this.lishiId,
-					page: this.page,
-					pagenum: this.pagenum,
-					keyword: this.keyword,
-					date_start: this.date_start,
-					goods_id: this.id
-				}).then(res => {
-					if (res.code == 1) {
-						if (this.isShopCont) {
-							res.data.data.map(item => {
-								item.goods_mark = this.getCaption(item.goods_mark, 1) ? this.getCaption(
-									item.goods_mark, 1) : item.goods_mark
-								item.goods_name = this.getCaption(item.goods_name, 1) ? this.getCaption(
-									item.goods_name, 1) : item.goods_name
-							})
-						} else {
-							res.data.data.map(item => {
-								item.goods_mark = this.getCaption(item.goods_mark, 0) ? this.getCaption(
-									item.goods_mark, 0) : item.goods_mark
-								item.goods_name = this.getCaption(item.goods_name, 0) ? this.getCaption(
-									item.goods_name, 0) : item.goods_name
-							})
-						}
-						res.data.data.map(item => {
-							item.continue_time = this.daojishi(item.continue_time)
-						})
-						this.historyTotalPageNum = res.data.total
-						this.historyList = this.page == 1 ? res.data.data : [...this.historyList, ...res.data
-							.data
-						]
-						if (this.id == 3) this.productList = this.historyList
-
-						if (this.isOpen == false) {
-							this.historyList = this.historyList.splice(0, 3)
-							this.isOpen == true
-						}
-						if (this.isOpen == true) {
-							this.historyList = this.historyList
-						}
-					}
-				})
-			},
-			// 最新竞拍
-			onAuctionNewGoods() {
-				this.$http.post(this.$apiObj.AuctionNewGoods, {
-					sort: this.newsjpId,
-					page: this.page,
-					pagenum: 3,
-					keyword: this.keyword,
-					goods_id: this.id
-				}).then(res => {
-					if (res.code == 1) {
-						if (this.isShopCont) {
-							res.data.data.map(item => {
-								item.goods_mark = this.getCaption(item.goods_mark, 1) ? this.getCaption(
-									item.goods_mark, 1) : item.goods_mark
-								item.goods_name = this.getCaption(item.goods_name, 1) ? this.getCaption(
-									item.goods_name, 1) : item.goods_name
-							})
-						} else {
-							res.data.data.map(item => {
-								item.goods_mark = this.getCaption(item.goods_mark, 0) ? this.getCaption(
-									item.goods_mark, 0) : item.goods_mark
-								item.goods_name = this.getCaption(item.goods_name, 0) ? this.getCaption(
-									item.goods_name, 0) : item.goods_name
-							})
-						}
-						res.data.data.map(item => {
-							item.remain_time = item.remain_time * 1000
-						})
-						this.totalPageNum = res.data.total
-						this.jingpaiList = this.page == 1 ? res.data.data : [...this.jingpaiList, ...res.data.data]
-
-						if (this.id == 1) this.productList = this.jingpaiList
-					}
-				})
-			},
-			// 倒计时
-			daojishi(mss) {
-				let s = mss % 60;
-				mss = parseInt(mss / 60);
-				let m = mss % 60;
-				mss = parseInt(mss / 60);
-				let h = mss % 24;
-				mss = parseInt(mss / 24);
-				let d = mss;
-				return d + this.$t('auction.day') + h + this.$t('auction.shi') + m + this.$t('auction.fen') + s + this.$t(
-					'auction.miao')
-			},
 			//修改地址
 			editAddress(item) {
 				this.$http.post(this.$apiObj.AddressEdit, {
@@ -802,9 +605,9 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				})
 			},
 			//猜你喜欢以及热门推荐跳转
-			toYouLikeOrHot(id) {
+			toYouLikeOrHot(item) {
 				uni.navigateTo({
-					url: '/pages/auction/product_info?goodsId=' + id
+					url: '/pages/auction/product_info?goodsId=' + item.goods_id
 				})
 			},
 			getYouLikeList() {
@@ -849,8 +652,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				}).then(res => {
 					if (res.code == 1) {
 						uni.showToast({
-							title: res.msg,
-							icon: 'none'
+							title: this.$t('cart.tjdd'),
+							icon: 'none',
 						})
 						setTimeout(() => {
 							uni.navigateTo({
@@ -871,7 +674,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					if (res.code == 1) {
 						uni.showToast({
 							icon: 'none',
-							title: this.isShopCont ? 'Successfully added to shopping cart' : '加入购物车成功'
+							title: this.isShopCont ? 'Add to Cart successful' : '加入购物车成功'
 						})
 					}
 				})
@@ -1080,7 +883,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			getProductInfo() {
 				this.$http.post(this.$apiObj.ProductInfo, {
 					goods_id: this.id,
-					goods_listing_type: 2
+					goods_listing_type: 1
 				}).then(res => {
 					if (res.code == 1) {
 						res.data.litestore_tag.forEach(item => {
@@ -1701,464 +1504,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		text-decoration: none;
 	}
 
-	.new-list-item-right-jd-auth {
-		display: flex;
-		align-items: center;
-
-		image {
-			position: relative;
-			width: 32rpx;
-			height: 32rpx;
-			border-radius: 50%;
-			margin-left: 4rpx;
-			z-index: 3;
-		}
-
-		image:nth-child(2) {
-			position: relative;
-			margin-left: -14rpx;
-			z-index: 2;
-		}
-
-		image:nth-child(3) {
-			position: relative;
-			margin-left: -14rpx;
-			z-index: 1;
-		}
-	}
-
-	.rImg {
-		width: 24rpx;
-		margin-top: 10rpx;
-		margin-left: 10rpx;
-	}
-
-	// 配货中
-	.distributed {
-		width: 85%;
-		height: 500rpx;
-		background: #fff;
-		margin: auto;
-		margin-top: 32rpx;
-		text-align: center;
-
-		.text {
-			width: 100%;
-			margin-top: 20rpx;
-			color: #666;
-			font-size: 20rpx;
-		}
-
-		.con {
-			width: 100%;
-			display: flex;
-			align-items: center;
-			margin: auto;
-			text-align: center;
-
-			.conImg {
-				width: 280rpx;
-				height: 280rpx;
-			}
-
-			.conTxt {
-				width: 60%;
-				line-height: 40rpx;
-				color: #666;
-			}
-		}
-
-		.btn {
-			width: 350rpx;
-			height: 72rpx;
-			line-height: 72rpx;
-			border-radius: 50rpx;
-			background: rgb(10, 198, 142);
-			margin: auto;
-			margin-top: 40rpx;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-
-			.img {
-				width: 40rpx;
-				height: 40rpx;
-				margin-right: 10rpx;
-			}
-
-			.txt {
-				color: #fff;
-				font-size: 28rpx;
-				font-weight: bold;
-			}
-		}
-
-		.btn2 {
-			width: 230rpx;
-			height: 72rpx;
-			line-height: 72rpx;
-			border-radius: 50rpx;
-			background: #ccc;
-			margin: auto;
-			margin-top: 40rpx;
-			display: flex;
-			align-items: center;
-
-			.img {
-				width: 40rpx;
-				height: 40rpx;
-				margin-right: 10rpx;
-			}
-
-			.txt {
-				color: #fff;
-				font-size: 28rpx;
-				font-weight: bold;
-			}
-		}
-	}
-
-	//商品详情之后的页面
-	.detailImg {
-		width: 625rpx;
-		width: 625rpx;
-		margin: auto;
-		margin-top: 50rpx;
-
-		image {
-			width: 625rpx;
-			height: 400rpx;
-		}
-	}
-
-	//许愿中
-	.wish {
-		width: 100%;
-		padding-bottom: 40rpx;
-		margin-bottom: 50rpx;
-		background: #fff;
-		margin-top: 30rpx;
-
-		.bottomAdd {
-			text-align: center;
-			padding-bottom: 20rpx;
-			color: #666;
-			font-size: 24rpx;
-			display: block;
-			margin-top: 20rpx;
-
-			.image {
-				width: 24rpx;
-				height: 24rpx;
-			}
-		}
-
-		.title {
-			position: absolute;
-			top: 10rpx;
-			font-size: 24rpx;
-			color: #333;
-			font-weight: bold;
-			display: block;
-			overflow: hidden;
-			text-overflow: ellipsis;
-			display: -webkit-box;
-			-webkit-line-clamp: 3;
-			-webkit-box-orient: vertical;
-		}
-
-		.ongingList {
-			width: 100%;
-			margin: 24rpx 0;
-
-			.ongingList-item {
-				position: relative;
-				width: 686rpx;
-				height: 180rpx;
-				margin: auto;
-				margin-bottom: 30rpx;
-				display: flex;
-				align-items: center;
-				box-shadow: 0px 4rpx 12rpx rgba(198, 198, 198, 0.3);
-
-				.ongingListItemImg {
-					width: 180rpx;
-					height: 180rpx;
-					background: gray;
-					border-radius: 16rpx 0 0 16rpx;
-					margin-right: 18rpx;
-				}
-			}
-		}
-
-		.zsItem {
-			position: relative;
-			width: 480rpx;
-			height: 180rpx;
-
-			.title {
-				position: absolute;
-				top: 10rpx;
-				color: #333;
-				font-size: 24rpx;
-				display: block;
-				font-weight: bold;
-				margin-left: 5rpx;
-				overflow: hidden;
-				text-overflow: ellipsis;
-				display: -webkit-box;
-				-webkit-line-clamp: 2;
-				-webkit-box-orient: vertical;
-			}
-
-			.row {
-				position: absolute;
-				right: 0rpx;
-				bottom: 10rpx;
-				width: 480rpx;
-				display: flex;
-				justify-content: space-between;
-				align-items: center;
-
-				.zsImg {
-					width: 30rpx;
-				}
-
-				.left {
-
-
-					.span {
-						font-weight: bold;
-						font-size: 32rpx;
-						color: rgb(255, 57, 57);
-						margin-left: 8rpx;
-					}
-				}
-
-				.new-list-item-btm-btn {
-
-					padding: 6rpx 10rpx;
-					box-sizing: border-box;
-					font-size: 24rpx;
-					color: rgb(10, 198, 142);
-					box-sizing: border-box;
-					border: 1rpx solid rgb(10, 198, 142);
-					border-radius: 100rpx;
-					display: flex;
-					align-items: center;
-					margin-left: 60rpx;
-					margin-top: -10rpx;
-
-					image {
-						width: 28rpx;
-						height: 28rpx;
-						margin-right: 6rpx;
-					}
-
-					/deep/ .u-count-down__text {
-						color: #F89B00;
-					}
-				}
-			}
-		}
-	}
-
-	.rowIndex {
-		position: absolute;
-		bottom: 10rpx;
-		width: 480rpx;
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-
-		.zsImg {
-			width: 30rpx;
-		}
-
-		.left {
-
-
-			.span {
-				font-weight: bold;
-				font-size: 32rpx;
-				color: rgb(255, 57, 57);
-				margin-left: 8rpx;
-			}
-		}
-
-		.new-list-item-btm-btn {
-			position: absolute;
-			bottom: 0rpx;
-			right: 12rpx;
-			padding: 6rpx 20rpx;
-			box-sizing: border-box;
-			font-size: 24rpx;
-			color: rgb(10, 198, 142);
-			box-sizing: border-box;
-			border: 1rpx solid rgb(10, 198, 142);
-			border-radius: 100rpx;
-			display: flex;
-			align-items: center;
-			margin-left: 90rpx;
-			margin-top: -10rpx;
-
-			image {
-				width: 28rpx;
-				height: 28rpx;
-				margin-right: 6rpx;
-			}
-
-			/deep/ .u-count-down__text {
-				color: #F89B00;
-			}
-		}
-	}
-
-	//许愿列表标题
-	.ll-header-left {
-		display: flex;
-		align-items: center;
-		margin-left: 265rpx;
-		padding-top: 30rpx;
-
-		.left-icon {
-			width: 48rpx;
-			display: flex;
-
-			image {
-				width: 100%;
-			}
-		}
-
-		.left-text {
-			position: relative;
-
-			p {
-				font-size: 32rpx;
-				color: rgb(51, 51, 51);
-				margin-left: 8rpx;
-				font-weight: bold;
-			}
-
-			span {
-				width: 92rpx;
-				height: 8rpx;
-				border-radius: 100rpx;
-				display: block;
-				position: absolute;
-				left: 50%;
-				bottom: -4rpx;
-				transform: translateX(-50%);
-			}
-		}
-	}
-
-	//进度条
-	.jping-jd {
-		position: absolute;
-		bottom: 70rpx;
-		width: 100%;
-		display: flex;
-		align-items: center;
-		margin-top: 20rpx;
-
-		.jping-jd-box {
-			width: 280rpx;
-			height: 32rpx;
-			box-sizing: border-box;
-			background: rgba(255, 0, 0, 0.1);
-			border: 1rpx solid rgb(255, 197, 182);
-			border-radius: 100rpx;
-			overflow: hidden;
-			display: flex;
-			justify-content: flex-start;
-			align-items: center;
-			position: relative;
-			margin-right: 20rpx;
-
-			image {
-				height: 32rpx;
-				border-radius: 100rpx;
-			}
-
-			.box-progress {
-				color: rgb(255, 255, 255);
-				font-size: 20rpx;
-				position: absolute;
-				top: 50%;
-				left: 50%;
-				transform: translate(-50%, -50%);
-				z-index: 9;
-			}
-		}
-	}
-
-	.hisy {
-		position: relative;
-		width: 688rpx;
-		height: 100rpx;
-		border-bottom: 1px solid rgb(204, 204, 204);
-		margin: 30rpx auto;
-
-		.hisy_tit {
-			position: absolute;
-			top: 0;
-			left: 0;
-			font-size: 24rpx;
-			color: rgb(51, 51, 51);
-		}
-
-		.hisy_info {
-			position: absolute;
-			left: 0;
-			bottom: 20rpx;
-			display: flex;
-			align-items: center;
-
-			.hisy_info_auth {
-				width: 32rpx;
-				height: 32rpx;
-				border-radius: 50%;
-			}
-
-			.hisy_info_name {
-				font-size: 20rpx;
-				color: rgb(51, 51, 51);
-				margin: 0 8rpx;
-			}
-
-			.hisy_info_jb {
-				width: 24rpx;
-				height: 24rpx;
-			}
-
-		}
-
-		.hisy_right {
-			position: absolute;
-			right: 20rpx;
-			bottom: 40rpx;
-			font-size: 28rpx;
-			font-weight: bold;
-			color: rgb(255, 57, 57);
-
-			image {
-				width: 24rpx;
-				height: 24rpx;
-				margin-right: 12rpx;
-			}
-		}
-
-	}
-
-	.right {
-		.span {
-			font-size: 28rpx;
-			color: rgb(255, 57, 57);
-			font-weight: bold;
-		}
-	}
-
 	//最新竞拍
 	.product-jilu-new {
 		width: 710rpx;
@@ -2446,7 +1791,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			text-align: center;
 
 			.li {
-				width: 25%;
+				width: 50%;
 				font-size: 26rpx;
 				text-align: center;
 				position: relative;
@@ -2553,13 +1898,10 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		}
 	}
 
-	.detail-top {
-		padding-top: 24rpx;
-		background: #fff;
-	}
-
 	.detail-title {
-		width: 692rpx;
+		width: 100%;
+		background: rgb(255, 255, 255);
+		padding: 24rpx 32rpx 20rpx;
 		box-sizing: border-box;
 		line-height: 48rpx;
 		font-size: 32rpx;
@@ -2570,7 +1912,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		display: -webkit-box;
 		-webkit-box-orient: vertical;
 		-webkit-line-clamp: 2;
-		margin: 0 auto 16rpx auto;
 	}
 
 	.li-tags {
@@ -4169,9 +3510,9 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					}
 
 					.item-default {
-						width: 150rpx;
+						width: 200rpx;
 						height: 36rpx;
-						line-height: 36rpx;
+						// line-height: 36rpx;
 						font-size: 20rpx;
 						color: rgb(10, 198, 142);
 						text-align: center;
