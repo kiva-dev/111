@@ -73,7 +73,9 @@
 		<view class="topay" style="background: rgb(10, 198, 142);" v-show="showPay" @click="addDiamond()">
 			{{$t('user.order.qzf')}}
 		</view>
-
+		
+		<view style="height: 40rpx;"></view>
+		
 	</view>
 </template>
 
@@ -93,6 +95,11 @@
 					url: '/static/images/new-index/pe.png',
 					select: false,
 					name: 'PayEssence'
+				}, {
+					id: 2,
+					url: '/static/images/kbrick/paypal.png',
+					select: false,
+					name: 'Paypal'
 				}],
 				kdiamondxy: '',
 				infoData: []
@@ -116,6 +123,7 @@
 			})
 
 			this.getKdiamondList()
+			console.log(this.$baseUrl)
 		},
 		methods: {
 			navCilck(url) {
@@ -167,7 +175,15 @@
 					})
 					return
 				}
-				if (this.infoData.length < 1) {
+
+				//计算支付方式
+				let isNum = 0
+				this.payList.forEach(item => {
+					if (item.select) isNum = item.id
+				})
+
+
+				if (this.infoData.length < 1 && isNum == 1) {
 					uni.showToast({
 						title: this.$t('smrz'),
 						icon: 'none',
@@ -177,10 +193,19 @@
 						uni.navigateTo({
 							url: '/pages/mine/Vid'
 						})
-					},3000)
+					}, 3000)
 					return
 				}
 
+				if (isNum == 1) {
+					this.payEssenceRecharge()
+				} else if (isNum == 2) {
+					this.paypalRecharge()
+				}
+
+			},
+			//第三方支付
+			payEssenceRecharge() {
 				this.$http.post(this.$apiObj.addDiamond, {
 					money: this.payNum ? this.payNum : this.list[this.select - 1].k_diamond
 				}).then(res => {
@@ -218,6 +243,26 @@
 						});
 						//  #endif
 					}
+				})
+			},
+
+			//paypal支付
+			paypalRecharge() {
+				this.$http.post(this.$apiObj.PaypalRecharge, {
+					money: this.payNum ? this.payNum : this.list[this.select - 1].k_diamond,
+					recharge_type: 2
+				}).then(res => {
+
+					if (res.code == 1) {
+						// #ifdef H5
+							window.open(res.data.href_url)
+						// #endif
+						// #ifdef APP-PLUS
+							plus.runtime.openURL(res.data.href_url)
+						//  #endif
+					}
+					
+
 				})
 			}
 		}

@@ -168,5 +168,8 @@ let apiObj = {
 	diamondDetail: "/Mine/kDiamondList", //k钻变化明细
 	rmToKdiamond: "/Mine/rechargeConvertKDiamond", //余额充值k钻
 	RechargeKdiamond:"/Recharge/kDiamondList",//k钻列表
+	
+	//paypal支付
+	PaypalRecharge:"/recharge/payPalRecharge"
 }
 export default apiObj

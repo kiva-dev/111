@@ -398,7 +398,7 @@
 				</view>
 
 				<view class="mode-cz" v-if="balance*1 < shopNum*1">
-					<view @click="navClick('/pages/mine/K_brick_detail')">{{$t('new.qcz')}}</view>
+					<view @click="toRecharge()">{{$t('new.qcz')}}</view>
 					<image src="/static/images/kbrick/right.png"></image>
 				</view>
 
@@ -607,6 +607,7 @@
 				list: [], //列表
 				zenjinToRmNum: 0, //赠金可以用于扣除的数量
 				changShopNum: 0, //使用赠金后的k钻
+				set_paypwd: ''
 			}
 		},
 		watch: {
@@ -658,6 +659,14 @@
 			uni.onLocaleChange((e) => {
 				this.applicationLocale = e.locale;
 			});
+			if (uni.getStorageSync('token')) {
+				this.$http.post(this.$apiObj.MineInfo).then(res => {
+					if (res.code == 1) {
+						// 判断是否设置支付密码
+						this.set_paypwd = res.data.set_paypwd
+					}
+				})
+			}
 		},
 		onShow() {
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
@@ -671,9 +680,16 @@
 			this.LuckyList = []
 			this.date_start = ''
 			this.navId = 3
-			// this.id = 2
-			// this.title = this.$t('new.jjks')
-			// this.getProductOrJinpai()
+
+			if (uni.getStorageSync('recharge')) {
+				this.$http.post(this.$apiObj.MineInfo).then(res => {
+					if (res.code == 1) {
+						this.balance = res.data.k_diamond_wallet
+						this.set_paypwd = res.data.set_paypwd
+					}
+				})
+				uni.removeStorageSync('recharge')
+			}
 		},
 		onReachBottom() {
 			if (this.page * this.pagenum < this.totalPageNum && this.id == 1) {
@@ -697,6 +713,10 @@
 			}, 1000)
 		},
 		methods: {
+			toRecharge() {
+				uni.setStorageSync('recharge', true)
+				this.navClick('/pages/mine/K_brick_detail')
+			},
 			//获取许愿列表详情页
 			toProductInfo(item) {
 				uni.navigateTo({
@@ -940,14 +960,7 @@
 							(res.data.auction_num === -1) ? e.total_least_num : (res.data.auction_num < e
 								.total_least_num) ? res.data.auction_num : e.total_least_num
 						if (res.data.auction_num !== 0) {
-							if (res.data.set_paypwd == 1) {
-								this.$refs.pwdPopup.open()
-							} else {
-								uni.showToast({
-									title: that.$t('new.qszmm'),
-									icon: 'none'
-								})
-							}
+							this.$refs.pwdPopup.open()
 						} else {
 							this.$refs.pwdPopup3.open()
 						}
@@ -1034,7 +1047,7 @@
 								uni.navigateTo({
 									url: '/pages/mine/K_brick_detail'
 								})
-							},2500)
+							}, 2500)
 						}
 					})
 					return
@@ -1055,7 +1068,7 @@
 										uni.navigateTo({
 											url: '/pages/mine/K_brick_detail'
 										})
-									},2500)
+									}, 2500)
 								}
 							})
 							return
@@ -1071,7 +1084,7 @@
 										uni.navigateTo({
 											url: '/pages/mine/K_brick_detail'
 										})
-									},2500)
+									}, 2500)
 								}
 							})
 							return
@@ -1089,27 +1102,36 @@
 						return
 					}
 				}
-				this.$refs.popup1.close();
-				if (true) {
+
+				if (this.kdiamondSelect) {
+					if (this.set_paypwd != 1 ) {
+						uni.showToast({
+							title: this.$t('new.qszmm'),
+							icon: 'none',
+							success: () => {
+								uni.setStorageSync('recharge', true)
+								setTimeout(() => {
+									this.navClick('/pages/mine/setPassword')
+								}, 2000)
+							}
+						})
+						return
+					}
+					this.$refs.popup1.close();
 					// 余额支付弹框
 					this.$refs.pwdsPopup.open();
-				} else if (isNum.length > 5) {
-					this.balanceOrOther = 2
-					this.$refs.pwdsPopup.open();
+				} else {
+					this.$refs.popup1.close();
+					this.onPwdClick()
 				}
 			},
 			// 点击支付密码
 			onPwdClick() {
-				if (!this.pay_pwd) return uni.showToast({
+				if (!this.pay_pwd && this.kdiamondSelect) return uni.showToast({
 					title: this.$t('auction.detail.qingsshumm'),
 					icon: 'none'
 				})
-				const pay_pwd = jsencrypt.setEncrypt(publiukey, String(this.pay_pwd))
-				let arr = []
-				this.orderPayList.forEach(item => {
-					if (item.isShow) arr.push(item.id)
-					else arr.push(10)
-				})
+				const pay_pwd = this.kdiamondSelect ? jsencrypt.setEncrypt(publiukey, String(this.pay_pwd)) : ''
 
 				this.$http.post(this.$apiObj.AuctionorderBalancePay, {
 					order_no: this.order_no, // 小订单号
