@@ -1382,7 +1382,7 @@
 				this.$http.post(this.$apiObj.LitestoregoodsIndex, {
 					page: this.page,
 					pagenum: this.pagenum,
-					category_id: 1,
+					category_id: '',
 					goods_listing_type: 2
 				}).then(res => {
 					// "is_belong_to_wishing_pool": 0, //是否属于许愿池: 0=不属于, 1=属于

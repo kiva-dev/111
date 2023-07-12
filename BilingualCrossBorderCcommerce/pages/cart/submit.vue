@@ -571,6 +571,15 @@ NoR+zv3KaEmPSHtooQIDAQAB
 								title: this.$t('new.zfz_qsd'),
 								mask: true
 							})
+							
+							let type = ''
+							// #ifdef H5
+								type = 'web'
+							// #endif
+							
+							// #ifdef APP
+								type = 'app'
+							// #endif
 							this.$http.post(this.$apiObj.SelectPayType, {
 								money: price * 1,
 								data: JSON.stringify(this.OrderList),
@@ -578,7 +587,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 								buy_type: 2,
 								address_id: this.address_id,
 								coupon_id: this.coupon_id,
-								major_no: res.data.major_no
+								major_no: res.data.major_no,
+								referrer: type
 							}).then(data => {
 								uni.hideLoading()
 								if (data.code == 1) {

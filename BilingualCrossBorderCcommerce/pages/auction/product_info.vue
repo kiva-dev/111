@@ -420,6 +420,17 @@
 			</view>
 		</uni-popup>
 		<!-- 选择地址 end -->
+		
+		<!--图片预览-->
+		<u-overlay :show="showImages" :duration="400" :z-index="999" :opacity="1">
+			<view class="show_images">
+				<image src="/static/images/new-index/close.png" class="close" @click="showImages=false"></image>
+				<view class="carousel">
+					<u-swiper :list="shopCont.images" :autoplay="false" :height="375"></u-swiper>
+				</view>
+			</view>
+		</u-overlay>
+		
 	</view>
 </template>
 
@@ -441,6 +452,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		},
 		data() {
 			return {
+				showImages:false,
 				status: false,
 				noClick: true, // 防止重复点击 
 				id: '',
@@ -692,10 +704,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			},
 			//预览图片
 			previewImgList() {
-				console.log(1)
-				uni.previewImage({
-					urls: this.shopCont.images
-				})
+				this.showImages=true
 			},
 			//前往竞拍详情
 			toDrawInfo(id) {
@@ -1493,6 +1502,30 @@ NoR+zv3KaEmPSHtooQIDAQAB
 	a {
 		color: rgb(44, 44, 44);
 		text-decoration: none;
+	}
+	
+	//图片预览
+	.show_images {
+		position: relative;
+		width: 100%;
+		min-height: 100vh;
+	
+		.close {
+			position: absolute;
+			top: 20rpx;
+			right: 32rpx;
+			width: 50rpx;
+			height: 50rpx;
+		}
+	
+		.carousel {
+			position: absolute;
+			top: 50%;
+			transform: translate(0, -50%);
+			width: 100%;
+			height: 750rpx;
+			background: #fff;
+		}
 	}
 
 	//最新竞拍

@@ -32,7 +32,7 @@
 				</view>
 			</view>
 		</view>
-		
+
 		<template v-if="type==1">
 			<view class="success-view" @click="toDetail()">{{$t('cart.wancheng')}}</view>
 		</template>
@@ -59,13 +59,8 @@
 		onLoad(e) {
 			if (e.status) this.status = e.status
 			if (e.data) {
-				// #ifdef H5
-					this.type = 1
-				// #endif
-				// #ifdef APP
-					this.type = 2
-				// #endif
 				let data = JSON.parse(e.data)
+				this.type = data[0].referrer == 'web' ? 1 : 2
 				this.time = data[0].time
 				this.price = data[0].money
 				this.order_no = data[0].out_trade_no

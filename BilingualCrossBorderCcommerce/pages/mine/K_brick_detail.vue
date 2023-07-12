@@ -285,9 +285,19 @@
 					title: this.$t('new.czz'),
 					mask: true
 				})
+				let type = ''
+				// #ifdef H5
+					type = 'web'
+				// #endif
+				
+				// #ifdef APP
+					type = 'app'
+				// #endif
+				
 				this.$http.post(this.$apiObj.PaypalRecharge, {
 					money: this.payNum ? this.payNum : this.list[this.select - 1].k_diamond,
-					recharge_type: 2
+					recharge_type: 2,
+					referrer: type
 				}).then(res => {
 					uni.hideLoading()
 					if (res.code == 1) {
