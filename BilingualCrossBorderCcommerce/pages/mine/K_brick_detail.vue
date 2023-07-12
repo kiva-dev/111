@@ -55,7 +55,7 @@
 
 		<view class="pay-info" v-for="item in payList" :key="item.id">
 			<image :src="item.url" class="logo"></image>
-			<view>{{item.name}}</view>
+			<view>{{item.name}} <text v-if="item.id==1">({{$t('new.need_real_name')}})</text> </view>
 			<image src="/static/images/new-index/wxz.png" class="select" v-show="!item.select" @click="changPay(item)">
 			</image>
 			<image src="/static/images/new-index/xz.png" class="select" v-show="item.select" @click="changPay(item)">
@@ -63,8 +63,9 @@
 		</view>
 
 		<view class="protocol">
-			<image src="/static/images/new-index/wxz.png" v-show="!selectProtocol" @click="selectProtocol=true"></image>
-			<image src="/static/images/new-index/xz.png" v-show="selectProtocol" @click="selectProtocol=false"></image>
+			<image src="/static/images/new-index/wxz.png" v-show="!selectProtocol" @click="switchProtocol(true)">
+			</image>
+			<image src="/static/images/new-index/xz.png" v-show="selectProtocol" @click="switchProtocol(false)"></image>
 			<view>{{$t('auction.detail.brywqydbty')}} <text
 					@click="navCilck('/pages/mine/kzxy')">《{{$t('new.kzczxy')}}》</text></view>
 		</view>
@@ -91,16 +92,18 @@
 				list: [],
 				showPay: false,
 				payList: [{
-					id: 1,
-					url: '/static/images/new-index/pe.png',
-					select: false,
-					name: 'PayEssence'
-				}, {
-					id: 2,
-					url: '/static/images/kbrick/paypal.png',
-					select: false,
-					name: 'Paypal'
-				}],
+						id: 2,
+						url: '/static/images/kbrick/paypal.png',
+						select: true,
+						name: 'Paypal'
+					},
+					{
+						id: 1,
+						url: '/static/images/new-index/pe.png',
+						select: false,
+						name: 'PayEssence'
+					}
+				],
 				kdiamondxy: '',
 				infoData: []
 			}
@@ -129,6 +132,11 @@
 			this.getKdiamondList()
 		},
 		onPullDownRefresh() {
+			this.select = 1
+			this.showPay = false
+			this.payList.forEach(item => {
+				item.select = false
+			})
 			this.getKdiamondList()
 			this.$http.post(this.$apiObj.MineInfo).then(res => {
 				this.balance = res.data.k_diamond_wallet
@@ -138,6 +146,14 @@
 			}, 1000)
 		},
 		methods: {
+			switchProtocol(val) {
+				this.selectProtocol = val
+				if (this.selectProtocol) {
+					this.payList.forEach(item => {
+						if (item.select) this.showPay = true
+					})
+				}
+			},
 			navCilck(url) {
 				uni.navigateTo({
 					url
@@ -266,6 +282,20 @@
 				}).then(res => {
 					console.log(res.data.href_url)
 					if (res.code == 1) {
+						uni.showModal({
+							title: '温馨提示',
+							content: '您是否已充值完成？',
+							cancelText: '取消',
+							confirmText: "我已充值",
+							success: (res) => {
+								if (res.confirm) {
+									this.getPayOrderInfo(res.data.out_trade_no,res.data.payment_order_no)
+								} else {
+
+								}
+							},
+						})
+
 						// #ifdef H5
 						window.open(res.data.href_url)
 						// #endif
@@ -280,6 +310,23 @@
 					}
 
 
+				})
+			},
+			//查询订单状态
+			getPayOrderInfo(out_trade_no, third_platform_order_no) {
+				this.$http.post(this.$apiObj.GetOrderStatus, {
+					out_trade_no,
+					third_platform_order_no
+				}).then(res => {
+					this.select = 2
+					this.showPay = false
+					this.payList.forEach(item => {
+						item.select = false
+					})
+					this.getKdiamondList()
+					this.$http.post(this.$apiObj.MineInfo).then(res => {
+						this.balance = res.data.k_diamond_wallet
+					})
 				})
 			}
 		}
@@ -528,6 +575,11 @@
 				font-size: 28rpx;
 				color: rgb(51, 51, 51);
 				margin-left: 20rpx;
+
+				text {
+					color: red;
+					margin-left: 4rpx;
+				}
 			}
 
 			.select {

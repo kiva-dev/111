@@ -1517,5 +1517,6 @@
 	"new.noData": "No record yet",
 	"new.xycs": "Number of wishes",
 	"new.zs": "Diamonds",
-	"new.xycsm": "The merchant of this product is actively distributing goods and will irregularly launch wishing activities in the future. Stay tuned! The collected products will be notified to you as soon as the event is launched!"
+	"new.xycsm": "The merchant of this product is actively distributing goods and will irregularly launch wishing activities in the future. Stay tuned! The collected products will be notified to you as soon as the event is launched!",
+	"new.need_real_name":"Real Name Required"
 }

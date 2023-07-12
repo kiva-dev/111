@@ -48,15 +48,17 @@
 		</view>
 
 		<!--支付方式-->
-		<view class="pay-type">
+		<view class="pay-type" v-show="!payAll">
 			<view class="pay-head">Payment method</view>
-			<view class="pay-info" v-for="(item,k) in orderPayList" :key="item.id">
+			<view class="pay-info" v-for="(item,k) in orderPayList.slice(0,2)" :key="item.id">
 				<image :src="item.img" class="pay-info-logo"></image>
-				<view class="pay-info-name">{{item.title}}</view>
-				<view class="pay-info-price" v-if="item.id==1">(RM{{userCont.recharge_money_balance*1}})</view>
+				<view class="pay-info-name">{{item.title}} <text
+						v-if="item.id==1">(RM{{userCont.recharge_money_balance*1}})</text></view>
+				
 				<template v-if="item.id==1">
 					<image src="/static/images/new-index/wxz.png" class="pay-info-xz"
-						v-show="!item.isShow && userCont.recharge_money_balance*1>0 && userCont.recharge_money_balance*1 >= total" @click="selectPayType(item)">
+						v-show="!item.isShow && userCont.recharge_money_balance*1>0 && userCont.recharge_money_balance*1 >= total"
+						@click="selectPayType(item)">
 					</image>
 					<image src="/static/images/new-index/xz.png" class="pay-info-xz" v-show="item.isShow"
 						@click="selectPayType(item)"></image>
@@ -68,14 +70,39 @@
 						@click="selectPayType(item)"></image>
 				</template>
 			</view>
-
-			<!-- <view class="pay-all" @click="payAll=true">
+		
+			<view class="pay-all" @click="payAll=true">
 				<view>All</view>
 				<image src="../../static/images/new-index/btm.png"></image>
-			</view> -->
+			</view>
 		</view>
-
-
+		<view class="pay-type" v-show="payAll">
+			<view class="pay-head">Payment method</view>
+			<view class="pay-info" v-for="(item,k) in orderPayList" :key="item.id">
+				<image :src="item.img" class="pay-info-logo"></image>
+				<view class="pay-info-name">{{item.title}}
+					<text v-if="item.id==1">(RM{{userCont.recharge_money_balance*1}})</text>
+					<text v-if="item.id==2">({{$t('new.need_real_name')}})</text>
+				</view>
+		
+				<template v-if="item.id==1">
+					<image src="/static/images/new-index/wxz.png" class="pay-info-xz"
+						v-show="!item.isShow && userCont.recharge_money_balance*1>0 && userCont.recharge_money_balance*1 >= total"
+						@click="selectPayType(item)">
+					</image>
+					<image src="/static/images/new-index/xz.png" class="pay-info-xz" v-show="item.isShow"
+						@click="selectPayType(item)"></image>
+				</template>
+				<template v-else>
+					<image src="/static/images/new-index/wxz.png" class="pay-info-xz" v-show="!item.isShow"
+						@click="selectPayType(item)"></image>
+					<image src="/static/images/new-index/xz.png" class="pay-info-xz" v-show="item.isShow"
+						@click="selectPayType(item)"></image>
+				</template>
+			</view>
+		</view>
+		
+		
 		<view class="sub-fixed">
 			<view class="price">RM<span>{{total}}</span></view>
 			<view class="btn" @click="onOrderReferCartOrder()">{{$t('new.payment')}}</view>
@@ -202,16 +229,23 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				pay_pwd: '', // 支付密码
 				use_limit: 0, // 优惠券满足条件
 				orderPayList: [{
-					id: 1,
-					title: this.$t('order.yezf'),
-					isShow: false,
-					img: '../../static/images/new-index/balance.png'
-				}, {
-					id: 2,
-					title: this.$t('order.sfzf'),
-					isShow: false,
-					img: '/static/images/new-index/cards.png'
-				}],
+						id: 1,
+						title: this.$t('order.yezf'),
+						isShow: false,
+						img: '../../static/images/new-index/balance.png'
+					},
+					{
+						id: 3,
+						title: 'Paypal',
+						isShow: false,
+						img: '/static/images/kbrick/paypal.png'
+					}, {
+						id: 2,
+						title: 'PayEssence',
+						isShow: false,
+						img: '/static/images/new-index/pe.png'
+					},
+				],
 				orderCont: '',
 				isShopCont: false, // 中文还是英文
 				set_paypwd: '',
@@ -520,6 +554,35 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							uni.redirectTo({
 								url: '/pages/mine/webview?url=' + formStr
 							});
+							//  #endif
+						}
+					})
+				}else if(isNum == 3){
+					let arr = this.total.split(',')
+					let price = ''
+					arr.forEach(item => {
+						price += item
+					})
+					this.$http.post(this.$apiObj.SelectPayType, {
+						pay_type: isNum,
+						buy_type: 1,
+						money: price * 1, // 支付总金额
+						data: JSON.stringify(this.OrderList),
+						address_id: this.address_id,
+						coupon_id: this.coupon_id,
+						order_no:this.order_no
+					}).then(res=>{
+						if (res.code == 1) {
+							// #ifdef H5
+							window.open(res.data.href_url)
+							// #endif
+							// #ifdef APP-PLUS
+							plus.runtime.openURL(
+								res.data.href_url,
+								function(err) {
+									console.log(err)
+								}
+							)
 							//  #endif
 						}
 					})
@@ -874,6 +937,10 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				.pay-info-name {
 					font-size: 24rpx;
 					color: rgb(51, 51, 51);
+					
+					text{
+						color: rgb(255, 57, 57);
+					}
 				}
 
 				.pay-info-price {

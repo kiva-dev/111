@@ -210,7 +210,9 @@
 								});
 							}
 							// #endif
+
 						})
+
 						this.totalPageNum = res.data.total
 						this.MoneyList = this.page == 1 ? res.data.data : [...this.MoneyList, ...res.data.data]
 					}

@@ -55,7 +55,8 @@
 						v-if="item.id==1">(RM{{userCont.recharge_money_balance*1}})</text></view>
 				<template v-if="item.id==1">
 					<image src="/static/images/new-index/wxz.png" class="pay-info-xz"
-						v-show="!item.isShow && userCont.recharge_money_balance*1>0 && userCont.recharge_money_balance*1 >= total" @click="selectPayType(item)">
+						v-show="!item.isShow && userCont.recharge_money_balance*1>0 && userCont.recharge_money_balance*1 >= total"
+						@click="selectPayType(item)">
 					</image>
 					<image src="/static/images/new-index/xz.png" class="pay-info-xz" v-show="item.isShow"
 						@click="selectPayType(item)"></image>
@@ -68,22 +69,36 @@
 				</template>
 			</view>
 
-			<!-- <view class="pay-all" @click="payAll=true">
+			<view class="pay-all" @click="payAll=true">
 				<view>All</view>
 				<image src="../../static/images/new-index/btm.png"></image>
-			</view> -->
+			</view>
 		</view>
-		<!-- <view class="pay-type" v-show="payAll">
+		<view class="pay-type" v-show="payAll">
 			<view class="pay-head">Payment method</view>
 			<view class="pay-info" v-for="(item,k) in orderPayList" :key="item.id">
 				<image :src="item.img" class="pay-info-logo"></image>
-				<view class="pay-info-name">{{item.title}}</view>
-				<image src="/static/images/new-index/wxz.png" class="pay-info-xz" v-show="!item.isShow"
-					@click="selectPayType(item)"></image>
-				<image src="/static/images/new-index/xz.png" class="pay-info-xz" v-show="item.isShow"
-					@click="selectPayType(item)"></image>
+				<view class="pay-info-name">{{item.title}}
+					<text v-if="item.id==1">(RM{{userCont.recharge_money_balance*1}})</text>
+					<text v-if="item.id==2">({{$t('new.need_real_name')}})</text>
+				</view>
+
+				<template v-if="item.id==1">
+					<image src="/static/images/new-index/wxz.png" class="pay-info-xz"
+						v-show="!item.isShow && userCont.recharge_money_balance*1>0 && userCont.recharge_money_balance*1 >= total"
+						@click="selectPayType(item)">
+					</image>
+					<image src="/static/images/new-index/xz.png" class="pay-info-xz" v-show="item.isShow"
+						@click="selectPayType(item)"></image>
+				</template>
+				<template v-else>
+					<image src="/static/images/new-index/wxz.png" class="pay-info-xz" v-show="!item.isShow"
+						@click="selectPayType(item)"></image>
+					<image src="/static/images/new-index/xz.png" class="pay-info-xz" v-show="item.isShow"
+						@click="selectPayType(item)"></image>
+				</template>
 			</view>
-		</view> -->
+		</view>
 
 
 		<view class="sub-fixed">
@@ -213,27 +228,29 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				use_limit: 0, // 优惠券满足条件
 				time: '',
 				orderPayList: [{
-					id: 1,
-					title: this.$t('order.yezf'),
-					isShow: false,
-					img: '../../static/images/new-index/balance.png'
-				}, {
-					id: 2,
-					title: 'PayEssence',
-					isShow: false,
-					img: '/static/images/new-index/pe.png'
-				}, {
-					id: 3,
-					title: 'Combination payment',
-					isShow: false,
-					img: '/static/images/new-index/zh.png'
-				}, ],
+						id: 1,
+						title: this.$t('order.yezf'),
+						isShow: false,
+						img: '../../static/images/new-index/balance.png'
+					},
+					{
+						id: 3,
+						title: 'Paypal',
+						isShow: false,
+						img: '/static/images/kbrick/paypal.png'
+					}, {
+						id: 2,
+						title: 'PayEssence',
+						isShow: false,
+						img: '/static/images/new-index/pe.png'
+					},
+				],
 				orderCont: '',
 				isShopCont: false, // 中文还是英文
 				set_paypwd: '',
 				MineCont: [],
-				toPayNum:1,
-				threePay:1
+				toPayNum: 1,
+				threePay: 1
 			}
 		},
 
@@ -241,14 +258,14 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
 			this.cart_ids = e.cart_ids
 			// 获取购物车里面的订单列表
-			if(!uni.getStorageSync('cart_id')){
+			if (!uni.getStorageSync('cart_id')) {
 				this.onOrderConfirmCartOrder()
-			}else{
+			} else {
 				uni.redirectTo({
-					url:'/pages/cart/cart'
+					url: '/pages/cart/cart'
 				})
 			}
-			
+
 			// 获取优惠券
 			this.onMineCouponList()
 		},
@@ -369,14 +386,14 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						}
 						this.num = num
 						// this.total = res.data.total
-						
+
 						let arr = res.data.total.split(',')
 						let price = ''
 						arr.forEach(item => {
 							price += item
 						})
-						this.total=price
-						
+						this.total = price
+
 						this.totalNum = res.data.total
 					}
 				})
@@ -446,8 +463,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			},
 			// 购物车提交订单
 			onOrderReferCartOrder() {
-				if(this.toPayNum!=1) return
-				
+				if (this.toPayNum != 1) return
+
 				if (!this.addCont) return uni.showToast({
 					icon: 'none',
 					title: this.$t('order.addContXuanze')
@@ -462,6 +479,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					icon: 'none',
 					title: this.$t('order.qxzzffs')
 				})
+
 				this.$http.post(this.$apiObj.OrderReferCartOrder, {
 					data: JSON.stringify(this.OrderList),
 					address_id: this.address_id,
@@ -525,7 +543,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
                         <input name="Signature" value="${res.data.Signature}">
                       </form>`
 									// #ifdef H5
-									uni.setStorageSync('cart_id',2)
+									uni.setStorageSync('cart_id', 2)
 									const div = document.createElement('div')
 									div.innerHTML = formStr
 									div.setAttribute('style',
@@ -539,6 +557,36 @@ NoR+zv3KaEmPSHtooQIDAQAB
 									uni.redirectTo({
 										url: '/pages/mine/webview?url=' + formStr
 									});
+									//  #endif
+								}
+							})
+						} else if (isNum == 3) {
+							let arr = this.total.split(',')
+							let price = ''
+							arr.forEach(item => {
+								price += item
+							})
+
+							this.$http.post(this.$apiObj.SelectPayType, {
+								money: price * 1,
+								data: JSON.stringify(this.OrderList),
+								pay_type: 3,
+								buy_type: 2,
+								address_id: this.address_id,
+								coupon_id: this.coupon_id,
+								major_no: res.data.major_no
+							}).then(res => {
+								if (res.code == 1) {
+									// #ifdef H5
+									window.open(res.data.href_url)
+									// #endif
+									// #ifdef APP-PLUS
+									plus.runtime.openURL(
+										res.data.href_url,
+										function(err) {
+											console.log(err)
+										}
+									)
 									//  #endif
 								}
 							})

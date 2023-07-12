@@ -170,6 +170,7 @@ let apiObj = {
 	RechargeKdiamond:"/Recharge/kDiamondList",//k钻列表
 	
 	//paypal支付
-	PaypalRecharge:"/recharge/payPalRecharge"
+	PaypalRecharge:"/recharge/payPalRecharge",
+	GetOrderStatus:"/recharge/getOrderStatus",//获取订单状态
 }
 export default apiObj
