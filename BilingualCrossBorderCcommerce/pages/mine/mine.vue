@@ -376,6 +376,8 @@
 		},
 		onShow() {
 			//删除缓存临时数据
+			uni.removeStorageSync('sendTit')
+			
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false;
 			
 			if (uni.getStorageSync('token')) {
@@ -392,6 +394,7 @@
 		},
 		methods: {
 			onfacebook() {
+				
 				let url = `https://www.facebook.com/sharer/sharer.php?u=` + this.$baseUrl
 				// #ifdef H5
 				window.open(url)

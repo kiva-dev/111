@@ -316,7 +316,7 @@
 	"auction.detail.total": "付款总额",
 	"auction.detail.err": "取消",
 	"auction.detail.success": "商家已收到您的催促，正在积极配货，我们将在活动发起的第一时间通知您!",
-	"auction.text":"您可以收藏商品并催促商家尽快开启许愿活动",
+	"auction.text": "您可以收藏商品并催促商家尽快开启许愿活动",
 	"cart.tjdd": "提交订单",
 	"cart.guanli": "管理",
 	"cart.wancheng": "完成",
@@ -1445,6 +1445,7 @@
 	"new.wdjf": "我的积分",
 	"new.jfmx": "积分明细",
 	"new.kzmx": "k钻明细",
+	"new.yemx": "余额明细",
 	"new.ckmx": "查看明细",
 	"new.yhk": "银行卡",
 	"new.kcxhq": "可重新获取",
@@ -1514,5 +1515,14 @@
 	"new.xycs": "许愿次数",
 	"new.zs": "钻石",
 	"new.xycsm": "该商品商家正在积极配货，后续将会不定期开启许愿活动。敬请期待！收藏商品将在活动发起的第一时间通知您！",
-	"new.need_real_name":"需要实名"
+	"new.need_real_name": "需要实名",
+	"new.czz":"充值中，请稍等!",
+	"new.isczcg":"您是否已充值完成？",
+	"new.wycz":"我已充值",
+	"new.nyqxzf":"您已取消支付",
+	"new.wcdddzfzt":"未查询到订单支付状态",
+	"new.nsfwczf":"您是否已支付完成？",
+	"new.wyzf":"我已支付",
+	"new.wcxd_qckdd":"未查询到订单支付状态,请前往我的订单查看",
+	"new.zfz_qsd":"支付中，请稍等!"
 }

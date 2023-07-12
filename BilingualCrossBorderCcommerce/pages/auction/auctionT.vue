@@ -1043,6 +1043,7 @@
 						title: this.$t('new.kzyebz'),
 						duration: 3000,
 						success: () => {
+							uni.setStorageSync('recharge', true)
 							setTimeout(() => {
 								uni.navigateTo({
 									url: '/pages/mine/K_brick_detail'
@@ -1064,6 +1065,7 @@
 								title: this.$t('new.kzyebz'),
 								duration: 3000,
 								success: () => {
+									uni.setStorageSync('recharge', true)
 									setTimeout(() => {
 										uni.navigateTo({
 											url: '/pages/mine/K_brick_detail'
@@ -1080,6 +1082,7 @@
 								title: this.$t('new.kzyebz'),
 								duration: 3000,
 								success: () => {
+									uni.setStorageSync('recharge', true)
 									setTimeout(() => {
 										uni.navigateTo({
 											url: '/pages/mine/K_brick_detail'

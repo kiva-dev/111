@@ -525,23 +525,23 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							}).then(res => {
 								if (res.code == 1) {
 									const formStr = `<form action="${res.data.action_url}" method="POST" >
-                        <input name="MerchantCode" value="${res.data.MerchantCode}">
-                        <input name="TransNum" value="${res.data.TransNum}">
-                        <input name="Currency" value="${res.data.Currency}">
-                        <input name="Amount" value="${res.data.Amount}">
-                        <input name="PaymentDesc" value="${res.data.PaymentDesc}">
-                        <input name="FirstName" value="${res.data.FirstName}">
-                        <input name="LastName" value="${res.data.LastName}">
-                        <input name="EmailAddress" value="${res.data.EmailAddress}">
-                        <input name="PhoneNum" value="${res.data.PhoneNum}">
-                        <input name="Address" value="${res.data.Address}">
-                        <input name="City" value="${res.data.City}">
-                        <input name="State" value="${res.data.State}">
-                        <input name="Country" value="${res.data.Country}">
-                        <input name="Postcode" value="${res.data.Postcode}">
-                        <input name="MerchantRemark" value="${res.data.MerchantRemark}">
-                        <input name="Signature" value="${res.data.Signature}">
-                      </form>`
+														<input name="MerchantCode" value="${res.data.MerchantCode}">
+														<input name="TransNum" value="${res.data.TransNum}">
+														<input name="Currency" value="${res.data.Currency}">
+														<input name="Amount" value="${res.data.Amount}">
+														<input name="PaymentDesc" value="${res.data.PaymentDesc}">
+														<input name="FirstName" value="${res.data.FirstName}">
+														<input name="LastName" value="${res.data.LastName}">
+														<input name="EmailAddress" value="${res.data.EmailAddress}">
+														<input name="PhoneNum" value="${res.data.PhoneNum}">
+														<input name="Address" value="${res.data.Address}">
+														<input name="City" value="${res.data.City}">
+														<input name="State" value="${res.data.State}">
+														<input name="Country" value="${res.data.Country}">
+														<input name="Postcode" value="${res.data.Postcode}">
+														<input name="MerchantRemark" value="${res.data.MerchantRemark}">
+														<input name="Signature" value="${res.data.Signature}">
+													</form>`
 									// #ifdef H5
 									uni.setStorageSync('cart_id', 2)
 									const div = document.createElement('div')
@@ -566,7 +566,11 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							arr.forEach(item => {
 								price += item
 							})
-
+							
+							uni.showLoading({
+								title: this.$t('new.zfz_qsd'),
+								mask: true
+							})
 							this.$http.post(this.$apiObj.SelectPayType, {
 								money: price * 1,
 								data: JSON.stringify(this.OrderList),
@@ -575,23 +579,78 @@ NoR+zv3KaEmPSHtooQIDAQAB
 								address_id: this.address_id,
 								coupon_id: this.coupon_id,
 								major_no: res.data.major_no
-							}).then(res => {
-								if (res.code == 1) {
+							}).then(data => {
+								uni.hideLoading()
+								if (data.code == 1) {
 									// #ifdef H5
-									window.open(res.data.href_url)
+									window.open(data.data.href_url)
 									// #endif
 									// #ifdef APP-PLUS
 									plus.runtime.openURL(
-										res.data.href_url,
+										data.data.href_url,
 										function(err) {
 											console.log(err)
 										}
 									)
 									//  #endif
+									
+									uni.showModal({
+										title: this.$t('mine.tip'),
+										content: this.$t('new.nsfwczf'),
+										cancelText: this.$t('home.search.query'),
+										confirmText: this.$t('new.wyzf'),
+										success: (item) => {
+											if (item.confirm) {
+												this.getPayOrderInfo(data.data.out_trade_no, data.data
+													.payment_order_no,price,res.data.major_no,res.time)
+											}else{
+												uni.showToast({
+													title: this.$t('order.nyqxddzf'),
+													icon: 'none'
+												})
+												setTimeout(() => {
+													uni.navigateBack({
+														delta: 1
+													})
+												}, 2000);
+											}
+										},
+									})
 								}
 							})
 						}
 					}
+				})
+			},
+			//查询订单状态
+			getPayOrderInfo(out_trade_no, third_platform_order_no,price,order_no,time) {
+				this.$http.post(this.$apiObj.GetOrderStatus, {
+					out_trade_no,
+					third_platform_order_no
+				}).then(res => {
+					if (res.data.status == 1) {
+						uni.redirectTo({
+							url: '/pages/cart/order_success?order_price=' + price +
+								'&order_no=' + order_no + '&time=' + time
+						})
+					}else if(res.data.status == -1){
+						uni.showToast({
+							title:this.$t('mew.nyqxzf'),
+							icon:'none'
+						})
+					}else{
+						uni.showToast({
+							title: this.$t('new.wcxd_qckdd'),
+							icon: 'none',
+							duration:2000
+						})
+						setTimeout(() => {
+							uni.navigateBack({
+								delta: 1
+							})
+						}, 2000);
+					}
+			
 				})
 			},
 			// 关闭支付密码

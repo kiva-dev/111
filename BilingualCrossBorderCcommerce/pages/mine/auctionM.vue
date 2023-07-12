@@ -736,19 +736,17 @@
 				this.page = 1
 				this.jingpaiList = [] // 竞拍中
 				this.LuckyList = [] // 中拍记录
-				if (this.navId == 1) {
+				if (this.type == 1) {
 					// 我的竞拍
 					this.onMineAttendAuction()
-					// 中拍记录
-					this.onMineWinAuction()
+				}else if(this.type == 4){
 					// 竞拍记录
 					this.onMineRecordList()
+				}else if(this.type == 5){
 					this.AuctionorderMineOrder()
-				} else {
-					// 我的竞拍
-					this.onMineFocusAuction()
+				}else if(this.type == 3){
 					// 中拍记录
-					this.onMineFocusWinAuction()
+					this.onMineWinAuction()
 				}
 				if (this.type === 1) {
 					this.shifting = '8%'
@@ -1015,10 +1013,7 @@
 		onReachBottom() {
 			// 判断是否还有数据
 			if (this.navId == 1) {
-				// console.log('this.type:', this.type == 4, this.totalPageNum <= this.page * this.pagenum);
-				// console.log('this.page:', this.page);
-				// console.log('totalPageNum:', this.totalPageNum, this.page * this.pagenum);
-				// 竞拍
+				console.log(this.totalPageNum , this.page * this.pagenum)
 				if (this.totalPageNum <= this.page * this.pagenum) return
 				this.page++
 				// 我的竞拍

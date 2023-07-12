@@ -35,38 +35,34 @@
 					<view class="new-list-item-right">
 						<view class="product-right-txt">{{item.goods_name}}</view>
 
-						<view class="new-list-item-right-tags" style="top: 112rpx;">
-							<block v-for="(data,index) in item.litestore_tag" :key="data.tag_id">
-								<image :src="data.image"></image>
-							</block>
-						</view>
-
-						<!-- <view class="new-list-item-right-start" style="top: 158rpx;">
-							<view class="new-list-item-right-start-info">
-								<image src="../../static/images/new-index/xx.png"></image>
-								<view>{{item.litestore_goods_focus_total}}</view>
+						<view class="iconArr">
+							<view class="iconArr_item">
+								<image src="/static/xuyuan/xx.png"></image>
+								<text class="iconArr_txt">{{item.wishing_pool_goods_focus_total || 0}}</text>
 							</view>
-						</view> -->
+							<view class="iconArr_item">
+								<image src="/static/xuyuan/ax.png"></image>
+								<text class="iconArr_txt">{{item.wishing_pool_goods_appear_watch_num_total || 0}}</text>
+							</view>
+							<view class="iconArr_item" v-if="item.wishing_pool_goods_lucky_total>0">
+								<image src="/static/xuyuan/jiang.png"></image>
+								<text class="iconArr_txt">{{item.wishing_pool_goods_lucky_total || 0}}</text>
+							</view>
+						</view>
 
 						<view class="new-list-item-btm">
 							<view class="new-list-item-btm-price">
 								<view class="new">RM<span>{{item.litestore_goods_spec[0].goods_price}}</span></view>
 								<view class="imgBottom">
-									<image src="/static/images/kbrick/diamond.png" mode=""></image>
-									<text class="zs">{{item.wish_price}}</text>
+									<view class="left">
+										<image src="/static/images/kbrick/diamond.png" mode=""></image>
+										<text class="zs">{{item.wish_price}}</text>
+									</view>
+									<view class="right">
+										<text>RM1/</text>
+										<image src="/static/images/kbrick/diamond.png" mode=""></image>
+									</view>
 								</view>
-							</view>
-
-							<view class="add_gwc" @click.stop="addCart(item)"></view>
-						</view>
-
-						<view class="mask" v-show="item.isMask">
-							<image src="/static/images/new-index/close.png" class="close"
-								@click.stop="item.isMask=false"></image>
-							<view style="height: 46rpx;"></view>
-							<view class="mask-info" v-for="data in item.litestore_tag">
-								<image :src="data.image"></image>
-								<view><u-parse :content="isShopCont?data.en_desc:data.zh_desc"></u-parse></view>
 							</view>
 						</view>
 
@@ -81,25 +77,21 @@
 						<image :src="item.image" class="info-img"></image>
 						<view class="info-tit">{{item.goods_name}}</view>
 
-						<!-- <view class="info-tags">
-							<view class="info-tag">
-								<image src="/static/images/new-index/xx.png"></image>
-								<view>{{item.litestore_goods_focus_total}}</view>
-							</view>
-						</view>
- -->
 
 						<view class="info-btm" style="margin-top: 32rpx;">
-
 							<view class="info-price">
-								<view class="new">RM<span>{{item.litestore_goods_spec[0].goods_price}}</span></view>
-								<view class="imgBottom">
-									<image src="/static/images/kbrick/diamond.png" mode=""></image>
-									<text class="zs">{{item.wish_price}}</text>
+								<view class="old">RM<span>{{item.litestore_goods_spec[0].goods_price}}</span></view>
+								<view class="new">
+									<view class="left">
+										<image src="/static/images/kbrick/diamond.png" mode=""></image>
+										<text class="zs">{{item.wish_price}}</text>
+									</view>
+									<view class="right">
+										<text>RM1/</text>
+										<image src="/static/images/kbrick/diamond.png" mode=""></image>
+									</view>
 								</view>
 							</view>
-
-							<view class="add_gwc" @click.stop="addCart(item)"></view>
 						</view>
 					</view>
 				</view>
@@ -115,16 +107,16 @@
 					<view class="info">
 						<view class="info-left">
 							<view class="info_price">
-								<view class="new">RM<span>{{item.litestore_goods_spec[0].goods_price}}</span></view>
-								<view class="imgBottom">
+								<view class="new">
 									<image src="/static/images/kbrick/diamond.png" mode=""></image>
 									<text class="zs">{{item.wish_price}}</text>
 								</view>
+								<view class="old">RM<span>{{item.litestore_goods_spec[0].goods_price}}</span></view>
+								<view class="rmtokdiamond">
+									<text>RM1/</text>
+									<image src="/static/images/kbrick/diamond.png"></image>
+								</view>
 							</view>
-						</view>
-
-						<view class="add_gwc" style="width: 64rpx;height: 64rpx;background-size: 64rpx 64rpx;"
-							@click.stop="addCart(item)">
 						</view>
 					</view>
 
@@ -132,8 +124,6 @@
 			</block>
 
 		</view>
-
-		<image src="/static/images/new-index/gwc.png" class="gwc" @click="navClick('/pages/cart/cart')"></image>
 
 
 	</view>
@@ -175,73 +165,12 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				autoplay: true,
 				interval: 2000,
 				duration: 500,
-				navList: [{
-					id: 1,
-					title: this.$t('auction.pdsy')
-				}, {
-					id: 2,
-					title: this.$t('auction.zxinjp')
-				}, {
-					id: 3,
-					title: this.$t('auction.jjks')
-				}, {
-					id: 4,
-					title: this.$t('auction.lsjz')
-				}, {
-					id: 5,
-					title: this.$t('auction.xyzx')
-				}, ], // 头部分类列表
 				navId: 3, // 头部id
 				banner: [], // 轮播图
 				FirstList: [], // 1级分类
 				page: 1, // 页码
 				pagenum: 10, // 每页显示商品数目
 				totalPageNum: 0, // 总条数
-				newsjpList: [{
-					id: 1,
-					title: this.$t('auction.jindu')
-				}, {
-					id: 2,
-					title: this.$t('auction.jssj')
-				}, {
-					id: 3,
-					title: this.$t('auction.yuanjia')
-				}, {
-					id: 4,
-					title: this.$t('auction.jingpaijia')
-				}, {
-					id: 5,
-					title: this.$t('auction.zhikazng')
-				}, ], // 最新竞拍头部
-				newsjpId: 1, // 最新竞拍头部id
-				jijiangList: [{
-					id: 1,
-					title: this.$t('auction.kssj')
-				}, {
-					id: 2,
-					title: this.$t('auction.yuanjia')
-				}, {
-					id: 3,
-					title: this.$t('auction.jingpaijia')
-				}, {
-					id: 4,
-					title: this.$t('auction.zhikazng')
-				}, ], // 即将开始头部
-				jijiangId: 1, // 即将开始头部id
-				lishiList: [{
-					id: 1,
-					title: this.$t('auction.jssj')
-				}, {
-					id: 2,
-					title: this.$t('auction.yuanjia')
-				}, {
-					id: 3,
-					title: this.$t('auction.jingpaijia')
-				}, {
-					id: 4,
-					title: this.$t('auction.zhikazng')
-				}], // 历史竞拍头部
-				lishiId: '', // 历史竞拍头部id
 				jingpaiList: [], // 竞拍列表
 				newsjingpaiList: [], // 即将开始
 				historyList: [], // 历史竞拍
@@ -302,7 +231,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		},
 
 		onShow() {
-
 			this.scrollToTop = 0
 			this.switch_id = uni.getStorageSync('switch_id') || 0
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
@@ -333,28 +261,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			toIndex() {
 				uni.navigateBack()
 			},
-			//添加购物车
-			addCart(item) {
-				clearTimeout(this.addCartTimer)
-				this.addCartTimer = setTimeout(() => {
-					this.$http.post(this.$apiObj.CartAdd, {
-						goods_spec_id: item
-							.litestore_goods_spec[0]
-							.goods_spec_id,
-						num: 1
-					}).then(addRes => {
-						if (addRes.code == 1) {
-							uni.showToast({
-								icon: 'none',
-								title: this
-									.isShopCont ?
-									'Successfully added to shopping cart' : '加入购物车成功'
-							})
-						}
-					})
-				}, 1000)
-
-			},
 			getCaption(str, state) {
 				if (state == 1) {
 					var indexs = str.indexOf("|")
@@ -371,7 +277,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			toProductInfo(id) {
 				uni.setStorageSync('productInfo', true)
 				uni.navigateTo({
-					url: '/pages/auction/wishProduct?goodsId=' + id + '&type=2'
+					url: '/pages/auction/autionDetail?goodsId=' + id
 				})
 			},
 			//切换选择分类
@@ -388,7 +294,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					page: this.page,
 					pagenum: this.pagenum,
 					category_id: id == 0 ? '' : id,
-					goods_listing_type: 1
+					goods_listing_type: 2
 				}).then(res => {
 					if (res.code == 1) {
 						this.totalPageNum = res.data.total
@@ -454,92 +360,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					return `${value}${day}`
 				}
 				return value
-			},
-			onNavClick(id) {
-				if (id == 1) {
-					this.pagenum = 5
-				} else {
-					this.pagenum = 10
-				}
-				if (id == 2) {
-					uni.switchTab({
-						url: '/pages/auction/auction'
-					});
-				} else if (id == 5) {
-					uni.switchTab({
-						url: '/pages/auction/xyzx'
-					});
-				} else {
-					this.navId = id
-				}
-				this.keyword = ''
-				this.date_start = ''
-				this.page = 1
-				this.newsjpId = 1
-				this.jijiangId = 1
-				this.lishiId = 1
-				this.jingpaiList = []
-				this.newsjingpaiList = []
-				this.historyList = []
-				this.LuckyList = []
-				if (id == 1) {
-					this.onAuctionNewGoods()
-					this.onAuctionNotbeginGoods()
-					this.onAuctionHistoryGoods()
-					this.onAuctionLuckyList()
-				} else if (id == 2) {
-					this.onAuctionNewGoods()
-				} else if (id == 3) {
-					this.onAuctionNotbeginGoods()
-				} else if (id == 4) {
-					this.onAuctionHistoryGoods()
-				} else if (id == 5) {
-					this.onAuctionLuckyList()
-				}
-			},
-
-			// 幸运之星
-			onAuctionLuckyList() {
-				this.$http.post(this.$apiObj.AuctionLuckyList, {
-					page: this.page,
-					pagenum: this.pagenum,
-					keyword: this.keyword
-				}).then(res => {
-					if (res.code == 1) {
-						if (this.isShopCont) {
-							res.data.data.map(item => {
-								item.goods_mark = this.getCaption(item.goods_mark, 1) ? this.getCaption(
-									item.goods_mark, 1) : item.goods_mark
-								item.goods_name = this.getCaption(item.goods_name, 1) ? this.getCaption(
-									item.goods_name, 1) : item.goods_name
-							})
-						} else {
-							res.data.data.map(item => {
-								item.goods_mark = this.getCaption(item.goods_mark, 0) ? this.getCaption(
-									item.goods_mark, 0) : item.goods_mark
-								item.goods_name = this.getCaption(item.goods_name, 0) ? this.getCaption(
-									item.goods_name, 0) : item.goods_name
-							})
-						}
-						// res.data.data.map(item => {
-						// item.continue_time = this.daojishi(item.continue_time)
-						this.totalPageNum = res.data.total
-						this.LuckyList = this.page == 1 ? res.data.data : [...this.LuckyList, ...res.data.data]
-						// })
-					}
-				})
-			},
-			// 点赞|取消点赞幸运之星记录
-			onAuctionFocusLucky(id) {
-				this.$http.post(this.$apiObj.AuctionFocusLucky, {
-					lucky_id: id
-				}).then(res => {
-					if (res.code == 1) {
-						this.page = 1
-						this.LuckyList = []
-						this.onAuctionLuckyList()
-					}
-				})
 			},
 			// 倒计时
 			daojishi(mss) {
@@ -1043,6 +863,34 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						}
 
 					}
+					
+					.iconArr {
+						position: absolute;
+						top: 104rpx;
+						width: 100%;
+						display: flex;
+						align-items: center;
+					
+						image {
+							width: 20rpx;
+							height: 20rpx;
+							margin-right: 8rpx;
+						}
+					
+						.iconArr_item {
+							width: 100rpx;
+							text-align: center;
+							border-right: 1px solid #e8e8e8;
+						}
+					
+						.iconArr_item:nth-child(2) {
+							border: none;
+						}
+					
+						.iconArr_item:nth-child(3) {
+							border: none;
+						}
+					}
 
 					.new-list-item-right-start {
 						position: absolute;
@@ -1173,18 +1021,37 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 							.imgBottom {
 								margin-top: 5rpx;
+								display: flex;
+								align-items: center;
 
-								image {
-									width: 30rpx;
-									height: 30rpx;
+								.left {
+									image {
+										width: 30rpx;
+										height: 30rpx;
+									}
+
+									.zs {
+										font-size: 30rpx;
+										font-weight: bold;
+										color: rgb(255, 57, 57);
+										margin-left: 10rpx;
+									}
 								}
 
-								.zs {
-									font-size: 30rpx;
-									font-weight: bold;
-									color: rgb(255, 57, 57);
+								.right {
+									font-size: 20rpx;
+									color: #999999;
+									display: flex;
+									align-items: center;
 									margin-left: 10rpx;
+
+									image {
+										width: 20rpx;
+										height: 20rpx;
+										margin-left: 4rpx;
+									}
 								}
+
 							}
 
 
@@ -1513,15 +1380,34 @@ NoR+zv3KaEmPSHtooQIDAQAB
 								font-size: 20rpx;
 								font-weight: bold;
 								color: rgb(255, 57, 57);
+								display: flex;
+								align-items: center;
 
-								image {
-									width: 24rpx;
-									height: 24rpx;
+								.left {
+									image {
+										width: 24rpx;
+										height: 24rpx;
+									}
+
+									span {
+										font-size: 32rpx;
+									}
+								}
+								
+								.right{
+									margin-left: 10rpx;
+									image{
+										width: 20rpx;
+										height: 20rpx;
+									}
+									
+									text{
+										font-size: 20rpx;
+										font-weight: 400;
+										color: #999;
+									}
 								}
 
-								span {
-									font-size: 32rpx;
-								}
 							}
 
 							.old {
@@ -1644,6 +1530,20 @@ NoR+zv3KaEmPSHtooQIDAQAB
 								color: rgb(153, 153, 153);
 								text-decoration: line-through;
 							}
+							
+							.rmtokdiamond{
+								font-size: 20rpx;
+								color: #999;
+								display: flex;
+								align-items: center;
+								margin-left: 10rpx;
+								
+								image{
+									width: 20rpx;
+									height: 20rpx;
+								}
+							}
+							
 						}
 
 					}

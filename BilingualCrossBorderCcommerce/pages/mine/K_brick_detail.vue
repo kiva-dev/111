@@ -234,9 +234,14 @@
 			},
 			//第三方支付
 			payEssenceRecharge() {
+				uni.showLoading({
+					title: this.$t('new.czz'),
+					mask: true
+				})
 				this.$http.post(this.$apiObj.addDiamond, {
 					money: this.payNum ? this.payNum : this.list[this.select - 1].k_diamond
 				}).then(res => {
+					uni.hideLoading()
 					if (res.code == 1) {
 						const formStr = `<form action="${res.data.action_url}" method="POST" >
 					        <input name="MerchantCode" value="${res.data.MerchantCode}">
@@ -276,26 +281,16 @@
 
 			//paypal支付
 			paypalRecharge() {
+				uni.showLoading({
+					title: this.$t('new.czz'),
+					mask: true
+				})
 				this.$http.post(this.$apiObj.PaypalRecharge, {
 					money: this.payNum ? this.payNum : this.list[this.select - 1].k_diamond,
 					recharge_type: 2
 				}).then(res => {
-					console.log(res.data.href_url)
+					uni.hideLoading()
 					if (res.code == 1) {
-						uni.showModal({
-							title: '温馨提示',
-							content: '您是否已充值完成？',
-							cancelText: '取消',
-							confirmText: "我已充值",
-							success: (res) => {
-								if (res.confirm) {
-									this.getPayOrderInfo(res.data.out_trade_no,res.data.payment_order_no)
-								} else {
-
-								}
-							},
-						})
-
 						// #ifdef H5
 						window.open(res.data.href_url)
 						// #endif
@@ -307,6 +302,19 @@
 							}
 						)
 						//  #endif
+
+						uni.showModal({
+							title: this.$t('mine.tip'),
+							content: this.$t('new.isczcg'),
+							cancelText: this.$t('home.search.query'),
+							confirmText: this.$t('new.wycz'),
+							success: (data) => {
+								if (data.confirm) {
+									this.getPayOrderInfo(res.data.out_trade_no, res.data
+										.payment_order_no)
+								}
+							},
+						})
 					}
 
 
@@ -318,15 +326,28 @@
 					out_trade_no,
 					third_platform_order_no
 				}).then(res => {
-					this.select = 2
-					this.showPay = false
-					this.payList.forEach(item => {
-						item.select = false
-					})
-					this.getKdiamondList()
-					this.$http.post(this.$apiObj.MineInfo).then(res => {
-						this.balance = res.data.k_diamond_wallet
-					})
+					if (res.data.status == 1) {
+						this.select = 2
+						this.selectProtocol = false
+						this.switchCzNum(1)
+						this.getKdiamondList()
+						this.$http.post(this.$apiObj.MineInfo).then(res => {
+							this.balance = res.data.k_diamond_wallet
+						})
+					} else if (res.data.status == -1) {
+						uni.showToast({
+							title: this.$t('new.nyqxzf'),
+							icon: 'none'
+						})
+					} else {
+						uni.showToast({
+							title: this.$t('new.wcdddzfzt'),
+							icon: 'none',
+							duration: 2000
+						})
+
+					}
+
 				})
 			}
 		}

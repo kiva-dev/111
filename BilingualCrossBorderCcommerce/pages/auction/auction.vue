@@ -2,22 +2,9 @@
 	<view class="auction-page">
 
 		<view class="fixed">
-			<!-- <view class="tl-header">
-				<view></view>
-				<view class="tl-header-btn">
-					<image src="/static/images/new-index/mycz.png" mode="widthFix"></image>
-					<p>{{$t('mine.auction')}}</p>
-				</view>
-			</view> -->
 			<view class="head">
 				<view>
 					<text class="head-title">{{$t('xyc')}}</text>
-					<view class="imgCont">
-						<view class="headImgBox">
-							<image src="/static/images/kbrick/diamond.png"></image>
-						</view>
-						<text class="txt">1K {{$t('new.zs')}} = RM1</text>
-					</view>
 				</view>
 				<view class="head-right" @click.top="myIndex">
 					<img src="/static/xuyuan/time.png" alt="" class="time">
@@ -188,7 +175,6 @@
 						<image src="@/static/images/new-index/ongoing.png" mode="widthFix"></image>
 					</view>
 					<view class="left-text">
-						<!-- <p>{{$t('new.zzjp')}}</p> -->
 						<p>{{$t('tab.zzxy')}}</p>
 						<span style="background: rgba(255, 64, 41, 0.4);"></span>
 					</view>
@@ -271,7 +257,13 @@
 									<image src="/static/images/kbrick/diamond.png"></image>
 									<span>{{item.auction_price}}</span>
 								</view>
-								<view class="old">RM{{item.price}}</view>
+								<view class="old">
+									<view class="old_price">RM{{item.price}}</view>
+									<view class="zs">
+										<text>RM1/</text>
+										<image src="/static/images/kbrick/diamond.png"></image>
+									</view>
+								</view>
 							</view>
 
 
@@ -358,7 +350,14 @@
 									<image src="/static/images/kbrick/diamond.png"></image>
 									<span>{{item.auction_price}}</span>
 								</view>
-								<view class="old">RM{{item.price}}</view>
+								<!-- <view class="old">RM{{item.price}}</view> -->
+								<view class="old">
+									<view class="old_price">RM{{item.price}}</view>
+									<view class="zs">
+										<text>RM1/</text>
+										<image src="/static/images/kbrick/diamond.png"></image>
+									</view>
+								</view>
 							</view>
 
 							<view class="info-btn">
@@ -388,7 +387,13 @@
 									<image src="/static/images/kbrick/diamond.png"></image>
 									<span>{{item.auction_price}}</span>
 								</view>
-								<view class="old">RM{{item.price}}</view>
+								<view class="old">
+									<view class="old_price">RM{{item.price}}</view>
+									<view class="zs">
+										<text>RM1/</text>
+										<image src="/static/images/kbrick/diamond.png"></image>
+									</view>
+								</view>
 							</view>
 						</view>
 
@@ -479,7 +484,13 @@
 									<image src="/static/images/kbrick/diamond.png"></image>
 									<span>{{item.auction_price}}</span>
 								</view>
-								<view class="old">RM{{item.price}}</view>
+								<view class="old">
+									<view class="old_price">RM{{item.price}}</view>
+									<view class="zs">
+										<text>RM1/</text>
+										<image src="/static/images/kbrick/diamond.png"></image>
+									</view>
+								</view>
 							</view>
 
 							<view class="new-list-item-btm-btn" style="border: 1rpx solid rgb(248, 155, 0);">
@@ -562,17 +573,23 @@
 									<image src="/static/images/kbrick/diamond.png"></image>
 									<span>{{item.auction_price}}</span>
 								</view>
-								<view class="old">RM{{item.price}}</view>
-							</view>
-
-
-							<view class="new-list-item-btm-btn" style="border: 1rpx solid rgb(248, 155, 0);">
-								<image src="/static/images/new-index/time1.png" style="width: 20rpx;height: 20rpx;">
-								</image>
-								<u-count-down :time="item.datetime" format="HH:mm:ss"
-									style="color: rgb(248, 155, 0);"></u-count-down>
+								<view class="old">
+									<view class="old_price">RM{{item.price}}</view>
+									<view class="zs">
+										<text>RM1/</text>
+										<image src="/static/images/kbrick/diamond.png"></image>
+									</view>
+								</view>
 							</view>
 						</view>
+
+						<view class="new-list-item-btm-btn1" style="border: 1rpx solid rgb(248, 155, 0);width: 200rpx;">
+							<image src="/static/images/new-index/time1.png" style="width: 20rpx;height: 20rpx;">
+							</image>
+							<u-count-down :time="item.datetime" format="HH:mm:ss"
+								style="color: rgb(248, 155, 0);"></u-count-down>
+						</view>
+
 					</view>
 				</view>
 			</template>
@@ -590,7 +607,13 @@
 									<image src="/static/images/kbrick/diamond.png"></image>
 									<span>{{item.auction_price}}</span>
 								</view>
-								<view class="old">RM{{item.price}}</view>
+								<view class="old">
+									<view class="old_price">RM{{item.price}}</view>
+									<view class="zs">
+										<text>RM1/</text>
+										<image src="/static/images/kbrick/diamond.png"></image>
+									</view>
+								</view>
 							</view>
 						</view>
 
@@ -1074,8 +1097,14 @@
 						<view class="new">RM<span>{{item.litestore_goods_spec[0].goods_price}}</span></view>
 					</view>
 					<view class="imgBottom">
-						<image src="/static/images/kbrick/diamond.png" mode=""></image>
-						<text class="zs">{{item.wish_price}}</text>
+						<view class="left">
+							<image src="/static/images/kbrick/diamond.png" mode=""></image>
+							<text class="zs">{{item.wish_price}}</text>
+						</view>
+						<view class="right">
+							<text>RM1/</text>
+							<image src="/static/images/kbrick/diamond.png" mode=""></image>
+						</view>
 					</view>
 
 				</view>
@@ -1680,6 +1709,7 @@
 						title: this.$t('new.kzyebz'),
 						duration: 3000,
 						success: () => {
+							uni.setStorageSync('recharge', true)
 							setTimeout(() => {
 								uni.navigateTo({
 									url: '/pages/mine/K_brick_detail'
@@ -1701,6 +1731,7 @@
 								title: this.$t('new.kzyebz'),
 								duration: 3000,
 								success: () => {
+									uni.setStorageSync('recharge', true)
 									setTimeout(() => {
 										uni.navigateTo({
 											url: '/pages/mine/K_brick_detail'
@@ -1717,6 +1748,7 @@
 								title: this.$t('new.kzyebz'),
 								duration: 3000,
 								success: () => {
+									uni.setStorageSync('recharge', true)
 									setTimeout(() => {
 										uni.navigateTo({
 											url: '/pages/mine/K_brick_detail'
@@ -2683,7 +2715,26 @@
 							.old {
 								font-size: 16rpx;
 								color: rgb(153, 153, 153);
-								text-decoration: line-through;
+								display: flex;
+								align-items: flex-end;
+
+								.old_price {
+									text-decoration: line-through;
+								}
+
+								.zs {
+									font-size: 16rpx;
+									color: rgb(153, 153, 153);
+									text-decoration: none;
+									display: flex;
+									align-items: center;
+									margin-left: 8rpx;
+
+									image {
+										width: 20rpx;
+										height: 20rpx;
+									}
+								}
 							}
 						}
 
@@ -3017,7 +3068,26 @@
 							.old {
 								font-size: 16rpx;
 								color: rgb(153, 153, 153);
-								text-decoration: line-through;
+								display: flex;
+								align-items: flex-end;
+
+								.old_price {
+									text-decoration: line-through;
+								}
+
+								.zs {
+									font-size: 16rpx;
+									color: rgb(153, 153, 153);
+									text-decoration: none;
+									display: flex;
+									align-items: center;
+									margin-left: 8rpx;
+
+									image {
+										width: 20rpx;
+										height: 20rpx;
+									}
+								}
 							}
 						}
 
@@ -3043,6 +3113,30 @@
 							}
 						}
 					}
+
+					.new-list-item-btm-btn1 {
+						padding: 6rpx 10rpx;
+						box-sizing: border-box;
+						font-size: 24rpx;
+						color: rgb(10, 198, 142);
+						border: 1rpx solid rgb(10, 198, 142);
+						border-radius: 100rpx;
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						margin: 10rpx auto;
+
+						image {
+							width: 24rpx;
+							height: 24rpx;
+							margin-right: 8rpx;
+						}
+
+						/deep/ .u-count-down__text {
+							color: rgb(248, 155, 0);
+						}
+					}
+
 				}
 			}
 
@@ -3129,7 +3223,26 @@
 							.old {
 								font-size: 16rpx;
 								color: rgb(153, 153, 153);
-								text-decoration: line-through;
+								display: flex;
+								align-items: flex-end;
+
+								.old_price {
+									text-decoration: line-through;
+								}
+
+								.zs {
+									font-size: 16rpx;
+									color: rgb(153, 153, 153);
+									text-decoration: none;
+									display: flex;
+									align-items: center;
+									margin-left: 8rpx;
+
+									image {
+										width: 20rpx;
+										height: 20rpx;
+									}
+								}
 							}
 						}
 					}
@@ -3880,18 +3993,35 @@
 
 		.imgBottom {
 			margin-top: 5rpx;
+			display: flex;
+			align-items: flex-end;
+			justify-content: center;
 
-			image {
-				width: 30rpx;
-				height: 30rpx;
+			.left {
+				image {
+					width: 30rpx;
+					height: 30rpx;
+				}
+
+				.zs {
+					font-size: 30rpx;
+					font-weight: bold;
+					color: rgb(255, 57, 57);
+					margin-left: 10rpx;
+				}
+			}
+			
+			.right{
+				font-size: 16rpx;
+				color: rgb(153, 153, 153);
+				margin-left: 8rpx;
+				
+				image{
+					width: 20rpx;
+					height: 20rpx;
+				}
 			}
 
-			.zs {
-				font-size: 30rpx;
-				font-weight: bold;
-				color: rgb(255, 57, 57);
-				margin-left: 10rpx;
-			}
 		}
 
 		.itemBox {

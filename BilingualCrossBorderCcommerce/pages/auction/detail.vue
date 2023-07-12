@@ -51,10 +51,10 @@
 				<view class="detail-price-right">
 					<view class="detail-price-old">RM{{shopCont.price}}</view>
 					<view class="imgCont">
+						<text>RM1/</text>
 						<view class="headImgBox">
 							<image src="/static/images/kbrick/diamond.png"></image>
 						</view>
-						<text class="txt">1K {{$t('new.zs')}} = RM1</text>
 					</view>
 				</view>
 				<view class="detail-price-time" v-if="shopCont.check_status==3||shopCont.check_status==4">
@@ -1447,6 +1447,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						title: this.$t('new.kzyebz'),
 						duration: 3000,
 						success: () => {
+							uni.setStorageSync('recharge', true)
 							setTimeout(() => {
 								uni.navigateTo({
 									url: '/pages/mine/K_brick_detail'
@@ -1468,6 +1469,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 								title: this.$t('new.kzyebz'),
 								duration: 3000,
 								success: () => {
+									uni.setStorageSync('recharge', true)
 									setTimeout(() => {
 										uni.navigateTo({
 											url: '/pages/mine/K_brick_detail'
@@ -1484,6 +1486,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 								title: this.$t('new.kzyebz'),
 								duration: 3000,
 								success: () => {
+									uni.setStorageSync('recharge', true)
 									setTimeout(() => {
 										uni.navigateTo({
 											url: '/pages/mine/K_brick_detail'
@@ -1948,6 +1951,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				align-content: center;
 				text-align: center;
 				font-size: 24rpx;
+				color: #fff;
 
 				.headImgBox {
 					width: 30rpx;

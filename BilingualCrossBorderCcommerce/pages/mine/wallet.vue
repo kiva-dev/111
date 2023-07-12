@@ -57,7 +57,17 @@
 		</view>
 
 		<view class="wallet-box">
-			<view class="wallet-box-shouzhi">{{$t('new.shouzhi')}}</view>
+			<!-- <view class="wallet-box-shouzhi">{{$t('new.shouzhi')}}</view> -->
+			<view class="wallet-box-switch">
+				<view class="wallet-box-switch-info" :class="navId == 2 ?'select':''" @click="onNavClick(2)">
+					<view>{{$t('new.kzmx')}}</view>
+					<text v-show="navId == 2"></text>
+				</view>
+				<view class="wallet-box-switch-info" :class="navId == 1 ?'select':''" @click="onNavClick(1)">
+					<view>{{$t('new.yemx')}}</view>
+					<text v-show="navId == 1" style="background: rgba(10, 198, 142,0.6);"></text>
+				</view>
+			</view>
 			<view class="wallet-ul" v-if="navId===1">
 				<view class="commission-item" v-for="(item,i) in MoneyList">
 					<view class="ci-left">
@@ -78,21 +88,21 @@
 				</view>
 			</view>
 			<view class="wallet-ul" v-if="navId===2">
-				<view class="li active" v-for="item in MoneyList" :key="item.id">
-					<view class="head">
-						<view class="li-fl">
-							<view class="t">{{item.memo}}
-								<view v-if="item.status==0" class="lis js">{{$t('jsz')}}</view>
-								<view v-if="item.status==1" class="lis yjs">{{$t('yijs')}}</view>
-								<view v-if="item.status=='-1'" class="lis yjj">{{$t('yijj')}}</view>
-							</view>
-							<view class="c">{{$filter.to_date_time(item.addtime)}}</view>
+				<view class="commission-item" v-for="(item,i) in MoneyList">
+					<view class="ci-left">
+						<view class="ci-left-icon">
+							<image v-if="(item.money*1) > 0" src="@/static/images/mine/wallet_icon_income.png"
+								mode="widthFix"></image>
+							<image v-else src="@/static/images/mine/wallet_icon_expenditure.png" mode="widthFix">
+							</image>
 						</view>
-						<view class="num"><text class="f-34">{{item.money}}</text></view>
+						<view class="ci-left-info">
+							<view class="info-tit">{{item.memo}}</view>
+							<view class="info-time">{{$filter.to_date_time(item.addtime)}}</view>
+						</view>
 					</view>
-					<view class="shhjg">{{$t('shhjg')}}：{{item.reason}}</view>
-					<view class="imgs">
-						<image v-for="items,i in item.images" :key="i" class="img" :src="items" mode="scaleToFill" />
+					<view class="ci-right" :style="(item.money*1) > 0?'color: rgb(27, 161, 255);':''">
+						{{(item.money*1) > 0 ? '+' + item.money*1 : item.money*1}}
 					</view>
 				</view>
 			</view>
@@ -117,14 +127,14 @@
 				pagenum: 10, // 每页显示商品数目
 				totalPageNum: 0, // 总条数
 				MoneyList: [],
-				navId: 1,
+				navId: 2,
 				totalJf: 0,
 				kdiamond: 0
 			}
 		},
 		onShow() {
 			this.page = 1
-			this.MoneyList = []
+			// this.MoneyList = []
 			// 获取个人信息
 			this.$http.post(this.$apiObj.MineInfo).then(res => {
 				if (res.code == 1) {
@@ -135,12 +145,16 @@
 					this.getAllPoints(res.data.u_id)
 				}
 			})
-			this.onMineMoneyList()
+
+		},
+		onLoad() {
+			this.getAllList()
 		},
 		methods: {
 			onReturn() {
 				uni.navigateBack()
 			},
+			//获取总积分
 			getAllPoints(id) {
 				this.$http.post(this.$apiObj.GetPoints, {
 					h5_user_id: id
@@ -155,9 +169,10 @@
 				if (e === 1) {
 					this.onMineMoneyList()
 				} else {
-					this.onRechargeTocashList()
+					this.getAllList()
 				}
 			},
+			//明细
 			onMineMoneyList() {
 				let isShopCont = uni.getStorageSync('locale') == 'en' ? true : false // 中文还是英文
 
@@ -191,7 +206,7 @@
 									dataType: 'jsonp',
 									data: params,
 									success: function(data) {
-										item.memo = data.trans_result[0].dst
+										item.memo = data.trans_result[0].dst || ''
 									}
 								});
 							}
@@ -205,7 +220,7 @@
 										'custom-header': 'hello' //自定义请求头信息
 									},
 									success: (res) => {
-										item.memo = res.data.trans_result[0].dst
+										item.memo = res.data.trans_result[0].dst || ''
 									}
 								});
 							}
@@ -218,62 +233,60 @@
 					}
 				})
 			},
-			onRechargeTocashList() {
+			//k钻明细
+			getAllList() {
 				let isShopCont = uni.getStorageSync('locale') == 'en' ? true : false // 中文还是英文
-
-				this.$http.post(this.$apiObj.RechargeTocashList, {
-					page: this.page,
-					pagenum: this.pagenum
+				
+				this.$http.post(this.$apiObj.diamondDetail, {
+					page: 1,
+					pagenum: 20
 				}).then(res => {
-					if (res.code == 1) {
-						res.data.data.map(item => {
-							let zhStr = item.memo
-							let appid = '20220914001342711'
-							let userkey = 'QzytrtrDkXeAeaEp_yW3'
-							let salt = (new Date).getTime()
-							const str = `${appid}${zhStr}${salt}${userkey}`;
-							const sign = md5(str); /* md5加密，生成签名 */
-							const params = {
-								q: zhStr,
-								from: 'zh',
-								to: 'en',
-								appid: appid,
-								sign,
-								salt: salt
-							}
-
-							//#ifdef H5
-							// console.log($, "======uni-app的H5模式引入JQuery=====");
-							if (isShopCont) {
-								$.ajax({
-									url: 'https://api.fanyi.baidu.com/api/trans/vip/translate',
-									type: 'get',
-									dataType: 'jsonp',
-									data: params,
-									success: function(data) {
-										item.memo = data.trans_result[0].dst
-									}
-								});
-							}
-							//#endif
-							// #ifdef APP-PLUS
-							if (isShopCont) {
-								uni.request({
-									url: 'https://api.fanyi.baidu.com/api/trans/vip/translate', //仅为示例，并非真实接口地址。
-									data: params,
-									header: {
-										'custom-header': 'hello' //自定义请求头信息
-									},
-									success: (res) => {
-										item.memo = res.data.trans_result[0].dst
-									}
-								});
-							}
-							// #endif
-						})
-						this.totalPageNum = res.data.total
-						this.MoneyList = this.page == 1 ? res.data.data : [...this.MoneyList, ...res.data.data]
-					}
+					res.data.data.forEach(item=>{
+						let zhStr = item.memo
+						let appid = '20230630001729096'
+						let userkey = '8e_t3vzBtUjLMRNafCp5'
+						let salt = (new Date).getTime()
+						const str = `${appid}${zhStr}${salt}${userkey}`;
+						const sign = md5(str); /* md5加密，生成签名 */
+						const params = {
+							q: zhStr,
+							from: 'zh',
+							to: 'en',
+							appid: appid,
+							sign,
+							salt: salt
+						}
+						
+						//#ifdef H5
+						// console.log($, "======uni-app的H5模式引入JQuery=====");
+						if (isShopCont) {
+							$.ajax({
+								url: 'https://api.fanyi.baidu.com/api/trans/vip/translate',
+								type: 'get',
+								dataType: 'jsonp',
+								data: params,
+								success: function(data) {
+									item.memo = data.trans_result[0].dst
+								}
+							});
+						}
+						//#endif
+						// #ifdef APP-PLUS
+						if (isShopCont) {
+							uni.request({
+								url: 'https://api.fanyi.baidu.com/api/trans/vip/translate', //仅为示例，并非真实接口地址。
+								data: params,
+								header: {
+									'custom-header': 'hello' //自定义请求头信息
+								},
+								success: (res) => {
+									item.memo = res.data.trans_result[0].dst
+								}
+							});
+						}
+						// #endif
+					})
+					this.MoneyList = res.data.data
 				})
 			},
 			//导航点击的跳转处理函数
@@ -497,6 +510,35 @@
 			border-radius: 24rpx 24rpx 0px 0px;
 			padding: 32rpx;
 			box-sizing: border-box;
+
+			.wallet-box-switch {
+				width: 100%;
+				display: flex;
+				align-items: center;
+
+				.wallet-box-switch-info {
+					position: relative;
+					width: 50%;
+					font-size: 28rpx;
+					color: rgb(102, 102, 102);
+					text-align: center;
+
+					text {
+						position: absolute;
+						left: 50%;
+						transform: translate(-50%, 0);
+						width: 92rpx;
+						height: 8rpx;
+						background: rgba(27, 161, 255, 0.6);
+						border-radius: 8rpx;
+					}
+				}
+
+				.select {
+					font-weight: bold;
+					color: rgb(51, 51, 51);
+				}
+			}
 
 			.wallet-box-shouzhi {
 				color: rgb(51, 51, 51);

@@ -54,7 +54,7 @@
 				<image :src="item.img" class="pay-info-logo"></image>
 				<view class="pay-info-name">{{item.title}} <text
 						v-if="item.id==1">(RM{{userCont.recharge_money_balance*1}})</text></view>
-				
+
 				<template v-if="item.id==1">
 					<image src="/static/images/new-index/wxz.png" class="pay-info-xz"
 						v-show="!item.isShow && userCont.recharge_money_balance*1>0 && userCont.recharge_money_balance*1 >= total"
@@ -70,7 +70,7 @@
 						@click="selectPayType(item)"></image>
 				</template>
 			</view>
-		
+
 			<view class="pay-all" @click="payAll=true">
 				<view>All</view>
 				<image src="../../static/images/new-index/btm.png"></image>
@@ -84,7 +84,7 @@
 					<text v-if="item.id==1">(RM{{userCont.recharge_money_balance*1}})</text>
 					<text v-if="item.id==2">({{$t('new.need_real_name')}})</text>
 				</view>
-		
+
 				<template v-if="item.id==1">
 					<image src="/static/images/new-index/wxz.png" class="pay-info-xz"
 						v-show="!item.isShow && userCont.recharge_money_balance*1>0 && userCont.recharge_money_balance*1 >= total"
@@ -101,8 +101,8 @@
 				</template>
 			</view>
 		</view>
-		
-		
+
+
 		<view class="sub-fixed">
 			<view class="price">RM<span>{{total}}</span></view>
 			<view class="btn" @click="onOrderReferCartOrder()">{{$t('new.payment')}}</view>
@@ -518,7 +518,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						data: JSON.stringify(this.OrderList),
 						address_id: this.address_id,
 						coupon_id: this.coupon_id,
-						order_no:this.order_no
+						order_no: this.order_no
 					}).then(res => {
 						if (res.code == 1) {
 							const formStr = `<form action="${res.data.action_url}" method="POST" >
@@ -557,11 +557,15 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							//  #endif
 						}
 					})
-				}else if(isNum == 3){
+				} else if (isNum == 3) {
 					let arr = this.total.split(',')
 					let price = ''
 					arr.forEach(item => {
 						price += item
+					})
+					uni.showLoading({
+						title: this.$t('new.zfz_qsd'),
+						mask: true
 					})
 					this.$http.post(this.$apiObj.SelectPayType, {
 						pay_type: isNum,
@@ -570,23 +574,80 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						data: JSON.stringify(this.OrderList),
 						address_id: this.address_id,
 						coupon_id: this.coupon_id,
-						order_no:this.order_no
-					}).then(res=>{
-						if (res.code == 1) {
+						order_no: this.order_no
+					}).then(data => {
+						uni.hideLoading()
+						if (data.code == 1) {
 							// #ifdef H5
-							window.open(res.data.href_url)
+							window.open(data.data.href_url)
 							// #endif
 							// #ifdef APP-PLUS
 							plus.runtime.openURL(
-								res.data.href_url,
+								data.data.href_url,
 								function(err) {
 									console.log(err)
 								}
 							)
 							//  #endif
+
+							uni.showModal({
+								title: this.$t('mine.tip'),
+								content: this.$t('new.nsfwczf'),
+								cancelText: this.$t('home.search.query'),
+								confirmText: this.$t('new.wyzf'),
+								success: (item) => {
+									if (item.confirm) {
+										this.getPayOrderInfo(data.data.out_trade_no, data.data
+											.payment_order_no, price, this.order_no, this.shopInfo
+											.addtime)
+									} else {
+										uni.showToast({
+											title: this.$t('order.nyqxddzf'),
+											icon: 'none'
+										})
+										setTimeout(() => {
+											uni.navigateBack({
+												delta: 1
+											})
+										}, 2000);
+									}
+								},
+							})
+
 						}
 					})
 				}
+			},
+			//查询订单状态
+			getPayOrderInfo(out_trade_no, third_platform_order_no, price, order_no, time) {
+				this.$http.post(this.$apiObj.GetOrderStatus, {
+					out_trade_no,
+					third_platform_order_no
+				}).then(res => {
+					if (res.data.status == 1) {
+						uni.redirectTo({
+							url: '/pages/cart/order_success?order_price=' + price +
+								'&order_no=' + order_no + '&time=' + time
+						})
+					} else if (res.data.status == -1) {
+						uni.showToast({
+							title: this.$t('mew.nyqxzf'),
+							icon: 'none'
+						})
+					} else {
+						uni.showToast({
+							title: this.$t('new.wcxd_qckdd'),
+							icon: 'none',
+							duration: 2000
+						})
+						setTimeout(() => {
+							uni.navigateBack({
+								delta: 1
+							})
+						}, 2000);
+					}
+
+				})
 			},
 			// 关闭支付密码
 			onPwdQuery() {
@@ -633,7 +694,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					address_id: this.address_id,
 					coupon_id: this.coupon_id,
 					pay_pwd: isNum == 1 ? pay_pwd : '',
-					order_no:this.order_no
+					order_no: this.order_no
 				}).then(res => {
 					if (res.code == 1) {
 						uni.showToast({
@@ -645,7 +706,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						setTimeout(() => {
 							uni.redirectTo({
 								url: '/pages/cart/order_success?order_price=' + price +
-									'&order_no=' + (res.data.major_no ? res.data.major_no : res.data.order_no) + '&time=' + new Date().getTime()
+									'&order_no=' + (res.data.major_no ? res.data.major_no : res
+										.data.order_no) + '&time=' + new Date().getTime()
 							})
 						}, 2000)
 					}
@@ -937,8 +999,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				.pay-info-name {
 					font-size: 24rpx;
 					color: rgb(51, 51, 51);
-					
-					text{
+
+					text {
 						color: rgb(255, 57, 57);
 					}
 				}

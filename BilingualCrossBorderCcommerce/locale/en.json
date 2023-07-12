@@ -1449,6 +1449,7 @@
 	"new.wdjf": "My integral",
 	"new.jfmx": "Integral detail",
 	"new.kzmx": "K Diamond Details",
+	"new.yemx": "Balance Details",
 	"new.ckmx": "View Details",
 	"new.yhk": "Bank",
 	"new.kcxhq": "Can be retrieved after",
@@ -1518,5 +1519,14 @@
 	"new.xycs": "Number of wishes",
 	"new.zs": "Diamonds",
 	"new.xycsm": "The merchant of this product is actively distributing goods and will irregularly launch wishing activities in the future. Stay tuned! The collected products will be notified to you as soon as the event is launched!",
-	"new.need_real_name":"Real Name Required"
+	"new.need_real_name":"Real Name Required",
+	"new.czz":"Recharging, please wait a moment!",
+	"new.isczcg":"Have you topped up?",
+	"new.wycz":"I have recharged",
+	"new.nyqxzf":"You have canceled your payment",
+	"new.wcdddzfzt":"Order payment status not found",
+	"new.nsfwczf":"Have you paid for it?",
+	"new.wyzf":"I have paid",
+	"new.wcxd_qckdd":"The payment status of the order has not been checked, please go to my order to check",
+	"new.zfz_qsd":"Paying, please wait a moment!"
 }

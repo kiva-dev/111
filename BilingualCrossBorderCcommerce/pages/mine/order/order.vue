@@ -110,6 +110,7 @@
 				],
 				tabIndex: 10, // 10全部，0待付款，2待发货，3待收货，5已完成，6交易关闭
 				page: 1,
+				pageTotal:0,
 				orderList: [],
 				scrollLeft: 0,
 				sendTit: 10
@@ -133,9 +134,12 @@
 			},50)
 		},
 		onShow() {
-
+			if(uni.getStorageSync('sendTit') >= 0){
+				this.getOrderList();
+			}
 		},
 		onReachBottom() {
+			if(this.page * 10 >= this.pageTotal) return
 			this.page++;
 			this.getOrderList();
 		},
@@ -144,6 +148,8 @@
 				this.scrollLeft = e.detail.scrollLeft
 			},
 			toOrderInfo(order_no) {
+				//记录上次进入id
+				uni.setStorageSync('sendTit',this.sendTit)
 				uni.navigateTo({
 					url: '/pages/cart/orderinfo?order_no=' + order_no
 				})
@@ -165,6 +171,7 @@
 					type: this.sendTit === 10 ? null : this.sendTit
 				}).then((res) => {
 					if (res.code === 1) {
+						this.pageTotal = res.data.total
 						let arr = res.data.data || [];
 						if (this.page > 1) {
 							this.orderList = this.orderList.concat(arr);
