@@ -1,7 +1,7 @@
 import imConfig from "./config.js"; // 本地配置数据
 var ws = {
 	that: null,
-	pageThat: null,
+	pageThat: {},
 	socketTask: null,
 	socketOpen: false,
 	ready: false,
@@ -35,12 +35,9 @@ var ws = {
 		}
 		
 		that.authToken = auth_token ? auth_token:that.authToken
-		console.log('链接已打开====================',this.that.$u,this,',',this.initializeData)
 		if (!this.initializeData) {
 			// 发送初始化请求
-			console.log('==================1');
 			this.that.$u.get(this.buildUrl('initialize', token), {}).then(res => {
-				console.log(res,'==================2');
 				if (res.code == 402) {
 					uni.clearStorageSync()
 					that.pageRefresh.message = true
@@ -97,7 +94,6 @@ var ws = {
 		});
 
 		that.socketTask.onOpen(function(res) {
-			console.log('链接已打开')
 			that.socketOpen = true
 			that.currentReconnectCount = 0;
 			that.needReconnect = true;
@@ -2679,7 +2675,6 @@ var ws = {
 		]);
 
 		let action = buildFun.get(type) || buildFun.get('default')
-		console.log(this,'====',action);
 		return action.call(this);
 	},
 	logout: function () {

@@ -58,6 +58,9 @@ const app = new Vue({
 	i18n,
 	...App
 })
+import webSocket from '@/common/websocket.js'
+webSocket.ws.that = app
+Vue.prototype.ws = webSocket.ws
 app.$mount()
 // #endif
 

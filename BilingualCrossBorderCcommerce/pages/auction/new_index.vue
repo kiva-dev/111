@@ -15,7 +15,7 @@
 				<image src="/static/images/new-index/msg.png" class="auth" @click="navClick('/pages/mine/message')">
 				</image>
 			</view>
-			<!--轮播图123-->
+			<!--轮播图-->
 			<view class="auct-banner">
 				<swiper class="auct-banner-swiper" circular :indicator-dots="indicatorDots" :autoplay="autoplay"
 					:interval="interval" :duration="duration" indicator-color="rgb(190, 190, 190)"
@@ -764,17 +764,17 @@
 					@click="navClick('/pages/cart/cart')"></image>
 			</view>
 		</view> -->
-
-		<view class="leftSider">
-			<!-- <view @click="showContact = true">
+		<!-- 购物车 -->
+		<customerService ref="customerService" :scrollEvent="PageScroll" />
+		<!-- <view class="leftSider">
+			<view @click="showContact = true">
 				<image src="@/static/xuyuan/guanzhu.png" class="gz"></image>
-			</view> -->
-			<!-- 购物车 -->
+			</view>
 			<view>
 				<image src="/static/images/new-index/gwc.png" v-show="productId==1" class="gwc"
 					@click="navClick('/pages/cart/cart')"></image>
 			</view>
-		</view>
+		</view> -->
 		<!-- 联系我们 -->
 		<!-- 		<u-popup :show="showContact" mode="center" bgColor="transparent">
 			<view class="contact">
@@ -867,6 +867,7 @@
 
 <script>
 	import address from '@/utils/malaysiaRegion.js';
+	import customerService from '@/components/customerService/index.vue'
 	import jsencrypt from '@/common/jsencrypt-Rsa/jsencrypt/jsencrypt.vue';
 	//公钥.
 	const publiukey = `-----BEGIN PUBLIC KEY-----
@@ -876,6 +877,9 @@ UuCwtdmXOsq/b1JWKyEXzQlPIiwdHnAUjGbmHOEMAY3jKEy2dY2I6J+giJqo8B2H
 NoR+zv3KaEmPSHtooQIDAQAB
 -----END PUBLIC KEY-----`
 	export default {
+		components: {
+			customerService
+		},
 		data() {
 			return {
 				isTwitterApp: false,
@@ -2119,7 +2123,10 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			onFengxiang() {
 				this.$refs.pwdPopup.close()
 				this.$refs.popup2.open()
-			}
+			},
+			PageScroll(event) {
+				
+			},
 		},
 		// 页面滑动到底部
 		onReachBottom() {
@@ -2143,12 +2150,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		},
 		//监听页面滚动
 		onPageScroll(e) {
-			this.transformClass = true
-			clearTimeout(this.timer) //每次滚动前 清除一次
-			// 如果停留则表示滚动结束  一旦空了1s就判定为滚动结束
-			this.timer = setTimeout(() => {
-				this.transformClass = false //滚动结束清除class类名
-			}, 1000)
+			this.$refs.customerService.handleScroll();
 		},
 	}
 </script>

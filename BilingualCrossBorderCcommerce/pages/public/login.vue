@@ -384,11 +384,16 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					email: this.email, // 邮箱
 					pwd: pwd, // 密码
 				}).then(res => {
+					console.log(res,'登陆======');
 					if (res.code == 1) {
 						uni.showToast({
 							title: this.$t('login.dlcg'),
 							icon: 'none'
 						})
+						uni.setStorageSync('userinfo', {
+							token:res.data.im_tourists_token,
+							auth_token:res.data.auth_token
+						});
 						uni.setStorageSync('token', res.data.token)
 						this.$http.post(this.$apiObj.MineInfo).then(ress => {
 							if (ress.code == 1) {

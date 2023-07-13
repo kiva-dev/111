@@ -1,6 +1,7 @@
 // 看到此报错，是因为没有配置vue.config.js的【transpileDependencies】，详见：https://www.uviewui.com/components/npmSetting.html#_5-cli模式额外配置
 const pleaseSetTranspileDependencies = {}, babelTest = pleaseSetTranspileDependencies?.test
 
+import http from './libs/request/request.js'
 
 
 // 引入全局mixin
@@ -37,6 +38,9 @@ import platform from './libs/function/platform'
 
 const $u = {
     route,
+    get: http.get,
+	post: http.post,
+	put: http.put,
     date: index.timeFormat, // 另名date
     colorGradient: colorGradient.colorGradient,
     hexToRgb: colorGradient.hexToRgb,

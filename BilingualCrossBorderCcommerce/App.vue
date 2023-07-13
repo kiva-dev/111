@@ -19,9 +19,33 @@
 			}
 		},
 		onShow() {
+			this.checkLogin()
 			// this.setMallTabbar();
 		},
 		methods: {
+			checkLogin: function () {
+				const userinfo = uni.getStorageSync('userinfo');
+				var valid = true;
+				if (!userinfo || !userinfo.token) {
+					valid = false;
+				} else {
+					let token = userinfo.token.split('|');
+					let time = Date.parse(new Date()).toString();
+					time = time.substr(0,10);
+					// 减去一秒,防止刚好到时间造成发送了错误的请求
+					if ((parseInt(token[2]) - 2) < parseInt(time)) {
+						valid = false;
+					}
+				}
+				
+				if (!valid) {
+					setTimeout(() => {
+						this.ws.logout()
+					}, 300)
+				} else {
+					this.ws.init(userinfo.token, userinfo.auth_token)
+				}
+			},
 			setMallTabbar() {
 				this.$http.post(this.$apiObj.IndexSetting, {
 					fields: 'whether_to_enable_ordinary_mall'
