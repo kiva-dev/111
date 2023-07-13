@@ -2,7 +2,7 @@
 	<view class="view_page">
 		<view class="service-head">
 			<image src="/static/images/kbrick/kleft.png" @click="toBack()"></image>
-			<view>{{$t('grop.customer')}}</view>
+			<view>Kolibri fan base 1</view>
 		</view>
 
 		<view class="des">
@@ -11,17 +11,16 @@
 				<view class="dialogue">
 					<view class="left">
 						<image src="/static/images/service/service.png"></image>
-						<view>Hello, I am platform customer service.May I help you?</view>
+						<view class="auth-info">
+							<view class="auth-name">Eason Chan</view>
+							<view class="auth-des">Hello, I am platform customer service.May I help you?</view>
+						</view>
 					</view>
 					<view class="right">
 						<view>Here is my question,Here is my question,Here is my question</view>
 						<image src="/static/images/service/service.png"></image>
 					</view>
 
-					<view class="left">
-						<image src="/static/images/service/service.png"></image>
-						<view>Okay, here is the solution provided by the platform for you</view>
-					</view>
 				</view>
 			</view>
 		</view>
@@ -37,73 +36,12 @@
 				<image src="/static/images/service/close.png" v-show="showMore" @click="showMore=!showMore"></image>
 			</view>
 			<view class="btm-hide" v-show="showMore">
-				<view class="btm-hide-info" @click="$refs.popup.open()">
-					<image src="/static/images/service/order.png"></image>
-					<view>Send Order</view>
-				</view>
 				<view class="btm-hide-info" style="margin-left: 28rpx;">
 					<image src="/static/images/service/img.png"></image>
 					<view>Album</view>
 				</view>
 			</view>
 		</view>
-
-		<uni-popup ref="popup" type="bottom">
-			<view class="show-order">
-				<view class="order-head">
-					<view class="order-head-tit">Send Orders</view>
-					<image src="/static/images/kbrick/close.png"  @click="$refs.popup.close()"></image>
-					<view class="order-switch">
-						<view class="order-switch-info" @click="selectOrder=1">
-							<view class="tit" :class="selectOrder==1?'select-tit':''">My Auction</view>
-							<text :class="selectOrder==1?'select':''"></text>
-						</view>
-						<view class="order-switch-info" @click="selectOrder=2">
-							<view class="tit" :class="selectOrder==2?'select-tit':''">My Oder</view>
-							<text :class="selectOrder==2?'select':''"></text>
-						</view>
-					</view>
-				</view>
-
-				<block v-if="selectOrder==1">
-					<view class="auction">
-						<view class="item" v-for="(item,i) in [1,1]">
-							<image src="/static/images/public1.png" class="item-img"></image>
-							<view class="item-qi">20230620-06-888期</view>
-
-							<view class="item-name">Apple Watch S5,44msApple Watch S5,44ms</view>
-							<view class="item-status">To be awarded</view>
-							<view class="item-auction-price">Bidding price:RM1.00</view>
-							<view class="item-code">Lucky Code</view>
-							<view class="item-code-info">2354005987422</view>
-							<image src="/static/images/mine/mine_btn_copy.png" class="item-copy"></image>
-							<view class="item-zc">Disbursements:</view>
-							<view class="item-price">RM<text>1.00</text></view>
-							<view class="item-send">Sending</view>
-						</view>
-					</view>
-				</block>
-				<block v-else>
-					<view class="order">
-						<view class="order-item">
-							<view class="order-item-head">
-								<image src="/static/logo.png"></image>
-								<view class="shop-name">Merchant Name</view>
-								<view class="shop-status">To be paid</view>
-							</view>
-							
-							<image src="/static/images/detail5.png" class="order-item-img"></image>
-							<view class="order-item-name">Here is the product name, Here is the product name,Here is the product name</view>
-							<view class="order-item-num">1 in total</view>
-							<view class="order-item-price">RM <text>999.00</text></view>
-							<view class="order-item-send">Sending</view>
-							
-						</view>
-					</view>
-				</block>
-
-			</view>
-		</uni-popup>
 
 		<view style="height: 168rpx;"></view>
 	</view>
@@ -122,7 +60,7 @@
 			}
 		},
 		mounted() {
-			// this.$refs.popup.open()
+
 		},
 		methods: {
 			toBack() {
@@ -197,18 +135,27 @@
 							width: 80rpx;
 							height: 80rpx;
 							border-radius: 50%;
-							margin: 0 16rpx 0 32rpx;
+							margin: 0 8rpx 0 32rpx;
 						}
 
-						view {
-							width: 538rpx;
-							line-height: 40rpx;
-							font-size: 24rpx;
-							color: rgb(51, 51, 51);
-							padding: 24rpx 24rpx 24rpx 32rpx;
-							background: url('/static/images/service/white.png') no-repeat;
-							background-size: 586rpx 100%;
+						.auth-info {
+							.auth-name {
+								font-size: 24rpx;
+								color: rgb(51, 51, 51);
+								margin: 0 0 12rpx 24rpx;
+							}
+
+							.auth-des {
+								width: 538rpx;
+								line-height: 40rpx;
+								font-size: 24rpx;
+								color: rgb(51, 51, 51);
+								padding: 24rpx 24rpx 24rpx 32rpx;
+								background: url('/static/images/service/white.png') no-repeat;
+								background-size: 586rpx 100%;
+							}
 						}
+
 
 					}
 
@@ -224,7 +171,7 @@
 							width: 80rpx;
 							height: 80rpx;
 							border-radius: 50%;
-							margin: 0 32rpx 0 16rpx;
+							margin: 0 32rpx 0 8rpx;
 						}
 
 						view {
@@ -502,11 +449,11 @@
 
 				}
 			}
-			
-			.order{
+
+			.order {
 				margin-top: 24rpx;
-				
-				.order-item{
+
+				.order-item {
 					position: relative;
 					width: 686rpx;
 					height: 328rpx;
@@ -514,35 +461,35 @@
 					background: #fff;
 					border-radius: 20rpx;
 					margin: 0 auto 20rpx auto;
-					
-					.order-item-head{
+
+					.order-item-head {
 						position: relative;
 						width: 100%;
 						display: flex;
 						align-items: center;
-						
-						image{
+
+						image {
 							display: block;
 							width: 40rpx;
 							height: 40rpx;
 							border-radius: 50%;
 							margin: 0 16rpx 0 24rpx;
 						}
-						
-						.shop-name{
+
+						.shop-name {
 							font-size: 28rpx;
 							color: rgb(51, 51, 51);
 						}
-						
-						.shop-status{
+
+						.shop-status {
 							position: absolute;
 							right: 24rpx;
 							font-size: 24rpx;
 							color: rgb(255, 57, 57);
 						}
 					}
-					
-					.order-item-img{
+
+					.order-item-img {
 						position: absolute;
 						top: 88rpx;
 						left: 24rpx;
@@ -550,8 +497,8 @@
 						height: 160rpx;
 						border-radius: 16rpx;
 					}
-					
-					.order-item-name{
+
+					.order-item-name {
 						position: absolute;
 						top: 88rpx;
 						left: 208rpx;
@@ -565,29 +512,29 @@
 						-webkit-box-orient: vertical;
 						-webkit-line-clamp: 2;
 					}
-					
-					.order-item-num{
+
+					.order-item-num {
 						position: absolute;
 						top: 216rpx;
 						left: 208rpx;
 						font-size: 20rpx;
 						color: rgb(153, 153, 153);
 					}
-					
-					.order-item-price{
+
+					.order-item-price {
 						position: absolute;
 						top: 210rpx;
 						right: 24rpx;
 						font-size: 20rpx;
 						font-weight: bold;
 						color: rgb(255, 57, 57);
-						
-						text{
+
+						text {
 							font-size: 32rpx;
 						}
 					}
-					
-					.order-item-send{
+
+					.order-item-send {
 						position: absolute;
 						top: 280rpx;
 						right: 24rpx;
@@ -600,11 +547,11 @@
 						background: rgb(10, 198, 142);
 						border-radius: 48rpx;
 					}
-					
+
 				}
-				
+
 			}
-			
+
 		}
 
 	}

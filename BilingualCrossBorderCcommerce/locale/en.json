@@ -1529,5 +1529,13 @@
 	"new.wyzf":"I have paid",
 	"new.wcxd_qckdd":"The payment status of the order has not been checked, please go to my order to check",
 	"new.zfz_qsd":"Paying, please wait a moment!",
-	"new.qxzf":"Cancel Payment"
+	"new.qxzf":"Cancel Payment",
+	
+	"grop.add":"Group Chat",
+	"grop.not":"Sorry, we haven't joined the group chat yet. Please go and join us",
+	"grop.nomore":"There is currently no more content available~",
+	"grop.addchat":"Join Group Chat",
+	"grop.can_chat":"Can join the group",
+	"grop.join":"Join",
+	"grop.customer":"Platform customer service"
 }

@@ -1037,7 +1037,28 @@
 			}
 		},
 		{
+			"path": "pages/auction/association",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/auction/join_group_chat",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		},
+		{
 			"path": "pages/message/message",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/auction/grop_chat",
 			"style": {
 				"navigationBarTitleText": "",
 				"navigationStyle": "custom"
