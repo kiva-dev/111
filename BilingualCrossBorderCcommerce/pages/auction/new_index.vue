@@ -15,7 +15,7 @@
 				<image src="/static/images/new-index/msg.png" class="auth" @click="navClick('/pages/mine/message')">
 				</image>
 			</view>
-			<!--轮播图-->
+			<!--轮播图123-->
 			<view class="auct-banner">
 				<swiper class="auct-banner-swiper" circular :indicator-dots="indicatorDots" :autoplay="autoplay"
 					:interval="interval" :duration="duration" indicator-color="rgb(190, 190, 190)"
