@@ -41,7 +41,6 @@ export default {
       this.imgShow = !this.imgShow;
     },
     toMessage(url) {
-      console.log('1');
       uni.navigateTo({
         url
       })

@@ -981,6 +981,13 @@
 			}
 		},
 		{
+			"path": "pages/auction/test",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		},
+		{
 			"path": "pages/auction/customer_service",
 			"style": {
 				"navigationBarTitleText": "",

@@ -134,7 +134,7 @@ import session from "@/components/session/seesion.vue";
 				})
 			},
 			goToSessionInfo: function(id, type, chat_id) {
-				var url = '/pages/session-info/session-info?id=' + id
+				var url = '/pages/auction/test?id=' + id
 				if (type == 'service') {
 					if (chat_id != 3) {
 						url = '/pages/session-info/notice-session-info?session_id=' + id

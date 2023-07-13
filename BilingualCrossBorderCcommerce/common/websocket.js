@@ -403,6 +403,7 @@ var ws = {
 		// #endif
 	},
 	onMessage: function(msg) {
+		console.log(msg,'================================================');
 		var that = this
 
 		var commonCallback = function() {
@@ -2622,7 +2623,9 @@ var ws = {
 			if (this.initializeData.config && this.initializeData.config.__CDN__) {
 				return this.initializeData.config.__CDN__ + url;
 			} else {
-				return this.buildUrl('default') + url;
+				const protocol = imConfig.httpsSwitch ? 'https://' : 'http://';
+				const baseUrl = this.buildUrl('default');
+				return protocol + baseUrl + url;;
 			}
 		}
 	},
