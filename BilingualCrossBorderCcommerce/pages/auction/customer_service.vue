@@ -2,7 +2,7 @@
 	<view class="view_page">
 		<view class="service-head">
 			<image src="/static/images/kbrick/kleft.png" @click="toBack()"></image>
-			<view>Platform customer service</view>
+			<view>{{$t('grop.customer')}}</view>
 		</view>
 
 		<view class="des">

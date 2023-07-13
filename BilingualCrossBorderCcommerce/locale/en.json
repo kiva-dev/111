@@ -1536,5 +1536,6 @@
 	"grop.nomore":"There is currently no more content available~",
 	"grop.addchat":"Join Group Chat",
 	"grop.can_chat":"Can join the group",
-	"grop.join":"Join"
+	"grop.join":"Join",
+	"grop.customer":"Platform customer service"
 }
