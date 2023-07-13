@@ -1525,5 +1525,12 @@
 	"new.wyzf":"我已支付",
 	"new.wcxd_qckdd":"未查询到订单支付状态,请前往我的订单查看",
 	"new.zfz_qsd":"支付中，请稍等!",
-	"new.qxzf":"取消支付"
+	"new.qxzf":"取消支付",
+	
+	"grop.add":"群聊",
+	"grop.not":"抱歉，我们还没有加入群聊。 请加入我们吧",
+	"grop.nomore":"目前没有更多内容~",
+	"grop.addchat":"加入群聊",
+	"grop.can_chat":"可以加入的群",
+	"grop.join":"加入"
 }
