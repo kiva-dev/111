@@ -1524,5 +1524,6 @@
 	"new.nsfwczf":"您是否已支付完成？",
 	"new.wyzf":"我已支付",
 	"new.wcxd_qckdd":"未查询到订单支付状态,请前往我的订单查看",
-	"new.zfz_qsd":"支付中，请稍等!"
+	"new.zfz_qsd":"支付中，请稍等!",
+	"new.qxzf":"取消支付"
 }

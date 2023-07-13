@@ -2,20 +2,22 @@
 	<view class="order-success">
 		<view class="success-head-info">
 			<view class="success-head">
-				<view>{{$t('top.zhifucg')}}</view>
+				<view v-if="status=='success'">{{$t('top.zhifucg')}}</view>
+				<view v-else>{{$t('new.qxzf')}}</view>
 			</view>
 			<view class="content">
 				<view class="content-des">
-					<image src="/static/images/service/order_success.png"></image>
+					<image src="/static/images/service/order_success.png" v-if="status=='success'"></image>
+					<image src="/static/images/service/cancel.png" style="width: 112rpx;height: 112rpx;" v-else></image>
 					<view class="content-info">
-						<view>{{$t('top.zhifucg')}}</view>
-						<view style="font-size: 24rpx;">{{$t('new.thankbuy')}}</view>
+						<view v-if="status=='success'" style="margin-top: 30rpx;">{{$t('top.zhifucg')}}</view>
+						<view v-else>{{$t('new.qxzf')}}</view>
 					</view>
 				</view>
 			</view>
 		</view>
 
-		<view class="info">
+		<view class="info" v-if="status=='success'">
 			<view class="info-price">RM<text>{{price}}</text></view>
 			<view class="info-des">
 				<view class="info-key">{{$t('new.order_no')}}</view>

@@ -875,7 +875,7 @@
 						res.data.list.data.map(item => {
 							item.continue_time = this.daojishi(item.continue_time)
 						})
-						this.totalPageNum = res.data.total
+						this.totalPageNum = res.data.list.total
 						this.LuckyList = this.page == 1 ? res.data.list.data : [...this.LuckyList, ...res.data.list
 							.data
 						]
@@ -1013,7 +1013,6 @@
 		onReachBottom() {
 			// 判断是否还有数据
 			if (this.navId == 1) {
-				console.log(this.totalPageNum , this.page * this.pagenum)
 				if (this.totalPageNum <= this.page * this.pagenum) return
 				this.page++
 				// 我的竞拍
