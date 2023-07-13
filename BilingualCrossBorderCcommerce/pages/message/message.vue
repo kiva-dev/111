@@ -4,6 +4,7 @@
 		<!-- <common :tips='commonTips'></common>
 		<u-mask z-index="1000" :custom-style="{background: 'rgba(0, 0, 0, 0.1)'}" :show="maskShow" @click="maskClick"></u-mask>
 		<u-action-sheet :list="sessionLongpressList" @click="sessionLongpressAction" v-model="sessionLongpressShow"></u-action-sheet> -->
+		<u-navbar :background="navBackground" @rightClick="rightClick" :autoBack="true"></u-navbar>
 		<!-- 顶部搜索栏-start -->
 		<!-- <view class="search">
 			<view class="search-box">
@@ -52,6 +53,9 @@ import session from "@/components/session/seesion.vue";
 		},
 		data() {
 			return {
+				navBackground: {
+					backgroundColor: '#F5F6F7'
+				},
 				keywords: '',
 				maskShow: false,
 				messageMenu: {
@@ -134,7 +138,7 @@ import session from "@/components/session/seesion.vue";
 				})
 			},
 			goToSessionInfo: function(id, type, chat_id) {
-				var url = '/pages/auction/test?id=' + id
+				var url = '/pages/session-info/session-info?id=' + id
 				if (type == 'service') {
 					if (chat_id != 3) {
 						url = '/pages/session-info/notice-session-info?session_id=' + id

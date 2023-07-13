@@ -403,7 +403,6 @@ var ws = {
 		// #endif
 	},
 	onMessage: function(msg) {
-		console.log(msg,'================================================');
 		var that = this
 
 		var commonCallback = function() {
@@ -426,7 +425,6 @@ var ws = {
 				})
 			}, 2000)
 		}
-
 		var msgFun = new Map([
 			['open', () => {
 				that.initializeData.tokens.auth_token = that.authToken
@@ -1730,7 +1728,6 @@ var ws = {
 							unreadMessagesNumber: 0
 						}, pageThat)
 					})
-					
 					!msg.data.shield && that.newMessageNotice(pushNickname, msg.data.lastMessage.last_message, pushAvatar, false);
 				}
 				
@@ -2045,7 +2042,6 @@ var ws = {
 			onMessageCallBackAction.call(that, msg);
 			this.onMessageCallBack.delete(msg.event)
 		}
-
 		let action = msgFun.get(msg.event) || msgFun.get('default')
 		return action.call(that);
 	},

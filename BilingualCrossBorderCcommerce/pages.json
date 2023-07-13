@@ -981,7 +981,7 @@
 			}
 		},
 		{
-			"path": "pages/auction/test",
+			"path": "pages/session-info/session-info",
 			"style": {
 				"navigationBarTitleText": "",
 				"navigationStyle": "custom"

@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<block v-if="value.type == 'default'">
-			<u-parse :show-with-animation="true" :tag-style="{img:'width:30px;height:30px;'}" :selectable="true" :html="value.message"></u-parse>
+			<u-parse :show-with-animation="true" :tag-style="{img:'width:30px;height:30px;'}" :selectable="true" :content="value.message"></u-parse>
 		</block>
 		<block v-else-if="value.type == 'image'">
 			<image @click="preimage(value.message)" class="image-message" :src="value.message" mode="widthFix"></image>
@@ -77,18 +77,7 @@
 			}
 		},
 		methods: {
-			preimage: function (url) {
-				uni.previewImage({
-					urls: [url],
-					fail: function() {
-						uni.showToast({
-							title: '预览图片失败,请重试!',
-							icon: 'none'
-						})
-					}
-				});
-			},
-			url: function (url, title = '链接') {
+			/* url(url, title = '链接') {
 				// #ifdef H5
 				window.open(url);
 				return;
@@ -102,6 +91,17 @@
 							icon: 'none'
 						})
 				    }
+				});
+			}, */
+			preimage: function (url) {
+				uni.previewImage({
+					urls: [url],
+					fail: function() {
+						uni.showToast({
+							title: '预览图片失败,请重试!',
+							icon: 'none'
+						})
+					}
 				});
 			},
 			distributionGroupSelect: function(id) {
