@@ -54,8 +54,12 @@
 					<view class="new-list-item-right" v-if="item.check_status!=3 && item.check_status!=4">
 						<view class="new-list-item-right-txt">{{item.goods_name}}</view>
 						<view class="new-list-item-right-tags">
+							<view class="bonus">
+								<image src="/static/images/new-index/$.png" class="bonus-img"></image>
+								<view class="bonus-info">10% bonus available</view>
+							</view>
 							<block v-for="(data,index) in item.tags" :key="data.tag_id">
-								<image :src="data.image"></image>
+								<image :src="data.image" class="tagimg"></image>
 							</block>
 						</view>
 
@@ -76,9 +80,8 @@
 
 						<view class="new-list-item-right-jd" v-if="id==1">
 							<view class="new-list-item-right-jd-data">
-								<view>{{(item.finish_rate*100).toFixed(0)}}%</view>
-								<image src="../../static/images/new-index/select-jd.png"
-									:style="`width: ${(item.finish_rate*100).toFixed(0)}%;`"></image>
+								<progress class="progress" :percent="(item.finish_rate*100).toFixed(0)" stroke-width="9"
+									activeColor="#1DD181" backgroundColor="#EBEBEB" />
 							</view>
 							<view class="new-list-item-right-jd-auth">
 								<block v-for="img in item.new_auction_avatar">
@@ -89,11 +92,13 @@
 
 						<view class="new-list-item-btm">
 							<view class="new-list-item-btm-price">
+								<view class="old">RM{{item.price}}</view>
 								<view class="new">
 									<image src="/static/images/kbrick/diamond.png"></image>
 									<span>{{item.auction_price}}</span>
+									<text
+										style="color: rgb(153, 153, 153);font-weight: 400;font-size: 16rpx;margin-left: 8rpx;">(RM{{item.auction_price}})</text>
 								</view>
-								<view class="old">RM{{item.price}}</view>
 							</view>
 
 
@@ -156,10 +161,15 @@
 			<!--一行双列显示-->
 			<template v-else-if="selectId == 2">
 				<view class="new-list-item-two">
-					<view class="info" v-for="(item,i) in productList" :key="i" @click="onJingPai(item)">
+					<view class="info" v-for="(item,i) in productList" :key="i" @click="onJingPai(item)" style="height: 600rpx;">
 						<image :src="item.image" class="info-img"></image>
 						<view class="info-tit">{{item.goods_name}}</view>
-
+						
+						<view class="bonus-two" style="bottom: 200rpx;">
+							<image src="/static/images/new-index/$.png" class="bonus-img"></image>
+							<view class="bonus-info">10% bonus available</view>
+						</view>
+						
 						<view class="info-tags">
 							<view class="info-tag">
 								<image src="/static/images/new-index/xx.png"></image>
@@ -178,18 +188,19 @@
 						</view>
 
 						<view class="info-jd" v-if="id==1">
-							<image src="/static/images/new-index/select-jd.png"
-								:style="`width: ${(item.finish_rate*100).toFixed(0)}%;`"></image>
-							<view>{{(item.finish_rate*100).toFixed(0)}}%</view>
+							<progress class="progress" :percent="(item.finish_rate*100).toFixed(0)" stroke-width="9"
+								activeColor="#1DD181" backgroundColor="#EBEBEB" />
 						</view>
 
 						<view class="info-btm">
 							<view class="info-price">
+								<view class="old">RM{{item.price}}</view>
 								<view class="new">
 									<image src="/static/images/kbrick/diamond.png"></image>
 									<span>{{item.auction_price}}</span>
+									<text
+										style="color: rgb(153, 153, 153);font-weight: 400;font-size: 16rpx;margin-left: 8rpx;">(RM{{item.auction_price}})</text>
 								</view>
-								<view class="old">RM{{item.price}}</view>
 							</view>
 
 							<view class="info-btn" v-if="id==1">
@@ -213,20 +224,26 @@
 				<view class="new-list-line" v-for="(item,i) in productList" :key="i" @click="onJingPai(item)">
 					<image :src="item.image" class="product_img"></image>
 					<view class="product_txt">{{item.goods_name}}</view>
-
+					
+					<view class="bonus-two">
+						<image src="/static/images/new-index/$.png" class="bonus-img"></image>
+						<view class="bonus-info">10% bonus available</view>
+					</view>
+					
 					<view class="info">
 						<view class="info-left">
 							<view class="info_jd" v-if="id==1">
-								<image src="/static/images/new-index/select-jd.png"
-									:style="`width: ${(item.finish_rate*100).toFixed(0)}%;`"></image>
-								<view>{{(item.finish_rate*100).toFixed(0)}}%</view>
+								<progress class="progress" :percent="(item.finish_rate*100).toFixed(0)" stroke-width="9"
+									activeColor="#1DD181" backgroundColor="#EBEBEB" />
 							</view>
 							<view class="info_price">
+								<view class="old">RM{{item.price}}</view>
 								<view class="new">
 									<image src="/static/images/kbrick/diamond.png"></image>
 									<span>{{item.auction_price}}</span>
+									<text
+										style="color: rgb(153, 153, 153);font-weight: 400;font-size: 16rpx;margin-left: 8rpx;">(RM{{item.auction_price}})</text>
 								</view>
-								<view class="old">RM{{item.price}}</view>
 							</view>
 						</view>
 
@@ -1107,7 +1124,7 @@
 				}
 
 				if (this.kdiamondSelect) {
-					if (this.set_paypwd != 1 ) {
+					if (this.set_paypwd != 1) {
 						uni.showToast({
 							title: this.$t('new.qszmm'),
 							icon: 'none',
@@ -1175,6 +1192,15 @@
 </script>
 
 <style lang="less" scoped>
+	
+	/deep/.uni-progress-inner-bar {
+		border-radius: 9rpx !important;
+	}
+	
+	/deep/.uni-progress-bar {
+		border-radius: 9rpx !important;
+	}
+	
 	//右侧固定栏滚动
 	.removeRightX {
 		transform: translateX(80rpx);
@@ -1840,15 +1866,32 @@
 						display: flex;
 						align-items: center;
 
-						view {
-							padding: 4rpx 8rpx;
+						.bonus {
+							width: 190rpx;
+							height: 28rpx;
+							display: flex;
+							align-items: center;
 							box-sizing: border-box;
-							border: 1rpx solid rgb(204, 204, 204);
-							border-radius: 4rpx;
-							margin-right: 12rpx;
+							border: 1rpx solid rgb(255, 57, 57);
+							border-radius: 28rpx;
+							margin-right: 8rpx;
+
+							.bonus-img {
+								display: block;
+								width: 28rpx;
+								height: 28rpx;
+								border-radius: 50%;
+							}
+
+							view {
+								font-size: 16rpx;
+								color: rgb(255, 57, 57);
+								white-space: nowrap;
+								margin-left: 4rpx;
+							}
 						}
 
-						image {
+						.tagimg {
 							width: 28rpx;
 							height: 28rpx;
 							border-radius: 50%;
@@ -1898,9 +1941,7 @@
 						.new-list-item-right-jd-data {
 							position: relative;
 							width: 280rpx;
-							height: 32rpx;
-							background: url('/static/images/new-index/jd-bj.png') no-repeat;
-							background-size: 280rpx 32rpx;
+							height: 20rpx;
 
 							view {
 								position: absolute;
@@ -1918,8 +1959,8 @@
 								left: 2rpx;
 								transform: translate(0, -50%);
 								width: 228rpx;
-								height: 28rpx;
-								border-radius: 28rpx;
+								height: 18rpx;
+								border-radius: 18rpx;
 								z-index: 1;
 							}
 
@@ -2183,8 +2224,6 @@
 
 				.info {
 					width: 336rpx;
-					min-height: 524rpx;
-					max-height: 578rpx;
 					background: rgb(255, 255, 255);
 					box-shadow: 0px 4rpx 12rpx rgba(198, 198, 198, 0.3);
 					border-radius: 20rpx;
@@ -2205,6 +2244,30 @@
 						text-overflow: ellipsis;
 						white-space: nowrap;
 						margin: 16rpx auto;
+					}
+					
+					.bonus-two{
+						width: 190rpx;
+						height: 28rpx;
+						display: flex;
+						align-items: center;
+						box-sizing: border-box;
+						border: 1rpx solid rgb(255, 57, 57);
+						border-radius: 28rpx;
+						margin: 0 0 18rpx 24rpx;
+						image{
+							display: block;
+							width: 28rpx;
+							height: 28rpx;
+						}
+						
+						view{
+							font-size: 16rpx;
+							color: rgb(255, 57, 57);
+							white-space: nowrap;
+							margin-left: 4rpx;
+						}
+						
 					}
 
 					.info-tags {
@@ -2241,10 +2304,8 @@
 					.info-jd {
 						position: relative;
 						width: 296rpx;
-						height: 32rpx;
-						background: url('/static/images/new-index/jd-bj.png') no-repeat;
-						background-size: 296rpx 32rpx;
-						margin: 24rpx auto 28rpx auto;
+						height: 20rpx;
+						margin: 18rpx auto;
 
 						image {
 							position: absolute;
@@ -2252,8 +2313,8 @@
 							left: 2rpx;
 							transform: translate(0, -50%);
 							width: 228rpx;
-							height: 28rpx;
-							border-radius: 28rpx;
+							height: 18rpx;
+							border-radius: 18rpx;
 						}
 
 						view {
@@ -2366,6 +2427,31 @@
 					color: rgb(51, 51, 51);
 					margin: 16rpx auto 24rpx auto;
 				}
+				
+				.bonus-two{
+					width: 190rpx;
+					height: 28rpx;
+					display: flex;
+					align-items: center;
+					box-sizing: border-box;
+					border: 1rpx solid rgb(255, 57, 57);
+					border-radius: 28rpx;
+					margin: 0 0 18rpx 24rpx;
+					
+					image{
+						display: block;
+						width: 28rpx;
+						height: 28rpx;
+					}
+					
+					view{
+						font-size: 16rpx;
+						color: rgb(255, 57, 57);
+						white-space: nowrap;
+						margin-left: 4rpx;
+					}
+					
+				}
 
 				.info {
 					width: 628rpx;
@@ -2379,9 +2465,7 @@
 						.info_jd {
 							position: relative;
 							width: 386rpx;
-							height: 32rpx;
-							background: url('/static/images/new-index/jd-bj.png') no-repeat;
-							background-size: 386rpx 32rpx;
+							height: 20rpx;
 
 							image {
 								position: absolute;
@@ -2389,8 +2473,8 @@
 								left: 2rpx;
 								transform: translate(0, -50%);
 								width: 308rpx;
-								height: 28rpx;
-								border-radius: 28rpx;
+								height: 18rpx;
+								border-radius: 18rpx;
 							}
 
 							view {
@@ -2404,19 +2488,19 @@
 						}
 
 						.info_price {
-							display: flex;
-							align-items: flex-end;
 							margin-top: 14rpx;
 
 							.new {
 								font-size: 24rpx;
 								font-weight: bold;
 								color: rgb(255, 57, 57);
+								display: flex;
+								align-items: center;
 								margin-right: 8rpx;
 
 								image {
-									width: 24rpx;
-									height: 24rpx;
+									width: 40rpx;
+									height: 40rpx;
 								}
 
 								span {
