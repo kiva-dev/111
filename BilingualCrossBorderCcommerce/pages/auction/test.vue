@@ -9,14 +9,18 @@
 					{{noticeInfo.content}}
 				</view>
 				<view class="im-group-notice-imgs">
-					<image v-for="(img, imgindex) in noticeInfo.images" :key="imgindex" :src="img" mode="widthFix"></image>
+					<image v-for="(img, imgindex) in noticeInfo.images" :key="imgindex" :src="img" mode="widthFix">
+					</image>
 				</view>
 				<view class="group-notice-footer">
-					<text>{{noticeInfo.publisher.nickname}}<text v-if="noticeInfo.publisher.remark">({{noticeInfo.publisher.remark}})</text><text class="footer-createtime">发表于{{noticeInfo.createtime}}</text></text>
+					<text>{{noticeInfo.publisher.nickname}}<text
+							v-if="noticeInfo.publisher.remark">({{noticeInfo.publisher.remark}})</text><text
+							class="footer-createtime">发表于{{noticeInfo.createtime}}</text></text>
 					<text class="notice-item-footer-text">{{noticeInfo.reading_number}}人已读</text>
 				</view>
 				<view class="group-notice-button">
-					<u-button v-if="noticeInfo.receipt" :type="noticeInfo.receipted ? 'default':'primary'"  @click="receiptNotice(noticeInfo.id)">{{noticeInfo.receipted ? '您已确认':'确认收到'}}</u-button>
+					<u-button v-if="noticeInfo.receipt" :type="noticeInfo.receipted ? 'default':'primary'"
+						@click="receiptNotice(noticeInfo.id)">{{noticeInfo.receipted ? '您已确认':'确认收到'}}</u-button>
 					<u-button v-if="!noticeInfo.receipt" type="default" @click="showNotice = false;">关闭</u-button>
 				</view>
 			</view>
@@ -27,33 +31,40 @@
 				<view class="link-popup-url">{{linkPopupUrl}}</view>
 				<view class="link-popup-tis">请确认是否继续访问，并注意您的账户和财产安全！</view>
 				<view class="link-popup-buttons">
-					<u-button :custom-style="{padding: '0 2rpx'}" class="link-popup-button-item" hover-class="none" type="primary" size="medium" plain>
+					<u-button :custom-style="{padding: '0 2rpx'}" class="link-popup-button-item" hover-class="none"
+						type="primary" size="medium" plain>
 						<u-link :href="linkPopupUrl"><text class="link-popup-url-button">访问</text></u-link>
 					</u-button>
-					<u-button @click="LinkPopupShow = false" class="link-popup-button-item" type="default" size="medium">取消</u-button>
+					<u-button @click="LinkPopupShow = false" class="link-popup-button-item" type="default"
+						size="medium">取消</u-button>
 				</view>
 			</view>
 		</u-popup>
 		<u-navbar :background="navBackground">
 			<view class="navbar-title">
-				<view class="title-content">{{info.sessionUser.nickname + (info.sessionUser.user_count ? '(' + info.sessionUser.user_count + ')':'')}}</view>
-				<view class="title-other" v-if="info.sessionUser.status" :class="'user-status-' + info.sessionUser.status.value">{{info.sessionUser.status.chinese}}</view>
+				<view class="title-content">
+					{{info.sessionUser.nickname + (info.sessionUser.user_count ? '(' + info.sessionUser.user_count + ')':'')}}
+				</view>
+				<view class="title-other" v-if="info.sessionUser.status"
+					:class="'user-status-' + info.sessionUser.status.value">{{info.sessionUser.status.chinese}}</view>
 			</view>
 			<view @click="sessionMenu" class="menu-wrap" slot="right">
 				<u-icon name="grid-fill" color="#000000" size="38"></u-icon>
 			</view>
 		</u-navbar>
-		
+
 		<!-- mask 目前只用于长按消息菜单显示时 -->
 		<view v-if="maskShow" @click="maskClick" :style="maskStyle" class="mask"></view>
-		
-		<view v-if="messageLongpressAction.length" :style="messageLongpressActionStyle" class="message-longpress-action">
-			<view v-for="(item, index) in messageLongpressAction" :key="index" @click="messageLongpressActionClick(index)" class="longpress-action-item">{{item.name}}</view>
+
+		<view v-if="messageLongpressAction.length" :style="messageLongpressActionStyle"
+			class="message-longpress-action">
+			<view v-for="(item, index) in messageLongpressAction" :key="index"
+				@click="messageLongpressActionClick(index)" class="longpress-action-item">{{item.name}}</view>
 			<view class="longpress-action-pin" :style="messageLongpressActionPinStyle">
 				<u-icon name="arrow-down-fill" color="#262626" size="30"></u-icon>
 			</view>
 		</view>
-		
+
 		<!-- 正在录音-start -->
 		<view v-if="recording" class="recorder-box">
 			<view class="recorder-del" id="delrecorder" :style="{opacity: delElOpacity}">
@@ -67,66 +78,91 @@
 			</view>
 		</view>
 		<!-- 正在录音-end -->
-		
+
 		<!-- 聊天记录-start -->
-		<scroll-view
-		@scroll="scrollWrapper"
-		@scrolltoupper="wrapperScrolltoupper"
-		@click="clickWrapper"
-		class="wrapper"
-		id="wrapper"
-		:scroll-y="true"
-		:scroll-with-animation="wrapperWithAnimation"
-		:scroll-top="wrapperScrollTop"
-		:style="{height: 'calc(100vh - ' + (navbarHeight + statusBarHeight) + 'px - ' + writeHeight + 'px)'}"
-		>
+		<scroll-view @scroll="scrollWrapper" @scrolltoupper="wrapperScrolltoupper" @click="clickWrapper" class="wrapper"
+			id="wrapper" :scroll-y="true" :scroll-with-animation="wrapperWithAnimation" :scroll-top="wrapperScrollTop"
+			:style="{height: 'calc(100vh - ' + (navbarHeight + statusBarHeight) + 'px - ' + writeHeight + 'px)'}">
 			<block v-if="messageList.length" v-for="(item, index) in messageList" :key="index">
 				<view class="status">
 					<text>{{item.datetime}}</text>
 				</view>
 				<block v-for="(message, m) in item.data" :key="message.id">
 					<block v-if="message.type == 'system'">
-						<view v-if="message.message.display_user == 'all' || message.message.display_user == userId" class="status">
+						<view v-if="message.message.display_user == 'all' || message.message.display_user == userId"
+							class="status">
 							<text>{{message.message.message}}</text>
 						</view>
 					</block>
 					<view v-else class="message-item" :class="message.sender">
-						<image v-if="(info.type == 'single') || (info.chat_id == 3 && info.type == 'service')" @click="clickAvatar(info.type, message.sender)" class="message-avatar" :src="(message.sender == 'you') ? info.sessionUser.avatar:info.user.avatar"></image>
-						<image v-if="info.type == 'group'" @click="clickAvatar('group', message.pushUser.id)" class="message-avatar" :src="message.pushUser.avatar"></image>
+						<image v-if="(info.type == 'single') || (info.chat_id == 3 && info.type == 'service')"
+							@click="clickAvatar(info.type, message.sender)" class="message-avatar"
+							:src="(message.sender == 'you') ? info.sessionUser.avatar:info.user.avatar"></image>
+						<image v-if="info.type == 'group'" @click="clickAvatar('group', message.pushUser.id)"
+							class="message-avatar" :src="message.pushUser.avatar"></image>
 						<view class="message-content-box">
-							<view v-if="message.pushUser && message.pushUser.nickname" class="chat-record-nickname">{{message.pushUser.nickname}}</view>
-							<view :id="'message-' + message.id" @longpress="longpressMessage(message)" class="message-content" :class="message.pushUser && message.pushUser.nickname ? '':'hide-nickname'">
-								<link-message v-if="message.type == 'link'" :value="message" :LinkPopupShow.sync="LinkPopupShow" :linkPopupUrl.sync="linkPopupUrl"></link-message>
-								<view v-else-if="message.type == 'video'" @click="playVideo(message)" class="video-message-box">
+							<view v-if="message.pushUser && message.pushUser.nickname" class="chat-record-nickname">
+								{{message.pushUser.nickname}}</view>
+							<view :id="'message-' + message.id" @longpress="longpressMessage(message)"
+								class="message-content"
+								:class="message.pushUser && message.pushUser.nickname ? '':'hide-nickname'">
+								<link-message v-if="message.type == 'link'" :value="message"
+									:LinkPopupShow.sync="LinkPopupShow"
+									:linkPopupUrl.sync="linkPopupUrl"></link-message>
+								<view v-else-if="message.type == 'video'" @click="playVideo(message)"
+									class="video-message-box">
 									<view v-show="!message.play" class="video-message-cover">
 										<view class="video-message-cover-play">
 											<u-icon name="play-right-fill" size="40" color="#ffffff"></u-icon>
-											<view>{{message.currentTime + (message.duration ? ' / ' + message.duration:'')}}</view>
+											<view>
+												{{message.currentTime + (message.duration ? ' / ' + message.duration:'')}}
+											</view>
 										</view>
 									</view>
 									<!-- #ifdef MP-WEIXIN -->
-									<video @timeupdate="timeUpdate" :style="{width: message.play ? '400rpx':'1rpx'}" @fullscreenchange="fullScreenChange" :id="'video-' + message.id" :ref="'video-' + message.id" class="video-message-wx" :src="message.message" object-fit="contain" controls></video>
+									<video @timeupdate="timeUpdate" :style="{width: message.play ? '400rpx':'1rpx'}"
+										@fullscreenchange="fullScreenChange" :id="'video-' + message.id"
+										:ref="'video-' + message.id" class="video-message-wx" :src="message.message"
+										object-fit="contain" controls></video>
 									<!-- #endif -->
 									<!-- #ifndef MP-WEIXIN -->
 									<block v-if="userPlatform == 'ios'">
-										<video v-if="message.play" @timeupdate="timeUpdate" @fullscreenchange="fullScreenChange" :id="'video-' + message.id" :ref="'video-' + message.id" class="video-message" :src="message.message" object-fit="contain" controls></video>
+										<video v-if="message.play" @timeupdate="timeUpdate"
+											@fullscreenchange="fullScreenChange" :id="'video-' + message.id"
+											:ref="'video-' + message.id" class="video-message" :src="message.message"
+											object-fit="contain" controls></video>
 									</block>
-									<video v-else @timeupdate="timeUpdate" :style="{display: message.play ? 'block':'none'}" @fullscreenchange="fullScreenChange" :id="'video-' + message.id" :ref="'video-' + message.id" class="video-message" :src="message.message" object-fit="contain" controls></video>
+									<video v-else @timeupdate="timeUpdate"
+										:style="{display: message.play ? 'block':'none'}"
+										@fullscreenchange="fullScreenChange" :id="'video-' + message.id"
+										:ref="'video-' + message.id" class="video-message" :src="message.message"
+										object-fit="contain" controls></video>
 									<!-- #endif -->
 								</view>
-								<view v-else-if="message.type == 'audio'" @click="playAudio(message, index, m)" class="audio-message">
-									<u-icon :name="message.play ? 'pause':'play-right-fill'" size="36" color="#999999"></u-icon>
-									<text class="audio-message-text">{{message.currentTime + (message.duration ? ' / ' + message.duration:'')}}</text>
+								<view v-else-if="message.type == 'audio'" @click="playAudio(message, index, m)"
+									class="audio-message">
+									<u-icon :name="message.play ? 'pause':'play-right-fill'" size="36"
+										color="#999999"></u-icon>
+									<text
+										class="audio-message-text">{{message.currentTime + (message.duration ? ' / ' + message.duration:'')}}</text>
 								</view>
-								<view v-else-if="message.type == 'voice'" @click="playAudio(message, index, m)" class="voice-message">
-									<view v-if="message.sender == 'me'" class="voice-duration">{{message.message.duration + '" '}}</view>
-									<image class="voice-message-img" :src="message.play ? ('/static/icon/' + message.sender + '-voice.gif'):('/static/icon/' + message.sender + '-voice.png')" mode="widthFix"></image>
-									<view v-if="message.sender == 'you'" class="voice-duration">{{'" ' + message.message.duration}}<view v-if="!message.voice_playback" class="unread-voice">•</view></view>
+								<view v-else-if="message.type == 'voice'" @click="playAudio(message, index, m)"
+									class="voice-message">
+									<view v-if="message.sender == 'me'" class="voice-duration">
+										{{message.message.duration + '" '}}</view>
+									<image class="voice-message-img"
+										:src="message.play ? ('/static/icon/' + message.sender + '-voice.gif'):('/static/icon/' + message.sender + '-voice.png')"
+										mode="widthFix"></image>
+									<view v-if="message.sender == 'you'" class="voice-duration">
+										{{'" ' + message.message.duration}}
+										<view v-if="!message.voice_playback" class="unread-voice">•</view>
+									</view>
 								</view>
 								<messageCom v-else :value="message"></messageCom>
 							</view>
 						</view>
-						<view v-if="message.status" class="im-message-status" :class="message.status.statusClass">{{message.status.status}}</view>
+						<view v-if="message.status" class="im-message-status" :class="message.status.statusClass">
+							{{message.status.status}}</view>
 					</view>
 				</block>
 			</block>
@@ -137,19 +173,20 @@
 			</block>
 		</scroll-view>
 		<!-- 聊天记录-end -->
-		
+
 		<!-- 消息输入-start -->
 		<view class="im-write" :style="{bottom: writeBottom + 'px'}">
 			<view v-if="sessionUserInputStatus" class="session-user-input-status-box">
 				<view :style="{bottom: (imWriteHeight / 2) + 'px'}" class="session-user-input-status">对方正在输入...</view>
 			</view>
-			
+
 			<!-- @群成员-start -->
 			<view v-if="showAtSelect" class="at-select-box">
 				<view class="at-select-users" :style="{bottom: (imWriteHeight / 2) + 'px'}">
 					<view @click="hideAtUser" class="close-at-select">关闭</view>
 					<scroll-view scroll-y="true" class="at-select-list">
-						<view @click="insertAtUser(item)" class="at-select-item" v-for="(item, index) in atUsers" :key="index">
+						<view @click="insertAtUser(item)" class="at-select-item" v-for="(item, index) in atUsers"
+							:key="index">
 							<image :src="item.avatar" mode="widthFix"></image>
 							<text>{{item.nickname + (item.remark ? '(' + item.remark + ')':'')}}</text>
 						</view>
@@ -158,22 +195,30 @@
 				</view>
 			</view>
 			<!-- @群成员-end -->
-			
-			<image class="toolbar-icon voice" @click="showVoice" :src="showVoiceBool ? '/static/icon/keyboard.png':'/static/icon/voice.png'" mode="widthFix"></image>
+
+			<image class="toolbar-icon voice" @click="showVoice"
+				:src="showVoiceBool ? '/static/icon/keyboard.png':'/static/icon/voice.png'" mode="widthFix"></image>
 			<view class="write-textarea">
-				<textarea v-if="!showVoiceBool" :disabled="messageContenteditable" :adjust-position="false" :show-confirm-bar="false" :fixed="true" :focus="imMessageFocusBool"
-				 :auto-height="true" :cursor="imMessageFocusCursor" :cursor-spacing="14" maxlength="-1" @blur="imMessageBlur" @input="imMessageInput"
-				 @focus="imMessageFocus" :confirm-type="sendButtonType" @confirm="sendButtonConfirm" v-model="imMessage" class="im-message" :class="messageContenteditable ? 'disabled':''"></textarea>
-				<view v-else class="voice-input" hover-class="voice-input-hover" @touchstart="startRecorder" @touchmove="moveRecorder" @touchend="endRecorder">按住 说话</view>
+				<textarea v-if="!showVoiceBool" :disabled="messageContenteditable" :adjust-position="false"
+					:show-confirm-bar="false" :fixed="true" :focus="imMessageFocusBool" :auto-height="true"
+					:cursor="imMessageFocusCursor" :cursor-spacing="14" maxlength="-1" @blur="imMessageBlur"
+					@input="imMessageInput" @focus="imMessageFocus" :confirm-type="sendButtonType"
+					@confirm="sendButtonConfirm" v-model="imMessage" class="im-message"
+					:class="messageContenteditable ? 'disabled':''"></textarea>
+				<view v-else class="voice-input" hover-class="voice-input-hover" @touchstart="startRecorder"
+					@touchmove="moveRecorder" @touchend="endRecorder">按住 说话</view>
 			</view>
 			<view class="write-right" :style="{flex:showSendButton ? 3:2}">
-				<image class="toolbar-icon emoji" src="/static/icon/emoji.png" @click="clickTool('emoji')" mode="widthFix"></image>
-				<button class="send-btn" @click="sendMessage(imMessage, 'default')" hover-class="send-btn-hover" v-if="showSendButton">发送</button>
-				<image class="toolbar-icon more" src="/static/icon/more.png" @click="clickTool('more')" mode="widthFix" v-if="!showSendButton"></image>
+				<image class="toolbar-icon emoji" src="/static/icon/emoji.png" @click="clickTool('emoji')"
+					mode="widthFix"></image>
+				<button class="send-btn" @click="sendMessage(imMessage, 'default')" hover-class="send-btn-hover"
+					v-if="showSendButton">发送</button>
+				<image class="toolbar-icon more" src="/static/icon/more.png" @click="clickTool('more')" mode="widthFix"
+					v-if="!showSendButton"></image>
 			</view>
 		</view>
 		<!-- 消息输入-end -->
-		
+
 		<view v-if="showTool" class="footer-tool">
 			<!-- 表情-start -->
 			<view v-if="showTool == 'emoji'">
@@ -184,12 +229,14 @@
 			<!-- 表情-end -->
 			<!-- 快捷回复-start -->
 			<view v-if="showTool == 'reply'" class="reply-list">
-				<view v-for="(item, index) in fastReply" :key="index" @click="sendMessage(item.content, 'default')" class="reply-item">{{item.title}}</view>
+				<view v-for="(item, index) in fastReply" :key="index" @click="sendMessage(item.content, 'default')"
+					class="reply-item">{{item.title}}</view>
 			</view>
 			<!-- 快捷回复-end -->
 			<!-- 更多-start -->
 			<view v-if="showTool == 'more'" class="toolbar">
-				<view v-if="userType == 'csr'" @click="clickTool('reply')" class="toolbar-item" hover-class="toolbar-item-hover">
+				<view v-if="userType == 'csr'" @click="clickTool('reply')" class="toolbar-item"
+					hover-class="toolbar-item-hover">
 					<image src="/static/icon/reply.png"></image>
 					<view>快捷回复</view>
 				</view>
@@ -219,13 +266,21 @@
 
 <script>
 	import permision from "@/js_sdk/wa-permission/permission.js"
-    import messageCom from "@/components/message/message.vue";
+	import messageCom from "@/components/message/message.vue";
 	let systemInfo = uni.getSystemInfoSync();
-	var recordingTime = null, recordingSecond = 0, recordingMoveY = 0, delRecorder = null, stopDelRecorder = false, recorderValid = false, cursor = 0, atUsersEd = [], defaultWriteHeight = 46
+	var recordingTime = null,
+		recordingSecond = 0,
+		recordingMoveY = 0,
+		delRecorder = null,
+		stopDelRecorder = false,
+		recorderValid = false,
+		cursor = 0,
+		atUsersEd = [],
+		defaultWriteHeight = 46
 	export default {
-        components:{
-            messageCom
-        },
+		components: {
+			messageCom
+		},
 		data() {
 			return {
 				id: 0,
@@ -243,7 +298,7 @@
 				navBackground: {
 					backgroundColor: '#F5F6F7'
 				},
-				emoji:[],
+				emoji: [],
 				navbarHeight: 0,
 				writeHeight: defaultWriteHeight,
 				writeBottom: 0,
@@ -284,12 +339,12 @@
 				commonTips: ''
 			}
 		},
-		onLoad: function (query) {
-			
+		onLoad: function(query) {
+
 			// #ifdef APP-PLUS || H5
 			this.navbarHeight = this.navbarHeight ? this.navbarHeight : 44;
 			// #endif
-			
+
 			// #ifdef MP
 			if (systemInfo.platform == 'ios') {
 				var platformHeight = 44;
@@ -301,10 +356,10 @@
 			this.navbarHeight = this.navbarHeight ? this.navbarHeight : platformHeight;
 			this.writeHeight = defaultWriteHeight
 			// #endif
-			
+
 			this.id = query.id ? query.id : 0
 			this.ws.pageFun(this.pageDataLoad, this);
-			
+
 			this.ws.getEmoji().then(res => {
 				this.emoji = res
 			}).catch(res => {
@@ -313,22 +368,23 @@
 					type: 'error'
 				})
 			})
-			
+
 			// 申请录音权限
 			// #ifndef APP-PLUS || H5
 			uni.authorize({
 				scope: 'scope.record'
 			})
 			// #endif
-			
+
 			// APP检查权限
 			// #ifdef APP-PLUS
-			if(this.ws.userPlatform == 'android' && !this.requestAndroidPermission('android.permission.RECORD_AUDIO')) {
+			if (this.ws.userPlatform == 'android' && !this.requestAndroidPermission(
+				'android.permission.RECORD_AUDIO')) {
 				that.recorderAuthModal()
 			}
 			// #endif
 		},
-		onShow:function(){
+		onShow: function() {
 			this.ws.checkNetwork(this)
 			if (this.ws.collectionSelected) {
 				for (let c in this.ws.collectionSelected) {
@@ -336,27 +392,27 @@
 				}
 				this.ws.collectionSelected = []
 			}
-			
+
 			if (this.ws.pageRefresh.sessionInfo) {
 				this.ws.pageFun(this.pageDataLoad, this);
 				this.ws.pageRefresh.sessionInfo = false
 			}
 		},
-		onHide: function (){
+		onHide: function() {
 			this.ws.pauseAudio('hide', this, 'session')
 		},
-		onUnload: function () {
+		onUnload: function() {
 			this.ws.pauseAudio('unload', this, 'session')
 		},
 		methods: {
-			insertAtUser: function (item) {
+			insertAtUser: function(item) {
 				item.nickname += '  '
 				atUsersEd.push({
 					id: item.id,
 					nickname: item.nickname
 				})
 				this.hideAtUser()
-				
+
 				// 找到用户输入的搜索词，删除
 				// 将当前@的用户全称输入至输入框
 				let atSearchIdx = -1;
@@ -369,16 +425,17 @@
 					}
 				}
 				let delContent = beforeCursor.substr(atSearchIdx)
-				this.imMessage = this.imMessage.substring(0, atSearchIdx) + item.nickname + this.imMessage.substring(atSearchIdx + delContent.length)
-				
+				this.imMessage = this.imMessage.substring(0, atSearchIdx) + item.nickname + this.imMessage.substring(
+					atSearchIdx + delContent.length)
+
 				// 聚焦到指定字符后
 				this.imMessageFocusCursor = (cursor - delContent.length) + item.nickname.length
-				
+
 				setTimeout(() => {
 					this.imMessageFocusBool = true
 				}, 100)
 			},
-			receiptNotice: function (id) {
+			receiptNotice: function(id) {
 				var that = this
 				that.showNotice = false
 				if (!that.noticeInfo.receipt || (that.noticeInfo.receipt && that.noticeInfo.receipted)) {
@@ -395,7 +452,7 @@
 					});
 				}, that);
 			},
-			recorderAuthModal: function () {
+			recorderAuthModal: function() {
 				uni.showModal({
 					title: '温馨提示',
 					content: '无录音权限，无法发送语音~',
@@ -416,13 +473,14 @@
 					return false;
 				}
 			},
-			startRecorder: function (e) {
+			startRecorder: function(e) {
 				if (this.recording) {
 					return false;
 				}
-				var that = this, lastErrTime = 0;
+				var that = this,
+					lastErrTime = 0;
 				that.recording = true
-				
+
 				recordingMoveY = e.changedTouches[0].clientY
 				delRecorder = uni.createSelectorQuery().select('#delrecorder');
 				recordingSecond = 0
@@ -431,7 +489,7 @@
 				if (recordingTime) {
 					clearInterval(recordingTime)
 				}
-				
+
 				// 计时
 				setTimeout(() => {
 					recorderValid = true
@@ -447,12 +505,12 @@
 						that.recordingCountDown = (60 - recordingSecond)
 					}
 				}, 1000);
-				
+
 				this.ws.recorder.start({
 					format: 'wav',
 					duration: 60000
 				});
-				
+
 				this.ws.recorder.onStop(res => {
 					// 上传wav文件，发送wav文件
 					that.recording = false
@@ -471,13 +529,15 @@
 						})
 						return false;
 					}
-					let uploadFileCallBack = function (res, file) {
+					let uploadFileCallBack = function(res, file) {
 						that.sendMessage({
 							url: res.data.fullurl,
-							duration: (recordingSecond == 0) ? 1:recordingSecond
+							duration: (recordingSecond == 0) ? 1 : recordingSecond
 						}, 'voice');
 					}
-					that.upload({path: res.tempFilePath}, uploadFileCallBack);
+					that.upload({
+						path: res.tempFilePath
+					}, uploadFileCallBack);
 				})
 				this.ws.recorder.onError(res => {
 					that.recording = false
@@ -487,15 +547,15 @@
 						return false;
 					}
 					lastErrTime = new Date().getTime()
-					
+
 					if (this.ws.userPlatform == 'ios' && !permision.judgeIosPermission("record")) {
 						that.recorderAuthModal()
 						return false;
 					}
-					
+
 					uni.showModal({
 						title: '录音发生错误',
-						content: res.errMsg ? res.errMsg:'未知错误',
+						content: res.errMsg ? res.errMsg : '未知错误',
 						showCancel: false,
 						success: () => {
 							// #ifdef MP
@@ -509,35 +569,39 @@
 					})
 				})
 			},
-			endRecorder: function (e) {
-				var that = this,touche = e.changedTouches[0]
+			endRecorder: function(e) {
+				var that = this,
+					touche = e.changedTouches[0]
 				if (!that.recording) {
 					return false;
 				}
-				
+
 				delRecorder.fields({
 					rect: true
 				}, data => {
-					if (data && touche.clientY >= data.top && touche.clientY <= data.bottom && touche.clientX >= data.left && touche.clientX <= data.right) {
+					if (data && touche.clientY >= data.top && touche.clientY <= data.bottom && touche
+						.clientX >= data.left && touche.clientX <= data.right) {
 						stopDelRecorder = true
 					}
 					that.ws.recorder.stop();
 				}).exec();
-				
+
 				that.recording = false
 				that.delElOpacity = '0'
 			},
-			moveRecorder: function (e) {
-				var that = this, touche = e.changedTouches[0]
+			moveRecorder: function(e) {
+				var that = this,
+					touche = e.changedTouches[0]
 				let delElOpacity = parseInt((recordingMoveY - e.changedTouches[0].clientY) / 20)
 				if (delElOpacity > 1) {
-					delElOpacity = (delElOpacity < 10) ? '0.' + delElOpacity:'1'
+					delElOpacity = (delElOpacity < 10) ? '0.' + delElOpacity : '1'
 					if (this.delElOpacity != delElOpacity) {
 						this.delElOpacity = delElOpacity
 						delRecorder.fields({
 							rect: true
 						}, data => {
-							if (data && touche.clientY >= data.top && touche.clientY <= data.bottom && touche.clientX >= data.left && touche.clientX <= data.right) {
+							if (data && touche.clientY >= data.top && touche.clientY <= data.bottom && touche
+								.clientX >= data.left && touche.clientX <= data.right) {
 								that.recorderText = '松开取消'
 							} else {
 								that.recorderText = '取消'
@@ -546,35 +610,41 @@
 					}
 				}
 			},
-			timeUpdate: function (e) {
+			timeUpdate: function(e) {
 				this.ws.playVideoItem.duration = this.ws.sToHs(Math.floor(e.detail.duration))
 				this.ws.playVideoItem.currentTime = this.ws.sToHs(Math.floor(e.detail.currentTime))
 			},
-			fullScreenChange: function (e) {
+			fullScreenChange: function(e) {
 				if (!e.detail.fullScreen) {
 					var videoContext = uni.createVideoContext('video-' + this.ws.playVideoItem.id, this)
 					videoContext.pause()
 					this.ws.playVideoItem.play = false
 				}
 			},
-			playVideo: function(item){
+			playVideo: function(item) {
 				this.ws.playVideo(item, this, 'session')
 			},
 			playAudio: function(item, index, m) {
 				if (item.type == 'voice' && !item.voice_playback && item.sender == 'you') {
 					this.messageList[index].data[m].voice_playback = true
 					this.ws.pageFun(res => {
-						this.ws.send({c: 'User', a: 'changeVoiceStatus', data: {'id': this.messageList[index].data[m].id}});
+						this.ws.send({
+							c: 'User',
+							a: 'changeVoiceStatus',
+							data: {
+								'id': this.messageList[index].data[m].id
+							}
+						});
 					}, this)
 				}
 				this.ws.playAudio(item, index, m, this)
 			},
-			sendButtonConfirm: function () {
+			sendButtonConfirm: function() {
 				if (this.sendButtonType == 'send') {
 					this.sendMessage(this.imMessage, 'default')
 				}
 			},
-			sendMessage: function (message, type = 'default') {
+			sendMessage: function(message, type = 'default') {
 				var that = this
 				if (!message) {
 					that.$refs.uToast.show({
@@ -590,7 +660,7 @@
 					})
 					return false;
 				}
-				
+
 				if (type == 'default') {
 					// 处理表情
 					var reg = /\[(.+?)\]/g; // [] 中括号
@@ -598,16 +668,17 @@
 					if (regMatch) {
 						for (let i in regMatch) {
 							var emojiItem = that.findEmoji(regMatch[i]);
-							message = message.replace(emojiItem.code, '<img draggable="false" class="emoji" title="' + emojiItem.name + '" src="' + emojiItem.image + '" />');
+							message = message.replace(emojiItem.code, '<img draggable="false" class="emoji" title="' +
+								emojiItem.name + '" src="' + emojiItem.image + '" />');
 						}
 					}
 				}
 				for (let u in atUsersEd) {
 					atUsersEd[u].nickname = atUsersEd[u].nickname.substring(0, atUsersEd[u].nickname.length - 1);
 				}
-				
+
 				var messageId = new Date().getTime() + that.info.id + Math.floor(Math.random() * 10000); // 临时消息ID
-				that.ws.pageFun(function(){
+				that.ws.pageFun(function() {
 					that.ws.send({
 						c: 'Message',
 						a: 'sendMessage',
@@ -615,15 +686,16 @@
 							message: message,
 							type: type,
 							session_id: that.info.id,
-							tokens: that.ws.initializeData ? that.ws.initializeData.tokens : false, // 发消息时检测用户登录态是否过期
+							tokens: that.ws.initializeData ? that.ws.initializeData.tokens :
+							false, // 发消息时检测用户登录态是否过期
 							message_id: messageId,
 							identity: that.ws.initializeData.userinfo.identity,
-							at_users: (that.info.type == 'group') ? atUsersEd:[]
+							at_users: (that.info.type == 'group') ? atUsersEd : []
 						}
 					})
 				}, that)
 				atUsersEd = []
-				
+
 				let messageObj = {
 					id: messageId,
 					message: message,
@@ -650,7 +722,7 @@
 						data: [that.ws.buildMessage(messageObj)]
 					});
 				}
-				
+
 				that.ws.messageShow.push(function(mThat) {
 					that.ws.imSession({
 						sessionInfo: {
@@ -675,18 +747,21 @@
 				}
 				return false;
 			},
-			maskClick: function () {
+			maskClick: function() {
 				this.maskShow = false
 				this.hideAtUser()
 				this.messageLongpressAction = []
 			},
-			messageLongpressActionClick: function (index) {
-				var that = this, messageId = that.messageLongpressAction[index].id, action = that.messageLongpressAction[index].action
+			messageLongpressActionClick: function(index) {
+				var that = this,
+					messageId = that.messageLongpressAction[index].id,
+					action = that.messageLongpressAction[index].action
 				if (action == 'forward') {
 					// 转发
 					that.maskClick()
 					uni.navigateTo({
-						url: '/pages/pick-user/pick-user?action=message-forward&forward_type=message&message_id=' + messageId + '&sessionId=' + that.id
+						url: '/pages/pick-user/pick-user?action=message-forward&forward_type=message&message_id=' +
+							messageId + '&sessionId=' + that.id
 					})
 				} else {
 					that.ws.pageFun(() => {
@@ -703,7 +778,8 @@
 				}
 			},
 			longpressMessage: function(e) {
-				var that= this, action = []
+				var that = this,
+					action = []
 				let message = uni.createSelectorQuery().select('#message-' + e.id);
 				message.fields({
 					rect: true,
@@ -711,38 +787,80 @@
 				}, data => {
 					// 各种消息类型一个一个设置，确保菜单顺序
 					if (e.type == 'default') {
-						action = [
-							{id: e.id, name: '复制', action: 'copy'},
-							{id: e.id, name: '转发', action: 'forward'},
-							{id: e.id, name: '收藏', action: 'collection'},
-							{id: e.id, name: '待办', action: 'to-do'}
+						action = [{
+								id: e.id,
+								name: '复制',
+								action: 'copy'
+							},
+							{
+								id: e.id,
+								name: '转发',
+								action: 'forward'
+							},
+							{
+								id: e.id,
+								name: '收藏',
+								action: 'collection'
+							},
+							{
+								id: e.id,
+								name: '待办',
+								action: 'to-do'
+							}
 						]
 					} else if (e.type == 'file' || e.type == 'link') {
-						action = [
-							{id: e.id, name: '复制', action: 'copy'},
-							{id: e.id, name: '转发', action: 'forward'},
-							{id: e.id, name: '收藏', action: 'collection'}
+						action = [{
+								id: e.id,
+								name: '复制',
+								action: 'copy'
+							},
+							{
+								id: e.id,
+								name: '转发',
+								action: 'forward'
+							},
+							{
+								id: e.id,
+								name: '收藏',
+								action: 'collection'
+							}
 						]
 					} else {
-						action = [
-							{id: e.id, name: '转发', action: 'forward'},
-							{id: e.id, name: '收藏', action: 'collection'}
+						action = [{
+								id: e.id,
+								name: '转发',
+								action: 'forward'
+							},
+							{
+								id: e.id,
+								name: '收藏',
+								action: 'collection'
+							}
 						]
 					}
-					
+
 					if (that.info.type == 'single') {
-						action.push({id: e.id, name: '删除', action: 'delete'})
+						action.push({
+							id: e.id,
+							name: '删除',
+							action: 'delete'
+						})
 					}
-					
+
 					if (e.sender == 'me') {
-						let actionWidth = action.length * 40, missWidth = (actionWidth - data.width) + 20, left = (missWidth > 0) ? (data.left - missWidth):data.left
-						that.messageLongpressActionStyle = 'top: ' + (data.top - 46) + 'px;left: ' + left + 'px';
+						let actionWidth = action.length * 40,
+							missWidth = (actionWidth - data.width) + 20,
+							left = (missWidth > 0) ? (data.left - missWidth) : data.left
+						that.messageLongpressActionStyle = 'top: ' + (data.top - 46) + 'px;left: ' + left +
+							'px';
 					} else {
-						that.messageLongpressActionStyle = 'top: ' + (data.top - 46) + 'px;left: ' + data.left + 'px';
+						that.messageLongpressActionStyle = 'top: ' + (data.top - 46) + 'px;left: ' + data
+							.left + 'px';
 					}
 					that.maskShow = true
 					that.messageLongpressAction = action
-					that.messageLongpressActionPinStyle = 'top: ' + (data.top - 16) + 'px;left: ' + (data.left + 6) + 'px';
+					that.messageLongpressActionPinStyle = 'top: ' + (data.top - 16) + 'px;left: ' + (data
+						.left + 6) + 'px';
 				}).exec()
 			},
 			getHoursMinutes: function() {
@@ -765,15 +883,16 @@
 				this.imMessageChange();
 				this.imMessageFocusBool = true
 			},
-			sessionMenu: function () {
+			sessionMenu: function() {
 				uni.navigateTo({
 					url: '/pages/session-info/chat-setting?id=' + this.id
 				})
 			},
-			clickAvatar: function (type, id) {
+			clickAvatar: function(type, id) {
 				if (type == 'single') {
 					uni.navigateTo({
-						url: '/pages/center/info?id=' + (id == 'you' ? this.info.sessionUser.id:this.info.user.id)
+						url: '/pages/center/info?id=' + (id == 'you' ? this.info.sessionUser.id : this.info
+							.user.id)
 					})
 				} else if (type == 'group') {
 					uni.navigateTo({
@@ -781,11 +900,12 @@
 					})
 				} else if (type == 'service') {
 					uni.navigateTo({
-						url: '/pages/center/info?id=' + (id == 'you' ? this.info.chat_id:this.info.user.id) + (id == 'you' ? '&type=service':'')
+						url: '/pages/center/info?id=' + (id == 'you' ? this.info.chat_id : this.info.user.id) +
+							(id == 'you' ? '&type=service' : '')
 					})
 				}
 			},
-			pageDataLoad: function () {
+			pageDataLoad: function() {
 				var that = this
 				let message = {
 					c: 'User',
@@ -803,9 +923,9 @@
 			scrollWrapper: function() {
 				this.maskShow && this.maskClick()
 			},
-			wrapperScrolltoupper: function () {
+			wrapperScrolltoupper: function() {
 				if (!this.loadRecordsData) {
-					return ;
+					return;
 				}
 				var that = this
 				that.loadRecordsData.page++;
@@ -816,16 +936,20 @@
 				}, data => {
 					that.wrapperScrollHeight = data.scrollHeight
 				}).exec()
-				
-				that.ws.pageFun(function(){
-					that.ws.send({ c: 'User', a: 'loadSession', data: that.loadRecordsData });
+
+				that.ws.pageFun(function() {
+					that.ws.send({
+						c: 'User',
+						a: 'loadSession',
+						data: that.loadRecordsData
+					});
 					that.loadRecordsData = null
 				}, that)
 			},
-			clickWrapper: function () {
+			clickWrapper: function() {
 				this.clickTool(false)
 			},
-			showVoice: function () {
+			showVoice: function() {
 				// #ifdef H5
 				uni.showModal({
 					title: '温馨提示',
@@ -836,7 +960,7 @@
 				// #endif
 				this.showVoiceBool = !this.showVoiceBool
 			},
-			clickTool: function (value) {
+			clickTool: function(value) {
 				if (!value || (value == this.showTool)) {
 					this.showTool = false;
 					this.writeBottom = 0;
@@ -849,7 +973,7 @@
 					this.scrollIntoFooter();
 				}
 			},
-			clickMoreTool: function (name) {
+			clickMoreTool: function(name) {
 				var that = this
 				if (name == 'image') {
 					that.ws.pageFun(() => {
@@ -859,11 +983,11 @@
 						});
 					}, that)
 					uni.chooseImage({
-					    count: 1,
-					    sizeType: ['original', 'compressed'],
-					    sourceType: ['album', 'camera'],
-					    success: function (res) {
-							that.upload(res.tempFiles[0], function (res, file) {
+						count: 1,
+						sizeType: ['original', 'compressed'],
+						sourceType: ['album', 'camera'],
+						success: function(res) {
+							that.upload(res.tempFiles[0], function(res, file) {
 								that.sendMessage(res.data.fullurl, 'image');
 							});
 						},
@@ -876,13 +1000,13 @@
 							a: 'getUploadMultipart'
 						});
 					}, that)
-					var uploadFileCallBack = function (res, file) {
+					var uploadFileCallBack = function(res, file) {
 						let fileName = res.data.url.split('.');
 						let fileSuffix = fileName[fileName.length - 1];
 						let imgSuffix = ['png', 'jpg', 'gif', 'jpeg', 'bmp'];
 						let audioSuffix = ['mp3', 'mpeg', 'wav', 'acc'];
 						let videoSuffix = ['mp4', 'ogg', 'webm'];
-						
+
 						if (imgSuffix.includes(fileSuffix)) {
 							that.sendMessage(res.data.fullurl, 'image');
 						} else if (audioSuffix.includes(fileSuffix)) {
@@ -890,7 +1014,7 @@
 						} else if (videoSuffix.includes(fileSuffix)) {
 							that.sendMessage(res.data.fullurl, 'video');
 						} else {
-							let fileSize = file.size ? (file.size / 1024).toFixed(2):0
+							let fileSize = file.size ? (file.size / 1024).toFixed(2) : 0
 							if (fileSize > 0) {
 								fileSize = fileSize > 1024 ? (fileSize / 1024).toFixed(2) + 'Mb' : fileSize + 'Kb'
 							}
@@ -901,25 +1025,25 @@
 							}, 'file');
 						}
 					}
-					
+
 					// #ifdef H5
 					uni.chooseFile({
 						count: 1,
-						success (res) {
+						success(res) {
 							that.upload(res.tempFiles[0], uploadFileCallBack);
 						},
 						fail: () => {}
 					})
 					// #endif
-					
+
 					// #ifndef H5
 					uni.chooseVideo({
 						count: 1,
 						sourceType: ['camera', 'album'],
-						success: function (res) {
+						success: function(res) {
 							let path = {
 								path: res.tempFilePath,
-								size: res.size ? res.size:0
+								size: res.size ? res.size : 0
 							}
 							that.upload(path, uploadFileCallBack);
 						},
@@ -932,12 +1056,12 @@
 					})
 				}
 			},
-			upload: function (path, callBack) {
+			upload: function(path, callBack) {
 				var that = this
 				uni.showLoading({
 					title: '正在上传...'
 				})
-				
+
 				const uploadTask = uni.uploadFile({
 					url: that.ws.buildUrl('upload', that.ws.initializeData.tokens.im_tourists_token),
 					// #ifdef APP-PLUS || H5
@@ -971,7 +1095,7 @@
 						uni.hideLoading()
 					}
 				});
-				
+
 				// #ifndef APP-PLUS
 				uploadTask.onProgressUpdate((res) => {
 					uni.showLoading({
@@ -980,7 +1104,7 @@
 				});
 				// #endif
 			},
-			imMessageBlur: function () {
+			imMessageBlur: function() {
 				this.imMessageFocusBool = false
 				if (!this.showTool) {
 					this.writeBottom = 0;
@@ -988,14 +1112,14 @@
 				}
 				this.inputStatus(false)
 			},
-			imMessageFocus: function (e) {
+			imMessageFocus: function(e) {
 				this.clickTool(false)
-				
+
 				let writeHeight = () => {
 					this.writeBottom = e.detail.height || 0
 					this.writeHeight = (parseInt(this.writeBottom) + defaultWriteHeight);
 				}
-				
+
 				if (this.ws.userPlatform == 'ios') {
 					// #ifdef APP-PLUS
 					uni.onKeyboardHeightChange(res => {
@@ -1004,19 +1128,19 @@
 						uni.offKeyboardHeightChange(() => {})
 					})
 					// #endif
-					
+
 					// #ifndef APP-PLUS
 					writeHeight()
 					// #endif
 				} else {
 					writeHeight()
 				}
-				
+
 				this.scrollIntoFooter(0, 99993)
 			},
-			imMessageInput: function (e) {
+			imMessageInput: function(e) {
 				cursor = e.detail.cursor || e.detail.value.length
-				
+
 				// 从光标位置向前搜索@和空格符号
 				let atSearchIdx = -1;
 				let beforeCursor = e.detail.value.substr(0, cursor)
@@ -1027,22 +1151,22 @@
 						atSearchIdx = i
 					}
 				}
-				if(atSearchIdx !== -1) {
+				if (atSearchIdx !== -1) {
 					this.atUser(beforeCursor.substr(atSearchIdx + 1));
 				} else if (this.showAtSelect) {
 					this.hideAtUser()
 				}
-				
+
 				this.imMessage = e.detail.value;
 				this.imMessageChange()
 				this.inputStatus()
 			},
-			atUser: function (keywords = '') {
+			atUser: function(keywords = '') {
 				var that = this
 				that.showAtSelect = true
 				that.maskShow = true
 				that.maskStyle = 'background:rgba(0, 0, 0, 0.1)';
-				
+
 				// 获得输入框高度
 				let imWrite = uni.createSelectorQuery().select('.im-write');
 				imWrite.fields({
@@ -1050,8 +1174,8 @@
 				}, data => {
 					that.imWriteHeight = data.height
 				}).exec()
-				
-				that.ws.pageFun(function(){
+
+				that.ws.pageFun(function() {
 					that.ws.send({
 						c: 'Message',
 						a: 'groupChatAt',
@@ -1063,7 +1187,7 @@
 					});
 				}, that)
 			},
-			hideAtUser: function () {
+			hideAtUser: function() {
 				this.maskShow = false
 				this.maskStyle = ''
 				this.showAtSelect = false
@@ -1073,9 +1197,10 @@
 				var that = this
 				that.showSendButton = (that.imMessage == '') ? false : true;
 			},
-			inputStatus: function (type = true) {
+			inputStatus: function(type = true) {
 				var that = this
-				if (that.info.type == 'single' && parseInt(this.ws.initializeData.config.user_config.input_status) == 1) {
+				if (that.info.type == 'single' && parseInt(this.ws.initializeData.config.user_config.input_status) ==
+					1) {
 					if (type && !that.inputStatusNotice) {
 						var message = {
 							c: 'Message',
@@ -1093,22 +1218,24 @@
 								'end_input_session_id': that.info.id
 							}
 						}
-						that.inputStatusNotice= false
+						that.inputStatusNotice = false
 					}
-					that.ws.pageFun(function(){
+					that.ws.pageFun(function() {
 						that.ws.send(message);
 					}, that)
 				}
 			},
-			scrollIntoFooter: function (timeout = 0, scrollTop = 0) {
+			scrollIntoFooter(timeout = 0, scrollTop = 0) {
 				var that = this
 				if (scrollTop) {
-					setTimeout(function() {
-						that.wrapperScrollTop = (that.wrapperScrollTop >= 99990) ? that.wrapperScrollTop + 200 : scrollTop
+					setTimeout(() => {
+						that.wrapperScrollTop = (that.wrapperScrollTop >= 99990) ? that.wrapperScrollTop + 200 :
+							scrollTop
 					}, timeout)
 					return;
 				}
 				let messageScroll = uni.createSelectorQuery().select('#wrapper');
+				console.log(messageScroll)
 				messageScroll.fields({
 					scrollOffset: true
 				}, data => {
@@ -1122,589 +1249,689 @@
 </script>
 
 <style lang="scss">
-page {
-	background-color: #F5F6F7;
-	overflow: hidden;
-}
-.menu-wrap {
-	display: flex;
-	align-items: center;
-	padding: 12rpx;
-	border-radius: 50%;
-	margin-right: 20rpx;
-	margin-top: -10rpx;
-}
-.navbar-title {
-	display: flex;
-	align-items: center;
-}
-.navbar-title .title-other {
-	font-size: 22rpx;
-	margin-left: 10rpx;
-}
-.title-content {
-	display: block;
-	overflow: hidden;
-	text-overflow:ellipsis;
-	white-space: nowrap;
-	max-width: 300rpx;
-}
-.wrapper {
-	position: relative;
-	overflow: hidden;
-	box-sizing: border-box;
-}
-.wrapper .status {
-	display: flex;
-	width: 100vw;
-	align-items: center;
-	justify-content: center;
-	padding: 32rpx 20rpx;
-}
-
-.wrapper .status text {
-	font-size: 24rpx;
-	display: inline-block;
-	background: #ccc;
-	color: #fff;
-	border-radius: 10rpx;
-	padding: 6rpx 20rpx;
-	line-height: 28rpx;
-}
-.message-item .message-avatar {
-	width: 70rpx;
-	height: 70rpx;
-	border-radius: 10rpx;
-}
-.wrapper .message-item {
-	display: flex;
-	padding: 10px;
-	flex: 1;
-	align-items: flex-start;
-}
-.wrapper .message-item.me {
-	flex-direction: row-reverse;
-	display: flex;
-}
-.chat-record-nickname {
-    color: $--gray;
-    font-size: 24rpx;
-    padding: 4rpx 0;
-}
-.you .chat-record-nickname {
-    text-align: left;
-}
-.me .chat-record-nickname {
-    text-align: right;
-}
-.video-message-box {
-	position: relative;
-	min-height: 400rpx;
-	min-width: 400rpx;
-	overflow: hidden;
-}
-.video-message {
-	width: 400rpx;
-	height: 400rpx;
-}
-.video-message-wx {
-	width: 400rpx;
-	height: 400rpx;
-	position: absolute;
-}
-.video-message-cover {
-	height: 400rpx;
-	width: 400rpx;
-	background: $--black;
-	color: $--white;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-.video-message-cover-play {
-	text-align: center;
-	font-size: 30rpx;
-}
-.voice-duration {
-	font-size: 28rpx;
-}
-.unread-voice {
-	position: absolute;
-	top: 35rpx;
-	right: 8rpx;
-	font-size: 28rpx;
-	color: $--red;
-}
-.voice-message {
-	display: flex;
-}
-.voice-message-img {
-	width: 40rpx;
-	height: 40rpx;
-}
-.audio-message {
-	display: flex;
-	align-items: center;
-	font-size: 30rpx;
-	color: $--gray;
-}
-.audio-message-text {
-	padding-left: 20rpx;
-}
-.message-content-box {
-	position: relative;
-	max-width: 72%;
-	margin: 0 20rpx;
-}
-.wrapper .message-content {
-	padding: 26rpx;
-	font-size: 32rpx;
-	display: block;
-	vertical-align: top;
-	border-radius: 10rpx;
-	word-wrap: break-word;
-	word-break: break-all;
-}
-.wrapper .message-item.me .message-content {
-	color: $--white;
-	background-color: #00b0ff;
-}
-.wrapper .message-item.you .message-content {
-	color: #181818;
-	background-color: #fff;
-}
-.wrapper .message-item .message-content:before {
-	position: absolute;
-	top: 48rpx;
-	display: block;
-	width: 16rpx;
-	height: 12rpx;
-	content: '\00a0';
-	-webkit-transform: rotate(29deg) skew(-35deg);
-	transform: rotate(29deg) skew(-35deg);
-}
-.message-content.hide-nickname:before {
-	top: 30rpx !important;
-}
-.wrapper .message-item.you .message-content:before {
-	left: -6rpx;
-	background-color: #fff;
-}
-
-.wrapper .message-item.me .message-content:before {
-	right: -6rpx;
-	background-color: #00b0ff;
-}
-.wrapper .message-item.me .file-name {
-    color: $--white;
-}
-.wrapper .message-item.me .file-size {
-    color: $--grey;
-}
-.im-message-status {
-	align-self: flex-end;
-    font-size: 12px;
-    color: $--gray;
-}
-.at-select-box {
-	position: relative;
-}
-.at-select-users {
-	position: absolute;
-	background: #FFFFFF;
-	width: 100vw;
-	box-sizing: border-box;
-	border-top-left-radius: 16rpx;
-	border-top-right-radius: 16rpx;
-	z-index: 9992;
-}
-.close-at-select {
-	font-size: 26rpx;
-	float: right;
-	color: #999999;
-	padding: 20rpx;
-}
-.at-select-list {
-	clear: both;
-	max-height: 700rpx;
-}
-.fastim-data-none {
-	text-align: center;
-	font-size: 30rpx;
-	line-height: 80rpx;
-	height: 80rpx;
-	color: #999999;
-}
-.at-select-item {
-	display: flex;
-	align-items: center;
-	height: 90rpx;
-	padding-left: 20rpx;
-}
-.at-select-item image {
-	height: 60rpx;
-	width: 60rpx;
-	border-radius: 16rpx;
-}
-.at-select-item text {
-	padding-left: 10rpx;
-}
-.im-write {
-	background-color: #f7f7f7;
-	box-shadow: 0 -2rpx 0 #e5e5e5;
-	width: 100vw;
-	padding: 8rpx 0;
-	display: flex;
-	align-items: center;
-	position: fixed;
-	bottom: 0rpx;
-	box-sizing: border-box;
-	z-index: 9993;
-}
-.write-textarea {
-	flex: 7;
-	background-color: $--white;
-}
-.voice-input {
-	height: 76rpx;
-	border-radius: 8rpx;
-	padding: 18rpx;
-	line-height: 40rpx;
-	font-size: 30rpx;
-	color: #181818;
-	text-align: center;
-}
-.voice-input-hover {
-	background: #EBEBEB;
-}
-.recorder-box {
-	position: fixed;
-	z-index: 9999;
-	bottom: 410rpx;
-	left: calc(25% - 110rpx);
-}
-.recorder-del {
-	
-}
-.recorder-img {
-	display: block;
-	width: 90rpx;
-	height: 90rpx;
-	margin: 0 auto;
-}
-.recorder-text {
-	padding-top: 10rpx;
-	font-size: 28rpx;
-	color: #EC3A4E;
-	text-align: center;
-}
-.recorder {
-	position: fixed;
-	bottom: 380rpx;
-	width: 220rpx;
-	left: calc(50% - 110rpx);
-	background: rgba(0, 0, 0, 0.2);
-	border-radius: 20rpx;
-}
-.recorder-title {
-	color: #fff;
-	width: 100%;
-	text-align: center;
-	padding: 30rpx;
-	padding-bottom: 0;
-	font-weight: bold;
-}
-.recording {
-	display: block;
-	width: 120rpx;
-	height: auto;
-	margin: 0 auto;
-}
-.recorder-content {
-	font-size: 26rpx;
-	text-align: center;
-	color: $--white;
-	padding-bottom: 20rpx;
-	margin-top: -6rpx;
-}
-.im-message {
-	max-height: 150rpx;
-	width: calc(100% - 36rpx);
-	outline: none;
-	border: none;
-	resize: none;
-	border-radius: 8rpx;
-	padding: 18rpx;
-	-webkit-user-select: text !important;
-	-moz-user-select: text !important;
-	-ms-user-select: text !important;
-	user-select: text !important;
-	line-height: 40rpx;
-	font-size: 32rpx;
-	color: #181818;
-}
-.im-message.disabled {
-	background-color: $--bg-color;
-	color: $--gray;
-	font-size: 28rpx;
-	text-align: center;
-}
-.im-message::-webkit-scrollbar {
-	width: 4rpx;
-}
-.im-message::-webkit-scrollbar-track {
-	background-color: $--white;
-	-webkit-border-radius: 2em;
-	-moz-border-radius: 2em;
-	border-radius: 2em;
-}
-.im-message::-webkit-scrollbar-thumb {
-	background-color: #e6e6e6;
-	-webkit-border-radius: 2em;
-	-moz-border-radius: 2em;
-	border-radius: 2em;
-}
-.write-right {
-	flex: 2;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	padding-right: 12rpx;
-}
-.im-write .toolbar-icon {
-	display: inline-block;
-	cursor: pointer;
-	vertical-align: middle;
-	width: 56rpx;
-	height: 56rpx;
-	content: '';
-	margin-left: 16rpx;
-}
-.toolbar-icon.voice {
-	margin: 0 12rpx;
-}
-.send-btn {
-	margin-left: 24rpx;
-	background: #00b0ff;
-	color: #fff;
-	border-color: #00b0ff;
-	outline: none;
-	padding: 10rpx 20rpx;
-	font-size: 24rpx;
-	line-height: 1.5;
-	border-radius: 6rpx;
-}
-.send-btn::after {
-	border: none;
-}
-.send-btn-hover {
-	background-color: #19baff;
-}
-.footer-tool {
-	position: fixed;
-	bottom: 0rpx;
-	background-color: #fff;
-	box-shadow: 0 8rpx 10rpx rgba(0, 0, 0, .1);
-	width: 100%;
-	animation: show-footer-tool .1s;
-	animation-fill-mode: forwards;
-	padding: 10rpx;
-	box-sizing: border-box;
-	height: 170px;
-	overflow-y: auto;
-	overflow-x: hidden;
-}
-@keyframes show-footer-tool {
-	from {
-		height: 0;
+	page {
+		background-color: #F5F6F7;
+		overflow: hidden;
 	}
 
-	to {
+	.menu-wrap {
+		display: flex;
+		align-items: center;
+		padding: 12rpx;
+		border-radius: 50%;
+		margin-right: 20rpx;
+		margin-top: -10rpx;
+	}
+
+	.navbar-title {
+		display: flex;
+		align-items: center;
+	}
+
+	.navbar-title .title-other {
+		font-size: 22rpx;
+		margin-left: 10rpx;
+	}
+
+	.title-content {
+		display: block;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		max-width: 300rpx;
+	}
+
+	.wrapper {
+		position: relative;
+		overflow: hidden;
+		box-sizing: border-box;
+	}
+
+	.wrapper .status {
+		display: flex;
+		width: 100vw;
+		align-items: center;
+		justify-content: center;
+		padding: 32rpx 20rpx;
+	}
+
+	.wrapper .status text {
+		font-size: 24rpx;
+		display: inline-block;
+		background: #ccc;
+		color: #fff;
+		border-radius: 10rpx;
+		padding: 6rpx 20rpx;
+		line-height: 28rpx;
+	}
+
+	.message-item .message-avatar {
+		width: 70rpx;
+		height: 70rpx;
+		border-radius: 10rpx;
+	}
+
+	.wrapper .message-item {
+		display: flex;
+		padding: 10px;
+		flex: 1;
+		align-items: flex-start;
+	}
+
+	.wrapper .message-item.me {
+		flex-direction: row-reverse;
+		display: flex;
+	}
+
+	.chat-record-nickname {
+		color: $--gray;
+		font-size: 24rpx;
+		padding: 4rpx 0;
+	}
+
+	.you .chat-record-nickname {
+		text-align: left;
+	}
+
+	.me .chat-record-nickname {
+		text-align: right;
+	}
+
+	.video-message-box {
+		position: relative;
+		min-height: 400rpx;
+		min-width: 400rpx;
+		overflow: hidden;
+	}
+
+	.video-message {
+		width: 400rpx;
+		height: 400rpx;
+	}
+
+	.video-message-wx {
+		width: 400rpx;
+		height: 400rpx;
+		position: absolute;
+	}
+
+	.video-message-cover {
+		height: 400rpx;
+		width: 400rpx;
+		background: $--black;
+		color: $--white;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.video-message-cover-play {
+		text-align: center;
+		font-size: 30rpx;
+	}
+
+	.voice-duration {
+		font-size: 28rpx;
+	}
+
+	.unread-voice {
+		position: absolute;
+		top: 35rpx;
+		right: 8rpx;
+		font-size: 28rpx;
+		color: $--red;
+	}
+
+	.voice-message {
+		display: flex;
+	}
+
+	.voice-message-img {
+		width: 40rpx;
+		height: 40rpx;
+	}
+
+	.audio-message {
+		display: flex;
+		align-items: center;
+		font-size: 30rpx;
+		color: $--gray;
+	}
+
+	.audio-message-text {
+		padding-left: 20rpx;
+	}
+
+	.message-content-box {
+		position: relative;
+		max-width: 72%;
+		margin: 0 20rpx;
+	}
+
+	.wrapper .message-content {
+		padding: 26rpx;
+		font-size: 32rpx;
+		display: block;
+		vertical-align: top;
+		border-radius: 10rpx;
+		word-wrap: break-word;
+		word-break: break-all;
+	}
+
+	.wrapper .message-item.me .message-content {
+		color: $--white;
+		background-color: #00b0ff;
+	}
+
+	.wrapper .message-item.you .message-content {
+		color: #181818;
+		background-color: #fff;
+	}
+
+	.wrapper .message-item .message-content:before {
+		position: absolute;
+		top: 48rpx;
+		display: block;
+		width: 16rpx;
+		height: 12rpx;
+		content: '\00a0';
+		-webkit-transform: rotate(29deg) skew(-35deg);
+		transform: rotate(29deg) skew(-35deg);
+	}
+
+	.message-content.hide-nickname:before {
+		top: 30rpx !important;
+	}
+
+	.wrapper .message-item.you .message-content:before {
+		left: -6rpx;
+		background-color: #fff;
+	}
+
+	.wrapper .message-item.me .message-content:before {
+		right: -6rpx;
+		background-color: #00b0ff;
+	}
+
+	.wrapper .message-item.me .file-name {
+		color: $--white;
+	}
+
+	.wrapper .message-item.me .file-size {
+		color: $--grey;
+	}
+
+	.im-message-status {
+		align-self: flex-end;
+		font-size: 12px;
+		color: $--gray;
+	}
+
+	.at-select-box {
+		position: relative;
+	}
+
+	.at-select-users {
+		position: absolute;
+		background: #FFFFFF;
+		width: 100vw;
+		box-sizing: border-box;
+		border-top-left-radius: 16rpx;
+		border-top-right-radius: 16rpx;
+		z-index: 9992;
+	}
+
+	.close-at-select {
+		font-size: 26rpx;
+		float: right;
+		color: #999999;
+		padding: 20rpx;
+	}
+
+	.at-select-list {
+		clear: both;
+		max-height: 700rpx;
+	}
+
+	.fastim-data-none {
+		text-align: center;
+		font-size: 30rpx;
+		line-height: 80rpx;
+		height: 80rpx;
+		color: #999999;
+	}
+
+	.at-select-item {
+		display: flex;
+		align-items: center;
+		height: 90rpx;
+		padding-left: 20rpx;
+	}
+
+	.at-select-item image {
+		height: 60rpx;
+		width: 60rpx;
+		border-radius: 16rpx;
+	}
+
+	.at-select-item text {
+		padding-left: 10rpx;
+	}
+
+	.im-write {
+		background-color: #f7f7f7;
+		box-shadow: 0 -2rpx 0 #e5e5e5;
+		width: 100vw;
+		padding: 8rpx 0;
+		display: flex;
+		align-items: center;
+		position: fixed;
+		bottom: 0rpx;
+		box-sizing: border-box;
+		z-index: 9993;
+	}
+
+	.write-textarea {
+		flex: 7;
+		background-color: $--white;
+	}
+
+	.voice-input {
+		height: 76rpx;
+		border-radius: 8rpx;
+		padding: 18rpx;
+		line-height: 40rpx;
+		font-size: 30rpx;
+		color: #181818;
+		text-align: center;
+	}
+
+	.voice-input-hover {
+		background: #EBEBEB;
+	}
+
+	.recorder-box {
+		position: fixed;
+		z-index: 9999;
+		bottom: 410rpx;
+		left: calc(25% - 110rpx);
+	}
+
+	.recorder-del {}
+
+	.recorder-img {
+		display: block;
+		width: 90rpx;
+		height: 90rpx;
+		margin: 0 auto;
+	}
+
+	.recorder-text {
+		padding-top: 10rpx;
+		font-size: 28rpx;
+		color: #EC3A4E;
+		text-align: center;
+	}
+
+	.recorder {
+		position: fixed;
+		bottom: 380rpx;
+		width: 220rpx;
+		left: calc(50% - 110rpx);
+		background: rgba(0, 0, 0, 0.2);
+		border-radius: 20rpx;
+	}
+
+	.recorder-title {
+		color: #fff;
+		width: 100%;
+		text-align: center;
+		padding: 30rpx;
+		padding-bottom: 0;
+		font-weight: bold;
+	}
+
+	.recording {
+		display: block;
+		width: 120rpx;
+		height: auto;
+		margin: 0 auto;
+	}
+
+	.recorder-content {
+		font-size: 26rpx;
+		text-align: center;
+		color: $--white;
+		padding-bottom: 20rpx;
+		margin-top: -6rpx;
+	}
+
+	.im-message {
+		max-height: 150rpx;
+		width: calc(100% - 36rpx);
+		outline: none;
+		border: none;
+		resize: none;
+		border-radius: 8rpx;
+		padding: 18rpx;
+		-webkit-user-select: text !important;
+		-moz-user-select: text !important;
+		-ms-user-select: text !important;
+		user-select: text !important;
+		line-height: 40rpx;
+		font-size: 32rpx;
+		color: #181818;
+	}
+
+	.im-message.disabled {
+		background-color: $--bg-color;
+		color: $--gray;
+		font-size: 28rpx;
+		text-align: center;
+	}
+
+	.im-message::-webkit-scrollbar {
+		width: 4rpx;
+	}
+
+	.im-message::-webkit-scrollbar-track {
+		background-color: $--white;
+		-webkit-border-radius: 2em;
+		-moz-border-radius: 2em;
+		border-radius: 2em;
+	}
+
+	.im-message::-webkit-scrollbar-thumb {
+		background-color: #e6e6e6;
+		-webkit-border-radius: 2em;
+		-moz-border-radius: 2em;
+		border-radius: 2em;
+	}
+
+	.write-right {
+		flex: 2;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding-right: 12rpx;
+	}
+
+	.im-write .toolbar-icon {
+		display: inline-block;
+		cursor: pointer;
+		vertical-align: middle;
+		width: 56rpx;
+		height: 56rpx;
+		content: '';
+		margin-left: 16rpx;
+	}
+
+	.toolbar-icon.voice {
+		margin: 0 12rpx;
+	}
+
+	.send-btn {
+		margin-left: 24rpx;
+		background: #00b0ff;
+		color: #fff;
+		border-color: #00b0ff;
+		outline: none;
+		padding: 10rpx 20rpx;
+		font-size: 24rpx;
+		line-height: 1.5;
+		border-radius: 6rpx;
+	}
+
+	.send-btn::after {
+		border: none;
+	}
+
+	.send-btn-hover {
+		background-color: #19baff;
+	}
+
+	.footer-tool {
+		position: fixed;
+		bottom: 0rpx;
+		background-color: #fff;
+		box-shadow: 0 8rpx 10rpx rgba(0, 0, 0, .1);
+		width: 100%;
+		animation: show-footer-tool .1s;
+		animation-fill-mode: forwards;
+		padding: 10rpx;
+		box-sizing: border-box;
 		height: 170px;
+		overflow-y: auto;
+		overflow-x: hidden;
 	}
-}
-.footer-tool .emoji-img {
-	display: inline-block;
-	height: 72rpx;
-	width: 72rpx;
-	padding: 10rpx;
-}
-.footer-tool .emoji-img image{
-	height: 52rpx;
-	width: 52rpx;
-}
-.footer-tool .emoji-img-hover {
-	background: #F2F3F4;
-}
-.toolbar {
-	display: flex;
-	flex-wrap: wrap;
-	padding: 10rpx;
-}
-.toolbar-item {
-	width: 25%;
-	display: flex;
-	flex-wrap: wrap;
-	align-items: center;
-	justify-content: center;
-	padding: 10rpx;
-}
-.toolbar-item-hover {
-	background-color: #F2F3F4;
-}
-.toolbar-item image {
-	width: 50rpx;
-	height: 50rpx;
-	padding: 10rpx 0;
-}
-.toolbar-item view {
-	display: block;
-	width: 100%;
-	font-size: 28rpx;
-	line-height: 34rpx;
-	text-align: center;
-}
-.fastim-color-blue {
-	color: $--blue;
-}
-.fastim-color-red {
-	color: $--red;
-}
-.session-user-input-status-box {
-	position: relative;
-}
-.session-user-input-status {
-	position: absolute;
-    color: $--blue;
-    width: 220rpx;
-	padding-left: 12rpx;
-}
-.link-popup-box {
-	padding: 80rpx 20rpx 20rpx 20rpx;
-	text-align: center;
-	font-size: 28rpx;
-}
-.link-popup-title {
-	font-weight: bold;
-	font-size: 30rpx;
-}
-.link-popup-url {
-	display: block;
-	width: 90%;
-	margin: 0 auto;
-	color: $--blue;
-	padding: 20rpx 0;
-	word-break: break-all;
-	word-wrap: break-word;
-}
-.link-popup-tis {
-	color: $--gray;
-}
-.link-popup-buttons {
-	padding-top: 20rpx;
-	display: flex;
-	height: 160rpx;
-	align-items: center;
-	justify-content: center;
-}
-.link-popup-button-item {
-	margin-right: 40rpx;
-}
-.link-popup-url-button {
-	display: inline-block;
-	height: 70rpx;
-	line-height: 70rpx;
-	padding: 0 80rpx;
-}
-.wrapper .message-item.me .link-message {
-	color: $--red;
-}
-.message-longpress-action {
-	position: fixed;
-	top: 400rpx;
-	left: 200rpx;
-	background: #262626;
-	color: #BDBDBD;
-	font-size: 28rpx;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	z-index: 9999;
-	border-radius: 16rpx;
-}
-.longpress-action-item {
-	display: block;
-	padding: 20rpx 24rpx;
-	border-left: 1px solid #5E5E5E;
-}
-.longpress-action-item:first-child{
-	border: none;
-}
-.longpress-action-pin {
-	position: fixed;
-	top: 466rpx;
-	left: 219rpx;
-}
-.mask {
-	z-index: 9990;
-	position: fixed;
-	top: 0;
-	width: 100vw;
-	height: 100vh;
-}
-.reply-list {
-	padding: 0 20rpx;
-}
-.reply-item {
-	display: block;
-	font-size: 28rpx;
-	border-bottom: 1px solid #F2F2f2;
-	padding: 20rpx 0;
-	overflow:hidden;
-	text-overflow:ellipsis;
-	display:-webkit-box;
-	-webkit-box-orient:vertical;
-	-webkit-line-clamp:2;
-}
-.reply-item:last-child {
-	border-bottom: none;
-}
-.group-notice-title {
-	padding: 30rpx;
-	padding-bottom: 20rpx;
-	font-size: 30rpx;
-	font-weight: bold;
-}
-.group-notice-content {
-	padding: 0 30rpx;
-}
-.group-notice-button button {
-	width: 280rpx;
-	display: block;
-	margin: 20rpx auto;
-}
-.im-group-notice-imgs {
-    display: flex;
-	flex-wrap: wrap;
-	padding-top: 20rpx;
-}
-.im-group-notice-imgs image {
-	width: 130rpx;
-	height: 130rpx;
-}
-.group-notice-footer {
-	font-size: 27rpx;
-	color: $--gray;
-	padding-top: 6rpx;
-	padding-bottom: 10rpx;
-	display: flex;
-	align-items: center;
-	margin-top: 10rpx;
-}
-.footer-createtime {
-	padding-left: 10rpx;
-}
-.notice-item-footer-text {
-	padding-left: 26rpx;
-}
+
+	@keyframes show-footer-tool {
+		from {
+			height: 0;
+		}
+
+		to {
+			height: 170px;
+		}
+	}
+
+	.footer-tool .emoji-img {
+		display: inline-block;
+		height: 72rpx;
+		width: 72rpx;
+		padding: 10rpx;
+	}
+
+	.footer-tool .emoji-img image {
+		height: 52rpx;
+		width: 52rpx;
+	}
+
+	.footer-tool .emoji-img-hover {
+		background: #F2F3F4;
+	}
+
+	.toolbar {
+		display: flex;
+		flex-wrap: wrap;
+		padding: 10rpx;
+	}
+
+	.toolbar-item {
+		width: 25%;
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: center;
+		padding: 10rpx;
+	}
+
+	.toolbar-item-hover {
+		background-color: #F2F3F4;
+	}
+
+	.toolbar-item image {
+		width: 50rpx;
+		height: 50rpx;
+		padding: 10rpx 0;
+	}
+
+	.toolbar-item view {
+		display: block;
+		width: 100%;
+		font-size: 28rpx;
+		line-height: 34rpx;
+		text-align: center;
+	}
+
+	.fastim-color-blue {
+		color: $--blue;
+	}
+
+	.fastim-color-red {
+		color: $--red;
+	}
+
+	.session-user-input-status-box {
+		position: relative;
+	}
+
+	.session-user-input-status {
+		position: absolute;
+		color: $--blue;
+		width: 220rpx;
+		padding-left: 12rpx;
+	}
+
+	.link-popup-box {
+		padding: 80rpx 20rpx 20rpx 20rpx;
+		text-align: center;
+		font-size: 28rpx;
+	}
+
+	.link-popup-title {
+		font-weight: bold;
+		font-size: 30rpx;
+	}
+
+	.link-popup-url {
+		display: block;
+		width: 90%;
+		margin: 0 auto;
+		color: $--blue;
+		padding: 20rpx 0;
+		word-break: break-all;
+		word-wrap: break-word;
+	}
+
+	.link-popup-tis {
+		color: $--gray;
+	}
+
+	.link-popup-buttons {
+		padding-top: 20rpx;
+		display: flex;
+		height: 160rpx;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.link-popup-button-item {
+		margin-right: 40rpx;
+	}
+
+	.link-popup-url-button {
+		display: inline-block;
+		height: 70rpx;
+		line-height: 70rpx;
+		padding: 0 80rpx;
+	}
+
+	.wrapper .message-item.me .link-message {
+		color: $--red;
+	}
+
+	.message-longpress-action {
+		position: fixed;
+		top: 400rpx;
+		left: 200rpx;
+		background: #262626;
+		color: #BDBDBD;
+		font-size: 28rpx;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		z-index: 9999;
+		border-radius: 16rpx;
+	}
+
+	.longpress-action-item {
+		display: block;
+		padding: 20rpx 24rpx;
+		border-left: 1px solid #5E5E5E;
+	}
+
+	.longpress-action-item:first-child {
+		border: none;
+	}
+
+	.longpress-action-pin {
+		position: fixed;
+		top: 466rpx;
+		left: 219rpx;
+	}
+
+	.mask {
+		z-index: 9990;
+		position: fixed;
+		top: 0;
+		width: 100vw;
+		height: 100vh;
+	}
+
+	.reply-list {
+		padding: 0 20rpx;
+	}
+
+	.reply-item {
+		display: block;
+		font-size: 28rpx;
+		border-bottom: 1px solid #F2F2f2;
+		padding: 20rpx 0;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 2;
+	}
+
+	.reply-item:last-child {
+		border-bottom: none;
+	}
+
+	.group-notice-title {
+		padding: 30rpx;
+		padding-bottom: 20rpx;
+		font-size: 30rpx;
+		font-weight: bold;
+	}
+
+	.group-notice-content {
+		padding: 0 30rpx;
+	}
+
+	.group-notice-button button {
+		width: 280rpx;
+		display: block;
+		margin: 20rpx auto;
+	}
+
+	.im-group-notice-imgs {
+		display: flex;
+		flex-wrap: wrap;
+		padding-top: 20rpx;
+	}
+
+	.im-group-notice-imgs image {
+		width: 130rpx;
+		height: 130rpx;
+	}
+
+	.group-notice-footer {
+		font-size: 27rpx;
+		color: $--gray;
+		padding-top: 6rpx;
+		padding-bottom: 10rpx;
+		display: flex;
+		align-items: center;
+		margin-top: 10rpx;
+	}
+
+	.footer-createtime {
+		padding-left: 10rpx;
+	}
+
+	.notice-item-footer-text {
+		padding-left: 26rpx;
+	}
 </style>

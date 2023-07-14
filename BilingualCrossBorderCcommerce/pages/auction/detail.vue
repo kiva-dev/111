@@ -35,7 +35,12 @@
 			<view class="detail-price">
 				<view class="detail-price-left">
 					<view class="detail-price-new">
-						<image src="/static/images/kbrick/diamond.png">{{shopCont.auction_price}}
+						<view class="left">
+							<image src="/static/images/kbrick/diamond.png">
+								{{shopCont.auction_price}}
+							<text>(RM{{shopCont.auction_price}})</text>
+						</view>
+						<view class="right">RM{{shopCont.price}}</view>
 					</view>
 					<view class="detail-price-time" v-if="shopCont.check_status==3||shopCont.check_status==4">
 						{{$u.timeFormat(shopCont.end_time, 'yyyy/mm/dd hh:MM:ss')}} {{$t('auction.detail.yijs')}}
@@ -48,15 +53,7 @@
 							format="HH:mm:ss"></u-count-down>
 					</view>
 				</view>
-				<view class="detail-price-right">
-					<view class="detail-price-old">RM{{shopCont.price}}</view>
-					<view class="imgCont">
-						<text>RM1/</text>
-						<view class="headImgBox">
-							<image src="/static/images/kbrick/diamond.png"></image>
-						</view>
-					</view>
-				</view>
+				
 				<view class="detail-price-time" v-if="shopCont.check_status==3||shopCont.check_status==4">
 					{{$u.timeFormat(shopCont.end_time, 'yyyy/mm/dd hh:MM:ss')}} {{$t('auction.detail.yijs')}}
 				</view>
@@ -920,7 +917,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			},
 			//预览图片
 			previewImgList() {
-				this.showImages=true
+				this.showImages = true
 			},
 			//获取评论
 			getCommentList() {
@@ -1956,13 +1953,30 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			align-items: center;
 
 			.detail-price-new {
-				font-size: 40rpx;
-				font-weight: 700;
-				color: rgb(255, 255, 255);
+				
+				.left{
+					font-size: 40rpx;
+					font-weight: 700;
+					color: rgb(255, 255, 255);
+					display: flex;
+					align-items: flex-end;
+					
+					image {
+						width: 40rpx;
+						height: 40rpx;
+					}
+					
+					text {
+						font-size: 20rpx;
+						font-weight: 100;
+						margin-left: 8rpx;
+					}
+				}
 
-				image {
-					width: 24rpx;
-					height: 24rpx;
+				.right{
+					font-size: 24rpx;
+					color: rgb(248, 248, 248);
+					text-decoration: line-through;
 				}
 			}
 		}
@@ -2008,7 +2022,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 		.detail-price-time {
 			display: flex;
-			font-size: 32rpx;
+			font-size: 28rpx;
 			color: rgb(255, 255, 255);
 			display: flex;
 			align-items: center;

@@ -215,11 +215,17 @@
 							<view>{{item.stage_num}}{{$t('shop.qi')}}</view>
 						</view>
 					</view>
+
 					<view class="new-list-item-right" v-if="item.check_status!=3 && item.check_status!=4">
 						<view class="new-list-item-right-txt">{{item.goods_name}}</view>
+
 						<view class="new-list-item-right-tags">
+							<view class="bonus">
+								<image src="/static/images/new-index/$.png" class="bonus-img"></image>
+								<view class="bonus-info">10% bonus available</view>
+							</view>
 							<block v-for="(data,index) in item.tags" :key="data.tag_id">
-								<image :src="data.image"></image>
+								<image :src="data.image" class="tagimg"></image>
 							</block>
 						</view>
 
@@ -238,11 +244,12 @@
 							</view>
 						</view>
 
+
+
 						<view class="new-list-item-right-jd">
 							<view class="new-list-item-right-jd-data">
-								<view>{{(item.finish_rate*100).toFixed(0)}}%</view>
-								<image src="../../static/images/new-index/select-jd.png"
-									:style="`width: ${(item.finish_rate*100).toFixed(0)}%;`"></image>
+								<progress class="progress" :percent="(item.finish_rate*100).toFixed(0)" stroke-width="9"
+									activeColor="#1DD181" backgroundColor="#EBEBEB" />
 							</view>
 							<view class="new-list-item-right-jd-auth">
 								<block v-for="img in item.new_auction_avatar">
@@ -253,16 +260,13 @@
 
 						<view class="new-list-item-btm">
 							<view class="new-list-item-btm-price">
-								<view class="new">
-									<image src="/static/images/kbrick/diamond.png"></image>
-									<span>{{item.auction_price}}</span>
-								</view>
 								<view class="old">
 									<view class="old_price">RM{{item.price}}</view>
-									<view class="zs">
-										<text>RM1/</text>
-										<image src="/static/images/kbrick/diamond.png"></image>
-									</view>
+								</view>
+								<view class="new">
+									<image src="/static/images/kbrick/diamond.png"></image>
+									<span>{{item.auction_price}} <text
+											style="font-size: 16rpx;font-weight: 100;;color: rgb(153, 153, 153);margin-left: 16rpx;">(RM{{item.auction_price}})</text></span>
 								</view>
 							</view>
 
@@ -323,6 +327,11 @@
 						<image :src="item.image" class="info-img"></image>
 						<view class="info-tit">{{item.goods_name}}</view>
 
+						<view class="bonus-two">
+							<image src="/static/images/new-index/$.png" class="bonus-img"></image>
+							<view class="bonus-info">10% bonus available</view>
+						</view>
+
 						<view class="info-tags">
 							<view class="info-tag">
 								<image src="/static/images/new-index/xx.png"></image>
@@ -339,24 +348,21 @@
 						</view>
 
 						<view class="info-jd">
-							<image src="/static/images/new-index/select-jd.png"
-								:style="`width: ${(item.finish_rate*100).toFixed(0)}%;`"></image>
-							<view>{{(item.finish_rate*100).toFixed(0)}}%</view>
+							<progress class="progress" :percent="(item.finish_rate*100).toFixed(0)" stroke-width="9"
+								activeColor="#1DD181" backgroundColor="#EBEBEB" />
 						</view>
 
 						<view class="info-btm">
 							<view class="info-price">
-								<view class="new">
-									<image src="/static/images/kbrick/diamond.png"></image>
-									<span>{{item.auction_price}}</span>
-								</view>
-								<!-- <view class="old">RM{{item.price}}</view> -->
 								<view class="old">
 									<view class="old_price">RM{{item.price}}</view>
-									<view class="zs">
-										<text>RM1/</text>
-										<image src="/static/images/kbrick/diamond.png"></image>
-									</view>
+								</view>
+								<view class="new">
+									<image src="/static/images/kbrick/diamond.png"></image>
+									<span>{{item.auction_price}}
+										<text
+											style="font-size: 16rpx;font-weight: 100;;color: rgb(153, 153, 153);margin-left: 16rpx;">(RM{{item.auction_price}})</text>
+									</span>
 								</view>
 							</view>
 
@@ -375,24 +381,27 @@
 					<image :src="item.image" class="product_img"></image>
 					<view class="product_txt">{{item.goods_name}}</view>
 
+					<view class="bonus-two">
+						<image src="/static/images/new-index/$.png" class="bonus-img"></image>
+						<view class="bonus-info">10% bonus available</view>
+					</view>
+
+					<view class="info_jd">
+						<progress class="progress" :percent="(item.finish_rate*100).toFixed(0)" stroke-width="9"
+							activeColor="#1DD181" backgroundColor="#EBEBEB" />
+					</view>
+
 					<view class="info">
 						<view class="info-left">
-							<view class="info_jd">
-								<image src="/static/images/new-index/select-jd.png"
-									:style="`width: ${(item.finish_rate*100).toFixed(0)}%;`"></image>
-								<view>{{(item.finish_rate*100).toFixed(0)}}%</view>
+							<view class="old">
+								<view class="old_price">RM{{item.price}}</view>
 							</view>
-							<view class="info_price">
-								<view class="new">
-									<image src="/static/images/kbrick/diamond.png"></image>
-									<span>{{item.auction_price}}</span>
-								</view>
-								<view class="old">
-									<view class="old_price">RM{{item.price}}</view>
-									<view class="zs">
-										<text>RM1/</text>
-										<image src="/static/images/kbrick/diamond.png"></image>
-									</view>
+
+							<view class="new">
+								<image src="/static/images/kbrick/diamond.png"></image>
+								<span>{{item.auction_price}}</span>
+								<view class="zs">
+									(RM{{item.auction_price}})
 								</view>
 							</view>
 						</view>
@@ -456,10 +465,16 @@
 						</view>
 					</view>
 					<view class="new-list-item-right" v-if="item.check_status!=3 && item.check_status!=4">
+
 						<view class="new-list-item-right-txt">{{item.goods_name}}</view>
+
 						<view class="new-list-item-right-tags">
+							<view class="bonus">
+								<image src="/static/images/new-index/$.png" class="bonus-img"></image>
+								<view class="bonus-info">10% bonus available</view>
+							</view>
 							<block v-for="(data,index) in item.tags" :key="data.tag_id">
-								<image :src="data.image"></image>
+								<image :src="data.image" class="tagimg"></image>
 							</block>
 						</view>
 
@@ -480,15 +495,14 @@
 
 						<view class="new-list-item-btm">
 							<view class="new-list-item-btm-price">
+								<view class="old">
+									<view class="old_price">RM{{item.price}}</view>
+								</view>
 								<view class="new">
 									<image src="/static/images/kbrick/diamond.png"></image>
 									<span>{{item.auction_price}}</span>
-								</view>
-								<view class="old">
-									<view class="old_price">RM{{item.price}}</view>
 									<view class="zs">
-										<text>RM1/</text>
-										<image src="/static/images/kbrick/diamond.png"></image>
+										(RM{{item.auction_price}})
 									</view>
 								</view>
 							</view>
@@ -547,11 +561,17 @@
 			<!--一行双列显示-->
 			<template v-else-if="newSelectId == 2">
 				<view class="new-list-item-two">
-					<view class="info" v-for="(item,i) in newsjingpaiList" :key="i" @click="onJingPai(item)">
+					<view class="info" v-for="(item,i) in newsjingpaiList" :key="i" @click="onJingPai(item)"
+						style="height: 638rpx;">
 						<image :src="item.image" class="info-img"></image>
 						<view class="info-tit">{{item.goods_name}}</view>
 
-						<view class="info-tags">
+						<view class="bonus-two" style="bottom: 200rpx;">
+							<image src="/static/images/new-index/$.png" class="bonus-img"></image>
+							<view class="bonus-info">10% bonus available</view>
+						</view>
+
+						<view class="info-tags" style="bottom: 158rpx;">
 							<view class="info-tag">
 								<image src="../../static/images/new-index/xx.png"></image>
 								<view>{{item.wishing_pool_goods_focus_total}}</view>
@@ -567,19 +587,19 @@
 						</view>
 
 
-						<view class="info-btm">
+						<view class="info-btm" style="bottom: 86rpx;">
 							<view class="info-price">
+								<view class="old">
+									<view class="old_price">RM{{item.price}}</view>
+								</view>
 								<view class="new">
 									<image src="/static/images/kbrick/diamond.png"></image>
 									<span>{{item.auction_price}}</span>
-								</view>
-								<view class="old">
-									<view class="old_price">RM{{item.price}}</view>
 									<view class="zs">
-										<text>RM1/</text>
-										<image src="/static/images/kbrick/diamond.png"></image>
+										(RM{{item.auction_price}})
 									</view>
 								</view>
+
 							</view>
 						</view>
 
@@ -589,7 +609,6 @@
 							<u-count-down :time="item.datetime" format="HH:mm:ss"
 								style="color: rgb(248, 155, 0);"></u-count-down>
 						</view>
-
 					</view>
 				</view>
 			</template>
@@ -598,21 +617,25 @@
 			<template v-else>
 				<view class="new-list-line" v-for="(item,i) in newsjingpaiList" :key="i" @click="onJingPai(item)">
 					<image :src="item.image" class="product_img"></image>
+
 					<view class="product_txt">{{item.goods_name}}</view>
+
+					<view class="bonus-two">
+						<image src="/static/images/new-index/$.png" class="bonus-img"></image>
+						<view class="bonus-info">10% bonus available</view>
+					</view>
 
 					<view class="info">
 						<view class="info-left">
-							<view class="info_price">
-								<view class="new">
-									<image src="/static/images/kbrick/diamond.png"></image>
-									<span>{{item.auction_price}}</span>
-								</view>
-								<view class="old">
-									<view class="old_price">RM{{item.price}}</view>
-									<view class="zs">
-										<text>RM1/</text>
-										<image src="/static/images/kbrick/diamond.png"></image>
-									</view>
+							<view class="old">
+								<view class="old_price">RM{{item.price}}</view>
+							</view>
+
+							<view class="new">
+								<image src="/static/images/kbrick/diamond.png"></image>
+								<span>{{item.auction_price}}</span>
+								<view class="zs">
+									(RM{{item.auction_price}})
 								</view>
 							</view>
 						</view>
@@ -1102,8 +1125,7 @@
 							<text class="zs">{{item.wish_price}}</text>
 						</view>
 						<view class="right">
-							<text>RM1/</text>
-							<image src="/static/images/kbrick/diamond.png" mode=""></image>
+							<text>(RM1{{item.wish_price}})</text>
 						</view>
 					</view>
 
@@ -1842,6 +1864,15 @@
 </script>
 
 <style lang="less" scoped>
+	
+	/deep/.uni-progress-inner-bar {
+		border-radius: 9rpx !important;
+	}
+	
+	/deep/.uni-progress-bar {
+		border-radius: 9rpx !important;
+	}
+	
 	.new-list-item-btm-btn {
 		padding: 6rpx 10rpx;
 		box-sizing: border-box;
@@ -2542,12 +2573,15 @@
 						position: absolute;
 						top: 20rpx;
 						width: 352rpx;
-						font-size: 28rpx;
+						font-size: 24rpx;
 						font-weight: bold;
 						color: rgb(51, 51, 51);
 						overflow: hidden;
 						text-overflow: ellipsis;
-						white-space: nowrap;
+						display: -webkit-box;
+						word-break: break-all;
+						-webkit-box-orient: vertical;
+						-webkit-line-clamp: 2;
 					}
 
 					.product-right-txt {
@@ -2567,22 +2601,39 @@
 
 					.new-list-item-right-tags {
 						position: absolute;
-						top: 64rpx;
+						top: 92rpx;
 						width: 100%;
 						font-size: 16rpx;
 						color: rgb(102, 102, 102);
 						display: flex;
 						align-items: center;
 
-						view {
-							padding: 4rpx 8rpx;
+						.bonus {
+							width: 190rpx;
+							height: 28rpx;
+							display: flex;
+							align-items: center;
 							box-sizing: border-box;
-							border: 1rpx solid rgb(204, 204, 204);
-							border-radius: 4rpx;
-							margin-right: 12rpx;
+							border: 1rpx solid rgb(255, 57, 57);
+							border-radius: 28rpx;
+							margin-right: 8rpx;
+
+							.bonus-img {
+								display: block;
+								width: 28rpx;
+								height: 28rpx;
+								border-radius: 50%;
+							}
+
+							view {
+								font-size: 16rpx;
+								color: rgb(255, 57, 57);
+								white-space: nowrap;
+								margin-left: 4rpx;
+							}
 						}
 
-						image {
+						.tagimg {
 							width: 28rpx;
 							height: 28rpx;
 							border-radius: 50%;
@@ -2592,7 +2643,7 @@
 
 					.new-list-item-right-start {
 						position: absolute;
-						top: 110rpx;
+						top: 132rpx;
 						width: 100%;
 						display: flex;
 						align-items: center;
@@ -2624,7 +2675,7 @@
 
 					.new-list-item-right-jd {
 						position: absolute;
-						top: 146rpx;
+						top: 166rpx;
 						width: 100%;
 						display: flex;
 						align-items: center;
@@ -2632,9 +2683,9 @@
 						.new-list-item-right-jd-data {
 							position: relative;
 							width: 280rpx;
-							height: 32rpx;
-							background: url('/static/images/new-index/jd-bj.png') no-repeat;
-							background-size: 280rpx 32rpx;
+							height: 20rpx;
+							// background: url('/static/images/new-index/jd-bj.png') no-repeat;
+							// background-size: 280rpx 20rpx;
 
 							view {
 								position: absolute;
@@ -2652,8 +2703,8 @@
 								left: 2rpx;
 								transform: translate(0, -50%);
 								width: 228rpx;
-								height: 28rpx;
-								border-radius: 28rpx;
+								height: 18rpx;
+								border-radius: 18rpx;
 								z-index: 1;
 							}
 
@@ -2688,7 +2739,7 @@
 
 					.new-list-item-btm {
 						position: absolute;
-						bottom: 24rpx;
+						bottom: 10rpx;
 						width: 100%;
 						display: flex;
 						align-items: center;
@@ -2700,6 +2751,8 @@
 								font-size: 20rpx;
 								font-weight: bold;
 								color: rgb(255, 57, 57);
+								display: flex;
+								align-items: flex-end;
 
 								image {
 									width: 24rpx;
@@ -2710,6 +2763,13 @@
 									margin-left: 6rpx;
 									font-size: 32rpx;
 								}
+
+								.zs {
+									font-size: 16rpx;
+									font-weight: 400;
+									color: rgb(153, 153, 153);
+								}
+
 							}
 
 							.old {
@@ -2935,9 +2995,9 @@
 				margin: 0 auto;
 
 				.info {
+					position: relative;
 					width: 336rpx;
-					min-height: 524rpx;
-					max-height: 578rpx;
+					height: 638rpx;
 					background: rgb(255, 255, 255);
 					box-shadow: 0px 4rpx 12rpx rgba(198, 198, 198, 0.3);
 					border-radius: 20rpx;
@@ -2956,11 +3016,43 @@
 						color: rgb(51, 51, 51);
 						overflow: hidden;
 						text-overflow: ellipsis;
-						white-space: nowrap;
+						word-break: break-all;
+						display: -webkit-box;
+						-webkit-box-orient: vertical;
+						-webkit-line-clamp: 2;
 						margin: 16rpx auto;
 					}
 
+					.bonus-two {
+						position: absolute;
+						bottom: 188rpx;
+						left: 24rpx;
+						width: 190rpx;
+						height: 28rpx;
+						display: flex;
+						align-items: center;
+						box-sizing: border-box;
+						border: 1rpx solid rgb(255, 57, 57);
+						border-radius: 28rpx;
+
+						image {
+							display: block;
+							width: 28rpx;
+							height: 28rpx;
+						}
+
+						view {
+							font-size: 16rpx;
+							color: rgb(255, 57, 57);
+							white-space: nowrap;
+							margin-left: 4rpx;
+						}
+
+					}
+
 					.info-tags {
+						position: absolute;
+						bottom: 138rpx;
 						min-width: 302rpx;
 						display: flex;
 						align-items: center;
@@ -2992,12 +3084,11 @@
 					}
 
 					.info-jd {
-						position: relative;
+						position: absolute;
+						left: 20rpx;
+						bottom: 100rpx;
 						width: 296rpx;
-						height: 32rpx;
-						background: url('/static/images/new-index/jd-bj.png') no-repeat;
-						background-size: 296rpx 32rpx;
-						margin: 24rpx auto 28rpx auto;
+						height: 20rpx;
 
 						image {
 							position: absolute;
@@ -3005,7 +3096,7 @@
 							left: 2rpx;
 							transform: translate(0, -50%);
 							width: 228rpx;
-							height: 28rpx;
+							height: 18rpx;
 							border-radius: 28rpx;
 						}
 
@@ -3021,6 +3112,9 @@
 					}
 
 					.info-btm {
+						position: absolute;
+						bottom: 24rpx;
+						left: 20rpx;
 						width: 302rpx;
 						display: flex;
 						align-items: center;
@@ -3054,6 +3148,8 @@
 								font-size: 20rpx;
 								font-weight: bold;
 								color: rgb(255, 57, 57);
+								display: flex;
+								align-items: flex-end;
 
 								image {
 									width: 24rpx;
@@ -3062,6 +3158,13 @@
 
 								span {
 									font-size: 32rpx;
+								}
+
+								.zs {
+									font-size: 16rpx;
+									font-weight: 400;
+									color: rgb(153, 153, 153);
+									margin-left: 8rpx;
 								}
 							}
 
@@ -3092,7 +3195,7 @@
 						}
 
 						.info-btn {
-							width: 124rpx;
+							width: 110rpx;
 							height: 48rpx;
 							display: flex;
 							align-items: center;
@@ -3115,6 +3218,10 @@
 					}
 
 					.new-list-item-btm-btn1 {
+						position: absolute;
+						left: 50%;
+						bottom: 10rpx;
+						transform: translate(-50%, 0);
 						padding: 6rpx 10rpx;
 						box-sizing: border-box;
 						font-size: 24rpx;
@@ -3160,88 +3267,125 @@
 					width: 628rpx;
 					font-size: 28rpx;
 					color: rgb(51, 51, 51);
+					overflow: hidden;
+					text-overflow: ellipsis;
+					word-break: break-all;
+					display: -webkit-box;
+					-webkit-box-orient: vertical;
+					-webkit-line-clamp: 2;
 					margin: 16rpx auto 24rpx auto;
 				}
+
+				.bonus-two {
+					width: 190rpx;
+					height: 28rpx;
+					display: flex;
+					align-items: center;
+					box-sizing: border-box;
+					border: 1rpx solid rgb(255, 57, 57);
+					border-radius: 28rpx;
+					margin: 0 0 24rpx 32rpx;
+
+					image {
+						display: block;
+						width: 28rpx;
+						height: 28rpx;
+					}
+
+					view {
+						font-size: 16rpx;
+						color: rgb(255, 57, 57);
+						white-space: nowrap;
+						margin-left: 4rpx;
+					}
+
+				}
+
+				.info_jd {
+					position: relative;
+					width: 380rpx;
+					height: 20rpx;
+					margin-left: 32rpx;
+
+					image {
+						position: absolute;
+						top: 50%;
+						left: 2rpx;
+						transform: translate(0, -50%);
+						width: 308rpx;
+						height: 18rpx;
+						border-radius: 18rpx;
+					}
+
+					view {
+						position: absolute;
+						top: 50%;
+						left: 50%;
+						transform: translate(-50%, -50%);
+						font-size: 20rpx;
+						color: rgb(255, 255, 255);
+					}
+				}
+
 
 				.info {
 					width: 628rpx;
 					display: flex;
 					align-items: center;
 					justify-content: space-between;
-					margin: 0 auto;
+					margin: 18rpx auto 0 auto;
 
 					.info-left {
 
-						.info_jd {
-							position: relative;
-							width: 386rpx;
-							height: 32rpx;
-							background: url('/static/images/new-index/jd-bj.png') no-repeat;
-							background-size: 386rpx 32rpx;
+
+						.new {
+							font-size: 24rpx;
+							font-weight: bold;
+							color: rgb(255, 57, 57);
+							display: flex;
+							align-items: center;
+							margin-right: 8rpx;
 
 							image {
-								position: absolute;
-								top: 50%;
-								left: 2rpx;
-								transform: translate(0, -50%);
-								width: 308rpx;
-								height: 28rpx;
-								border-radius: 28rpx;
+								width: 24rpx;
+								height: 24rpx;
+								margin-right: 8rpx;
 							}
 
-							view {
-								position: absolute;
-								top: 50%;
-								left: 50%;
-								transform: translate(-50%, -50%);
-								font-size: 20rpx;
-								color: rgb(255, 255, 255);
+							span {
+								font-size: 40rpx;
 							}
+
+							.zs {
+								font-size: 20rpx;
+								font-weight: 400;
+								color: rgb(153, 153, 153);
+								margin-left: 8rpx;
+							}
+
 						}
 
-						.info_price {
+						.old {
+							font-size: 16rpx;
+							color: rgb(153, 153, 153);
 							display: flex;
 							align-items: flex-end;
-							margin-top: 14rpx;
 
-							.new {
-								font-size: 24rpx;
-								font-weight: bold;
-								color: rgb(255, 57, 57);
-								margin-right: 8rpx;
-
-								image {
-									width: 24rpx;
-									height: 24rpx;
-								}
-
-								span {
-									font-size: 40rpx;
-								}
+							.old_price {
+								text-decoration: line-through;
 							}
 
-							.old {
+							.zs {
 								font-size: 16rpx;
 								color: rgb(153, 153, 153);
+								text-decoration: none;
 								display: flex;
-								align-items: flex-end;
+								align-items: center;
+								margin-left: 8rpx;
 
-								.old_price {
-									text-decoration: line-through;
-								}
-
-								.zs {
-									font-size: 16rpx;
-									color: rgb(153, 153, 153);
-									text-decoration: none;
-									display: flex;
-									align-items: center;
-									margin-left: 8rpx;
-
-									image {
-										width: 20rpx;
-										height: 20rpx;
-									}
+								image {
+									width: 20rpx;
+									height: 20rpx;
 								}
 							}
 						}
@@ -3994,7 +4138,7 @@
 		.imgBottom {
 			margin-top: 5rpx;
 			display: flex;
-			align-items: flex-end;
+			align-items: center;
 			justify-content: center;
 
 			.left {
@@ -4010,13 +4154,13 @@
 					margin-left: 10rpx;
 				}
 			}
-			
-			.right{
+
+			.right {
 				font-size: 16rpx;
 				color: rgb(153, 153, 153);
 				margin-left: 8rpx;
-				
-				image{
+
+				image {
 					width: 20rpx;
 					height: 20rpx;
 				}

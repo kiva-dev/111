@@ -37,6 +37,7 @@
 					<view class="imgBottom">
 						<image src="/static/images/kbrick/diamond.png" mode=""></image>
 						<text class="zs">{{shopCont.wish_price}}</text>
+						<p>(RM{{shopCont.wish_price}})</p>
 					</view>
 					<text
 						style="text-decoration: line-through;">RM{{shopCont.litestore_goods_spec[0].goods_price}}</text>
@@ -2570,18 +2571,27 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		font-size: 26rpx;
 
 		.imgBottom {
+			display: flex;
+			align-items: flex-end;
 			margin-top: 5rpx;
 
 			image {
 				width: 40rpx;
-				height: 30rpx;
+				height: 40rpx;
 			}
 
 			.zs {
-				font-size: 30rpx;
+				font-size: 40rpx;
 				font-weight: bold;
 				margin-left: 10rpx;
 			}
+			
+			p{
+				font-size: 20rpx;
+				color: rgb(255, 255, 255);
+				margin-left: 8rpx;
+			}
+			
 		}
 	}
 

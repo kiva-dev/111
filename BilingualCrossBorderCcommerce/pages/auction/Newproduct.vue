@@ -59,8 +59,7 @@
 										<text class="zs">{{item.wish_price}}</text>
 									</view>
 									<view class="right">
-										<text>RM1/</text>
-										<image src="/static/images/kbrick/diamond.png" mode=""></image>
+										<text>(RM{{item.wish_price}})</text>
 									</view>
 								</view>
 							</view>
@@ -87,8 +86,7 @@
 										<text class="zs">{{item.wish_price}}</text>
 									</view>
 									<view class="right">
-										<text>RM1/</text>
-										<image src="/static/images/kbrick/diamond.png" mode=""></image>
+										<text>(RM{{item.wish_price}})</text>
 									</view>
 								</view>
 							</view>
@@ -113,8 +111,7 @@
 								</view>
 								<view class="old">RM<span>{{item.litestore_goods_spec[0].goods_price}}</span></view>
 								<view class="rmtokdiamond">
-									<text>RM1/</text>
-									<image src="/static/images/kbrick/diamond.png"></image>
+									<text>(RM{{item.wish_price}})</text>
 								</view>
 							</view>
 						</view>
