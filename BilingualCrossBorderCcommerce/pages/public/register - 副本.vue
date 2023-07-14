@@ -30,7 +30,7 @@
 						</view>
 					</view>
 					<view class="register-input" v-show="emailOrPhone==2">
-						<span class="input-code" @click="navClick('/pages/public/ownership')">{{mobile_area_code}}</span>
+						<span class="input-code" @click="navClick('ownership')">{{mobile_area_code}}</span>
 						<view style="width: 522rpx;margin: 0;">
 							<u--input :placeholder="$t('login.qsrsjh')" v-model="mobile" border="none" clearable
 								@input="changInput('email')" width="261"></u--input>
@@ -200,10 +200,10 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			}
 
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
-			// this.invite_code = e.invite_code ? e.invite_code : ''
-			// if (sessionStorage.getItem("invite_code")) {
-			// 	this.invite_code = sessionStorage.getItem("invite_code") ? sessionStorage.getItem("invite_code") : ''
-			// }
+			this.invite_code = e.invite_code ? e.invite_code : ''
+			if (sessionStorage.getItem("invite_code")) {
+				this.invite_code = sessionStorage.getItem("invite_code") ? sessionStorage.getItem("invite_code") : ''
+			}
 		},
 		onShow() {
 			if (uni.getStorageSync('phoneCont')) {
@@ -251,6 +251,13 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					this.onLoginSendMobileCode()
 				}
 			},
+			// 点击切换
+			changeTab(Inv) {
+				console.log(Inv);
+				this.Inv = Inv
+				this.pwd = '' // 密码
+				this.pwd2 = '' // 再次输入的密码
+			},
 			// 获取手机验证码
 			onLoginSendMobileCode() {
 				if (!this.mobile) return uni.showToast({
@@ -259,6 +266,16 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				})
 				if (this.codeTxt1 != this.$t('login.hqyzm')) return
 
+				if (this.mobile_area_code == 86) {
+					if (this.mobile) {
+						var reg_tel =
+							/^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/ //11位手机号码正则
+						if (!reg_tel.test(this.mobile)) return uni.showToast({
+							title: this.$t('login.qsrzqsjh'),
+							icon: 'none'
+						})
+					}
+				}
 				this.$http.post(this.$apiObj.LoginSendMobileCode, {
 					mobile: this.mobile,
 					mobile_area_code: this.mobile_area_code.slice(1)
@@ -299,7 +316,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					icon: 'none'
 				})
 				if (this.pwd) {
-					let reg = new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d\W_]{8,16}$/) ;
+					let reg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d\W_]{8,16}$/
 
 					if (!reg.test(this.pwd)) return uni.showToast({
 						title: this.$t('pwdcd'),
@@ -350,7 +367,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				if (this.codeTxt != this.$t('login.hqyzm')) return
 
 				if (this.email) {
-					var reg_tel = /^[a-zA-Z0-9]+([-_.][a-zA-Z0-9]+)*@([a-zA-Z0-9]+[-.])+[A-Za-zd]{2,5}$/;
+					var reg_tel = /^[a-zA-Z0-9]+([-_.][a-zA-Z0-9]+)*@([a-zA-Z0-9]+[-.])+[A-Za-zd]{2,5}$/
 					if (!reg_tel.test(this.email)) return uni.showToast({
 						title: this.$t('login.qsrzqyx'),
 						icon: 'none'
@@ -459,7 +476,9 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				})
 
 				if (this.pwd) {
-					let reg = new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d\W_]{8,16}$/)
+					let reg =
+						/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d\W_]{8,16}$/
+
 					if (!reg.test(this.pwd)) return uni.showToast({
 						title: this.$t('pwdcd'),
 						icon: 'none'
@@ -529,7 +548,25 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					uni.hideLoading();
 				})
 			},
-
+			// 字符串加密
+			toCode(str) { //加密字符串
+				//定义密钥，36个字母和数字
+				var key = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+				var len = key.length; //获取密钥的长度
+				var a = key.split(""); //把密钥字符串转换为字符数组
+				var s = "",
+					b, b1, b2, b3; //定义临时变量
+				for (var i = 0; i < str.length; i++) { //遍历字符串
+					b = str.charCodeAt(i); //逐个提取每个字符，并获取Unicode编码值
+					b1 = b % len; //求Unicode编码值得余数
+					b = (b - b1) / len; //求最大倍数
+					b2 = b % len; //求最大倍数的于是
+					b = (b - b2) / len; //求最大倍数
+					b3 = b % len; //求最大倍数的余数
+					s += a[b3] + a[b2] + a[b1]; //根据余数值映射到密钥中对应下标位置的字符
+				}
+				return s; //返回这些映射的字符
+			},
 			//导航点击的跳转处理函数
 			navClick(url) {
 				uni.navigateTo({
