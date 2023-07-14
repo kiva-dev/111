@@ -140,9 +140,9 @@
 					</view>
 
 					<!--注册-->
-					<view class="register-btn" @click.stop="$noMultipleClicks(onLoginEmailRegister)"
+					<view class="register-btn" @click.stop="onLoginEmailRegister()"
 						v-show="isOnSendPwd && emailOrPhone==1">{{$t('login.zc')}}</view>
-					<view class="register-btn" @click.stop="$noMultipleClicks(onLoginMobileRegister)"
+					<view class="register-btn" @click.stop="onLoginMobileRegister()"
 						v-show="isOnSendPwd && emailOrPhone==2">{{$t('login.zc')}}</view>
 				</block>
 
@@ -483,13 +483,13 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					icon: 'none'
 				})
 				//密码不能输入空格
-				let re = new RegExp("^(?!\\s+).*(?<!\\s)$");
-				if (re.test(this.pwd || this.pwd2) == true) {
-					uni.showToast({
-						title: this.$t('login.kg'),
-						icon: 'none'
-					})
-				}
+				// let re = new RegExp("^(?!\\s+).*(?<!\\s)$");
+				// if (re.test(this.pwd || this.pwd2) == true) {
+				// 	uni.showToast({
+				// 		title: this.$t('login.kg'),
+				// 		icon: 'none'
+				// 	})
+				// }
 				//密码中不能输入汉字
 				let h = /[\u4E00-\u9FA5]/g;
 				if (h.test(this.pwd || this.pwd2) == true) {
