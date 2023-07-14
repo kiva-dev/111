@@ -46,7 +46,21 @@
 							<image :src="item.image" class="item-img"></image>
 							<view class="item-qi">{{item.stage_num}}</view>
 							<view class="item-name">{{item.goods_name}}</view>
-							<view class="item-status">To be awarded</view>
+							<view class="item-status">
+								<template v-if="item.select_way === 1">
+									<text style="color: #1DD181;">{{$t('user.auctionM.inAppeal')}}</text>
+								</template>
+								<template v-else>
+									<text v-if="item.status === 2 || item.status === 3"
+										style="color: #1DD181;">{{$t('user.auctionM.shipped')}}</text>
+									<text v-if="item.status === 4"
+										style="color: #1DD181;">{{$t('user.auctionM.receive')}}</text>
+									<text v-if="item.status === 5"
+										style="color: #1DD181;">{{$t('user.auctionM.beConfirmed')}}</text>
+									<text v-if="item.status === 6"
+										style="color: #999999;">{{item.select_way == 1 ? $t('user.auctionM.cash') : $t('user.order.yiwanc')}}</text>
+								</template>
+							</view>
 							<view class="item-auction-price">Bidding price:RM{{item.single_money}}</view>
 							<view class="item-code">Lucky Code</view>
 							<view class="item-code-info">{{item.num_id}}</view>
