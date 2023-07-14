@@ -1,6 +1,5 @@
 <template>
 	<view class="auction-page">
-
 		<view class="fixed">
 			<view class="head">
 				<view>
@@ -1005,7 +1004,7 @@
 
 
 		<!-- 联系我们 -->
-		<!--<u-popup :show="showContact" mode="center" bgColor="transparent">
+		<u-popup :show="showContact" mode="center" bgColor="transparent">
 			<view class="contact">
 				<image src="../../static/images/new/close.png" class="contact-info-close" @click="showContact = false">
 				</image>
@@ -1059,7 +1058,7 @@
 					</view>
 				</view>
 			</view>
-		</u-popup> -->
+		</u-popup>
 		<u-popup :show="showConfirm" mode="center" bgColor="transparent">
 			<view class="showConfirm">
 				<view class="showConfirm-txt">{{$t('new.wazyy')}}</view>
@@ -1133,7 +1132,7 @@
 			</view>
 		</view>
 	
-		<customerService ref="customerService"/>
+		<customerService ref="customerService" @showContactFun="showContactFun"/>
 	
 	</view>
 </template>
@@ -1376,6 +1375,9 @@
 			// }, 1000)
 		},
 		methods: {
+			showContactFun(i){
+				this.showContact = i
+			},
 			//商品分类logo页面跳转
 			switchLogoToProduct(id, name) {
 				uni.setStorageSync('switch_id', id)
