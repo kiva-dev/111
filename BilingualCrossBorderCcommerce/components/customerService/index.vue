@@ -1,11 +1,11 @@
 <template>
   <view class="leftSider" :class="siderClasses">
     <view class="imgArr" v-show="imgShow">
-      <img src="/static/images/mine/download.png" class="minImg" alt="" @click="toMessage('/pages/auction/download')">
+      <image src="/static/images/mine/download.png" class="minImg" alt="" @click="toMessage('/pages/auction/download')">
       <view class="people">
-        <img src="/static/images/mine/p.png" class="pImg" alt="" @click="toMessage('/pages/auction/association')">
+        <image src="/static/images/mine/p.png" class="pImg" alt="" @click="toMessage('/pages/auction/association')">
       </view>
-      <img src="/static/images/mine/listener.png" class="minImg" alt="" @click="openSession()">
+      <image src="/static/images/mine/listener.png" class="minImg" alt="" @click="openSession()">
     </view>
     <image src="/static/images/new-index/addImg.png" class="newListImgDeg" v-if="imgShow" @click="toggleImage"></image>
     <image src="/static/images/new-index/addImg.png" class="newListImg" v-else @click="toggleImage" ></image>

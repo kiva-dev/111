@@ -1162,6 +1162,7 @@ page {
 	position: relative;
 	overflow: hidden;
 	box-sizing: border-box;
+	padding-bottom: 100rpx;
 }
 .wrapper .status {
 	display: flex;
