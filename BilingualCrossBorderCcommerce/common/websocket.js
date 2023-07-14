@@ -2,6 +2,8 @@ import imConfig from "./config.js"; // 本地配置数据
 var ws = {
 	that: null,
 	pageThat: {},
+	newOrders:[],
+	newWish:[],
 	socketTask: null,
 	socketOpen: false,
 	ready: false,
@@ -2084,6 +2086,12 @@ var ws = {
 						that.messageReady = null
 					}, 200)
 				}
+			}],
+			['h5user-searchOrder',()=>{
+				this.newOrders=msg.data.orders
+			}],
+			['h5user-searchAuctionOrders',()=>{
+				this.newWish=msg.data.orders
 			}],
 			['default', () => {
 				console.log('收到新的ws消息')

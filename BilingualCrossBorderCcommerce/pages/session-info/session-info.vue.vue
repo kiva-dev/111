@@ -172,7 +172,7 @@
 			</view>
 			<view class="write-right" :style="{flex:showSendButton ? 3:2}">
 				<image class="toolbar-icon emoji" src="/static/icon/emoji.png" @click="clickTool('emoji')" mode="widthFix"></image>
-				<button class="send-btn" @click="sendMessage(imMessage, 'default')" hover-class="send-btn-hover" v-if="showSendButton">发送</button>
+				<button class="send-btn" @click="sendMessage(imMessage, 'default')" hover-class="send-btn-hover" v-if="showSendButton">Send</button>
 				<image class="toolbar-icon more" src="/static/icon/more.png" @click="clickTool('more')" mode="widthFix" v-if="!showSendButton"></image>
 			</view>
 		</view>
@@ -199,22 +199,24 @@
 				</view>
 				<view @click="clickMoreTool('image')" class="toolbar-item" hover-class="toolbar-item-hover">
 					<image src="/static/icon/image.png"></image>
-					<view>发送图片</view>
+					<view>Album</view>
 				</view>
-				<view @click="clickMoreTool('attachment')" class="toolbar-item" hover-class="toolbar-item-hover">
-					<!-- #ifdef H5 -->
+				<view @click="clickMoreTool('Order')" class="toolbar-item" hover-class="toolbar-item-hover" v-if="info.type != 'group'">
+					<image src="/static/icon/image.png"></image>
+					<view>Send Order</view>
+				</view>
+				<customerService ref="customerService" @propsSendMessage='propsSendMessage'/>
+				<!-- <u-button @click="popShow = true">打开</u-button> -->
+				<!-- <view @click="clickMoreTool('attachment')" class="toolbar-item" hover-class="toolbar-item-hover">
 					<image src="/static/icon/attachment.png"></image>
 					<view>发送文件</view>
-					<!-- #endif -->
-					<!-- #ifndef H5-->
 					<image src="/static/icon/video.png"></image>
 					<view>发送视频</view>
-					<!-- #endif -->
 				</view>
 				<view @click="clickMoreTool('collection')" class="toolbar-item" hover-class="toolbar-item-hover">
 					<image src="/static/icon/collection.png"></image>
 					<view>发送收藏</view>
-				</view>
+				</view> -->
 			</view>
 			<!-- 更多-end -->
 		</view>
@@ -224,11 +226,13 @@
 <script>
 	import permision from "@/js_sdk/wa-permission/permission.js"
     import messageCom from "@/components/message/message.vue";
+    import customerService from "@/pages/auction/customer_service.vue";
 	let systemInfo = uni.getSystemInfoSync();
 	var recordingTime = null, recordingSecond = 0, recordingMoveY = 0, delRecorder = null, stopDelRecorder = false, recorderValid = false, cursor = 0, atUsersEd = [], defaultWriteHeight = 46
 	export default {
         components:{
-            messageCom
+            messageCom,
+			customerService
         },
 		data() {
 			return {
@@ -581,6 +585,70 @@
 				if (this.sendButtonType == 'send') {
 					this.sendMessage(this.imMessage, 'default')
 				}
+			},
+			propsSendMessage:function(item, type = 'default'){
+				const {num_id,order_no} = item
+				var that = this
+				var messageId = new Date().getTime() + that.info.id + Math.floor(Math.random() * 10000); // 临时消息ID
+				that.ws.pageFun(function(){
+					that.ws.send({
+						c: 'Message',
+						a: 'sendMessage',
+						data: {
+							message: 'OrderNumber:'+ num_id + ' <br/>WishNumber:' + order_no,
+							type: type,
+							session_id: that.info.id,
+							tokens: that.ws.initializeData ? that.ws.initializeData.tokens : false, // 发消息时检测用户登录态是否过期
+							message_id: messageId,
+							identity: that.ws.initializeData.userinfo.identity,
+							at_users: (that.info.type == 'group') ? atUsersEd:[]
+						}
+					})
+				}, that)
+				atUsersEd = []
+				
+				let messageObj = {
+					id: messageId,
+					message:  'OrderNumber:'+ num_id + '<br/>WishNumber:' + order_no,
+					pushUser: {
+						avatar: that.ws.imgUrl(that.ws.initializeData.userinfo.avatar),
+						id: that.ws.initializeData.userinfo.id
+					},
+					read_number: 0,
+					sender: 'me',
+					type: type,
+					status: {
+						status: '',
+						statusClass: ''
+					}
+				}
+				that.imMessage = ''
+				that.imMessageChange()
+				this.$refs.customerService.close()
+				let messageListIndex = that.messageList.length - 1
+				if (that.messageList[messageListIndex]) {
+					that.messageList[messageListIndex].data.push(that.ws.buildMessage(messageObj));
+				} else {
+					that.messageList = that.messageList.concat({
+						datetime: '刚刚',
+						data: [that.ws.buildMessage(messageObj)]
+					});
+				}
+				that.ws.messageShow.push(function(mThat) {
+					that.ws.imSession({
+						sessionInfo: {
+							id: that.info.id,
+							top: that.info.top
+						},
+						lastMessage: {
+							last_time: that.getHoursMinutes(),
+							last_message: that.ws.formatMessage(messageObj)
+						},
+						unreadMessagesNumber: 0
+					}, mThat)
+				});
+				that.inputStatus(false)
+				that.scrollIntoFooter(300, 99992)
 			},
 			sendMessage: function (message, type = 'default') {
 				var that = this
@@ -939,6 +1007,8 @@
 					uni.navigateTo({
 						url: '/pages/center/collection?action=send'
 					})
+				}else if(name == 'Order'){
+					this.$refs.customerService.open()
 				}
 			},
 			upload: function (path, callBack) {
@@ -1369,7 +1439,7 @@ page {
 	position: fixed;
 	bottom: 0rpx;
 	box-sizing: border-box;
-	z-index: 9993;
+	// z-index: 9993;
 }
 .write-textarea {
 	flex: 7;
@@ -1495,7 +1565,7 @@ page {
 }
 .send-btn {
 	margin-left: 24rpx;
-	background: #00b0ff;
+	background: #0AC68E;
 	color: #fff;
 	border-color: #00b0ff;
 	outline: none;

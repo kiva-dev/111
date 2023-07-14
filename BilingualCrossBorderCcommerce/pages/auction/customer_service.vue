@@ -1,29 +1,8 @@
 <template>
 	<view class="view_page">
-		<view class="service-head">
+		<!-- <view class="service-head">
 			<image src="/static/images/kbrick/kleft.png" @click="toBack()"></image>
 			<view>{{$t('grop.customer')}}</view>
-		</view>
-
-		<view class="des">
-			<view class="info">
-				<view class="info-time">6/30 17:13</view>
-				<view class="dialogue">
-					<view class="left">
-						<image src="/static/images/service/service.png"></image>
-						<view>Hello, I am platform customer service.May I help you?</view>
-					</view>
-					<view class="right">
-						<view>Here is my question,Here is my question,Here is my question</view>
-						<image src="/static/images/service/service.png"></image>
-					</view>
-
-					<view class="left">
-						<image src="/static/images/service/service.png"></image>
-						<view>Okay, here is the solution provided by the platform for you</view>
-					</view>
-				</view>
-			</view>
 		</view>
 
 		<view class="btm">
@@ -37,66 +16,62 @@
 				<image src="/static/images/service/close.png" v-show="showMore" @click="showMore=!showMore"></image>
 			</view>
 			<view class="btm-hide" v-show="showMore">
-				<view class="btm-hide-info" @click="$refs.popup.open()">
+				<view class="btm-hide-info" @click="open()">
 					<image src="/static/images/service/order.png"></image>
 					<view>Send Order</view>
 				</view>
-				<view class="btm-hide-info" style="margin-left: 28rpx;">
-					<image src="/static/images/service/img.png"></image>
-					<view>Album</view>
-				</view>
 			</view>
-		</view>
+		</view> -->
 
-		<uni-popup ref="popup" type="bottom">
+		<uni-popup ref="popup" type="bottom" @open="open">
 			<view class="show-order">
 				<view class="order-head">
 					<view class="order-head-tit">Send Orders</view>
-					<image src="/static/images/kbrick/close.png"  @click="$refs.popup.close()"></image>
+					<image src="/static/images/kbrick/close.png"  @click="close()"></image>
 					<view class="order-switch">
 						<view class="order-switch-info" @click="selectOrder=1">
 							<view class="tit" :class="selectOrder==1?'select-tit':''">My Auction</view>
 							<text :class="selectOrder==1?'select':''"></text>
 						</view>
-						<view class="order-switch-info" @click="selectOrder=2">
+						<!-- <view class="order-switch-info" @click="selectOrder=2">
 							<view class="tit" :class="selectOrder==2?'select-tit':''">My Oder</view>
 							<text :class="selectOrder==2?'select':''"></text>
-						</view>
+						</view> -->
 					</view>
 				</view>
 
 				<block v-if="selectOrder==1">
 					<view class="auction">
-						<view class="item" v-for="(item,i) in [1,1]">
-							<image src="/static/images/public1.png" class="item-img"></image>
-							<view class="item-qi">20230620-06-888期</view>
-
-							<view class="item-name">Apple Watch S5,44msApple Watch S5,44ms</view>
+						<view class="item" v-for="(item,i) in newWish" :key="i">
+							<image :src="item.image" class="item-img"></image>
+							<view class="item-qi">{{item.stage_num}}</view>
+							<view class="item-name">{{item.goods_name}}</view>
 							<view class="item-status">To be awarded</view>
-							<view class="item-auction-price">Bidding price:RM1.00</view>
+							<view class="item-auction-price">Bidding price:RM{{item.single_money}}</view>
 							<view class="item-code">Lucky Code</view>
-							<view class="item-code-info">2354005987422</view>
+							<view class="item-code-info">{{item.num_id}}</view>
 							<image src="/static/images/mine/mine_btn_copy.png" class="item-copy"></image>
 							<view class="item-zc">Disbursements:</view>
-							<view class="item-price">RM<text>1.00</text></view>
-							<view class="item-send">Sending</view>
+							<view class="item-price">RM<text>{{item.pay_price}}</text></view>
+							<view class="item-send" @click="propsSendMessage(item)">Sending</view>
 						</view>
 					</view>
 				</block>
 				<block v-else>
 					<view class="order">
-						<view class="order-item">
+						<view class="order-item" v-for="(item,i) in newOrders" :key="i">
 							<view class="order-item-head">
-								<image src="/static/logo.png"></image>
-								<view class="shop-name">Merchant Name</view>
-								<view class="shop-status">To be paid</view>
+								<image :src="item.shop_logo"></image>
+								<view class="shop-name">{{item.shop_name}}</view>
+								<view class="shop-status">{{item.status}}</view>
 							</view>
-							
-							<image src="/static/images/detail5.png" class="order-item-img"></image>
-							<view class="order-item-name">Here is the product name, Here is the product name,Here is the product name</view>
-							<view class="order-item-num">1 in total</view>
-							<view class="order-item-price">RM <text>999.00</text></view>
-							<view class="order-item-send">Sending</view>
+							<view v-for="(list,nub) in item.goods" :key="nub">
+								<image src="/static/images/detail5.png" class="order-item-img"></image>
+								<view class="order-item-name">Here is the product name, Here is the product name,Here is the product name</view>
+								<view class="order-item-num">1 in total</view>
+								<view class="order-item-price">RM <text>999.00</text></view>
+								<view class="order-item-send">Sending</view>
+							</view>
 							
 						</view>
 					</view>
@@ -104,8 +79,7 @@
 
 			</view>
 		</uni-popup>
-
-		<view style="height: 168rpx;"></view>
+		<!-- <view style="height: 168rpx;"></view> -->
 	</view>
 </template>
 
@@ -116,15 +90,40 @@
 				content: '',
 				showMore: false,
 				selectOrder: 1,
-				list: [
-
-				]
+				newOrders:[],
+				newWish:[],
+				list: []
 			}
 		},
 		mounted() {
 			// this.$refs.popup.open()
 		},
 		methods: {
+			open(){
+				this.sendOrder()
+			},
+			close(){
+				this.$refs.popup.close()
+			},
+			sendOrder(){
+				var that = this
+				that.$refs.popup.open();
+				that.ws.pageFun(function() {
+					that.ws.send({
+						c: 'H5User',
+						a: 'searchAuctionOrders',
+						data: {
+							"page": 1
+						}
+					});
+				}, that);
+				setTimeout(()=>{
+					this.newWish = this.ws.newWish
+				},200)
+			},
+			propsSendMessage(props){
+				this.$emit("propsSendMessage",props);
+			},
 			toBack() {
 				uni.navigateBack()
 			}
@@ -137,7 +136,10 @@
 		width: 100%;
 		min-height: 100vh;
 		background: rgb(248, 248, 248);
-
+		z-index: 9999;
+		.uni-popup{
+			z-index: 9999;
+		}
 		.service-head {
 			position: relative;
 			width: 100%;
@@ -325,7 +327,6 @@
 				padding-bottom: 16rpx;
 				background: #fff;
 				border-radius: 24rpx 24rpx 0 0;
-
 				.order-head-tit {
 					width: 100%;
 					font-size: 40rpx;
@@ -381,7 +382,8 @@
 
 			.auction {
 				margin-top: 24rpx;
-
+				height:780rpx;
+				overflow: auto;
 				.item {
 					position: relative;
 					width: 686rpx;
@@ -505,7 +507,8 @@
 			
 			.order{
 				margin-top: 24rpx;
-				
+				height:780rpx;
+				overflow: auto;
 				.order-item{
 					position: relative;
 					width: 686rpx;
