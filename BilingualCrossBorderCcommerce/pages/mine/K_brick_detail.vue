@@ -1,83 +1,89 @@
 <template>
 	<view class="kbrick">
-		<view class="kbrick-head">
-			<image src="/static/images/kbrick/kleft.png" @click="onReturn()"></image>
-			<view class="tit">{{$t('new.wdkz')}}</view>
-			<view class="head-detail" @click="toDetail()">{{$t('new.ckmx')}}</view>
-		</view>
+		<scroll-view style="height: 100vh;" scroll-y>
+			<view class="kbrick-head">
+				<image src="/static/images/kbrick/kleft.png" @click="onReturn()"></image>
+				<view class="tit">{{$t('new.wdkz')}}</view>
+				<view class="head-detail" @click="toDetail()">{{$t('new.ckmx')}}</view>
+			</view>
 
-		<view class="kbrick-info">
-			<view class="info-name">{{$t('new.wdkz')}}</view>
-			<view class="info-num">{{(balance*1).toFixed(2)}}</view>
-			<image src="/static/images/kbrick/diamond.png"></image>
-		</view>
+			<view class="kbrick-info">
+				<view class="info-name">{{$t('new.wdkz')}}</view>
+				<view class="info-num">{{(balance*1).toFixed(2)}}</view>
+				<image src="/static/images/kbrick/diamond.png"></image>
+			</view>
 
-		<view class="info-ts">
-			<image src="/static/images/kbrick/kbx.png"></image>
-			<view v-html="kdiamondxy">{{$t('new.scfl')}}</view>
-		</view>
+			<view class="info-ts">
+				<image src="/static/images/kbrick/kbx.png"></image>
+				<view v-html="kdiamondxy">{{$t('new.scfl')}}</view>
+			</view>
 
-		<view class="title">{{$t('new.kzcz')}}</view>
+			<view class="title">{{$t('new.kzcz')}}</view>
 
-		<view class="list">
-			<view class="item"
-				:style="select==(i+1)?'height:216rpx;background: rgb(224, 242, 255);box-sizing: border-box;border: 4rpx solid rgb(27, 161, 255);':''"
-				v-for="(item,i) in list" :key="i" @click="switchCzNum(i+1)">
-				<view class="item-tags" v-show="item.activity_money">
+			<view class="list">
+				<view class="item"
+					:style="select==(i+1)?'height:216rpx;background: rgb(224, 242, 255);box-sizing: border-box;border: 4rpx solid rgb(27, 161, 255);':''"
+					v-for="(item,i) in list" :key="i" @click="switchCzNum(i+1)">
+					<view class="item-tags" v-show="item.activity_money">
+						<image src="/static/images/kbrick/white_bx.png"></image>
+						Free RM {{item.activity_money*1}}
+					</view>
+					<view class="item-num">
+						<image src="/static/images/kbrick/diamond.png"></image>
+						<view>{{item.k_diamond}}</view>
+					</view>
+					<view class="item-price">RM {{item.k_diamond}}</view>
+				</view>
+			</view>
+
+			<!--自定义充值-->
+			<view class="customize" :class="selectPayNum?'select_customize':''">
+				<image src="/static/images/kbrick/diamond.png" class="logo"></image>
+				<view class="customize-input">
+					<input type="text" v-model="payNum" @focus="selectPayNum=true;select=0"
+						:placeholder="$t('new.qtczje')" style="font-size: 24rpx;color: rgb(102, 102, 102);" />
+				</view>
+				<view class="customize-right" v-show="false">
 					<image src="/static/images/kbrick/white_bx.png"></image>
-					Free RM {{item.activity_money*1}}
+					<view>Gift RM 88</view>
 				</view>
-				<view class="item-num">
-					<image src="/static/images/kbrick/diamond.png"></image>
-					<view>{{item.k_diamond}}</view>
-				</view>
-				<view class="item-price">RM {{item.k_diamond}}</view>
 			</view>
-		</view>
 
-		<!--自定义充值-->
-		<view class="customize" :class="selectPayNum?'select_customize':''">
-			<image src="/static/images/kbrick/diamond.png" class="logo"></image>
-			<view class="customize-input">
-				<input type="text" v-model="payNum" @focus="selectPayNum=true;select=0" :placeholder="$t('new.qtczje')"
-					style="font-size: 24rpx;color: rgb(102, 102, 102);" />
+
+			<view class="info-ts-sm">{{$t('new.kzsm')}}</view>
+
+			<view class="title">{{$t('top.zffs')}}</view>
+
+			<view class="pay-info" v-for="item in payList" :key="item.id">
+				<image :src="item.url" class="logo"></image>
+				<view>{{item.name}}</view>
+				<!--<text v-if="item.id==1">({{$t('new.need_real_name')}})</text> -->
+				<image src="/static/images/new-index/wxz.png" class="select" v-show="!item.select"
+					@click="changPay(item)">
+				</image>
+				<image src="/static/images/new-index/xz.png" class="select" v-show="item.select"
+					@click="changPay(item)">
+				</image>
 			</view>
-			<view class="customize-right" v-show="false">
-				<image src="/static/images/kbrick/white_bx.png"></image>
-				<view>Gift RM 88</view>
+
+			<view class="protocol">
+				<image src="/static/images/new-index/wxz.png" v-show="!selectProtocol" @click="switchProtocol(true)">
+				</image>
+				<image src="/static/images/new-index/xz.png" v-show="selectProtocol" @click="switchProtocol(false)">
+				</image>
+				<view>{{$t('auction.detail.brywqydbty')}} <text
+						@click="navCilck('/pages/mine/kzxy')">《{{$t('new.kzczxy')}}》</text></view>
 			</view>
-		</view>
+
+			<view class="topay" v-show="!showPay">{{$t('user.order.qzf')}}</view>
+			<view class="topay" style="background: rgb(10, 198, 142);" v-show="showPay" @click="addDiamond()">
+				{{$t('user.order.qzf')}}
+			</view>
 
 
-		<view class="info-ts-sm">{{$t('new.kzsm')}}</view>
+			<view style="height: 240rpx;"></view>
+		</scroll-view>
 
-		<view class="title">{{$t('top.zffs')}}</view>
-
-		<view class="pay-info" v-for="item in payList" :key="item.id">
-			<image :src="item.url" class="logo"></image>
-			<view>{{item.name}}</view>
-			<!--<text v-if="item.id==1">({{$t('new.need_real_name')}})</text> -->
-			<image src="/static/images/new-index/wxz.png" class="select" v-show="!item.select" @click="changPay(item)">
-			</image>
-			<image src="/static/images/new-index/xz.png" class="select" v-show="item.select" @click="changPay(item)">
-			</image>
-		</view>
-
-		<view class="protocol">
-			<image src="/static/images/new-index/wxz.png" v-show="!selectProtocol" @click="switchProtocol(true)">
-			</image>
-			<image src="/static/images/new-index/xz.png" v-show="selectProtocol" @click="switchProtocol(false)"></image>
-			<view>{{$t('auction.detail.brywqydbty')}} <text
-					@click="navCilck('/pages/mine/kzxy')">《{{$t('new.kzczxy')}}》</text></view>
-		</view>
-
-		<view class="topay" v-show="!showPay">{{$t('user.order.qzf')}}</view>
-		<view class="topay" style="background: rgb(10, 198, 142);" v-show="showPay" @click="addDiamond()">
-			{{$t('user.order.qzf')}}
-		</view>
-
-
-		<view style="height: 40rpx;"></view>
 	</view>
 </template>
 
@@ -93,7 +99,7 @@
 				payNum: '',
 				selectPayNum: false,
 				selectProtocol: false,
-				list: [1,1,1,1,1,1],
+				list: [1, 1, 1, 1, 1, 1],
 				showPay: false,
 				payList: [{
 						id: 2,
@@ -112,8 +118,7 @@
 				infoData: []
 			}
 		},
-		onShow() {
-		},
+		onShow() {},
 		onLoad() {
 			let isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
 
@@ -171,14 +176,14 @@
 				// #ifdef H5
 				if (uni.getStorageSync('window_href')) {
 					window.history.go(-1)
-				}else{
+				} else {
 					uni.navigateBack()
 				}
 				// #endif
 				// #ifdef APP-PLUS
-					uni.navigateBack()
+				uni.navigateBack()
 				// #endif
-				
+
 			},
 			toDetail() {
 				uni.navigateTo({
