@@ -81,6 +81,9 @@
 </template>
 
 <script>
+	import {
+		hex
+	} from 'js-md5'
 	export default {
 		data() {
 			return {
@@ -287,13 +290,13 @@
 				})
 				let type = ''
 				// #ifdef H5
-					type = 'web'
+				type = 'web'
 				// #endif
-				
+
 				// #ifdef APP
-					type = 'app'
+				type = 'app'
 				// #endif
-				
+
 				this.$http.post(this.$apiObj.PaypalRecharge, {
 					money: this.payNum ? this.payNum : this.list[this.select - 1].k_diamond,
 					recharge_type: 2,
@@ -302,7 +305,23 @@
 					uni.hideLoading()
 					if (res.code == 1) {
 						// #ifdef H5
-						window.open(res.data.href_url)
+						var u = navigator.userAgent;
+						var isAndroid = u.indexOf("Android") > -1 || u.indexOf("Adr") > -1; //android终端
+						var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+
+						if (isAndroid) {
+							window.open(res.data.href_url)
+						} else if (isiOS) {
+							// window.location.href = res.data.href_url
+							var winRef = window.open('', '_blank');
+							this.$http
+								.post("url")
+								.then((res) => {
+									winRef.location = res.data.href_url;
+								});
+						}
+
+						// window.open(res.data.href_url)
 						// #endif
 						// #ifdef APP-PLUS
 						plus.runtime.openURL(
@@ -312,19 +331,21 @@
 							}
 						)
 						//  #endif
+						setTimeout(() => {
+							uni.showModal({
+								title: this.$t('mine.tip'),
+								content: this.$t('new.isczcg'),
+								cancelText: this.$t('home.search.query'),
+								confirmText: this.$t('new.wycz'),
+								success: (data) => {
+									if (data.confirm) {
+										this.getPayOrderInfo(res.data.out_trade_no, res.data
+											.payment_order_no)
+									}
+								},
+							})
+						}, 1000)
 
-						uni.showModal({
-							title: this.$t('mine.tip'),
-							content: this.$t('new.isczcg'),
-							cancelText: this.$t('home.search.query'),
-							confirmText: this.$t('new.wycz'),
-							success: (data) => {
-								if (data.confirm) {
-									this.getPayOrderInfo(res.data.out_trade_no, res.data
-										.payment_order_no)
-								}
-							},
-						})
 					}
 
 
