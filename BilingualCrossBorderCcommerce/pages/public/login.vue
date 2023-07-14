@@ -348,13 +348,13 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							token:res.data.im_tourists_token,
 							auth_token:res.data.auth_token
 						});
-						that.ws.init(res.data.userinfo.token, res.data.userinfo.auth_token)
 						uni.setStorageSync('token', res.data.token)
 						this.$http.post(this.$apiObj.MineInfo).then(ress => {
 							if (ress.code == 1) {
 								uni.setStorageSync('userCont', ress.data)
 							}
 						})
+						that.ws.init(res.data.userinfo.token, res.data.userinfo.auth_token)
 						setTimeout(() => {
 							uni.switchTab({
 								url: '/pages/auction/new_index'
@@ -395,17 +395,17 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							title: this.$t('login.dlcg'),
 							icon: 'none'
 						})
+						this.$http.post(this.$apiObj.MineInfo).then(ress => {
+						uni.setStorageSync('token', res.data.token)
+							if (ress.code == 1) {
+								uni.setStorageSync('userCont', ress.data)
+							}
+						})
 						uni.setStorageSync('userinfo', {
 							token:res.data.im_tourists_token,
 							auth_token:res.data.auth_token
 						});
 						that.ws.init(res.data.userinfo.token, res.data.userinfo.auth_token)
-						uni.setStorageSync('token', res.data.token)
-						this.$http.post(this.$apiObj.MineInfo).then(ress => {
-							if (ress.code == 1) {
-								uni.setStorageSync('userCont', ress.data)
-							}
-						})
 						setTimeout(() => {
 							uni.switchTab({
 								url: '/pages/auction/auction'
