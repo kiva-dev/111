@@ -310,7 +310,7 @@
 						var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
 
 						if (isAndroid) {
-							window.open(res.data.href_url)
+							window.location.href = res.data.href_url
 						} else if (isiOS) {
 							window.location.href = res.data.href_url
 						}

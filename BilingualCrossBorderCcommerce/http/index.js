@@ -112,7 +112,7 @@ request.interceptors.response.use(function(response) { //不要使用箭头函�
 			// #endif
 		}
 		// 未登录
-		if (code === 2) {
+		else if (code === 2) {
 			uni.removeStorageSync('token');
 			let isEnglish = uni.getStorageSync('locale') == 'en' ? true : false;
 			uni.showModal({
@@ -133,7 +133,7 @@ request.interceptors.response.use(function(response) { //不要使用箭头函�
 			return
 		}
 		// 设置支付密码
-		if (code === 3) {
+		else if (code === 3) {
 			uni.navigateTo({
 				url: '/pages/mine/setPassword'
 			})
@@ -147,7 +147,7 @@ request.interceptors.response.use(function(response) { //不要使用箭头函�
 		// 	return
 		// }
 		// 账号不存在
-		if (code == 6) {
+		else if (code == 6) {
 			let isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
 			if (isShopCont) {
 				uni.showToast({

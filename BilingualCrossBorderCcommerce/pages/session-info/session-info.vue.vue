@@ -165,7 +165,7 @@
 			
 			<image class="toolbar-icon voice" @click="showVoice" :src="showVoiceBool ? '/static/icon/keyboard.png':'/static/icon/voice.png'" mode="widthFix"></image>
 			<view class="write-textarea">
-				<textarea v-if="!showVoiceBool" :disabled="messageContenteditable" :adjust-position="false" :show-confirm-bar="false" :fixed="true" :focus="imMessageFocusBool"
+				<textarea confirmType="done" v-if="!showVoiceBool" :disabled="messageContenteditable" :adjust-position="false" :show-confirm-bar="false" :fixed="true" :focus="imMessageFocusBool"
 				 :auto-height="true" :cursor="imMessageFocusCursor" :cursor-spacing="14" maxlength="-1" @blur="imMessageBlur" @input="imMessageInput"
 				 @focus="imMessageFocus" :confirm-type="sendButtonType" @confirm="sendButtonConfirm" v-model="imMessage" class="im-message" :class="messageContenteditable ? 'disabled':''"></textarea>
 				<view v-else class="voice-input" hover-class="voice-input-hover" @touchstart="startRecorder" @touchmove="moveRecorder" @touchend="endRecorder">按住 说话</view>
