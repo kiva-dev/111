@@ -299,7 +299,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					icon: 'none'
 				})
 				if (this.pwd) {
-					let reg = new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d\W_]{8,16}$/) ;
+					let reg = '';
 
 					if (!reg.test(this.pwd)) return uni.showToast({
 						title: this.$t('pwdcd'),
@@ -459,7 +459,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				})
 
 				if (this.pwd) {
-					let reg = new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d\W_]{8,16}$/)
+					let reg = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[A-Za-z\\d\\W_]{8,16}$")
 					if (!reg.test(this.pwd)) return uni.showToast({
 						title: this.$t('pwdcd'),
 						icon: 'none'
@@ -483,7 +483,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					icon: 'none'
 				})
 				//密码不能输入空格
-				let re = /^(?!\s+).*(?<!\s)$/;
+				let re = new RegExp("^(?!\\s+).*(?<!\\s)$");
 				if (re.test(this.pwd || this.pwd2) == true) {
 					uni.showToast({
 						title: this.$t('login.kg'),
