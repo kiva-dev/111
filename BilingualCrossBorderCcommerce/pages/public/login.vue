@@ -401,6 +401,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 								uni.setStorageSync('userCont', ress.data)
 							}
 						})
+						
 						uni.setStorageSync('userinfo', {
 							token: res.data.im_tourists_token,
 							auth_token: res.data.auth_token
