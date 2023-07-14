@@ -17,6 +17,19 @@
 				uni.setLocale('en');
 				this.$i18n.locale = 'en';
 			}
+			uni.onNetworkStatusChange(function (res) {
+				console.log(res);
+			    if (res.isConnected) {
+					const userinfo = uni.getStorageSync('userinfo');
+					if (userinfo) {
+						that.ws.init(userinfo.token, userinfo.auth_token)
+					}
+				} else {
+					that.ws.socketTask.close()
+					that.ws.socketOpen = false
+					that.ws.checkNetwork()
+				}
+			})
 		},
 		onShow() {
 			this.checkLogin()
