@@ -161,15 +161,16 @@
 			<!--一行双列显示-->
 			<template v-else-if="selectId == 2">
 				<view class="new-list-item-two">
-					<view class="info" v-for="(item,i) in productList" :key="i" @click="onJingPai(item)" style="height: 600rpx;">
+					<view class="info" v-for="(item,i) in productList" :key="i" @click="onJingPai(item)"
+						style="height: 600rpx;">
 						<image :src="item.image" class="info-img"></image>
 						<view class="info-tit">{{item.goods_name}}</view>
-						
+
 						<view class="bonus-two" style="bottom: 200rpx;" v-if="item.can_use_invite_money_rate * 1 > 0">
 							<image src="/static/images/new-index/$.png" class="bonus-img"></image>
 							<view class="bonus-info">{{item.can_use_invite_money_rate*1}}% bonus available</view>
 						</view>
-						
+
 						<view class="info-tags">
 							<view class="info-tag">
 								<image src="/static/images/new-index/xx.png"></image>
@@ -224,12 +225,12 @@
 				<view class="new-list-line" v-for="(item,i) in productList" :key="i" @click="onJingPai(item)">
 					<image :src="item.image" class="product_img"></image>
 					<view class="product_txt">{{item.goods_name}}</view>
-					
+
 					<view class="bonus-two" v-if="item.can_use_invite_money_rate * 1 > 0">
 						<image src="/static/images/new-index/$.png" class="bonus-img"></image>
 						<view class="bonus-info">{{item.can_use_invite_money_rate*1}}% bonus available</view>
 					</view>
-					
+
 					<view class="info">
 						<view class="info-left">
 							<view class="info_jd" v-if="id==1">
@@ -560,7 +561,7 @@
 				autoplay: true,
 				interval: 2000,
 				duration: 500,
-				navId: 3, // 头部id
+				navId: 1, // 头部id
 				page: 1, // 页码
 				pagenum: 10, // 每页显示商品数目
 				totalPageNum: 0, // 最新竞拍总条数
@@ -581,7 +582,9 @@
 				isShopCont: false, // 商品详情显示中文还是英文
 				auction_num: '', // 剩余竞拍次数
 				isauctionNum: '', // 输入的抢拍次数
-				shopCont: '', // 商品详情
+				shopCont: {
+					auction_goods_id: 0
+				}, // 商品详情
 				shopNum: '', // 竞拍总价
 				order_no: '', // 订单编号
 				orderPayList: [{
@@ -665,9 +668,15 @@
 				this.title = this.$t('new.jjks')
 				this.onAuctionNotbeginGoods()
 			} else {
-				this.id = e.id
-				this.title = this.$t('new.lsjl')
-				this.onAuctionHistoryGoods()
+				if (uni.getStorageSync('wish_info')) {
+					this.id = 1
+					this.title = this.$t('tab.zzxy')
+					this.onAuctionNewGoods()
+				} else {
+					this.id = e.id
+					this.title = this.$t('new.lsjl')
+					this.onAuctionHistoryGoods()
+				}
 			}
 			let systemInfo = uni.getSystemInfoSync();
 			this.systemLocale = systemInfo.language;
@@ -706,6 +715,18 @@
 					}
 				})
 				uni.removeStorageSync('recharge')
+			}
+
+			if (uni.getStorageSync('wish_info')) {
+				let info = uni.getStorageSync('wish_info')
+				let mine = uni.getStorageSync('mine-info')
+				this.onMineInfo(mine)
+				this.isauctionNum = info.shopNum
+				setTimeout(() => {
+					this.onBtnSub()
+					uni.removeStorageSync('wish_info')
+					uni.removeStorageSync('mine-info')
+				}, 2000)
 			}
 		},
 		onReachBottom() {
@@ -763,7 +784,16 @@
 			},
 			//点击返回按钮、
 			onReturn() {
+				// #ifdef H5
+				if (uni.getStorageSync('window_href')) {
+					window.history.go(-1)
+				} else {
+					uni.navigateBack()
+				}
+				// #endif
+				// #ifdef APP-PLUS
 				uni.navigateBack()
+				// #endif
 			},
 			//点击图片出现入口并且图片旋转
 			transformImg() {
@@ -952,6 +982,7 @@
 			// 个人信息获取剩余竞拍次数
 			onMineInfo(e) {
 				let that = this
+				uni.setStorageSync('mine-info', e)
 				this.isauctionNum = 1
 				this.shopCont = e
 				that.pay_pwd = ''
@@ -977,6 +1008,7 @@
 							(res.data.auction_num === -1) ? e.total_least_num : (res.data.auction_num < e
 								.total_least_num) ? res.data.auction_num : e.total_least_num
 						if (res.data.auction_num !== 0) {
+							if (uni.getStorageSync('wish_info')) return
 							this.$refs.pwdPopup.open()
 						} else {
 							this.$refs.pwdPopup3.open()
@@ -996,13 +1028,14 @@
 					icon: 'none',
 					title: this.$t('user.auctionM.qtxdcsbndysy')
 				})
-				if (!this.selectProtocol) return uni.showToast({
+				if (!this.selectProtocol && !uni.getStorageSync('wish_info')) return uni.showToast({
 					icon: 'none',
 					title: this.$t('login.qydxybty')
 				})
 
 				this.shopNum = this.shopCont.auction_price * Number(this.isauctionNum)
-				this.$refs.pwdPopup.close()
+				if (!uni.getStorageSync('wish_info')) this.$refs.pwdPopup.close()
+
 
 				//RM最多兑换多少k钻
 				this.rmtoKdiamondNum = this.shopNum * 1 > this.balance * 1 ? this.shopNum * 1 - this.balance * 1 : 0
@@ -1061,6 +1094,11 @@
 						duration: 3000,
 						success: () => {
 							uni.setStorageSync('recharge', true)
+							let data = {
+								shopNum: this.shopNum,
+								goods_id: this.shopCont.auction_goods_id
+							}
+							uni.setStorageSync('wish_info', data)
 							setTimeout(() => {
 								uni.navigateTo({
 									url: '/pages/mine/K_brick_detail'
@@ -1083,6 +1121,11 @@
 								duration: 3000,
 								success: () => {
 									uni.setStorageSync('recharge', true)
+									let data = {
+										shopNum: this.shopNum,
+										goods_id: this.shopCont.auction_goods_id
+									}
+									uni.setStorageSync('wish_info', data)
 									setTimeout(() => {
 										uni.navigateTo({
 											url: '/pages/mine/K_brick_detail'
@@ -1100,6 +1143,11 @@
 								duration: 3000,
 								success: () => {
 									uni.setStorageSync('recharge', true)
+									let data = {
+										shopNum: this.shopNum,
+										goods_id: this.shopCont.auction_goods_id
+									}
+									uni.setStorageSync('wish_info', data)
 									setTimeout(() => {
 										uni.navigateTo({
 											url: '/pages/mine/K_brick_detail'
@@ -1192,15 +1240,14 @@
 </script>
 
 <style lang="less" scoped>
-	
 	/deep/.uni-progress-inner-bar {
 		border-radius: 9rpx !important;
 	}
-	
+
 	/deep/.uni-progress-bar {
 		border-radius: 9rpx !important;
 	}
-	
+
 	//右侧固定栏滚动
 	.removeRightX {
 		transform: translateX(80rpx);
@@ -1272,7 +1319,7 @@
 
 			.xyImg {
 				width: 100%;
-				margin-top: -72rpx;
+				// margin-top: -72rpx;
 			}
 		}
 
@@ -1834,12 +1881,15 @@
 						position: absolute;
 						top: 20rpx;
 						width: 352rpx;
-						font-size: 28rpx;
+						font-size: 24rpx;
 						font-weight: bold;
 						color: rgb(51, 51, 51);
 						overflow: hidden;
 						text-overflow: ellipsis;
-						white-space: nowrap;
+						word-break: break-all;
+						display: -webkit-box;
+						-webkit-box-orient: vertical;
+						-webkit-line-clamp: 2;
 					}
 
 					.product-right-txt {
@@ -1859,7 +1909,7 @@
 
 					.new-list-item-right-tags {
 						position: absolute;
-						top: 64rpx;
+						top: 84rpx;
 						width: 100%;
 						font-size: 16rpx;
 						color: rgb(102, 102, 102);
@@ -1901,7 +1951,7 @@
 
 					.new-list-item-right-start {
 						position: absolute;
-						top: 110rpx;
+						top: 130rpx;
 						width: 100%;
 						display: flex;
 						align-items: center;
@@ -1933,7 +1983,7 @@
 
 					.new-list-item-right-jd {
 						position: absolute;
-						top: 146rpx;
+						top: 160rpx;
 						width: 100%;
 						display: flex;
 						align-items: center;
@@ -1995,7 +2045,7 @@
 
 					.new-list-item-btm {
 						position: absolute;
-						bottom: 24rpx;
+						bottom: 14rpx;
 						width: 100%;
 						display: flex;
 						align-items: center;
@@ -2242,11 +2292,14 @@
 						color: rgb(51, 51, 51);
 						overflow: hidden;
 						text-overflow: ellipsis;
-						white-space: nowrap;
-						margin: 16rpx auto;
+						word-break: break-all;
+						display: -webkit-box;
+						-webkit-box-orient: vertical;
+						-webkit-line-clamp: 2;
+						margin: 16rpx auto 10rpx auto;
 					}
-					
-					.bonus-two{
+
+					.bonus-two {
 						width: 190rpx;
 						height: 28rpx;
 						display: flex;
@@ -2254,20 +2307,21 @@
 						box-sizing: border-box;
 						border: 1rpx solid rgb(255, 57, 57);
 						border-radius: 28rpx;
-						margin: 0 0 18rpx 24rpx;
-						image{
+						margin: 0 0 10rpx 24rpx;
+
+						image {
 							display: block;
 							width: 28rpx;
 							height: 28rpx;
 						}
-						
-						view{
+
+						view {
 							font-size: 16rpx;
 							color: rgb(255, 57, 57);
 							white-space: nowrap;
 							margin-left: 4rpx;
 						}
-						
+
 					}
 
 					.info-tags {
@@ -2305,7 +2359,7 @@
 						position: relative;
 						width: 296rpx;
 						height: 20rpx;
-						margin: 18rpx auto;
+						margin: 10rpx auto;
 
 						image {
 							position: absolute;
@@ -2425,10 +2479,16 @@
 					width: 628rpx;
 					font-size: 28rpx;
 					color: rgb(51, 51, 51);
+					overflow: hidden;
+					text-overflow: ellipsis;
+					word-break: break-all;
+					display: -webkit-box;
+					-webkit-box-orient: vertical;
+					-webkit-line-clamp: 2;
 					margin: 16rpx auto 24rpx auto;
 				}
-				
-				.bonus-two{
+
+				.bonus-two {
 					width: 190rpx;
 					height: 28rpx;
 					display: flex;
@@ -2437,20 +2497,20 @@
 					border: 1rpx solid rgb(255, 57, 57);
 					border-radius: 28rpx;
 					margin: 0 0 18rpx 24rpx;
-					
-					image{
+
+					image {
 						display: block;
 						width: 28rpx;
 						height: 28rpx;
 					}
-					
-					view{
+
+					view {
 						font-size: 16rpx;
 						color: rgb(255, 57, 57);
 						white-space: nowrap;
 						margin-left: 4rpx;
 					}
-					
+
 				}
 
 				.info {

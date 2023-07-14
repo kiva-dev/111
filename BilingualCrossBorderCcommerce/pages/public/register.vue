@@ -128,7 +128,8 @@
 					<view class="email-input">
 						<image src="../../static/images/new-index/yqcode.png" class="logo"></image>
 						<view class="email-input-info">
-							<u--input :placeholder="$t('login.qsryqm')" border="none" v-model="invite_code"></u--input>
+							<u--input :placeholder="$t('login.qsryqm')" border="none" :disabled="isDisabled"
+								disabledColor="#f1f1f1" v-model="share_code"></u--input>
 						</view>
 					</view>
 
@@ -245,10 +246,16 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				isQuanShow: false,
 				isShopCont: false, // 中文还是英文
 				isPwdShow: false,
-				isPwdOkShow: false
+				isPwdOkShow: false,
+				isDisabled: false
 			}
 		},
 		onLoad(e) {
+			if (e.promotion_code) {
+				this.isDisabled=true
+				this.share_code = e.promotion_code
+			}
+
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
 			this.invite_code = e.invite_code ? e.invite_code : ''
 			if (sessionStorage.getItem("invite_code")) {
@@ -366,8 +373,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					icon: 'none'
 				})
 				if (this.pwd) {
-					let reg =/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d\W_]{8,16}$/
-				
+					let reg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d\W_]{8,16}$/
+
 					if (!reg.test(this.pwd)) return uni.showToast({
 						title: this.$t('pwdcd'),
 						icon: 'none'
@@ -392,7 +399,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					mobile_area_code: this.mobile_area_code.slice(1), // 手机号区域码
 					pwd: pwd, // 密码
 					pwd2: pwd, // 再次输入的密码
-					invite_code: this.invite_code, // 邀请码
+					invite_code: this.share_code, // 邀请码
 				}).then(res => {
 					if (res.code == 1) {
 						uni.showToast({
@@ -553,15 +560,15 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				})
 				//密码不能输入空格
 				let re = /^(?!\s+).*(?<!\s)$/;
-				if (re.test(this.pwd||this.pwd2) == true) {
+				if (re.test(this.pwd || this.pwd2) == true) {
 					uni.showToast({
 						title: this.$t('login.kg'),
 						icon: 'none'
 					})
 				}
 				//密码中不能输入汉字
-				let h=/[\u4E00-\u9FA5]/g;
-				if (h.test(this.pwd||this.pwd2) == true) {
+				let h = /[\u4E00-\u9FA5]/g;
+				if (h.test(this.pwd || this.pwd2) == true) {
 					uni.showToast({
 						title: this.$t('login.hz'),
 						icon: 'none'
@@ -573,10 +580,9 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					mask: true
 				});
 				this.$http.post(this.$apiObj.LoginEmailRegister, {
-
 					pwd: pwd, // 密码
 					pwd2: pwd, // 再次输入的密码
-					invite_code: this.invite_code, // 邀请码
+					invite_code: this.share_code, // 邀请码
 					email: this.email, // 邮箱
 					email_code: this.email_code, // 邮箱验证码
 				}).then(res => {

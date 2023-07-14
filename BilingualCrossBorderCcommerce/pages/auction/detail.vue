@@ -38,7 +38,7 @@
 						<view class="left">
 							<image src="/static/images/kbrick/diamond.png">
 								{{shopCont.auction_price}}
-							<text>(RM{{shopCont.auction_price}})</text>
+								<text>(RM{{shopCont.auction_price}})</text>
 						</view>
 						<view class="right">RM{{shopCont.price}}</view>
 					</view>
@@ -46,14 +46,14 @@
 						{{$u.timeFormat(shopCont.end_time, 'yyyy/mm/dd hh:MM:ss')}} {{$t('auction.detail.yijs')}}
 					</view>
 					<view class="detail-price-time" v-else-if="shopCont.check_status==2">
-						{{$t('new.jljs')}}：{{hour}}:{{minute}}:{{second}}
+						{{$t('new.jljs')}}：<u-count-down :time="shopCont.pre_end_time" format="HH:mm:ss"></u-count-down>
 					</view>
 					<view class="detail-price-time" v-else>
 						{{$t('new.jlks')}}：<u-count-down :time="(shopCont.start_time*1000)"
 							format="HH:mm:ss"></u-count-down>
 					</view>
 				</view>
-				
+
 				<view class="detail-price-time" v-if="shopCont.check_status==3||shopCont.check_status==4">
 					{{$u.timeFormat(shopCont.end_time, 'yyyy/mm/dd hh:MM:ss')}} {{$t('auction.detail.yijs')}}
 				</view>
@@ -704,7 +704,9 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				navId: 1,
 				current: 0,
 				mode: 'nav',
-				shopCont: '', // 商品详情
+				shopCont: {
+					id:0
+				}, // 商品详情
 				timeData: {},
 				auction_num: '', // 竞拍次数
 				orderPayList: [{
@@ -790,7 +792,12 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					this.e_auction_rule = this.onHtmlcont(res.data.e_auction_rule)
 				}
 			})
-			this.id = e.id
+			if (uni.getStorageSync('wish_info')) {
+				let info = uni.getStorageSync('wish_info')
+				this.id = info.goods_id
+			}else {
+				this.id = e.id
+			}
 			// 竞拍商品详情
 			this.onAuctionDetail()
 			// 某商品幸运之星
@@ -813,6 +820,18 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				})
 				uni.removeStorageSync('recharge')
 			}
+			
+			if (uni.getStorageSync('wish_info')) {
+				let info = uni.getStorageSync('wish_info')
+				this.onMineInfos()
+				this.isauctionNum = info.shopNum
+				setTimeout(()=>{
+					this.onBtnSub()
+					uni.removeStorageSync('wish_info')
+					uni.removeStorageSync('mine-info')
+				},2000)
+			}
+			
 		},
 		beforeDestroy() {
 			clearInterval(this.timer)
@@ -960,10 +979,16 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					.exec();
 			},
 			toIndex() {
-				uni.navigateBack()
-				// uni.switchTab({
-				// 	url: '/pages/auction/auction'
-				// })
+				// #ifdef H5
+				if (uni.getStorageSync('window_href')) {
+					window.history.go(-1)
+				}else{
+					uni.navigateBack()
+				}
+				// #endif
+				// #ifdef APP-PLUS
+					uni.navigateBack()
+				// #endif
 			},
 			// 某商品幸运之星
 			onAuctionGoodLucky() {
@@ -1257,8 +1282,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							.auction_num : this.shopCont.total_least_num
 						// this.auction_num = 10
 						if (res.data.auction_num !== 0) {
+							if(uni.getStorageSync('wish_info')) return
 							this.qiangpaiShow = true
-							// this.$refs.qiangpaiShow.open()
 						} else {
 							this.$refs.pwdPopup.open()
 						}
@@ -1281,7 +1306,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					title: this.$t('user.auctionM.qtxqpcs')
 				})
 
-				if (!this.selectProtocol) return uni.showToast({
+				if (!this.selectProtocol && !uni.getStorageSync('wish_info')) return uni.showToast({
 					icon: 'none',
 					title: this.$t('login.qydxybty')
 				})
@@ -1307,8 +1332,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					title: this.$t('user.auctionM.qtxqpcs')
 				})
 				this.shopNum = (this.shopCont.auction_price * Number(this.isauctionNum)).toFixed(2)
-				// this.$refs.qiangpaiShow.close()
-				this.qiangpaiShow = false
+				if(!uni.getStorageSync('wish_info')) this.qiangpaiShow = false
 
 				//RM最多兑换多少k钻
 				this.rmtoKdiamondNum = this.shopNum * 1 > this.balance * 1 ? this.shopNum * 1 - this.balance * 1 : 0
@@ -1454,6 +1478,11 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						duration: 3000,
 						success: () => {
 							uni.setStorageSync('recharge', true)
+							let data = {
+								shopNum: this.shopNum,
+								goods_id: this.shopCont.id
+							}
+							uni.setStorageSync('wish_info', data)
 							setTimeout(() => {
 								uni.navigateTo({
 									url: '/pages/mine/K_brick_detail'
@@ -1476,6 +1505,11 @@ NoR+zv3KaEmPSHtooQIDAQAB
 								duration: 3000,
 								success: () => {
 									uni.setStorageSync('recharge', true)
+									let data = {
+										shopNum: this.shopNum,
+										goods_id: this.shopCont.id
+									}
+									uni.setStorageSync('wish_info', data)
 									setTimeout(() => {
 										uni.navigateTo({
 											url: '/pages/mine/K_brick_detail'
@@ -1493,6 +1527,11 @@ NoR+zv3KaEmPSHtooQIDAQAB
 								duration: 3000,
 								success: () => {
 									uni.setStorageSync('recharge', true)
+									let data = {
+										shopNum: this.shopNum,
+										goods_id: this.shopCont.id
+									}
+									uni.setStorageSync('wish_info', data)
 									setTimeout(() => {
 										uni.navigateTo({
 											url: '/pages/mine/K_brick_detail'
@@ -1953,19 +1992,19 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			align-items: center;
 
 			.detail-price-new {
-				
-				.left{
+
+				.left {
 					font-size: 40rpx;
 					font-weight: 700;
 					color: rgb(255, 255, 255);
 					display: flex;
 					align-items: flex-end;
-					
+
 					image {
 						width: 40rpx;
 						height: 40rpx;
 					}
-					
+
 					text {
 						font-size: 20rpx;
 						font-weight: 100;
@@ -1973,7 +2012,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					}
 				}
 
-				.right{
+				.right {
 					font-size: 24rpx;
 					color: rgb(248, 248, 248);
 					text-decoration: line-through;

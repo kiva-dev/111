@@ -78,7 +78,7 @@
 							</image>
 						</view>
 						<view class="ci-left-info">
-							<view class="info-tit">{{item.memo}}</view>
+							<view class="info-tit">{{isShopCont ?item.memo_en : item.memo}}</view>
 							<view class="info-time">{{$filter.to_date_time(item.addtime)}}</view>
 						</view>
 					</view>
@@ -97,7 +97,7 @@
 							</image>
 						</view>
 						<view class="ci-left-info">
-							<view class="info-tit">{{item.memo}}</view>
+							<view class="info-tit">{{isShopCont ?item.memo_en : item.memo}}</view>
 							<view class="info-time">{{$filter.to_date_time(item.addtime)}}</view>
 						</view>
 					</view>
@@ -129,12 +129,14 @@
 				MoneyList: [],
 				navId: 2,
 				totalJf: 0,
-				kdiamond: 0
+				kdiamond: 0,
+				isShopCont: false
 			}
 		},
 		onShow() {
 			this.page = 1
 			// this.MoneyList = []
+			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
 			// 获取个人信息
 			this.$http.post(this.$apiObj.MineInfo).then(res => {
 				if (res.code == 1) {
@@ -181,53 +183,6 @@
 					pagenum: this.pagenum
 				}).then(res => {
 					if (res.code == 1) {
-						res.data.data.forEach(item => {
-							let zhStr = item.memo
-							let appid = '20230630001729096'
-							let userkey = '8e_t3vzBtUjLMRNafCp5'
-							let salt = (new Date).getTime()
-							const str = `${appid}${zhStr}${salt}${userkey}`;
-							const sign = md5(str); /* md5加密，生成签名 */
-							const params = {
-								q: zhStr,
-								from: 'zh',
-								to: 'en',
-								appid: appid,
-								sign,
-								salt: salt
-							}
-
-							//#ifdef H5
-							// console.log($, "======uni-app的H5模式引入JQuery=====");
-							if (isShopCont) {
-								$.ajax({
-									url: 'https://api.fanyi.baidu.com/api/trans/vip/translate',
-									type: 'get',
-									dataType: 'jsonp',
-									data: params,
-									success: function(data) {
-										item.memo = data.trans_result[0].dst || ''
-									}
-								});
-							}
-							//#endif
-							// #ifdef APP-PLUS
-							if (isShopCont) {
-								uni.request({
-									url: 'https://api.fanyi.baidu.com/api/trans/vip/translate', //仅为示例，并非真实接口地址。
-									data: params,
-									header: {
-										'custom-header': 'hello' //自定义请求头信息
-									},
-									success: (res) => {
-										item.memo = res.data.trans_result[0].dst || ''
-									}
-								});
-							}
-							// #endif
-
-						})
-
 						this.totalPageNum = res.data.total
 						this.MoneyList = this.page == 1 ? res.data.data : [...this.MoneyList, ...res.data.data]
 					}
@@ -236,57 +191,13 @@
 			//k钻明细
 			getAllList() {
 				let isShopCont = uni.getStorageSync('locale') == 'en' ? true : false // 中文还是英文
-				
+
 				this.$http.post(this.$apiObj.diamondDetail, {
 					page: 1,
 					pagenum: 20
 				}).then(res => {
-					res.data.data.forEach(item=>{
-						let zhStr = item.memo
-						let appid = '20230630001729096'
-						let userkey = '8e_t3vzBtUjLMRNafCp5'
-						let salt = (new Date).getTime()
-						const str = `${appid}${zhStr}${salt}${userkey}`;
-						const sign = md5(str); /* md5加密，生成签名 */
-						const params = {
-							q: zhStr,
-							from: 'zh',
-							to: 'en',
-							appid: appid,
-							sign,
-							salt: salt
-						}
-						
-						//#ifdef H5
-						// console.log($, "======uni-app的H5模式引入JQuery=====");
-						if (isShopCont) {
-							$.ajax({
-								url: 'https://api.fanyi.baidu.com/api/trans/vip/translate',
-								type: 'get',
-								dataType: 'jsonp',
-								data: params,
-								success: function(data) {
-									item.memo = data.trans_result[0].dst
-								}
-							});
-						}
-						//#endif
-						// #ifdef APP-PLUS
-						if (isShopCont) {
-							uni.request({
-								url: 'https://api.fanyi.baidu.com/api/trans/vip/translate', //仅为示例，并非真实接口地址。
-								data: params,
-								header: {
-									'custom-header': 'hello' //自定义请求头信息
-								},
-								success: (res) => {
-									item.memo = res.data.trans_result[0].dst
-								}
-							});
-						}
-						// #endif
-					})
-					this.MoneyList = res.data.data
+					this.totalPageNum = res.data.total
+					this.MoneyList = this.page == 1 ? res.data.data : [...this.MoneyList, ...res.data.data]
 				})
 			},
 			//导航点击的跳转处理函数
