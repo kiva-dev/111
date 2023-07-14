@@ -344,6 +344,11 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							title: this.$t('login.dlcg'),
 							icon: 'none'
 						})
+						uni.setStorageSync('userinfo', {
+							token:res.data.im_tourists_token,
+							auth_token:res.data.auth_token
+						});
+						that.ws.init(res.data.userinfo.token, res.data.userinfo.auth_token)
 						uni.setStorageSync('token', res.data.token)
 						this.$http.post(this.$apiObj.MineInfo).then(ress => {
 							if (ress.code == 1) {
@@ -394,6 +399,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							token:res.data.im_tourists_token,
 							auth_token:res.data.auth_token
 						});
+						that.ws.init(res.data.userinfo.token, res.data.userinfo.auth_token)
 						uni.setStorageSync('token', res.data.token)
 						this.$http.post(this.$apiObj.MineInfo).then(ress => {
 							if (ress.code == 1) {

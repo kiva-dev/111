@@ -238,8 +238,18 @@
 						uni.reLaunch({
 							url: '/pages/public/login'
 						});
+						this.logout()
 					}
 				})
+			},
+			logout: function () {
+				var that = this
+				if (!that.ws.socketOpen || parseInt(that.ws.initializeData.config.uni_push_switch) == 0) {
+					that.ws.logout()
+				} else {
+					that.ws.pushCid('logout')
+				}
+				that.ws.logout()
 			},
 			toggle() {
 				this.$refs.popup1.open()
