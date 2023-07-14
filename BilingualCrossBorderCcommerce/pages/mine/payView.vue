@@ -88,9 +88,9 @@
 				var isAndroid = u.indexOf("Android") > -1 || u.indexOf("Adr") > -1; //android终端
 				var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
 				if (isAndroid) {
-					window.opener = null;
-					window.open('', '_self');
-					window.close();
+					window.history.go(-3);
+				}else if(isiOS){
+					window.history.go(-1);
 				}
 
 			}

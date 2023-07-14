@@ -283,7 +283,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		methods: {
 			toIndex() {
 				uni.switchTab({
-					url: '/pages/auction/new_index'
+					url: '/pages/auction/auction'
 				})
 			},
 			onLocaleChange(e) {
@@ -354,7 +354,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 								uni.setStorageSync('userCont', ress.data)
 							}
 						})
-						this.ws.init(res.data.userinfo.im_tourists_token, res.data.userinfo.auth_token)
+						this.ws.init(res.data.im_tourists_token, res.data.auth_token)
 						setTimeout(() => {
 							uni.switchTab({
 								url: '/pages/auction/auction'
@@ -396,17 +396,19 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							icon: 'none'
 						})
 						uni.setStorageSync('token', res.data.token)
-						this.$http.post(this.$apiObj.MineInfo).then(ress => {
-							if (ress.code == 1) {
-								uni.setStorageSync('userCont', ress.data)
-							}
-						})
 						
 						uni.setStorageSync('userinfo', {
 							token: res.data.im_tourists_token,
 							auth_token: res.data.auth_token
 						});
+
+						this.$http.post(this.$apiObj.MineInfo).then(ress => {
+							if (ress.code == 1) {
+								uni.setStorageSync('userCont', ress.data)
+							}
+						})
 						this.ws.init(res.data.im_tourists_token, res.data.auth_token)
+
 						setTimeout(() => {
 							uni.switchTab({
 								url: '/pages/auction/auction'
