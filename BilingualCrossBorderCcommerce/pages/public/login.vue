@@ -373,6 +373,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					title: this.$t('login.qsrmm'),
 					icon: 'none'
 				})
+				
 				if (this.email) {
 					var reg_tel = /^[a-zA-Z0-9]+([-_.][a-zA-Z0-9]+)*@([a-zA-Z0-9]+[-.])+[A-Za-zd]{2,5}$/
 					if (!reg_tel.test(this.email)) return uni.showToast({
