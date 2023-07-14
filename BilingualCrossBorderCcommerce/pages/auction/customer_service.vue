@@ -148,7 +148,6 @@
 <style lang="less" scoped>
 	.view_page {
 		width: 100%;
-		min-height: 100vh;
 		background: rgb(248, 248, 248);
 		z-index: 9999;
 		.uni-popup{

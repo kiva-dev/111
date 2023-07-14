@@ -59,7 +59,7 @@
 		</view>
 		
 		<!-- 正在录音-start -->
-		<view v-if="recording" class="recorder-box">
+		<!-- <view v-if="recording" class="recorder-box">
 			<view class="recorder-del" id="delrecorder" :style="{opacity: delElOpacity}">
 				<image class="recorder-img" src="/static/icon/del.png" mode="widthFix"></image>
 				<view class="recorder-text">{{recorderText}}</view>
@@ -69,7 +69,7 @@
 				<image class="recording" src="/static/icon/recording.gif" mode="widthFix"></image>
 				<view v-if="recordingCountDown !== false" class="recorder-content">还能录制 {{recordingCountDown}} 秒</view>
 			</view>
-		</view>
+		</view> -->
 		<!-- 正在录音-end -->
 		
 		<!-- 聊天记录-start -->
@@ -163,15 +163,15 @@
 			</view>
 			<!-- @群成员-end -->
 			
-			<image class="toolbar-icon voice" @click="showVoice" :src="showVoiceBool ? '/static/icon/keyboard.png':'/static/icon/voice.png'" mode="widthFix"></image>
-			<view class="write-textarea">
+			<!-- <image class="toolbar-icon voice" @click="showVoice" :src="showVoiceBool ? '/static/icon/keyboard.png':'/static/icon/voice.png'" mode="widthFix"></image> -->
+			<view class="write-textarea" style="margin: 5px 0px 5px 40px;border-radius: 10px;">
 				<textarea confirmType="done" v-if="!showVoiceBool" :disabled="messageContenteditable" :adjust-position="false" :show-confirm-bar="false" :fixed="true" :focus="imMessageFocusBool"
 				 :auto-height="true" :cursor="imMessageFocusCursor" :cursor-spacing="14" maxlength="-1" @blur="imMessageBlur" @input="imMessageInput"
 				 @focus="imMessageFocus" :confirm-type="sendButtonType" @confirm="sendButtonConfirm" v-model="imMessage" class="im-message" :class="messageContenteditable ? 'disabled':''"></textarea>
 				<view v-else class="voice-input" hover-class="voice-input-hover" @touchstart="startRecorder" @touchmove="moveRecorder" @touchend="endRecorder">按住 说话</view>
 			</view>
-			<view class="write-right" :style="{flex:showSendButton ? 3:2}">
-				<image class="toolbar-icon emoji" src="/static/icon/emoji.png" @click="clickTool('emoji')" mode="widthFix"></image>
+			<view class="write-right" >
+				<!-- <image class="toolbar-icon emoji" src="/static/icon/emoji.png" @click="clickTool('emoji')" mode="widthFix"></image> -->
 				<button class="send-btn" @click="sendMessage(imMessage, 'default')" hover-class="send-btn-hover" v-if="showSendButton">Send</button>
 				<image class="toolbar-icon more" src="/static/icon/more.png" @click="clickTool('more')" mode="widthFix" v-if="!showSendButton"></image>
 			</view>
@@ -180,11 +180,11 @@
 		
 		<view v-if="showTool" class="footer-tool">
 			<!-- 表情-start -->
-			<view v-if="showTool == 'emoji'">
+			<!-- <view v-if="showTool == 'emoji'">
 				<view v-for="(item, index) in emoji" :key="index" class="emoji-img" hover-class="emoji-img-hover">
 					<image :src="item.image" @click="selectEmoji(index)"></image>
 				</view>
-			</view>
+			</view> -->
 			<!-- 表情-end -->
 			<!-- 快捷回复-start -->
 			<view v-if="showTool == 'reply'" class="reply-list">
@@ -205,7 +205,7 @@
 					<image src="/static/icon/image.png"></image>
 					<view>Send Order</view>
 				</view>
-				<customerService ref="customerService" @propsSendMessage='propsSendMessage'/>
+				<customerService ref="customerService" @propsSendMessage='propsSendMessage' class="customerServiceStyle "/>
 				<!-- <u-button @click="popShow = true">打开</u-button> -->
 				<!-- <view @click="clickMoreTool('attachment')" class="toolbar-item" hover-class="toolbar-item-hover">
 					<image src="/static/icon/attachment.png"></image>
@@ -1205,6 +1205,9 @@ page {
 	background-color: #F5F6F7;
 	overflow: hidden;
 }
+.customerServiceStyle{
+	z-index: 9999;
+}
 .menu-wrap {
 	display: flex;
 	align-items: center;
@@ -1620,6 +1623,7 @@ page {
 	display: flex;
 	flex-wrap: wrap;
 	padding: 10rpx;
+	z-index: 1;
 }
 .toolbar-item {
 	width: 25%;
