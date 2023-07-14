@@ -9,6 +9,7 @@
 	});
 	export default {
 		onLaunch() {
+			var that = this
 			if (!uni.getStorageSync('UNI_LOCALE')) {
 				uni.setStorageSync('UNI_LOCALE', 'en');
 				uni.setStorageSync('locale', 'en');
@@ -18,7 +19,6 @@
 				this.$i18n.locale = 'en';
 			}
 			uni.onNetworkStatusChange(function (res) {
-				console.log(res);
 			    if (res.isConnected) {
 					const userinfo = uni.getStorageSync('userinfo');
 					if (userinfo) {
