@@ -55,7 +55,9 @@
 				price: 0,
 				time: '',
 				status: '',
-				type: 0
+				type: 0,
+				list: [],
+				str: ''
 			}
 		},
 		onLoad(e) {
@@ -66,6 +68,7 @@
 				this.time = data[0].time
 				this.price = data[0].money
 				this.order_no = data[0].out_trade_no
+				this.str = data[0].front_extra
 			}
 		},
 		mounted() {
@@ -84,14 +87,34 @@
 				})
 			},
 			toDetail() {
-				var u = navigator.userAgent;
-				var isAndroid = u.indexOf("Android") > -1 || u.indexOf("Adr") > -1; //android终端
-				var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
-				if (isAndroid) {
-					window.history.go(-3);
-				}else if(isiOS){
-					window.history.go(-1);
-				}
+				this.list = getCurrentPages()
+				// var u = navigator.userAgent;
+				// var isAndroid = u.indexOf("Android") > -1 || u.indexOf("Adr") > -1; //android终端
+				// var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+				// if (isAndroid) {
+				// 	window.history.go(-2);
+				// }else if(isiOS){
+				// 	window.history.go(-2);
+				// }
+
+				// 检测是否在iOS设备上
+
+				let arr = this.str.split(',')
+				arr.forEach(item => {
+					console.log(item, '-----')
+					let msg = item.split('/')
+					console.log(msg, '-11111----')
+					window.history.pushState(null, '', 'https://kjtest.ysxrj.cn/' + item);
+				})
+				console.log(window.history.length, '======')
+				window.history.go(0)
+				// const originalUrl = window.location.href;
+
+				// window.history.replaceState(null,'','https://kjtest.ysxrj.cn/pages/mine/mine')
+
+				// // 使用pushState方法添加一个历史记录
+				// window.history.pushState(null, '', originalUrl);
+
 
 			}
 		}

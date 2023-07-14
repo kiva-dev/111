@@ -12,40 +12,40 @@
 
 			<view class="share-buzou">
 				<view class="share-buzou-left">setp 01</view>
-				<view class="share-buzou-right">Registration, login,<br /> and real-name authentication</view>
+				<view class="share-buzou-right">Recharge</view>
 			</view>
 
 			<image class="share-img" src="/static/images/mine/share/content1.png"></image>
 
 			<view class="share-buzou">
 				<view class="share-buzou-left">setp 02</view>
-				<view class="share-buzou-right">Recharge</view>
+				<view class="share-buzou-right">Place an order to participate in the wish</view>
 			</view>
 			
 			<image class="share-img2" src="/static/images/mine/share/content2.png"></image>
 			
 			<view class="share-buzou">
 				<view class="share-buzou-left">setp 03</view>
-				<view class="share-buzou-right">Place an order to participate <br/>in the auction</view>
+				<view class="share-buzou-right">My Wish List</view>
 			</view>
 			
 			<image class="share-img3" src="/static/images/mine/share/content3.png"></image>
 			
 			<view class="share-buzou">
 				<view class="share-buzou-left">setp 04</view>
-				<view class="share-buzou-right">Receveid Reward</view>
+				<view class="share-buzou-right">Cash withdrawal</view>
 			</view>
 			
 			<image class="share-img4" src="/static/images/mine/share/content4.png"></image>
 			
-			<view class="share-buzou">
+			<!-- <view class="share-buzou">
 				<view class="share-buzou-left">setp 05</view>
 				<view class="share-buzou-right">Cash withdrawal</view>
 			</view>
 			
 			<view class="share-content-bottom">
 				In the "Me" menu, select "My wallet" - "Withdrawal", enter the amount you want to withdraw, select your bank card account, and submit. After receiving your withdrawal application, the platform will process it for you as soon as possible.
-			</view>
+			</view> -->
 			
 		</view>
 		
@@ -85,8 +85,11 @@
 	export default{
 		data(){
 			return {
-				
+				promotion_code:''
 			}
+		},
+		onLoad(e) {
+			if(e.promotion_code) this.promotion_code = e.promotion_code
 		},
 		methods:{
 			toindex(){
@@ -96,7 +99,7 @@
 			},
 			toregister(){
 				uni.navigateTo({
-					url:'/pages/public/register'
+					url:'/pages/public/register?promotion_code='+this.promotion_code
 				})
 			},
 			open(){
@@ -182,7 +185,7 @@
 					font-weight: 700;
 					color: #FFFFFF;
 					text-indent: 16rpx;
-					background: linear-gradient(180.00deg, rgba(255, 134, 114, 1.00), rgba(255, 169.27, 121.7, 1.00) 100%);
+					background: linear-gradient(180.00deg, rgb(51, 222, 114),rgb(5, 195, 146) 98.871%);
 					opacity: 0.7;
 					border-radius: 0rpx 40rpx 40rpx 0rpx;
 				}
@@ -190,7 +193,7 @@
 				.share-buzou-right {
 					// width: 446rpx;
 					font-size: 32rpx;
-					color: #E33307;
+					color: rgb(51, 222, 114);
 					margin-left: 30rpx;
 				}
 
@@ -206,21 +209,21 @@
 			.share-img2 {
 				display: block;
 				width: 640rpx;
-				height: 2514rpx;
+				height: 3966rpx;
 				margin: 64rpx auto 0 auto;
 			}
 			
 			.share-img3 {
 				display: block;
 				width: 640rpx;
-				height: 4314rpx;
+				height: 2682rpx;
 				margin: 64rpx auto 0 auto;
 			}
 			
 			.share-img4 {
 				display: block;
 				width: 640rpx;
-				height: 2104rpx;
+				height: 1550rpx;
 				margin: 64rpx auto 0 auto;
 			}
 			

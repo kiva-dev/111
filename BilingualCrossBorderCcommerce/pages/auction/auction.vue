@@ -1131,9 +1131,9 @@
 				</view>
 			</view>
 		</view>
-	
-		<customerService ref="customerService" @showContactFun="showContactFun"/>
-	
+
+		<customerService ref="customerService" @showContactFun="showContactFun" />
+
 	</view>
 </template>
 
@@ -1209,7 +1209,9 @@
 				isShopCont: false, // 商品详情显示中文还是英文
 				auction_num: '', // 剩余竞拍次数
 				isauctionNum: '', // 输入的抢拍次数
-				shopCont: '', // 商品详情
+				shopCont: {
+					auction_goods_id:0
+				}, // 商品详情
 				shopNum: '', // 竞拍总价
 				order_no: '', // 订单编号
 				orderPayList: [{
@@ -1258,7 +1260,8 @@
 				totalNum: 0,
 				zenjinToRmNum: 0, //赠金可以用于扣除的数量
 				changShopNum: 0, //使用赠金后的k钻
-				set_paypwd: ''
+				set_paypwd: '',
+				invite_money_balance:0
 			}
 		},
 		watch: {
@@ -1358,6 +1361,18 @@
 				uni.removeStorageSync('recharge')
 			}
 
+			if (uni.getStorageSync('wish_info')) {
+				let info = uni.getStorageSync('wish_info')
+				let mine = uni.getStorageSync('mine-info')
+				this.onMineInfo(mine)
+				this.isauctionNum = info.shopNum
+				setTimeout(()=>{
+					this.onBtnSub()
+					uni.removeStorageSync('wish_info')
+					uni.removeStorageSync('mine-info')
+				},2000)
+			}
+
 		},
 		onReachBottom() {
 			if (this.page * this.pagenum >= this.totalNum) return
@@ -1375,7 +1390,7 @@
 			// }, 1000)
 		},
 		methods: {
-			showContactFun(i){
+			showContactFun(i) {
 				this.showContact = i
 			},
 			//商品分类logo页面跳转
@@ -1633,6 +1648,7 @@
 			// 个人信息获取剩余竞拍次数
 			onMineInfo(e) {
 				let that = this
+				uni.setStorageSync('mine-info',e)
 				this.isauctionNum = 1
 				this.shopCont = e
 				that.pay_pwd = ''
@@ -1658,6 +1674,7 @@
 							(res.data.auction_num === -1) ? e.total_least_num : (res.data.auction_num < e
 								.total_least_num) ? res.data.auction_num : e.total_least_num
 						if (res.data.auction_num !== 0) {
+							if(uni.getStorageSync('wish_info')) return
 							this.$refs.pwdPopup.open()
 						} else {
 							this.$refs.pwdPopup3.open()
@@ -1677,24 +1694,28 @@
 					icon: 'none',
 					title: this.$t('user.auctionM.qtxdcsbndysy')
 				})
-				if (!this.selectProtocol) return uni.showToast({
+				if (!this.selectProtocol && !uni.getStorageSync('wish_info')) return uni.showToast({
 					icon: 'none',
 					title: this.$t('login.qydxybty')
 				})
 
 				this.shopNum = this.shopCont.auction_price * Number(this.isauctionNum)
-				this.$refs.pwdPopup.close()
+				if (!uni.getStorageSync('wish_info')) this.$refs.pwdPopup.close()
+
 
 				//RM最多兑换多少k钻
 				this.rmtoKdiamondNum = this.shopNum * 1 > this.balance * 1 ? this.shopNum * 1 - this.balance * 1 : 0
+
 				//使用赠金后的k钻数量
 				this.changShopNum = this.shopNum * 1 - (this.invite_money_balance * 1 > this.shopNum * 1 * (this
 					.can_use_invite_money_rate * 1 / 100) ? this.shopNum * 1 * (this.can_use_invite_money_rate *
 					1 / 100) : this.invite_money_balance * 1)
+
 				//赠金可抵扣rm的数量
 				this.zenjinToRmNum = (this.invite_money_balance * 1 > this.shopNum * 1 * (this.can_use_invite_money_rate *
 						1 / 100) ? this.shopNum * 1 * (this.can_use_invite_money_rate * 1 / 100) : this
 					.invite_money_balance * 1)
+					
 
 				//最多使用多少赠金
 				let zjPrice = (this.shopNum * 1) * (this.can_use_invite_money_rate * 1 / 100)
@@ -1742,10 +1763,16 @@
 						duration: 3000,
 						success: () => {
 							uni.setStorageSync('recharge', true)
+							let data = {
+								shopNum: this.shopNum,
+								goods_id: this.shopCont.auction_goods_id
+							}
+							uni.setStorageSync('wish_info', data)
 							setTimeout(() => {
 								uni.navigateTo({
 									url: '/pages/mine/K_brick_detail'
 								})
+								// location.reload()
 							}, 2500)
 						}
 					})
@@ -1764,6 +1791,11 @@
 								duration: 3000,
 								success: () => {
 									uni.setStorageSync('recharge', true)
+									let data = {
+										shopNum: this.shopNum,
+										goods_id: this.shopCont.auction_goods_id
+									}
+									uni.setStorageSync('wish_info', data)
 									setTimeout(() => {
 										uni.navigateTo({
 											url: '/pages/mine/K_brick_detail'
@@ -1781,6 +1813,11 @@
 								duration: 3000,
 								success: () => {
 									uni.setStorageSync('recharge', true)
+									let data = {
+										shopNum: this.shopNum,
+										goods_id: this.shopCont.auction_goods_id
+									}
+									uni.setStorageSync('wish_info', data)
 									setTimeout(() => {
 										uni.navigateTo({
 											url: '/pages/mine/K_brick_detail'
@@ -1874,15 +1911,14 @@
 </script>
 
 <style lang="less" scoped>
-	
 	/deep/.uni-progress-inner-bar {
 		border-radius: 9rpx !important;
 	}
-	
+
 	/deep/.uni-progress-bar {
 		border-radius: 9rpx !important;
 	}
-	
+
 	.new-list-item-btm-btn {
 		padding: 6rpx 10rpx;
 		box-sizing: border-box;

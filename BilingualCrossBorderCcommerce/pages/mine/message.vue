@@ -20,10 +20,11 @@
 				</view>
 				<view class="li-txt">
 					<view class="t">{{$t('top.xtxx')}}</view>
-					<view class="c oneblock">{{systemMessages.content || ''}}</view>
+					<view class="c oneblock">{{ isShopCont ? systemMessages.e_content : systemMessages.content}}</view>
 				</view>
 			</view>
-			<view class="li-date" v-if="systemMessages.addtime">{{$filter.to_date_timees(systemMessages.addtime)}}</view>
+			<view class="li-date" v-if="systemMessages.addtime">{{$filter.to_date_timees(systemMessages.addtime)}}
+			</view>
 			<view class="dian" v-if="no_read === 1"></view>
 		</view>
 		<!--message-li end-->
@@ -60,9 +61,11 @@
 			return {
 				no_read: 0,
 				systemMessages: '',
+				isShopCont: false
 			}
 		},
 		onShow() {
+			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
 			this.$http.post(this.$apiObj.MineSysmsgList, {
 				page: 1,
 				pagenum: 1
@@ -189,7 +192,7 @@
 					display: flex;
 					flex-direction: column;
 					justify-content: center;
-					
+
 					.t {
 						font-size: 28rpx;
 					}

@@ -55,7 +55,8 @@
 
 		<view class="pay-info" v-for="item in payList" :key="item.id">
 			<image :src="item.url" class="logo"></image>
-			<view>{{item.name}} <text v-if="item.id==1">({{$t('new.need_real_name')}})</text> </view>
+			<view>{{item.name}}</view>
+			<!--<text v-if="item.id==1">({{$t('new.need_real_name')}})</text> -->
 			<image src="/static/images/new-index/wxz.png" class="select" v-show="!item.select" @click="changPay(item)">
 			</image>
 			<image src="/static/images/new-index/xz.png" class="select" v-show="item.select" @click="changPay(item)">
@@ -92,7 +93,7 @@
 				payNum: '',
 				selectPayNum: false,
 				selectProtocol: false,
-				list: [],
+				list: [1,1,1,1,1,1],
 				showPay: false,
 				payList: [{
 						id: 2,
@@ -112,7 +113,6 @@
 			}
 		},
 		onShow() {
-
 		},
 		onLoad() {
 			let isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
@@ -168,7 +168,17 @@
 				})
 			},
 			onReturn() {
-				uni.navigateBack()
+				// #ifdef H5
+				if (uni.getStorageSync('window_href')) {
+					window.history.go(-1)
+				}else{
+					uni.navigateBack()
+				}
+				// #endif
+				// #ifdef APP-PLUS
+					uni.navigateBack()
+				// #endif
+				
 			},
 			toDetail() {
 				uni.navigateTo({
@@ -296,25 +306,22 @@
 				// #ifdef APP
 				type = 'app'
 				// #endif
-
+				let arr = getCurrentPages()
+				let listData = []
+				arr.forEach(item => {
+					listData.push(item.route)
+				})
 				this.$http.post(this.$apiObj.PaypalRecharge, {
 					money: this.payNum ? this.payNum : this.list[this.select - 1].k_diamond,
 					recharge_type: 2,
-					referrer: type
+					referrer: type,
+					front_extra: listData.toString()
 				}).then(res => {
 					uni.hideLoading()
 					if (res.code == 1) {
 						// #ifdef H5
-						var u = navigator.userAgent;
-						var isAndroid = u.indexOf("Android") > -1 || u.indexOf("Adr") > -1; //android终端
-						var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
-
-						if (isAndroid) {
-							window.location.href = res.data.href_url
-						} else if (isiOS) {
-							window.location.href = res.data.href_url
-						}
-
+						window.location.href = res.data.href_url
+						uni.setStorageSync('window_href', true)
 						// window.open(res.data.href_url)
 						// #endif
 						// #ifdef APP-PLUS
