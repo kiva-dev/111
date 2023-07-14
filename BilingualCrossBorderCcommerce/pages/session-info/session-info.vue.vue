@@ -588,7 +588,6 @@
 			},
 			propsSendMessage:function(item, type = 'default'){
 				const {num_id,order_no} = item
-				this.clickTool(false)
 				var that = this
 				var messageId = new Date().getTime() + that.info.id + Math.floor(Math.random() * 10000); // 临时消息ID
 				that.ws.pageFun(function(){
@@ -649,6 +648,7 @@
 					}, mThat)
 				});
 				that.inputStatus(false)
+				this.clickTool(false)
 				that.scrollIntoFooter(300, 99992)
 			},
 			sendMessage: function (message, type = 'default') {
