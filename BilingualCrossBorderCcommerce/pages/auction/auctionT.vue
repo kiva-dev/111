@@ -54,9 +54,9 @@
 					<view class="new-list-item-right" v-if="item.check_status!=3 && item.check_status!=4">
 						<view class="new-list-item-right-txt">{{item.goods_name}}</view>
 						<view class="new-list-item-right-tags">
-							<view class="bonus">
+							<view class="bonus" v-if="item.can_use_invite_money_rate * 1 > 0">
 								<image src="/static/images/new-index/$.png" class="bonus-img"></image>
-								<view class="bonus-info">10% bonus available</view>
+								<view class="bonus-info">{{item.can_use_invite_money_rate*1}}% bonus available</view>
 							</view>
 							<block v-for="(data,index) in item.tags" :key="data.tag_id">
 								<image :src="data.image" class="tagimg"></image>
@@ -165,9 +165,9 @@
 						<image :src="item.image" class="info-img"></image>
 						<view class="info-tit">{{item.goods_name}}</view>
 						
-						<view class="bonus-two" style="bottom: 200rpx;">
+						<view class="bonus-two" style="bottom: 200rpx;" v-if="item.can_use_invite_money_rate * 1 > 0">
 							<image src="/static/images/new-index/$.png" class="bonus-img"></image>
-							<view class="bonus-info">10% bonus available</view>
+							<view class="bonus-info">{{item.can_use_invite_money_rate*1}}% bonus available</view>
 						</view>
 						
 						<view class="info-tags">
@@ -225,9 +225,9 @@
 					<image :src="item.image" class="product_img"></image>
 					<view class="product_txt">{{item.goods_name}}</view>
 					
-					<view class="bonus-two">
+					<view class="bonus-two" v-if="item.can_use_invite_money_rate * 1 > 0">
 						<image src="/static/images/new-index/$.png" class="bonus-img"></image>
-						<view class="bonus-info">10% bonus available</view>
+						<view class="bonus-info">{{item.can_use_invite_money_rate*1}}% bonus available</view>
 					</view>
 					
 					<view class="info">

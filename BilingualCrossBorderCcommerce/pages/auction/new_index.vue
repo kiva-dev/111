@@ -765,7 +765,7 @@
 			</view>
 		</view> -->
 		<!-- 购物车 -->
-		<customerService ref="customerService" :scrollEvent="PageScroll" />
+		<customerService ref="customerService" />
 		<!-- <view class="leftSider">
 			<view @click="showContact = true">
 				<image src="@/static/xuyuan/guanzhu.png" class="gz"></image>

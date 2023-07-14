@@ -84,7 +84,8 @@
 				})
 			},
 			toDetail() {
-				// window.open('https://kjtest.ysxrj.cn/pages/mine/k_brick_detail')
+				window.opener=null;
+				window.open('','_self');
 				window.close();
 			}
 		}
