@@ -205,7 +205,6 @@
 					<image src="/static/icon/image.png"></image>
 					<view>Send Order</view>
 				</view>
-				<customerService ref="customerService" @propsSendMessage='propsSendMessage' />
 				<!-- <u-button @click="popShow = true">打开</u-button> -->
 				<!-- <view @click="clickMoreTool('attachment')" class="toolbar-item" hover-class="toolbar-item-hover">
 					<image src="/static/icon/attachment.png"></image>
@@ -220,6 +219,7 @@
 			</view>
 			<!-- 更多-end -->
 		</view>
+		<customerService ref="customerService" @propsSendMessage='propsSendMessage' />
 	</view>
 </template>
 
