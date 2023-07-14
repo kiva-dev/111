@@ -205,7 +205,7 @@
 					<image src="/static/icon/image.png"></image>
 					<view>Send Order</view>
 				</view>
-				<customerService ref="customerService" @propsSendMessage='propsSendMessage' class="customerServiceStyle "/>
+				<customerService ref="customerService" @propsSendMessage='propsSendMessage' />
 				<!-- <u-button @click="popShow = true">打开</u-button> -->
 				<!-- <view @click="clickMoreTool('attachment')" class="toolbar-item" hover-class="toolbar-item-hover">
 					<image src="/static/icon/attachment.png"></image>
@@ -1204,9 +1204,6 @@
 page {
 	background-color: #F5F6F7;
 	overflow: hidden;
-}
-.customerServiceStyle{
-	z-index: 9999;
 }
 .menu-wrap {
 	display: flex;

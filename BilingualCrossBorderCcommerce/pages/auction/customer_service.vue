@@ -23,7 +23,7 @@
 			</view>
 		</view> -->
 
-		<uni-popup ref="popup" type="bottom" @open="open">
+		<uni-popup ref="popup" type="bottom" @open="open" zIndex='99999'>
 			<view class="show-order">
 				<view class="order-head">
 					<view class="order-head-tit">Send Orders</view>
@@ -149,9 +149,9 @@
 	.view_page {
 		width: 100%;
 		background: rgb(248, 248, 248);
-		z-index: 9999;
+		z-index: 99999;
 		.uni-popup{
-			z-index: 9999;
+			z-index: 99999;
 		}
 		.service-head {
 			position: relative;
