@@ -82,7 +82,7 @@
 		:scroll-y="true"
 		:scroll-with-animation="wrapperWithAnimation"
 		:scroll-top="wrapperScrollTop"
-		:style="{height: 'calc(100vh - ' + (navbarHeight + statusBarHeight) + 'px - ' + writeHeight + 'px)'}"
+		:style="wrapperStyle"
 		>
 			<block v-for="(item, index) in messageList" :key="index">
 				<view class="status">
@@ -234,6 +234,15 @@
             messageCom,
 			customerService
         },
+		computed: {
+			wrapperStyle() {
+				const navbarHeight = this.navbarHeight;
+				const statusBarHeight = this.statusBarHeight;
+				const writeHeight = this.writeHeight;
+				const height = `calc(100vh - ${navbarHeight + statusBarHeight}px - ${writeHeight}px)`;
+				return { height };
+			}
+		},
 		data() {
 			return {
 				id: 0,
