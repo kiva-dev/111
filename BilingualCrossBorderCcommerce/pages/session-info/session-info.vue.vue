@@ -648,26 +648,10 @@
 					}, mThat)
 				});
 				that.inputStatus(false)
-				this.clickTool(false)
-				let writeHeight = () => {
-					this.writeHeight = (parseInt(this.writeBottom) + defaultWriteHeight);
-				}
-				
-				if (this.ws.userPlatform == 'ios') {
-					// #ifdef APP-PLUS
-					uni.onKeyboardHeightChange(res => {
-						this.writeHeight = (parseInt(this.writeBottom) + defaultWriteHeight);
-						uni.offKeyboardHeightChange(() => {})
-					})
-					// #endif
-					
-					// #ifndef APP-PLUS
-					writeHeight()
-					// #endif
-				} else {
-					writeHeight()
-				}
-				this.scrollIntoFooter(0, 99993)
+				that.clickTool(false)
+				setTimeout(()=>{
+					that.scrollIntoFooter(0, 99993)
+				},300)
 			},
 			sendMessage: function (message, type = 'default') {
 				var that = this
