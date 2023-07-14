@@ -312,13 +312,7 @@
 						if (isAndroid) {
 							window.open(res.data.href_url)
 						} else if (isiOS) {
-							// window.location.href = res.data.href_url
-							var winRef = window.open('', '_blank');
-							this.$http
-								.post("url")
-								.then((res) => {
-									winRef.location = res.data.href_url;
-								});
+							window.location.href = res.data.href_url
 						}
 
 						// window.open(res.data.href_url)

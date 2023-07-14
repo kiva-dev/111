@@ -345,8 +345,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							icon: 'none'
 						})
 						uni.setStorageSync('userinfo', {
-							token:res.data.im_tourists_token,
-							auth_token:res.data.auth_token
+							token: res.data.im_tourists_token,
+							auth_token: res.data.auth_token
 						});
 						uni.setStorageSync('token', res.data.token)
 						this.$http.post(this.$apiObj.MineInfo).then(ress => {
@@ -357,7 +357,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						that.ws.init(res.data.userinfo.token, res.data.userinfo.auth_token)
 						setTimeout(() => {
 							uni.switchTab({
-								url: '/pages/auction/new_index'
+								url: '/pages/auction/auction'
 							});
 						}, 1000);
 					}
@@ -389,23 +389,24 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					email: this.email, // 邮箱
 					pwd: pwd, // 密码
 				}).then(res => {
-					console.log(res,'登陆======');
 					if (res.code == 1) {
 						uni.showToast({
 							title: this.$t('login.dlcg'),
 							icon: 'none'
 						})
-						this.$http.post(this.$apiObj.MineInfo).then(ress => {
 						uni.setStorageSync('token', res.data.token)
+						uni.setStorageSync('userinfo', {
+							token: res.data.im_tourists_token,
+							auth_token: res.data.auth_token
+						});
+
+						this.$http.post(this.$apiObj.MineInfo).then(ress => {
 							if (ress.code == 1) {
 								uni.setStorageSync('userCont', ress.data)
 							}
 						})
-						uni.setStorageSync('userinfo', {
-							token:res.data.im_tourists_token,
-							auth_token:res.data.auth_token
-						});
-						that.ws.init(res.data.userinfo.token, res.data.userinfo.auth_token)
+
+						this.ws.init(res.data.token, res.data.auth_token)
 						setTimeout(() => {
 							uni.switchTab({
 								url: '/pages/auction/auction'
@@ -718,8 +719,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				border: 1rpx solid rgb(10, 198, 142);
 				border-radius: 80rpx;
 				margin: 64rpx 0 0 18rpx;
-				
-				.info{
+
+				.info {
 					display: flex;
 					align-items: center;
 				}
@@ -749,8 +750,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					font-size: 24rpx;
 					color: rgb(153, 153, 153);
 				}
-				
-				.select_tit{
+
+				.select_tit {
 					font-weight: bold;
 					color: rgb(10, 198, 142);
 				}

@@ -142,7 +142,7 @@
 				</view>
 			</view>
 		</view>
-		<view class="ml-auction">
+		<view class="ml-auction" v-if="false">
 			<view class="ml-auction-top">
 				<view class="top-name">{{$t('user.myCont.order')}}</view>
 				<view class="top-more" @click="navClick('/pages/mine/order/order?tabIndex=10')">
