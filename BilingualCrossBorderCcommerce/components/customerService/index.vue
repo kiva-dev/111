@@ -1,7 +1,7 @@
 <template>
   <view class="leftSider" :class="siderClasses">
     <view class="imgArr" v-show="imgShow">
-      <!-- <img src="/static/images/mine/aixin.png" class="minImg" alt="" @click="toMessage('/pages/message/message')"> -->
+      <img src="/static/images/mine/download.png" class="minImg" alt="" @click="toMessage('/pages/auction/download')">
       <view class="people">
         <img src="/static/images/mine/p.png" class="pImg" alt="" @click="toMessage('/pages/auction/association')">
       </view>
@@ -87,8 +87,7 @@ export default {
 	.imgArr {
 		background: #fff;
 		width: 92rpx;
-		height: 200rpx;
-		padding-top: 20rpx;
+		height: 280rpx;
 		border-radius: 45rpx;
 		box-shadow: 0 0 20rpx rgba(198, 198, 198, 0.3);
 		text-align: center;

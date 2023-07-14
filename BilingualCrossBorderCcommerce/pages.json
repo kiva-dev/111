@@ -1058,6 +1058,13 @@
 			}
 		},
 		{
+			"path": "pages/auction/download",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		},
+		{
 			"path": "pages/message/message",
 			"style": {
 				"navigationBarTitleText": "",
