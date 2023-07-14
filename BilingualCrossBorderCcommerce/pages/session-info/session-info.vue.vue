@@ -202,7 +202,7 @@
 					<view>Album</view>
 				</view>
 				<view @click="clickMoreTool('Order')" class="toolbar-item" hover-class="toolbar-item-hover" v-if="info.type != 'group'">
-					<image src="/static/icon/image.png"></image>
+					<image src="/static/icon/Order.png"></image>
 					<view>Send Order</view>
 				</view>
 				<!-- <u-button @click="popShow = true">打开</u-button> -->
