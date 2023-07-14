@@ -1,7 +1,7 @@
 <template>
   <view class="leftSider" :class="siderClasses">
     <view class="imgArr" v-show="imgShow">
-      <image src="/static/images/mine/download.png" class="minImg" alt="" @click="toMessage('/pages/auction/download')">
+      <image src="/static/images/mine/download.png" class="minImg" alt="" @click="toDownload('/pages/auction/download')">
 	  <view>
       	<image src="/static/images/mine/aixin.png" class="minImg" alt="" @click="checkApp()">
 	  </view>
@@ -52,6 +52,14 @@ export default {
 		}
 	},
 	handleNotLoggedIn() {
+		if (!uni.getStorageSync('UNI_LOCALE')) {
+			uni.setStorageSync('UNI_LOCALE', 'en');
+			uni.setStorageSync('locale', 'en');
+		}
+		if (!uni.getStorageSync('phoneCont')) {
+			uni.setLocale('en');
+			this.$i18n.locale = 'en';
+		}
 		const isEnglish = uni.getStorageSync('locale') === 'en';
 		const title = isEnglish ? 'Tips' : '温馨提示';
 		const content = isEnglish
@@ -108,6 +116,11 @@ export default {
 		if (!userinfo || !userinfo.token) {
 			return;
 		}
+		uni.navigateTo({
+			url
+		})
+    },
+    toDownload(url) {
 		uni.navigateTo({
 			url
 		})

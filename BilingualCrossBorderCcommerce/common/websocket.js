@@ -39,7 +39,7 @@ var ws = {
 			// 发送初始化请求
 			this.that.$u.get(this.buildUrl('initialize', token), {}).then(res => {
 				if (res.code == 402) {
-					uni.clearStorageSync()
+					uni.removeStorageSync('userinfo')
 					that.pageRefresh.message = true
 					uni.reLaunch({
 						url: '/pages/auction/new_index'
@@ -2747,7 +2747,7 @@ var ws = {
 				that.closeCallback()
 				that.closeCallback = null
 			}
-		    uni.clearStorageSync()
+		    uni.removeStorageSync('userinfo')
 			that.pageRefresh.message = true
 		} catch (e) {
 			console.log(e)
