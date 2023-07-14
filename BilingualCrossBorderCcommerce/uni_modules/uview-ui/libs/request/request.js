@@ -78,7 +78,7 @@ class Request {
 			// options.url = validate.url(options.url) ? options.url : (this.config.baseUrl + (options.url.indexOf('/') == 0 ?
 			// 	options.url : '/' + options.url));
 			
-			options.url =  ('https://kjtest.ysxrj.cn' + (options.url.indexOf('/') == 0 ? options.url : '/' + options.url));
+			options.url =  ('https://wish.kolibrimall.com' + (options.url.indexOf('/') == 0 ? options.url : '/' + options.url));
 			// 是否显示loading
 			// 加一个是否已有timer定时器的判断，否则有两个同时请求的时候，后者会清除前者的定时器id
 			// 而没有清除前者的定时器，导致前者超时，一直显示loading

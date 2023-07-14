@@ -7,7 +7,7 @@
 			</view>
 		</view>
 		<view class="address-fixed">
-			<a href="https://kjtest.ysxrj.cn/uploads/k.apk" download="Kolibri mall" style="text-decoration:none;">
+			<a href="https://wish.kolibrimall.com/api/Index/getApk" download="Kolibri mall" style="text-decoration:none;">
 				<view class="fixed-con">
 					<button class="public-btn" style="background: rgb(10, 198, 142);"
 						@click="navClick('add')">

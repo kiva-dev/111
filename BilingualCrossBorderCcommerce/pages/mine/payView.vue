@@ -104,7 +104,7 @@
 					console.log(item, '-----')
 					let msg = item.split('/')
 					console.log(msg, '-11111----')
-					window.history.pushState(null, '', 'https://kjtest.ysxrj.cn/' + item);
+					window.history.pushState(null, '', 'https://wish.kolibrimall.com/' + item);
 				})
 				console.log(window.history.length, '======')
 				window.history.go(0)

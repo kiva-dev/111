@@ -1482,7 +1482,9 @@ NoR+zv3KaEmPSHtooQIDAQAB
 								shopNum: this.shopNum,
 								goods_id: this.shopCont.id
 							}
+							// #ifdef H5
 							uni.setStorageSync('wish_info', data)
+							// #endif
 							setTimeout(() => {
 								uni.navigateTo({
 									url: '/pages/mine/K_brick_detail'
@@ -1509,7 +1511,9 @@ NoR+zv3KaEmPSHtooQIDAQAB
 										shopNum: this.shopNum,
 										goods_id: this.shopCont.id
 									}
+									// #ifdef H5
 									uni.setStorageSync('wish_info', data)
+									// #endif
 									setTimeout(() => {
 										uni.navigateTo({
 											url: '/pages/mine/K_brick_detail'
@@ -1531,7 +1535,9 @@ NoR+zv3KaEmPSHtooQIDAQAB
 										shopNum: this.shopNum,
 										goods_id: this.shopCont.id
 									}
+									// #ifdef H5
 									uni.setStorageSync('wish_info', data)
+									// #endif
 									setTimeout(() => {
 										uni.navigateTo({
 											url: '/pages/mine/K_brick_detail'

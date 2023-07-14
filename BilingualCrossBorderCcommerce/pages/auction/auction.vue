@@ -1124,7 +1124,7 @@
 							<text class="zs">{{item.wish_price}}</text>
 						</view>
 						<view class="right">
-							<text>(RM1{{item.wish_price}})</text>
+							<text>(RM{{item.wish_price}})</text>
 						</view>
 					</view>
 
@@ -1767,7 +1767,10 @@
 								shopNum: this.shopNum,
 								goods_id: this.shopCont.auction_goods_id
 							}
+							// #ifdef H5
 							uni.setStorageSync('wish_info', data)
+							// #endif
+							
 							setTimeout(() => {
 								uni.navigateTo({
 									url: '/pages/mine/K_brick_detail'
@@ -1795,7 +1798,9 @@
 										shopNum: this.shopNum,
 										goods_id: this.shopCont.auction_goods_id
 									}
+									// #ifdef H5
 									uni.setStorageSync('wish_info', data)
+									// #endif
 									setTimeout(() => {
 										uni.navigateTo({
 											url: '/pages/mine/K_brick_detail'
@@ -1817,7 +1822,9 @@
 										shopNum: this.shopNum,
 										goods_id: this.shopCont.auction_goods_id
 									}
+									// #ifdef H5
 									uni.setStorageSync('wish_info', data)
+									// #endif
 									setTimeout(() => {
 										uni.navigateTo({
 											url: '/pages/mine/K_brick_detail'
