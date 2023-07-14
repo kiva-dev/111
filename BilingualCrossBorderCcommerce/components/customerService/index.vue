@@ -1,11 +1,11 @@
 <template>
   <view class="leftSider" :class="siderClasses">
     <view class="imgArr" v-show="imgShow">
-      <img src="/static/images/mine/aixin.png" class="minImg" alt="" @click="toMessage('/pages/message/message')">
+      <!-- <img src="/static/images/mine/aixin.png" class="minImg" alt="" @click="toMessage('/pages/message/message')"> -->
       <view class="people">
-        <img src="/static/images/mine/p.png" class="pImg" alt="">
+        <img src="/static/images/mine/p.png" class="pImg" alt="" @click="toMessage('/pages/auction/association')">
       </view>
-      <img src="/static/images/mine/listener.png" class="minImg" alt="">
+      <img src="/static/images/mine/listener.png" class="minImg" alt="" @click="openSession()">
     </view>
     <image src="/static/images/new-index/addImg.png" class="newListImgDeg" v-if="imgShow" @click="toggleImage"></image>
     <image src="/static/images/new-index/addImg.png" class="newListImg" v-else @click="toggleImage" ></image>
@@ -27,6 +27,11 @@ export default {
     }
   },
   methods: {
+	openSession: function() {
+		this.ws.pageFun(() => {
+			this.ws.send({ c: 'Message', a: 'assignCsr', data: {} })
+		})
+	},
     handleScroll() {
       this.transformClass = true;
       clearTimeout(this.timer);
@@ -82,7 +87,8 @@ export default {
 	.imgArr {
 		background: #fff;
 		width: 92rpx;
-		height: 280rpx;
+		height: 200rpx;
+		padding-top: 20rpx;
 		border-radius: 45rpx;
 		box-shadow: 0 0 20rpx rgba(198, 198, 198, 0.3);
 		text-align: center;

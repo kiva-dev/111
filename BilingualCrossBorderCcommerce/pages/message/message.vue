@@ -1,10 +1,15 @@
 <template>
 	<view>
+		<view class="kbrick-head">
+			<image src="/static/images/kbrick/kleft.png" @click="onReturn()"></image>
+			<view class="tit">{{$t('new.wdkz')}} Join group chat</view>
+			<view class="head-detail" @click="toDetail()">{{$t('new.ckmx')}}</view>
+		</view>
 		<!-- <u-toast ref="uToast" /> -->
 		<!-- <common :tips='commonTips'></common>
 		<u-mask z-index="1000" :custom-style="{background: 'rgba(0, 0, 0, 0.1)'}" :show="maskShow" @click="maskClick"></u-mask>
 		<u-action-sheet :list="sessionLongpressList" @click="sessionLongpressAction" v-model="sessionLongpressShow"></u-action-sheet> -->
-		<u-navbar :background="navBackground" @rightClick="rightClick" :autoBack="true"></u-navbar>
+		<!-- <u-navbar :background="navBackground" @rightClick="rightClick" :autoBack="true"></u-navbar> -->
 		<!-- 顶部搜索栏-start -->
 		<!-- <view class="search">
 			<view class="search-box">
@@ -99,13 +104,27 @@ import session from "@/components/session/seesion.vue";
 			that.ws.checkNetwork(that)
 			that.ws.pageFun(function(){
 				that.ws.send({
-					c: 'ImBase',
-					a: 'loadTODO',
+					c: 'User',
+					a: 'getCommunityList',
 					data: {
-						'method': 'get-all-count'
+						"page": 1
 					}
 				})
 			}, that);
+			/* that.ws.pageFun(function(){
+				that.ws.send({
+					// c: 'ImBase',
+					// a: 'loadTODO',
+					// data: {
+					// 	'method': 'get-all-count'
+					// }
+					"c": "User",
+					"a": "getCommunityList",
+					"data": {
+						"page": 1
+					}
+				})
+			}, that); */
 		},
 		onPullDownRefresh: function () {
 			this.ws.pageFun(this.pageDataLoad(true), this);
@@ -120,6 +139,14 @@ import session from "@/components/session/seesion.vue";
 			})
 		},
 		methods: {
+			onReturn() {
+				uni.navigateBack()
+			},
+			// toDetail() {
+			// 	uni.navigateTo({
+			// 		url: '/pages/mine/K_brick_detail_info'
+			// 	})
+			// },
 			pageDataLoad: function (refresh = false) {
 				this.pageDataLoadBool = true
 				this.ws.send({
@@ -223,7 +250,7 @@ import session from "@/components/session/seesion.vue";
 	}
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 page {
 	background: #FFFFFF;
 }
@@ -269,6 +296,9 @@ page {
 .to-do .to-do-cell-item .to-do-cell-item-icon {
 	margin-right: 10rpx;
 }
+.session-list {
+	margin-top: 70rpx;
+}
 .session-list-top-line {
 	display: flex;
 	align-items: center;
@@ -277,5 +307,38 @@ page {
 .im-bg-grey {
 	background-color: $--grey;
 	color: $--white;
+}
+.kbrick-head {
+	position: relative;
+	width: 100%;
+	height: 88rpx;
+	padding-top: 88rpx;
+	display: flex;
+	align-items: center;
+	background: #FFF;
+
+	image {
+		position: absolute;
+		left: 32rpx;
+		width: 40rpx;
+		height: 40rpx;
+		z-index: 10;
+	}
+
+	.tit {
+		width: 100%;
+		font-size: 40rpx;
+		font-weight: bold;
+		color: rgb(51, 51, 51);
+		text-align: center;
+	}
+
+	.head-detail {
+		position: absolute;
+		right: 32rpx;
+		font-size: 24rpx;
+		color: rgb(51, 51, 51);
+		z-index: 10;
+	}
 }
 </style>

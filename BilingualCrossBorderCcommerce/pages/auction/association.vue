@@ -8,14 +8,25 @@
 			</view>
 		</view>
 
-		<template v-if="list.length > 0">
+		<template v-if="sessionList.length > 0">
 			<view class="association_list">
-				<view class="item" v-for="item in list" @click="navClick('/pages/auction/grop_chat')">
-					<image src="/static/images/service/group_name.png"></image>
-					<view class="item-name">Kolibri fan base 1</view>
-					<view class="item-info">Hello everyone, I am a new fanKolibri fan base 1</view>
-					<view class="item-time">19:10</view>
-					<view class="item-num">99+</view>
+				<view class="item" v-for="(item,index) in sessionListTop" :key="index" @click="goToSessionInfo(item.id, item.type, item.chat_id)">
+					<image :src="item.avatar"></image>
+					<view class="item-name">{{item.nickname}}</view>
+					<view class="item-info">{{item.last_message}}</view>
+					<view class="item-time">{{item.last_time}}</view>
+					<view class="item-num">
+						<u-badge numberType="overflow" max="99" :value="item.unreadMessagesNumber"></u-badge>
+					</view>
+				</view>
+				<view class="item" v-for="(item,index) in sessionList" :key="index" @click="goToSessionInfo(item.id, item.type, item.chat_id)">
+					<image :src="item.avatar"></image>
+					<view class="item-name">{{item.nickname}}</view>
+					<view class="item-info">{{item.last_message}}</view>
+					<view class="item-time">{{item.last_time}}</view>
+					<view class="item-num">
+						<u-badge numberType="overflow" max="99" :value="item.unreadMessagesNumber"></u-badge>
+					</view>
 				</view>
 				<view class="association-not">{{$t('grop.nomore')}}</view>
 			</view>
@@ -34,15 +45,37 @@
 	export default {
 		data() {
 			return {
-				list: [1,1,1,1,1],
+				sessionList: [],
+				sessionListTop: [],
 				image: '/static/images/service/not_msg.png',
 				isShopCont: false
 			}
 		},
 		onShow() {
-
+			var that = this
+			that.ws.checkNetwork(that)
+			that.ws.pageFun(function(){
+				that.ws.send({
+					c: 'User',
+					a: 'loadSessionList',
+					data: {
+						"get_community_list": 1
+					}
+				})
+			}, that);
 		},
 		methods: {
+			goToSessionInfo: function(id, type, chat_id) {
+				var url = '/pages/session-info/session-info?id=' + id
+				if (type == 'service') {
+					if (chat_id != 3) {
+						url = '/pages/session-info/notice-session-info?session_id=' + id
+					}
+				}
+				uni.navigateTo({
+					url: url
+				})
+			},
 			navClick(url){
 				uni.navigateTo({
 					url
@@ -162,13 +195,11 @@
 					position: absolute;
 					right: 24rpx;
 					bottom: 26rpx;
-					width: 30rpx;
-					height: 30rpx;
 					line-height: 30rpx;
 					text-align: center;
 					font-size: 16rpx;
 					color: #fff;
-					background: rgb(255, 57, 57);
+					// background: rgb(255, 57, 57);
 					border-radius: 50%;
 				}
 

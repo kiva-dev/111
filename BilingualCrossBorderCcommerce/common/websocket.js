@@ -1379,7 +1379,7 @@ var ws = {
 			['del-contact', commonCallback],
 			['open_session', () => {
 				that.pageRefresh.message = true
-				uni.redirectTo({
+				uni.navigateTo({
 					url: '/pages/session-info/session-info?id=' + msg.data.sessionInfo.id
 				})
 			}],
@@ -2032,6 +2032,59 @@ var ws = {
 					that.pageThat.uploadFormData = mu
 				}
 			}],
+			['get_community_list', () => {
+				var session = msg.data.res
+				console.log(msg.data);
+				if (session.length) {
+					var sessionList = [], sessionListTop = []
+					for (var i = 0; i < session.length; i++) {
+						let sessionItem = {}
+						
+						sessionItem.id = session[i].id
+						sessionItem.type = session[i].type
+						sessionItem.chat_id = session[i].chat_id
+						sessionItem.shield = session[i].shield ? session[i].shield:false
+						sessionItem.avatar = that.imgUrl(session[i].avatar)
+						sessionItem.nickname = session[i].nickname
+						sessionItem.top = session[i].top ? 'session-top' : ''
+						sessionItem.unreadMessagesNumber = session[i].unreadMessagesNumber
+						sessionItem.max_user_count = session[i].max_user_count
+						sessionItem.user_count = session[i].user_count
+						// sessionItem.last_time = session[i].lastMessage.last_time
+						// sessionItem.last_message = session[i].lastMessage.last_message
+						// sessionItem.unread_fixed_msg = session[i].lastMessage.unread_fixed_msg ? session[i].lastMessage.unread_fixed_msg.message:''
+						if (!sessionItem.top) {
+							sessionList.push(sessionItem)
+						} else {
+							sessionListTop.push(sessionItem)
+						}
+						if (session[i].is_group_user) {
+							session[i].button = {
+								action: 'open-session',
+								opt: false,
+								text: '发消息'
+							}
+						} else {
+							session[i].button = {
+								action: 'userinfo-opt',
+								opt: 'join',
+								text: '加入'
+							}
+						}
+					}
+					that.pageThat.sessionList = sessionList
+					that.pageThat.sessionListTop = sessionListTop
+					that.pageThat.loadStatus = false;
+				} else {
+					that.pageThat.loadStatus = '没有更多会话了...'
+				}
+				if (typeof that.messageReady == 'function') {
+					setTimeout(() => {
+						that.messageReady()
+						that.messageReady = null
+					}, 200)
+				}
+			}],
 			['default', () => {
 				console.log('收到新的ws消息')
 			}]
@@ -2043,6 +2096,7 @@ var ws = {
 			this.onMessageCallBack.delete(msg.event)
 		}
 		let action = msgFun.get(msg.event) || msgFun.get('default')
+		console.log(msg.event);
 		return action.call(that);
 	},
 	buildMessage: function(data, buildType = 'record') {

@@ -9,14 +9,14 @@
 
 		<template>
 			<view class="association_list">
-				<view class="item" v-for="item in list">
-					<image src="/static/images/service/group_name.png" class="img"></image>
-					<view class="item-name">Kolibri fan base 1</view>
+				<view class="item" v-for="(item, index) in sessionList" :key="item.id">
+					<image :src="item.avatar" class="img"></image>
+					<view class="item-name">{{item.nickname}}</view>
 					<view class="item-info">
 						<image src="/static/images/service/nums.png"></image>
-						<view>120/500</view>
+						<view>{{item.user_count}}/{{item.max_user_count}}</view>
 					</view>
-					<view class="item-btn">{{$t('grop.join')}}</view>
+					<view class="item-btn" @click="userAction(item)" :key="index">{{$t('grop.join')}}</view>
 				</view>
 			</view>
 		</template>
@@ -29,15 +29,48 @@
 	export default {
 		data() {
 			return {
-				list: [1, 1, 1, 1, 1],
+				form:{},
+				sessionList: [],
 				image: '/static/images/service/not_msg.png',
 				isShopCont: false
 			}
 		},
 		onShow() {
-
+			var that = this
+			that.ws.checkNetwork(that)
+			that.ws.pageFun(function(){
+				that.ws.send({
+					c: 'User',
+					a: 'getCommunityList',
+					data: {
+                        'page': 1
+					}
+				})
+			}, that);
 		},
 		methods: {
+			userAction :function ({id,type}) {
+				let that = this
+				that.submitButtonStatus = true
+				that.form.id = id
+				that.form.type = (type == 'user') ? 'friends':'group'
+				that.form.action = 'apply'
+				that.form.method = 'post'
+				console.log(that.form);
+				that.ws.pageFun(function(){
+					var message = { c: 'User', a: 'createNewContact', data: that.form }
+					that.ws.send(message);
+					that.ws.showMsgCallback = function () {
+						that.submitButtonStatus = false
+						setTimeout(function(){
+							uni.navigateBack({
+								delta: 1
+							})
+						}, 2000)
+					}
+				}, that)
+				return
+			},
 			toBack(){
 				uni.navigateBack()
 			}

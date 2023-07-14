@@ -1065,6 +1065,20 @@
 			}
 		},
 		{
+			"path": "pages/search/new-contact",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/search/add-contact",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		},
+		{
 			"path": "pages/auction/grop_chat",
 			"style": {
 				"navigationBarTitleText": "",

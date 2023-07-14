@@ -2,6 +2,10 @@
 	<view>
 		<!-- <u-toast ref="uToast" /> -->
 		<!-- <common :tips='commonTips' :navbar-height="navbarHeight + statusBarHeight"></common> -->
+		<view class="kbrick-head">
+			<image src="/static/images/kbrick/kleft.png" @click="rightClick()"></image>
+			<view class="tit">Platform customer service</view>
+		</view>
 		<u-popup width="600" v-model="showNotice" :closeable="true" mode="center" border-radius="12">
 			<view class="group-notice-title">群公告</view>
 			<view v-if="noticeInfo" class="group-notice-content">
@@ -34,7 +38,7 @@
 				</view>
 			</view>
 		</u-popup>
-		<u-navbar :background="navBackground" @rightClick="rightClick" :autoBack="true">
+		<!-- <u-navbar :background="navBackground" @rightClick="rightClick" :autoBack="true">
 			<view class="navbar-title">
 				<view class="title-content">{{info.sessionUser.nickname + (info.sessionUser.user_count ? '(' + info.sessionUser.user_count + ')':'')}}</view>
 				<view class="title-other" v-if="info.sessionUser.status" :class="'user-status-' + info.sessionUser.status.value">{{info.sessionUser.status.chinese}}</view>
@@ -42,7 +46,7 @@
 			<view @click="sessionMenu" class="menu-wrap" slot="right">
 				<u-icon name="grid-fill" color="#000000" size="38"></u-icon>
 			</view>
-		</u-navbar>
+		</u-navbar> -->
 		
 		<!-- mask 目前只用于长按消息菜单显示时 -->
 		<view v-if="maskShow" @click="maskClick" :style="maskStyle" class="mask"></view>
@@ -303,6 +307,7 @@
 			// #endif
 			
 			this.id = query.id ? query.id : 0
+			console.log('2',this.showAtSelect);
 			this.ws.pageFun(this.pageDataLoad, this);
 			
 			this.ws.getEmoji().then(res => {
@@ -350,7 +355,7 @@
 		},
 		methods: {
 			rightClick() {
-				console.log('rightClick');
+				uni.navigateBack()
 			},
 			insertAtUser: function (item) {
 				item.nickname += '  '
@@ -1125,7 +1130,7 @@
 	}
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 page {
 	background-color: #F5F6F7;
 	overflow: hidden;
@@ -1710,5 +1715,39 @@ page {
 }
 .notice-item-footer-text {
 	padding-left: 26rpx;
+}
+.kbrick-head {
+	position: relative;
+	width: 100%;
+	height: 88rpx;
+	padding-top: 88rpx;
+	display: flex;
+	align-items: center;
+	background: #FFF;
+
+	image {
+		position: absolute;
+		left: 32rpx;
+		width: 40rpx;
+		height: 40rpx;
+		z-index: 10;
+	}
+
+	.tit {
+		width: 100%;
+		font-size: 40rpx;
+		font-weight: bold;
+		color: rgb(51, 51, 51);
+		text-align: center;
+	}
+
+	.head-detail {
+		position: absolute;
+		right: 32rpx;
+		font-size: 24rpx;
+		color: rgb(51, 51, 51);
+		z-index: 10;
+	}
+
 }
 </style>
