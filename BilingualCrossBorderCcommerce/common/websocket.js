@@ -48,9 +48,10 @@ var ws = {
 					})
 					return false;
 				} else if (res.code != 1) {
+					let isEnglish = uni.getStorageSync('locale') == 'en' ? true : false;
 					uni.showModal({
-						title: '温馨提示',
-						content: '初始化失败,请重试！',
+						title:isEnglish ? 'Friendly reminder' : '温馨提示',
+						content:isEnglish ? 'Initialization failed, please retry!' :'初始化失败,请重试！',
 						showCancel: false
 					})
 					return false;
@@ -77,9 +78,10 @@ var ws = {
 	},
 	connect: function() {
 		var that = this
+		let isEnglish = uni.getStorageSync('locale') == 'en' ? true : false;
 		if (imConfig.httpsSwitch && parseInt(that.initializeData.config.wss_switch) != 1) {
 			uni.showModal({
-				title: '温馨提示',
+				title: isEnglish ? 'Friendly reminder' : '温馨提示',
 				content: that.initializeData.config.im_name + ' https下须创建wss服务才能连接网络，请参考文档!',
 				showCancel: false
 			})
@@ -126,8 +128,7 @@ var ws = {
 			if (that.timer != null) {
 				clearInterval(that.timer);
 			}
-			
-			that.pageThat.commonTips = '网络不给力，正在自动重连~'
+			that.pageThat.commonTips = isEnglish ? "Requesting...." : "网络不给力，正在自动重连~"
 			
 			that.reconnect(); // 重连
 		});
@@ -140,8 +141,8 @@ var ws = {
 			if (that.timer != null) {
 				clearInterval(that.timer);
 			}
-			
-			that.pageThat.commonTips = '网络不给力，正在自动重连~'
+
+			that.pageThat.commonTips = isEnglish ? "Requesting...." : "网络不给力，正在自动重连~"
 			
 			if (typeof that.closeCallback == 'function') {
 				that.closeCallback()
@@ -192,8 +193,9 @@ var ws = {
 		];
 
 		if (!noNeedLogin.includes(message.c + message.a) && !that.ready) {
+			let isEnglish = uni.getStorageSync('locale') == 'en' ? true : false;
 			uni.showToast({
-				title: '请稍等网络连接成功后再试哦~',
+				title: isEnglish ? 'Please wait & try again upon successful network connection' : '请稍等网络连接成功后再试哦~',
 				icon: 'none',
 				mask: true
 			})

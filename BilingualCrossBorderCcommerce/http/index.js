@@ -171,9 +171,10 @@ request.interceptors.response.use(function(response) { //不要使用箭头函�
 	return response.data; //只返回业务数据部分
 }, function(err) {
 	let errmsg = err.message;
+	let isEnglish = uni.getStorageSync('locale') == 'en' ? true : false;
 	switch (err.status) {
 		case 0:
-			errmsg = "网络连接错误";
+			errmsg = isEnglish ? "Connection Timeout" : "网络连接错误";
 			uni.showToast({
 				title: errmsg,
 				icon: 'none'
