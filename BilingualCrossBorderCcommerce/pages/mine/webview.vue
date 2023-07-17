@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<web-view :src="'https://h5.kolibrimall.com/pay.html?' +url"> </web-view>
+		<web-view :src="'https://wish.kolibrimall.com/pay.html?' +payurl"> </web-view>
 		<!-- @message="getMessage" -->
 	</view>
 </template>
@@ -8,16 +8,14 @@
 	export default {
 		data() {
 			return {
-				url: ''
+				payurl: ''
 			}
 		},
 		onLoad(e) {
 			console.log(e);
 			console.log(e.url);
-			// console.log(JSON.parse(e.url));
 			// 获取传递过来的链接
-			this.url = encodeURIComponent(e.url)
-			// console.log(this.url);
+			this.payurl = encodeURIComponent(e.url)
 		},
 		methods: {
 			// getMessage (message) {
