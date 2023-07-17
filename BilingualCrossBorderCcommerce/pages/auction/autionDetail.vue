@@ -3,7 +3,7 @@
 		<view class="detail-header" :style="`background: rgba(255,255,255,${myOpacity});`">
 			<view class="detail-head">
 				<image src="@/static/images/new-index/detail_btn_back.png" class="return" @click="toIndex()"></image>
-				<!-- <image src="@/static/images/new-index/detail_btn_car.png" class="gwc" @click="toMyCart()"></image> -->
+				<image src="@/static/images/new-index/detail_btn_home.png" class="gwc" @click="toHome()"></image>
 				<image src="@/static/images/new-index/detail_btn_share.png" class="fx" @click="onfenxingShow=true">
 				</image>
 				<view :style="`opacity: ${myOpacity};`">{{$t('top.shop')}}</view>
@@ -50,6 +50,7 @@
 				<view class="li-tags">
 					<view class="li-icon" v-for="item in shopCont.litestore_tag" :key="item.id">
 						<image :src="item.image" mode="widthFix"></image>
+						<text> <u-parse :content="isShopCont ? item.en_desc : item.zh_desc"></u-parse></text>
 					</view>
 				</view>
 
@@ -627,6 +628,11 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 		},
 		methods: {
+			toHome() {
+				uni.switchTab({
+					url: '/pages/auction/auction'
+				})
+			},
 			// 点击竞拍列表
 			onJingPai(item) {
 				uni.setStorageSync('productInfo', true)
@@ -1769,7 +1775,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 	// 配货中
 	.distributed {
 		width: 85%;
-		height: 500rpx;
+		padding: 20rpx 0;
 		background: #fff;
 		margin: auto;
 		margin-top: 32rpx;
@@ -2051,7 +2057,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 	.ll-header-left {
 		display: flex;
 		align-items: center;
-		margin-left: 265rpx;
+		justify-content: center;
 		padding-top: 30rpx;
 
 		.left-icon {
@@ -2137,8 +2143,12 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			position: absolute;
 			top: 0;
 			left: 0;
+			max-width: 550rpx;
 			font-size: 24rpx;
 			color: rgb(51, 51, 51);
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
 		}
 
 		.hisy_info {
@@ -2155,9 +2165,13 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			}
 
 			.hisy_info_name {
+				max-width: 400rpx;
 				font-size: 20rpx;
 				color: rgb(51, 51, 51);
 				margin: 0 8rpx;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
 			}
 
 			.hisy_info_jb {
@@ -2634,12 +2648,17 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		}
 
 		.li-icon {
-			width: 38rpx;
-			height: 38rpx;
+			display: flex;
+			align-items: center;
 			margin: 0 20rpx 12rpx 0;
 
 			image {
-				width: 100%;
+				width: 38rpx;
+				height: 38rpx;
+			}
+			
+			text{
+				margin-left: 4rpx;
 			}
 		}
 	}

@@ -1327,8 +1327,8 @@
 	"newDetail.not": "暂无评论，快来评论吧！",
 
 	"new.zzjp": "正在竞拍",
-	"new.jjks": "即将开始",
-	"new.lsjl": "历史记录",
+	"new.jjks": "即将上线",
+	"new.lsjl": "往期许愿",
 	"new.lxfs": "联系方式",
 	"new.sctp": "上传图片",
 	"new.qsrlxfs": "请输入联系方式",
@@ -1482,7 +1482,7 @@
 	"new.notcart": "选择您喜欢的商品并将其添加到您的购物车",
 	"new.kzyebz": "K钻石余额不足",
 	"new.jh": "交换",
-	"new.qcz": "去充值",
+	"new.qcz": "购买K钻",
 	"new.dhfk": "兑换付款",
 	"new.qpsl": "许愿数量",
 	"new.srqpsl": "输入许愿数量",
@@ -1533,5 +1533,7 @@
 	"grop.addchat":"加入群聊",
 	"grop.can_chat":"可以加入的群",
 	"grop.join":"加入",
-	"grop.customer":"平台客服"
+	"grop.customer":"平台客服",
+	
+	"auction.sign_up":"注册"
 }

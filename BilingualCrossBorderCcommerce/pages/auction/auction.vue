@@ -5,10 +5,15 @@
 				<view>
 					<text class="head-title">{{$t('xyc')}}</text>
 				</view>
-				<view class="head-right" @click.top="myIndex">
-					<img src="/static/xuyuan/time.png" alt="" class="time">
+				<view class="head-right" @click.top="myIndex" v-if="isLogin">
+					<image src="/static/xuyuan/time.png" alt="" class="time"></image>
 					<text>{{$t('title')}}</text>
-					<img src="/static/xuyuan/headRi.png" alt="" class="r">
+					<image src="/static/xuyuan/headRi.png" alt="" class="r"></image>
+				</view>
+				<view class="head-right" @click="navClick('/pages/public/register')" v-else>
+					<image src="/static/xuyuan/auth.png" class="time"></image>
+					<text>{{$t('auction.sign_up')}}</text>
+					<image src="/static/xuyuan/headRi.png" alt="" class="r"></image>
 				</view>
 			</view>
 		</view>
@@ -265,7 +270,7 @@
 								<view class="new">
 									<image src="/static/images/kbrick/diamond.png"></image>
 									<span>{{item.auction_price}} <text
-											style="font-size: 16rpx;font-weight: 100;;color: rgb(153, 153, 153);margin-left: 16rpx;">(RM{{item.auction_price}})</text></span>
+											style="font-size: 16rpx;font-weight: 100;;color: rgb(102, 102, 102);margin-left: 16rpx;">(RM{{item.auction_price}})</text></span>
 								</view>
 							</view>
 
@@ -297,7 +302,7 @@
 								</view>
 								<view class="old">RM{{item.price}}</view>
 							</view>
-							<view class="des-center-num">x{{item.join_count}}</view>
+							<!-- <view class="des-center-num">x{{item.join_count}}</view> -->
 						</view>
 						<view class="des-btm">
 							<view class="left">
@@ -360,7 +365,7 @@
 									<image src="/static/images/kbrick/diamond.png"></image>
 									<span>{{item.auction_price}}
 										<text
-											style="font-size: 16rpx;font-weight: 100;;color: rgb(153, 153, 153);margin-left: 16rpx;">(RM{{item.auction_price}})</text>
+											style="font-size: 16rpx;font-weight: 100;;color: rgb(102, 102, 102);margin-left: 16rpx;">(RM{{item.auction_price}})</text>
 									</span>
 								</view>
 							</view>
@@ -535,7 +540,7 @@
 								</view>
 								<view class="old">RM{{item.price}}</view>
 							</view>
-							<view class="des-center-num">x{{item.join_count}}</view>
+							<!-- <view class="des-center-num">x{{item.join_count}}</view> -->
 						</view>
 						<view class="des-btm">
 							<view class="left">
@@ -763,7 +768,7 @@
 								</view>
 								<view class="old">RM{{item.price}}</view>
 							</view>
-							<view class="des-center-num">x{{item.join_count}}</view>
+							<!-- <view class="des-center-num">x{{item.join_count}}</view> -->
 						</view>
 						<view class="des-btm">
 							<view class="left">
@@ -1239,7 +1244,8 @@
 				zenjinToRmNum: 0, //赠金可以用于扣除的数量
 				changShopNum: 0, //使用赠金后的k钻
 				set_paypwd: '',
-				invite_money_balance:0
+				invite_money_balance:0,
+				isLogin:false
 			}
 		},
 		watch: {
@@ -1304,6 +1310,7 @@
 			if (uni.getStorageSync('token')) {
 				this.$http.post(this.$apiObj.MineInfo).then(res => {
 					if (res.code == 1) {
+						this.isLogin = true
 						this.balance = res.data.k_diamond_wallet
 						this.set_paypwd = res.data.set_paypwd
 					}
@@ -2181,14 +2188,18 @@
 			color: #fff;
 			font-size: 24rpx;
 			font-weight: bold;
+			display: flex;
+			align-items: center;
 
 			.time {
 				width: 32rpx;
+				height: 32rpx;
 				margin-right: 10rpx;
 			}
 
 			.r {
 				width: 24rpx;
+				height: 24rpx;
 				margin-left: 10rpx;
 			}
 		}
@@ -2889,7 +2900,7 @@
 								.zs {
 									font-size: 16rpx;
 									font-weight: 400;
-									color: rgb(153, 153, 153);
+									color: rgb(102, 102, 102);
 								}
 
 							}
@@ -3285,7 +3296,7 @@
 								.zs {
 									font-size: 16rpx;
 									font-weight: 400;
-									color: rgb(153, 153, 153);
+									color: rgb(102, 102, 102);
 									margin-left: 8rpx;
 								}
 							}
@@ -3481,7 +3492,7 @@
 							.zs {
 								font-size: 20rpx;
 								font-weight: 400;
-								color: rgb(153, 153, 153);
+								color: rgb(102, 102, 102);
 								margin-left: 8rpx;
 							}
 
@@ -3560,7 +3571,6 @@
 				background: #fff;
 				position: relative;
 				padding: 60rpx 0 50rpx 0;
-				// border: 4rpx solid rgb(10, 198, 142);
 				border-radius: 16rpx;
 				z-index: 9;
 
@@ -3658,7 +3668,7 @@
 							.num {
 								display: flex;
 								align-items: center;
-								// justify-content: center;
+								justify-content: center;
 								font-size: 24rpx;
 								margin-top: 30rpx;
 								color: rgb(10, 198, 142);
@@ -3679,7 +3689,7 @@
 									width: 432rpx;
 									font-size: 24rpx;
 									margin-left: 16rpx;
-									text-align: left;
+									text-align: center;
 									// word-break: break-all;
 
 									.protocol_txt1 {
@@ -4279,7 +4289,7 @@
 
 			.right {
 				font-size: 16rpx;
-				color: rgb(153, 153, 153);
+				color: rgb(102, 102, 102);
 				margin-left: 8rpx;
 
 				image {

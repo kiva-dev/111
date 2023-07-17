@@ -1330,8 +1330,8 @@
 	"newDetail.not": "There are currently no comments, come and comment!",
 
 	"new.zzjp": "Ongoing",
-	"new.jjks": "Start Soon",
-	"new.lsjl": "Historical",
+	"new.jjks": "Coming Soon",
+	"new.lsjl": "Historical Records",
 	"new.lxfs": "Contact information",
 	"new.sctp": "Pictures",
 	"new.xylb": "Wishing Items",
@@ -1487,7 +1487,7 @@
 	"new.notcart": "Pick something you like and add it to your cart",
 	"new.kzyebz": " K Diamonds Insufficient balance",
 	"new.jh": "Exchange",
-	"new.qcz": "To Recharge",
+	"new.qcz": "Purchase K Diamonds",
 	"new.dhfk": "Exchange payment",
 	"new.qpsl": "Number of wishes",
 	"new.srqpsl": "Enter the number of wishes",
@@ -1538,5 +1538,7 @@
 	"grop.addchat":"Join Group Chat",
 	"grop.can_chat":"Can join the group",
 	"grop.join":"Join",
-	"grop.customer":"Platform customer service"
+	"grop.customer":"Platform customer service",
+	
+	"auction.sign_up":"Sign up"
 }

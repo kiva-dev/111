@@ -47,7 +47,7 @@
 						{{$u.timeFormat(shopCont.end_time, 'yyyy/mm/dd hh:MM:ss')}} {{$t('auction.detail.yijs')}}
 					</view>
 					<view class="detail-price-time" v-else-if="shopCont.check_status==2">
-						{{$t('new.jljs')}}：<u-count-down :time="shopCont.pre_end_time" format="HH:mm:ss"></u-count-down>
+						{{$t('new.jljs')}}：<u-count-down :time="shopCont.pre_end_time * 1000" format="HH:mm:ss"></u-count-down>
 					</view>
 					<view class="detail-price-time" v-else>
 						{{$t('new.jlks')}}：<u-count-down :time="(shopCont.start_time*1000)"
@@ -72,6 +72,7 @@
 			<view class="li-tags">
 				<view class="li-icon" v-for="item in shopCont.tags" :key="item.tag_id">
 					<image :src="item.image" mode="widthFix"></image>
+					<text> <u-parse :content="isShopCont ? item.en_desc : item.zh_desc"></u-parse></text>
 				</view>
 			</view>
 
@@ -920,7 +921,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				})
 			},
 			toHome() {
-				uni.navigateTo({
+				uni.switchTab({
 					url: '/pages/auction/auction'
 				})
 			},
@@ -2116,12 +2117,17 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		}
 
 		.li-icon {
-			width: 38rpx;
-			height: 38rpx;
+			display: flex;
+			align-items: center;
 			margin: 0 20rpx 12rpx 0;
 
 			image {
-				width: 100%;
+				width: 38rpx;
+				height: 38rpx;
+			}
+			
+			text{
+				margin-left: 4rpx;
 			}
 		}
 	}
@@ -2710,7 +2716,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						.num {
 							display: flex;
 							align-items: center;
-							// justify-content: center;
+							justify-content: center;
 							font-size: 24rpx;
 							margin-top: 30rpx;
 							color: rgb(10, 198, 142);
@@ -2731,7 +2737,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 								width: 432rpx;
 								font-size: 24rpx;
 								margin-left: 16rpx;
-								text-align: left;
+								text-align: center;
 								// word-break: break-all;
 
 								.protocol_txt1 {

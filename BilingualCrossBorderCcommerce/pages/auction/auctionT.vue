@@ -136,7 +136,7 @@
 								</view>
 								<view class="old">RM{{item.price}}</view>
 							</view>
-							<view class="des-center-num">x{{item.join_count}}</view>
+							<!-- <view class="des-center-num">x{{item.join_count}}</view> -->
 						</view>
 						<view class="des-btm">
 							<view class="left">
@@ -2727,7 +2727,7 @@
 							.num {
 								display: flex;
 								align-items: center;
-								// justify-content: center;
+								justify-content: center;
 								font-size: 24rpx;
 								margin-top: 30rpx;
 								color: rgb(10, 198, 142);
@@ -2748,7 +2748,7 @@
 									width: 432rpx;
 									font-size: 24rpx;
 									margin-left: 16rpx;
-									text-align: left;
+									text-align: center;
 									// word-break: break-all;
 
 									.protocol_txt1 {
