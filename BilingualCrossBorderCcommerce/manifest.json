@@ -165,6 +165,6 @@
             "mode" : "history",
             "base" : "/"
         },
-        "template" : ""
+        "template" : "index.html"
     }
 }
