@@ -1,5 +1,6 @@
 import deepMerge from "../function/deepMerge.js";
 import validate from "../function/test";
+import config from "@/common/config"
 class Request {
 	// 设置全局默认配置
 	setConfig(customConfig) {
@@ -77,24 +78,21 @@ class Request {
 			// 判断用户传递的URL是否/开头,如果不是,加上/，这里使用了uView的test.js验证库的url()方法
 			// options.url = validate.url(options.url) ? options.url : (this.config.baseUrl + (options.url.indexOf('/') == 0 ?
 			// 	options.url : '/' + options.url));
-			// #ifdef H5
+
 			const urlArr = ['kjtest.ysxrj.cn', 'localhost'];
 			const currentUrl = window.location.hostname;
+			const _configUrl = config.baseUrl
 			if (validate.url(options.url)) {
 				options.url = options.url 
 			} else {
 				if (urlArr.includes(currentUrl)) {
 					options.url = 'https://kjtest.ysxrj.cn' + (options.url.startsWith('/') ? options.url : '/' + options.url);
 				} else {
-					options.url = this.config.baseUrl + (options.url.startsWith('/') ? options.url : '/' + options.url);
+					options.url = _configUrl + (options.url.startsWith('/') ? options.url : '/' + options.url);
 				}
 			}
-			console.log('1');
-			//  #endif
-			// #ifndef H5
-			options.url = validate.url(options.url) ? options.url : (this.config.baseUrl + (options.url.indexOf('/') == 0 ? options.url : '/' + options.url))
-			console.log('2');
-			//  #endif
+			console.log('1',_configUrl);
+			
 			// options.url =  ('https://kjtest.ysxrj.cn' + (options.url.indexOf('/') == 0 ? options.url : '/' + options.url));
 			// 是否显示loading
 			// 加一个是否已有timer定时器的判断，否则有两个同时请求的时候，后者会清除前者的定时器id
