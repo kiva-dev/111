@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<web-view :src="'https://wish.kolibrimall.com/pay.html?' +payurl"> </web-view>
+		<web-view :src="`${$baseUrl}pay.html?` +payurl"> </web-view>
 		<!-- @message="getMessage" -->
 	</view>
 </template>
@@ -12,8 +12,6 @@
 			}
 		},
 		onLoad(e) {
-			console.log(e);
-			console.log(e.url);
 			// 获取传递过来的链接
 			this.payurl = encodeURIComponent(e.url)
 		},

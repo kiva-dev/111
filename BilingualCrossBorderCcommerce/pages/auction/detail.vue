@@ -284,7 +284,7 @@
 			</view>
 			<view id="div4"></view>
 			<!--竞拍记录-->
-			<view class="jingpaiCont" v-if="goodlucky.length">
+			<view class="jingpaiCont" v-if="OrderList.length > 0">
 				<view class="six-tit">
 					<view class="line"></view>
 					<text>{{$t('auction.detail.jingpaijilu')}}</text>
