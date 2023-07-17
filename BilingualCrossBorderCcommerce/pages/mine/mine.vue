@@ -300,6 +300,14 @@
 						<image src="../../static/images/new/WhatsAPP.png"></image>
 						<view>WhatsAPP</view>
 					</view>
+					<view class="contact-info-des" @click="onTikTokApp()">
+						<image src="../../static/images/new/TikTok.png"></image>
+						<view>TikTok</view>
+					</view>
+					<view class="contact-info-des" @click="onINSApp()">
+						<image src="../../static/images/new/INS.png"></image>
+						<view>INS</view>
+					</view>
 				</view>
 			</view>
 		</u-popup>
@@ -431,6 +439,36 @@
 			},
 			onWhatsAPP() {
 				let url = `https://wa.me/message/NAZMJSVWAJ3XA1`
+				// #ifdef H5
+				window.open(url)
+				// #endif
+				// #ifndef H5
+				plus.runtime.openURL(
+					url,
+					// 打开url失败，执行，如打开的是tabao://但是手机没安装，就会执行报错
+					function(err) {
+						console.log(err);
+					}
+				);
+				// #endif
+			},
+			onTikTokApp() {
+				let url = `https://www.tiktok.com/@kolibrimall`
+				// #ifdef H5
+				window.open(url)
+				// #endif
+				// #ifndef H5
+				plus.runtime.openURL(
+					url,
+					// 打开url失败，执行，如打开的是tabao://但是手机没安装，就会执行报错
+					function(err) {
+						console.log(err);
+					}
+				);
+				// #endif
+			},
+			onINSApp() {
+				let url = `https://www.instagram.com/kolibrimall/`
 				// #ifdef H5
 				window.open(url)
 				// #endif
