@@ -747,8 +747,8 @@
 		{
 			"path": "pages/auction/lucky",
 			"style": {
-				"navigationBarTitleText": "%xyzx%",
-				"enablePullDownRefresh": false
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
 			}
 		},
 		{
@@ -1091,6 +1091,13 @@
 				"navigationBarTitleText": "",
 				"navigationStyle": "custom"
 			}
+		},
+		{
+			"path": "pages/auction/history",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
 		}
 	],
 	"globalStyle": {
@@ -1123,6 +1130,18 @@
 				"text": "%tab.makeAwish%",
 				"iconPath": "/static/xuyuan/wishS.png",
 				"selectedIconPath": "/static/xuyuan/wish.png"
+			},
+			{
+				"pagePath": "pages/auction/lucky",
+				"text": "%xyzx%",
+				"iconPath": "/static/images/new-index/Lucky.png",
+				"selectedIconPath": "/static/images/mine/lucky_icon_trophy.png"
+			},
+			{
+				"pagePath": "pages/auction/history",
+				"text": "%auction.history%",
+				"iconPath": "/static/images/new-index/history.png",
+				"selectedIconPath": "/static/images/new-index/history1.png"
 			},
 			{
 				"pagePath": "pages/mine/mine",
