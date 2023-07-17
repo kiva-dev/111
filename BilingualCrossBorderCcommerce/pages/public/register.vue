@@ -301,8 +301,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					icon: 'none'
 				})
 				if (this.pwd) {
-					let reg = '';
-
+					let reg = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[A-Za-z\\d\\W_]{8,16}$")
 					if (!reg.test(this.pwd)) return uni.showToast({
 						title: this.$t('pwdcd'),
 						icon: 'none'
