@@ -100,7 +100,7 @@
 			</view>
 			<!--参与竞拍人数-->
 			<view class="detail-canyu">
-				<view class="detail-canyu-name">{{$t('new.canyurenshu')}}：{{shopCont.order_user.length}}
+				<view class="detail-canyu-name">{{$t('new.canyurenshu')}}：{{shopCont.order_user_count}}
 					{{$t('auction.detail.ren')}}
 				</view>
 				<view class="detail-canyu-jdt" v-if="shopCont.check_status!=3 && shopCont.check_status!=4">

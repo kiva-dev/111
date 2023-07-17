@@ -1,91 +1,42 @@
-<script>
-	// 引入融云SDK
-	const RongIMLib = require('./common/libs/RongIMLib-3.0.7.1-dev.js');
-	// const RongIMLib = require('./common/libs/RongEmoji-2.2.9.js');
-	// 建议全局只初始化一次，不要忘记接开获取头像失败时候闸阀
-	let im = RongIMLib.init({
-		appkey: 'kj7swf8okxfe2',
-		debug: true
-	});
-	export default {
-		onLaunch() {
-			var that = this
-			if (!uni.getStorageSync('UNI_LOCALE')) {
-				uni.setStorageSync('UNI_LOCALE', 'en');
-				uni.setStorageSync('locale', 'en');
-			}
-			if (!uni.getStorageSync('phoneCont')) {
-				uni.setLocale('en');
-				this.$i18n.locale = 'en';
-			}
-			uni.onNetworkStatusChange(function (res) {
-			    if (res.isConnected) {
-					const userinfo = uni.getStorageSync('userinfo');
-					if (userinfo) {
-						that.ws.init(userinfo.token, userinfo.auth_token)
-					}
-				} else {
-					that.ws.socketTask.close()
-					that.ws.socketOpen = false
-					that.ws.checkNetwork()
-				}
-			})
-		},
-		onShow() {
-			this.checkLogin()
-			// this.setMallTabbar();
-		},
-		methods: {
-			checkLogin: function () {
-				const userinfo = uni.getStorageSync('userinfo');
-				var valid = true;
-				if (!userinfo || !userinfo.token) {
-					valid = false;
-				} else {
-					let token = userinfo.token.split('|');
-					let time = Date.parse(new Date()).toString();
-					time = time.substr(0,10);
-					// 减去一秒,防止刚好到时间造成发送了错误的请求
-					if ((parseInt(token[2]) - 2) < parseInt(time)) {
-						valid = false;
-					}
-				}
-				
-				if (!valid) {
-					setTimeout(() => {
-						this.ws.logout()
-					}, 300)
-				} else {
-					this.ws.init(userinfo.token, userinfo.auth_token)
-				}
-			},
-			setMallTabbar() {
-				this.$http.post(this.$apiObj.IndexSetting, {
-					fields: 'whether_to_enable_ordinary_mall'
-				}).then((res) => {
-					if (res.code === 1) {
-						if (res.data.whether_to_enable_ordinary_mall === 1) {
-							uni.setTabBarItem({
-							  index: 1,
-							  text: '%tab.all%',
-							  iconPath: '/static/images/new-index/Products.png',
-							  selectedIconPath: '/static/images/new-index/Products1.png'
-							})
-						}
-						if (res.data.whether_to_enable_ordinary_mall === 0) {
-							uni.setTabBarItem({
-							  index: 1,
-							  text: '%tab.auction%',
-							  iconPath: '/static/images/new-index/Auction.png',
-							  selectedIconPath: '/static/images/new-index/Auction1.png'
-							})
-						}
-					}
-				})
-			},
-		}
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4J6K98ZNC0"></script>
+
+
+<script type="text/javascript">
+	// #ifdef H5
+	//百度
+	var _hmt = _hmt || [];
+	(function() {
+		var hm = document.createElement("script");
+		hm.src = "https://hm.baidu.com/hm.js?7f6a02d677da978de7aa03a7f11ddc47";
+		var s = document.getElementsByTagName("script")[0];
+		s.parentNode.insertBefore(hm, s);
+	})();
+
+	//谷歌
+	window.dataLayer = window.dataLayer || [];
+
+	function gtag() {
+		dataLayer.push(arguments);
 	}
+	gtag('js', new Date());
+
+	gtag('config', 'G-4J6K98ZNC0');
+
+	//微软
+	(function(c, l, a, r, i, t, y) {
+		c[a] = c[a] || function() {
+			(c[a].q = c[a].q || []).push(arguments)
+		};
+		t = l.createElement(r);
+		t.async = 1;
+		t.src = "https://www.clarity.ms/tag/" + i;
+		y = l.getElementsByTagName(r)[0];
+		y.parentNode.insertBefore(t, y);
+	})(window, document, "clarity", "script", "hz2q4zzn2o");
+	// #endif
 </script>
+
+
 
 <style lang="scss">
 	/* 注意要写在第一行，同时给style标签加入lang="scss"属性 */

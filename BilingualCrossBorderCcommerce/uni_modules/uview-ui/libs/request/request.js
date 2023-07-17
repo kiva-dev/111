@@ -16,7 +16,7 @@ class Request {
 			let interceptorRequest = this.interceptor.request(options);
 			if (interceptorRequest === false) {
 				// 返回一个处于pending状态中的Promise，来取消原promise，避免进入then()回调
-				return new Promise(()=>{});
+				return new Promise(() => {});
 			}
 			this.options = interceptorRequest;
 		}
@@ -35,7 +35,7 @@ class Request {
 				clearTimeout(this.config.timer);
 				this.config.timer = null;
 				// 判断用户对拦截返回数据的要求，如果originalData为true，返回所有的数据(response)到拦截器，否则只返回response.data
-				if(this.config.originalData) {
+				if (this.config.originalData) {
 					// 判断是否存在拦截器
 					if (this.interceptor.response && typeof this.interceptor.response === 'function') {
 						let resInterceptors = this.interceptor.response(response);
@@ -52,7 +52,8 @@ class Request {
 					}
 				} else {
 					if (response.statusCode == 200) {
-						if (this.interceptor.response && typeof this.interceptor.response === 'function') {
+						if (this.interceptor.response && typeof this.interceptor.response ===
+							'function') {
 							let resInterceptors = this.interceptor.response(response.data);
 							if (resInterceptors !== false) {
 								resolve(resInterceptors);
@@ -78,26 +79,34 @@ class Request {
 			// 判断用户传递的URL是否/开头,如果不是,加上/，这里使用了uView的test.js验证库的url()方法
 			// options.url = validate.url(options.url) ? options.url : (this.config.baseUrl + (options.url.indexOf('/') == 0 ?
 			// 	options.url : '/' + options.url));
-
+			const _configUrl = config.baseUrl
+			// #ifdef H5
 			const urlArr = ['kjtest.ysxrj.cn', 'localhost'];
 			const currentUrl = window.location.hostname;
-			const _configUrl = config.baseUrl
 			if (validate.url(options.url)) {
-				options.url = options.url 
+				options.url = options.url
 			} else {
 				if (urlArr.includes(currentUrl)) {
-					options.url = 'https://kjtest.ysxrj.cn' + (options.url.startsWith('/') ? options.url : '/' + options.url);
+					options.url = 'https://kjtest.ysxrj.cn' + (options.url.startsWith('/') ? options.url :
+						'/' + options.url);
 				} else {
-					options.url = _configUrl + (options.url.startsWith('/') ? options.url : '/' + options.url);
+					options.url = _configUrl + (options.url.startsWith('/') ? options.url : '/' + options
+						.url);
 				}
 			}
-			console.log('1',_configUrl);
-			
+			// #endif
+
+			// #ifndef H5
+			options.url = validate.url(options.url) ? options.url : (_configUrl + (options.url.indexOf(
+				'/') == 0 ? options.url : '/' + options.url))
+			options.url = 'https://' + options.url
+			console.log(options.url);
+			//  #endif
 			// options.url =  ('https://kjtest.ysxrj.cn' + (options.url.indexOf('/') == 0 ? options.url : '/' + options.url));
 			// 是否显示loading
 			// 加一个是否已有timer定时器的判断，否则有两个同时请求的时候，后者会清除前者的定时器id
 			// 而没有清除前者的定时器，导致前者超时，一直显示loading
-			if(this.config.showLoading && !this.config.timer) {
+			if (this.config.showLoading && !this.config.timer) {
 				this.config.timer = setTimeout(() => {
 					uni.showLoading({
 						title: this.config.loadingText,
@@ -132,7 +141,7 @@ class Request {
 			originalData: false, // 是否在拦截器中返回服务端的原始数据，见文档说明
 			loadingMask: true, // 展示loading的时候，是否给一个透明的蒙层，防止触摸穿透
 		}
-	
+
 		// 拦截器
 		this.interceptor = {
 			// 请求前的拦截
@@ -160,7 +169,7 @@ class Request {
 				data
 			})
 		}
-		
+
 		// put请求，不支持支付宝小程序(HX2.6.15)
 		this.put = (url, data = {}, header = {}) => {
 			return this.request({
@@ -170,7 +179,7 @@ class Request {
 				data
 			})
 		}
-		
+
 		// delete请求，不支持支付宝和头条小程序(HX2.6.15)
 		this.delete = (url, data = {}, header = {}) => {
 			return this.request({
