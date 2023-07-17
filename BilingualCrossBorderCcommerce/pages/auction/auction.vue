@@ -1261,8 +1261,8 @@
 				}
 			},
 		},
-		onLoad() {
-
+		onLoad(e) {
+			if(e.promotion_code) uni.setStorageSync('invite_code',e.promotion_code)
 			let systemInfo = uni.getSystemInfoSync();
 			this.systemLocale = systemInfo.language;
 			this.applicationLocale = uni.getLocale();

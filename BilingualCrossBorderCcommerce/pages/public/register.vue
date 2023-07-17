@@ -197,6 +197,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			if (e.promotion_code) {
 				this.isDisabled=true
 				this.share_code = e.promotion_code
+			}else if(uni.getStorageSync('invite_code')){
+				this.share_code = uni.getStorageSync('invite_code')
 			}
 
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false

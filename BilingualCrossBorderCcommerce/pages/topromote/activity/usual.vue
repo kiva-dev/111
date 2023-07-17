@@ -54,12 +54,12 @@
 				<view class="mine-share-tit">Share To</view>
 				
 				<view class="mine-share-list">
-					<view class="mine-share-item">
+					<view class="mine-share-item" @click="ontweet">
 						<image src="/static/images/share21.png"></image>
 						<view class="mine-share-name">Twitter</view>
 					</view>
 					
-					<view class="mine-share-item mine-share-center">
+					<view class="mine-share-item mine-share-center" @click="onfacebook">
 						<image src="/static/images/share23.png"></image>
 						<view class="mine-share-name">Facebook</view>
 					</view>
@@ -89,7 +89,10 @@
 			}
 		},
 		onLoad(e) {
-			if(e.promotion_code) this.promotion_code = e.promotion_code
+			if(e.promotion_code) {
+				this.promotion_code = e.promotion_code
+				uni.setStorageSync('invite_code',e.promotion_code)
+			}
 		},
 		methods:{
 			toindex(){
@@ -107,7 +110,37 @@
 			},
 			closeShare(){
 				this.$refs.share.close()
-			}
+			},
+			onfacebook() {
+				let url = `https://www.facebook.com/sharer/sharer.php?u=${this.qrUrl}`
+				// #ifdef H5
+				window.open(url)
+				// #endif
+				// #ifndef H5
+				plus.runtime.openURL(
+					url,
+					// 打开url失败，执行，如打开的是tabao://但是手机没安装，就会执行报错
+					function(err) {
+						console.log(err);
+					}
+				);
+				// #endif
+			},
+			ontweet() {
+				let url = `https://twitter.com/intent/tweet?url=${this.qrUrl}`
+				// #ifdef H5
+				window.open(url)
+				// #endif
+				// #ifndef H5
+				plus.runtime.openURL(
+					url,
+					// 打开url失败，执行，如打开的是tabao://但是手机没安装，就会执行报错
+					function(err) {
+						console.log(err);
+					}
+				);
+				// #endif
+			},
 		}
 	}
 </script>
