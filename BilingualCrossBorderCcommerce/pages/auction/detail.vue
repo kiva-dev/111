@@ -54,7 +54,6 @@
 							format="HH:mm:ss"></u-count-down>
 					</view>
 				</view>
-
 				<view class="detail-price-time" v-if="shopCont.check_status==3||shopCont.check_status==4">
 					{{$u.timeFormat(shopCont.end_time, 'yyyy/mm/dd hh:MM:ss')}} {{$t('auction.detail.yijs')}}
 				</view>

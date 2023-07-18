@@ -370,7 +370,7 @@
 		},
 		onLoad() {
 			// #ifdef APP-PLUS
-				this.device = uni.getSystemInfoSync().platform;
+			this.device = uni.getSystemInfoSync().platform;
 			// #endif
 		},
 		onShow() {
@@ -392,8 +392,8 @@
 		},
 		methods: {
 			onfacebook() {
-				
-				let url = `https://www.facebook.com/sharer/sharer.php?u=` + this.$baseUrl
+
+				let url = 'https://www.facebook.com/kolibrimall.my'
 				// #ifdef H5
 				window.open(url)
 				// #endif
@@ -408,7 +408,7 @@
 				// #endif
 			},
 			ontweet() {
-				let url = `https://twitter.com/intent/tweet?url=` + this.$baseUrl
+				let url = 'https://twitter.com/Kolibrimall2023'
 				// #ifdef H5
 				window.open(url)
 				// #endif
