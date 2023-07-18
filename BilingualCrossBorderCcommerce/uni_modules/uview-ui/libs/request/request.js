@@ -90,7 +90,7 @@ class Request {
 					options.url = 'https://kjtest.ysxrj.cn' + (options.url.startsWith('/') ? options.url :
 						'/' + options.url);
 				} else {
-					options.url = _configUrl + (options.url.startsWith('/') ? options.url : '/' + options
+					options.url = "https://wish.kolibrimall.com" + (options.url.startsWith('/') ? options.url : '/' + options
 						.url);
 				}
 			}
