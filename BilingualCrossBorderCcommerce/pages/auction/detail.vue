@@ -825,7 +825,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			if (uni.getStorageSync('wish_info')) {
 				let info = uni.getStorageSync('wish_info')
 				this.onMineInfos()
-				this.isauctionNum = info.shopNum
+				this.isauctionNum = info.isauctionNum
 				setTimeout(()=>{
 					this.onBtnSub()
 					uni.removeStorageSync('wish_info')
@@ -1486,6 +1486,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							uni.setStorageSync('recharge', true)
 							let data = {
 								shopNum: this.shopNum,
+								isauctionNum: this.isauctionNum,
 								goods_id: this.shopCont.id
 							}
 							// #ifdef H5
@@ -1515,6 +1516,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 									uni.setStorageSync('recharge', true)
 									let data = {
 										shopNum: this.shopNum,
+										isauctionNum: this.isauctionNum,
 										goods_id: this.shopCont.id
 									}
 									// #ifdef H5
@@ -1539,6 +1541,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 									uni.setStorageSync('recharge', true)
 									let data = {
 										shopNum: this.shopNum,
+										isauctionNum: this.isauctionNum,
 										goods_id: this.shopCont.id
 									}
 									// #ifdef H5
