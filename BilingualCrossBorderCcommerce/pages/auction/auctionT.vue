@@ -721,7 +721,7 @@
 				let info = uni.getStorageSync('wish_info')
 				let mine = uni.getStorageSync('mine-info')
 				this.onMineInfo(mine)
-				this.isauctionNum = info.shopNum
+				this.isauctionNum = info.isauctionNum
 				setTimeout(() => {
 					this.onBtnSub()
 					uni.removeStorageSync('wish_info')
@@ -1096,9 +1096,13 @@
 							uni.setStorageSync('recharge', true)
 							let data = {
 								shopNum: this.shopNum,
+								isauctionNum: this.isauctionNum,
 								goods_id: this.shopCont.auction_goods_id
 							}
 							// #ifdef H5
+							if(!uni.getStorageSync('mine-info')){ //第一次会存在，连续第二次点击时如果不存在则重新设置缓存
+								uni.setStorageSync('mine-info',this.shopCont)
+							}
 							uni.setStorageSync('wish_info', data)
 							// #endif
 							setTimeout(() => {
@@ -1125,9 +1129,13 @@
 									uni.setStorageSync('recharge', true)
 									let data = {
 										shopNum: this.shopNum,
+										isauctionNum: this.isauctionNum,
 										goods_id: this.shopCont.auction_goods_id
 									}
 									// #ifdef H5
+									if(!uni.getStorageSync('mine-info')){ //第一次会存在，连续第二次点击时如果不存在则重新设置缓存
+										uni.setStorageSync('mine-info',this.shopCont)
+									}
 									uni.setStorageSync('wish_info', data)
 									// #endif
 									setTimeout(() => {
@@ -1149,9 +1157,13 @@
 									uni.setStorageSync('recharge', true)
 									let data = {
 										shopNum: this.shopNum,
+										isauctionNum: this.isauctionNum,
 										goods_id: this.shopCont.auction_goods_id
 									}
 									// #ifdef H5
+									if(!uni.getStorageSync('mine-info')){ //第一次会存在，连续第二次点击时如果不存在则重新设置缓存
+										uni.setStorageSync('mine-info',this.shopCont)
+									}
 									uni.setStorageSync('wish_info', data)
 									// #endif
 									setTimeout(() => {

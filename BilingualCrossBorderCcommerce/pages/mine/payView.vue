@@ -88,34 +88,13 @@
 			},
 			toDetail() {
 				this.list = getCurrentPages()
-				// var u = navigator.userAgent;
-				// var isAndroid = u.indexOf("Android") > -1 || u.indexOf("Adr") > -1; //android终端
-				// var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
-				// if (isAndroid) {
-				// 	window.history.go(-2);
-				// }else if(isiOS){
-				// 	window.history.go(-2);
-				// }
-
-				// 检测是否在iOS设备上
 
 				let arr = this.str.split(',')
 				arr.forEach(item => {
-					console.log(item, '-----')
 					let msg = item.split('/')
-					console.log(msg, '-11111----')
-					window.history.pushState(null, '', 'https://wish.kolibrimall.com/' + item);
+					window.history.pushState(null, '', this.$baseUrl + item);
 				})
-				console.log(window.history.length, '======')
 				window.history.go(0)
-				// const originalUrl = window.location.href;
-
-				// window.history.replaceState(null,'','https://kjtest.ysxrj.cn/pages/mine/mine')
-
-				// // 使用pushState方法添加一个历史记录
-				// window.history.pushState(null, '', originalUrl);
-
-
 			}
 		}
 	}

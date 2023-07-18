@@ -377,7 +377,6 @@
 			//删除缓存临时数据
 			uni.removeStorageSync('sendTit')
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false;
-			console.log(uni.getStorageSync('token'))
 			if (uni.getStorageSync('token')) {
 				this.isLogin = true;
 				this.getMineInfo();

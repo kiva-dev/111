@@ -1248,33 +1248,6 @@
 				isLogin:false
 			}
 		},
-		watch: {
-			money: {
-				handler(e, m) {
-					if (e < 10) {
-						this.orderPayList = [{
-							id: 1,
-							title: this.$t('auction.detail.yuerzhifu'),
-							isShow: false
-						}, {
-							id: 2,
-							title: this.$t('new.zfjezf'),
-							isShow: false
-						}]
-					} else {
-						this.orderPayList = [{
-							id: 1,
-							title: this.$t('auction.detail.yuerzhifu'),
-							isShow: false
-						}, {
-							id: 2,
-							title: this.$t('new.zfjezf'),
-							isShow: false
-						}]
-					}
-				}
-			},
-		},
 		onLoad(e) {
 			if(e.promotion_code) uni.setStorageSync('invite_code',e.promotion_code)
 			let systemInfo = uni.getSystemInfoSync();
@@ -1350,9 +1323,10 @@
 				let info = uni.getStorageSync('wish_info')
 				let mine = uni.getStorageSync('mine-info')
 				this.onMineInfo(mine)
-				this.isauctionNum = info.shopNum
+				this.isauctionNum = info.isauctionNum
 				setTimeout(()=>{
 					this.onBtnSub()
+					console.log(this.shopNum,this.isauctionNum)
 					uni.removeStorageSync('wish_info')
 					uni.removeStorageSync('mine-info')
 				},1000)
@@ -1841,9 +1815,13 @@
 							uni.setStorageSync('recharge', true)
 							let data = {
 								shopNum: this.shopNum,
+								isauctionNum: this.isauctionNum,
 								goods_id: this.shopCont.auction_goods_id
 							}
 							// #ifdef H5
+							if(!uni.getStorageSync('mine-info')){ //第一次会存在，连续第二次点击时如果不存在则重新设置缓存
+								uni.setStorageSync('mine-info',this.shopCont)
+							}
 							uni.setStorageSync('wish_info', data)
 							// #endif
 							
@@ -1851,7 +1829,6 @@
 								uni.navigateTo({
 									url: '/pages/mine/K_brick_detail'
 								})
-								// location.reload()
 							}, 2500)
 						}
 					})
@@ -1872,9 +1849,13 @@
 									uni.setStorageSync('recharge', true)
 									let data = {
 										shopNum: this.shopNum,
+										isauctionNum: this.isauctionNum,
 										goods_id: this.shopCont.auction_goods_id
 									}
 									// #ifdef H5
+									if(!uni.getStorageSync('mine-info')){ //第一次会存在，连续第二次点击时如果不存在则重新设置缓存
+										uni.setStorageSync('mine-info',this.shopCont)
+									}
 									uni.setStorageSync('wish_info', data)
 									// #endif
 									setTimeout(() => {
@@ -1896,9 +1877,13 @@
 									uni.setStorageSync('recharge', true)
 									let data = {
 										shopNum: this.shopNum,
+										isauctionNum: this.isauctionNum,
 										goods_id: this.shopCont.auction_goods_id
 									}
 									// #ifdef H5
+									if(!uni.getStorageSync('mine-info')){ //第一次会存在，连续第二次点击时如果不存在则重新设置缓存
+										uni.setStorageSync('mine-info',this.shopCont)
+									}
 									uni.setStorageSync('wish_info', data)
 									// #endif
 									setTimeout(() => {
