@@ -3,7 +3,29 @@
 		<view class="banner-layout">
 			<image src="@/static/images/new-index/luckstar-en.png" mode="widthFix"></image>
 		</view>
+		<view class="switch">
+			<view class="switch-info">
+				<view class="left">
+					<view class="left-name">Ranking list</view>
+					<view class="left-more">Go to view <image src="/static/images/mine/mine_icon_right.png"></image></view>
+				</view>
+				<view class="right">
+					<image src="/static/images/luck/luck_list.png"></image>
+				</view>
+			</view>
+			
+			<view class="switch-info">
+				<view class="left">
+					<view class="left-name">Lucky Forum</view>
+					<view class="left-more">Go to view <image src="/static/images/mine/mine_icon_right.png"></image></view>
+				</view>
+				<view class="right">
+					<image src="/static/images/luck/msg_list.png"></image>
+				</view>
+			</view>
+		</view>
 		<view class="member-layout">
+			
 			<view class="ml-title">
 				<view class="ml-title-icon">
 					<image src="@/static/images/new-index/lv-start.png" mode="widthFix"></image>
@@ -142,17 +164,77 @@
 				width: 100%;
 			}
 		}
+		
+		//头部切换
+		.switch{
+			position: relative;
+			width: 750rpx;
+			height: 220rpx;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background: linear-gradient(180.00deg, rgb(255, 227, 221),rgba(255, 255, 255) 100%);
+			margin-top: -390rpx;
+			z-index: 9;
+			
+			.switch-info{
+				width: 334rpx;
+				height: 164rpx;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				background: #fff;
+				border-radius: 24rpx;
+				margin: 0 10rpx;
+				
+				.left{
+					margin-right: 26rpx;
+					
+					.left-name{
+						font-size: 28rpx;
+						color: rgb(51, 51, 51);
+					}
+					
+					.left-more{
+						font-size: 24rpx;
+						color: rgb(102, 102, 102);
+						display: flex;
+						align-items: center;
+						margin-top: 30rpx;
+						
+						image{
+							width: 20rpx;
+							height: 20rpx;
+							margin-left: 4rpx;
+						}
+					}
+					
+				}
+				
+				.right{
+					
+					image{
+						width: 100rpx;
+						height: 100rpx;
+					}
+				}
+				
+			}
+			
+		}
 
 		.member-layout {
 			width: 100%;
 			min-height: 50vh;
 			background: rgb(255, 255, 255);
-			border-radius: 32rpx;
-			margin-top: -390rpx;
+			// border-radius: 32rpx;
+			margin-top: -4rpx;
 			padding: 28rpx 56rpx;
 			box-sizing: border-box;
 			position: relative;
 			z-index: 9;
+			
+			
 
 			.ml-title {
 				display: flex;
