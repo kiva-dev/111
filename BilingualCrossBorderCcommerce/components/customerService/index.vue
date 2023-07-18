@@ -42,12 +42,14 @@ export default {
 	
 	isLogin() {
 		const userinfo = uni.getStorageSync('userinfo');
-		if (!userinfo || !userinfo.token) {
+		const _token = uni.getStorageSync('token');
+		if (!userinfo?.token || !_token || _token.trim() === '') {
 			this.handleNotLoggedIn();
 		} else {
-			const token = userinfo.token.split('|');
-			const time = Math.floor(Date.now() / 1000);
-			if (parseInt(token[2]) - 2 < time) {
+			const tokenArr = userinfo.token.split('|');
+			const expirationTime = parseInt(tokenArr[2]) - 2;
+			const currentTime = Math.floor(Date.now() / 1000);
+			if (expirationTime < currentTime) {
 				this.handleExpiredToken();
 			} else {
 				this.handleValidLogin(userinfo.token, userinfo.auth_token);
