@@ -8,15 +8,15 @@
 				<block v-if="blockNum==1">
 					
 					<view class="switchLoginType">
-						<view class="info" @click="emailOrPhone=1">
+						<view class="info" @click="emailOrPhone=1" :class="emailOrPhone==1?'select_tit':''">
 							<image src="/static/images/kbrick/login_email.png" class="email" v-show="emailOrPhone!=1"></image>
 							<image src="/static/images/kbrick/login_email_select.png" class="email" v-show="emailOrPhone==1"></image>
-							<view class="email_tit" :class="emailOrPhone==1?'select_tit':''">Email</view>
+							<view class="email_tit" >Email address</view>
 						</view>
-						<view class="info" @click="emailOrPhone=2">
-							<view class="phone_tit" :class="emailOrPhone==2?'select_tit':''">Phone</view>
+						<view class="info" @click="emailOrPhone=2" :class="emailOrPhone==2?'select_tit':''">
 							<image src="/static/images/kbrick/login_phone.png" class="phone" v-show="emailOrPhone!=2"></image>
 							<image src="/static/images/kbrick/login_phone_select.png" class="phone" v-show="emailOrPhone==2"></image>
+							<view class="phone_tit" >Phone number</view>
 						</view>
 					</view>
 					
@@ -552,49 +552,42 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		
 		.switchLoginType {
 			position: relative;
-			width: 332rpx;
-			height: 80rpx;
+			width: 654rpx;
+			height: 76rpx;
 			display: flex;
 			align-items: center;
 			box-sizing: border-box;
-			border: 1rpx solid rgb(10, 198, 142);
-			border-radius: 80rpx;
-			margin: 50rpx 0 -18rpx 32rpx;
-			
-			.info{
+			border: 1rpx solid rgb(204, 204, 204);
+			border-radius: 16rpx;
+			margin: 64rpx auto 0 auto;
+		
+			.info {
+				width: 50%;
+				height: 100%;
+				font-size: 24rpx;
+				color: rgb(10, 198, 142);
 				display: flex;
 				align-items: center;
+				justify-content: center;
+				border-radius: 16rpx;
 			}
 		
 			.email {
-				width: 64rpx;
-				height: 64rpx;
-				margin-left: 8rpx;
-			}
-		
-			.email_tit {
-				font-size: 24rpx;
-				color: rgb(153, 153, 153);
-				margin-left: 12rpx;
+				width: 36rpx;
+				height: 36rpx;
+				margin-right: 8rpx;
 			}
 		
 			.phone {
-				position: absolute;
-				right: 8rpx;
-				width: 64rpx;
-				height: 64rpx;
+				width: 36rpx;
+				height: 36rpx;
+				margin-right: 8rpx;
 			}
 		
-			.phone_tit {
-				position: absolute;
-				right: 80rpx;
-				font-size: 24rpx;
-				color: rgb(153, 153, 153);
-			}
-			
-			.select_tit{
+			.select_tit {
 				font-weight: bold;
-				color: rgb(10, 198, 142);
+				color: rgb(255, 255, 255);
+				background: rgb(10, 198, 142);
 			}
 		
 		}
