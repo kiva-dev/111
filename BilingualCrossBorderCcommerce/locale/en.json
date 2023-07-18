@@ -1539,6 +1539,7 @@
 	"grop.can_chat":"Can join the group",
 	"grop.join":"Join",
 	"grop.customer":"Platform customer service",
+	"grop.sessionEnter":"对方正在输入...",
 	
 	"auction.sign_up":"Sign up",
 	"auction.history":"Historical"
