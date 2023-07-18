@@ -36,7 +36,7 @@
 						</view>
 						<template v-if="isEnglish">
 							<view class="item-right-content">
-								In the Joint contribution sales activities provided by{{' '}}
+								In the Wish Pool Campaigns provided by{{' '}}
 								<text style="color: rgb(10, 198, 142);">{{item.shop_name}}</text>
 								,at the price of{{' '}}
 								<text style="color: rgb(255, 57, 57); font-weight: bold;">

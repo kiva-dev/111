@@ -94,8 +94,8 @@
 			<view class="detail-luck-star" v-if="shopCont.auction_type!=2">
 				<view class="detail-luck-star-name">{{$t('xejp')}}</view>
 				<view class="detail-luck-star-info">
-					<image src="../../static/images/products/luck-jb.png"></image>
-					{{$t('xyzx')}}：{{shopCont.lucky_num}}{{$t('ge')}}
+					<image src="../../static/images/mine/lucky_icon_trophy.png"></image>
+					{{$t('xyzx')}}：{{shopCont.lucky_num}}
 				</view>
 			</view>
 			<!--参与竞拍人数-->
