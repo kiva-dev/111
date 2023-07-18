@@ -15,15 +15,15 @@
 			</view>
 
 			<view class="switchLoginType">
-				<view class="info" @click="isNav=2">
+				<view class="info" @click="isNav=2" :class="isNav==2?'select_tit':''">
 					<image src="/static/images/kbrick/login_email.png" class="email" v-show="isNav!=2"></image>
 					<image src="/static/images/kbrick/login_email_select.png" class="email" v-show="isNav==2"></image>
-					<view class="email_tit" :class="isNav==2?'select_tit':''">Email</view>
+					<view class="email_tit">Email address</view>
 				</view>
-				<view class="info" @click="isNav=1">
-					<view class="phone_tit" :class="isNav==1?'select_tit':''">Phone</view>
+				<view class="info" @click="isNav=1" :class="isNav==1?'select_tit':''">
 					<image src="/static/images/kbrick/login_phone.png" class="phone" v-show="isNav!=1"></image>
 					<image src="/static/images/kbrick/login_phone_select.png" class="phone" v-show="isNav==1"></image>
+					<view class="phone_tit">Phone number</view>
 				</view>
 			</view>
 
@@ -50,15 +50,28 @@
 							@click="isShow=!isShow"></image>
 					</view>
 
-					<view class="email-btm">
-						<view style="color: rgb(10, 198, 142);" @click="navClick('register')">{{$t('login.zczh')}}
+					<view class="login-check">
+						<view class="check" @click="isQuanShow=!isQuanShow">
+							<checkbox :checked="isQuanShow?true:false" style="transform: scale(0.7);" />
 						</view>
-						<view @click="navClick('/pages/public/password')">{{$t('login.wjmm')}}?</view>
+						<view class="xy">
+							<text class="color-999">{{$t('login.shcg')}}</text>
+							<navigator url="../mine/ptfwxy" hover-class="none">{{$t('login.ptfwxy')}}</navigator>
+							<navigator url="../mine/ysxy" hover-class="none">{{$t('login.ysxy')}}</navigator>
+							<navigator url="../mine/agreement" hover-class="none">{{$t('login.zcxgxy')}}</navigator>
+						</view>
 					</view>
 
 					<view class="email-btn" @click.stop="$noMultipleClicks(onLoginEmailLogin)">{{$t('login.ljdl')}}
 					</view>
+					<view class="email-btn email-register" @click.stop="navClick('register')">{{$t('login.zczh')}}
+					</view>
 
+					<view class="email-btm">
+						<view style="color: rgb(10, 198, 142);" @click="">
+						</view>
+						<view @click="navClick('/pages/public/password')">{{$t('login.wjmm')}}?</view>
+					</view>
 				</view>
 			</block>
 
@@ -87,30 +100,34 @@
 							@click="isShow=!isShow"></image>
 					</view>
 
-					<view class="email-btm">
-						<view style="color: rgb(10, 198, 142);" @click="navClick('register')">{{$t('login.zczh')}}
+					<view class="login-check">
+						<view class="check" @click="isQuanShow=!isQuanShow">
+							<checkbox :checked="isQuanShow?true:false" style="transform: scale(0.7);" />
 						</view>
-						<view @click="navClick('/pages/public/password')">{{$t('login.wjmm')}}</view>
+						<view class="xy">
+							<text class="color-999">{{$t('login.shcg')}}</text>
+							<navigator url="../mine/ptfwxy" hover-class="none">{{$t('login.ptfwxy')}}</navigator>
+							<navigator url="../mine/ysxy" hover-class="none">{{$t('login.ysxy')}}</navigator>
+							<navigator url="../mine/agreement" hover-class="none">{{$t('login.zcxgxy')}}</navigator>
+						</view>
 					</view>
 
 					<view class="email-btn" @click.stop="$noMultipleClicks(onLoginMobileLogin)">{{$t('login.ljdl')}}
+					</view>
+					<view class="email-btn email-register" @click.stop="navClick('register')">{{$t('login.zczh')}}
+					</view>
+
+					<view class="email-btm">
+						<view style="color: rgb(10, 198, 142);" @click="">
+						</view>
+						<view @click="navClick('/pages/public/password')">{{$t('login.wjmm')}}?</view>
 					</view>
 
 				</view>
 			</block>
 
 
-			<view class="login-check">
-				<view class="check" @click="isQuanShow=!isQuanShow">
-					<checkbox :checked="isQuanShow?true:false" style="transform: scale(0.7);" />
-				</view>
-				<view class="xy">
-					<text class="color-999">{{$t('login.shcg')}}</text>
-					<navigator url="../mine/ptfwxy" hover-class="none">{{$t('login.ptfwxy')}}</navigator>
-					<navigator url="../mine/ysxy" hover-class="none">{{$t('login.ysxy')}}</navigator>
-					<navigator url="../mine/agreement" hover-class="none">{{$t('login.zcxgxy')}}</navigator>
-				</view>
-			</view>
+
 
 			<view class="login-other">
 				<view class="other-tit">
@@ -119,12 +136,6 @@
 					<view class="line"></view>
 				</view>
 				<view class="other-ul">
-					<!-- <view class="li" v-if="isNav==2" @click="isNav=1">
-						<image class="img" src="/static/images/new-index/phone_login.png"></image>
-					</view>
-					<view class="li" v-else @click="isNav=2">
-						<image class="img" src="/static/images/new-index/email_login.png"></image>
-					</view> -->
 					<view class="li" @click="handleGoogleAuth">
 						<image class="img" src="/static/images/new-index/goole.png"></image>
 					</view>
@@ -373,7 +384,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					title: this.$t('login.qsrmm'),
 					icon: 'none'
 				})
-				
+
 				if (this.email) {
 					var reg_tel = /^[a-zA-Z0-9]+([-_.][a-zA-Z0-9]+)*@([a-zA-Z0-9]+[-.])+[A-Za-zd]{2,5}$/
 					if (!reg_tel.test(this.email)) return uni.showToast({
@@ -396,7 +407,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							icon: 'none'
 						})
 						uni.setStorageSync('token', res.data.token)
-						
+
 						uni.setStorageSync('userinfo', {
 							token: res.data.im_tourists_token,
 							auth_token: res.data.auth_token
@@ -713,49 +724,42 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 			.switchLoginType {
 				position: relative;
-				width: 332rpx;
-				height: 80rpx;
+				width: 654rpx;
+				height: 76rpx;
 				display: flex;
 				align-items: center;
 				box-sizing: border-box;
-				border: 1rpx solid rgb(10, 198, 142);
-				border-radius: 80rpx;
+				border: 1rpx solid rgb(204, 204, 204);
+				border-radius: 16rpx;
 				margin: 64rpx 0 0 18rpx;
 
 				.info {
+					width: 50%;
+					height: 100%;
+					font-size: 24rpx;
+					color: rgb(10, 198, 142);
 					display: flex;
 					align-items: center;
+					justify-content: center;
+					border-radius: 16rpx;
 				}
 
 				.email {
-					width: 64rpx;
-					height: 64rpx;
-					margin-left: 8rpx;
-				}
-
-				.email_tit {
-					font-size: 24rpx;
-					color: rgb(153, 153, 153);
-					margin-left: 12rpx;
+					width: 36rpx;
+					height: 36rpx;
+					margin-right: 8rpx;
 				}
 
 				.phone {
-					position: absolute;
-					right: 8rpx;
-					width: 64rpx;
-					height: 64rpx;
-				}
-
-				.phone_tit {
-					position: absolute;
-					right: 80rpx;
-					font-size: 24rpx;
-					color: rgb(153, 153, 153);
+					width: 36rpx;
+					height: 36rpx;
+					margin-right: 8rpx;
 				}
 
 				.select_tit {
 					font-weight: bold;
-					color: rgb(10, 198, 142);
+					color: rgb(255, 255, 255);
+					background: rgb(10, 198, 142);
 				}
 
 			}
@@ -856,6 +860,13 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					background: rgba(10, 198, 142, 1);
 					border-radius: 88rpx;
 					margin: 48rpx auto;
+				}
+
+				.email-register {
+					color: rgb(10, 198, 142);
+					background: #fff;
+					box-sizing: border-box;
+					border: 1rpx solid rgb(10, 198, 142);
 				}
 
 			}
