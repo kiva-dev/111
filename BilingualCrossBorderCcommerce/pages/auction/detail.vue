@@ -925,11 +925,12 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				})
 			},
 			//计算距离
-			getTopNum() {
+			/* getTopNum() {
 				for (var i = 0; i < this.navList.length; i++) {
 					uni.createSelectorQuery()
 						.select('#div' + (i + 1))
 						.boundingClientRect(data => {
+							console.log(data);
 							//目标位置节点 类或者 id
 							uni.createSelectorQuery()
 								.select('.detail-page')
@@ -939,7 +940,22 @@ NoR+zv3KaEmPSHtooQIDAQAB
 								}).exec();
 						}).exec();
 				}
-			},
+			}, */
+			//计算距离
+			getTopNum() {
+				const queryList = [];
+				for (var i = 0; i < this.navList.length; i++) {
+					const query = uni.createSelectorQuery();
+					query.select('#div' + (i + 1)).boundingClientRect(data => {
+						uni.createSelectorQuery().select('.detail-page').boundingClientRect(res => {
+							let num = data ? (data.top > 0 ? data.top - 100 : data.top) : 0;
+							this.heightList.push(num);
+						}).exec();
+					});
+					queryList.push(query);
+				}
+				queryList.forEach(query => query.exec());
+			}, 
 			//预览图片
 			previewImgList() {
 				this.showImages = true

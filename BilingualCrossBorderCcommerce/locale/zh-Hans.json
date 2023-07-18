@@ -1534,6 +1534,7 @@
 	"grop.can_chat":"可以加入的群",
 	"grop.join":"加入",
 	"grop.customer":"平台客服",
+	"grop.sessionEnter":"对方正在输入...",
 	
 	"auction.sign_up":"注册",
 	"auction.history":"往期许愿"

@@ -145,7 +145,7 @@
 		<!-- 消息输入-start -->
 		<view class="im-write" :style="{bottom: writeBottom + 'px'}">
 			<view v-if="sessionUserInputStatus" class="session-user-input-status-box">
-				<view :style="{bottom: (imWriteHeight / 2) + 'px'}" class="session-user-input-status">对方正在输入...</view>
+				<view :style="{bottom: (imWriteHeight / 2) + 'px'}" class="session-user-input-status"> {{ $t('grop.sessionEnter') }}</view>
 			</view>
 			
 			<!-- @群成员-start -->
@@ -320,7 +320,7 @@
 			// #endif
 			
 			this.id = query.id ? query.id : 0
-			console.log('2',this.showAtSelect);
+			console.log('2',defaultWriteHeight);
 			this.ws.pageFun(this.pageDataLoad, this);
 			
 			this.ws.getEmoji().then(res => {
@@ -368,7 +368,14 @@
 		},
 		methods: {
 			rightClick() {
-				uni.navigateBack()
+				const routeArr = getCurrentPages().map(i => i.route);
+				if (routeArr.length > 1) {
+					uni.navigateBack();
+				} else {
+					uni.switchTab({
+						url: '/pages/auction/auction'
+					});
+				}
 			},
 			insertAtUser: function (item) {
 				item.nickname += '  '
@@ -656,11 +663,10 @@
 						unreadMessagesNumber: 0
 					}, mThat)
 				});
+				console.log('123');
 				that.inputStatus(false)
 				that.clickTool(false)
-				setTimeout(()=>{
-					that.scrollIntoFooter(0, 99993)
-				},300)
+				that.scrollIntoFooter(0, 99993)
 			},
 			sendMessage: function (message, type = 'default') {
 				var that = this
@@ -1193,9 +1199,11 @@
 			},
 			scrollIntoFooter: function (timeout = 0, scrollTop = 0) {
 				var that = this
+				console.log(timeout, scrollTop);
 				if (scrollTop) {
 					setTimeout(function() {
 						that.wrapperScrollTop = (that.wrapperScrollTop >= 99990) ? that.wrapperScrollTop + 200 : scrollTop
+						console.log(that.wrapperScrollTop, scrollTop,'-----1');
 					}, timeout)
 					return;
 				}
