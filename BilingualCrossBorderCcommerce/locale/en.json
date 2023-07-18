@@ -1290,6 +1290,9 @@
 	"zhongpai.query": "Cancel",
 	"zhongpai.qr": "Affirm",
 	"zhongpai.zxcg": "Discounted successfully",
+	"zhongpai.shareFriend": "Quickly share this good news with friends~",
+	"zhongpai.shareFriendSkip": "Skip",
+	"zhongpai.shareFriendBtn": "Share",
 	"tixiansxf": "Cash withdrawal service charge",
 	"jsz": "In settlement",
 	"yijs": "Settled",
@@ -1540,6 +1543,7 @@
 	"grop.join":"Join",
 	"grop.customer":"Platform customer service",
 	"grop.sessionEnter":"The other party is typing....",
+	"grop.ContactCustomer":"Contact customer service",
 	
 	"auction.sign_up":"Sign up",
 	"auction.history":"Historical"

@@ -51,7 +51,7 @@
 							</view>
 						</block>
 						<block v-else-if="value.message.type == 'not-included'">
-							<view @click="manualCsr" class="fastim-color-blue not-included">联系人工客服</view>
+							<view @click="manualCsr" class="fastim-color-blue not-included">{{ $t('grop.ContactCustomer') }}</view>
 						</block>
 				
 				</view>

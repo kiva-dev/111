@@ -1287,6 +1287,9 @@
 	"zhongpai.query": "取消",
 	"zhongpai.qr": "确认",
 	"zhongpai.zxcg": "折现成功",
+	"zhongpai.shareFriend": "赶快把这个好消息分享给朋友们吧~",
+	"zhongpai.shareFriendSkip": "跳过",
+	"zhongpai.shareFriendBtn": "分享",
 	"tixiansxf": "提现手续费",
 	"jsz": "结算中",
 	"yijs": "已结算",
@@ -1535,6 +1538,7 @@
 	"grop.join":"加入",
 	"grop.customer":"平台客服",
 	"grop.sessionEnter":"对方正在输入...",
+	"grop.ContactCustomer":"联系人工客服",
 	
 	"auction.sign_up":"注册",
 	"auction.history":"往期许愿"
