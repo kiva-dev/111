@@ -2647,32 +2647,34 @@ var ws = {
 		}
 	},
 	messageStatus: function (status, messageId, readNumber = 0) {
-		var statusClass = '';
+		const isEnglish = uni.getStorageSync('locale') === 'en';
+		let statusText = '';
+		let statusClass = '';
 		switch (status) {
-			case 0:
-				status = '未读', statusClass = 'fastim-color-blue';
-				break;
-			case 1:
-				status = '已读', statusClass = '';
-				break;
-			case 4:
-				status = '失败', statusClass = 'fastim-color-red send-message-fail fail-message-' + messageId;
-				break;
-			case 5:
-				status = readNumber + '人已读', statusClass = '';
-				break;
-			case 6:
-				status = '全部已读', statusClass = '';
-				break;
-			default:
-				status = '', statusClass = 'fastim-hidden';
-				break;
+		  case 0:
+			statusText = isEnglish ? 'Unread' : '未读';
+			statusClass = 'fastim-color-blue';
+			break;
+		  case 1:
+			statusText = isEnglish ? 'Read' : '已读';
+			break;
+		  case 4:
+			statusText = isEnglish ? 'Failed' : '失败';
+			statusClass = `fastim-color-red send-message-fail fail-message-${messageId}`;
+			break;
+		  case 5:
+			statusText = isEnglish ? `${readNumber} Read` : `${readNumber}人已读`;
+			break;
+		  case 6:
+			statusText = isEnglish ? 'All Read' : '全部已读';
+			break;
+		  default:
+			statusText = '';
+			statusClass = 'fastim-hidden';
+			break;
 		}
-		
-		return {
-			status: status,
-			statusClass: statusClass
-		}
+	  
+		return { status:statusText, statusClass };
 	},
 	imgUrl: function(url) {
 		var ret = /^http(s)?:\/\//;
