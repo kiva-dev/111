@@ -1,6 +1,6 @@
 <template>
   <view class="leftSider" :class="siderClasses">
-    <view class="imgArr" v-show="imgShow">
+    <view class="imgArr" :class="imgArrFrames" >
       <image src="/static/images/mine/download.png" class="minImg" alt="" @click="toDownload('/pages/auction/download')">
 	  <view>
       	<image src="/static/images/mine/aixin.png" class="minImg" alt="" @click="checkApp()">
@@ -29,7 +29,10 @@ export default {
   computed: {
     siderClasses() {
       return [this.transformClass ? 'removeRightX' : 'removeLeftX', 'shopCart'];
-    }
+    },
+	imgArrFrames(){
+		return [this.imgShow ? 'active' : 'close'];
+	}
   },
   methods: {
 	checkApp() {
@@ -135,7 +138,7 @@ export default {
 	right: 32rpx; //-50
 	bottom: 200rpx;
 	z-index: 100;
-
+	overflow: hidden;
 	.gwc {
 		width: 92rpx;
 		height: 92rpx;
@@ -166,7 +169,7 @@ export default {
 		border-radius: 45rpx;
 		box-shadow: 0 0 20rpx rgba(198, 198, 198, 0.3);
 		text-align: center;
-
+		overflow: hidden;
 		.people {
 			margin-top: 30rpx;
 
@@ -183,6 +186,41 @@ export default {
 			margin-top: 40rpx;
 		}
 	}
+}
+.active {
+	animation: btns-open 1s ease-in-out forwards;
+}
+.close {
+	animation: btns-close 1s ease-in-out forwards;
+}
+@keyframes btns-open {
+    0% {
+      height: 100rpx;
+    }
+	 25% {
+      height: 64px;
+    }
+    50% {
+      height: 64px;
+    }
+    100% {
+      height: 192px;
+    }
+}
+
+  @keyframes btns-close {
+    0% {
+      height: 192px;
+    }
+    25% {
+      height: 64px;
+    }
+    50% {
+      height: 64px;
+    }
+    100% {
+      height: 0;
+    }
 }
 .removeRightX {
 	transform: translateX(80rpx);
