@@ -73,9 +73,11 @@
 					</view>
 				</view>
 			</view>
+			<view class="li" >
+				version:1.0
+			</view>
 		</view>
 		<view class="set-bot" @click="onQuery">{{$t('user.xitong.Logout')}}</view>
-
 		<!--清除缓存弹出 start-->
 		<uni-popup ref="popup1" type="center">
 			<view class="public-pop">

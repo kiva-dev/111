@@ -496,7 +496,7 @@
 			<text class="txt">{{$t('xylist')}}</text>
 			<text class="btn">{{$t('xytitle')}}</text>
 			<view class="itemBox">
-				<view class="itemBox_a" v-for="item in list" :key="item.id" @click.top="toProductInfo(item)">
+				<view class="itemBox_a" v-for="item in list" :key="item.id" @click.stop="toProductInfo(item)">
 					<image :src="item.image" class="itemImg" />
 					<text class="title">{{item.goods_name}}</text>
 					<view class="iconArr">

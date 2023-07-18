@@ -1290,6 +1290,9 @@
 	"zhongpai.query": "Cancel",
 	"zhongpai.qr": "Affirm",
 	"zhongpai.zxcg": "Discounted successfully",
+	"zhongpai.shareFriend": "Quickly share this good news with friends~",
+	"zhongpai.shareFriendSkip": "Skip",
+	"zhongpai.shareFriendBtn": "Share",
 	"tixiansxf": "Cash withdrawal service charge",
 	"jsz": "In settlement",
 	"yijs": "Settled",
@@ -1540,7 +1543,22 @@
 	"grop.join":"Join",
 	"grop.customer":"Platform customer service",
 	"grop.sessionEnter":"The other party is typing....",
+	"grop.ContactCustomer":"Contact customer service",
 	
 	"auction.sign_up":"Sign up",
-	"auction.history":"Historical"
+	"auction.history":"Historical",
+	
+	"ranking.ranking_list":"Ranking List",
+	"ranking.luck_forum":"Lucky Forum",
+	"ranking.gotoview":"Go to view",
+	"ranking.luck_list":"Lucky List",
+	"ranking.wish_list":"Wish List",
+	"ranking.invitation_list":"Invitation List",
+	"ranking.weekly_list":"Weekly list",
+	"ranking.mothly_list":"Monthly List",
+	"ranking.overall":"Overall list",
+	"ranking.update":"Updated daily at 9:00, 12:00, 18:00, and 24:00",
+	"ranking.luck_times":"Lucky Times",
+	"ranking.wishing_times":"Wishing Times",
+	"ranking.invitation_num":"Number Of Invitations"
 }

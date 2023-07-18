@@ -4,10 +4,10 @@
 			<image src="@/static/images/new-index/luckstar-en.png" mode="widthFix"></image>
 		</view>
 		<view class="switch">
-			<view class="switch-info">
+			<view class="switch-info" @click="navClick('/pages/auction/lucky/leaderboard')">
 				<view class="left">
-					<view class="left-name">Ranking list</view>
-					<view class="left-more">Go to view <image src="/static/images/mine/mine_icon_right.png"></image></view>
+					<view class="left-name">{{$t('ranking.ranking_list')}}</view>
+					<view class="left-more">{{$t('ranking.gotoview')}}<image src="/static/images/mine/mine_icon_right.png"></image></view>
 				</view>
 				<view class="right">
 					<image src="/static/images/luck/luck_list.png"></image>
@@ -16,8 +16,8 @@
 			
 			<view class="switch-info">
 				<view class="left">
-					<view class="left-name">Lucky Forum</view>
-					<view class="left-more">Go to view <image src="/static/images/mine/mine_icon_right.png"></image></view>
+					<view class="left-name">{{$t('ranking.luck_forum')}}</view>
+					<view class="left-more">{{$t('ranking.gotoview')}}<image src="/static/images/mine/mine_icon_right.png"></image></view>
 				</view>
 				<view class="right">
 					<image src="/static/images/luck/msg_list.png"></image>
@@ -27,10 +27,10 @@
 		<view class="member-layout">
 			
 			<view class="ml-title">
-				<view class="ml-title-icon">
+				<!-- <view class="ml-title-icon">
 					<image src="@/static/images/new-index/lv-start.png" mode="widthFix"></image>
-				</view>
-				<view class="ml-title-text">Lucky Star</view>
+				</view> -->
+				<view class="ml-title-text">{{$t('xyzx')}}</view>
 			</view>
 			<view class="ml-list">
 				<view class="ml-list-item" v-for="(item,index) in luckyList" :key="index"
@@ -112,6 +112,11 @@
 			this.getLuckyList();
 		},
 		methods: {
+			navClick(url){
+				uni.navigateTo({
+					url
+				})
+			},
 			toDetail(id) {
 				uni.navigateTo({
 					url: '/pages/auction/detail?id=' + id + '&type=4'
