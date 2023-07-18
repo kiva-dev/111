@@ -5,7 +5,7 @@
 				<view>
 					<text class="head-title">{{$t('xyc')}}</text>
 				</view>
-				<view class="head-right" @click.top="myIndex" v-if="isLogin">
+				<view class="head-right" @click.stop="myIndex" v-if="isLogin">
 					<image src="/static/xuyuan/time.png" alt="" class="time"></image>
 					<text>{{$t('title')}}</text>
 					<image src="/static/xuyuan/headRi.png" alt="" class="r"></image>
@@ -149,9 +149,9 @@
 					</view>
 				</view>
 
-				<view class="ll-right">
+				<!-- <view class="ll-right">
 					<image src="@/static/images/products/right.png" mode="widthFix"></image>
-				</view>
+				</view> -->
 			</view>
 		</view>
 
@@ -201,7 +201,7 @@
 							<image v-else src="/static/images/new-index/p1.png" mode="widthFix"></image>
 						</view>
 					</view>
-					<view class="more" @click.top="toInfo(1)">
+					<view class="more" @click.stop="toInfo(1)">
 						<text>{{$t('auction.topMore')}}</text>
 						<image src="/static/images/products/right.png" class="moreRight"></image>
 					</view>
@@ -450,7 +450,7 @@
 							<image v-else src="/static/images/new-index/p1.png" mode="widthFix"></image>
 						</view>
 					</view>
-					<view class="more" @click.top="toInfo(2)">
+					<view class="more" @click.stop="toInfo(2)">
 						<text>{{$t('auction.topMore')}}</text>
 						<image src="/static/images/products/right.png" class="moreRight"></image>
 					</view>
@@ -670,7 +670,7 @@
 				</view>
 				<view style="display: flex;">
 
-					<view class="more" @click.top="toInfo(3)">
+					<view class="more" @click.stop="toInfo(3)">
 						<text>{{$t('auction.topMore')}}</text>
 						<image src="/static/images/products/right.png" class="moreRight"></image>
 					</view>
@@ -1081,7 +1081,7 @@
 			<text class="txt">{{$t('xylist')}}</text>
 			<text class="btn">{{$t('xytitle')}}</text>
 			<view class="itemBox">
-				<view class="itemBox_a" v-for="item in list" :key="item.id" @click.top="toProductInfo(item)">
+				<view class="itemBox_a" v-for="item in list" :key="item.id" @click.stop="toProductInfo(item)">
 					<image :src="item.image" class="itemImg" />
 					<text class="title">{{item.goods_name}}</text>
 					<view class="iconArr">
@@ -2499,7 +2499,7 @@
 				padding: 16rpx 24rpx;
 				box-sizing: border-box;
 				display: flex;
-				justify-content: space-between;
+				justify-content: flex-start;
 				align-items: center;
 
 				.ll-icon {

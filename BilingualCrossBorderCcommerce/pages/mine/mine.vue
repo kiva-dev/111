@@ -57,7 +57,7 @@
 			</view>
 		</view>
 		<view class="ml-wallet">
-			<view class="ml-wallet-container">
+			<view class="ml-wallet-container" @click="navClick('wallet')">
 				<view class="container-tit">
 					<view class="ct-left">
 						<view class="ct-left-icon">
@@ -65,7 +65,7 @@
 						</view>
 						<view class="ct-left-name">{{$t('mine.assets')}}</view>
 					</view>
-					<view class="ct-right" @click="navClick('wallet')">
+					<view class="ct-right" @click.stop="navClick('wallet')">
 						<view class="ct-right-name">{{$t('home.detail.more')}}</view>
 						<view class="ct-right-icon">
 							<image src="@/static/images/mine/mine_icon_right.png" mode="widthFix"></image>
@@ -102,7 +102,7 @@
 				</view>
 				<view class="container-btn">
 					<!-- <view class="container-btn-withdrawal" @click="navClick('Withdrawal')">{{$t('user.wallet.tixian')}}</view> -->
-					<view class="container-btn-recharge" @click="navClick('/pages/mine/K_brick_detail')">
+					<view class="container-btn-recharge" @click.stop="navClick('/pages/mine/K_brick_detail')">
 						{{$t('top.cz')}}
 					</view>
 				</view>
