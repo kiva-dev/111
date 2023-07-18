@@ -66,7 +66,10 @@
 						format="HH:mm:ss"></u-count-down>
 				</view>
 			</view>
-			<view class="detail-title">{{shopCont.goods_name}}</view>
+			<view style="background: #fff;padding: 24rpx 0;">
+				<view class="detail-title">{{shopCont.goods_name}}</view>
+			</view>
+			
 			<!--标签-->
 			<view class="li-tags">
 				<view class="li-icon" v-for="item in shopCont.tags" :key="item.tag_id">
@@ -1636,7 +1639,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				}).then(res => {
 					if (res.code == 1) {
 						uni.showToast({
-							title: res.msg,
+							title: this.$t('top.zhifucg'),
 							icon: 'none'
 						})
 						this.onAuctionDetail()
@@ -2100,9 +2103,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 	}
 
 	.detail-title {
-		width: 100%;
-		background: rgb(255, 255, 255);
-		padding: 24rpx 32rpx 20rpx;
+		width: 692rpx;
+		// background: rgb(255, 255, 255);
 		box-sizing: border-box;
 		line-height: 48rpx;
 		font-size: 32rpx;
@@ -2113,6 +2115,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		display: -webkit-box;
 		-webkit-box-orient: vertical;
 		-webkit-line-clamp: 2;
+		margin: 0 auto;
 	}
 
 	//标签

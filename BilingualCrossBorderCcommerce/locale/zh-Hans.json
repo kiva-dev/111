@@ -1541,5 +1541,19 @@
 	"grop.ContactCustomer":"联系人工客服",
 	
 	"auction.sign_up":"注册",
-	"auction.history":"往期许愿"
+	"auction.history":"往期许愿",
+	
+	"ranking.ranking_list":"排行榜",
+	"ranking.luck_forum":"幸运论坛",
+	"ranking.gotoview":"前往查看",
+	"ranking.luck_list":"幸运名单",
+	"ranking.wish_list":"愿望清单",
+	"ranking.invitation_list":"邀请名单",
+	"ranking.weekly_list":"每周清单",
+	"ranking.mothly_list":"每月清单",
+	"ranking.overall":"总体清单",
+	"ranking.update":"每日 9:00、12:00、18:00 和 24:00 更新",
+	"ranking.luck_times":"幸运次数",
+	"ranking.wishing_times":"许愿次数",
+	"ranking.invitation_num":"邀请人数"
 }
