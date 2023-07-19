@@ -1,6 +1,6 @@
 <template>
-    <view>
-        <view class="mp-header">
+     <view class="u-page">
+         <view class="mp-header">
 			<view style="height: 88rpx;"></view>
 			<view class="mp-header-box">
 				<view class="box-back" @click="onBack">
@@ -12,35 +12,20 @@
 				</view>
 			</view>
 		</view>
-        <u--textarea confirm-type="done" v-model="value5" :placeholder="siderClasses" border="bottom" height='380' count maxlength='3000'></u--textarea>
-        <view class="upload-prop">
-            <u-upload
-                deletable
-                :fileList="fileList1"
-                @afterRead="afterRead"
-                @delete="deletePic"
-                name="1"
-                multiple
-                :maxCount="5"
-                width="110"
-	            height="110"
-
-            >
-                <!-- <image src="https://cdn.uviewui.com/uview/demo/upload/positive.png" mode="widthFix" style="width: 150px;height: 150px;"></image> -->
-                <view class="upload-class">
-                    <image :src="imgUrl" mode="widthFix" class="upload-image"></image>
-                    <view class="upload-pictures">{{$t('luckysharing.pictures')}}</view>
-                    <view>{{fileList1.length}}/5</view>
+        <view class="u-demo-block">
+            <view class="u-demo-block__content">
+                <view class="album">
+                    <view class="album__avatar">
+                        <image src="/static/uview/common/logo.png" mode="" style="width: 32px;height: 32px;"></image>
+                    </view>
+                    <view class="album__content">
+                        <u--text text="Eason Chan" bold size="17"></u--text>
+                        <u--text margin="0 0 8px 0" :text="demoText" ></u--text>
+                        <u-album :urls="urls1" keyName="src2"></u-album>
+                    </view>
                 </view>
-            </u-upload>
+            </view>
         </view>
-
-        <view class="address-fixed">
-			<view class="fixed-con">
-				<button class="public-btn" style="background: rgb(10, 198, 142);"
-					@click="navClick('add')">{{$t('luckysharing.Btn')}}</button>
-			</view>
-		</view>
     </view>
 </template>
 
@@ -48,10 +33,12 @@
 	export default {
 		data() {
 			return {
-                imgUrl:require('@/static/icon/path.png'),
-                value5: '',
-				fileList1: [],
-			}
+                albumWidth: 0,
+                demoText:'This is my first successful wish since using KOLIBRI. I am really happy to be able to participate in the wish at such a low price and become the lucky one. My joy in sharing this is to promote this platform for more people to use and participate in the wish. Thank you.',
+                urls1: [{
+                    src2: 'https://cdn.uviewui.com/uview/album/1.jpg',
+                }]
+            }
 		},
         computed: {
             siderClasses() {
@@ -60,93 +47,34 @@
         },
 		methods:{
             onBack(){
-                console.log('1');
-            },
-			deletePic(event) {
-				this[`fileList${event.name}`].splice(event.index, 1)
-			},
-			// 新增图片
-			async afterRead(event) {
-				// 当设置 multiple 为 true 时, file 为数组格式，否则为对象格式
-				let lists = [].concat(event.file)
-				let fileListLen = this[`fileList${event.name}`].length
-				lists.map((item) => {
-					this[`fileList${event.name}`].push({
-						...item,
-						status: 'uploading',
-						message: '上传中'
-					})
-				})
-				for (let i = 0; i < lists.length; i++) {
-					const result = await this.uploadFilePromise(lists[i].url)
-					let item = this[`fileList${event.name}`][fileListLen]
-					this[`fileList${event.name}`].splice(fileListLen, 1, Object.assign(item, {
-						status: 'success',
-						message: '',
-						url: result
-					}))
-					fileListLen++
-				}
-			},
-			uploadFilePromise(url) {
-				return new Promise((resolve, reject) => {
-					let a = uni.uploadFile({
-						url: 'http://192.168.2.21:7001/upload', // 仅为示例，非真实的接口地址
-						filePath: url,
-						name: 'file',
-						formData: {
-							user: 'test'
-						},
-						success: (res) => {
-							setTimeout(() => {
-								resolve(res.data.data)
-							}, 1000)
-						}
+                const routeArr = getCurrentPages().map(i => i.route);
+				if (routeArr.length > 1) {
+					uni.navigateBack();
+				} else {
+					uni.switchTab({
+						url: '/pages/auction/auction'
 					});
-				})
-			},
-            navClick(url) {
-                console.log(url);
-                return
-				uni.navigateTo({
-					url
-				})
-			},
+				}
+            }
 		}
 
 	}
 </script>
 
 <style lang="less" scoped>
-.u-upload__wrap__preview__image{
-    border-radius: 24rpx;
-}
-.upload-prop{
-    padding: 40rpx 20rpx 0 40rpx;
-    .u-upload__wrap__preview{
-        width: 240rpx;
-        height: 240rpx;
-    }
-}
-.upload-class{
-    width: 210rpx;
-    height: 210rpx;
-    color: #999;
-    border: 1rpx solid #ccc;
-    border-radius: 24rpx;
-    background: #F6F7F9;
-    overflow: hidden;
+.album {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    .upload-image{
-        width: 80rpx;
-        height: 80rpx;
-        margin-bottom: 36rpx;
-    }
-    .upload-pictures{
-    }
+    align-items: flex-start;
+    .album__avatar {
+            background-color: #0f0;
+            padding: 5px;
+            border-radius: 3px;
+        }
+
+    .album__content {
+            margin-left: 10px;
+            flex: 1;
+        }
 }
 .mp-header {
     width: 100%;
@@ -184,20 +112,6 @@
                 width: 100%;
             }
         }
-    }
-}
-.address-fixed {
-    width: 100%;
-    background: #ffffff;
-    box-shadow: 0 0 20rpx 0 rgba(153, 153, 153, 0.1);
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    z-index: 99;
-
-    .fixed-con {
-        padding: 32rpx 32rpx 64rpx 32rpx;
-        box-sizing: border-box;
     }
 }
 </style>

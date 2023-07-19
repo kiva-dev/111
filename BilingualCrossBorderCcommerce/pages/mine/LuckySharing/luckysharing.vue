@@ -26,7 +26,6 @@
 	            height="110"
 
             >
-                <!-- <image src="https://cdn.uviewui.com/uview/demo/upload/positive.png" mode="widthFix" style="width: 150px;height: 150px;"></image> -->
                 <view class="upload-class">
                     <image :src="imgUrl" mode="widthFix" class="upload-image"></image>
                     <view class="upload-pictures">{{$t('luckysharing.pictures')}}</view>
@@ -38,9 +37,18 @@
         <view class="address-fixed">
 			<view class="fixed-con">
 				<button class="public-btn" style="background: rgb(10, 198, 142);"
-					@click="navClick('add')">{{$t('luckysharing.Btn')}}</button>
+					@click="shareFriendShow = true">{{$t('luckysharing.Btn')}}</button>
 			</view>
 		</view>
+        <u-popup ref="childShare" :show="shareFriendShow" :round="10" mode="center" closeable @close="close">
+			<view class="tishingCont sareFriends">
+				<view class="title">{{$t('luckysharing.Successfullypublished')}}</view>
+				<view class="name">{{$t('luckysharing.SuccessText')}}</view>
+				<view class="cont">
+					<view class="btnsub" @click="openShare">{{$t('luckysharing.SuccessBtn')}}</view>
+				</view>
+			</view>
+		</u-popup>
     </view>
 </template>
 
@@ -48,6 +56,7 @@
 	export default {
 		data() {
 			return {
+                shareFriendShow:false,
                 imgUrl:require('@/static/icon/path.png'),
                 value5: '',
 				fileList1: [],
@@ -60,8 +69,28 @@
         },
 		methods:{
             onBack(){
-                console.log('1');
+                const routeArr = getCurrentPages().map(i => i.route);
+				if (routeArr.length > 1) {
+					uni.navigateBack();
+				} else {
+					uni.switchTab({
+						url: '/pages/auction/auction'
+					});
+				}
             },
+            // 分享
+            close(){
+				this.shareFriendShow = false
+            },
+			onShareClick(){
+				this.shareFriendShow = true;
+			},
+			openShare(){
+				this.shareFriendShow = false
+				uni.navigateTo({
+					url: '/pages/mine/LuckySharing/luckyforum'
+				});
+			},
 			deletePic(event) {
 				this[`fileList${event.name}`].splice(event.index, 1)
 			},
@@ -106,8 +135,6 @@
 				})
 			},
             navClick(url) {
-                console.log(url);
-                return
 				uni.navigateTo({
 					url
 				})
@@ -198,6 +225,60 @@
     .fixed-con {
         padding: 32rpx 32rpx 64rpx 32rpx;
         box-sizing: border-box;
+    }
+}
+// 提示
+.tishingCont {
+    width: 590rpx;
+    height: 360rpx;
+    background: #ffffff;
+    border-radius: 30rpx;
+    padding-top: 50rpx;
+
+    .title {
+        font-size: 30rpx;
+        color: #333;
+        text-align: center;
+    }
+
+    .name {
+        margin-top: 40rpx;
+        font-size: 26rpx;
+        color: #999;
+        text-align: center;
+
+        text {
+            color: rgb(255, 78, 47);
+        }
+    }
+    
+    .cont {
+        margin-top: 60rpx;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 26rpx;
+        padding: 0 50rpx;
+
+        .query {
+            width: 200rpx;
+            height: 80rpx;
+            line-height: 80rpx;
+            text-align: center;
+            background: #dddddd;
+            border-radius: 40rpx;
+            color: #000;
+        }
+
+        .btnsub {
+            width: 200rpx;
+            height: 80rpx;
+            line-height: 80rpx;
+            text-align: center;
+            background: #1DD181;
+            border-radius: 40rpx;
+            color: #fff;
+        }
     }
 }
 </style>

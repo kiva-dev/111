@@ -1545,6 +1545,9 @@
 	"luckysharing.content":"说点什么吧，输入内容最多3000字……",
 	"luckysharing.Btn":"分享",
 	"luckysharing.pictures":"上传图片",
+	"luckysharing.Successfullypublished":"发布成功！",
+	"luckysharing.SuccessText":"发布成功，请期待平台客服联系您并发放奖励。",
+	"luckysharing.SuccessBtn":"确认",
 
 	"auction.sign_up":"注册",
 	"auction.history":"往期许愿",

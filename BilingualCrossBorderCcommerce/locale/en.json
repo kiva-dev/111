@@ -1553,6 +1553,10 @@
 	"luckysharing.content":"Say something, the input content is 3000 words at most...",
 	"luckysharing.Btn":"Release",
 	"luckysharing.pictures":"Upload pictures",
+	"luckysharing.Successfullypublished":"Successfully published！",
+	"luckysharing.SuccessText":"Successfully published, please look forward to platform customer service contacting you and distributing rewards.",
+	"luckysharing.SuccessBtn":"Affirm",
+	
 
 	"ranking.ranking_list":"Ranking List",
 	"ranking.luck_forum":"Lucky Forum",

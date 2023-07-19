@@ -589,6 +589,7 @@
 				this.shareFriendShow = true;
 			},
 			openShare(){
+				this.shareFriendShow = false
 				uni.navigateTo({
 					url: '/pages/mine/LuckySharing/luckysharing'
 				});
