@@ -3,20 +3,20 @@
 		<view class="header">
 			<view class="header-top">
 				<image src="/static/images/luck/balance.png"></image>
-				<view>current balance：RM <text>{{money * 1}}</text></view>
+				<view>{{$t('user.recharge.dqje')}}：RM <text>{{money * 1}}</text></view>
 			</view>
-			<view class="header-tit">Recharge amount</view>
+			<view class="header-tit">{{$t('user.recharge.czje')}}</view>
 			<view class="header-input">
 				<view class="tip">RM</view>
 				<view class="myinput">
-					<input type="number" v-model="rechargeNum" placeholder-style="font-size:28rpx;color:rgb(153, 153, 153);" placeholder="Please enter the amount (Not less than RM10)" />
+					<input type="number" v-model="rechargeNum" placeholder-style="font-size:28rpx;color:rgb(153, 153, 153);" :placeholder="$t('user.recharge.qsrczje')" />
 				</view>
 			</view>
 		</view>
 		
 		<view class="paymethod">
 			
-			<view class="paytit">Payment method</view>
+			<view class="paytit">{{$t('order.zhifufangshi')}}</view>
 			
 			<!--支付方式-->
 			<view class="pay" v-for="item in payList.slice(0,2)" :key="item.id">

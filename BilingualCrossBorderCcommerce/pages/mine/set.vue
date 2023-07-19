@@ -17,7 +17,7 @@
 					</view>
 				</view>
 			</view>
-			<view class="li" @click="navClick('language')">
+			<view class="li" @click="$refs.lange.open()">
 				<view class="label">{{$t('user.xitong.yuyan')}}</view>
 				<view class="li-r">
 					<text>
@@ -73,9 +73,6 @@
 					</view>
 				</view>
 			</view>
-			<view class="li" >
-				version:1.0
-			</view>
 		</view>
 		<view class="set-bot" @click="onQuery">{{$t('user.xitong.Logout')}}</view>
 		<!--清除缓存弹出 start-->
@@ -125,7 +122,19 @@
 			</view>
 		</uni-popup>
 		<!--退出账号弹出 start-->
-
+		
+		<!--切换语言-->
+		<uni-popup ref="lange" type="bottom">
+			<view class="lange">
+				<view class="lange-info">
+					<view class="lange-des" @click="onLocaleChange('en')">English</view>
+					<view class="lange-des" @click="onLocaleChange('zh-Hans')" style="border-top: 2rpx solid rgb(239, 239, 239);">简体中文</view>
+				</view>
+				<view class="lange-btn" @click="$refs.lange.close()">Cancel</view>
+			</view>
+		</uni-popup>
+		
+		
 	</view>
 </template>
 
@@ -146,11 +155,13 @@
 			this.onPlus()
 			// #endif
 			// 隐私协议等
-			// this.$http.post(this.$apiObj.IndexSetting).then(res => {
-			// 	if (res.code == 1) {
-			// 		this.version = res.data.version
-			// 	}
-			// })
+			this.$http.post(this.$apiObj.IndexSetting,{
+				fields:'version'
+			}).then(res => {
+				if (res.code == 1) {
+					this.version = res.data.version
+				}
+			})
 			// 判断是否设置支付密码
 			this.$http.post(this.$apiObj.MineInfo).then(res => {
 				if (res.code == 1) {
@@ -159,6 +170,29 @@
 			})
 		},
 		methods: {
+			onLocaleChange(code) {
+				// #ifdef H5
+				uni.setStorageSync('UNI_LOCALE', code)
+				uni.setStorageSync('locale', code)
+				this.$i18n.locale = code;
+				// #endif
+				// #ifdef APP-PLUS
+				if (this.isAndroid) {
+					uni.showModal({
+						content: this.$t('index.language-change-confirm'),
+						success: (res) => {
+							if (res.confirm) {
+								uni.setLocale(code);
+							}
+						}
+					})
+				} else {
+					uni.setLocale(code);
+					this.$i18n.locale = code;
+				}
+				// #endif
+				this.$router.go(0)
+			},
 			// 获取手机缓存
 			onPlus() {
 				var self = this;
@@ -309,6 +343,8 @@
 
 				.label {
 					font-size: 28rpx;
+					font-weight: bold;
+					color: rgb(51, 51, 51);
 				}
 
 				.li-r {
@@ -334,11 +370,54 @@
 		}
 
 		.set-bot {
-			margin-top: 20rpx;
-			background: #fff;
-			padding: 30rpx 0;
+			position: fixed;
+			left: 32rpx;
+			bottom: 32rpx;
+			width: 686rpx;
+			height: 88rpx;
+			line-height: 88rpx;
+			font-size: 40rpx;
+			color: rgb(255, 255, 255);
 			text-align: center;
-			font-size: 28rpx;
+			background: rgb(10, 198, 142);
+			border-radius: 88rpx;
 		}
+		
+		.lange{
+			
+			width: 710rpx;
+			margin: 0 auto;
+			
+			.lange-info{
+				width: 710rpx;
+				background: #fff;
+				border-radius: 28rpx;
+				
+				.lange-des{
+					width: 100%;
+					height: 114rpx;
+					line-height: 114rpx;
+					font-size: 36rpx;
+					color: rgb(51, 51, 51);
+					text-align: center;
+					box-sizing: border-box;
+				}
+			}
+			
+			.lange-btn{
+				width: 710rpx;
+				height: 114rpx;
+				line-height: 114rpx;
+				font-size: 36rpx;
+				color: rgb(10, 198, 142);
+				text-align: center;
+				background: rgba(255, 255, 255, 0.92);
+				box-sizing: border-box;
+				border-radius: 28rpx;
+				margin: 20rpx 0 32rpx 0;
+			}
+			
+		}
+		
 	}
 </style>

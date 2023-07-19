@@ -457,7 +457,7 @@
 
 	"user.recharge.dqje": "Current Balance",
 	"user.recharge.czje": "Recharge Amount",
-	"user.recharge.qsrczje": "Please enter the recharge amount (each time cannot be less than RM10)",
+	"user.recharge.qsrczje": "Please enter the amount (Not less than RM10)",
 	"user.recharge.ljcz": "Recharge Immediately",
 
 	"user.Vemail.email": "E-Mail",
@@ -509,8 +509,8 @@
 	"user.vid.hzh": "Passport",
 	"user.vid.qsrhzh": "Please enter your passport number",
 	"user.vid.sczz": "Upload ID Photos",
-	"user.vid.zjzm": "Front of Certificate",
-	"user.vid.zjfm": "Back of Certificate",
+	"user.vid.zjzm": "Front",
+	"user.vid.zjfm": "Reverse side",
 	"user.vid.wenzi": "Please keep your ID photo clear, which must be your valid ID card; Photos shall be within 5M in png, jpg and jpeg formats.",
 	"user.vid.wtgyy": "Reason for failure",
 	"user.vid.dsh": "To be reviewed",
