@@ -37,7 +37,7 @@
 								<image src="@/static/images/mine/wallet_icon_expenditure.png" v-else></image>
 							</view>
 							<view class="item-left-info">
-								<view class="info-tit">{{item.memo}}</view>
+								<view class="info-tit">{{isShopCont ? item.memo_en : item.memo}}</view>
 								<view class="info-time">{{$filter.to_date_time(item.addtime)}}</view>
 							</view>
 						</view>
@@ -67,7 +67,8 @@
 				moneyList: [],
 				page: 1,
 				pagenum: 10,
-				info: {}
+				info: {},
+				isShopCont:false
 			}
 		},
 		onShow() {
@@ -76,58 +77,14 @@
 		},
 		methods: {
 			getMoneyList() {
-				let isShopCont = uni.getStorageSync('locale') == 'en' ? true : false // 中文还是英文
+				this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false // 中文还是英文
 				this.$http.post(this.$apiObj.MineMoneyList, {
 					is_rebate: 1,
 					page: this.page,
 					pagenum: this.pagenum
 				}).then(res => {
-					res.data.data.map(item => {
-						let zhStr = item.memo
-						let appid = '20230630001729096'
-						let userkey = '8e_t3vzBtUjLMRNafCp5'
-						let salt = (new Date).getTime()
-						const str = `${appid}${zhStr}${salt}${userkey}`;
-						const sign = md5(str); /* md5加密，生成签名 */
-						const params = {
-							q: zhStr,
-							from: 'zh',
-							to: 'en',
-							appid: appid,
-							sign,
-							salt: salt
-						}
-
-						//#ifdef H5
-						// console.log($, "======uni-app的H5模式引入JQuery=====");
-						if (isShopCont) {
-							$.ajax({
-								url: 'https://api.fanyi.baidu.com/api/trans/vip/translate',
-								type: 'get',
-								dataType: 'jsonp',
-								data: params,
-								success: function(data) {
-									item.memo = data.trans_result[0].dst
-								}
-							});
-						}
-						//#endif
-						// #ifdef APP-PLUS
-						if (isShopCont) {
-							uni.request({
-								url: 'https://api.fanyi.baidu.com/api/trans/vip/translate', //仅为示例，并非真实接口地址。
-								data: params,
-								header: {
-									'custom-header': 'hello' //自定义请求头信息
-								},
-								success: (res) => {
-									item.memo = res.data.trans_result[0].dst
-								}
-							});
-						}
-						// #endif
-					})
-					this.moneyList = res.data.data
+					
+					this.moneyList = this.page == 1? res.data.data : [...this.moneyList,...res.data.data]
 				})
 			},
 			getRebate() {
