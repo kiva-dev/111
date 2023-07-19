@@ -471,6 +471,20 @@
 			}
 		},
 		{
+			"path": "pages/mine/LuckySharing/luckysharing",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/mine/LuckySharing/luckyforum",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		},
+		{
 			"path": "pages/address/address",
 			"style": {
 				"navigationBarTitleText": "",

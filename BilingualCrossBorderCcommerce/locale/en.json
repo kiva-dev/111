@@ -86,6 +86,8 @@
 	"top.active": "Active Page",
 	"top.appeal": "Appeal Submit",
 	"top.appealDetail": "Appeal Detail",
+	"top.luckysharing": "Lucky Sharing",
+	"top.luckyforum": "Lucky Forum",
 
 	"index.demo": "uni-app globalization",
 	"index.demo-description": "Include uni-framework, manifest.json, pages.json, tabbar, Page, Component, API, Schema",
@@ -1547,7 +1549,11 @@
 	
 	"auction.sign_up":"Sign up",
 	"auction.history":"Historical",
-	
+
+	"luckysharing.content":"Say something, the input content is 3000 words at most...",
+	"luckysharing.Btn":"Release",
+	"luckysharing.pictures":"Upload pictures",
+
 	"ranking.ranking_list":"Ranking List",
 	"ranking.luck_forum":"Lucky Forum",
 	"ranking.gotoview":"Go to view",

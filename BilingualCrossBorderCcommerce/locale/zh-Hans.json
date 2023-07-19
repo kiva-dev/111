@@ -86,6 +86,8 @@
 	"top.active": "活动页",
 	"top.appeal": "提交申诉",
 	"top.appealDetail": "申诉详情",
+	"top.luckysharing": "幸运分享",
+	"top.luckyforum": "幸运论坛",
 
 	"index.demo-description": "包含 uni-framework、manifest.json、pages.json、tabbar、页面、组件、API、Schema",
 	"index.detail": "详情",
@@ -1539,7 +1541,11 @@
 	"grop.customer":"平台客服",
 	"grop.sessionEnter":"对方正在输入...",
 	"grop.ContactCustomer":"联系人工客服",
-	
+
+	"luckysharing.content":"说点什么吧，输入内容最多3000字……",
+	"luckysharing.Btn":"分享",
+	"luckysharing.pictures":"上传图片",
+
 	"auction.sign_up":"注册",
 	"auction.history":"往期许愿",
 	

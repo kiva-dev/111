@@ -589,8 +589,9 @@
 				this.shareFriendShow = true;
 			},
 			openShare(){
-				console.log('open');
-				console.log('openShare');
+				uni.navigateTo({
+					url: '/pages/mine/LuckySharing/luckysharing'
+				});
 			},
 			// 确认收货
 			onConfirmReceipt(item) {
