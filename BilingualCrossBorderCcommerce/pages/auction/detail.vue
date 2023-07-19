@@ -236,8 +236,8 @@
 								</view>
 								<view class="item-text">{{item.goods_name}}</view>
 								<view class="item-price">
-									<span>RM</span>
-									<span>{{item.price}}</span>
+									<image src="/static/images/kbrick/diamond.png"></image>
+									<span>{{item.wish_price}}</span>
 								</view>
 							</view>
 						</u-grid-item>
@@ -263,8 +263,8 @@
 								</view>
 								<view class="item-text">{{item.goods_name}}</view>
 								<view class="item-price">
-									<span>RM</span>
-									<span>{{item.price}}</span>
+									<image src="/static/images/kbrick/diamond.png"></image>
+									<span>{{item.wish_price}}</span>
 								</view>
 							</view>
 						</u-grid-item>
@@ -1926,6 +1926,16 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				.item-price {
 					position: absolute;
 					bottom: 2rpx;
+					width: 100%;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					
+					image{
+						width: 24rpx;
+						height: 24rpx;
+						margin-right: 8rpx;
+					}
 
 					span {
 						color: rgb(255, 57, 57);

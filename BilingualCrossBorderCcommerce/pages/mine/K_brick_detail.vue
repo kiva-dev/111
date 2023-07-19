@@ -17,9 +17,11 @@
 				<image src="/static/images/kbrick/kbx.png"></image>
 				<view v-html="kdiamondxy">{{$t('new.scfl')}}</view>
 			</view>
-
+			
+			<view class="info-ts-sm">{{$t('new.kzsm')}}</view>
+			
 			<view class="title">{{$t('new.kzcz')}}</view>
-
+			
 			<view class="list">
 				<view class="item"
 					:style="select==(i+1)?'height:216rpx;background: rgb(224, 242, 255);box-sizing: border-box;border: 4rpx solid rgb(27, 161, 255);':''"
@@ -49,21 +51,37 @@
 				</view>
 			</view>
 
-
-			<view class="info-ts-sm">{{$t('new.kzsm')}}</view>
+			<view class="info-ts-sm">{{$t('new.sxfsm')}}</view>
+			
 
 			<view class="title">{{$t('top.zffs')}}</view>
-
-			<view class="pay-info" v-for="item in payList" :key="item.id">
-				<image :src="item.url" class="logo"></image>
-				<view>{{item.name}}</view>
-				<!--<text v-if="item.id==1">({{$t('new.need_real_name')}})</text> -->
-				<image src="/static/images/new-index/wxz.png" class="select" v-show="!item.select"
-					@click="changPay(item)">
-				</image>
-				<image src="/static/images/new-index/xz.png" class="select" v-show="item.select"
-					@click="changPay(item)">
-				</image>
+			
+			<!--支付方式-->
+			<view class="pay" v-for="item in payList.slice(0,2)" :key="item.id">
+				<view class="pay-info">
+					<image :src="item.url" class="logo"></image>
+					<view class="pay-info-name">{{item.name}}</view>
+					<!--<text v-if="item.id==1">({{$t('new.need_real_name')}})</text> -->
+					<image src="/static/images/new-index/wxz.png" class="select" v-show="!item.select"
+						@click="changPay(item)">
+					</image>
+					<image src="/static/images/new-index/xz.png" class="select" v-show="item.select"
+						@click="changPay(item)">
+					</image>
+				</view>
+				<view class="pay-info-des" v-show="item.select">{{item.title}}</view>
+			</view>
+			
+			<view class="info-ts-sm">{{$t('pay.pay_not')}}</view>
+			<!--暂不支持的支付方式-->
+			<view class="pay" style="opacity: 0.5;" v-for="item in payList.slice(2,6)" :key="item.id">
+				<view class="pay-info">
+					<image :src="item.url" class="logo"></image>
+					<view class="pay-info-name">{{item.name}}</view>
+					<!--<text v-if="item.id==1">({{$t('new.need_real_name')}})</text> -->
+					<image src="/static/images/new-index/wxz.png" class="select" v-show="!item.select">
+					</image>
+				</view>
 			</view>
 
 			<view class="protocol">
@@ -75,9 +93,9 @@
 						@click="navCilck('/pages/mine/kzxy')">《{{$t('new.kzczxy')}}》</text></view>
 			</view>
 
-			<view class="topay" v-show="!showPay">{{$t('user.order.qzf')}}</view>
+			<view class="topay" v-show="!showPay">{{$t('new.payment')}}</view>
 			<view class="topay" style="background: rgb(10, 198, 142);" v-show="showPay" @click="addDiamond()">
-				{{$t('user.order.qzf')}}
+				{{$t('new.payment')}}
 			</view>
 
 
@@ -105,13 +123,50 @@
 						id: 2,
 						url: '/static/images/kbrick/paypal.png',
 						select: true,
-						name: 'Paypal'
+						name: 'Paypal',
+						title: this.$t('pay.paypal_ts')
 					},
 					{
 						id: 1,
 						url: '/static/images/new-index/pe.png',
 						select: false,
-						name: 'PayEssence'
+						name: 'PayEssence',
+						title: this.$t('pay.pay_essence')
+					},
+					{
+						id: 3,
+						url: '/static/images/new-index/apple.png',
+						select: false,
+						name: 'Apple pay',
+						title: ''
+					},
+					{
+						id: 4,
+						url: '/static/images/luck/visa.png',
+						select: false,
+						name: 'Visa',
+						title: ''
+					},
+					{
+						id: 5,
+						url: '/static/images/luck/MasterCard.png',
+						select: false,
+						name: 'MasterCard',
+						title: ''
+					},
+					{
+						id: 6,
+						url: '/static/images/luck/Cryptocurrency.png',
+						select: false,
+						name: 'Cryptocurrency',
+						title: ''
+					},
+					{
+						id: 7,
+						url: '/static/images/luck/debit_card.png',
+						select: false,
+						name: 'Debit Card',
+						title: ''
 					}
 				],
 				kdiamondxy: '',
@@ -469,6 +524,7 @@
 
 		.title {
 			font-size: 28rpx;
+			font-weight: bold;
 			color: rgb(51, 51, 51);
 			margin: 0 0 24rpx 32rpx;
 		}
@@ -616,20 +672,32 @@
 			word-break: break-all;
 			margin: 20rpx auto 40rpx auto;
 		}
+		
+		.pay{
+			position: relative;
+			width: 686rpx;
+			margin: 0 auto 40rpx auto;
+		}
+		
+		.pay-info-des{
+			width: 558rpx;
+			font-size: 20rpx;
+			color: rgb(153, 153, 153);
+			margin: 0 auto;
+		}
 
 		.pay-info {
 			position: relative;
 			width: 686rpx;
 			display: flex;
 			align-items: center;
-			margin: 0 auto 40rpx auto;
 
 			.logo {
 				width: 48rpx;
 				height: 48rpx;
 			}
 
-			view {
+			.pay-info-name {
 				font-size: 28rpx;
 				color: rgb(51, 51, 51);
 				margin-left: 20rpx;
@@ -639,6 +707,8 @@
 					margin-left: 4rpx;
 				}
 			}
+			
+			
 
 			.select {
 				position: absolute;

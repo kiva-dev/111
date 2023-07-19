@@ -97,7 +97,7 @@
 									<image src="/static/images/kbrick/diamond.png"></image>
 									<span>{{item.auction_price}}</span>
 									<text
-										style="color: rgb(153, 153, 153);font-weight: 400;font-size: 16rpx;margin-left: 8rpx;">(RM{{item.auction_price}})</text>
+										style="color: #666666;font-weight: 400;font-size: 20rpx;margin-left: 8rpx;">(RM{{item.auction_price}})</text>
 								</view>
 							</view>
 

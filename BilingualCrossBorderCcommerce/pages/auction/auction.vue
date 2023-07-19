@@ -270,7 +270,7 @@
 								<view class="new">
 									<image src="/static/images/kbrick/diamond.png"></image>
 									<span>{{item.auction_price}} <text
-											style="font-size: 16rpx;font-weight: 100;;color: rgb(102, 102, 102);margin-left: 16rpx;">(RM{{item.auction_price}})</text></span>
+											style="font-size: 20rpx;font-weight: 100;;color: rgb(102, 102, 102);margin-left: 16rpx;">(RM{{item.auction_price}})</text></span>
 								</view>
 							</view>
 
@@ -2870,7 +2870,7 @@
 								font-weight: bold;
 								color: rgb(255, 57, 57);
 								display: flex;
-								align-items: flex-end;
+								align-items: center;
 
 								image {
 									width: 24rpx;
@@ -2883,7 +2883,7 @@
 								}
 
 								.zs {
-									font-size: 16rpx;
+									font-size: 20rpx;
 									font-weight: 400;
 									color: rgb(102, 102, 102);
 								}
