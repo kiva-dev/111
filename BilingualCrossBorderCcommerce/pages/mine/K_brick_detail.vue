@@ -93,9 +93,9 @@
 						@click="navCilck('/pages/mine/kzxy')">《{{$t('new.kzczxy')}}》</text></view>
 			</view>
 
-			<view class="topay" v-show="!showPay">{{$t('user.order.qzf')}}</view>
+			<view class="topay" v-show="!showPay">{{$t('new.payment')}}</view>
 			<view class="topay" style="background: rgb(10, 198, 142);" v-show="showPay" @click="addDiamond()">
-				{{$t('user.order.qzf')}}
+				{{$t('new.payment')}}
 			</view>
 
 

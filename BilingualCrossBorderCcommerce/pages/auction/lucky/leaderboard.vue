@@ -38,12 +38,12 @@
 						<image src="/static/images/luck/not-auth.png" class="auth-img" v-else></image>
 					</view>
 					<view class="auth-name">{{info2.nickname || '暂无排名'}}</view>
-					<view class="num" >{{info2.goods_lucky_count}}</view>
-					
+					<view class="num">{{info2.goods_lucky_count}}</view>
+
 					<view class="num" v-if="select==1">{{info2.goods_lucky_count}}</view>
 					<view class="num" v-else-if="select==2">{{info2.wish_list_count}}</view>
 					<view class="num" v-else="select==3">{{info2.invite_num}}</view>
-					
+
 					<view class="btm" style="border-radius: 24rpx 0 0 0;">2</view>
 				</view>
 
@@ -54,11 +54,11 @@
 						<image src="/static/images/luck/not-auth.png" class="auth-img" v-else></image>
 					</view>
 					<view class="auth-name">{{info1.nickname || '暂无排名'}}</view>
-					
+
 					<view class="num" v-if="select==1">{{info1.goods_lucky_count}}</view>
 					<view class="num" v-else-if="select==2">{{info1.wish_list_count}}</view>
 					<view class="num" v-else="select==3">{{info1.invite_num}}</view>
-					
+
 					<view class="btm"
 						style="font-size: 72rpx;height: 160rpx;border-radius: 24rpx 24rpx 0 0;background: rgba(255, 255, 255, 0.7);">
 						1
@@ -72,11 +72,11 @@
 						<image src="/static/images/luck/not-auth.png" class="auth-img" v-else></image>
 					</view>
 					<view class="auth-name">{{info3.nickname || '暂无排名'}}</view>
-					
+
 					<view class="num" v-if="select==1">{{info3.goods_lucky_count}}</view>
 					<view class="num" v-else-if="select==2">{{info3.wish_list_count}}</view>
 					<view class="num" v-else="select==3">{{info3.invite_num}}</view>
-					
+
 					<view class="btm" style="height: 94rpx;border-radius: 0 24rpx 0 0;">3</view>
 				</view>
 
@@ -109,12 +109,12 @@
 
 		</view>
 
-		<view class="my-info">
-			<view class="num" v-if="userInfo.count"> 99">99+</view>
-			<view class="num" v-else>{{userInfo.count == 0 ? '...':userInfo.count}}</view>
+		<view class="my-info" v-if="showRanking">
+			<view class="num" v-if="userInfo.ranking > 99">99+</view>
+			<view class="num" v-else>{{userInfo.ranking == 0 ? '...':userInfo.ranking}}</view>
 			<image :src="userInfo.avatar"></image>
 			<view class="name">{{userInfo.nickname}}</view>
-			<view class="total">{{userInfo.ranking}}</view>
+			<view class="total">{{userInfo.count}}</view>
 		</view>
 
 	</view>
@@ -136,13 +136,15 @@
 				info3: {},
 				List: [],
 
-				userInfo: {}
+				userInfo: {},
+				user: {},
+				showRanking:false
 			}
 		},
 		onLoad() {
 			let date = new Date()
 			let year = date.getFullYear()
-			let month = date.getMonth() + 1
+			let month = date.getMonth()
 			let day = date.getDate()
 			let week = date.getDay()
 
@@ -152,6 +154,15 @@
 			this.monthEndTime = new Date(year + '/' + month + '/' + monthNum + " 23:59:59").getTime()
 			this.weekStartTime = new Date(year, month, day - week + 1).getTime()
 			this.weekEndTime = new Date(year, month, day - week + 7).getTime()
+
+			if (uni.getStorageSync('token')) {
+				this.showRanking = true
+				this.$http.post(this.$apiObj.MineInfo).then(item => {
+					if (item.code == 1) {
+						this.user = item.data
+					}
+				})
+			}
 
 			setTimeout(() => {
 				this.getList()
@@ -182,11 +193,11 @@
 				let url;
 				//得到时间段
 				if (this.switch_id === 1) {
-					start = this.weekStartTime
-					end = this.weekEndTime
+					start = this.weekStartTime / 1000
+					end = this.weekEndTime / 1000
 				} else if (this.switch_id === 2) {
-					start = this.monthStartTime
-					end = this.monthEndTime
+					start = this.monthStartTime / 1000
+					end = this.monthEndTime / 1000
 				}
 
 				//根据选择的不同切换url
@@ -197,10 +208,11 @@
 				} else {
 					url = this.$apiObj.InvitationListLeaderboard
 				}
-
+				
 				this.$http.post(url, {
 					since: start,
-					until: end
+					until: end,
+					h5_user_id: this.user.u_id ? this.user.u_id : ''
 				}).then(res => {
 					if (res.code == 1) {
 						//防止没有数据导致页面渲染报错
@@ -210,31 +222,15 @@
 
 						if (res.data.data.length >= 3) this.info3 = res.data.data[2]
 
-						if (res.data.avatar == '') {
-							if (uni.getStorageSync('token')) {
-								this.$http.post(this.$apiObj.MineInfo).then(item => {
-									if (item.code == 1) {
-										let data = {
-											avatar: item.data.avatar,
-											count: res.data.count,
-											nickname: item.data.nickname,
-											ranking: res.data.ranking
-										}
 
-										this.userInfo = data
-									}
-								})
-							}
-						} else {
-							let data = {
-								avatar: res.data.avatar,
-								count: res.data.count,
-								nickname: res.data.nickname,
-								ranking: res.data.ranking
-							}
-
-							this.userInfo = data
+						let data = {
+							avatar: res.data.avatar || this.user.avatar,
+							count: res.data.count,
+							nickname: res.data.nickname || this.user.nickname,
+							ranking: res.data.ranking
 						}
+
+						this.userInfo = data
 
 						this.List = res.data.data
 					}
