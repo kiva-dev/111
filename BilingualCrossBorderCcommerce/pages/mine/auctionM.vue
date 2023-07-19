@@ -176,7 +176,13 @@
 										</p>
 									</view>
 									<view class="bot-disbursements-r">
-										<template v-if="item.status === 0">
+										<template>
+											<view class="r-button-green" @click.stop="onShareClick(item)">
+												{{$t('zhongpai.lingjiangjiang')}}
+												幸运分享
+											</view>
+										</template>
+										<template>
 											<view class="r-button-green" @click.stop="onlingjiangClick(item)">
 												{{$t('zhongpai.lingjiangjiang')}}
 											</view>
@@ -464,6 +470,17 @@
 		</view>
 		<!--分享弹出 end-->
 
+		<!--点击幸运分享 start-->
+		<u-popup ref="childShare" :show="shareFriendShow" :round="10" mode="center">
+			<view class="tishingCont sareFriends">
+				<view class="name">{{$t('zhongpai.shareFriend')}}</view>
+				<view class="cont">
+					<view class="query" @click="closeShare">{{$t('zhongpai.shareFriendSkip')}}</view>
+					<view class="btnsub" @click="openShare">{{$t('zhongpai.shareFriendBtn')}}</view>
+				</view>
+			</view>
+		</u-popup>
+		<!--点击幸运分享  end-->
 		<u-popup :show="shareShow" mode="center" bgColor="transparent">
 			<view class="shareShow">
 				<image src="../../static/images/auth/tck-xr.png" class="shareShow-img"></image>
@@ -481,11 +498,11 @@
 
 <script>
 	import tool from "@/utils/tool.js"
-
 	export default {
 		data() {
 			return {
 				midshotId: 0,
+				shareFriendShow: false,
 				shareShow: false,
 				onfenxingShow: false,
 				no_select: 0, // 是否有
@@ -563,6 +580,17 @@
 			},
 			onConversionTime(time) {
 				return tool.timestampToTime(time);
+			},
+			// 分享
+			closeShare(){
+				this.shareFriendShow = false;
+			},
+			onShareClick(){
+				this.shareFriendShow = true;
+			},
+			openShare(){
+				console.log('open');
+				console.log('openShare');
 			},
 			// 确认收货
 			onConfirmReceipt(item) {
@@ -2556,7 +2584,7 @@
 				color: rgb(255, 78, 47);
 			}
 		}
-
+		
 		.cont {
 			margin-top: 60rpx;
 			display: flex;
@@ -2585,6 +2613,10 @@
 				color: #fff;
 			}
 		}
+	}
+
+	.sareFriends{
+		height: 270rpx;
 	}
 
 	.fenxiang {
