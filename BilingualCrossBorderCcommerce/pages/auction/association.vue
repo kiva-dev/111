@@ -32,11 +32,21 @@
 			</view>
 		</template>
 		<template v-else>
-			<uni-empty :image="image"
-				:message="$t('grop.not')"></uni-empty>
+			<uni-empty :image="image" :message="$t('grop.not')"></uni-empty>
+			<scroll-view class="association-child" scroll-y="true">
+				<view class="child_list">
+					<view class="child" v-for="(item, index) in JoinGroupList" :key="item.id">
+						<image :src="item.avatar" class="img"></image>
+						<view class="child-name">{{item.nickname}}</view>
+						<view class="child-info">
+							<image src="/static/images/service/nums.png"></image>
+							<view>{{item.user_count}}/{{item.max_user_count}}</view>
+						</view>
+						<view class="child-btn" @click="userAction(item)" :key="index">{{$t('grop.join')}}</view>
+					</view>
+				</view>
+			</scroll-view>
 		</template>
-
-		
 		<view style="height: 40rpx;"></view>
 	</view>
 </template>
@@ -47,6 +57,8 @@
 			return {
 				sessionList: [],
 				sessionListTop: [],
+				JoinGroupList:[],
+				form:{},
 				image: '/static/images/service/not_msg.png',
 				isShopCont: false
 			}
@@ -63,8 +75,44 @@
 					}
 				})
 			}, that);
+			this.getCommunityList()
 		},
 		methods: {
+			getCommunityList(){
+				var that = this
+				that.ws.checkNetwork(that)
+				that.ws.pageFun(function(){
+					that.ws.send({
+						c: 'User',
+						a: 'getCommunityList',
+						data: {
+							'page': 1
+						}
+					})
+				}, that);
+			},
+			userAction :function ({id,type}) {
+				let that = this
+				that.submitButtonStatus = true
+				that.form.id = id
+				that.form.type = (type == 'user') ? 'friends':'group'
+				that.form.action = 'apply'
+				that.form.method = 'post'
+				console.log(that.form);
+				that.ws.pageFun(function(){
+					var message = { c: 'User', a: 'createNewContact', data: that.form }
+					that.ws.send(message);
+					that.ws.showMsgCallback = function () {
+						that.submitButtonStatus = false
+						setTimeout(function(){
+							uni.navigateBack({
+								delta: 1
+							})
+						}, 2000)
+					}
+				}, that)
+				return
+			},
 			goToSessionInfo: function(id, type, chat_id) {
 				var url = '/pages/session-info/session-info?id=' + id
 				if (type == 'service') {
@@ -182,7 +230,6 @@
 					text-overflow: ellipsis;
 					white-space: nowrap;
 				}
-
 				.item-time {
 					position: absolute;
 					top: 28rpx;
@@ -214,6 +261,75 @@
 			}
 
 		}
+		.association-child{
+			height: 580rpx;
+			.child_list {
+				margin-top: 32rpx;
 
+				.child {
+					position: relative;
+					width: 686rpx;
+					height: 140rpx;
+					background: rgb(246, 246, 246);
+					border-radius: 20rpx;
+					margin: 0 auto 20rpx auto;
+
+					.img {
+						position: absolute;
+						top: 16rpx;
+						left: 16rpx;
+						width: 108rpx;
+						height: 108rpx;
+						border-radius: 20rpx;
+					}
+
+					.child-name {
+						position: absolute;
+						top: 24rpx;
+						left: 150rpx;
+						max-width: 400rpx;
+						font-size: 28rpx;
+						color: rgb(51, 51, 51);
+						overflow: hidden;
+						text-overflow: ellipsis;
+						white-space: nowrap;
+					}
+
+					.child-info {
+						position: absolute;
+						left: 150rpx;
+						bottom: 24rpx;
+						max-width: 420rpx;
+						font-size: 24rpx;
+						color: rgb(153, 153, 153);
+						display: flex;
+						align-items: center;
+						
+						image{
+							display: block;
+							width: 24rpx;
+							height: 24rpx;
+							margin-right: 8rpx;
+						}
+					}
+					
+					.child-btn{
+						position: absolute;
+						top: 50%;
+						right: 28rpx;
+						transform: translate(0,-50%);
+						width: 92rpx;
+						height: 48rpx;
+						line-height: 48rpx;
+						font-size: 24rpx;
+						color: rgb(255, 255, 255);
+						text-align: center;
+						background: rgb(10, 198, 142);
+						border-radius: 48rpx;
+					}
+
+				}
+			}
+		}
 	}
 </style>

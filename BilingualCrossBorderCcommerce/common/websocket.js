@@ -2076,7 +2076,7 @@ var ws = {
 							}
 						}
 					}
-					that.pageThat.sessionList = sessionList
+					that.pageThat.JoinGroupList = sessionList
 					that.pageThat.sessionListTop = sessionListTop
 					that.pageThat.loadStatus = false;
 				} else {

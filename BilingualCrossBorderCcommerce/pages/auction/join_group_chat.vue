@@ -9,7 +9,7 @@
 
 		<template>
 			<view class="association_list">
-				<view class="item" v-for="(item, index) in sessionList" :key="item.id">
+				<view class="item" v-for="(item, index) in JoinGroupList" :key="item.id">
 					<image :src="item.avatar" class="img"></image>
 					<view class="item-name">{{item.nickname}}</view>
 					<view class="item-info">
@@ -30,25 +30,28 @@
 		data() {
 			return {
 				form:{},
-				sessionList: [],
+				JoinGroupList: [],
 				image: '/static/images/service/not_msg.png',
 				isShopCont: false
 			}
 		},
 		onShow() {
-			var that = this
-			that.ws.checkNetwork(that)
-			that.ws.pageFun(function(){
-				that.ws.send({
-					c: 'User',
-					a: 'getCommunityList',
-					data: {
-                        'page': 1
-					}
-				})
-			}, that);
+			this.getCommunityList()
 		},
 		methods: {
+			getCommunityList(){
+				var that = this
+				that.ws.checkNetwork(that)
+				that.ws.pageFun(function(){
+					that.ws.send({
+						c: 'User',
+						a: 'getCommunityList',
+						data: {
+							'page': 1
+						}
+					})
+				}, that);
+			},
 			userAction :function ({id,type}) {
 				let that = this
 				that.submitButtonStatus = true
@@ -83,7 +86,6 @@
 		width: 100%;
 		min-height: 100vh;
 		background: rgb(255, 255, 255);
-
 		.association_head {
 			position: relative;
 			width: 100%;
