@@ -3,20 +3,28 @@
 		<view class="head-info">
 			<view class="top">
 				<image src="/static/images/auth/left.png" @click="toBack()"></image>
-				<view class="top-tit" :class="select===1 ? 'select':''" @click="select=1">{{$t('ranking.luck_list')}} <text
-						v-show="select==1"></text> </view>
-				<view class="top-tit" :class="select===2 ? 'select':''" @click="select=2">{{$t('ranking.wish_list')}} <text
-						v-show="select==2"></text> </view>
-				<view class="top-tit" :class="select===3 ? 'select':''" @click="select=3">{{$t('ranking.invitation_list')}}<text
-						v-show="select==3"></text> </view>
+				<view class="top-tit" :class="select===1 ? 'select':''" @click="switchSelect(1)">
+					{{$t('ranking.luck_list')}}
+					<text v-show="select==1"></text>
+				</view>
+				<view class="top-tit" :class="select===2 ? 'select':''" @click="switchSelect(2)">
+					{{$t('ranking.wish_list')}}
+					<text v-show="select==2"></text>
+				</view>
+				<view class="top-tit" :class="select===3 ? 'select':''" @click="switchSelect(3)">
+					{{$t('ranking.invitation_list')}}<text v-show="select==3"></text>
+				</view>
 			</view>
 
 			<view class="switch">
-				<view class="switch-name" :class="switch_id==1?'switch-select':''" @click="switch_id=1">{{$t('ranking.weekly_list')}}
+				<view class="switch-name" :class="switch_id==1?'switch-select':''" @click="switchId(1)">
+					{{$t('ranking.weekly_list')}}
 				</view>
-				<view class="switch-name" :class="switch_id==2?'switch-select':''" @click="switch_id=2">{{$t('ranking.mothly_list')}}
+				<view class="switch-name" :class="switch_id==2?'switch-select':''" @click="switchId(2)">
+					{{$t('ranking.mothly_list')}}
 				</view>
-				<view class="switch-name" :class="switch_id==3?'switch-select':''" @click="switch_id=3">{{$t('ranking.overall')}}
+				<view class="switch-name" :class="switch_id==3?'switch-select':''" @click="switchId(3)">
+					{{$t('ranking.overall')}}
 				</view>
 			</view>
 
@@ -26,38 +34,55 @@
 				<view class="ranking-info">
 					<image src="/static/images/luck/luck2.png" class="crown"></image>
 					<view class="auth">
-						<image src="/static/images/me/auth1.png" class="auth-img"></image>
+						<image :src="info2.avatar" class="auth-img" v-if="info2.avatar"></image>
+						<image src="/static/images/luck/not-auth.png" class="auth-img" v-else></image>
 					</view>
-					<view class="auth-name">Jackie Chan</view>
-					<view class="num">2800</view>
+					<view class="auth-name">{{info2.nickname || '暂无排名'}}</view>
+					<view class="num" >{{info2.goods_lucky_count}}</view>
+					
+					<view class="num" v-if="select==1">{{info2.goods_lucky_count}}</view>
+					<view class="num" v-else-if="select==2">{{info2.wish_list_count}}</view>
+					<view class="num" v-else="select==3">{{info2.invite_num}}</view>
+					
 					<view class="btm" style="border-radius: 24rpx 0 0 0;">2</view>
 				</view>
 
 				<view class="ranking-info" style="width: 220rpx;">
 					<image src="/static/images/luck/luck1.png" class="crown"></image>
 					<view class="auth" style="border: 4rpx solid rgb(255, 231, 42);">
-						<image src="/static/images/me/auth1.png" class="auth-img"></image>
+						<image :src="info1.avatar" class="auth-img" v-if="info1.avatar"></image>
+						<image src="/static/images/luck/not-auth.png" class="auth-img" v-else></image>
 					</view>
-					<view class="auth-name">Jackie Chan</view>
-					<view class="num">2800</view>
+					<view class="auth-name">{{info1.nickname || '暂无排名'}}</view>
+					
+					<view class="num" v-if="select==1">{{info1.goods_lucky_count}}</view>
+					<view class="num" v-else-if="select==2">{{info1.wish_list_count}}</view>
+					<view class="num" v-else="select==3">{{info1.invite_num}}</view>
+					
 					<view class="btm"
-						style="font-size: 72rpx;height: 160rpx;border-radius: 24rpx 24rpx 0 0;background: rgba(255, 255, 255, 0.7);">1
+						style="font-size: 72rpx;height: 160rpx;border-radius: 24rpx 24rpx 0 0;background: rgba(255, 255, 255, 0.7);">
+						1
 					</view>
 				</view>
 
 				<view class="ranking-info">
 					<image src="/static/images/luck/luck3.png" class="crown"></image>
 					<view class="auth" style="border: 4rpx solid rgb(254, 202, 134);">
-						<image src="/static/images/me/auth1.png" class="auth-img"></image>
+						<image :src="info3.avatar" class="auth-img" v-if="info3.avatar"></image>
+						<image src="/static/images/luck/not-auth.png" class="auth-img" v-else></image>
 					</view>
-					<view class="auth-name">Jackie Chan</view>
-					<view class="num">2800</view>
+					<view class="auth-name">{{info3.nickname || '暂无排名'}}</view>
+					
+					<view class="num" v-if="select==1">{{info3.goods_lucky_count}}</view>
+					<view class="num" v-else-if="select==2">{{info3.wish_list_count}}</view>
+					<view class="num" v-else="select==3">{{info3.invite_num}}</view>
+					
 					<view class="btm" style="height: 94rpx;border-radius: 0 24rpx 0 0;">3</view>
 				</view>
 
 			</view>
-			
-			
+
+
 			<view class="list">
 				<view class="list-tit">
 					<view class="left">
@@ -70,25 +95,28 @@
 					<view class="right" v-else-if="select==2">{{$t('ranking.wishing_times')}}</view>
 					<view class="right" v-else>{{$t('ranking.invitation_num')}}</view>
 				</view>
-				
-				<view class="item" v-for="(item,i) in [1,1,1,1,1,1,1]">
+
+				<view class="item" v-for="(item,i) in List.slice(3,10)">
 					<view class="item-num">{{i+4}}</view>
-					<image src="/static/images/me/auth1.png"></image>
-					<view class="item-name">EasonEasonEasonEasonEasonEasonEasonEason</view>
-					<view class="item-total">2533</view>
+					<image :src="item.avatar"></image>
+					<view class="item-name">{{item.nickname}}</view>
+					<view class="item-total" v-show="select==1">{{item.goods_lucky_count}}</view>
+					<view class="item-total" v-show="select==2">{{item.wish_list_count}}</view>
+					<view class="item-total" v-show="select==3">{{item.invite_num}}</view>
 				</view>
-				
+
 			</view>
-			
+
 		</view>
-		
+
 		<view class="my-info">
-			<view class="num">16</view>
-			<image src="/static/images/me/auth1.png"></image>
-			<view class="name">Eason Chan</view>
-			<view class="total">868</view>
+			<view class="num" v-if="userInfo.count"> 99">99+</view>
+			<view class="num" v-else>{{userInfo.count == 0 ? '...':userInfo.count}}</view>
+			<image :src="userInfo.avatar"></image>
+			<view class="name">{{userInfo.nickname}}</view>
+			<view class="total">{{userInfo.ranking}}</view>
 		</view>
-		
+
 	</view>
 </template>
 
@@ -97,7 +125,18 @@
 		data() {
 			return {
 				select: 1,
-				switch_id: 1
+				switch_id: 1,
+				weekStartTime: '',
+				weekEndTime: '',
+				monthStartTime: '',
+				monthEndTime: '',
+
+				info1: {},
+				info2: {},
+				info3: {},
+				List: [],
+
+				userInfo: {}
 			}
 		},
 		onLoad() {
@@ -106,19 +145,102 @@
 			let month = date.getMonth() + 1
 			let day = date.getDate()
 			let week = date.getDay()
-			
-			let monthNum = new Date(year,month,0).getDate()
-			
-			let monthStartTime = new Date(year+'/'+month+'/'+ 1).getTime()
-			let monthEndTime = new Date(year+'/'+month+'/'+ monthNum+" 23:59:59").getTime()
-			let weekStartTime = new Date(year,month,day - week + 1).getTime()
-			let weekEndTime = new Date(year,month,day - week + 7).getTime()
-			console.log(monthEndTime)
+
+			let monthNum = new Date(year, month, 0).getDate()
+
+			this.monthStartTime = new Date(year + '/' + month + '/' + 1).getTime()
+			this.monthEndTime = new Date(year + '/' + month + '/' + monthNum + " 23:59:59").getTime()
+			this.weekStartTime = new Date(year, month, day - week + 1).getTime()
+			this.weekEndTime = new Date(year, month, day - week + 7).getTime()
+
+			setTimeout(() => {
+				this.getList()
+			}, 200)
 		},
 		methods: {
 			toBack() {
 				uni.navigateBack()
-			}
+			},
+			switchId(id) {
+				this.switch_id = id
+				this.info1 = {}
+				this.info2 = {}
+				this.info3 = {}
+				this.getList()
+			},
+			switchSelect(id) {
+				this.select = id
+				this.info1 = {}
+				this.info2 = {}
+				this.info3 = {}
+				this.getList()
+			},
+			//幸运之星
+			getList() {
+				let start;
+				let end;
+				let url;
+				//得到时间段
+				if (this.switch_id === 1) {
+					start = this.weekStartTime
+					end = this.weekEndTime
+				} else if (this.switch_id === 2) {
+					start = this.monthStartTime
+					end = this.monthEndTime
+				}
+
+				//根据选择的不同切换url
+				if (this.select === 1) {
+					url = this.$apiObj.GoodLuckyLeaderboard
+				} else if (this.select === 2) {
+					url = this.$apiObj.WishlistLeaderboard
+				} else {
+					url = this.$apiObj.InvitationListLeaderboard
+				}
+
+				this.$http.post(url, {
+					since: start,
+					until: end
+				}).then(res => {
+					if (res.code == 1) {
+						//防止没有数据导致页面渲染报错
+						if (res.data.data.length >= 1) this.info1 = res.data.data[0]
+
+						if (res.data.data.length >= 2) this.info2 = res.data.data[1]
+
+						if (res.data.data.length >= 3) this.info3 = res.data.data[2]
+
+						if (res.data.avatar == '') {
+							if (uni.getStorageSync('token')) {
+								this.$http.post(this.$apiObj.MineInfo).then(item => {
+									if (item.code == 1) {
+										let data = {
+											avatar: item.data.avatar,
+											count: res.data.count,
+											nickname: item.data.nickname,
+											ranking: res.data.ranking
+										}
+
+										this.userInfo = data
+									}
+								})
+							}
+						} else {
+							let data = {
+								avatar: res.data.avatar,
+								count: res.data.count,
+								nickname: res.data.nickname,
+								ranking: res.data.ranking
+							}
+
+							this.userInfo = data
+						}
+
+						this.List = res.data.data
+					}
+				})
+			},
+
 		}
 	}
 </script>
@@ -218,8 +340,8 @@
 
 					.auth {
 						position: relative;
-						width: 128rpx;
-						height: 128rpx;
+						width: 124rpx;
+						height: 124rpx;
 						box-sizing: border-box;
 						border: 4rpx solid rgb(180, 203, 233);
 						border-radius: 50%;
@@ -269,57 +391,57 @@
 				}
 
 			}
-			
-			.list{
+
+			.list {
 				width: 750rpx;
 				min-height: 300rpx;
 				padding-top: 24rpx;
 				background: #fff;
 				border-radius: 32rpx 32rpx 0 0;
-				
-				.list-tit{
+
+				.list-tit {
 					position: relative;
 					width: 100%;
 					display: flex;
 					align-items: center;
 					margin-bottom: 40rpx;
-					
-					.left{
+
+					.left {
 						display: flex;
 						align-items: center;
 						margin-left: 44rpx;
-						
-						image{
+
+						image {
 							width: 48rpx;
 							height: 48rpx;
 						}
-						
-						view{
+
+						view {
 							font-size: 24rpx;
 							font-weight: bold;
 							color: rgb(51, 51, 51);
 							margin-left: 18rpx;
 						}
-						
+
 					}
-					
-					.right{
+
+					.right {
 						position: absolute;
 						right: 26rpx;
 						font-size: 24rpx;
 						color: rgb(102, 102, 102);
 					}
-					
+
 				}
-				
-				.item{
+
+				.item {
 					position: relative;
 					width: 100%;
 					display: flex;
 					align-items: center;
 					margin-bottom: 40rpx;
-					
-					.item-num{
+
+					.item-num {
 						width: 38rpx;
 						font-size: 32rpx;
 						font-weight: bold;
@@ -327,16 +449,16 @@
 						text-align: center;
 						margin-left: 46rpx;
 					}
-					
-					image{
+
+					image {
 						display: block;
 						width: 64rpx;
 						height: 64rpx;
 						border-radius: 50%;
 						margin: 0 20rpx 0 40rpx;
 					}
-					
-					.item-name{
+
+					.item-name {
 						max-width: 300rpx;
 						font-size: 28rpx;
 						font-weight: bold;
@@ -345,8 +467,8 @@
 						text-overflow: ellipsis;
 						white-space: nowrap;
 					}
-					
-					.item-total{
+
+					.item-total {
 						position: absolute;
 						right: 56rpx;
 						font-size: 28rpx;
@@ -354,12 +476,12 @@
 						color: rgb(51, 51, 51);
 					}
 				}
-				
+
 			}
-			
+
 		}
-		
-		.my-info{
+
+		.my-info {
 			position: fixed;
 			left: 24rpx;
 			bottom: 86rpx;
@@ -372,31 +494,31 @@
 			background: rgb(10, 198, 142);
 			border-radius: 32rpx;
 			z-index: 10;
-			
-			.num{
+
+			.num {
 				font-size: 32rpx;
 				margin-left: 24rpx;
 			}
-			
-			image{
+
+			image {
 				display: block;
 				width: 64rpx;
 				height: 64rpx;
 				border-radius: 50%;
 				margin: 0 12rpx 0 32rpx;
 			}
-			
-			.name{
+
+			.name {
 				font-size: 28rpx;
 			}
-			
-			.total{
+
+			.total {
 				position: absolute;
 				font-size: 28rpx;
 				right: 32rpx;
 			}
-			
+
 		}
-		
+
 	}
 </style>

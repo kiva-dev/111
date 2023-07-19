@@ -172,5 +172,10 @@ let apiObj = {
 	//paypal支付
 	PaypalRecharge:"/recharge/payPalRecharge",
 	GetOrderStatus:"/recharge/getOrderStatus",//获取订单状态
+	
+	//排行榜
+	"GoodLuckyLeaderboard":"/Leaderboard/goodLuckyLeaderboard",//幸运之星排行榜
+	"WishlistLeaderboard":"/Leaderboard/wishlistLeaderboard",//愿望清单排行榜
+	"InvitationListLeaderboard":"/Leaderboard/invitationListLeaderboard",//邀请清单排行榜
 }
 export default apiObj

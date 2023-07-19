@@ -1534,6 +1534,7 @@
 	"new.wcxd_qckdd":"The payment status of the order has not been checked, please go to my order to check",
 	"new.zfz_qsd":"Paying, please wait a moment!",
 	"new.qxzf":"Cancel Payment",
+	"new.sxfsm":"Kind reminder: If any handling fees are involved, they will be collected by third-party recharge platforms, and the platform will not charge any handling fees",
 	
 	"grop.add":"Group Chat",
 	"grop.not":"Sorry, we haven't joined the group chat yet. Please go and join us",
@@ -1560,5 +1561,10 @@
 	"ranking.update":"Updated daily at 9:00, 12:00, 18:00, and 24:00",
 	"ranking.luck_times":"Lucky Times",
 	"ranking.wishing_times":"Wishing Times",
-	"ranking.invitation_num":"Number Of Invitations"
+	"ranking.invitation_num":"Number Of Invitations",
+	
+	"pay.paypal_ts":"Supports MY savings and credit cards, no registration required, requires KYC, and low handling fees",
+	"pay.pay_essence":"Real name required",
+	"pay.pay_not":"Stay tuned for more payment methods"
+	
 }
