@@ -56,6 +56,7 @@
 				</view>
 			</view>
 		</view>
+		<!--资产-->
 		<view class="ml-wallet">
 			<view class="ml-wallet-container" @click="navClick('wallet')">
 				<view class="container-tit">
@@ -108,11 +109,18 @@
 				</view>
 			</view>
 		</view>
+		
+		<!--邀请返佣-->
 		<view class="ml-commission">
 			<view class="ml-commission-box" @click="navClick('/pages/mine/new/commission')">
 				<p>{{$t('new.yqfy')}}</p>
 			</view>
+			<!-- <view class="commission-info">
+				
+			</view> -->
 		</view>
+		
+		
 		<view class="ml-auction">
 			<view class="ml-auction-top">
 				<view class="top-name">{{$t('tab.MymakeAwish')}}</view>
@@ -321,23 +329,6 @@
 			</view>
 		</u-popup>
 
-		<!-- 右侧固定栏 -->
-		<!-- 		<view class="leftSider" :class="[transformClass?'removeRightX':'removeLeftX','shopCart']">
-			<view class="imgArr" v-if="imgShow">
-				<view>
-					<img src="/static/images/mine/aixin.png" class="minImg" alt="">
-				</view>
-				<view class="people">
-					<img src="/static/images/mine/p.png" class="pImg" alt="">
-				</view>
-				<view>
-					<img src="/static/images/mine/listener.png" class="minImg" alt="">
-				</view>
-			</view>
-			<image src="/static/images/new-index/addImg.png" class="newListImgDeg" v-if="imgShow" @click="transformImg">
-			</image>
-			<image src="/static/images/new-index/addImg.png" class="newListImg" @click="transformImg" v-else></image>
-		</view> -->
 	</view>
 </template>
 

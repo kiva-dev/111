@@ -72,8 +72,9 @@
 							<view class="icon">
 								<image class="img" src="@/static/images/mine/profile_set_avatar.png"></image>
 							</view>
+							<view class="t">{{$t('user.vid.zjzm')}}</view>
 						</view>
-						<view class="t">{{$t('user.vid.zjzm')}}</view>
+						
 					</view>
 					<view class="li-con" @click="chooseImages">
 						<view class="li-img" v-if="front_image">
@@ -85,8 +86,9 @@
 							<view class="icon">
 								<image class="img" src="@/static/images/mine/profile_set_avatar.png"></image>
 							</view>
+							<view class="t">{{$t('user.vid.zjfm')}}</view>
 						</view>
-						<view class="t">{{$t('user.vid.zjfm')}}</view>
+						
 					</view>
 				</view>
 				<view class="id-tip">
@@ -265,7 +267,6 @@
 				});
 			},
 			bindPickerChange: function(e) {
-				// console.log('picker发送选择改变，携带值为', e.detail.value)
 				this.index = e.detail.value
 			},
 			onBtnSub() {
@@ -323,6 +324,7 @@
 
 			.label {
 				font-size: 28rpx;
+				font-weight: bold;
 			}
 
 			.li {
@@ -357,6 +359,7 @@
 					flex: 1;
 					text-align: right;
 					font-size: 28rpx;
+					color: rgb(153, 153, 153);
 				}
 			}
 
@@ -376,20 +379,34 @@
 						}
 
 						.icon {
-							width: 49rpx;
-							height: 50rpx;
-							position: absolute;
-							left: 50%;
-							top: 50%;
-							margin-top: -25rpx;
-							margin-left: -25rpx;
+							width: 64rpx;
+							height: 64rpx;
 						}
 
 						.li-img {
-							border: 1rpx solid #eee;
+							border: 1rpx dashed rgba(10, 198, 142, 0.5);
 							width: 328rpx;
 							height: 202rpx;
 							position: relative;
+							background: rgba(10, 198, 142, 0.08);
+							border-radius: 16rpx;
+							
+							.t{
+								position: absolute;
+								left: 50%;
+								bottom: 56rpx;
+								transform: translate(-50%,0);
+								font-size: 24rpx;
+								color: rgb(10, 198, 142);
+							}
+							
+							.icon{
+								position: absolute;
+								top: 56rpx;
+								left: 50%;
+								transform: translate(-50%,0);
+							}
+							
 						}
 					}
 				}
