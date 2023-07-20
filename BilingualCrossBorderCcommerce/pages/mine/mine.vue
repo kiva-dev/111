@@ -138,7 +138,7 @@
 								<image src="/static/images/mine/yonjin.png"></image>
 								<view>{{$t('new.fyje')}}(RM)</view>
 							</view>
-							<view class="left-info-num">{{userCont.rebate_money_total}}</view>
+							<view class="left-info-num">{{userCont.rebate_money_total || 0}}</view>
 						</view>
 
 						<view class="left-info">
@@ -430,12 +430,8 @@
 				});
 			},
 			getInviationNum(){
-				this.$http.post(this.$apiObj.InvitationList).then(res=>{
-					let num = res.data.total
-					res.data.data.forEach(item=>{
-						num += item.invite_count
-					})
-					this.inviationNum = num
+				this.$http.post(this.$apiObj.GetInviationNum).then(res=>{
+					this.inviationNum = res.data.count
 				})
 			},
 			onTouchStart(e) {

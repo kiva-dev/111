@@ -155,6 +155,7 @@ let apiObj = {
 	//返佣
 	MineRebateInfo: "/Mine/rebateInfo", //返佣信息
 	GetCodeInfo: "/index/inviteCodeGetInfo", //根据用户邀请码获取信息
+	GetInviationNum:"/Mine/getAllRebateUser",//获取返佣总人数
 
 	//积分
 	GetPoints: "/Points/getUserPoints", //获取所有积分

@@ -143,13 +143,13 @@
 		onLoad() {
 			let date = new Date()
 			let year = date.getFullYear()
-			let month = date.getMonth()
+			let month = date.getMonth() + 1
 			let day = date.getDate()
 			let week = date.getDay()
 
 			let monthNum = new Date(year, month, 0).getDate()
 
-			this.monthStartTime = new Date(year + '/' + month + '/' + 1).getTime()
+			this.monthStartTime = new Date(year + '/' + month + '/' + '1').getTime()
 			this.monthEndTime = new Date(year + '/' + month + '/' + monthNum + " 23:59:59").getTime()
 			this.weekStartTime = new Date(year, month, day - week + 1).getTime()
 			this.weekEndTime = new Date(year, month, day - week + 7).getTime()

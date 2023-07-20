@@ -2524,6 +2524,7 @@
 			// position: relative;
 			
 			.new-view-more{
+				position: relative;
 				width: 100%;
 				font-size: 24rpx;
 				color: rgb(102, 102, 102);
@@ -2531,6 +2532,7 @@
 				align-items: center;
 				justify-content: center;
 				margin-top: 32rpx;
+				z-index: 10;
 				
 				image{
 					display: block;

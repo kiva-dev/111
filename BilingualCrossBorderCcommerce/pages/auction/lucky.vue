@@ -14,7 +14,7 @@
 				</view>
 			</view>
 			
-			<view class="switch-info">
+			<!-- <view class="switch-info">
 				<view class="left">
 					<view class="left-name">{{$t('ranking.luck_forum')}}</view>
 					<view class="left-more">{{$t('ranking.gotoview')}}<image src="/static/images/mine/mine_icon_right.png"></image></view>
@@ -22,7 +22,7 @@
 				<view class="right">
 					<image src="/static/images/luck/msg_list.png"></image>
 				</view>
-			</view>
+			</view> -->
 		</view>
 		<view class="member-layout">
 			
@@ -183,7 +183,7 @@
 			z-index: 9;
 			
 			.switch-info{
-				width: 334rpx;
+				width: 606rpx;
 				height: 164rpx;
 				display: flex;
 				align-items: center;
@@ -193,7 +193,7 @@
 				margin: 0 10rpx;
 				
 				.left{
-					margin-right: 26rpx;
+					margin-right: 240rpx;
 					
 					.left-name{
 						font-size: 28rpx;

@@ -106,7 +106,7 @@
 				lange: '',
 				userCont: {},
 				isShopCont: false, // 中文还是英文
-				totalNum:0,//总人数
+				totalNum: 0, //总人数
 			}
 		},
 		onLoad(option) {
@@ -153,17 +153,16 @@
 				if (this.cuid !== 0) {
 					req.cuid = this.cuid;
 				}
+
+				this.$http.post(this.$apiObj.GetInviationNum).then(res => {
+					this.totalNum = res.data.count
+				})
+
 				this.$http.post(this.$apiObj.InvitationList, req).then(res => {
 					if (res.code === 1) {
 						let arr = res.data.data || [];
 						this.memberArr = this.memberArr.concat(arr);
-						
-						//计算总人数
-						this.totalNum = this.memberArr.length
-						this.memberArr.forEach(item => {
-							this.totalNum+=item.invite_count
-						})
-						
+
 						arr.length < 10 ? this.status = 'nomore' : this.status = 'loadmore';
 					}
 				})

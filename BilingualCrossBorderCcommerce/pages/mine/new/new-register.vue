@@ -45,7 +45,7 @@
 		<view class="new-register-input">
 			<image src="/static/images/new/new-yqm.png"></image>
 			<view class="my-input">
-				<u--input :placeholder="$t('login.qsryqm')" border="none"
+				<u--input :placeholder="$t('login.qsryqm')" border="none" :disabled="isDisabled" disabledColor="rgba(0,0,0,0)"
 					placeholderStyle="font-size:28rpx;color:rgb(190, 190, 190);" v-model="yqCode"></u--input>
 			</view>
 		</view>
@@ -86,6 +86,7 @@
 				password: '',
 				confirmPassword: '',
 				yqCode: '',
+				isDisabled:false,
 				select: [],
 				checkList: [{
 					id: 1,
@@ -97,7 +98,10 @@
 			}
 		},
 		onLoad(e) {
-			if (e.invite_code) this.yqCode = e.invite_code
+			if (e.invite_code) {
+				this.yqCode = e.invite_code
+				this.isDisabled = true
+			}
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
 		},
 		onShow() {
