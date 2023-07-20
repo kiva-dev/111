@@ -982,6 +982,8 @@
 	"login.getcode": "Get code",
 	"login.protocol": "Before log in please read and agreed the following agreements",
 	"login.tip":"Warm reminder",
+	"login.disagree":"Disagree",
+	"login.agree":"Agree",
 
 	"phone.zgdl": "Chinese Mainland",
 	"phone.zgxg": "Hong Kong, China",
@@ -1337,7 +1339,7 @@
 	"newDetail.not": "There are currently no comments, come and comment!",
 
 	"new.zzjp": "Ongoing",
-	"new.jjks": "Coming Soon",
+	"new.jjks": "Start Soon",
 	"new.lsjl": "Historical Records",
 	"new.lxfs": "Contact information",
 	"new.sctp": "Pictures",
@@ -1539,6 +1541,8 @@
 	"new.zfz_qsd": "Paying, please wait a moment!",
 	"new.qxzf": "Cancel Payment",
 	"new.sxfsm": "Kind reminder: If any handling fees are involved, they will be collected by third-party recharge platforms, and the platform will not charge any handling fees",
+	"new.inviation_num":"My number of invitations",
+	"new.share_link":"Share Link",
 
 	"grop.add": "Group Chat",
 	"grop.not": "Sorry, we haven't joined the group chat yet. Please go and join us",
@@ -1570,7 +1574,7 @@
 	"ranking.weekly_list": "Weekly list",
 	"ranking.mothly_list": "Monthly List",
 	"ranking.overall": "Overall list",
-	"ranking.update": "Updated daily at 9:00, 12:00, 18:00, and 24:00",
+	"ranking.update": "Updated daily at 6:00, 12:00, 18:00, and 24:00",
 	"ranking.luck_times": "Lucky Times",
 	"ranking.wishing_times": "Wishing Times",
 	"ranking.invitation_num": "Number Of Invitations",

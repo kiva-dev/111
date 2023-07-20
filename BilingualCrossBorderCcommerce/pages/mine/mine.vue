@@ -109,18 +109,79 @@
 				</view>
 			</view>
 		</view>
-		
+
 		<!--邀请返佣-->
 		<view class="ml-commission">
 			<view class="ml-commission-box" @click="navClick('/pages/mine/new/commission')">
 				<p>{{$t('new.yqfy')}}</p>
 			</view>
-			<!-- <view class="commission-info">
-				
-			</view> -->
 		</view>
-		
-		
+
+		<view class="commission-info">
+			<view class="head">
+				<view class="head-left">{{$t('new.yqfy')}}</view>
+				<view class="head-more" @click="navClick('/pages/mine/new/commission')">
+					<view>{{$t('home.detail.more')}}</view>
+					<image src="/static/images/products/right.png"></image>
+				</view>
+			</view>
+
+			<view class="commission-line"></view>
+
+			<scroll-view scroll-x style="width: 686rpx;" @touchstart="onTouchStart" @touchend="onTouchEnd"
+				:scroll-left="scrollLeft">
+				<view class="commission-switch">
+
+					<view class="commission-left">
+						<view class="left-info">
+							<view class="left-tit-info">
+								<image src="/static/images/mine/yonjin.png"></image>
+								<view>{{$t('new.fyje')}}(RM)</view>
+							</view>
+							<view class="left-info-num">{{userCont.rebate_money_total}}</view>
+						</view>
+
+						<view class="left-info">
+							<view class="left-tit-info">
+								<view>{{$t('new.inviation_num')}}</view>
+							</view>
+							<view class="left-info-num" style="font-size: 32rpx;">{{inviationNum}}</view>
+						</view>
+					</view>
+
+					<view class="commission-right">
+						<view class="tit">
+							<image src="/static/images/mine/share-link.png"></image>
+							<view>{{$t('new.share_link')}}</view>
+						</view>
+
+						<view class="link-info">
+							<view class="info-key">{{$t('new.yqlj')}}:</view>
+							<view class="info-des">
+								{{yqUrl}}
+							</view>
+							<image src="/static/images/mine/k_copy.png" @click.stop="copy(yqUrl)"></image>
+						</view>
+
+						<view class="link-info">
+							<view class="info-key">{{$t('login.yqm')}}:</view>
+							<view class="info-des">{{userCont.invite_code}}</view>
+							<image src="/static/images/mine/k_copy.png" @click.stop="copy(userCont.invite_code)"></image>
+						</view>
+					</view>
+
+				</view>
+
+			</scroll-view>
+
+			<view class="switch-info">
+				<text class="switch-info-name"
+					:style="showLeftOrRight?`position: absolute;left: 0;`:`position: absolute;right: 0;`"></text>
+			</view>
+
+		</view>
+
+
 		<view class="ml-auction">
 			<view class="ml-auction-top">
 				<view class="top-name">{{$t('tab.MymakeAwish')}}</view>
@@ -189,6 +250,7 @@
 				<view class="line-bg" :style="{ left: isBottoming ? '14rpx':'0'}"></view>
 			</view>
 		</view>
+
 		<view class="ml-operate">
 			<view class="ml-operate-title">{{$t('new.wdfw')}}</view>
 			<view class="ml-operate-ul">
@@ -247,41 +309,6 @@
 						<image src="@/static/images/mine/mine_icon_right.png" mode="widthFix"></image>
 					</view>
 				</view>
-
-				<!-- <view class="ul-li">
-					<view class="ul-li-l">
-						<view class="l-icon">
-							<image src="@/static/images/mine/follow_us.png" mode="widthFix"></image>
-						</view>
-						<view class="l-name">{{$t('new.gzwm')}}</view>
-					</view>
-					<view class="ul-li-r">
-						<image src="@/static/images/mine/mine_icon_right.png" mode="widthFix"></image>
-					</view>
-				</view>
-				<view class="ul-li">
-					<view class="ul-li-l">
-						<view class="l-icon">
-							<image src="@/static/images/mine/association.png" mode="widthFix"></image>
-						</view>
-						<view class="l-name">{{$t('new.association')}}</view>
-					</view>
-					<view class="ul-li-r">
-						<image src="@/static/images/mine/mine_icon_right.png" mode="widthFix"></image>
-					</view>
-				</view>
-				<view class="ul-li">
-					<view class="ul-li-l">
-						<view class="l-icon">
-							<image src="@/static/images/mine/customer_service.png" mode="widthFix"></image>
-						</view>
-						<view class="l-name">{{$t('new.customer_service')}}</view>
-					</view>
-					<view class="ul-li-r">
-						<image src="@/static/images/mine/mine_icon_right.png" mode="widthFix"></image>
-					</view>
-				</view> -->
-
 			</view>
 		</view>
 		<!-- 联系我们 -->
@@ -357,6 +384,13 @@
 				collectGoodsTotal: 0,
 				collectStoreTotal: 0,
 				totalJf: 0, //总积分
+				showLeftOrRight: true,
+				scrollLeft: 0,
+				isProhibit: true,
+				leftNum:0,//左滑
+				rightNum:0,//右滑
+				inviationNum:0,//邀请人数
+				yqUrl:'',//邀请url
 			}
 		},
 		onLoad() {
@@ -374,6 +408,8 @@
 				this.getMineWinAuction();
 				this.getCollectGoods();
 				this.getCollectStore();
+				this.getInviationNum()
+				
 			}
 		},
 		onHide() {
@@ -381,6 +417,41 @@
 			this.showConfirm = false
 		},
 		methods: {
+			copy(val){
+				console.log(111)
+				uni.setClipboardData({
+					data: val,
+					success: () => {
+						uni.showToast({
+							icon: 'none',
+							title: this.$t('user.order.detail.fzcg')
+						})
+					}
+				});
+			},
+			getInviationNum(){
+				this.$http.post(this.$apiObj.InvitationList).then(res=>{
+					let num = res.data.total
+					res.data.data.forEach(item=>{
+						num += item.invite_count
+					})
+					this.inviationNum = num
+				})
+			},
+			onTouchStart(e) {
+				this.leftNum = e.changedTouches[0].clientX
+			},
+			onTouchEnd(e) {
+				this.rightNum = e.changedTouches[0].clientX
+				if(this.leftNum > this.rightNum){
+					this.scrollLeft = 343
+					this.showLeftOrRight = false
+				}else if(this.leftNum < this.rightNum){
+					this.scrollLeft = 0
+					this.showLeftOrRight = true
+				}
+			},
+			
 			onfacebook() {
 
 				let url = 'https://www.facebook.com/kolibrimall.my'
@@ -553,6 +624,7 @@
 					if (res.code == 1) {
 						uni.setStorageSync('userCont', res.data);
 						this.userCont = res.data;
+						this.yqUrl = this.$baseUrl + 'pages/mine/new/new-register?invite_code='+res.data.invite_code
 						this.getAllPoints();
 					}
 				})
@@ -602,6 +674,168 @@
 </script>
 
 <style lang="less" scoped>
+	//返佣
+	.commission-info {
+		width: 686rpx;
+		padding: 24rpx 0;
+		background: #FFF;
+		border-radius: 20rpx;
+		margin: 24rpx auto;
+
+		.commission-switch {
+			width: 1372rpx;
+			display: flex;
+			align-items: center;
+		}
+
+		.head {
+			position: relative;
+			width: 100%;
+			display: flex;
+			align-items: center;
+
+			.head-left {
+				font-size: 28rpx;
+				font-weight: bold;
+				color: rgb(51, 51, 51);
+				margin-left: 32rpx;
+			}
+
+			.head-more {
+				position: absolute;
+				right: 32rpx;
+				font-size: 24rpx;
+				color: rgb(51, 51, 51);
+				display: flex;
+				align-items: center;
+
+				image {
+					display: block;
+					width: 24rpx;
+					height: 24rpx;
+					margin-left: 8rpx;
+				}
+
+			}
+
+		}
+
+		.commission-line {
+			width: 622rpx;
+			border-bottom: 2rpx solid rgb(204, 204, 204);
+			margin: 24rpx auto;
+		}
+
+		.commission-left {
+			width: 686rpx;
+			display: flex;
+			align-items: center;
+
+			.left-info {
+				width: 50%;
+
+				.left-tit-info {
+					width: 100%;
+					font-size: 24rpx;
+					font-weight: bold;
+					color: rgb(51, 51, 51);
+					display: flex;
+					align-items: center;
+					margin-left: 24rpx;
+
+					image {
+						display: block;
+						width: 32rpx;
+						height: 32rpx;
+						margin-right: 10rpx;
+					}
+				}
+
+				.left-info-num {
+					width: 100%;
+					height: 162rpx;
+					font-size: 44rpx;
+					font-weight: bold;
+					color: rgb(51, 51, 51);
+					text-indent: 24rpx;
+					display: flex;
+					align-items: center;
+				}
+
+			}
+
+		}
+
+		.commission-right {
+			width: 686rpx;
+			// height: 194rpx;
+
+			.tit {
+				display: flex;
+				align-items: center;
+
+				image {
+					display: block;
+					width: 32rpx;
+					height: 32rpx;
+					margin-left: 32rpx;
+				}
+
+				view {
+					font-size: 24rpx;
+					font-weight: bold;
+					color: rgb(51, 51, 51);
+					margin-left: 16rpx;
+				}
+			}
+
+			.link-info {
+				width: 686rpx;
+				display: flex;
+				align-items: flex-start;
+				margin-top: 24rpx;
+
+				.info-key {
+					font-size: 24rpx;
+					color: rgb(51, 51, 51);
+					margin-left: 32rpx;
+				}
+
+				.info-des {
+					max-width: 386rpx;
+					font-size: 24rpx;
+					color: rgb(27, 161, 255);
+					word-break: break-all;
+					margin: 0 8rpx;
+				}
+
+				image {
+					width: 32rpx;
+					height: 32rpx;
+				}
+
+			}
+
+		}
+
+		.switch-info {
+			position: relative;
+			width: 32rpx;
+			height: 6rpx;
+			background: rgb(232, 232, 232);
+			border-radius: 6rpx;
+			margin: 20rpx auto 0 auto;
+
+			.switch-info-name {
+				width: 60%;
+				height: 6rpx;
+				background: rgb(10, 198, 142);
+				border-radius: 6rpx;
+			}
+		}
+
+	}
+
 	//右侧固定栏滚动
 	.removeRightX {
 		transform: translateX(80rpx);
