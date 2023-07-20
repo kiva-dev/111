@@ -506,6 +506,10 @@
 
 			.name {
 				font-size: 28rpx;
+				max-width: 400rpx;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
 			}
 
 			.total {

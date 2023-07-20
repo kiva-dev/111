@@ -121,7 +121,7 @@
 		</view>
 		<!--我的竞拍-竞拍订单 auct-box end-->
 
-		<!--我的竞拍-中拍记录 auct-box start-->
+		<!--幸运记录 auct-box start-->
 		<view class="auct-box" v-if="type == 3">
 			<block v-if="navId == 1">
 				<template v-if="LuckyList && LuckyList.length">
@@ -178,11 +178,10 @@
 									<view class="bot-disbursements-r">
 										<template>
 											<view class="r-button-green" @click.stop="onShareClick(item)">
-												{{$t('zhongpai.lingjiangjiang')}}
 												幸运分享
 											</view>
 										</template>
-										<template>
+										<template v-if="item.select_way == 0">
 											<view class="r-button-green" @click.stop="onlingjiangClick(item)">
 												{{$t('zhongpai.lingjiangjiang')}}
 											</view>
@@ -2565,10 +2564,9 @@
 	// 提示
 	.tishingCont {
 		width: 556rpx;
-		height: 370rpx;
 		background: #ffffff;
 		border-radius: 30rpx;
-		padding-top: 50rpx;
+		padding: 50rpx 0;
 
 		.title {
 			font-size: 30rpx;

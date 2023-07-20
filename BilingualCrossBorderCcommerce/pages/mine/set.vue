@@ -99,7 +99,7 @@
 					<view class="pop-c">{{$t('user.xitong.zhuxiao')}}</view>
 					<view class="pop-b">
 						<button class="pop-btn" @click="toggle1Close">{{$t('user.xitong.query')}}</button>
-						<button class="pop-btn red" style="background: #FF4E2F;"
+						<button class="pop-btn red" style="background: red;"
 							@click.stop="$noMultipleClicks(onMineCancelAccount)">{{$t('user.xitong.btnsub')}}</button>
 					</view>
 				</view>

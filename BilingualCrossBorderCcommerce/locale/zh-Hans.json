@@ -977,6 +977,8 @@
 	"login.czmmcg": "重置密码成功",
 	"login.zc": "注册",
 	"login.getcode": "获取验证码",
+	"login.protocol":"登录前请阅读并同意以下协议",
+	"login.tip":"温馨提示",
 
 	"phone.zgdl": "中国大陆",
 	"phone.zgxg": "中国香港",
