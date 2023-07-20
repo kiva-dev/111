@@ -15,12 +15,12 @@
 			</view>
 
 			<view class="switchLoginType">
-				<view class="info" @click="isNav=2" :class="isNav==2?'select_tit':''">
+				<view class="info" @click="isNav=2;email='';pwd='';" :class="isNav==2?'select_tit':''">
 					<image src="/static/images/kbrick/login_email.png" class="email" v-show="isNav!=2"></image>
 					<image src="/static/images/kbrick/login_email_select.png" class="email" v-show="isNav==2"></image>
 					<view class="email_tit">Email address</view>
 				</view>
-				<view class="info" @click="isNav=1" :class="isNav==1?'select_tit':''">
+				<view class="info" @click="isNav=1;mobile='';pwd='';" :class="isNav==1?'select_tit':''">
 					<image src="/static/images/kbrick/login_phone.png" class="phone" v-show="isNav!=1"></image>
 					<image src="/static/images/kbrick/login_phone_select.png" class="phone" v-show="isNav==1"></image>
 					<view class="phone_tit">Phone number</view>
@@ -154,6 +154,29 @@
 			</view>
 
 		</view>
+
+		<uni-popup ref="protocol" type="center">
+			<view class="protocol">
+				<view class="tit">{{$t('login.tip')}}</view>
+				<view class="info">
+					<view>{{$t('login.protocol')}}</view>
+					<text>
+						<navigator url="../mine/ptfwxy" hover-class="none">{{$t('login.ptfwxy')}}</navigator>
+					</text>
+					<text>
+						<navigator url="../mine/ysxy" hover-class="none">{{$t('login.ysxy')}}</navigator>
+					</text>
+					<text>
+						<navigator url="../mine/agreement" hover-class="none">{{$t('login.zcxgxy')}}</navigator>
+					</text>
+				</view>
+				<view class="btn">
+					<view @click="$refs.protocol.close()">Disagree</view>
+					<view @click="agreeProtocol()">Agree</view>
+				</view>
+			</view>
+		</uni-popup>
+
 	</view>
 </template>
 
@@ -199,11 +222,10 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		},
 		onLoad() {
 			this.login_front = uni.getStorageSync('login_front')
+			// 
+
 		},
 		onShow() {
-			// if (uni.getStorageSync('token')) {
-			//   uni.navigateBack({ delta: 1 })
-			// }
 			// plus.navigator.setstatusbarbackground("#000");
 			let systemInfo = uni.getSystemInfoSync();
 			this.systemLocale = systemInfo.language;
@@ -292,6 +314,11 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			})
 		},
 		methods: {
+			//同意协议
+			agreeProtocol(){
+				this.isQuanShow=true
+				this.$refs.protocol.close()
+			},
 			toIndex() {
 				uni.switchTab({
 					url: '/pages/auction/auction'
@@ -340,10 +367,10 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						})
 					}
 				}
-				if (this.isQuanShow == false) return uni.showToast({
-					title: this.$t('login.qydxybty'),
-					icon: 'none'
-				})
+				if (this.isQuanShow == false) {
+					this.$refs.protocol.open()
+					return
+				}
 				const pwd = jsencrypt.setEncrypt(publiukey, String(this.pwd))
 				this.$http.post(this.$apiObj.LoginMobileLogin, {
 					mobile_area_code: this.mobile_area_code.slice(1), // 区号
@@ -392,10 +419,10 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						icon: 'none'
 					})
 				}
-				if (!this.isQuanShow) return uni.showToast({
-					title: this.$t('login.qydxybty'),
-					icon: 'none'
-				})
+				if (!this.isQuanShow) {
+					this.$refs.protocol.open()
+					return
+				}
 				const pwd = jsencrypt.setEncrypt(publiukey, String(this.pwd))
 				this.$http.post(this.$apiObj.LoginEmailLogin, {
 					email: this.email, // 邮箱
@@ -719,6 +746,63 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 <style lang="less" scoped>
 	.login-page {
+
+		.protocol {
+			width: 622rpx;
+			background: #fff;
+			border-radius: 24rpx;
+
+			.tit {
+				width: 622rpx;
+				height: 126rpx;
+				line-height: 126rpx;
+				font-size: 32rpx;
+				color: rgb(10, 198, 142);
+				text-align: center;
+				background: url('/static/images/auth/leaves.png') no-repeat;
+				background-size: 622rpx 126rpx;
+			}
+
+			.info {
+				width: 558rpx;
+				font-size: 24rpx;
+				color: rgb(102, 102, 102);
+				display: flex;
+				flex-wrap: wrap;
+				align-items: center;
+				margin: 48rpx auto;
+
+				text {
+					color: rgb(10, 198, 142);
+					display: flex;
+					align-items: center;
+				}
+			}
+
+			.btn {
+				width: 100%;
+				display: flex;
+				align-items: center;
+
+				view {
+					width: 50%;
+					height: 104rpx;
+					line-height: 104rpx;
+					font-size: 32rpx;
+					color: rgb(102, 102, 102);
+					text-align: center;
+					box-sizing: border-box;
+					border-top: 2rpx solid rgb(204, 204, 204);
+				}
+
+				view:nth-child(2) {
+					color: rgb(10, 198, 142);
+					border-left: 2rpx solid rgb(204, 204, 204);
+				}
+			}
+
+		}
+
 		.login-box {
 			padding: 30rpx;
 
@@ -972,7 +1056,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			}
 
 			.login-other {
-				margin-top: 170rpx;
+				margin-top: 160rpx;
 
 				.other-tit {
 					display: flex;
