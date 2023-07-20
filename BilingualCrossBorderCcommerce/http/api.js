@@ -177,5 +177,12 @@ let apiObj = {
 	GoodLuckyLeaderboard:"/Leaderboard/goodLuckyLeaderboard",//幸运之星排行榜
 	WishlistLeaderboard:"/Leaderboard/wishlistLeaderboard",//愿望清单排行榜
 	InvitationListLeaderboard:"/Leaderboard/invitationListLeaderboard",//邀请清单排行榜
+
+	// 中拍
+	createAuctionGoodsSharing:"/Auctiongoodssharing/createAuctionGoodsSharing", //中排商品分享的数据记录
+	commentSharing:"/Auctiongoodssharing/commentSharing", //评论分享的中拍商品
+	auctionGoodsSharingList:"/Auctiongoodssharing/auctionGoodsSharingList", //分享的中拍商品列表
+	likes:"/Auctiongoodssharing/likes", //中拍商品的点赞次数
+	auctionGoodsSharingCommentList:"/Auctiongoodssharing/auctionGoodsSharingCommentList" //分享的中拍商品评论列表
 }
 export default apiObj

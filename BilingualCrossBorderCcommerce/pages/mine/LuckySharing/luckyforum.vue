@@ -7,61 +7,59 @@
 					<image src="@/static/images/mine/collect_icon_back.png" mode="widthFix"></image>
 				</view>
 				<view class="box-title">{{$t('top.luckyforum')}}</view>
-				<view class="box-clear" style="visibility: hidden;">
+				<view class="box-clear" @click="getComment">
 					<image src="@/static/images/mine/msg_btn_clear.png" mode="widthFix"></image>
 				</view>
 			</view>
 		</view>
-        <view class="u-demo-block" v-for="(nub) in 10" :key="nub">
+        <view class="u-demo-block" v-for="(luckyForumListItem,topNub) in luckyForumList" :key="topNub">
             <view class="u-demo-block__content">
                 <view class="album">
                     <view class="album__header">
                         <view class="album__right">
                             <view class="album__avatar">
-                                <u-avatar :src="src" size='40'></u-avatar>
+                                <u-avatar :src="luckyForumListItem.avatar" size='40'></u-avatar>
                             </view>
                             <view>
-                                <u--text text="Eason Chan" bold size="17" class="album__text aaaaaaaaaaa"></u--text>
+                                <u--text :text="luckyForumListItem.nickname" bold size="17" class="album__text"></u--text>
                                 <view class="item-l-level">
                                     <view class="level-icon">
                                         <image src="@/static/images/mine/mine_icon_vip.png" mode="widthFix"></image>
                                     </view>
-                                    <view class="level-num">Lv.2</view>
+                                    <view class="level-num">Lv.{{luckyForumListItem.level}}</view>
                                 </view>
                             </view> 
                         </view>
                         <view class="album__left">
-                            <view class="level-num">7-14</view>
+                            <view class="level-num">{{$filter.to_DateMonth(luckyForumListItem.createtime)}}</view>
                         </view>
                     </view>
                     <view class="album__content">
-                        <u--text margin="0 0 8px 0" :text="demoText" ></u--text>
+                        <u--text margin="0 0 8px 0" :text="luckyForumListItem.desc" ></u--text>
                         <view class="album__urls">
-                            <image :src="item" v-for="(item,index) in urls1" :key="index"></image>
+                            <image :src="item" v-for="(item,index) in luckyForumListItem.images" :key="index"></image>
                         </view>
                     </view>
                     <view class="album__bottom">
                         <view class="album__bottom__btn">
                             <view class="Like">
-                                <image src="@/static/images/mine/unLike.png" mode="widthFix" v-if="false"></image>
+                                <image src="@/static/images/mine/unLike.png" mode="widthFix" v-if="!luckyForumListItem.is_like"></image>
                                 <image src="@/static/images/mine/Like.png" mode="widthFix" v-else></image>
-                                <view class="Like-num">{{likeNub}}</view>
+                                <view class="Like-num">{{luckyForumListItem.likes || 0}}</view>
                             </view>
                             <view class="forumComment">
                                 <image src="@/static/images/mine/forumComment.png" mode="widthFix"></image>
-                                <view class="forumComment__comment" @click="tocommit('id')">Comment</view>
+                                <view class="forumComment__comment" @click="tocommit(luckyForumListItem)">{{luckyForumListItem.luckyForumComments.length || 'Comment'}}</view>
                             </view>
                         </view>
-                        <view class="album__bottom__text">
-                            <view>Jackie Chan: WOW! Is so beautiful !!! i like</view>
-                            <view>Eason : Can you share your user experienceser experience?</view>
-                            <view>Jackie Chan: WOW! Is so beautiful !!! i like</view>
+                        <view class="album__bottom__text" v-if="luckyForumListItem.luckyForumComments.length > 0">
+                            <view class="CommentsText" v-for="(CommentsItem,CommentsNub) in luckyForumListItem.luckyForumComments" :key="CommentsNub">{{CommentsItem.nickname}}:{{CommentsItem.comment}}</view>
                         </view>
                     </view>
                 </view>
             </view>
         </view>
-        <input-box :commit="commit"  @submit="submit"></input-box>
+        <inputbox v-show="imMessageFocusBool" :imMessageFocusBool="imMessageFocusBool" @updateImMessageFocusBool="updateImMessageFocusBool" @submit="submit"></inputbox>
     </view>
 </template>
 
@@ -73,18 +71,11 @@ import inputbox from "@/components/session/input.vue";
         },
 		data() {
 			return {
-                commit:false,
+                luckyForumList:[],
+                imMessageFocusBool:false,
                 albumWidth: 0,
                 likeNub:1,
-                demoText:'This is my first successful wish since using KOLIBRI. I am really happy to be able to participate in the wish at such a low price and become the lucky one. My joy in sharing this is to promote this platform for more people to use and participate in the wish. Thank you.',
-                src: 'https://cdn.uviewui.com/uview/album/1.jpg',
-                urls1: [
-                    'https://cdn.uviewui.com/uview/album/1.jpg',
-                    'https://cdn.uviewui.com/uview/album/2.jpg',
-                    'https://cdn.uviewui.com/uview/album/3.jpg',
-                    'https://cdn.uviewui.com/uview/album/4.jpg',
-                    'https://cdn.uviewui.com/uview/album/5.jpg'
-                ]
+                dyid:'',
             }
 		},
         computed: {
@@ -92,32 +83,55 @@ import inputbox from "@/components/session/input.vue";
                 return this.$t('luckysharing.content')
             }
         },
+        onShow(){
+
+        },
 		methods:{
+            updateImMessageFocusBool(newValue) {
+                this.imMessageFocusBool = newValue;
+            },
+            async getComment() {
+                const url = this.$apiObj.auctionGoodsSharingList;
+                const CommentList = this.$apiObj.auctionGoodsSharingCommentList;
+                try {
+                    const res = await this.$http.post(url, {});
+                    if (res.code === 1) {
+                        console.log(res);
+                        const commentRequests = res.data.data.map(async (i) => {
+                            const commentRes = await this.$http.post(CommentList, {
+                            "auction_goods_sharing_id": i.auction_goods_sharing_id
+                            });
+                            return commentRes.data.data;
+                        });
+                        const comments = await Promise.all(commentRequests);
+                        this.luckyForumList = res.data.data;
+                        this.luckyForumList.forEach((item, index) => {
+                            item.luckyForumComments = comments[index];
+                        });
+                    }
+                } catch (error) {
+                    // 处理请求错误
+                    console.error(error);
+                }
+            },
             //键盘弹起
-            tocommit(x){
-                //通过commit传给子子告诉子用户点击评论区要评论
-                this.commit=true;
-                //这里的dyid是请求接口的时候用来告诉接口评论或回复的是那一条
-                this.dyid=x;
+            tocommit({auction_goods_sharing_id}){
+                this.imMessageFocusBool=true;
+                this.dyid=auction_goods_sharing_id;
                 console.log(this.dyid)
             },
             //评论
-            submit(val) {
+            async submit(val) {
                 console.log(val);
                 if(val!=''){
-                let data={dynamicId:this.dyid}
-                    //接口调用
-                    this.$ajax.post(data).then(res=>{
-                        if(res.data.success){
-                            console.log(res);
-                        //评论完之后再调用一次查看所有评论的接口更新页面评论数据
-                            this.getComment();
-                            }else{
-                                
-                            }
-                    })
+                    let data= {"auction_goods_sharing_id":this.dyid,"comment":val}
+                    const url = this.$apiObj.commentSharing;
+                    const res = await this.$http.post(url, data);
+                    if(res.code === 1){
+                        this.getComment();
+                    }
                 }else{
-                    this.$util.tips("评论文字不能为空")
+                    console.error('错误');
                 }
             },
             onBack(){
@@ -240,23 +254,25 @@ import inputbox from "@/components/session/input.vue";
                 align-items: center;
                 margin-left: 40rpx;
                 justify-content: space-around;
-                width: 35%;
                 .forumComment__comment{
-
+                    margin-left: 20rpx;
                 }
             }
             image{
-                width: 60rpx;
+                width: 45rpx;
             }
         }
         .album__bottom__text{
             box-sizing: border-box;
             width: 100%;
-            font-size: 28rpx;
+            font-size: 30rpx;
             background: #F5F5F5;
             margin-top: 20rpx;
-            padding: 40rpx;
+            padding: 30rpx;
             border-radius: 30rpx;
+            .CommentsText{
+                margin: 10rpx 0;
+            }
         }
     }
 }

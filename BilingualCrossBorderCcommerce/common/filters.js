@@ -45,6 +45,15 @@ const to_dateTimes = (phpstr) => {
 	return (hours < 10 ? '0' + hours : hours) + ":" + (minutes < 10 ? '0' + minutes : minutes) + ":" + (seconds <
 		10 ? '0' + seconds : seconds); //拼接 2017-2-21 12:23:43
 }
+
+// php时间搓
+const to_DateMonth = (phpstr) => {
+	let str = parseInt(phpstr) * 1000; //将php时间戳转化为整形并乘以1000
+	let newDate = new Date(str);
+	let month = newDate.getUTCMonth() + 1; //取月份
+	let nowday = newDate.getUTCDate(); //取天数
+	return (month < 10 ? '0' + month : month) + "-" + (nowday < 10 ? '0' + nowday : nowday)  //拼接 02-21
+}
 const to_date_timees = (phpstr) => {
 	let str = parseInt(phpstr) * 1000; //将php时间戳转化为整形并乘以1000
 	let newDate = new Date(str);
@@ -89,5 +98,6 @@ export default {
 	to_date_times,
 	to_date_timees,
 	to_dateTimes,
+	to_DateMonth,
 	time_to_date
 }

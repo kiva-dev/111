@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import session from "@/components/session/seesion.vue";
+import session from "@/components/session/session.vue";
 	export default {
         components: {
 			session

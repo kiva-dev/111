@@ -37,7 +37,7 @@
         <view class="address-fixed">
 			<view class="fixed-con">
 				<button class="public-btn" style="background: rgb(10, 198, 142);"
-					@click="shareFriendShow = true">{{$t('luckysharing.Btn')}}</button>
+					@click="onShareClick">{{$t('luckysharing.Btn')}}</button>
 			</view>
 		</view>
         <u-popup ref="childShare" :show="shareFriendShow" :round="10" mode="center" closeable @close="close">
@@ -56,6 +56,7 @@
 	export default {
 		data() {
 			return {
+                orderauctionrecordid:'',
                 shareFriendShow:false,
                 imgUrl:require('@/static/icon/path.png'),
                 value5: '',
@@ -67,6 +68,11 @@
                 return this.$t('luckysharing.content')
             }
         },
+        onLoad(e) {
+            if(e.orderauctionrecordid){
+                this.orderauctionrecordid = e.orderauctionrecordid
+            }
+		},
 		methods:{
             onBack(){
                 const routeArr = getCurrentPages().map(i => i.route);
@@ -79,11 +85,37 @@
 				}
             },
             // 分享
-            close(){
-				this.shareFriendShow = false
+            close() {
+                this.shareFriendShow = false;
             },
-			onShareClick(){
-				this.shareFriendShow = true;
+			async onShareClick(){
+                if (!this.value5) {
+                    uni.showToast({
+                        title: this.$t('user.Feedback.qsrnr'),
+                        icon: 'none'
+                    })
+                    return;
+                }
+                const url = this.$apiObj.createAuctionGoodsSharing;
+                const desc = this.value5;
+                const urlArray = this.fileList1.map(item => item.url);
+                const images = urlArray.join(',');
+                try {
+                    const res = await this.$http.post(url, {
+                        desc,
+                        images,
+                        "order_auction_record_id": this.orderauctionrecordid
+                    });
+                    this.shareFriendShow = res.code === 1 ? true : false;
+                    if (res.code !== 1) {
+                        uni.showToast({
+                            title: res.msg,
+                            icon: 'none'
+                        });
+                    }
+                } catch (error) {
+                    console.error("An error occurred:", error);
+                }
 			},
 			openShare(){
 				this.shareFriendShow = false
@@ -97,13 +129,14 @@
 			// 新增图片
 			async afterRead(event) {
 				// 当设置 multiple 为 true 时, file 为数组格式，否则为对象格式
+                const message = this.$t('user.upgrade.scz')
 				let lists = [].concat(event.file)
 				let fileListLen = this[`fileList${event.name}`].length
 				lists.map((item) => {
 					this[`fileList${event.name}`].push({
 						...item,
 						status: 'uploading',
-						message: '上传中'
+						message
 					})
 				})
 				for (let i = 0; i < lists.length; i++) {
@@ -120,15 +153,17 @@
 			uploadFilePromise(url) {
 				return new Promise((resolve, reject) => {
 					let a = uni.uploadFile({
-						url: 'http://192.168.2.21:7001/upload', // 仅为示例，非真实的接口地址
+						url: this.$baseUrl + 'api/Common/upload', 
 						filePath: url,
 						name: 'file',
-						formData: {
-							user: 'test'
-						},
+                        header: {
+                            token: uni.getStorageSync('token'),
+                        },  
 						success: (res) => {
+                            let responseData = JSON.parse(res.data);
+                            let fullurl = responseData.data.fullurl;
 							setTimeout(() => {
-								resolve(res.data.data)
+								resolve(fullurl);
 							}, 1000)
 						}
 					});

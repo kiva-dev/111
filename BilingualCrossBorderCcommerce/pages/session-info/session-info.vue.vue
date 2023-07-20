@@ -663,7 +663,6 @@
 						unreadMessagesNumber: 0
 					}, mThat)
 				});
-				console.log('123');
 				that.inputStatus(false)
 				that.clickTool(false)
 				that.scrollIntoFooter(0, 99993)

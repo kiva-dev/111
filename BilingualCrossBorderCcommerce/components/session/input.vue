@@ -1,11 +1,16 @@
 <template>
     <view>
-        <view class="input-box u-f-ac u-f-jsa">
-        <input type="text" confirm-type="发送" v-model="val" placeholder="说点什么吧" @confirm="send" :focus="commit"/>
-        <view class="view-btn">
-                <button type="primary" @tap="send">发送</button>
-            </view>
-        </view>
+        <view class="im-write" :style="{bottom: writeBottom + 'px'}">
+			<view class="write-textarea" style="margin: 5px 0px 5px 40px;border-radius: 10px;">
+				<textarea confirmType="done"  :adjust-position="false" :show-confirm-bar="false" :fixed="true" :focus="imMessageFocusBool"
+				 :auto-height="true"  :cursor-spacing="14" maxlength="-1" @blur="imMessageBlur" @input="imMessageInput"
+				 @focus="imMessageFocus" :confirm-type="sendButtonType" @confirm="sendButtonConfirm" v-model="imMessage" class="im-message" ></textarea>
+			</view>
+			<view class="write-right" >
+				<button class="send-btn" @click="send" hover-class="send-btn-hover" v-if="showSendButton">Send</button>
+				<image class="toolbar-icon more" src="/static/icon/more.png" @click="clickTool('more')" mode="widthFix" v-if="!showSendButton"></image>
+			</view>
+		</view>
     </view>
 </template>
 
@@ -14,20 +19,50 @@
 		name: "session",
 		data() {
 			return {
-
+				writeBottom: 0,
+				sessionUserInputStatus: false,
+                showSendButton:false,
+                sendButtonType:'none',
+                imMessage:'',
+                blurTimeout: null,
 			};
 		},
-        props:['commit'],
+        props:['imMessageFocusBool'],
 		methods:{
+            imMessageFocus: function () {
+                console.log('焦点');
+			},
+            imMessageBlur: function () {
+                 // 使用定时器，在失去焦点后延时300毫秒再执行隐藏操作
+                this.blurTimeout = setTimeout(() => {
+                    this.$emit('updateImMessageFocusBool', false); // 触发事件，将值传递给父组件
+                }, 300);
+            },
+            imMessageChange: function() {
+				let that = this
+				that.showSendButton = (that.imMessage == '') ? false : true;
+			},
+            imMessageInput: function (e) {
+				this.imMessageChange()
+			},
+            sendButtonConfirm: function () {
+				if (this.sendButtonType == 'send') {
+					this.sendMessage(this.imMessage, 'default')
+				}
+			},
 			send(){
-				this.$emit("submit",this.val)
-				this.val = '';
+				this.$emit("submit",this.imMessage)
+				this.imMessage = '';
 			}
-		}
+		},
+        beforeDestroy() {
+            clearTimeout(this.blurTimeout);
+        }
 	}
 </script>
 
 <style lang="less" scoped>
+@import url('./input.less');
 .input-box{
     position: fixed;
     bottom: 0;

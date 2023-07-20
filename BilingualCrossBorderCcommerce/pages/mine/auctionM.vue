@@ -176,11 +176,11 @@
 										</p>
 									</view>
 									<view class="bot-disbursements-r">
-										<template>
+										<!-- <template>
 											<view class="r-button-green" @click.stop="onShareClick(item)">
 												幸运分享
 											</view>
-										</template>
+										</template> -->
 										<template v-if="item.select_way == 0">
 											<view class="r-button-green" @click.stop="onlingjiangClick(item)">
 												{{$t('zhongpai.lingjiangjiang')}}
@@ -402,7 +402,7 @@
 							<image v-else src="@/static/images/auction/unchoose.png" mode="widthFix"></image>
 						</view>
 					</view>
-					<view class="cp-option-text">({{$t('user.auctionM.claimTxt2')}})</view>
+					<!-- <view class="cp-option-text">({{$t('user.auctionM.claimTxt2')}})</view> -->
 				</view>
 				<view class="cp-btns">
 					<view class="cp-btns-cancel" @click="$refs.lingjiangPopup.close()">{{$t('user.auctionM.btnCancel')}}
@@ -516,6 +516,7 @@
 				isShopCont: false, // 中文还是英文
 				orderList: [],
 				jingpaiorderList: [],
+				auction_goods_id:'', //商品id
 				id: '', // 领奖id
 				user_money: '', // 折现金额
 				shopCont: '', // 商品详情
@@ -584,13 +585,14 @@
 			closeShare(){
 				this.shareFriendShow = false;
 			},
-			onShareClick(){
+			onShareClick({id}){
+				this.id = id
 				this.shareFriendShow = true;
 			},
 			openShare(){
 				this.shareFriendShow = false
 				uni.navigateTo({
-					url: '/pages/mine/LuckySharing/luckysharing'
+					url: '/pages/mine/LuckySharing/luckysharing?orderauctionrecordid=' + this.id
 				});
 			},
 			// 确认收货
@@ -2513,7 +2515,7 @@
 			.cp-btns-cancel {
 				width: 256rpx;
 				height: 68rpx;
-				border: 1rpx solid rgb(10, 198, 142);
+				border: 2rpx solid rgb(10, 198, 142);
 				box-sizing: border-box;
 				border-radius: 100rpx;
 				text-align: center;
@@ -2616,7 +2618,7 @@
 	}
 
 	.sareFriends{
-		height: 270rpx;
+		height: 210rpx;
 	}
 
 	.fenxiang {
