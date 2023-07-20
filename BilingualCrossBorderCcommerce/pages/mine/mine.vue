@@ -119,8 +119,8 @@
 
 		<view class="commission-info">
 			<view class="head">
-				<view class="head-left">Invitation Rebate</view>
-				<view class="head-more">
+				<view class="head-left">{{$t('new.yqfy')}}</view>
+				<view class="head-more" @click="navClick('/pages/mine/new/commission')">
 					<view>{{$t('home.detail.more')}}</view>
 					<image src="/static/images/products/right.png"></image>
 				</view>
@@ -136,37 +136,37 @@
 						<view class="left-info">
 							<view class="left-tit-info">
 								<image src="/static/images/mine/yonjin.png"></image>
-								<view>Rebate amount(RM)</view>
+								<view>{{$t('new.fyje')}}(RM)</view>
 							</view>
-							<view class="left-info-num">1000.00</view>
+							<view class="left-info-num">{{userCont.rebate_money_total}}</view>
 						</view>
 
 						<view class="left-info">
 							<view class="left-tit-info">
-								<view>My number of invitations</view>
+								<view>{{$t('new.inviation_num')}}</view>
 							</view>
-							<view class="left-info-num" style="font-size: 32rpx;">18</view>
+							<view class="left-info-num" style="font-size: 32rpx;">{{inviationNum}}</view>
 						</view>
 					</view>
 
 					<view class="commission-right">
 						<view class="tit">
 							<image src="/static/images/mine/share-link.png"></image>
-							<view>Share Link</view>
+							<view>{{$t('new.share_link')}}</view>
 						</view>
 
 						<view class="link-info">
-							<view class="info-key">Invitation Link:</view>
+							<view class="info-key">{{$t('new.yqlj')}}:</view>
 							<view class="info-des">
-								https://kjtest.ysxrj.cn/pages/mine/new/new-register?invite_code=693630
+								{{yqUrl}}
 							</view>
-							<image src="/static/images/mine/k_copy.png"></image>
+							<image src="/static/images/mine/k_copy.png" @click.stop="copy(yqUrl)"></image>
 						</view>
 
 						<view class="link-info">
-							<view class="info-key">Invitation Code:</view>
-							<view class="info-des">6936300</view>
-							<image src="/static/images/mine/k_copy.png"></image>
+							<view class="info-key">{{$t('login.yqm')}}:</view>
+							<view class="info-des">{{userCont.invite_code}}</view>
+							<image src="/static/images/mine/k_copy.png" @click.stop="copy(userCont.invite_code)"></image>
 						</view>
 					</view>
 
@@ -389,6 +389,8 @@
 				isProhibit: true,
 				leftNum:0,//左滑
 				rightNum:0,//右滑
+				inviationNum:0,//邀请人数
+				yqUrl:'',//邀请url
 			}
 		},
 		onLoad() {
@@ -406,6 +408,8 @@
 				this.getMineWinAuction();
 				this.getCollectGoods();
 				this.getCollectStore();
+				this.getInviationNum()
+				
 			}
 		},
 		onHide() {
@@ -413,6 +417,27 @@
 			this.showConfirm = false
 		},
 		methods: {
+			copy(val){
+				console.log(111)
+				uni.setClipboardData({
+					data: val,
+					success: () => {
+						uni.showToast({
+							icon: 'none',
+							title: this.$t('user.order.detail.fzcg')
+						})
+					}
+				});
+			},
+			getInviationNum(){
+				this.$http.post(this.$apiObj.InvitationList).then(res=>{
+					let num = res.data.total
+					res.data.data.forEach(item=>{
+						num += item.invite_count
+					})
+					this.inviationNum = num
+				})
+			},
 			onTouchStart(e) {
 				this.leftNum = e.changedTouches[0].clientX
 			},
@@ -421,11 +446,12 @@
 				if(this.leftNum > this.rightNum){
 					this.scrollLeft = 343
 					this.showLeftOrRight = false
-				}else{
+				}else if(this.leftNum < this.rightNum){
 					this.scrollLeft = 0
 					this.showLeftOrRight = true
 				}
 			},
+			
 			onfacebook() {
 
 				let url = 'https://www.facebook.com/kolibrimall.my'
@@ -598,6 +624,7 @@
 					if (res.code == 1) {
 						uni.setStorageSync('userCont', res.data);
 						this.userCont = res.data;
+						this.yqUrl = this.$baseUrl + 'pages/mine/new/new-register?invite_code='+res.data.invite_code
 						this.getAllPoints();
 					}
 				})
@@ -714,7 +741,7 @@
 					color: rgb(51, 51, 51);
 					display: flex;
 					align-items: center;
-					justify-content: center;
+					margin-left: 24rpx;
 
 					image {
 						display: block;
@@ -730,7 +757,7 @@
 					font-size: 44rpx;
 					font-weight: bold;
 					color: rgb(51, 51, 51);
-					text-indent: 32rpx;
+					text-indent: 24rpx;
 					display: flex;
 					align-items: center;
 				}

@@ -13,7 +13,7 @@ function noMultipleClicks (methods, info) {
     }
     setTimeout(() => {
       that.noClick = true;
-    }, 3000)
+    }, 2000)
   } else {
     // 这里是重复点击的判断
   }

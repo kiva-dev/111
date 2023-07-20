@@ -171,8 +171,8 @@
 					</text>
 				</view>
 				<view class="btn">
-					<view @click="$refs.protocol.close()">Disagree</view>
-					<view @click="agreeProtocol()">Agree</view>
+					<view @click="$refs.protocol.close()">{{$t('login.disagree')}}</view>
+					<view @click="agreeProtocol()">{{$t('login.agree')}}</view>
 				</view>
 			</view>
 		</uni-popup>

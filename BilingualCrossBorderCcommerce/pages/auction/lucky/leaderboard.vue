@@ -38,7 +38,6 @@
 						<image src="/static/images/luck/not-auth.png" class="auth-img" v-else></image>
 					</view>
 					<view class="auth-name">{{info2.nickname || '暂无排名'}}</view>
-					<view class="num">{{info2.goods_lucky_count}}</view>
 
 					<view class="num" v-if="select==1">{{info2.goods_lucky_count}}</view>
 					<view class="num" v-else-if="select==2">{{info2.wish_list_count}}</view>

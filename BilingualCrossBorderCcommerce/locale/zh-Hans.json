@@ -979,6 +979,8 @@
 	"login.getcode": "获取验证码",
 	"login.protocol":"登录前请阅读并同意以下协议",
 	"login.tip":"温馨提示",
+	"login.disagree":"不同意",
+	"login.agree":"同意",
 
 	"phone.zgdl": "中国大陆",
 	"phone.zgxg": "中国香港",
@@ -1534,6 +1536,8 @@
 	"new.zfz_qsd":"支付中，请稍等!",
 	"new.qxzf":"取消支付",
 	"new.sxfsm":"温馨提示：如涉及任何手续费，均由第三方充值平台收取，平台不收取任何手续费",
+	"new.inviation_num":"我的邀请数",
+	"new.share_link":"分享链接",
 	
 	"grop.add":"群聊",
 	"grop.not":"抱歉，我们还没有加入群聊。 请加入我们吧",
@@ -1564,7 +1568,7 @@
 	"ranking.weekly_list":"每周清单",
 	"ranking.mothly_list":"每月清单",
 	"ranking.overall":"总体清单",
-	"ranking.update":"每日 9:00、12:00、18:00 和 24:00 更新",
+	"ranking.update":"每日 6:00、12:00、18:00 和 24:00 更新",
 	"ranking.luck_times":"幸运次数",
 	"ranking.wishing_times":"许愿次数",
 	"ranking.invitation_num":"邀请人数",
