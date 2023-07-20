@@ -1119,6 +1119,20 @@
 				"navigationBarTitleText": "",
 				"navigationStyle": "custom"
 			}
+		},
+		{
+			"path": "pages/auction/tab/ongoing",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/auction/tab/start_soon",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
 		}
 	],
 	"globalStyle": {
@@ -1153,16 +1167,22 @@
 				"selectedIconPath": "/static/xuyuan/wish.png"
 			},
 			{
+				"pagePath": "pages/auction/tab/ongoing",
+				"text": "%new.zzjp%",
+				"iconPath": "/static/xuyuan/Ongoing.png",
+				"selectedIconPath": "/static/xuyuan/Ongoing1.png"
+			},
+			{
+				"pagePath": "pages/auction/tab/start_soon",
+				"text": "%new.jjks%",
+				"iconPath": "/static/xuyuan/Start_Soon.png",
+				"selectedIconPath": "/static/xuyuan/Start_Soon1.png"
+			},
+			{
 				"pagePath": "pages/auction/lucky",
 				"text": "%xyzx%",
 				"iconPath": "/static/images/new-index/Lucky.png",
 				"selectedIconPath": "/static/images/mine/lucky_icon_trophy.png"
-			},
-			{
-				"pagePath": "pages/auction/history",
-				"text": "%auction.history%",
-				"iconPath": "/static/images/new-index/history.png",
-				"selectedIconPath": "/static/images/new-index/history1.png"
 			},
 			{
 				"pagePath": "pages/mine/mine",

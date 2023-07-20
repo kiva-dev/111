@@ -1,8 +1,6 @@
 <template>
 	<view class="auction-page">
 		<view class="commission-head">
-			<image src="@/static/xuyuan/svg.png" class="commission-head-left" @click="onReturn()">
-			</image>
 			<view class="title">{{title}}</view>
 		</view>
 		<view class="list-layout">
@@ -65,11 +63,11 @@
 
 						<view class="new-list-item-right-start">
 							<view class="new-list-item-right-start-info">
-								<image src="../../static/images/new-index/xx.png"></image>
+								<image src="/static/images/new-index/xx.png"></image>
 								<view>{{item.wishing_pool_goods_focus_total}}</view>
 							</view>
 							<view class="new-list-item-right-start-info">
-								<image src="../../static/images/new-index/liulan.png"></image>
+								<image src="/static/images/new-index/liulan.png"></image>
 								<view>{{item.wishing_pool_goods_appear_watch_num_total}}</view>
 							</view>
 							<view class="new-list-item-right-start-info" v-if="item.wishing_pool_goods_lucky_total>0">
@@ -97,7 +95,7 @@
 									<image src="/static/images/kbrick/diamond.png"></image>
 									<span>{{item.auction_price}}</span>
 									<text
-										style="color: #666666;font-weight: 400;font-size: 20rpx;margin-left: 8rpx;">(RM{{item.auction_price}})</text>
+										style="color: rgb(153, 153, 153);font-weight: 400;font-size: 16rpx;margin-left: 8rpx;">(RM{{item.auction_price}})</text>
 								</view>
 							</view>
 
@@ -207,16 +205,17 @@
 							<view class="info-btn" v-if="id==1">
 								<view @click.stop="onMineInfo(item)">{{$t('tab.xy')}}</view>
 							</view>
+
+
 						</view>
-						
-						<view class="new-list-item-btm-btn1" v-if="id==2"
-							style="border: 1rpx solid rgb(248, 155, 0);">
+
+						<view class="new-list-item-btm-btn1" style="border: 1rpx solid rgb(248, 155, 0);width: 200rpx;">
 							<image src="/static/images/new-index/time1.png" style="width: 20rpx;height: 20rpx;">
 							</image>
 							<u-count-down :time="item.start_time" format="HH:mm:ss"
 								style="color: rgb(248, 155, 0);"></u-count-down>
 						</view>
-						
+
 					</view>
 				</view>
 			</template>
@@ -249,294 +248,16 @@
 							</view>
 						</view>
 
-						<view class="info-right" v-if="id==1">
-							<view @click.stop="onMineInfo(item)">{{$t('tab.xy')}}</view>
-						</view>
 						<view class="new-list-item-btm-btn" style="border: 1rpx solid rgb(248, 155, 0);">
 							<image src="/static/images/new-index/time1.png" style="width: 20rpx;height: 20rpx;">
 							</image>
-							<u-count-down :time="item.datetime" format="HH:mm:ss"
+							<u-count-down :time="item.start_time" format="HH:mm:ss"
 								style="color: rgb(248, 155, 0);"></u-count-down>
 						</view>
 					</view>
 
 				</view>
 			</template>
-		</view>
-
-		<!--抢拍次数 start-->
-		<uni-popup ref="pwdPopup" type="center">
-			<view class="qiangpaiShow">
-				<!-- <image src="../../static/images/new/tck.png" class="kct"></image> -->
-				<view class="query" @click="$refs.pwdPopup.close()">
-					<image src="/static/images/kbrick/close.png"> </image>
-				</view>
-				<view class="qiangpaiCont">
-					<view class="center">
-						<view class="cent">
-							<view class="cont">
-								<view class="tit">{{$t('new.qpsl')}}</view>
-
-								<view class="my-input">
-									<view class="input-img" @click="isauctionNum>1?isauctionNum--:isauctionNum">
-										<image src="/static/images/kbrick/jian.png"></image>
-									</view>
-									<view class="input-info">
-										<input type="number" v-model="isauctionNum" @blur="numBlur()"></input>
-									</view>
-									<view class="input-img"
-										@click="auction_num == '-1' ? isauctionNum++ : isauctionNum < auction_num ? isauctionNum++:isauctionNum">
-										<image src="/static/images/kbrick/jia.png"></image>
-									</view>
-								</view>
-
-								<view class="num">
-									<view style="color:#2c2c2c">{{$t('user.auctionM.syqpcs')}}</view>：
-									<block v-if="auction_num == '-1'">
-										{{$t('Unlimited sho')}}
-									</block>
-									<block v-else>{{auction_num}}</block>
-								</view>
-								<view class="protocol">
-									<image src="/static/images/new-index/wxz.png" class="protocol_img"
-										v-show="!selectProtocol" @click="selectProtocol=true"></image>
-									<image src="/static/images/new-index/xz.png" class="protocol_img"
-										v-show="selectProtocol" @click="selectProtocol=false"></image>
-									<view class="protocol_info">
-										<view class="protocol_txt1">{{$t('auction.detail.brywqydbty')}}</view>
-										<navigator url="../mine/jpxy" hover-class="none" class="protocol_txt2">
-											{{$t('auction.detail.jphdgommzxy')}}
-										</navigator>
-									</view>
-
-								</view>
-							</view>
-						</view>
-						<view class="qiangpai-btn">
-							<view class="btnsub" @click="onBtnSub">{{$t('auction.detail.btnsub')}}</view>
-						</view>
-					</view>
-				</view>
-			</view>
-		</uni-popup>
-		<!--抢拍次数 end-->
-
-		<!--竞拍次数为0 start-->
-		<uni-popup ref="pwdPopup3" type="center">
-			<view class="jingpai-pop">
-				<view class="title">{{$t('auction.detail.nsydjpcsw')}}{{auction_num}}{{$t('auction.detail.ci')}}</view>
-				<view class="txt">{{$t('auction.detail.cgfxhyqhykhdjpcs')}}</view>
-				<view class="cont">
-					<view></view>
-					<view class="right">
-						<view class="name" @click="$refs.pwdPopup3.close()">{{$t('auction.detail.query')}}</view>
-						<!-- <view class="ljfx" @click="onFengxiang">{{$t('auction.detail.lijifenxiang')}}</view> -->
-					</view>
-				</view>
-			</view>
-		</uni-popup>
-		<!--竞拍次数为0 end-->
-
-		<!--竞拍次数大于0 start-->
-		<uni-popup ref="pwdPopup2" type="center">
-			<view class="jingpai-ok">
-				<!-- <image src="../../static/images/new/tck.png" class="kct"></image> -->
-				<view class="jingpai-pop">
-					<view class="title">
-						{{$t('auction.detail.sfqr')}} {{shopNum}} {{$t('new.kz')}} {{$t('auction.detail.gmygjpme')}}
-						{{isauctionNum}} {{$t('auction.detail.gmygjpmenum')}}
-					</view>
-					<view class="txt" v-if="auction_num>='-1'">
-						<block v-if="auction_num=='-1'">
-							{{$t('Unlimited sho')}}
-						</block>
-						<block v-else>{{$t('auction.detail.nishengyu')}}{{auction_num}}{{$t('auction.detail.cijpjh')}}
-						</block>
-					</view>
-					<view class="cent">
-						<image class="imgs" src="/static/images/new-index/xz.png" mode="aspectFit|aspectFill|widthFix">
-						</image>
-						<view class="txt1">{{$t('auction.detail.brywqydbty')}}</view>
-						<navigator url="../mine/jpxy" hover-class="none" class="txt2">
-							{{$t('auction.detail.jphdgommzxy')}}
-						</navigator>
-					</view>
-					<view class="cont">
-						<view></view>
-						<view class="right">
-							<view class="name" @click="$refs.pwdPopup2.close()">{{$t('auction.detail.query')}}</view>
-							<view class="ljfx" @click="onOrderReferCartOrder">{{$t('auction.detail.btnsub')}}</view>
-						</view>
-					</view>
-				</view>
-			</view>
-		</uni-popup>
-		<!--竞拍次数大于0 end-->
-
-		<!--支付方式弹出 start-->
-		<uni-popup ref="popup1" type="bottom">
-			<view class="mode-pop">
-				<image src="/static/images/close1.png" class="mode-close" @click="$refs.popup1.close()"></image>
-				<view class="mode-tit">
-					<image src="/static/images/kbrick/diamond.png"></image>
-					<view v-if="!useInvite">{{shopNum}}</view>
-					<view v-else>
-						{{changShopNum.toFixed(2)}}
-					</view>
-				</view>
-				<view class="mode-des">{{$t('new.xyzf')}}</view>
-				<view class="mode-banlace" v-show="balance*1 < shopNum">{{$t('new.kzyebz')}}</view>
-				<view class="mode-info">
-					<image src="/static/images/kbrick/diamond.png" class="logo"></image>
-					<view class="info-tit">
-						<view class="info-name">{{$t('new.kzzf')}}</view>
-						<view class="info-price">({{$t('new.kz')}}:<text>{{balance}}</text>)</view>
-					</view>
-					<view class="mode-info-right" @click="showRmToKdiamond=!showRmToKdiamond">
-						<view>{{$t('new.dhfk')}}</view>
-						<image src="/static/images/kbrick/btm.png" v-show="!showRmToKdiamond"></image>
-						<image src="/static/images/kbrick/top.png" v-show="showRmToKdiamond"></image>
-					</view>
-				</view>
-				<view class="mode-more" v-show="showRmToKdiamond">
-					<view class="tit">{{$t('new.jh')}}:</view>
-					<image src="/static/images/kbrick/diamond.png" class="logo"></image>
-					<template v-if="!useInvite">
-						<view class="num">{{(rmtoKdiamondNum*1).toFixed(2)}}</view>
-						<view class="price">RM <text>{{(rmtoKdiamondNum*1).toFixed(2)}}</text></view>
-					</template>
-					<template v-else>
-						<view class="num">{{(useInviteRmNum*1).toFixed(2)}}</view>
-						<view class="price">RM <text>{{(useInviteRmNum*1).toFixed(2)}}</text></view>
-					</template>
-					<image src="/static/images/new-index/wxz.png" class="select"
-						v-show="!kdiamondSelect && (((shopNum*1 - balance*1) > 0 && money*1 >= (shopNum*1 - balance*1)) && !useInvite || (can_use_invite_money_rate > 0 && money *1 >=useInviteRmNum && useInvite && balance*1 < shopNum*1 && useInviteRmNum>0)) "
-						@click="kdiamondSelect=true"></image>
-					<image src="/static/images/new-index/xz.png" class="select"
-						v-show="kdiamondSelect && (((shopNum*1 - balance*1) > 0 && money*1 >= shopNum*1) && !useInvite || (can_use_invite_money_rate>0 && money *1 >=useInviteRmNum && useInvite && balance*1 < shopNum*1 && useInviteRmNum>0))"
-						@click="kdiamondSelect=false"></image>
-				</view>
-
-				<view style="color: rgb(102, 102, 102);margin: 12rpx 0 0 100rpx;" v-if="useInvite">({{$t('new.zjkc')}}
-					{{zenjinToRmNum.toFixed(2)}}
-					{{$t('new.kz')}})
-				</view>
-
-				<view class="mode-cz" v-if="balance*1 < shopNum*1">
-					<view @click="toRecharge()">{{$t('new.qcz')}}</view>
-					<image src="/static/images/kbrick/right.png"></image>
-				</view>
-
-				<view class="mode-switch" v-if="can_use_invite_money_rate>0">
-					<image src="/static/images/new-index/wxz.png" v-show="!useInvite" @click="useInvite=!useInvite">
-					</image>
-					<image src="/static/images/new-index/xz.png" v-show="useInvite" @click="useInvite=!useInvite">
-					</image>
-					<view>({{$t('new.zjkc')}} {{can_use_invite_money_rate}}% {{$t('new.kz')}})</view>
-				</view>
-				<view class="mode-switch" v-else></view>
-				<view class="mode-btn" @click.stop="$noMultipleClicks(onPayClick)">{{$t('new.payment')}}</view>
-			</view>
-		</uni-popup>
-		<!--支付方式弹出 end-->
-
-		<!--支付密码弹出 start-->
-		<uni-popup ref="pwdsPopup" type="center">
-			<view class="pay-pwd">
-				<image src="/static/images/kbrick/close.png" class="pay-pwd-close" @click="$refs.pwdsPopup.close()">
-				</image>
-				<view class="pay-pwd-info">
-					<view class="pay-pwd-info-tit">{{$t('auction.detail.qsrzfmm')}}</view>
-					<view class="pay-pwd-info-line"></view>
-					<view class="pay-pwd-info-price">{{$t('new.kz')}} {{shopNum}}</view>
-					<view class="pay-pwd-info-input">
-						<input class="input" type="password" placeholder-class="color-999" v-model="pay_pwd"
-							:placeholder="$t('auction.detail.qsrzfmm')" />
-					</view>
-					<view class="pay-pwd-info-btn" @click="onPwdClick">{{$t('auction.detail.btnsub')}}</view>
-				</view>
-			</view>
-		</uni-popup>
-		<!--支付密码弹出 end-->
-
-		<!--支付成功弹出 start-->
-		<uni-popup ref="payPopup" type="center">
-			<view class="pay-pwd">
-				<view class="pay-pwd-info" style="height: 308rpx;">
-					<view class="pay-pwd-info-tit" style="font-size: 32rpx;">{{$t('auction.detail.gxnzfcgznzp')}}</view>
-					<view class="pay-pwd-info-price" style="font-size: 26rpx;margin-top: 30rpx;">
-						{{$t('auction.detail.zpydzpjlgg')}}
-					</view>
-					<view class="pay-pwd-list">
-						<view class="pay-pwd-list-cancel" @click="$refs.payPopup.close()">{{$t('auction.detail.query')}}
-						</view>
-						<view class="pay-pwd-list-ok" @click="onQiangpai" v-if="isShowAegin">
-							{{$t('tab.xy')}}
-						</view>
-					</view>
-				</view>
-			</view>
-		</uni-popup>
-		<!--支付成功弹出 end-->
-
-		<!-- 右侧固定栏 -->
-		<!-- <view class="leftSider" :class="[transformClass?'removeRightX':'removeLeftX','shopCart']">
-			<view class="imgArr" v-if="imgShow">
-				<view>
-					<img src="/static/images/mine/aixin.png" class="minImg" alt="">
-				</view>
-				<view class="people">
-					<img src="/static/images/mine/p.png" class="pImg" alt="">
-				</view>
-				<view>
-					<img src="/static/images/mine/listener.png" class="minImg" alt="">
-				</view>
-			</view>
-			<image src="/static/images/new-index/addImg.png" class="newListImgDeg" v-if="imgShow" @click="transformImg">
-			</image>
-			<image src="/static/images/new-index/addImg.png" class="newListImg" @click="transformImg" v-else></image>
-		</view> -->
-
-		<!-- 许愿 -->
-		<view class="containerXy" v-if="list.length!=0">
-			<view class="xy">
-				<img src="/static/xuyuan/xy.png" class="xyImg" />
-			</view>
-			<text class="txt">{{$t('xylist')}}</text>
-			<text class="btn">{{$t('xytitle')}}</text>
-			<view class="itemBox">
-				<view class="itemBox_a" v-for="item in list" :key="item.id" @click.stop="toProductInfo(item)">
-					<image :src="item.image" class="itemImg" />
-					<text class="title">{{item.goods_name}}</text>
-					<view class="iconArr">
-						<view class="iconArr_item">
-							<image src="/static/xuyuan/xx.png"></image>
-							<text class="iconArr_txt">{{item.wishing_pool_goods_focus_total || 0}}</text>
-						</view>
-						<view class="iconArr_item">
-							<image src="/static/xuyuan/ax.png"></image>
-							<text class="iconArr_txt">{{item.wishing_pool_goods_appear_watch_num_total || 0}}</text>
-						</view>
-						<view class="iconArr_item" v-if="item.wishing_pool_goods_lucky_total>0">
-							<image src="/static/xuyuan/jiang.png"></image>
-							<text class="iconArr_txt">{{item.wishing_pool_goods_lucky_total || 0}}</text>
-						</view>
-					</view>
-					<view class="">
-						<view class="new">RM<span>{{item.litestore_goods_spec[0].goods_price}}</span></view>
-					</view>
-					<view class="imgBottom">
-						<view class="left">
-							<image src="/static/images/kbrick/diamond.png" mode=""></image>
-							<text class="zs">{{item.wish_price}}</text>
-						</view>
-						<view class="right">
-							<text>(RM{{item.wish_price}})</text>
-						</view>
-					</view>
-
-				</view>
-			</view>
 		</view>
 
 	</view>
@@ -570,7 +291,7 @@
 				showRmToKdiamond: false,
 				isBottoming: false,
 				id: 2, //决定当前页面展示那个竞拍数据
-				title: 'Ongoing', //标题显示
+				title: this.$t('new.jjks'), //标题显示
 				selectId: 1, //不同的显示形式
 				productId: 0,
 				balanceOrOther: 0,
@@ -676,26 +397,7 @@
 			},
 		},
 		onLoad(e) {
-			this.getAllProducts() //列表数据
-			if (e.id == 1) {
-				this.id = e.id
-				this.title = this.$t('tab.zzxy')
-				this.onAuctionNewGoods()
-			} else if (e.id == 2) {
-				this.id = e.id
-				this.title = this.$t('new.jjks')
-				this.onAuctionNotbeginGoods()
-			} else {
-				if (uni.getStorageSync('wish_info')) {
-					this.id = 1
-					this.title = this.$t('tab.zzxy')
-					this.onAuctionNewGoods()
-				} else {
-					this.id = e.id
-					this.title = this.$t('new.lsjl')
-					this.onAuctionHistoryGoods()
-				}
-			}
+			this.onAuctionNotbeginGoods()
 			let systemInfo = uni.getSystemInfoSync();
 			this.systemLocale = systemInfo.language;
 			this.applicationLocale = uni.getLocale();
@@ -739,7 +441,7 @@
 				let info = uni.getStorageSync('wish_info')
 				let mine = uni.getStorageSync('mine-info')
 				this.onMineInfo(mine)
-				this.isauctionNum = info.isauctionNum
+				this.isauctionNum = info.shopNum
 				setTimeout(() => {
 					this.onBtnSub()
 					uni.removeStorageSync('wish_info')
@@ -748,15 +450,9 @@
 			}
 		},
 		onReachBottom() {
-			if (this.page * this.pagenum < this.totalPageNum && this.id == 1) {
-				this.page++;
-				this.onAuctionNewGoods();
-			} else if (this.page * this.pagenum < this.newTotalPageNum && this.id == 2) {
+			if (this.page * this.pagenum < this.historyTotalPageNum && this.id == 3) {
 				this.page++;
 				this.onAuctionNotbeginGoods();
-			} else if (this.page * this.pagenum < this.historyTotalPageNum && this.id == 3) {
-				this.page++;
-				this.onAuctionHistoryGoods();
 			}
 		},
 		//监听页面滚动
@@ -1114,13 +810,9 @@
 							uni.setStorageSync('recharge', true)
 							let data = {
 								shopNum: this.shopNum,
-								isauctionNum: this.isauctionNum,
 								goods_id: this.shopCont.auction_goods_id
 							}
 							// #ifdef H5
-							if (!uni.getStorageSync('mine-info')) { //第一次会存在，连续第二次点击时如果不存在则重新设置缓存
-								uni.setStorageSync('mine-info', this.shopCont)
-							}
 							uni.setStorageSync('wish_info', data)
 							// #endif
 							setTimeout(() => {
@@ -1147,13 +839,9 @@
 									uni.setStorageSync('recharge', true)
 									let data = {
 										shopNum: this.shopNum,
-										isauctionNum: this.isauctionNum,
 										goods_id: this.shopCont.auction_goods_id
 									}
 									// #ifdef H5
-									if (!uni.getStorageSync('mine-info')) { //第一次会存在，连续第二次点击时如果不存在则重新设置缓存
-										uni.setStorageSync('mine-info', this.shopCont)
-									}
 									uni.setStorageSync('wish_info', data)
 									// #endif
 									setTimeout(() => {
@@ -1175,13 +863,9 @@
 									uni.setStorageSync('recharge', true)
 									let data = {
 										shopNum: this.shopNum,
-										isauctionNum: this.isauctionNum,
 										goods_id: this.shopCont.auction_goods_id
 									}
 									// #ifdef H5
-									if (!uni.getStorageSync('mine-info')) { //第一次会存在，连续第二次点击时如果不存在则重新设置缓存
-										uni.setStorageSync('mine-info', this.shopCont)
-									}
 									uni.setStorageSync('wish_info', data)
 									// #endif
 									setTimeout(() => {
@@ -1249,7 +933,7 @@
 					if (res.code == 1) {
 						this.isShowAegin = this.auction_num > this.isauctionNum
 						uni.showToast({
-							title: this.$t('top.zhifucg'),
+							title: res.msg,
 							icon: 'none'
 						})
 						this.onAuctionNewGoods()
@@ -1283,7 +967,7 @@
 	/deep/.uni-progress-bar {
 		border-radius: 9rpx !important;
 	}
-	
+
 	.new-list-item-btm-btn {
 		padding: 6rpx 10rpx;
 		box-sizing: border-box;
@@ -1294,13 +978,13 @@
 		border-radius: 100rpx;
 		display: flex;
 		align-items: center;
-	
+
 		image {
 			width: 28rpx;
 			height: 28rpx;
 			margin-right: 6rpx;
 		}
-	
+
 		/deep/ .u-count-down__text {
 			color: #F89B00;
 		}
@@ -1363,159 +1047,6 @@
 
 	}
 
-	// 许愿
-	.containerXy {
-		width: 100%;
-		text-align: center;
-		background-color: rgb(255, 85, 91);
-		// padding-top: -50rpx;
-		display: block;
-
-		.xy {
-			// width: 100%;
-			position: absolute;
-			left: -8%;
-
-			.xyImg {
-				width: 100%;
-				margin-top: -72rpx;
-			}
-		}
-
-		.txt {
-			position: relative;
-			color: rgb(255, 255, 255);
-			font-family: SF Pro Display;
-			font-size: 50rpx;
-			padding-top: 48rpx;
-			display: block;
-		}
-
-		.btn {
-			position: relative;
-			width: 340rpx;
-			height: 48rpx;
-			box-sizing: border-box;
-			background: rgb(255, 255, 255);
-			border-radius: 50rpx;
-			border: 1px solid rgb(255, 57, 57);
-			display: block;
-			margin: auto;
-			margin-top: 30rpx;
-			color: rgb(255, 57, 57);
-			line-height: 40rpx;
-			font-size: 24rpx;
-		}
-
-		.imgBottom {
-			margin-top: 5rpx;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-
-			.left {
-				image {
-					width: 30rpx;
-					height: 30rpx;
-				}
-
-				.zs {
-					font-size: 30rpx;
-					font-weight: bold;
-					color: rgb(255, 57, 57);
-					margin-left: 10rpx;
-				}
-			}
-
-			.right {
-				font-size: 16rpx;
-				color: rgb(102, 102, 102);
-				margin-left: 8rpx;
-
-				image {
-					width: 20rpx;
-					height: 20rpx;
-				}
-			}
-
-		}
-
-		.itemBox {
-			position: relative;
-			width: 92%;
-			margin: auto;
-			margin-top: 30rpx;
-			display: flex;
-			flex-wrap: wrap;
-			justify-content: space-between;
-
-			.itemBox_a {
-				width: 336rpx;
-				height: 510rpx;
-				border-radius: 20rpx;
-				margin-bottom: 20rpx;
-				background: #fff;
-
-				.itemImg {
-					width: 336rpx;
-					height: 336rpx;
-					border-radius: 20rpx 20rpx 0 0;
-					margin-bottom: 5rpx;
-				}
-
-				.title {
-					width: 296rpx;
-					color: #333;
-					font-size: 24rpx;
-					font-weight: bold;
-					white-space: nowrap;
-					overflow: hidden;
-					text-overflow: ellipsis;
-					display: block;
-					margin: auto;
-				}
-
-				.iconArr {
-					width: 80%;
-					display: flex;
-					align-items: center;
-					margin: auto;
-					margin-top: 10rpx;
-
-					image {
-						width: 20rpx;
-						height: 20rpx;
-						margin-right: 8rpx;
-					}
-
-					.iconArr_item {
-						width: 100rpx;
-						border-right: 1px solid #e8e8e8;
-					}
-
-					.iconArr_item:nth-child(2) {
-						border: none;
-					}
-
-					.iconArr_item:nth-child(3) {
-						border: none;
-					}
-				}
-
-				.new {
-					color: #999;
-					margin-top: 10rpx;
-					text-decoration: line-through;
-
-					image {
-						width: 24rpx;
-						height: 24rpx;
-					}
-				}
-			}
-		}
-	}
-
 	.auction-page {
 		width: 100%;
 		background: #FFFFFF;
@@ -1527,7 +1058,7 @@
 			padding-top: 88rpx;
 			display: flex;
 			align-items: center;
-			background-image: url("../../static/xuyuan/navBg.png");
+			background-image: url("/static/xuyuan/navBg.png");
 
 			.commission-head-left {
 				position: absolute;
@@ -2470,7 +2001,35 @@
 
 					}
 
+					.new-list-item-btm-btn1 {
+						position: absolute;
+						left: 50%;
+						bottom: 10rpx;
+						transform: translate(-50%, 0);
+						padding: 6rpx 10rpx;
+						box-sizing: border-box;
+						font-size: 24rpx;
+						color: rgb(10, 198, 142);
+						border: 1rpx solid rgb(10, 198, 142);
+						border-radius: 100rpx;
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						margin: 10rpx auto;
+
+						image {
+							width: 24rpx;
+							height: 24rpx;
+							margin-right: 8rpx;
+						}
+
+						/deep/ .u-count-down__text {
+							color: rgb(248, 155, 0);
+						}
+					}
+
 					.info-btm {
+						position: relative;
 						width: 302rpx;
 						display: flex;
 						align-items: center;
@@ -2498,6 +2057,8 @@
 								color: rgb(248, 155, 0);
 							}
 						}
+
+
 
 						.info-price {
 							.new {
@@ -2544,34 +2105,6 @@
 							}
 						}
 					}
-				
-					.new-list-item-btm-btn1 {
-						position: absolute;
-						left: 50%;
-						bottom: 10rpx;
-						transform: translate(-50%, 0);
-						padding: 6rpx 10rpx;
-						box-sizing: border-box;
-						font-size: 24rpx;
-						color: rgb(10, 198, 142);
-						border: 1rpx solid rgb(10, 198, 142);
-						border-radius: 100rpx;
-						display: flex;
-						align-items: center;
-						justify-content: center;
-						margin: 10rpx auto;
-					
-						image {
-							width: 24rpx;
-							height: 24rpx;
-							margin-right: 8rpx;
-						}
-					
-						/deep/ .u-count-down__text {
-							color: rgb(248, 155, 0);
-						}
-					}
-				
 				}
 			}
 
@@ -2713,684 +2246,10 @@
 							color: rgb(10, 198, 142);
 						}
 					}
-				
-				
 				}
 			}
 		}
 
-		// 抢拍次数
-		.qiangpaiShow {
-			position: relative;
 
-			.query {
-				position: absolute;
-				top: 20rpx;
-				right: 60rpx;
-				z-index: 20;
-
-				image {
-					position: absolute;
-					width: 36rpx;
-					height: 36rpx;
-				}
-			}
-
-			.qiangpaiCont {
-				width: 686rpx;
-				background: #fff;
-				position: relative;
-				padding: 60rpx 0 50rpx 0;
-				// border: 4rpx solid rgb(10, 198, 142);
-				border-radius: 16rpx;
-				z-index: 9;
-
-				.center {
-					.maxtitle {
-						position: relative;
-						display: flex;
-						align-items: center;
-
-						image {
-							position: absolute;
-							left: 62rpx;
-							width: 72rpx;
-							height: 72rpx;
-						}
-
-						.title {
-							width: 100%;
-							text-align: center;
-							font-size: 36rpx;
-							color: #000;
-							font-weight: bold;
-							margin-left: 20rpx;
-						}
-					}
-
-					.cent {
-						margin: 0rpx auto 40rpx;
-						display: flex;
-
-
-						.txt {
-							margin-top: 5rpx;
-							font-size: 30rpx;
-							font-weight: bold;
-							margin-right: 10rpx;
-							max-width: 180rpx;
-						}
-
-						.cont {
-							width: 566rpx;
-							margin: 10rpx auto 0;
-							text-align: center;
-
-							.tit {
-								width: 100%;
-								font-size: 28rpx;
-								font-weight: bold;
-								color: rgb(51, 51, 51);
-								text-align: center;
-								margin-bottom: 20rpx;
-							}
-
-
-							.my-input {
-								width: 400rpx;
-								display: flex;
-								align-items: center;
-								// background: rgb(241, 241, 241);
-								border-radius: 16rpx;
-								margin: 0 auto;
-
-								.input-img {
-									width: 124rpx;
-									height: 72rpx;
-									display: flex;
-									align-items: center;
-									justify-content: center;
-									background: rgb(241, 241, 241);
-								}
-
-								.input-info {
-									width: 152rpx;
-									height: 72rpx;
-									background: rgb(250, 251, 253);
-								}
-
-								image {
-									display: block;
-									width: 28rpx;
-									height: 28rpx;
-									margin: 0 16rpx 0 24rpx;
-								}
-
-							}
-
-							uni-input {
-								width: 100%;
-								height: 100%;
-								border: none;
-								font-size: 28rpx;
-								text-align: text;
-							}
-
-							.num {
-								display: flex;
-								align-items: center;
-								justify-content: center;
-								font-size: 24rpx;
-								margin-top: 30rpx;
-								color: rgb(10, 198, 142);
-							}
-
-							.protocol {
-								width: 542rpx;
-								display: flex;
-								margin: 32rpx auto 0 auto;
-
-								.protocol_img {
-									display: block;
-									width: 40rpx;
-									height: 40rpx;
-								}
-
-								.protocol_info {
-									width: 432rpx;
-									font-size: 24rpx;
-									margin-left: 16rpx;
-									text-align: center;
-									// word-break: break-all;
-
-									.protocol_txt1 {
-										display: inline;
-										color: rgb(102, 102, 102);
-									}
-
-									.protocol_txt2 {
-										display: inline;
-										color: rgb(51, 51, 51);
-									}
-								}
-
-							}
-
-
-						}
-					}
-
-					.qiangpai-btn {
-						width: 100%;
-						display: flex;
-						align-items: center;
-						justify-content: center;
-
-						.qiangpai-cancel {
-							width: 206rpx;
-							height: 70rpx;
-							border-radius: 16rpx;
-							line-height: 70rpx;
-							text-align: center;
-							font-size: 32rpx;
-							color: #fff;
-							background: rgb(10, 198, 142);
-							margin-right: 30rpx;
-						}
-
-					}
-
-					.btnsub {
-						width: 406rpx;
-						height: 70rpx;
-						border-radius: 16rpx;
-						line-height: 70rpx;
-						text-align: center;
-						font-size: 32rpx;
-						color: #fff;
-						background: rgb(10, 198, 142);
-					}
-				}
-			}
-		}
-
-		// 竞拍次数为0
-		.jingpai-pop {
-			width: 686rpx;
-			background: #ffffff;
-			border-radius: 20rpx;
-			padding: 45rpx 0;
-			// border: 4rpx solid rgb(10, 198, 142);
-
-			.title {
-				width: 100%;
-				font-size: 32rpx;
-				color: #000;
-				font-weight: bold;
-				text-align: center;
-			}
-
-			.txt {
-				width: 100%;
-				margin-top: 24rpx;
-				font-size: 24rpx;
-				color: rgb(10, 198, 142);
-				text-align: center;
-			}
-
-			.cent {
-				width: 100%;
-				display: flex;
-				align-items: center;
-				margin-top: 42rpx;
-				// display: flex;
-				// align-items: center;
-				justify-content: center;
-
-				.imgs {
-					width: 26rpx;
-					height: 26rpx;
-					margin-right: 10rpx;
-				}
-
-				.txt1 {
-					max-width: 240rpx;
-					font-size: 24rpx;
-					color: #999;
-					text-align: center;
-					margin: 0 10rpx;
-				}
-
-				.txt2 {
-					max-width: 288rpx;
-					font-size: 24rpx;
-					color: #000;
-					text-align: center;
-				}
-			}
-
-			.cont {
-				margin-top: 50rpx;
-				display: flex;
-				justify-content: center;
-
-				.right {
-					display: flex;
-
-					view {
-						width: 240rpx;
-						height: 60rpx;
-						line-height: 60rpx;
-						font-size: 32rpx;
-						text-align: center;
-						border-radius: 16rpx;
-					}
-
-					.name {
-						font-size: 32rpx;
-						color: #999;
-						border: 1rpx solid rgb(10, 198, 142);
-						margin-right: 97rpx;
-					}
-
-					.ljfx {
-						color: #fff;
-						background: rgb(10, 198, 142);
-
-					}
-				}
-			}
-		}
-
-		// 竞拍次数大于0
-		.jingpai-ok {
-			position: relative;
-
-			.jingpai-pop {
-				width: 686rpx;
-				background: #ffffff;
-				border-radius: 20rpx;
-				padding: 45rpx 0;
-				// border: 4rpx solid rgb(10, 198, 142);
-
-				.title {
-					width: 100%;
-					font-size: 32rpx;
-					color: #000;
-					font-weight: bold;
-					text-align: center;
-				}
-
-				.txt {
-					width: 100%;
-					margin-top: 24rpx;
-					font-size: 24rpx;
-					color: rgb(10, 198, 142);
-					text-align: center;
-				}
-
-				.cent {
-					width: 100%;
-					display: flex;
-					align-items: center;
-					margin-top: 42rpx;
-					// display: flex;
-					// align-items: center;
-					justify-content: center;
-
-					.imgs {
-						width: 26rpx;
-						height: 26rpx;
-						margin-right: 10rpx;
-					}
-
-					.txt1 {
-						max-width: 240rpx;
-						font-size: 24rpx;
-						color: #999;
-						text-align: center;
-						margin: 0 10rpx;
-					}
-
-					.txt2 {
-						max-width: 288rpx;
-						font-size: 24rpx;
-						color: #000;
-						text-align: center;
-					}
-				}
-
-				.cont {
-					margin-top: 50rpx;
-					display: flex;
-					justify-content: center;
-
-					.right {
-						display: flex;
-
-						view {
-							width: 240rpx;
-							height: 60rpx;
-							line-height: 60rpx;
-							font-size: 32rpx;
-							text-align: center;
-							border-radius: 16rpx;
-						}
-
-						.name {
-							font-size: 32rpx;
-							color: #999;
-							border: 1rpx solid rgb(10, 198, 142);
-							margin-right: 97rpx;
-						}
-
-						.ljfx {
-							color: #fff;
-							background: rgb(10, 198, 142);
-
-						}
-					}
-				}
-			}
-		}
-
-		// 支付方式弹出
-		.mode-pop {
-			background: #ffffff;
-			border-radius: 20rpx 20rpx 0px 0px;
-			position: absolute;
-			left: 0;
-			bottom: 0;
-			width: 100%;
-			padding-top: 88rpx;
-			padding-bottom: 24rpx;
-
-			.mode-close {
-				position: absolute;
-				top: 40rpx;
-				right: 32rpx;
-				width: 32rpx;
-				height: 32rpx;
-			}
-
-			.mode-tit {
-				display: flex;
-				align-items: center;
-				justify-content: center;
-
-				image {
-					width: 40rpx;
-					height: 40rpx;
-					margin-right: 20rpx;
-				}
-
-				view {
-					font-size: 56rpx;
-					font-weight: bold;
-					color: rgb(51, 51, 51);
-				}
-			}
-
-			.mode-des {
-				width: 100%;
-				font-size: 28rpx;
-				color: rgb(153, 153, 153);
-				text-align: center;
-				margin-top: 24rpx;
-			}
-
-			.mode-banlace {
-				width: 100%;
-				font-size: 28rpx;
-				color: rgb(255, 57, 57);
-				text-align: center;
-				margin-top: 12rpx;
-			}
-
-			.mode-info {
-				position: relative;
-				width: 100%;
-				display: flex;
-				align-items: center;
-				margin-top: 136rpx;
-
-				.logo {
-					width: 48rpx;
-					height: 48rpx;
-					margin-left: 40rpx;
-				}
-
-				.info-tit {
-					margin-left: 24rpx;
-
-					.info-name {
-						font-size: 28rpx;
-						color: rgb(51, 51, 51);
-					}
-
-					.info-price {
-						font-size: 24rpx;
-						color: rgb(102, 102, 102);
-
-						text {
-							color: rgb(10, 198, 142);
-							margin-left: 8rpx;
-						}
-					}
-				}
-
-				.mode-info-right {
-					position: absolute;
-					right: 40rpx;
-					font-size: 20rpx;
-					color: rgb(102, 102, 102);
-					display: flex;
-					align-items: center;
-
-					image {
-						width: 24rpx;
-						height: 24rpx;
-						margin-left: 8rpx;
-					}
-				}
-
-				.select {
-					position: absolute;
-					right: 40rpx;
-					width: 40rpx;
-					height: 40rpx;
-				}
-			}
-
-			.mode-more {
-				position: relative;
-				width: 100%;
-				display: flex;
-				align-items: center;
-				margin-top: 20rpx;
-
-				.tit {
-					font-size: 28rpx;
-					color: rgb(51, 51, 51);
-					margin-left: 112rpx;
-				}
-
-				.logo {
-					width: 32rpx;
-					height: 32rpx;
-					margin-left: 20rpx;
-				}
-
-				.num {
-					font-size: 28rpx;
-					color: rgb(102, 102, 102);
-					margin-left: 8rpx;
-				}
-
-				.price {
-					position: absolute;
-					right: 100rpx;
-					font-size: 24rpx;
-					color: rgb(255, 57, 57);
-				}
-
-				.select {
-					position: absolute;
-					right: 40rpx;
-					width: 40rpx;
-					height: 40rpx;
-				}
-			}
-
-			.mode-cz {
-				font-size: 24rpx;
-				color: rgb(10, 198, 142);
-				display: flex;
-				align-items: center;
-				margin-left: 112rpx;
-				margin-top: 20rpx;
-
-				image {
-					width: 24rpx;
-					height: 24rpx;
-					margin-left: 8rpx;
-				}
-			}
-
-			.mode-switch {
-				font-size: 24rpx;
-				color: rgb(102, 102, 102);
-				display: flex;
-				align-items: center;
-				margin-top: 240rpx;
-
-				image {
-					display: block;
-					width: 32rpx;
-					height: 32rpx;
-					margin: 0 12rpx 0 32rpx;
-				}
-			}
-
-			.mode-btn {
-				width: 686rpx;
-				height: 88rpx;
-				line-height: 88rpx;
-				font-size: 40rpx;
-				color: rgb(255, 255, 255);
-				text-align: center;
-				background: rgb(10, 198, 142);
-				border-radius: 88rpx;
-				margin: 24rpx auto;
-			}
-		}
-
-		// 支付密码弹出 支付成功弹出
-		.pay-pwd {
-			position: relative;
-
-			.pay-pwd-img {
-				display: block;
-				width: 600rpx;
-				height: 600rpx;
-				margin: 0 auto -210rpx auto;
-			}
-
-			.pay-pwd-close {
-				position: absolute;
-				top: 20rpx;
-				right: 20rpx;
-				display: block;
-				width: 36rpx;
-				height: 36rpx;
-				z-index: 10;
-			}
-
-			.pay-pwd-info {
-				width: 686rpx;
-				// height: 428rpx;
-				padding-top: 40rpx;
-				padding-bottom: 20rpx;
-				background: #FFF;
-				// border: 4rpx solid rgb(10, 198, 142);
-				border-radius: 16rpx;
-
-				.pay-pwd-info-tit {
-					width: 80%;
-					font-size: 40rpx;
-					font-weight: bold;
-					text-align: center;
-					margin: 0 auto;
-				}
-
-				.pay-pwd-info-line {
-					width: 600rpx;
-					border-bottom: 2rpx solid rgb(189, 189, 189);
-					margin: 20rpx auto;
-				}
-
-				.pay-pwd-info-price {
-					width: 100%;
-					font-size: 38rpx;
-					color: rgb(10, 198, 142);
-					text-align: center;
-				}
-
-				.pay-pwd-info-input {
-					width: 520rpx;
-					height: 80rpx;
-					background: #f5f5f5;
-					border-radius: 10rpx;
-					padding: 0 20rpx;
-					margin: 20rpx auto;
-
-					.input {
-						width: 100%;
-						height: 80rpx;
-						font-size: 28rpx;
-						text-align: left;
-					}
-				}
-
-				.pay-pwd-info-btn {
-					width: 400rpx;
-					height: 80rpx;
-					line-height: 80rpx;
-					font-size: 32rpx;
-					color: #fff;
-					text-align: center;
-					background: rgb(10, 198, 142);
-					border-radius: 16rpx;
-					margin: 40rpx auto;
-				}
-
-				.pay-pwd-list {
-					width: 100%;
-					display: flex;
-					align-items: center;
-					justify-content: center;
-					margin-top: 60rpx;
-
-					view {
-						width: 220rpx;
-						height: 60rpx;
-						line-height: 60rpx;
-						font-size: 28rpx;
-						text-align: center;
-						border-radius: 16rpx;
-					}
-
-					.pay-pwd-list-cancel {
-						border: 2rpx solid rgb(10, 198, 142);
-					}
-
-					.pay-pwd-list-ok {
-						color: #fff;
-						background: rgb(10, 198, 142);
-						margin-left: 40rpx;
-					}
-				}
-			}
-		}
 	}
 </style>
