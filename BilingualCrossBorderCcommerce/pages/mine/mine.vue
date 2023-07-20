@@ -128,9 +128,10 @@
 
 			<view class="commission-line"></view>
 
-			<scroll-view scroll-x style="width: 686rpx;">
+			<scroll-view scroll-x style="width: 686rpx;" @touchstart="onTouchStart" @touchend="onTouchEnd"
+				:scroll-left="scrollLeft">
 				<view class="commission-switch">
-					
+
 					<view class="commission-left">
 						<view class="left-info">
 							<view class="left-tit-info">
@@ -147,35 +148,37 @@
 							<view class="left-info-num" style="font-size: 32rpx;">18</view>
 						</view>
 					</view>
-					
+
 					<view class="commission-right">
 						<view class="tit">
 							<image src="/static/images/mine/share-link.png"></image>
 							<view>Share Link</view>
 						</view>
-					
+
 						<view class="link-info">
 							<view class="info-key">Invitation Link:</view>
-							<view class="info-des">https://kjtest.ysxrj.cn/pages/mine/new/new-register?invite_code=693630
+							<view class="info-des">
+								https://kjtest.ysxrj.cn/pages/mine/new/new-register?invite_code=693630
 							</view>
 							<image src="/static/images/mine/k_copy.png"></image>
 						</view>
-					
+
 						<view class="link-info">
 							<view class="info-key">Invitation Code:</view>
 							<view class="info-des">6936300</view>
 							<image src="/static/images/mine/k_copy.png"></image>
 						</view>
 					</view>
-					
+
 				</view>
 
 			</scroll-view>
-			
+
 			<view class="switch-info">
-				<text class="switch-info-name"></text>
+				<text class="switch-info-name"
+					:style="showLeftOrRight?`position: absolute;left: 0;`:`position: absolute;right: 0;`"></text>
 			</view>
-			
+
 		</view>
 
 
@@ -247,6 +250,7 @@
 				<view class="line-bg" :style="{ left: isBottoming ? '14rpx':'0'}"></view>
 			</view>
 		</view>
+
 		<view class="ml-operate">
 			<view class="ml-operate-title">{{$t('new.wdfw')}}</view>
 			<view class="ml-operate-ul">
@@ -305,41 +309,6 @@
 						<image src="@/static/images/mine/mine_icon_right.png" mode="widthFix"></image>
 					</view>
 				</view>
-
-				<!-- <view class="ul-li">
-					<view class="ul-li-l">
-						<view class="l-icon">
-							<image src="@/static/images/mine/follow_us.png" mode="widthFix"></image>
-						</view>
-						<view class="l-name">{{$t('new.gzwm')}}</view>
-					</view>
-					<view class="ul-li-r">
-						<image src="@/static/images/mine/mine_icon_right.png" mode="widthFix"></image>
-					</view>
-				</view>
-				<view class="ul-li">
-					<view class="ul-li-l">
-						<view class="l-icon">
-							<image src="@/static/images/mine/association.png" mode="widthFix"></image>
-						</view>
-						<view class="l-name">{{$t('new.association')}}</view>
-					</view>
-					<view class="ul-li-r">
-						<image src="@/static/images/mine/mine_icon_right.png" mode="widthFix"></image>
-					</view>
-				</view>
-				<view class="ul-li">
-					<view class="ul-li-l">
-						<view class="l-icon">
-							<image src="@/static/images/mine/customer_service.png" mode="widthFix"></image>
-						</view>
-						<view class="l-name">{{$t('new.customer_service')}}</view>
-					</view>
-					<view class="ul-li-r">
-						<image src="@/static/images/mine/mine_icon_right.png" mode="widthFix"></image>
-					</view>
-				</view> -->
-
 			</view>
 		</view>
 		<!-- 联系我们 -->
@@ -415,7 +384,11 @@
 				collectGoodsTotal: 0,
 				collectStoreTotal: 0,
 				totalJf: 0, //总积分
-				showLeftOrRight:false
+				showLeftOrRight: true,
+				scrollLeft: 0,
+				isProhibit: true,
+				leftNum:0,//左滑
+				rightNum:0,//右滑
 			}
 		},
 		onLoad() {
@@ -440,6 +413,19 @@
 			this.showConfirm = false
 		},
 		methods: {
+			onTouchStart(e) {
+				this.leftNum = e.changedTouches[0].clientX
+			},
+			onTouchEnd(e) {
+				this.rightNum = e.changedTouches[0].clientX
+				if(this.leftNum > this.rightNum){
+					this.scrollLeft = 343
+					this.showLeftOrRight = false
+				}else{
+					this.scrollLeft = 0
+					this.showLeftOrRight = true
+				}
+			},
 			onfacebook() {
 
 				let url = 'https://www.facebook.com/kolibrimall.my'
@@ -668,8 +654,8 @@
 		background: #FFF;
 		border-radius: 20rpx;
 		margin: 24rpx auto;
-		
-		.commission-switch{
+
+		.commission-switch {
 			width: 1372rpx;
 			display: flex;
 			align-items: center;
@@ -804,24 +790,23 @@
 			}
 
 		}
-		
-		.switch-info{
+
+		.switch-info {
 			position: relative;
 			width: 32rpx;
 			height: 6rpx;
 			background: rgb(232, 232, 232);
 			border-radius: 6rpx;
 			margin: 20rpx auto 0 auto;
-			
-			.switch-info-name{
-				position: absolute;
-				left: 0;
+
+			.switch-info-name {
 				width: 60%;
 				height: 6rpx;
 				background: rgb(10, 198, 142);
+				border-radius: 6rpx;
 			}
 		}
-		
+
 	}
 
 	//右侧固定栏滚动
