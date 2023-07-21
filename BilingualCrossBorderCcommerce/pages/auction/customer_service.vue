@@ -41,34 +41,36 @@
 				</view>
 
 				<block v-if="selectOrder==1">
-					<view class="auction">
-						<view class="item" v-for="(item,i) in newWish" :key="i">
-							<image :src="item.image" class="item-img"></image>
-							<view class="item-qi">{{item.stage_num}}</view>
-							<view class="item-name">{{item.goods_name}}</view>
-							<view class="item-status">
-								<template v-if="item.select_way === 1">
-									<text style="color: #1DD181;">{{$t('user.auctionM.inAppeal')}}</text>
-								</template>
-								<template v-else>
-									<text v-if="item.status === 2 || item.status === 3"
-										style="color: #1DD181;">{{$t('user.auctionM.shipped')}}</text>
-									<text v-if="item.status === 4"
-										style="color: #1DD181;">{{$t('user.auctionM.receive')}}</text>
-									<text v-if="item.status === 5"
-										style="color: #1DD181;">{{$t('user.auctionM.beConfirmed')}}</text>
-									<text v-if="item.status === 6"
-										style="color: #999999;">{{item.select_way == 1 ? $t('user.auctionM.cash') : $t('user.order.yiwanc')}}</text>
-								</template>
+					<view class="auction" id="listArea">
+						<scroll-view scroll-y="true" class="scroll-Y"  @scrolltolower="lower" @scroll="scroll">
+							<view class="item" v-for="(item,i) in newWish" :key="i">
+								<image :src="item.image" class="item-img"></image>
+								<view class="item-qi">{{item.stage_num}}</view>
+								<view class="item-name">{{item.goods_name}}</view>
+								<view class="item-status">
+									<template v-if="item.select_way === 1">
+										<text style="color: #1DD181;">{{$t('user.auctionM.inAppeal')}}</text>
+									</template>
+									<template v-else>
+										<text v-if="item.status === 2 || item.status === 3"
+											style="color: #1DD181;">{{$t('user.auctionM.shipped')}}</text>
+										<text v-if="item.status === 4"
+											style="color: #1DD181;">{{$t('user.auctionM.receive')}}</text>
+										<text v-if="item.status === 5"
+											style="color: #1DD181;">{{$t('user.auctionM.beConfirmed')}}</text>
+										<text v-if="item.status === 6"
+											style="color: #999999;">{{item.select_way == 1 ? $t('user.auctionM.cash') : $t('user.order.yiwanc')}}</text>
+									</template>
+								</view>
+								<view class="item-auction-price">Bidding price:RM{{item.single_money}}</view>
+								<view class="item-code">Lucky Code</view>
+								<view class="item-code-info">{{item.num_id}}</view>
+								<image src="/static/images/mine/mine_btn_copy.png" class="item-copy"></image>
+								<view class="item-zc">Disbursements:</view>
+								<view class="item-price">RM<text>{{item.pay_price}}</text></view>
+								<view class="item-send" @click="propsSendMessage(item)">Sending</view>
 							</view>
-							<view class="item-auction-price">Bidding price:RM{{item.single_money}}</view>
-							<view class="item-code">Lucky Code</view>
-							<view class="item-code-info">{{item.num_id}}</view>
-							<image src="/static/images/mine/mine_btn_copy.png" class="item-copy"></image>
-							<view class="item-zc">Disbursements:</view>
-							<view class="item-price">RM<text>{{item.pay_price}}</text></view>
-							<view class="item-send" @click="propsSendMessage(item)">Sending</view>
-						</view>
+						</scroll-view>
 					</view>
 				</block>
 				<block v-else>
@@ -140,6 +142,112 @@
 			},
 			toBack() {
 				uni.navigateBack()
+			},
+			lower: function(e) {
+				console.log(e)
+			},
+			scroll: function(e) {
+				console.log(e)
+				this.old.scrollTop = e.detail.scrollTop
+			},
+			goTop: function(e) {
+				// 解决view层不同步的问题
+				this.scrollTop = this.old.scrollTop
+				this.$nextTick(function() {
+					this.scrollTop = 0
+				});
+				uni.showToast({
+					icon: "none",
+					title: "纵向滚动 scrollTop 值已被修改为 0"
+				})
+			},
+			// 监听滚动事件 scroEl是table外的div的dom
+			listenerFunction(e) {
+				var scroEl = document.getElementById('scro')
+				scroEl.addEventListener('scroll', this.handleScroll, true)
+			},
+			handleScroll() {
+				// scroel
+				var scroEl = document.getElementById('scro')
+				// 获取内容高度
+				const scrollHeight = scroEl.scrollHeight
+				// 获取滚动条纵坐标位置
+				const scrollTop = scroEl.scrollTop
+				// 我给的div高度是300px
+				// 判断是否到底部是的话把数据push进去
+				if (scrollHeight === scrollTop + 300) {
+					console.log('aaaaaaaaaaaaaaaaaaaaaaaaaa')
+				}
+			},
+			onPageScroll: function(e) {
+                const { scrollTop } = e; //滚动条距离页面顶部的像素
+				console.log(scrollTop);
+                //防止重复触发
+                if(this.isLoading){
+                    return;
+                }
+
+                const query = uni.createSelectorQuery().in(this);
+                query.select('#listArea').boundingClientRect(data => {
+                    let {
+                        height//listArea节点的高度
+                    } = data; 
+                    //如果设置的事件触发距离 大于等于 (节点的高度-屏幕高度-滚动条到顶部的距离)
+                    if(this.bottomDistinct>=height-this.screenHeight-scrollTop){
+                        //阻止时间重复触发
+                        this.isLoading=true;
+                        //模拟异步加载数据
+                        uni.showToast({
+                            title:"获取新数据"
+                        })
+                        setTimeout(()=>{
+                            //测试数据
+                            let arr=new Array(5).fill(0);
+                            arr=arr.map((v,i)=>this.info.length+i+1);
+
+                            //数据填充
+                            this.info=this.info.concat(arr);
+                            this.isLoading=false;
+                        }, 1500);
+                    }
+                }).exec();
+            },
+			// 页面滑动到底部
+			onReachBottom() {
+				console.log('底部=====');
+				// 判断是否还有数据
+				// if (this.navId == 1) {
+				// 	if (this.totalPageNum <= this.page * this.pagenum) return
+				// 	this.page++
+				// 	// 我的竞拍
+				// 	if (this.type == 1 || this.type == 2) {
+				// 		this.onMineAttendAuction()
+				// 	}
+				// 	// 中拍记录
+				// 	if (this.type == 3) {
+				// 		this.onMineWinAuction()
+				// 	}
+				// 	// 竞拍记录
+				// 	if (this.type == 4) {
+				// 		this.onMineRecordList()
+				// 	}
+				// 	// 竞拍记录
+				// 	if (this.type == 5) {
+				// 		this.AuctionorderMineOrder()
+				// 	}
+				// } else if (this.navId == 2) {
+				// 	// 关注
+				// 	if (this.totalPageNum <= this.page * this.pagenum) return
+				// 	this.page++
+				// 	// 我的竞拍
+				// 	if (this.type == 1 || this.type == 2) {
+				// 		this.onMineFocusAuction()
+				// 	}
+				// 	// 中拍记录
+				// 	if (this.type == 3) {
+				// 		this.onMineFocusWinAuction()
+				// 	}
+				// }
 			}
 		}
 	}
