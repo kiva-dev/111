@@ -249,6 +249,7 @@
             .lfetBottomBtn{
                  animation: shake 1s cubic-bezier(.36, .07, .19, .97) both infinite;
             }
+			
             @keyframes shake {
                 0%, 100% {transform: scale(1);}
                 25%, 75% {transform: scale(1.1);}
