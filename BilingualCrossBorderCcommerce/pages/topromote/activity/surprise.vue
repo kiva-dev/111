@@ -88,7 +88,7 @@
 	.surprise {
 		width: 750rpx;
 		min-height: 100vh;
-		padding-bottom: 88rpx;
+		padding-bottom: 188rpx;
 		background: rgb(31, 61, 195);
 
 		.head-info {
@@ -99,11 +99,13 @@
 			background-size: 750rpx 900rpx;
 
 			.top {
-				position: relative;
+				position: fixed;
+				top: 100rpx;
 				width: 100%;
 				height: 88rpx;
 				display: flex;
 				align-items: center;
+				z-index: 10;
 
 				image {
 					display: block;
@@ -169,11 +171,13 @@
 		}
 
 		.btn {
+			position: fixed;
+			bottom: 40rpx;
 			width: 750rpx;
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			margin-top: 80rpx;
+			z-index: 10;
 
 			image {
 				display: block;

@@ -199,6 +199,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				this.isDisabled = true
 				this.share_code = e.promotion_code
 			} else if (uni.getStorageSync('invite_code')) {
+				this.isDisabled = true
 				this.share_code = uni.getStorageSync('invite_code')
 			}
 
