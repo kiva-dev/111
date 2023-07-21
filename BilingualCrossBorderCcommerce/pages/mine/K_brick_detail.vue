@@ -18,7 +18,7 @@
 				<view v-html="kdiamondxy">{{$t('new.scfl')}}</view>
 			</view>
 			
-			<view class="info-ts-sm">{{$t('new.kzsm')}}</view>
+			
 			
 			<view class="title">{{$t('new.kzcz')}}</view>
 			
@@ -51,7 +51,8 @@
 				</view>
 			</view>
 
-			<view class="info-ts-sm">{{$t('new.sxfsm')}}</view>
+			<!-- <view class="info-ts-sm">{{$t('new.sxfsm')}}</view> -->
+			<view class="info-ts-sm">{{$t('new.kzsm')}}</view>
 			
 
 			<view class="title">{{$t('top.zffs')}}</view>

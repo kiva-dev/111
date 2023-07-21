@@ -173,6 +173,7 @@
 
 		<!-- 1 -->
 		<view class="list-layout">
+			
 			<view class="ll-header">
 				<view class="ll-header-left">
 					<view class="left-icon">
@@ -420,7 +421,7 @@
 		
 			<view class="new-view-more" @click.stop="toInfo(1)">
 				<view>{{$t('home.detail.more')}}</view>
-				<image src="/static/images/products/right.png"></image>
+				<image src="/static/images/auction/right_gre.png"></image>
 			</view>
 			
 		</view>
@@ -663,7 +664,7 @@
 		
 			<view class="new-view-more" @click.stop="toInfo(2)">
 				<view>{{$t('home.detail.more')}}</view>
-				<image src="/static/images/products/right.png"></image>
+				<image src="/static/images/auction/right_gre.png"></image>
 			</view>
 			
 		</view>
@@ -781,7 +782,7 @@
 			
 			<view class="new-view-more" @click.stop="toInfo(3)">
 				<view>{{$t('home.detail.more')}}</view>
-				<image src="/static/images/products/right.png"></image>
+				<image src="/static/images/auction/right_gre.png"></image>
 			</view>
 			
 		</view>
@@ -1469,8 +1470,9 @@
 			},
 			//获取许愿列表详情页
 			toProductInfo(item) {
+				console.log(111)
 				uni.navigateTo({
-					url: './autionDetail?goodsId=' + item.goods_id
+					url: '/pages/auction/autionDetail?goodsId=' + item.goods_id
 				})
 			},
 			getLuckyList() {
@@ -2525,13 +2527,17 @@
 			
 			.new-view-more{
 				position: relative;
-				width: 100%;
+				width: 686rpx;
+				height: 56rpx;
 				font-size: 24rpx;
-				color: rgb(102, 102, 102);
+				color: rgb(10, 198, 142);
 				display: flex;
 				align-items: center;
 				justify-content: center;
-				margin-top: 32rpx;
+				box-sizing: border-box;
+				border: 1rpx solid rgb(10, 198, 142);
+				border-radius: 56rpx;
+				margin: 32rpx auto 0 auto;
 				z-index: 10;
 				
 				image{

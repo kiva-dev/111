@@ -137,7 +137,7 @@
 
 				userInfo: {},
 				user: {},
-				showRanking:false
+				showRanking: false
 			}
 		},
 		onLoad() {
@@ -151,8 +151,8 @@
 
 			this.monthStartTime = new Date(year + '/' + month + '/' + '1').getTime()
 			this.monthEndTime = new Date(year + '/' + month + '/' + monthNum + " 23:59:59").getTime()
-			this.weekStartTime = new Date(year, month, day - week + 1).getTime()
-			this.weekEndTime = new Date(year, month, day - week + 7).getTime()
+			this.weekStartTime = new Date(year, month - 1, day - week + 1).getTime()
+			this.weekEndTime = new Date(year, month - 1, day - week + 7, 23, 59, 59).getTime()
 
 			if (uni.getStorageSync('token')) {
 				this.showRanking = true
@@ -192,11 +192,11 @@
 				let url;
 				//得到时间段
 				if (this.switch_id === 1) {
-					start = this.weekStartTime / 1000
-					end = this.weekEndTime / 1000
+					start = parseInt(this.weekStartTime) / 1000
+					end = parseInt(this.weekEndTime) / 1000
 				} else if (this.switch_id === 2) {
-					start = this.monthStartTime / 1000
-					end = this.monthEndTime / 1000
+					start = parseInt(this.monthStartTime) / 1000
+					end = parseInt(this.monthEndTime) / 1000
 				}
 
 				//根据选择的不同切换url
@@ -207,7 +207,7 @@
 				} else {
 					url = this.$apiObj.InvitationListLeaderboard
 				}
-				
+
 				this.$http.post(url, {
 					since: start,
 					until: end,

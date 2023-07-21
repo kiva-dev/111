@@ -1370,6 +1370,7 @@
 		background-color: rgb(255, 85, 91);
 		// padding-top: -50rpx;
 		display: block;
+		margin-top: 40rpx;
 
 		.xy {
 			// width: 100%;
@@ -1839,7 +1840,7 @@
 
 		.list-layout {
 			width: 100%;
-			min-height: 800rpx;
+			// min-height: 800rpx;
 			margin-top: -16rpx;
 			background: #FFFFFF;
 			border-radius: 16rpx 16rpx 0 0;

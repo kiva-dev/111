@@ -320,9 +320,18 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				this.$refs.protocol.close()
 			},
 			toIndex() {
-				uni.switchTab({
-					url: '/pages/auction/auction'
+				let list = getCurrentPages()
+				let arr = []
+				list.forEach(item=>{
+					arr.push(item.route)
 				})
+				if(arr.length > 1){
+					uni.navigateBack()
+				}else{
+					uni.switchTab({
+						url: '/pages/auction/auction'
+					})
+				}
 			},
 			onLocaleChange(e) {
 				// #ifdef H5

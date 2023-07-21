@@ -47,7 +47,7 @@
 			</view>
 		</view>
 		
-		<view class="info-ts-sm">{{$t('new.sxfsm')}}</view>
+		<!-- <view class="info-ts-sm">{{$t('new.sxfsm')}}</view> -->
 		
 		<view class="protocol">
 			<image src="/static/images/new-index/wxz.png" v-show="!selectProtocol" @click="switchProtocol(true)">

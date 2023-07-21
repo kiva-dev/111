@@ -7,11 +7,11 @@
 			<view class="switch-info" @click="navClick('/pages/auction/lucky/leaderboard')">
 				<view class="left">
 					<view class="left-name">{{$t('ranking.ranking_list')}}</view>
-					<view class="left-more">{{$t('ranking.gotoview')}}<image src="/static/images/mine/mine_icon_right.png"></image></view>
+					<view class="left-more">{{$t('ranking.gotoview')}}<image src="/static/images/luck/luck-right.png"></image></view>
 				</view>
-				<view class="right">
+				<!-- <view class="right">
 					<image src="/static/images/luck/luck_list.png"></image>
-				</view>
+				</view> -->
 			</view>
 			
 			<!-- <view class="switch-info">
@@ -183,12 +183,14 @@
 			z-index: 9;
 			
 			.switch-info{
-				width: 606rpx;
-				height: 164rpx;
+				position: relative;
+				width: 686rpx;
+				height: 176rpx;
 				display: flex;
 				align-items: center;
 				justify-content: center;
-				background: #fff;
+				background: url('/static/images/luck/ranking-bj.png') no-repeat;
+				background-size: 686rpx 176rpx;
 				border-radius: 24rpx;
 				margin: 0 10rpx;
 				
@@ -196,16 +198,27 @@
 					margin-right: 240rpx;
 					
 					.left-name{
-						font-size: 28rpx;
-						color: rgb(51, 51, 51);
+						position: absolute;
+						top: 26rpx;
+						left: 56rpx;
+						font-size: 44rpx;
+						font-weight: bold;
+						color: rgb(248, 91, 0);
 					}
 					
 					.left-more{
-						font-size: 24rpx;
-						color: rgb(102, 102, 102);
+						position: absolute;
+						left: 56rpx;
+						bottom: 26rpx;
+						width: 184rpx;
+						height: 50rpx;
+						font-size: 28rpx;
+						color: rgb(255, 255, 255);
+						background: linear-gradient(90.00deg, rgb(254, 160, 62),rgb(255, 100, 14) 100%);
+						border-radius: 50rpx;
 						display: flex;
 						align-items: center;
-						margin-top: 30rpx;
+						justify-content: center;
 						
 						image{
 							width: 20rpx;
