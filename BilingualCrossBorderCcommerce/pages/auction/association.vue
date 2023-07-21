@@ -31,7 +31,7 @@
 			</view>
 		</template>
 		<template v-else>
-			<uni-empty :image="image" :message="$t('grop.not')" iconSize="60" :width='160' :height='160'></uni-empty>
+			<uni-empty class="empty-class" :image="image" :message="$t('grop.not')" iconSize="60" :width='160' :height='160'></uni-empty>
 			<scroll-view class="association-child" scroll-y="true">
 				<view class="child_list">
 					<view class="child_list_text">Can Join The group</view>
@@ -297,11 +297,13 @@
 			}
 
 		}
+		.empty-class{
+			border-bottom: 20rpx solid #F6F6F6;
+		}
 		.association-child{
-			height: 580rpx;
+			min-height: 64vh;
 			.child_list {
 				margin-top: 32rpx;
-				border-top: 20rpx solid #F6F6F6;
 				.child_list_text{
 					text-align: center;
 					font-size: 32rpx;
