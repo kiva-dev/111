@@ -545,6 +545,7 @@
 <script>
 	import jsencrypt from '@/common/jsencrypt-Rsa/jsencrypt/jsencrypt.vue';
 	import apiObj from '@/http/api.js';
+import { h } from "vue";
 	//公钥.
 	const publiukey = `-----BEGIN PUBLIC KEY-----
 	MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCSjs8JJr/Nyb+nOG77agUDf7uT
@@ -645,7 +646,8 @@
 				list: [], //列表
 				zenjinToRmNum: 0, //赠金可以用于扣除的数量
 				changShopNum: 0, //使用赠金后的k钻
-				set_paypwd: ''
+				set_paypwd: '',
+				totalNum:0
 			}
 		},
 		watch: {
@@ -748,15 +750,9 @@
 			}
 		},
 		onReachBottom() {
-			if (this.page * this.pagenum < this.totalPageNum && this.id == 1) {
+			if (this.page * this.pagenum < this.totalNum) {
 				this.page++;
-				this.onAuctionNewGoods();
-			} else if (this.page * this.pagenum < this.newTotalPageNum && this.id == 2) {
-				this.page++;
-				this.onAuctionNotbeginGoods();
-			} else if (this.page * this.pagenum < this.historyTotalPageNum && this.id == 3) {
-				this.page++;
-				this.onAuctionHistoryGoods();
+				this.getAllProducts();
 			}
 		},
 		//监听页面滚动
@@ -794,10 +790,11 @@
 				this.$http.post(this.$apiObj.LitestoregoodsIndex, {
 					page: this.page,
 					pagenum: this.pagenum,
-					category_id: 1,
+					category_id: '',
 					goods_listing_type: 2
 				}).then(res => {
-					this.list = res.data.data
+					this.totalNum = res.data.total
+					this.list = this.page == 1 ? res.data.data : [...this.list,...res.data.data]
 				})
 			},
 			//点击返回按钮、
