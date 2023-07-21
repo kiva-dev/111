@@ -252,7 +252,7 @@
 						<view class="info-right" v-if="id==1">
 							<view @click.stop="onMineInfo(item)">{{$t('tab.xy')}}</view>
 						</view>
-						<view class="new-list-item-btm-btn" style="border: 1rpx solid rgb(248, 155, 0);">
+						<view class="new-list-item-btm-btn" style="border: 1rpx solid rgb(248, 155, 0);" v-if="id==2">
 							<image src="/static/images/new-index/time1.png" style="width: 20rpx;height: 20rpx;">
 							</image>
 							<u-count-down :time="item.datetime" format="HH:mm:ss"
