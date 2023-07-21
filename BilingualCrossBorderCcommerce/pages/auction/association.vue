@@ -7,7 +7,6 @@
 				<image src="/static/images/kbrick/jia.png"></image> {{$t('grop.add')}}
 			</view>
 		</view>
-
 		<template v-if="sessionList.length > 0">
 			<view class="association_list">
 				<view class="item" v-for="(item,index) in sessionListTop" :key="index" @click="goToSessionInfo(item.id, item.type, item.chat_id)">
@@ -32,9 +31,10 @@
 			</view>
 		</template>
 		<template v-else>
-			<uni-empty :image="image" :message="$t('grop.not')"></uni-empty>
+			<uni-empty class="empty-class" :image="image" :message="$t('grop.not')" iconSize="60" :width='160' :height='160'></uni-empty>
 			<scroll-view class="association-child" scroll-y="true">
 				<view class="child_list">
+					<view class="child_list_text">Can Join The group</view>
 					<view class="child" v-for="(item, index) in JoinGroupList" :key="item.id">
 						<image :src="item.avatar" class="img"></image>
 						<view class="child-name">{{item.nickname}}</view>
@@ -64,32 +64,68 @@
 			}
 		},
 		onShow() {
-			var that = this
-			that.ws.checkNetwork(that)
-			that.ws.pageFun(function(){
-				that.ws.send({
-					c: 'User',
-					a: 'loadSessionList',
-					data: {
-						"get_community_list": 1
-					}
-				})
-			}, that);
+			// var that = this
+			// that.ws.checkNetwork(that)
+			// that.ws.pageFun(function(){
+			// 	that.ws.send({
+			// 		c: 'User',
+			// 		a: 'loadSessionList',
+			// 		data: {
+			// 			"get_community_list": 1
+			// 		}
+			// 	})
+			// }, that);
 			this.getCommunityList()
 		},
 		methods: {
 			getCommunityList(){
 				var that = this
 				that.ws.checkNetwork(that)
-				that.ws.pageFun(function(){
+				function pageFun(asyncFunc, context) {
+					return new Promise((resolve, reject) => {
+						asyncFunc.call(context, resolve, reject);
+					});
+				}
+				// 第一个异步操作
+				const firstAsyncOperation = function (resolve, reject) {
+					that.ws.send({
+						c: 'User',
+						a: 'loadSessionList',
+						data: {
+						"get_community_list": 1
+						}
+					});
+					setTimeout(() => {
+						resolve('First async operation completed.');
+					}, 2000);
+				};
+
+				// 第二个异步操作
+				const secondAsyncOperation = function (resolve, reject) {
 					that.ws.send({
 						c: 'User',
 						a: 'getCommunityList',
 						data: {
-							'page': 1
+						'page': 1
 						}
-					})
-				}, that);
+					});
+					setTimeout(() => {
+						resolve('Second async operation completed.');
+					}, 2000);
+				};
+				// 使用 ws.pageFun 来处理两个异步操作
+				pageFun(firstAsyncOperation, that.ws).then((result) => {console.log(result);}).catch((error) => {console.error(error);});
+				pageFun(secondAsyncOperation, that.ws).then((result) => {console.log(result);}).catch((error) => {console.error(error);});
+				// that.ws.checkNetwork(that)
+				// that.ws.pageFun(function(){
+				// 	that.ws.send({
+				// 		c: 'User',
+				// 		a: 'getCommunityList',
+				// 		data: {
+				// 			'page': 1
+				// 		}
+				// 	})
+				// }, that);
 			},
 			userAction :function ({id,type}) {
 				let that = this
@@ -261,11 +297,18 @@
 			}
 
 		}
+		.empty-class{
+			border-bottom: 20rpx solid #F6F6F6;
+		}
 		.association-child{
-			height: 580rpx;
+			min-height: 64vh;
 			.child_list {
 				margin-top: 32rpx;
-
+				.child_list_text{
+					text-align: center;
+					font-size: 32rpx;
+					margin: 40rpx 0 ;
+				}
 				.child {
 					position: relative;
 					width: 686rpx;

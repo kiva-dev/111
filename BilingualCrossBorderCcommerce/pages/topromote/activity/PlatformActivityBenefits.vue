@@ -118,7 +118,7 @@
 		}
 		
         .top {
-            position: relative;
+            position: fixed;
             width: 100%;
             height: 88rpx;
             display: flex;
