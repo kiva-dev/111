@@ -22,14 +22,15 @@
             <view class="bottomBtn">
                 <view style="position: relative;" class="lfetBottomBtn">
                     <a href="https://wish.kolibrimall.com/api/Index/getApk" download="Kolibri mall"
-                        style="text-decoration:none;">
+                        style="text-decoration:none;color: #FFFFFF;">
                         <image class="contentImage" src="@/static/demo/DownloadBtn.png"></image>
+						<view class="download" >Download app</view>
                     </a>
-                    <view class="download" @click="navClick('add')">Download app</view>
+                    
                 </view>
                 <view style="position: relative;">
                     <image class="contentImage" src="@/static/demo/Register.png"></image>
-                    <view class="Register" @click="navClick('/pages/public/login')">Register</view>
+                    <view class="Register" @click="navClick('/pages/public/register')">Register</view>
                 </view>
             </view>
         </view>
@@ -55,10 +56,11 @@
             <view class="bottomBtn">
                 <view style="position: relative;" class="lfetBottomBtn">
                     <a href="https://wish.kolibrimall.com/api/Index/getApk" download="Kolibri mall"
-                        style="text-decoration:none;">
+                        style="text-decoration:none;color: #FFFFFF;">
                         <image class="contentImage" src="@/static/demo/DownloadBtn.png"></image>
+						<view class="download">下载 APP</view>
                     </a>
-                    <view class="download" @click="navClick('add')">下载 APP</view>
+                   
                 </view>
                 <view style="position: relative;">
                     <image class="contentImage" src="@/static/demo/Register.png"></image>
@@ -110,6 +112,11 @@
         position: absolute;
         z-index: 999;
         width: 100%;
+		
+		a{
+			
+		}
+		
         .top {
             position: fixed;
             width: 100%;
@@ -170,6 +177,7 @@
         }
         .contentImage{
             height: 600rpx;
+			
             .download{
                 color: #FFFFFF;
             }
