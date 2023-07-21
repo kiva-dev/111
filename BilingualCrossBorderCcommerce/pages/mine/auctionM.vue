@@ -181,7 +181,7 @@
 												幸运分享
 											</view>
 										</template> -->
-										<template v-if="item.select_way == 0">
+										<template v-if="item.select_way == 0 && item.win == 1">
 											<view class="r-button-green" @click.stop="onlingjiangClick(item)">
 												{{$t('zhongpai.lingjiangjiang')}}
 											</view>

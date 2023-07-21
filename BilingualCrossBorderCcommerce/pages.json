@@ -1175,7 +1175,7 @@
 			},
 			{
 				"pagePath": "pages/auction/tab/ongoing",
-				"text": "%new.zzjp%",
+				"text": "%tab.zzxy%",
 				"iconPath": "/static/xuyuan/Ongoing.png",
 				"selectedIconPath": "/static/xuyuan/Ongoing1.png"
 			},

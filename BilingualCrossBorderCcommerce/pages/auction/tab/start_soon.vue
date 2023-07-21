@@ -259,7 +259,49 @@
 				</view>
 			</template>
 		</view>
-
+		
+		<!-- 许愿 -->
+		<view class="containerXy" v-if="list.length!=0">
+			<view class="xy">
+				<img src="/static/xuyuan/xy.png" class="xyImg" />
+			</view>
+			<text class="txt">{{$t('xylist')}}</text>
+			<text class="btn">{{$t('xytitle')}}</text>
+			<view class="itemBox">
+				<view class="itemBox_a" v-for="item in list" :key="item.id" @click.stop="toProductInfo(item)">
+					<image :src="item.image" class="itemImg" />
+					<text class="title">{{item.goods_name}}</text>
+					<view class="iconArr">
+						<view class="iconArr_item">
+							<image src="/static/xuyuan/xx.png"></image>
+							<text class="iconArr_txt">{{item.wishing_pool_goods_focus_total || 0}}</text>
+						</view>
+						<view class="iconArr_item">
+							<image src="/static/xuyuan/ax.png"></image>
+							<text class="iconArr_txt">{{item.wishing_pool_goods_appear_watch_num_total || 0}}</text>
+						</view>
+						<view class="iconArr_item" v-if="item.wishing_pool_goods_lucky_total>0">
+							<image src="/static/xuyuan/jiang.png"></image>
+							<text class="iconArr_txt">{{item.wishing_pool_goods_lucky_total || 0}}</text>
+						</view>
+					</view>
+					<view class="">
+						<view class="new">RM<span>{{item.litestore_goods_spec[0].goods_price}}</span></view>
+					</view>
+					<view class="imgBottom">
+						<view class="left">
+							<image src="/static/images/kbrick/diamond.png" mode=""></image>
+							<text class="zs">{{item.wish_price}}</text>
+						</view>
+						<view class="right">
+							<text>(RM{{item.wish_price}})</text>
+						</view>
+					</view>
+		
+				</view>
+			</view>
+		</view>
+		
 	</view>
 </template>
 
@@ -366,38 +408,13 @@
 				list: [], //列表
 				zenjinToRmNum: 0, //赠金可以用于扣除的数量
 				changShopNum: 0, //使用赠金后的k钻
-				set_paypwd: ''
+				set_paypwd: '',
+				totalNum:0
 			}
-		},
-		watch: {
-			money: {
-				handler(e, m) {
-					if (e < 10) {
-						this.orderPayList = [{
-							id: 1,
-							title: this.$t('auction.detail.yuerzhifu'),
-							isShow: false
-						}, {
-							id: 2,
-							title: this.$t('new.zfjezf'),
-							isShow: false
-						}]
-					} else {
-						this.orderPayList = [{
-							id: 1,
-							title: this.$t('auction.detail.yuerzhifu'),
-							isShow: false
-						}, {
-							id: 2,
-							title: this.$t('new.zfjezf'),
-							isShow: false
-						}]
-					}
-				}
-			},
 		},
 		onLoad(e) {
 			this.onAuctionNotbeginGoods()
+			this.getAllProducts()
 			let systemInfo = uni.getSystemInfoSync();
 			this.systemLocale = systemInfo.language;
 			this.applicationLocale = uni.getLocale();
@@ -450,20 +467,12 @@
 			}
 		},
 		onReachBottom() {
-			if (this.page * this.pagenum < this.historyTotalPageNum && this.id == 3) {
+			if (this.page * this.pagenum < this.totalNum) {
 				this.page++;
-				this.onAuctionNotbeginGoods();
+				this.getAllProducts();
 			}
 		},
-		//监听页面滚动
-		onPageScroll(e) {
-			this.transformClass = true
-			clearTimeout(this.timer) //每次滚动前 清除一次
-			// 如果停留则表示滚动结束  一旦空了1s就判定为滚动结束
-			this.timer = setTimeout(() => {
-				this.transformClass = false //滚动结束清除class类名
-			}, 1000)
-		},
+
 		methods: {
 			toRecharge() {
 				uni.setStorageSync('recharge', true)
@@ -490,10 +499,11 @@
 				this.$http.post(this.$apiObj.LitestoregoodsIndex, {
 					page: this.page,
 					pagenum: this.pagenum,
-					category_id: 1,
+					category_id: '',
 					goods_listing_type: 2
 				}).then(res => {
-					this.list = res.data.data
+					this.totalNum = res.data.total
+					this.list = this.page == 1 ? res.data.data : [...this.list,...res.data.data]
 				})
 			},
 			//点击返回按钮、
@@ -967,6 +977,160 @@
 	/deep/.uni-progress-bar {
 		border-radius: 9rpx !important;
 	}
+	
+	// 许愿
+	.containerXy {
+		width: 100%;
+		text-align: center;
+		background-color: rgb(255, 85, 91);
+		// padding-top: -50rpx;
+		display: block;
+		margin-top: 40rpx;
+	
+		.xy {
+			// width: 100%;
+			position: absolute;
+			left: -8%;
+	
+			.xyImg {
+				width: 100%;
+				margin-top: -72rpx;
+			}
+		}
+	
+		.txt {
+			position: relative;
+			color: rgb(255, 255, 255);
+			font-family: SF Pro Display;
+			font-size: 50rpx;
+			padding-top: 48rpx;
+			display: block;
+		}
+	
+		.btn {
+			position: relative;
+			width: 340rpx;
+			height: 48rpx;
+			box-sizing: border-box;
+			background: rgb(255, 255, 255);
+			border-radius: 50rpx;
+			border: 1px solid rgb(255, 57, 57);
+			display: block;
+			margin: auto;
+			margin-top: 30rpx;
+			color: rgb(255, 57, 57);
+			line-height: 40rpx;
+			font-size: 24rpx;
+		}
+	
+		.imgBottom {
+			margin-top: 5rpx;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+	
+			.left {
+				image {
+					width: 30rpx;
+					height: 30rpx;
+				}
+	
+				.zs {
+					font-size: 30rpx;
+					font-weight: bold;
+					color: rgb(255, 57, 57);
+					margin-left: 10rpx;
+				}
+			}
+	
+			.right {
+				font-size: 16rpx;
+				color: rgb(102, 102, 102);
+				margin-left: 8rpx;
+	
+				image {
+					width: 20rpx;
+					height: 20rpx;
+				}
+			}
+	
+		}
+	
+		.itemBox {
+			position: relative;
+			width: 92%;
+			margin: auto;
+			margin-top: 30rpx;
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: space-between;
+	
+			.itemBox_a {
+				width: 336rpx;
+				height: 510rpx;
+				border-radius: 20rpx;
+				margin-bottom: 20rpx;
+				background: #fff;
+	
+				.itemImg {
+					width: 336rpx;
+					height: 336rpx;
+					border-radius: 20rpx 20rpx 0 0;
+					margin-bottom: 5rpx;
+				}
+	
+				.title {
+					width: 296rpx;
+					color: #333;
+					font-size: 24rpx;
+					font-weight: bold;
+					white-space: nowrap;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					display: block;
+					margin: auto;
+				}
+	
+				.iconArr {
+					width: 80%;
+					display: flex;
+					align-items: center;
+					margin: auto;
+					margin-top: 10rpx;
+	
+					image {
+						width: 20rpx;
+						height: 20rpx;
+						margin-right: 8rpx;
+					}
+	
+					.iconArr_item {
+						width: 100rpx;
+						border-right: 1px solid #e8e8e8;
+					}
+	
+					.iconArr_item:nth-child(2) {
+						border: none;
+					}
+	
+					.iconArr_item:nth-child(3) {
+						border: none;
+					}
+				}
+	
+				.new {
+					color: #999;
+					margin-top: 10rpx;
+					text-decoration: line-through;
+	
+					image {
+						width: 24rpx;
+						height: 24rpx;
+					}
+				}
+			}
+		}
+	}
 
 	.new-list-item-btm-btn {
 		padding: 6rpx 10rpx;
@@ -1370,7 +1534,7 @@
 
 		.list-layout {
 			width: 100%;
-			min-height: 800rpx;
+			// min-height: 800rpx;
 			margin-top: -16rpx;
 			background: #FFFFFF;
 			border-radius: 16rpx 16rpx 0 0;
