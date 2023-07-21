@@ -1470,7 +1470,7 @@
 			//获取许愿列表详情页
 			toProductInfo(item) {
 				uni.navigateTo({
-					url: './autionDetail?goodsId=' + item.goods_id
+					url: '/pages/auction/autionDetai?goodsId=' + item.goods_id
 				})
 			},
 			getLuckyList() {

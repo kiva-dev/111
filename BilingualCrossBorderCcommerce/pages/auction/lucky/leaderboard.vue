@@ -152,10 +152,8 @@
 			this.monthStartTime = new Date(year + '/' + month + '/' + '1').getTime()
 			this.monthEndTime = new Date(year + '/' + month + '/' + monthNum + " 23:59:59").getTime()
 			this.weekStartTime = new Date(year, month - 1, day - week + 1).getTime()
-			this.weekEndTime = new Date(year, month - 1, day - week + 7).getTime()
-			
-			console.log(this.weekStartTime)
-			
+			this.weekEndTime = new Date(year, month - 1, day - week + 7, 23, 59, 59).getTime()
+
 			if (uni.getStorageSync('token')) {
 				this.showRanking = true
 				this.$http.post(this.$apiObj.MineInfo).then(item => {
