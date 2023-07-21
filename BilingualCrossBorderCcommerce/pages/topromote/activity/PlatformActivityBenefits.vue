@@ -20,7 +20,7 @@
                 <image class="fingerImage" src="@/static/demo/fingerdown.gif"></image>
             </view>
             <view class="bottomBtn">
-                <view style="position: relative;">
+                <view style="position: relative;" class="lfetBottomBtn">
                     <image class="contentImage" src="@/static/demo/DownloadBtn.png"></image>
                     <view class="download" @click="navClick('add')">Download app</view>
                 </view>
@@ -50,7 +50,7 @@
                 <image class="fingerImage" src="@/static/demo/fingerdown.gif"></image>
             </view>
             <view class="bottomBtn">
-                <view style="position: relative;">
+                <view style="position: relative;" class="lfetBottomBtn">
                     <image class="contentImage" src="@/static/demo/DownloadBtn.png"></image>
                     <view class="download" @click="navClick('add')">下载 APP</view>
                 </view>
@@ -201,16 +201,21 @@
         }
         .fingerI{
             width: 100%;
-            display: flex;
             height: 240rpx;
             display: flex;
             justify-content: flex-end;
+            position: fixed;
+            bottom: 12%;
+            left: 10rpx;
             .fingerImage{
                 width: 280rpx;
                 height: 200rpx;
             }
         }
         .bottomBtn{
+            position: fixed;
+            bottom: 5%;
+            left: 10rpx;
             width: 100%;
             color: #FFFFFF;
             font-size: 16px;
@@ -234,6 +239,14 @@
             .download,
             .Register{
                 transform: translate(-50%,-100%);
+            }
+            .lfetBottomBtn{
+                 animation: shake 1s cubic-bezier(.36, .07, .19, .97) both infinite;
+            }
+            @keyframes shake {
+                0%, 100% {transform: scale(1);}
+                25%, 75% {transform: scale(1.1);}
+                50% {transform: scale(1);}
             }
         }
     }
