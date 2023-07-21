@@ -1469,8 +1469,9 @@
 			},
 			//获取许愿列表详情页
 			toProductInfo(item) {
+				console.log(111)
 				uni.navigateTo({
-					url: '/pages/auction/autionDetai?goodsId=' + item.goods_id
+					url: '/pages/auction/autionDetail?goodsId=' + item.goods_id
 				})
 			},
 			getLuckyList() {
