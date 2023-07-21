@@ -18,7 +18,7 @@
 			<view class="btn">
 				<a href="https://wish.kolibrimall.com/api/Index/getApk" download="Kolibri mall"
 					style="text-decoration:none;">
-					<image src="/static/images/surprise/download.png" class="download"></image>
+					<image src="/static/images/surprise/download.png" class="download lfetBottomBtn"></image>
 				</a>
 				<image src="/static/images/surprise/register.png" class="register"
 					@click="navClick('/pages/public/register')"></image>
@@ -43,7 +43,7 @@
 			<view class="btn">
 				<a href="https://wish.kolibrimall.com/api/Index/getApk" download="Kolibri mall"
 					style="text-decoration:none;">
-					<image src="/static/images/surprise/download_en.png" class="download"></image>
+					<image src="/static/images/surprise/download_en.png" class="download lfetBottomBtn"></image>
 				</a>
 				<image src="/static/images/surprise/register_en.png" class="register"
 					@click="navClick('/pages/public/register')"></image>
@@ -90,6 +90,16 @@
 		min-height: 100vh;
 		padding-bottom: 188rpx;
 		background: rgb(31, 61, 195);
+		
+		.lfetBottomBtn{
+		     animation: shake 1s cubic-bezier(.36, .07, .19, .97) both infinite;
+		}
+		
+		@keyframes shake {
+		    0%, 100% {transform: scale(1);}
+		    25%, 75% {transform: scale(1.05);}
+		    50% {transform: scale(1);}
+		}
 
 		.head-info {
 			width: 750rpx;
