@@ -42,7 +42,7 @@
                     </view>
                     <view class="album__bottom">
                         <view class="album__bottom__btn">
-                            <view class="Like">
+                            <view class="Like" @click="likesBtn(luckyForumListItem)">
                                 <image src="@/static/images/mine/unLike.png" mode="widthFix" v-if="!luckyForumListItem.is_like"></image>
                                 <image src="@/static/images/mine/Like.png" mode="widthFix" v-else></image>
                                 <view class="Like-num">{{luckyForumListItem.likes || 0}}</view>
@@ -118,11 +118,9 @@ import inputbox from "@/components/session/input.vue";
             tocommit({auction_goods_sharing_id}){
                 this.imMessageFocusBool=true;
                 this.dyid=auction_goods_sharing_id;
-                console.log(this.dyid)
             },
             //评论
             async submit(val) {
-                console.log(val);
                 if(val!=''){
                     let data= {"auction_goods_sharing_id":this.dyid,"comment":val}
                     const url = this.$apiObj.commentSharing;
@@ -133,6 +131,11 @@ import inputbox from "@/components/session/input.vue";
                 }else{
                     console.error('错误');
                 }
+            },
+            // 点赞
+            likesBtn({auction_goods_sharing_id,is_like}){
+                let obj = {auction_goods_sharing_id,is_like}
+                console.log(obj);
             },
             onBack(){
                 const routeArr = getCurrentPages().map(i => i.route);
