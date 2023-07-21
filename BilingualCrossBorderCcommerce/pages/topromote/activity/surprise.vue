@@ -1,0 +1,184 @@
+<template>
+	<view class="surprise">
+		<template v-if="!isEnglish">
+			<view class="head-info">
+				<view class="top">
+					<image src="/static/images/surprise/return.png" class="left" @click="toBack()"></image>
+					<image src="/static/images/surprise/home.png" class="index" @click="toIndex()"></image>
+				</view>
+			</view>
+
+			<view class="info">
+				<image src="/static/images/surprise/1.png" class="short"></image>
+				<image src="/static/images/surprise/2.png" class="long"></image>
+			</view>
+
+			<image src="/static/images/surprise/3.png" class="join"></image>
+
+			<view class="btn">
+				<a href="https://wish.kolibrimall.com/api/Index/getApk" download="Kolibri mall"
+					style="text-decoration:none;">
+					<image src="/static/images/surprise/download.png" class="download"></image>
+				</a>
+				<image src="/static/images/surprise/register.png" class="register"
+					@click="navClick('/pages/public/register')"></image>
+			</view>
+		</template>
+
+		<template v-else-if="isEnglish">
+			<view class="head-info head-info1">
+				<view class="top">
+					<image src="/static/images/surprise/return.png" class="left" @click="toBack()"></image>
+					<image src="/static/images/surprise/home.png" class="index" @click="toIndex()"></image>
+				</view>
+			</view>
+
+			<view class="info">
+				<image src="/static/images/surprise/1_en.png" class="short"></image>
+				<image src="/static/images/surprise/2_en.png" class="long"></image>
+			</view>
+
+			<image src="/static/images/surprise/3_en.png" class="join"></image>
+
+			<view class="btn">
+				<a href="https://wish.kolibrimall.com/api/Index/getApk" download="Kolibri mall"
+					style="text-decoration:none;">
+					<image src="/static/images/surprise/download_en.png" class="download"></image>
+				</a>
+				<image src="/static/images/surprise/register_en.png" class="register"
+					@click="navClick('/pages/public/register')"></image>
+			</view>
+		</template>
+
+	</view>
+</template>
+
+<script>
+	export default {
+		data() {
+			return {
+				isEnglish: uni.getStorageSync('locale') === 'en' ? true : false,
+			}
+		},
+		onLoad() {
+			
+		},
+		methods: {
+			toBack() {
+				uni.navigateBack()
+			},
+			navClick(url) {
+				uni.navigateTo({
+					url
+				})
+			},
+			toIndex() {
+				uni.switchTab({
+					url: '/pages/auction/auction'
+				})
+			}
+		}
+	}
+</script>
+
+<style lang="less" scoped>
+	.surprise {
+		width: 750rpx;
+		min-height: 100vh;
+		padding-bottom: 88rpx;
+		background: rgb(31, 61, 195);
+
+		.head-info {
+			width: 750rpx;
+			padding-top: 88rpx;
+			height: 812rpx;
+			background: url('/static/images/surprise/head.png') no-repeat;
+			background-size: 750rpx 900rpx;
+
+			.top {
+				position: relative;
+				width: 100%;
+				height: 88rpx;
+				display: flex;
+				align-items: center;
+
+				image {
+					display: block;
+					width: 40rpx;
+					height: 40rpx;
+				}
+
+				.left {
+					margin-left: 32rpx;
+				}
+
+				.index {
+					position: absolute;
+					right: 32rpx;
+				}
+			}
+
+		}
+
+		.head-info1 {
+			width: 750rpx;
+			padding-top: 88rpx;
+			height: 812rpx;
+			background: url('/static/images/surprise/head_en.png') no-repeat;
+			background-size: 750rpx 900rpx;
+		}
+
+		.info {
+			position: relative;
+			width: 750rpx;
+			height: 1816rpx;
+			background: url('/static/images/surprise/info-bj.png') no-repeat;
+			background-size: 750rpx 1816rpx;
+			margin-top: 228rpx;
+
+			.short {
+				position: absolute;
+				top: -300rpx;
+				left: 50%;
+				transform: translate(-50%, 0);
+				display: block;
+				width: 678rpx;
+				height: 646rpx;
+			}
+
+			.long {
+				position: absolute;
+				top: 428rpx;
+				left: 50%;
+				transform: translate(-50%, 0);
+				display: block;
+				width: 738rpx;
+				height: 1312rpx;
+			}
+
+		}
+
+		.join {
+			display: block;
+			width: 750rpx;
+			height: 502rpx;
+			margin-top: ;
+		}
+
+		.btn {
+			width: 750rpx;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin-top: 80rpx;
+
+			image {
+				display: block;
+				width: 318rpx;
+				height: 110rpx;
+				margin: 0 24rpx;
+			}
+		}
+
+	}
+</style>
