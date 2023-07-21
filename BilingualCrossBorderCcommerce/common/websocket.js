@@ -2093,7 +2093,9 @@ var ws = {
 				this.newOrders=msg.data.orders
 			}],
 			['h5user-searchAuctionOrders',()=>{
-				this.newWish=msg.data.orders
+				let arr = msg.data.orders;
+				// 使用展开运算符合并数组，不需要手动判断是否是第一页
+				this.newWish = (msg.data.data.page > 1) ? [...this.newWish, ...arr] : arr;
 			}],
 			['default', () => {
 				console.log('收到新的ws消息')
