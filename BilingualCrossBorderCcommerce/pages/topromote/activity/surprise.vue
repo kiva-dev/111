@@ -8,12 +8,12 @@
 				</view>
 			</view>
 
-			<view class="info">
+			<view class="info" @click="toIndex()">
 				<image src="/static/images/surprise/1.png" class="short"></image>
 				<image src="/static/images/surprise/2.png" class="long"></image>
 			</view>
 
-			<image src="/static/images/surprise/3.png" class="join"></image>
+			<image src="/static/images/surprise/3.png" class="join" @click="toIndex()"></image>
 
 			<view class="btn">
 				<a href="https://wish.kolibrimall.com/api/Index/getApk" download="Kolibri mall"
@@ -33,12 +33,12 @@
 				</view>
 			</view>
 
-			<view class="info">
+			<view class="info" @click="toIndex()">
 				<image src="/static/images/surprise/1_en.png" class="short"></image>
 				<image src="/static/images/surprise/2_en.png" class="long"></image>
 			</view>
 
-			<image src="/static/images/surprise/3_en.png" class="join"></image>
+			<image src="/static/images/surprise/3_en.png" class="join" @click="toIndex()"></image>
 
 			<view class="btn">
 				<a href="https://wish.kolibrimall.com/api/Index/getApk" download="Kolibri mall"
@@ -57,11 +57,14 @@
 	export default {
 		data() {
 			return {
-				isEnglish: uni.getStorageSync('locale') === 'en' ? true : false,
+				isEnglish: true,
 			}
 		},
-		onLoad() {
+		onLoad(e) {
+			if(e.language == 'en') this.isEnglish = true
+			else this.isEnglish = false
 			
+			if(e.promotion_code) uni.setStorageSync('invite_code',e.promotion_code)
 		},
 		methods: {
 			toBack() {

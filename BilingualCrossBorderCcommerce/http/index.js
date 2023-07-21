@@ -122,7 +122,7 @@ request.interceptors.response.use(function(response) { //不要使用箭头函�
 					'您暂未登录或身份过期，请前往登录。',
 				success: (res) => {
 					if (res.confirm) {
-						uni.redirectTo({
+						uni.navigateTo({
 							url: '/pages/public/login'
 						});
 					} else {
