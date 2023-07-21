@@ -31,7 +31,7 @@
 				<view class="commission-rule-des-info">
 					<view class="commission-rule-des-info-num">4</view>
 					<view class="commission-rule-des-info-txt">
-						{{$t('new.gz41')}} RM{{info.user_consume_rebate_start_money*1}} {{$t('new.gz42')}}{{$t('new.gz43')}}
+						{{$t('new.gz41')}} RM{{info.user_consume_rebate_start_money*1}} {{$t('new.gz42')}}
 					</view>
 				</view>
 			</view>
