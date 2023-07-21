@@ -211,7 +211,7 @@
 				this.$http.post(url, {
 					since: start,
 					until: end,
-					h5_user_id: this.user.u_id ? this.user.u_id : ''
+					h5_user_id: uni.getStorageSync('token') ? uni.getStorageSync('token') : ''
 				}).then(res => {
 					if (res.code == 1) {
 						//防止没有数据导致页面渲染报错

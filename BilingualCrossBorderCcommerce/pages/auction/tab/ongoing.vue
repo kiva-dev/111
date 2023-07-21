@@ -1179,7 +1179,7 @@
 					if (res.code == 1) {
 						this.isShowAegin = this.auction_num > this.isauctionNum
 						uni.showToast({
-							title: res.msg,
+							title: this.$t('top.zhifucg'),
 							icon: 'none'
 						})
 						this.onAuctionNewGoods()
