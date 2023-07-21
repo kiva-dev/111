@@ -695,7 +695,7 @@
 			onJingPai(item) {
 				uni.setStorageSync('productInfo', true)
 				uni.navigateTo({
-					url: './detail?id=' + item.auction_goods_id
+					url: '/pages/auction/detail?id=' + item.auction_goods_id
 				})
 			},
 			navClick(url) {
