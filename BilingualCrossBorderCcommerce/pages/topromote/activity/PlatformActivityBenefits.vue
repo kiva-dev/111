@@ -21,7 +21,10 @@
             </view>
             <view class="bottomBtn">
                 <view style="position: relative;" class="lfetBottomBtn">
-                    <image class="contentImage" src="@/static/demo/DownloadBtn.png"></image>
+                    <a href="https://wish.kolibrimall.com/api/Index/getApk" download="Kolibri mall"
+                        style="text-decoration:none;">
+                        <image class="contentImage" src="@/static/demo/DownloadBtn.png"></image>
+                    </a>
                     <view class="download" @click="navClick('add')">Download app</view>
                 </view>
                 <view style="position: relative;">
@@ -51,12 +54,15 @@
             </view>
             <view class="bottomBtn">
                 <view style="position: relative;" class="lfetBottomBtn">
-                    <image class="contentImage" src="@/static/demo/DownloadBtn.png"></image>
+                    <a href="https://wish.kolibrimall.com/api/Index/getApk" download="Kolibri mall"
+                        style="text-decoration:none;">
+                        <image class="contentImage" src="@/static/demo/DownloadBtn.png"></image>
+                    </a>
                     <view class="download" @click="navClick('add')">下载 APP</view>
                 </view>
                 <view style="position: relative;">
                     <image class="contentImage" src="@/static/demo/Register.png"></image>
-                    <view class="Register" @click="navClick('/pages/public/login')">注册</view>
+                    <view class="Register" @click="navClick('/pages/public/register')">注册</view>
                 </view>
             </view>
         </view>
