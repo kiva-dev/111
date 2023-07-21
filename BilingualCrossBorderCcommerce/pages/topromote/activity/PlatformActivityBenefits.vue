@@ -111,7 +111,7 @@
         z-index: 999;
         width: 100%;
         .top {
-            position: relative;
+            position: fixed;
             width: 100%;
             height: 88rpx;
             display: flex;
