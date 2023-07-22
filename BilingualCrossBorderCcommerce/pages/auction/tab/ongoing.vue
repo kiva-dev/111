@@ -806,7 +806,7 @@
 				this.$http.post(this.$apiObj.AuctionNewGoods, {
 					sort: this.newsjpId,
 					page: this.page,
-					pagenum: this.pagenum,
+					pagenum: 100,
 					keyword: this.keyword
 				}).then(res => {
 					if (res.code == 1) {
