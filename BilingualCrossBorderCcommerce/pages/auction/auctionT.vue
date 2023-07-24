@@ -165,7 +165,6 @@
 						<view v-if="isShopCont">{{$t('new.unrealised')}}</view>
 						<view v-if="!isShopCont" style="top: 25%;left: 36%;">{{$t('new.unrealised')}}</view>
 					</view>
-
 				</view>
 			</template>
 
@@ -2286,8 +2285,8 @@
 
 					view {
 						position: absolute;
-						top: 28%;
-						left: 33%;
+						top: 26%;
+						left: 17%;
 						font-size: 24rpx;
 						color: #fff;
 						transform: rotate(45deg);
@@ -2306,8 +2305,8 @@
 
 					view {
 						position: absolute;
-						top: 28%;
-						left: 33%;
+						top: 26%;
+						left: 17%;
 						font-size: 24rpx;
 						color: #fff;
 						transform: rotate(45deg);
