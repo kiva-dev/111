@@ -110,7 +110,7 @@
 								style="border: 1rpx solid rgb(248, 155, 0);">
 								<image src="/static/images/new-index/time1.png" style="width: 20rpx;height: 20rpx;">
 								</image>
-								<u-count-down :time="item.start_time" format="HH:mm:ss"></u-count-down>
+								<u-count-down :time="item.datetime" format="HH:mm:ss"></u-count-down>
 							</view>
 						</view>
 
@@ -208,15 +208,14 @@
 								<view @click.stop="onMineInfo(item)">{{$t('tab.xy')}}</view>
 							</view>
 						</view>
-						
-						<view class="new-list-item-btm-btn1" v-if="id==2"
-							style="border: 1rpx solid rgb(248, 155, 0);">
+
+						<view class="new-list-item-btm-btn1" v-if="id==2" style="border: 1rpx solid rgb(248, 155, 0);">
 							<image src="/static/images/new-index/time1.png" style="width: 20rpx;height: 20rpx;">
 							</image>
-							<u-count-down :time="item.start_time" format="HH:mm:ss"
+							<u-count-down :time="item.datetime" format="HH:mm:ss"
 								style="color: rgb(248, 155, 0);"></u-count-down>
 						</view>
-						
+
 					</view>
 				</view>
 			</template>
@@ -498,7 +497,7 @@
 		</view> -->
 
 		<!-- 许愿 -->
-		<view class="containerXy" v-if="list.length!=0">
+		<view class="containerXy" v-if="list.length!=0 && id!=3">
 			<view class="xy">
 				<img src="/static/xuyuan/xy.png" class="xyImg" />
 			</view>
@@ -545,7 +544,9 @@
 <script>
 	import jsencrypt from '@/common/jsencrypt-Rsa/jsencrypt/jsencrypt.vue';
 	import apiObj from '@/http/api.js';
-import { h } from "vue";
+	import {
+		h
+	} from "vue";
 	//公钥.
 	const publiukey = `-----BEGIN PUBLIC KEY-----
 	MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCSjs8JJr/Nyb+nOG77agUDf7uT
@@ -570,7 +571,7 @@ import { h } from "vue";
 				kdiamondSelect: false,
 				showRmToKdiamond: false,
 				isBottoming: false,
-				id: 2, //决定当前页面展示那个竞拍数据
+				id: 0, //决定当前页面展示那个竞拍数据
 				title: 'Ongoing', //标题显示
 				selectId: 1, //不同的显示形式
 				productId: 0,
@@ -647,7 +648,7 @@ import { h } from "vue";
 				zenjinToRmNum: 0, //赠金可以用于扣除的数量
 				changShopNum: 0, //使用赠金后的k钻
 				set_paypwd: '',
-				totalNum:0
+				totalNum: 0
 			}
 		},
 		watch: {
@@ -750,7 +751,11 @@ import { h } from "vue";
 			}
 		},
 		onReachBottom() {
-			if (this.page * this.pagenum < this.totalNum) {
+			if (this.page * this.pagenum < this.historyTotalPageNum && this.id == 3) {
+				this.page++;
+				this.onAuctionHistoryGoods()
+			}
+			if (this.page * this.pagenum < this.totalNum && this.id != 3) {
 				this.page++;
 				this.getAllProducts();
 			}
@@ -794,7 +799,7 @@ import { h } from "vue";
 					goods_listing_type: 2
 				}).then(res => {
 					this.totalNum = res.data.total
-					this.list = this.page == 1 ? res.data.data : [...this.list,...res.data.data]
+					this.list = this.page == 1 ? res.data.data : [...this.list, ...res.data.data]
 				})
 			},
 			//点击返回按钮、
@@ -861,7 +866,7 @@ import { h } from "vue";
 				this.$http.post(this.$apiObj.AuctionNewGoods, {
 					sort: this.newsjpId,
 					page: this.page,
-					pagenum: this.pagenum,
+					pagenum: 100,
 					keyword: this.keyword
 				}).then(res => {
 					if (res.code == 1) {
@@ -894,7 +899,7 @@ import { h } from "vue";
 				this.$http.post(this.$apiObj.AuctionNotbeginGoods, {
 					sort: this.jijiangId,
 					page: this.page,
-					pagenum: this.pagenum,
+					pagenum: 100,
 					keyword: this.keyword
 				}).then(res => {
 					if (res.code == 1) {
@@ -1280,7 +1285,7 @@ import { h } from "vue";
 	/deep/.uni-progress-bar {
 		border-radius: 9rpx !important;
 	}
-	
+
 	.new-list-item-btm-btn {
 		padding: 6rpx 10rpx;
 		box-sizing: border-box;
@@ -1291,13 +1296,13 @@ import { h } from "vue";
 		border-radius: 100rpx;
 		display: flex;
 		align-items: center;
-	
+
 		image {
 			width: 28rpx;
 			height: 28rpx;
 			margin-right: 6rpx;
 		}
-	
+
 		/deep/ .u-count-down__text {
 			color: #F89B00;
 		}
@@ -2542,7 +2547,7 @@ import { h } from "vue";
 							}
 						}
 					}
-				
+
 					.new-list-item-btm-btn1 {
 						position: absolute;
 						left: 50%;
@@ -2558,18 +2563,18 @@ import { h } from "vue";
 						align-items: center;
 						justify-content: center;
 						margin: 10rpx auto;
-					
+
 						image {
 							width: 24rpx;
 							height: 24rpx;
 							margin-right: 8rpx;
 						}
-					
+
 						/deep/ .u-count-down__text {
 							color: rgb(248, 155, 0);
 						}
 					}
-				
+
 				}
 			}
 
@@ -2711,8 +2716,8 @@ import { h } from "vue";
 							color: rgb(10, 198, 142);
 						}
 					}
-				
-				
+
+
 				}
 			}
 		}
