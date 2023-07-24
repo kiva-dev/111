@@ -3455,6 +3455,7 @@
 						border: 2rpx solid #D81E06;
 						border-radius: 20rpx;
 						margin-right: 30rpx;
+						margin-bottom: 10rpx;
 						
 						image{
 							display: block;
