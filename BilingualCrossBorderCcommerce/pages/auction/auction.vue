@@ -1314,6 +1314,7 @@
 		},
 		//监听页面滚动
 		onPageScroll(e) {
+			console.log(e);
 			this.$refs.customerService.handleScroll();
 			// this.transformClass = true
 			// clearTimeout(this.timer) //每次滚动前 清除一次

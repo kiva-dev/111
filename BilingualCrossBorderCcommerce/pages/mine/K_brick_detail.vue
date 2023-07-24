@@ -1,6 +1,6 @@
 <template>
 	<view class="kbrick">
-		<scroll-view style="height: 100vh;" scroll-y>
+		<scroll-view style="height: 100vh;" scroll-y @scroll="PageScroll">
 			<view class="kbrick-head">
 				<image src="/static/images/kbrick/kleft.png" @click="onReturn()"></image>
 				<view class="tit">{{$t('new.wdkz')}}</view>
@@ -98,19 +98,25 @@
 			<view class="topay" style="background: rgb(10, 198, 142);" v-show="showPay" @click="addDiamond()">
 				{{$t('new.payment')}}
 			</view>
-
-
 			<view style="height: 240rpx;"></view>
+			<customerService 
+				ref="customerService" 
+				:isDownloadVisibility='false'
+				:isContactVisibility='false'
+				:isGroupVisibility='false'/>
 		</scroll-view>
-
 	</view>
 </template>
 
 <script>
+	import customerService from '@/components/customerService/index.vue'
 	import {
 		hex
 	} from 'js-md5'
 	export default {
+		components: {
+			customerService
+		},
 		data() {
 			return {
 				balance: 0,
@@ -210,6 +216,10 @@
 			}, 1000)
 		},
 		methods: {
+			// 页面滚动
+			PageScroll(){
+				this.$refs.customerService.handleScroll();
+			},
 			switchProtocol(val) {
 				this.selectProtocol = val
 				if (this.selectProtocol) {

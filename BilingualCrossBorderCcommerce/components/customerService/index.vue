@@ -1,11 +1,11 @@
 <template>
   <view class="leftSider" :class="siderClasses">
     <view class="imgArr" :class="imgArrFrames" >
-      <image src="/static/images/mine/download.png" class="minImg" alt="" @click="toDownload('/pages/auction/download')">
-	  <view>
-      	<image src="/static/images/mine/aixin.png" class="minImg" alt="" @click="checkApp()">
-	  </view>
-      <view class="people">
+      <image v-if="isDownloadVisibility" src="/static/images/mine/download.png" class="minImg" alt="" @click="toDownload('/pages/auction/download')">
+      <view v-if="isContactVisibility">
+        <image src="/static/images/mine/aixin.png" class="minImg" alt="" @click="checkApp()">
+      </view>
+      <view class="people" v-if="isGroupVisibility">
         <image src="/static/images/mine/p.png" class="pImg" alt="" @click="toMessage('/pages/auction/association')">
       </view>
       <image src="/static/images/mine/listener.png" class="minImg" alt="" @click="openSession()">
@@ -17,7 +17,29 @@
 </template>
 
 <script>
+/**
+ * customerService 客服
+ * @property {Boolean} isDownloadVisibility 是否显示下载
+ * @property {Boolean} isContactVisibility 是否显示社交联系
+ * @property {Boolean} isGroupVisibility 是否显示社群
+ * @event {Function} showContactFun 展开分享事件
+ * @example <customerService ref="customerService" @showContactFun="showContactFun" />
+ */
 export default {
+	props:{
+		isDownloadVisibility: {
+      type: Boolean,
+      default: true
+    },
+		isContactVisibility: {
+      type: Boolean,
+      default: true
+    },
+		isGroupVisibility: {
+      type: Boolean,
+      default: true
+    },
+	},
   data() {
     return {
 		imgShow: true,
