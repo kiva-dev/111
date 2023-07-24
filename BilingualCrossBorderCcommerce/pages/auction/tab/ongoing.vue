@@ -228,6 +228,17 @@
 						<image src="/static/images/new-index/$.png" class="bonus-img"></image>
 						<view class="bonus-info">{{item.can_use_invite_money_rate*1}}% bonus available</view>
 					</view>
+					
+					<view class="info_tags">
+						<block v-for="data in item.tags" :key="data.tag_id">
+							<view class="tag">
+								<image :src="data.image"></image>
+								<view>
+									<u-parse :content="isShopCont ? data.en_desc : data.zh_desc"></u-parse>
+								</view>
+							</view>
+						</block>
+					</view>
 
 					<view class="info">
 						<view class="info-left">
@@ -543,7 +554,7 @@
 				showRmToKdiamond: false,
 				isBottoming: false,
 				id: 1, //决定当前页面展示那个竞拍数据
-				title: this.$t('new.zzjp'), //标题显示
+				title: this.$t('tab.zzxy'), //标题显示
 				selectId: 1, //不同的显示形式
 				productId: 0,
 				balanceOrOther: 0,
@@ -2508,7 +2519,35 @@
 					}
 
 				}
-
+				
+				.info_tags {
+					width: 628rpx;
+					display: flex;
+					flex-wrap: wrap;
+					align-items: center;
+					margin: 20rpx auto;
+					
+					.tag{
+						display: flex;
+						align-items: center;
+						margin-right: 30rpx;
+						
+						image{
+							display: block;
+							width: 32rpx;
+							height: 32rpx;
+							border-radius: 50%;
+						}
+						
+						view{
+							font-size: 20rpx;
+							color: rgb(153, 153, 153);
+							margin-left: 10rpx;
+						}
+					}
+					
+				}
+				
 				.info {
 					width: 628rpx;
 					display: flex;

@@ -47,7 +47,8 @@
 						{{$u.timeFormat(shopCont.end_time, 'yyyy/mm/dd hh:MM:ss')}} {{$t('auction.detail.yijs')}}
 					</view>
 					<view class="detail-price-time" v-else-if="shopCont.check_status==2">
-						{{$t('new.jljs')}}：<u-count-down :time="shopCont.pre_end_time * 1000" format="HH:mm:ss"></u-count-down>
+						{{$t('new.jljs')}}：<u-count-down :time="shopCont.pre_end_time * 1000"
+							format="HH:mm:ss"></u-count-down>
 					</view>
 					<view class="detail-price-time" v-else>
 						{{$t('new.jlks')}}：<u-count-down :time="(shopCont.start_time*1000)"
@@ -69,7 +70,7 @@
 			<view style="background: #fff;padding: 24rpx 0;">
 				<view class="detail-title">{{shopCont.goods_name}}</view>
 			</view>
-			
+
 			<!--标签-->
 			<view class="li-tags">
 				<view class="li-icon" v-for="item in shopCont.tags" :key="item.tag_id">
@@ -98,6 +99,8 @@
 				<view class="detail-luck-star-info">
 					<image src="../../static/images/mine/lucky_icon_trophy.png"></image>
 					{{$t('xyzx')}}：{{shopCont.lucky_num}}
+
+
 				</view>
 			</view>
 			<!--参与竞拍人数-->
@@ -133,7 +136,8 @@
 				</view>
 				<!-- 最后参与人的时间 -->
 				<view class="detail-canyu-zuihou" :style="shopCont.order_user.length==0?'margin-top:20rpx;':''"
-					v-show="shopCont.check_status==3 || shopCont.check_status==4">Last:
+					v-show="shopCont.check_status==3 || shopCont.check_status==4 || shopCont.check_status==2 && shopCont.order_user.length > 0">
+					Last:
 					{{shopCont.last_pay_time}}
 				</view>
 			</view>
@@ -709,7 +713,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				current: 0,
 				mode: 'nav',
 				shopCont: {
-					id:0
+					id: 0
 				}, // 商品详情
 				timeData: {},
 				auction_num: '', // 竞拍次数
@@ -799,7 +803,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			if (uni.getStorageSync('wish_info')) {
 				let info = uni.getStorageSync('wish_info')
 				this.id = info.goods_id
-			}else {
+			} else {
 				this.id = e.id
 			}
 			// 竞拍商品详情
@@ -824,18 +828,18 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				})
 				uni.removeStorageSync('recharge')
 			}
-			
+
 			if (uni.getStorageSync('wish_info')) {
 				let info = uni.getStorageSync('wish_info')
 				this.onMineInfos()
 				this.isauctionNum = info.isauctionNum
-				setTimeout(()=>{
+				setTimeout(() => {
 					this.onBtnSub()
 					uni.removeStorageSync('wish_info')
 					uni.removeStorageSync('mine-info')
-				},1000)
+				}, 1000)
 			}
-			
+
 		},
 		beforeDestroy() {
 			clearInterval(this.timer)
@@ -958,7 +962,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					queryList.push(query);
 				}
 				queryList.forEach(query => query.exec());
-			}, 
+			},
 			//预览图片
 			previewImgList() {
 				this.showImages = true
@@ -1007,12 +1011,12 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				// #ifdef H5
 				if (uni.getStorageSync('window_href')) {
 					window.history.go(-1)
-				}else{
+				} else {
 					uni.navigateBack()
 				}
 				// #endif
 				// #ifdef APP-PLUS
-					uni.navigateBack()
+				uni.navigateBack()
 				// #endif
 			},
 			// 某商品幸运之星
@@ -1307,7 +1311,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							.auction_num : this.shopCont.total_least_num
 						// this.auction_num = 10
 						if (res.data.auction_num !== 0) {
-							if(uni.getStorageSync('wish_info')) return
+							if (uni.getStorageSync('wish_info')) return
 							this.qiangpaiShow = true
 						} else {
 							this.$refs.pwdPopup.open()
@@ -1357,7 +1361,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					title: this.$t('user.auctionM.qtxqpcs')
 				})
 				this.shopNum = (this.shopCont.auction_price * Number(this.isauctionNum)).toFixed(2)
-				if(!uni.getStorageSync('wish_info')) this.qiangpaiShow = false
+				if (!uni.getStorageSync('wish_info')) this.qiangpaiShow = false
 
 				//RM最多兑换多少k钻
 				this.rmtoKdiamondNum = this.shopNum * 1 > this.balance * 1 ? this.shopNum * 1 - this.balance * 1 : 0
@@ -1930,8 +1934,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					display: flex;
 					align-items: center;
 					justify-content: center;
-					
-					image{
+
+					image {
 						width: 24rpx;
 						height: 24rpx;
 						margin-right: 8rpx;
@@ -2156,8 +2160,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				width: 38rpx;
 				height: 38rpx;
 			}
-			
-			text{
+
+			text {
 				margin-left: 4rpx;
 			}
 		}
