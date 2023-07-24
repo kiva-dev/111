@@ -457,7 +457,7 @@
 
 	"user.recharge.dqje": "Current Balance",
 	"user.recharge.czje": "Recharge Amount",
-	"user.recharge.qsrczje": "Please enter the amount (Not less than RM10)",
+	"user.recharge.qsrczje": "Please enter the amount (Not less than RM15)",
 	"user.recharge.ljcz": "Recharge Immediately",
 
 	"user.Vemail.email": "E-Mail",
@@ -1547,6 +1547,7 @@
 	"new.sxfsm": "Kind reminder: If any handling fees are involved, they will be collected by third-party recharge platforms, and the platform will not charge any handling fees",
 	"new.inviation_num":"My number of invitations",
 	"new.share_link":"Share Link",
+	"new.unrealised":"Unrealised",
 
 	"grop.add": "Group Chat",
 	"grop.not": "Sorry, we haven't joined the group chat yet. Please go and join us",
