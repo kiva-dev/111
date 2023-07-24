@@ -100,7 +100,7 @@
 			</view>
 			<view style="height: 240rpx;"></view>
 			<customerService ref="customerService" :isDownloadVisibility='false' :isContactVisibility='false'
-				:isGroupVisibility='false' :isOnlyServer="true" />
+				:isGroupVisibility='false' :isOnlyServer="true" style="position: fixed;top: 460rpx;"/>
 
 		</scroll-view>
 	</view>

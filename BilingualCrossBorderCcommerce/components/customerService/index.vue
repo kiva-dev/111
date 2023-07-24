@@ -11,9 +11,9 @@
 			</view>
 			<image src="/static/images/mine/listener.png" class="minImg" alt="" @click="openSession()"></image>
 		</view>
-		<image src="/static/images/new-index/addImg.png" class="newListImgDeg" v-if="imgShow && !isOnlyServer" @click="toggleImage">
+		<image src="/static/images/new-index/addImg.png" class="newListImgDeg" v-if="!imgShow && !isOnlyServer" @click="toggleImage">
 		</image>
-		<image src="/static/images/new-index/addImg.png" class="newListImg" v-else-if="!imgShow && !isOnlyServer" @click="toggleImage"></image>
+		<image src="/static/images/new-index/addImg.png" class="newListImg" v-else-if="imgShow && !isOnlyServer" @click="toggleImage"></image>
 	</view>
 
 </template>
@@ -59,7 +59,7 @@
 				return [this.transformClass ? 'removeLeftX' : 'removeRightX'];
 			},
 			imgArrFrames() {
-				return [this.imgShow ? 'active' : 'close'];
+				return [this.imgShow ? 'close' : 'active'];
 			}
 		},
 		methods: {
@@ -146,6 +146,11 @@
 			},
 			toggleImage() {
 				this.imgShow = !this.imgShow;
+				if(!this.imgShow){
+					setTimeout(()=>{
+						this.toggleImage()
+					},3000)
+				}
 			},
 			toMessage(url) {
 				const userinfo = uni.getStorageSync('userinfo');
@@ -169,7 +174,7 @@
 <style lang="less" scoped>
 	.leftSider {
 		position: fixed;
-		left: 20rpx; //-50
+		right: 20rpx; //-50
 		bottom: 200rpx;
 		z-index: 100;
 		overflow: hidden;
@@ -335,7 +340,7 @@
 	}
 
 	.removeLeftX {
-		transform: translateX(-68rpx);
+		transform: translateX(68rpx);
 		transition: all 0.5s ease;
 	}
 </style>

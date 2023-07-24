@@ -1543,7 +1543,8 @@
 	"new.sxfsm":"温馨提示：如涉及任何手续费，均由第三方充值平台收取，平台不收取任何手续费",
 	"new.inviation_num":"我的邀请数",
 	"new.share_link":"分享链接",
-	"new.unrealised":"流拍",
+	"new.unrealised":"未实现",
+	"new.completed":"已达成",
 	
 	"grop.add":"群聊",
 	"grop.not":"抱歉，我们还没有加入群聊。 请加入我们吧",

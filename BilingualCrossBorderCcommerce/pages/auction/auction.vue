@@ -783,13 +783,13 @@
 					</view>
 
 					<view class="item-status1" v-if="item.check_status==3">
-						<view v-if="isShopCont">{{$t('auction.yiwancheng')}}</view>
-						<view v-if="!isShopCont" style="top: 26%;left: 36%;">{{$t('auction.yiwancheng')}}</view>
+						<view v-if="isShopCont">{{$t('new.completed')}}</view>
+						<view v-if="!isShopCont" style="top: 26%;left: 36%;">{{$t('new.completed')}}</view>
 					</view>
 
 					<view class="item-status2" v-if="item.check_status==4">
 						<view v-if="isShopCont">{{$t('new.unrealised')}}</view>
-						<view v-if="!isShopCont" style="top: 26%;left: 45%;">{{$t('new.unrealised')}}</view>
+						<view v-if="!isShopCont" style="top: 25%;left: 36%;">{{$t('new.unrealised')}}</view>
 					</view>
 
 				</view>
@@ -3056,7 +3056,7 @@
 							}
 							
 							view{
-								max-width: 180rpx;
+								
 								// overflow: hidden;
 								// text-overflow: ellipsis;
 								// white-space: nowrap;
