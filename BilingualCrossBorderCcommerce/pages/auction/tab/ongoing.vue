@@ -543,7 +543,7 @@
 				showRmToKdiamond: false,
 				isBottoming: false,
 				id: 1, //决定当前页面展示那个竞拍数据
-				title: this.$t('new.zzjp'), //标题显示
+				title: this.$t('tab.zzxy'), //标题显示
 				selectId: 1, //不同的显示形式
 				productId: 0,
 				balanceOrOther: 0,
