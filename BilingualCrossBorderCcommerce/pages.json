@@ -896,6 +896,13 @@
 			}
 		},
 		{
+			"path": "pages/mine/new/materiallibrary",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		},
+		{
 			"path": "pages/mine/new/new-register",
 			"style": {
 				"navigationBarTitleText": "",
