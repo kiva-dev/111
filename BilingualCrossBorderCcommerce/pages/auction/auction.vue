@@ -543,7 +543,7 @@
 								</view>
 							</view>
 
-							<view class="new-list-item-btm-btn" style="border: 1rpx solid rgb(248, 155, 0);">
+							<view class="new-list-item-btm-btn" style="border: 2rpx solid rgb(248, 155, 0);">
 								<image src="/static/images/new-index/time1.png" style="width: 20rpx;height: 20rpx;">
 								</image>
 								<u-count-down :time="item.datetime" format="HH:mm:ss"></u-count-down>
@@ -639,7 +639,7 @@
 							</view>
 						</view>
 
-						<view class="new-list-item-btm-btn1" style="border: 1rpx solid rgb(248, 155, 0);width: 200rpx;">
+						<view class="new-list-item-btm-btn1" style="border: 2rpx solid rgb(248, 155, 0);width: 200rpx;">
 							<image src="/static/images/new-index/time1.png" style="width: 20rpx;height: 20rpx;">
 							</image>
 							<u-count-down :time="item.datetime" format="HH:mm:ss"
@@ -701,7 +701,7 @@
 							</view>
 						</view>
 
-						<view class="new-list-item-btm-btn" style="border: 1rpx solid rgb(248, 155, 0);">
+						<view class="new-list-item-btm-btn" style="border: 2rpx solid rgb(248, 155, 0);">
 							<image src="/static/images/new-index/time1.png" style="width: 20rpx;height: 20rpx;">
 							</image>
 							<u-count-down :time="item.datetime" format="HH:mm:ss"
@@ -755,12 +755,12 @@
 					<view class="item-historical-des">
 						<view class="des-tit">{{item.goods_name}}</view>
 						<view class="des-center">
-							<view class="des-center-price">
+							<view class="des-center-price" style="display: flex;align-items: center;">
 								<view class="new">
 									<image src="/static/images/kbrick/diamond.png"></image>
 									<span>{{item.auction_price}}</span>
 								</view>
-								<view class="old">RM{{item.price}}</view>
+								<view class="old" style="margin-left: 10rpx;">RM{{item.price}}</view>
 							</view>
 							<view class="des-center-num">
 								<template v-if="item.check_status==4">
@@ -2008,7 +2008,7 @@
 		font-size: 24rpx;
 		color: rgb(10, 198, 142);
 		box-sizing: border-box;
-		border: 1rpx solid rgb(10, 198, 142);
+		border: 2rpx solid rgb(10, 198, 142);
 		border-radius: 100rpx;
 		display: flex;
 		align-items: center;
@@ -2387,7 +2387,7 @@
 								margin: 8rpx auto;
 								padding: 6rpx 8rpx;
 								box-sizing: border-box;
-								border: 1px solid rgb(255, 57, 57);
+								border: 2px solid rgb(255, 57, 57);
 								border-radius: 20rpx;
 								display: flex;
 								align-items: center;
@@ -2513,7 +2513,7 @@
 				align-items: center;
 				justify-content: center;
 				box-sizing: border-box;
-				border: 1rpx solid rgb(10, 198, 142);
+				border: 2rpx solid rgb(10, 198, 142);
 				border-radius: 56rpx;
 				margin: 32rpx auto 0 auto;
 				z-index: 10;
@@ -2573,7 +2573,7 @@
 				.ll-header-right {
 					display: flex;
 					align-items: center;
-					border-right: 1px solid #ccc;
+					border-right: 2px solid #ccc;
 					// margin-left: 150rpx;
 					padding-right: 30rpx;
 
@@ -2708,7 +2708,7 @@
 							display: flex;
 							align-items: center;
 							box-sizing: border-box;
-							border: 1rpx solid rgb(255, 57, 57);
+							border: 2rpx solid rgb(255, 57, 57);
 							border-radius: 28rpx;
 							margin-right: 8rpx;
 
@@ -2746,7 +2746,7 @@
 							margin-right: 16rpx;
 							padding-right: 14rpx;
 							box-sizing: border-box;
-							border-right: 1rpx solid rgb(204, 204, 204);
+							border-right: 2rpx solid rgb(204, 204, 204);
 							display: flex;
 							align-items: center;
 
@@ -2898,7 +2898,7 @@
 							font-size: 24rpx;
 							color: rgb(10, 198, 142);
 							box-sizing: border-box;
-							border: 1rpx solid rgb(10, 198, 142);
+							border: 2rpx solid rgb(10, 198, 142);
 							border-radius: 100rpx;
 							display: flex;
 							align-items: center;
@@ -3013,9 +3013,9 @@
 						position: absolute;
 						top: 112rpx;
 						width: 100%;
-						display: flex;
-						align-items: center;
-						justify-content: space-between;
+						// display: flex;
+						// align-items: center;
+						// justify-content: space-between;
 
 						.des-center-price {
 							.new {
@@ -3045,6 +3045,7 @@
 							color: rgb(51, 51, 51);
 							display: flex;
 							align-items: center;
+							margin-top: 10rpx;
 							
 							image{
 								display: block;
@@ -3056,9 +3057,9 @@
 							
 							view{
 								max-width: 180rpx;
-								overflow: hidden;
-								text-overflow: ellipsis;
-								white-space: nowrap;
+								// overflow: hidden;
+								// text-overflow: ellipsis;
+								// white-space: nowrap;
 							}
 						}
 					}
@@ -3143,7 +3144,7 @@
 						display: flex;
 						align-items: center;
 						box-sizing: border-box;
-						border: 1rpx solid rgb(255, 57, 57);
+						border: 2rpx solid rgb(255, 57, 57);
 						border-radius: 28rpx;
 
 						image {
@@ -3186,7 +3187,7 @@
 						}
 
 						.info-tag:nth-child(2) {
-							border: 1rpx solid rgb(204, 204, 204);
+							border: 2rpx solid rgb(204, 204, 204);
 							border-top: none;
 							border-bottom: none;
 							border-right: none;
@@ -3237,7 +3238,7 @@
 							box-sizing: border-box;
 							font-size: 24rpx;
 							color: rgb(10, 198, 142);
-							border: 1rpx solid rgb(10, 198, 142);
+							border: 2rpx solid rgb(10, 198, 142);
 							border-radius: 100rpx;
 							display: flex;
 							align-items: center;
@@ -3337,7 +3338,7 @@
 						box-sizing: border-box;
 						font-size: 24rpx;
 						color: rgb(10, 198, 142);
-						border: 1rpx solid rgb(10, 198, 142);
+						border: 2rpx solid rgb(10, 198, 142);
 						border-radius: 100rpx;
 						display: flex;
 						align-items: center;
@@ -3393,7 +3394,7 @@
 					display: flex;
 					align-items: center;
 					box-sizing: border-box;
-					border: 1rpx solid rgb(255, 57, 57);
+					border: 2rpx solid rgb(255, 57, 57);
 					border-radius: 28rpx;
 					margin: 0 0 24rpx 32rpx;
 
@@ -3449,7 +3450,7 @@
 					.tag{
 						display: flex;
 						align-items: center;
-						padding: 1rpx 8rpx;
+						padding: 2rpx 8rpx;
 						box-sizing: border-box;
 						border: 2rpx solid #D81E06;
 						border-radius: 20rpx;
@@ -3826,7 +3827,7 @@
 					.name {
 						font-size: 32rpx;
 						color: #999;
-						border: 1rpx solid rgb(10, 198, 142);
+						border: 2rpx solid rgb(10, 198, 142);
 						margin-right: 97rpx;
 					}
 
@@ -3917,7 +3918,7 @@
 						.name {
 							font-size: 32rpx;
 							color: #999;
-							border: 1rpx solid rgb(10, 198, 142);
+							border: 2rpx solid rgb(10, 198, 142);
 							margin-right: 97rpx;
 						}
 

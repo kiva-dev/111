@@ -105,7 +105,7 @@
 							</view>
 
 							<view class="new-list-item-btm-btn" v-if="id==2"
-								style="border: 1rpx solid rgb(248, 155, 0);">
+								style="border: 2rpx solid rgb(248, 155, 0);">
 								<image src="/static/images/new-index/time1.png" style="width: 20rpx;height: 20rpx;">
 								</image>
 								<u-count-down :time="item.datetime" format="HH:mm:ss"></u-count-down>
@@ -209,7 +209,7 @@
 
 						</view>
 
-						<view class="new-list-item-btm-btn1" style="border: 1rpx solid rgb(248, 155, 0);width: 200rpx;">
+						<view class="new-list-item-btm-btn1" style="border: 2rpx solid rgb(248, 155, 0);width: 200rpx;">
 							<image src="/static/images/new-index/time1.png" style="width: 20rpx;height: 20rpx;">
 							</image>
 							<u-count-down :time="item.datetime" format="HH:mm:ss"
@@ -273,7 +273,7 @@
 							</view>
 						</view>
 
-						<view class="new-list-item-btm-btn" style="border: 1rpx solid rgb(248, 155, 0);">
+						<view class="new-list-item-btm-btn" style="border: 2rpx solid rgb(248, 155, 0);">
 							<image src="/static/images/new-index/time1.png" style="width: 20rpx;height: 20rpx;">
 							</image>
 							<u-count-down :time="item.datetime" format="HH:mm:ss"
@@ -1185,7 +1185,7 @@
 		font-size: 24rpx;
 		color: rgb(10, 198, 142);
 		box-sizing: border-box;
-		border: 1rpx solid rgb(10, 198, 142);
+		border: 2rpx solid rgb(10, 198, 142);
 		border-radius: 100rpx;
 		display: flex;
 		align-items: center;
@@ -1751,7 +1751,7 @@
 							display: flex;
 							align-items: center;
 							box-sizing: border-box;
-							border: 1rpx solid rgb(255, 57, 57);
+							border: 2rpx solid rgb(255, 57, 57);
 							border-radius: 28rpx;
 							margin-right: 8rpx;
 
@@ -1789,7 +1789,7 @@
 							margin-right: 16rpx;
 							padding-right: 14rpx;
 							box-sizing: border-box;
-							border-right: 1rpx solid rgb(204, 204, 204);
+							border-right: 2rpx solid rgb(204, 204, 204);
 							display: flex;
 							align-items: center;
 
@@ -1911,7 +1911,7 @@
 							font-size: 24rpx;
 							color: rgb(10, 198, 142);
 							box-sizing: border-box;
-							border: 1rpx solid rgb(10, 198, 142);
+							border: 2rpx solid rgb(10, 198, 142);
 							border-radius: 100rpx;
 							display: flex;
 							align-items: center;
@@ -2135,7 +2135,7 @@
 						display: flex;
 						align-items: center;
 						box-sizing: border-box;
-						border: 1rpx solid rgb(255, 57, 57);
+						border: 2rpx solid rgb(255, 57, 57);
 						border-radius: 28rpx;
 						margin: 0 0 10rpx 24rpx;
 
@@ -2177,7 +2177,7 @@
 						}
 
 						.info-tag:nth-child(2) {
-							border: 1rpx solid rgb(204, 204, 204);
+							border: 2rpx solid rgb(204, 204, 204);
 							border-top: none;
 							border-bottom: none;
 							border-right: none;
@@ -2221,7 +2221,7 @@
 						box-sizing: border-box;
 						font-size: 24rpx;
 						color: rgb(10, 198, 142);
-						border: 1rpx solid rgb(10, 198, 142);
+						border: 2rpx solid rgb(10, 198, 142);
 						border-radius: 100rpx;
 						display: flex;
 						align-items: center;
@@ -2252,7 +2252,7 @@
 							box-sizing: border-box;
 							font-size: 24rpx;
 							color: rgb(10, 198, 142);
-							border: 1rpx solid rgb(10, 198, 142);
+							border: 2rpx solid rgb(10, 198, 142);
 							border-radius: 100rpx;
 							display: flex;
 							align-items: center;
@@ -2354,7 +2354,7 @@
 					display: flex;
 					align-items: center;
 					box-sizing: border-box;
-					border: 1rpx solid rgb(255, 57, 57);
+					border: 2rpx solid rgb(255, 57, 57);
 					border-radius: 28rpx;
 					margin: 0 0 18rpx 24rpx;
 
@@ -2384,7 +2384,7 @@
 					.tag{
 						display: flex;
 						align-items: center;
-						padding: 1rpx 8rpx;
+						padding: 2rpx 8rpx;
 						box-sizing: border-box;
 						border: 2rpx solid #D81E06;
 						border-radius: 20rpx;
