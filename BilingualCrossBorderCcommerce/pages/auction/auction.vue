@@ -1076,7 +1076,10 @@
 		</view>
 
 		<customerService ref="customerService" @showContactFun="showContactFun" />
-
+		
+		<!--回到顶部-->
+		<image src="/static/images/auction/to-top.png" class="to_top" v-show="showTop" @click="toTop()"></image>
+		
 	</view>
 </template>
 
@@ -1097,6 +1100,7 @@
 		},
 		data() {
 			return {
+				showTop:false,//显示小火箭
 				switch_id: 0,
 				isBottoming: false,
 				FirstList: [], // 1级分类
@@ -1301,14 +1305,15 @@
 		//监听页面滚动
 		onPageScroll(e) {
 			this.$refs.customerService.handleScroll();
-			// this.transformClass = true
-			// clearTimeout(this.timer) //每次滚动前 清除一次
-			// // 如果停留则表示滚动结束  一旦空了1s就判定为滚动结束
-			// this.timer = setTimeout(() => {
-			// 	this.transformClass = false //滚动结束清除class类名
-			// }, 1000)
+			if(e.scrollTop >= 2000 && !this.showTop) this.showTop=true
+			else if(e.scrollTop < 2000 && this.showTop) this.showTop = false
 		},
 		methods: {
+			toTop(){
+				uni.pageScrollTo({
+					scrollTop:0
+				})
+			},
 			onfacebook() {
 
 				let url = 'https://www.facebook.com/kolibrimall.my'
@@ -1946,6 +1951,15 @@
 
 	/deep/.uni-progress-bar {
 		border-radius: 9rpx !important;
+	}
+	
+	.to_top{
+		position: fixed;
+		left: 20rpx;
+		bottom: 120rpx;
+		width: 96rpx;
+		height: 96rpx;
+		z-index: 100;
 	}
 
 	.new-list-item-btm-btn {

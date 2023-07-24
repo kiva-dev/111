@@ -559,7 +559,10 @@
 				</view>
 			</view>
 		</view>
-
+		
+		<!--回到顶部-->
+		<image src="/static/images/auction/to-top.png" class="to_top" v-show="showTop" @click="toTop()"></image>
+		
 	</view>
 </template>
 
@@ -579,6 +582,7 @@
 	export default {
 		data() {
 			return {
+				showTop:false,
 				pagenum: 10, // 每页显示商品数目
 				page: 1,
 				transformClass: false, //购物车icon是否添加平移效果
@@ -785,13 +789,15 @@
 		//监听页面滚动
 		onPageScroll(e) {
 			this.transformClass = true
-			clearTimeout(this.timer) //每次滚动前 清除一次
-			// 如果停留则表示滚动结束  一旦空了1s就判定为滚动结束
-			this.timer = setTimeout(() => {
-				this.transformClass = false //滚动结束清除class类名
-			}, 1000)
+			if(e.scrollTop >= 2000 && !this.showTop) this.showTop=true
+			else if(e.scrollTop < 2000 && this.showTop) this.showTop = false
 		},
 		methods: {
+			toTop(){
+				uni.pageScrollTo({
+					scrollTop:0
+				})
+			},
 			toRecharge() {
 				uni.setStorageSync('recharge', true)
 				this.navClick('/pages/mine/K_brick_detail')
@@ -1306,6 +1312,15 @@
 
 	/deep/.uni-progress-bar {
 		border-radius: 9rpx !important;
+	}
+	
+	.to_top{
+		position: fixed;
+		left: 20rpx;
+		bottom: 120rpx;
+		width: 96rpx;
+		height: 96rpx;
+		z-index: 100;
 	}
 
 	.new-list-item-btm-btn {
