@@ -229,11 +229,11 @@
 		}
 
 		.active {
-			animation: btns-open 1s ease-in forwards;
+			animation: btns-open 1s linear forwards;
 		}
 
 		.close {
-			animation: btns-close 1s ease-in forwards;
+			animation: btns-close 1s linear forwards;
 		}
 
 		@keyframes btns-open {

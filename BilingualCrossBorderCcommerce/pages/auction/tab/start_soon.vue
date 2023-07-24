@@ -233,9 +233,23 @@
 					
 					<view class="info_tags">
 						<block v-for="data in item.tags" :key="data.tag_id">
-							<view class="tag">
-								<image :src="data.image"></image>
-								<view>
+							<view class="tag" v-if="data.tag_id == 1" style="color: #D81E06;border: 2rpx solid #D81E06;">
+								<view class="tag_name">
+									<u-parse :content="isShopCont ? data.en_desc : data.zh_desc"></u-parse>
+								</view>
+							</view>
+							<view class="tag" v-else-if="data.tag_id == 2" style="color: #FF5701;border: 2rpx solid #FF5701;">
+								<view class="tag_name">
+									<u-parse :content="isShopCont ? data.en_desc : data.zh_desc"></u-parse>
+								</view>
+							</view>
+							<view class="tag" v-else-if="data.tag_id == 3" style="color: #0AC68E;border: 2rpx solid #0AC68E;">
+								<view class="tag_name">
+									<u-parse :content="isShopCont ? data.en_desc : data.zh_desc"></u-parse>
+								</view>
+							</view>
+							<view class="tag" v-else="data.tag_id == 3" style="color: #3A71EC;border: 2rpx solid #3A71EC;">
+								<view class="tag_name">
 									<u-parse :content="isShopCont ? data.en_desc : data.zh_desc"></u-parse>
 								</view>
 							</view>
@@ -2361,6 +2375,7 @@
 				
 				.info_tags {
 					width: 628rpx;
+					color: rgb(153, 153, 153);
 					display: flex;
 					flex-wrap: wrap;
 					align-items: center;
@@ -2369,6 +2384,10 @@
 					.tag{
 						display: flex;
 						align-items: center;
+						padding: 1rpx 8rpx;
+						box-sizing: border-box;
+						border: 2rpx solid #D81E06;
+						border-radius: 20rpx;
 						margin-right: 30rpx;
 						
 						image{
@@ -2378,10 +2397,8 @@
 							border-radius: 50%;
 						}
 						
-						view{
+						.tag_name{
 							font-size: 20rpx;
-							color: rgb(153, 153, 153);
-							margin-left: 10rpx;
 						}
 					}
 					
