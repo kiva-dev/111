@@ -179,6 +179,9 @@
                     bottom: 20px;
                     color: #fff;
                     width: 100rpx;
+					display: flex;
+					align-items: center;
+					justify-content: center;
                     padding: 20rpx 40rpx;
                     transform: translate(-50%, 0px);
                     background: rgba(0, 0, 0, 0.5);
