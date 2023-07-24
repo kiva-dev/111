@@ -248,7 +248,7 @@
 									<u-parse :content="isShopCont ? data.en_desc : data.zh_desc"></u-parse>
 								</view>
 							</view>
-							<view class="tag" v-else="data.tag_id == 3" style="color: #3A71EC;border: 2rpx solid #3A71EC;">
+							<view class="tag" v-else-if="data.tag_id == 9" style="color: #3A71EC;border: 2rpx solid #3A71EC;">
 								<view class="tag_name">
 									<u-parse :content="isShopCont ? data.en_desc : data.zh_desc"></u-parse>
 								</view>
