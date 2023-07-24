@@ -1255,15 +1255,6 @@
 				})
 			}, 1200);
 
-			if (uni.getStorageSync('token')) {
-				this.$http.post(this.$apiObj.MineInfo).then(res => {
-					if (res.code == 1) {
-						this.isLogin = true
-						this.balance = res.data.k_diamond_wallet
-						this.set_paypwd = res.data.set_paypwd
-					}
-				})
-			}
 		},
 		onPullDownRefresh() {
 			this.page = 1
@@ -1282,6 +1273,16 @@
 			this.lishiId = 1
 			this.date_start = ''
 			this.navId = 3
+			
+			if (uni.getStorageSync('token')) {
+				this.$http.post(this.$apiObj.MineInfo).then(res => {
+					if (res.code == 1) {
+						this.isLogin = true
+						this.balance = res.data.k_diamond_wallet
+						this.set_paypwd = res.data.set_paypwd
+					}
+				})
+			}
 
 			if (uni.getStorageSync('recharge')) {
 				this.$http.post(this.$apiObj.MineInfo).then(res => {
