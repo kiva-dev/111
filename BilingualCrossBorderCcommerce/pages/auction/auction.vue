@@ -521,7 +521,7 @@
 							<view class="new-list-item-btm-btn" style="border: 1rpx solid rgb(248, 155, 0);">
 								<image src="/static/images/new-index/time1.png" style="width: 20rpx;height: 20rpx;">
 								</image>
-								<u-count-down :time="item.start_time" format="HH:mm:ss"></u-count-down>
+								<u-count-down :time="item.datetime" format="HH:mm:ss"></u-count-down>
 							</view>
 						</view>
 
@@ -617,7 +617,7 @@
 						<view class="new-list-item-btm-btn1" style="border: 1rpx solid rgb(248, 155, 0);width: 200rpx;">
 							<image src="/static/images/new-index/time1.png" style="width: 20rpx;height: 20rpx;">
 							</image>
-							<u-count-down :time="item.start_time" format="HH:mm:ss"
+							<u-count-down :time="item.datetime" format="HH:mm:ss"
 								style="color: rgb(248, 155, 0);"></u-count-down>
 						</view>
 					</view>
@@ -654,7 +654,7 @@
 						<view class="new-list-item-btm-btn" style="border: 1rpx solid rgb(248, 155, 0);">
 							<image src="/static/images/new-index/time1.png" style="width: 20rpx;height: 20rpx;">
 							</image>
-							<u-count-down :time="item.start_time" format="HH:mm:ss"
+							<u-count-down :time="item.datetime" format="HH:mm:ss"
 								style="color: rgb(248, 155, 0);"></u-count-down>
 						</view>
 					</view>
@@ -1255,15 +1255,6 @@
 				})
 			}, 1200);
 
-			if (uni.getStorageSync('token')) {
-				this.$http.post(this.$apiObj.MineInfo).then(res => {
-					if (res.code == 1) {
-						this.isLogin = true
-						this.balance = res.data.k_diamond_wallet
-						this.set_paypwd = res.data.set_paypwd
-					}
-				})
-			}
 		},
 		onPullDownRefresh() {
 			this.page = 1
@@ -1282,6 +1273,16 @@
 			this.lishiId = 1
 			this.date_start = ''
 			this.navId = 3
+			
+			if (uni.getStorageSync('token') && !this.isLogin) {
+				this.$http.post(this.$apiObj.MineInfo).then(res => {
+					if (res.code == 1) {
+						this.isLogin = true
+						this.balance = res.data.k_diamond_wallet
+						this.set_paypwd = res.data.set_paypwd
+					}
+				})
+			}
 
 			if (uni.getStorageSync('recharge')) {
 				this.$http.post(this.$apiObj.MineInfo).then(res => {

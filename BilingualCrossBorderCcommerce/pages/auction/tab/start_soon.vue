@@ -108,7 +108,7 @@
 								style="border: 1rpx solid rgb(248, 155, 0);">
 								<image src="/static/images/new-index/time1.png" style="width: 20rpx;height: 20rpx;">
 								</image>
-								<u-count-down :time="item.start_time" format="HH:mm:ss"></u-count-down>
+								<u-count-down :time="item.datetime" format="HH:mm:ss"></u-count-down>
 							</view>
 						</view>
 
@@ -212,7 +212,7 @@
 						<view class="new-list-item-btm-btn1" style="border: 1rpx solid rgb(248, 155, 0);width: 200rpx;">
 							<image src="/static/images/new-index/time1.png" style="width: 20rpx;height: 20rpx;">
 							</image>
-							<u-count-down :time="item.start_time" format="HH:mm:ss"
+							<u-count-down :time="item.datetime" format="HH:mm:ss"
 								style="color: rgb(248, 155, 0);"></u-count-down>
 						</view>
 
@@ -251,7 +251,7 @@
 						<view class="new-list-item-btm-btn" style="border: 1rpx solid rgb(248, 155, 0);">
 							<image src="/static/images/new-index/time1.png" style="width: 20rpx;height: 20rpx;">
 							</image>
-							<u-count-down :time="item.start_time" format="HH:mm:ss"
+							<u-count-down :time="item.datetime" format="HH:mm:ss"
 								style="color: rgb(248, 155, 0);"></u-count-down>
 						</view>
 					</view>
@@ -603,7 +603,7 @@
 				this.$http.post(this.$apiObj.AuctionNotbeginGoods, {
 					sort: this.jijiangId,
 					page: this.page,
-					pagenum: this.pagenum,
+					pagenum: 100,
 					keyword: this.keyword
 				}).then(res => {
 					if (res.code == 1) {
