@@ -103,7 +103,10 @@
 				ref="customerService" 
 				:isDownloadVisibility='false'
 				:isContactVisibility='false'
-				:isGroupVisibility='false'/>
+				:isGroupVisibility='false'
+				:isOnlyServer="true"
+			/>
+			
 		</scroll-view>
 	</view>
 </template>
@@ -271,7 +274,7 @@
 			},
 			//充值k钻
 			addDiamond() {
-				if (this.payNum && this.payNum * 1 < 10) {
+				if (this.payNum && this.payNum * 1 < 15) {
 					uni.showToast({
 						title: this.$t('new.czjejx'),
 						icon: 'none',
