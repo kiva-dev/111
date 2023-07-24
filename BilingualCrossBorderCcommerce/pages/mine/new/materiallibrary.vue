@@ -9,14 +9,14 @@
 			<view class="commission-center-left">
                 <view class="commission-center-text">
                     <image  :src="require(`@/static/images/mine/${previewImg}.png`)" mode="widthFix" @click="previewImgList(previewImg)"></image>
-                    <view class="PreView" @click="previewImgList(previewImg)">PreView</view>
+                    <view class="PreView" @click="previewImgList(previewImg)">{{$t('new.yjfxPreView')}}</view>
                 </view>
 			    <view class="commission-center-btn"  @click="onUrlClick('PlatformActivityBenefits')">{{$t('new.yjfxBtn')}}</view>
 			</view>
 			<view class="commission-center-right">
                 <view class="commission-center-text">
                     <image  :src="require(`@/static/images/mine/${preview2Img}.png`)" mode="widthFix"  @click="previewImgList(preview2Img)"></image>
-                    <view class="PreView" @click="previewImgList(preview2Img)">PreView</view>
+                    <view class="PreView" @click="previewImgList(preview2Img)">{{$t('new.yjfxPreView')}}</view>
                 </view>
 			    <view class="commission-center-btn" @click="onUrlClick('surprise')">{{$t('new.yjfxBtn')}}</view>
 			</view>
