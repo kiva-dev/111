@@ -2,9 +2,7 @@
   <view class="leftSider" :class="siderClasses">
     <view class="imgArr" :class="imgArrFrames" >
       <image v-if="isDownloadVisibility" src="/static/images/mine/download.png" class="minImg" alt="" @click="toDownload('/pages/auction/download')">
-      <view v-if="isContactVisibility">
-        <image src="/static/images/mine/aixin.png" class="minImg" alt="" @click="checkApp()">
-      </view>
+      <image v-if="isContactVisibility" src="/static/images/mine/aixin.png" class="minImg" alt="" @click="checkApp()">
       <view class="people" v-if="isGroupVisibility">
         <image src="/static/images/mine/p.png" class="pImg" alt="" @click="toMessage('/pages/auction/association')">
       </view>
@@ -42,10 +40,10 @@ export default {
 	},
   data() {
     return {
-		imgShow: true,
-		transformClass: false,
-		timer: null,
-		showContact: false,
+      imgShow: true,
+      transformClass: false,
+      timer: null,
+      showContact: false,
     };
   },
   computed: {
@@ -159,7 +157,7 @@ export default {
 <style lang="less" scoped>
 .leftSider {
 	position: fixed;
-	right: 32rpx; //-50
+	left: 32rpx; //-50
 	bottom: 200rpx;
 	z-index: 100;
 	overflow: hidden;
@@ -189,14 +187,17 @@ export default {
 	.imgArr {
 		background: #fff;
 		width: 92rpx;
-		height: 380rpx;
+		// height: 380rpx;
 		border-radius: 45rpx;
 		box-shadow: 0 0 20rpx rgba(198, 198, 198, 0.3);
 		text-align: center;
 		overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 		.people {
-			margin-top: 30rpx;
-
+			margin: 25rpx 0;
 			.pImg {
 				width: 45rpx;
 				height: 40rpx;
@@ -207,52 +208,53 @@ export default {
 			width: 45rpx;
 			height: 45rpx;
 			text-align: center;
-			margin-top: 40rpx;
+			margin: 25rpx 0;
 		}
 	}
 }
 .active {
-	animation: btns-open 1s ease-in-out forwards;
+	animation: btns-open 1s ease-in forwards;
 }
 .close {
-	animation: btns-close 1s ease-in-out forwards;
+	animation: btns-close 1s ease-in forwards;
 }
 @keyframes btns-open {
     0% {
-      height: 100rpx;
+      height: 45rpx;
     }
 	 25% {
-      height: 64px;
+      height: 100rpx;
     }
     50% {
-      height: 64px;
+      height: 120rpx;
     }
     100% {
-      height: 192px;
+      height: 100%;
     }
 }
 
-  @keyframes btns-close {
-    0% {
-      height: 192px;
-    }
-    25% {
-      height: 64px;
-    }
-    50% {
-      height: 64px;
-    }
-    100% {
-      height: 0;
-    }
+@keyframes btns-close {
+  0% {
+    height: 100%;
+  }
+  25% {
+    height: 200rpx;
+  }
+  50% {
+    height: 120rpx;
+  }
+  100% {
+    height: 0;
+  }
 }
 .removeRightX {
-	transform: translateX(80rpx);
-	transition: all 0.5s ease;
+  transform: translateX(-80rpx);
+  transition: all 0.5s ease;
 }
 
 .removeLeftX {
-	transform: translateX(0);
-	transition: all 0.5s ease;
+  transform: translateX(0);
+  transition: all 0.5s ease;
 }
+
 </style>
