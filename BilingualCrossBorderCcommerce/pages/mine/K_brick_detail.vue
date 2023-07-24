@@ -1,6 +1,6 @@
 <template>
 	<view class="kbrick">
-		<scroll-view style="height: 100vh;" scroll-y>
+		<scroll-view style="height: 100vh;" scroll-y @scroll="PageScroll">
 			<view class="kbrick-head">
 				<image src="/static/images/kbrick/kleft.png" @click="onReturn()"></image>
 				<view class="tit">{{$t('new.wdkz')}}</view>
@@ -17,11 +17,11 @@
 				<image src="/static/images/kbrick/kbx.png"></image>
 				<view v-html="kdiamondxy">{{$t('new.scfl')}}</view>
 			</view>
-			
-			
-			
+
+
+
 			<view class="title">{{$t('new.kzcz')}}</view>
-			
+
 			<view class="list">
 				<view class="item"
 					:style="select==(i+1)?'height:216rpx;background: rgb(224, 242, 255);box-sizing: border-box;border: 4rpx solid rgb(27, 161, 255);':''"
@@ -53,14 +53,14 @@
 
 			<!-- <view class="info-ts-sm">{{$t('new.sxfsm')}}</view> -->
 			<view class="info-ts-sm">{{$t('new.kzsm')}}</view>
-			
+
 
 			<view class="title">{{$t('top.zffs')}}</view>
-			
+
 			<!--支付方式-->
 			<view class="pay" v-for="item in payList.slice(0,2)" :key="item.id">
 				<view class="pay-info">
-					<image :src="item.url" class="logo"></image>
+					<image :src="item.icon" class="logo"></image>
 					<view class="pay-info-name">{{item.name}}</view>
 					<!--<text v-if="item.id==1">({{$t('new.need_real_name')}})</text> -->
 					<image src="/static/images/new-index/wxz.png" class="select" v-show="!item.select"
@@ -70,14 +70,14 @@
 						@click="changPay(item)">
 					</image>
 				</view>
-				<view class="pay-info-des" v-show="item.select">{{item.title}}</view>
+				<view class="pay-info-des" v-show="item.select">{{isShopCont ? item.desc_en : item.desc}}</view>
 			</view>
-			
+
 			<view class="info-ts-sm">{{$t('pay.pay_not')}}</view>
 			<!--暂不支持的支付方式-->
 			<view class="pay" style="opacity: 0.5;" v-for="item in payList.slice(2,6)" :key="item.id">
 				<view class="pay-info">
-					<image :src="item.url" class="logo"></image>
+					<image :src="item.icon" class="logo"></image>
 					<view class="pay-info-name">{{item.name}}</view>
 					<!--<text v-if="item.id==1">({{$t('new.need_real_name')}})</text> -->
 					<image src="/static/images/new-index/wxz.png" class="select" v-show="!item.select">
@@ -98,19 +98,23 @@
 			<view class="topay" style="background: rgb(10, 198, 142);" v-show="showPay" @click="addDiamond()">
 				{{$t('new.payment')}}
 			</view>
-
-
 			<view style="height: 240rpx;"></view>
-		</scroll-view>
+			<customerService ref="customerService" :isDownloadVisibility='false' :isContactVisibility='false'
+				:isGroupVisibility='false' :isOnlyServer="true" />
 
+		</scroll-view>
 	</view>
 </template>
 
 <script>
+	import customerService from '@/components/customerService/index.vue'
 	import {
 		hex
 	} from 'js-md5'
 	export default {
+		components: {
+			customerService
+		},
 		data() {
 			return {
 				balance: 0,
@@ -120,63 +124,16 @@
 				selectProtocol: false,
 				list: [1, 1, 1, 1, 1, 1],
 				showPay: false,
-				payList: [{
-						id: 2,
-						url: '/static/images/kbrick/paypal.png',
-						select: true,
-						name: 'Paypal',
-						title: this.$t('pay.paypal_ts')
-					},
-					{
-						id: 1,
-						url: '/static/images/new-index/pe.png',
-						select: false,
-						name: 'PayEssence',
-						title: this.$t('pay.pay_essence')
-					},
-					{
-						id: 3,
-						url: '/static/images/new-index/apple.png',
-						select: false,
-						name: 'Apple pay',
-						title: ''
-					},
-					{
-						id: 4,
-						url: '/static/images/luck/visa.png',
-						select: false,
-						name: 'Visa',
-						title: ''
-					},
-					{
-						id: 5,
-						url: '/static/images/luck/MasterCard.png',
-						select: false,
-						name: 'MasterCard',
-						title: ''
-					},
-					{
-						id: 6,
-						url: '/static/images/luck/Cryptocurrency.png',
-						select: false,
-						name: 'Cryptocurrency',
-						title: ''
-					},
-					{
-						id: 7,
-						url: '/static/images/luck/debit_card.png',
-						select: false,
-						name: 'Debit Card',
-						title: ''
-					}
-				],
+				payList: [],
 				kdiamondxy: '',
-				infoData: []
+				infoData: [],
+				isShopCont: false
 			}
 		},
 		onShow() {},
 		onLoad() {
 			let isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
+			this.isShopCont = isShopCont
 
 			this.$http.post(this.$apiObj.MineInfo).then(res => {
 				this.balance = res.data.k_diamond_wallet
@@ -193,6 +150,7 @@
 					.zh_k_diamond_recharge_activity_desc
 			})
 
+			this.getPayType()
 			this.getKdiamondList()
 		},
 		onPullDownRefresh() {
@@ -210,6 +168,18 @@
 			}, 1000)
 		},
 		methods: {
+			getPayType() {
+				this.$http.post(this.$apiObj.GetPayType).then(res => {
+					this.payList = res.data
+					this.payList.forEach(item=>{
+						this.$set(item,'select',false)
+					})
+				})
+			},
+			// 页面滚动
+			PageScroll() {
+				this.$refs.customerService.handleScroll();
+			},
 			switchProtocol(val) {
 				this.selectProtocol = val
 				if (this.selectProtocol) {
@@ -254,14 +224,14 @@
 			changPay(item) {
 				item.select = !item.select
 				this.payList.forEach(data => {
-					if (item.id != data.id) data.select = false
+					if (item.pay_type != data.pay_type) data.select = false
 					if (item.select) this.showPay = true
 					else this.showPay = false
 				})
 			},
 			//充值k钻
 			addDiamond() {
-				if (this.payNum && this.payNum * 1 < 10) {
+				if (this.payNum && this.payNum * 1 < 15) {
 					uni.showToast({
 						title: this.$t('new.czjejx'),
 						icon: 'none',
@@ -281,7 +251,7 @@
 				//计算支付方式
 				let isNum = 0
 				this.payList.forEach(item => {
-					if (item.select) isNum = item.id
+					if (item.select) isNum = item.pay_type
 				})
 
 
@@ -299,9 +269,9 @@
 					return
 				}
 
-				if (isNum == 1) {
+				if (isNum == 2) {
 					this.payEssenceRecharge()
-				} else if (isNum == 2) {
+				} else if (isNum == 3) {
 					this.paypalRecharge()
 				}
 
@@ -673,14 +643,14 @@
 			word-break: break-all;
 			margin: 20rpx auto 40rpx auto;
 		}
-		
-		.pay{
+
+		.pay {
 			position: relative;
 			width: 686rpx;
 			margin: 0 auto 40rpx auto;
 		}
-		
-		.pay-info-des{
+
+		.pay-info-des {
 			width: 558rpx;
 			font-size: 20rpx;
 			color: rgb(153, 153, 153);
@@ -708,8 +678,8 @@
 					margin-left: 4rpx;
 				}
 			}
-			
-			
+
+
 
 			.select {
 				position: absolute;

@@ -21,7 +21,7 @@
 			<!--支付方式-->
 			<view class="pay" v-for="item in payList.slice(0,2)" :key="item.id">
 				<view class="pay-info">
-					<image :src="item.url" class="logo"></image>
+					<image :src="item.icon" class="logo"></image>
 					<view class="pay-info-name">{{item.name}}</view>
 					<image src="/static/images/new-index/wxz.png" class="select" v-show="!item.select"
 						@click="changPay(item)">
@@ -30,7 +30,7 @@
 						@click="changPay(item)">
 					</image>
 				</view>
-				<view class="pay-info-des" v-show="item.select">{{item.title}}</view>
+				<view class="pay-info-des" v-show="item.select">{{isShopCont ? item.desc_en : item.desc}}</view>
 			</view>
 			
 			<view class="info-ts-sm">{{$t('pay.pay_not')}}</view>
@@ -38,7 +38,7 @@
 			<!--暂不支持的支付方式-->
 			<view class="pay" style="opacity: 0.5;" v-for="item in payList.slice(2,6)" :key="item.id">
 				<view class="pay-info">
-					<image :src="item.url" class="logo"></image>
+					<image :src="item.icon" class="logo"></image>
 					<view class="pay-info-name">{{item.name}}</view>
 					<!--<text v-if="item.id==1">({{$t('new.need_real_name')}})</text> -->
 					<image src="/static/images/new-index/wxz.png" class="select" v-show="!item.select">
@@ -77,67 +77,31 @@
 				showPay:false,//是否显示充值按钮
 				selectProtocol:false,//协议勾选
 				infoData:[],//实名信息
-				payList: [{
-						id: 2,
-						url: '/static/images/kbrick/paypal.png',
-						select: true,
-						name: 'Paypal',
-						title: this.$t('pay.paypal_ts')
-					},
-					{
-						id: 1,
-						url: '/static/images/new-index/pe.png',
-						select: false,
-						name: 'PayEssence',
-						title: this.$t('pay.pay_essence')
-					},
-					{
-						id: 3,
-						url: '/static/images/new-index/apple.png',
-						select: false,
-						name: 'Apple pay',
-						title: ''
-					},
-					{
-						id: 4,
-						url: '/static/images/luck/visa.png',
-						select: false,
-						name: 'Visa',
-						title: ''
-					},
-					{
-						id: 5,
-						url: '/static/images/luck/MasterCard.png',
-						select: false,
-						name: 'MasterCard',
-						title: ''
-					},
-					{
-						id: 6,
-						url: '/static/images/luck/Cryptocurrency.png',
-						select: false,
-						name: 'Cryptocurrency',
-						title: ''
-					},
-					{
-						id: 7,
-						url: '/static/images/luck/debit_card.png',
-						select: false,
-						name: 'Debit Card',
-						title: ''
-					}
-				],
+				payList: [],
+				isShopCont:false
 			}
 		},
 		onShow() {
+			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
+			 
 			// 获取个人信息
 			this.onMineInfo()
 			
 			this.$http.post(this.$apiObj.MineAuthDetail).then(res => {
 				this.infoData = res.data
 			})
+			
+			this.getPayType()
 		},
 		methods: {
+			getPayType() {
+				this.$http.post(this.$apiObj.GetPayType).then(res => {
+					this.payList = res.data
+					this.payList.forEach(item=>{
+						this.$set(item,'select',false)
+					})
+				})
+			},
 			// 获取个人信息
 			onMineInfo() {
 				this.$http.post(this.$apiObj.MineInfo).then(res => {
@@ -157,7 +121,7 @@
 			changPay(item) {
 				item.select = !item.select
 				this.payList.forEach(data => {
-					if (item.id != data.id) data.select = false
+					if (item.pay_type != data.pay_type) data.select = false
 					if (item.select) this.showPay = true
 					else this.showPay = false
 				})
@@ -185,7 +149,7 @@
 				//计算支付方式
 				let isNum = 0
 				this.payList.forEach(item => {
-					if (item.select) isNum = item.id
+					if (item.select) isNum = item.pay_type
 				})
 			
 			
@@ -203,9 +167,9 @@
 					return
 				}
 			
-				if (isNum == 1) {
+				if (isNum == 2) {
 					this.payEssenceRecharge()
-				} else if (isNum == 2) {
+				} else if (isNum == 3) {
 					this.paypalRecharge()
 				}
 			

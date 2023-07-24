@@ -3,6 +3,10 @@
 		<view class="commission-head">
 			<image class="commission-head-img" src="@/static/images/mine/collect_icon_back.png" @click="toBack()"></image>
 			<view class="commission-head-txt">{{$t('new.yjfx')}}</view>
+			<view class="commission-head-right" @click="toRule('/pages/mine/new/materiallibrary')">
+				<view>{{$t('new.yjfxMaterial')}}</view>
+				<view>{{$t('new.yjfxLibrary')}}</view>
+			</view>
 		</view>
 		<view class="commission-center">
 			<view class="commission-center-tit">
@@ -139,8 +143,8 @@
 			position: absolute;
 			right: 20rpx;
 			display: flex;
-			align-items: center;
-			
+			align-items: flex-start;
+			flex-direction: column;
 			image{
 				width: 48rpx;
 				height: 48rpx;
@@ -148,8 +152,9 @@
 			
 			view{
 				font-size: 20rpx;
-				color: rgb(44, 44, 44);
+				color: #0AC68E;
 				margin-right: 16rpx;
+				margin-top: 4rpx;
 			}
 			
 		}

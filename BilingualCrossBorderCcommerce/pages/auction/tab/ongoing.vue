@@ -228,6 +228,31 @@
 						<image src="/static/images/new-index/$.png" class="bonus-img"></image>
 						<view class="bonus-info">{{item.can_use_invite_money_rate*1}}% bonus available</view>
 					</view>
+					
+					<view class="info_tags">
+						<block v-for="data in item.tags" :key="data.tag_id">
+							<view class="tag" v-if="data.tag_id == 1" style="color: #D81E06;border: 2rpx solid #D81E06;">
+								<view class="tag_name">
+									<u-parse :content="isShopCont ? data.en_desc : data.zh_desc"></u-parse>
+								</view>
+							</view>
+							<view class="tag" v-else-if="data.tag_id == 2" style="color: #FF5701;border: 2rpx solid #FF5701;">
+								<view class="tag_name">
+									<u-parse :content="isShopCont ? data.en_desc : data.zh_desc"></u-parse>
+								</view>
+							</view>
+							<view class="tag" v-else-if="data.tag_id == 3" style="color: #0AC68E;border: 2rpx solid #0AC68E;">
+								<view class="tag_name">
+									<u-parse :content="isShopCont ? data.en_desc : data.zh_desc"></u-parse>
+								</view>
+							</view>
+							<view class="tag" v-else="data.tag_id == 3" style="color: #3A71EC;border: 2rpx solid #3A71EC;">
+								<view class="tag_name">
+									<u-parse :content="isShopCont ? data.en_desc : data.zh_desc"></u-parse>
+								</view>
+							</view>
+						</block>
+					</view>
 
 					<view class="info">
 						<view class="info-left">
@@ -512,6 +537,9 @@
 			</view>
 		</view>
 		
+		<!--回到顶部-->
+		<image src="/static/images/auction/to-top.png" class="to_top" v-show="showTop" @click="toTop()"></image>
+		
 	</view>
 </template>
 
@@ -528,6 +556,7 @@
 	export default {
 		data() {
 			return {
+				showTop:false,
 				pagenum: 10, // 每页显示商品数目
 				page: 1,
 				transformClass: false, //购物车icon是否添加平移效果
@@ -709,7 +738,17 @@
 				this.getAllProducts();
 			}
 		},
+		//监听页面滚动
+		onPageScroll(e) {
+			if(e.scrollTop >= 2000 && !this.showTop) this.showTop=true
+			else if(e.scrollTop < 2000 && this.showTop) this.showTop = false
+		},
 		methods: {
+			toTop(){
+				uni.pageScrollTo({
+					scrollTop:0
+				})
+			},
 			toRecharge() {
 				uni.setStorageSync('recharge', true)
 				this.navClick('/pages/mine/K_brick_detail')
@@ -1212,6 +1251,15 @@
 
 	/deep/.uni-progress-bar {
 		border-radius: 9rpx !important;
+	}
+	
+	.to_top{
+		position: fixed;
+		left: 20rpx;
+		bottom: 120rpx;
+		width: 96rpx;
+		height: 96rpx;
+		z-index: 100;
 	}
 	
 	// 许愿
@@ -2508,7 +2556,38 @@
 					}
 
 				}
-
+				
+				.info_tags {
+					width: 628rpx;
+					color: rgb(153, 153, 153);
+					display: flex;
+					flex-wrap: wrap;
+					align-items: center;
+					margin: 20rpx auto;
+					
+					.tag{
+						display: flex;
+						align-items: center;
+						padding: 1rpx 8rpx;
+						box-sizing: border-box;
+						border: 2rpx solid #D81E06;
+						border-radius: 20rpx;
+						margin-right: 30rpx;
+						
+						image{
+							display: block;
+							width: 32rpx;
+							height: 32rpx;
+							border-radius: 50%;
+						}
+						
+						.tag_name{
+							font-size: 20rpx;
+						}
+					}
+					
+				}
+				
 				.info {
 					width: 628rpx;
 					display: flex;

@@ -173,6 +173,7 @@ let apiObj = {
 	//paypal支付
 	PaypalRecharge:"/recharge/payPalRecharge",
 	GetOrderStatus:"/recharge/getOrderStatus",//获取订单状态
+	GetPayType:"/Pay/getPayType",//获取支付方式
 	
 	//排行榜
 	GoodLuckyLeaderboard:"/Leaderboard/goodLuckyLeaderboard",//幸运之星排行榜
