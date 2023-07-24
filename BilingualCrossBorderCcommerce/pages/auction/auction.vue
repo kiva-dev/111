@@ -413,7 +413,7 @@
 									<u-parse :content="isShopCont ? data.en_desc : data.zh_desc"></u-parse>
 								</view>
 							</view>
-							<view class="tag" v-else="data.tag_id == 3" style="color: #3A71EC;border: 2rpx solid #3A71EC;">
+							<view class="tag" v-else-if="data.tag_id == 9" style="color: #3A71EC;border: 2rpx solid #3A71EC;">
 								<view class="tag_name">
 									<u-parse :content="isShopCont ? data.en_desc : data.zh_desc"></u-parse>
 								</view>
@@ -678,7 +678,7 @@
 									<u-parse :content="isShopCont ? data.en_desc : data.zh_desc"></u-parse>
 								</view>
 							</view>
-							<view class="tag" v-else="data.tag_id == 3" style="color: #3A71EC;border: 2rpx solid #3A71EC;">
+							<view class="tag" v-else-if="data.tag_id == 9" style="color: #3A71EC;border: 2rpx solid #3A71EC;">
 								<view class="tag_name">
 									<u-parse :content="isShopCont ? data.en_desc : data.zh_desc"></u-parse>
 								</view>
@@ -783,11 +783,13 @@
 					</view>
 
 					<view class="item-status1" v-if="item.check_status==3">
-						<view>Completed</view>
+						<view v-if="isShopCont">{{$t('auction.yiwancheng')}}</view>
+						<view v-if="!isShopCont" style="top: 26%;left: 36%;">{{$t('auction.yiwancheng')}}</view>
 					</view>
 
 					<view class="item-status2" v-if="item.check_status==4">
-						<view>Unrealised</view>
+						<view v-if="isShopCont">{{$t('new.unrealised')}}</view>
+						<view v-if="!isShopCont" style="top: 26%;left: 45%;">{{$t('new.unrealised')}}</view>
 					</view>
 
 				</view>
@@ -1290,6 +1292,16 @@
 			this.lishiId = 1
 			this.date_start = ''
 			this.navId = 3
+			
+			if (uni.getStorageSync('token') && !this.isLogin) {
+				this.$http.post(this.$apiObj.MineInfo).then(res => {
+					if (res.code == 1) {
+						this.isLogin = true
+						this.balance = res.data.k_diamond_wallet
+						this.set_paypwd = res.data.set_paypwd
+					}
+				})
+			}
 
 			if (uni.getStorageSync('token') && !this.isLogin) {
 				this.$http.post(this.$apiObj.MineInfo).then(res => {

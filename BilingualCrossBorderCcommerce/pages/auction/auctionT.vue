@@ -257,7 +257,7 @@
 									<u-parse :content="isShopCont ? data.en_desc : data.zh_desc"></u-parse>
 								</view>
 							</view>
-							<view class="tag" v-else="data.tag_id == 3" style="color: #3A71EC;border: 2rpx solid #3A71EC;">
+							<view class="tag" v-else-if="data.tag_id == 9" style="color: #3A71EC;border: 2rpx solid #3A71EC;">
 								<view class="tag_name">
 									<u-parse :content="isShopCont ? data.en_desc : data.zh_desc"></u-parse>
 								</view>
@@ -283,7 +283,6 @@
 						</view>
 						
 						
-
 						<view class="info-right" v-if="id==1">
 							<view @click.stop="onMineInfo(item)">{{$t('tab.xy')}}</view>
 						</view>
@@ -611,7 +610,7 @@
 				kdiamondSelect: false,
 				showRmToKdiamond: false,
 				isBottoming: false,
-				id: 2, //决定当前页面展示那个竞拍数据
+				id: 0, //决定当前页面展示那个竞拍数据
 				title: 'Ongoing', //标题显示
 				selectId: 1, //不同的显示形式
 				productId: 0,
@@ -1327,7 +1326,7 @@
 	/deep/.uni-progress-bar {
 		border-radius: 9rpx !important;
 	}
-	
+
 	.to_top{
 		position: fixed;
 		left: 20rpx;
