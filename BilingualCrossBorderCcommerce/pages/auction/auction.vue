@@ -1274,7 +1274,7 @@
 			this.date_start = ''
 			this.navId = 3
 			
-			if (uni.getStorageSync('token')) {
+			if (uni.getStorageSync('token') && !this.isLogin) {
 				this.$http.post(this.$apiObj.MineInfo).then(res => {
 					if (res.code == 1) {
 						this.isLogin = true
