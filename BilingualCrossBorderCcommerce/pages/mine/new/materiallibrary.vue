@@ -11,14 +11,14 @@
                     <image  :src="require(`@/static/images/mine/${previewImg}.png`)" mode="widthFix" @click="previewImgList(previewImg)"></image>
                     <view class="PreView" @click="previewImgList(previewImg)">PreView</view>
                 </view>
-			    <view class="commission-center-btn"  @click="onUrlClick()">{{$t('new.yjfxBtn')}}</view>
+			    <view class="commission-center-btn"  @click="onUrlClick('PlatformActivityBenefits')">{{$t('new.yjfxBtn')}}</view>
 			</view>
 			<view class="commission-center-right">
                 <view class="commission-center-text">
                     <image  :src="require(`@/static/images/mine/${preview2Img}.png`)" mode="widthFix"  @click="previewImgList(preview2Img)"></image>
                     <view class="PreView" @click="previewImgList(preview2Img)">PreView</view>
                 </view>
-			    <view class="commission-center-btn" @click="onUrlClick()">{{$t('new.yjfxBtn')}}</view>
+			    <view class="commission-center-btn" @click="onUrlClick('surprise')">{{$t('new.yjfxBtn')}}</view>
 			</view>
 		</view>
         <!--图片预览-->
@@ -39,6 +39,7 @@
 	export default {
 		data() {
 			return {
+				userCont:uni.getStorageSync('userCont'),
                 isEnglish:uni.getStorageSync('locale') === 'en' ? true : false,
                 showImagUrl:'preview2-en',
                 showImages:false
@@ -72,16 +73,12 @@
 				})
 			},
             // 点击复制链接
-			onUrlClick() {
-                console.log('辅助');
-                uni.showToast({
-					icon: 'none',
-					title: this.$t('user.order.detail.fzcg')
-				})
-
+			onUrlClick(styleUrl = 'surprise') {
+				const language = uni.getStorageSync('locale')
+				const shareUrl = this.$baseUrl + 'pages/topromote/activity/' + styleUrl + '?language=' + language + '&promotion_code=' + this.userCont.invite_code
 				// #ifdef H5
 				let oInput = document.createElement('input');
-				oInput.value = ''; //要复制的
+				oInput.value = shareUrl; //要复制的
 				document.body.appendChild(oInput);
 				oInput.select(); // 选择对象;
 				document.execCommand("Copy"); // 执行浏览器复制命令
@@ -93,7 +90,7 @@
 				// #endif
 				// #ifndef H5
 				uni.setClipboardData({
-					data: this.qrUrl,
+					data: shareUrl,
 					success: () => {
 						uni.showToast({
 							icon: 'none',
