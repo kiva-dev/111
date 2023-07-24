@@ -57,73 +57,73 @@ export default {
 	}
   },
   methods: {
-	checkApp() {
-		this.showContact = true;
-		this.$emit("showContactFun",this.showContact);
-	},
-	
-	isLogin() {
-		const userinfo = uni.getStorageSync('userinfo');
-		const _token = uni.getStorageSync('token');
-		if (!userinfo?.token || !_token || _token.trim() === '') {
-			this.handleNotLoggedIn();
-		} else {
-			const tokenArr = userinfo.token.split('|');
-			const expirationTime = parseInt(tokenArr[2]) - 2;
-			const currentTime = Math.floor(Date.now() / 1000);
-			if (expirationTime < currentTime) {
-				this.handleExpiredToken();
-			} else {
-				this.handleValidLogin(userinfo.token, userinfo.auth_token);
-			}
-		}
-	},
-	handleNotLoggedIn() {
-		if (!uni.getStorageSync('UNI_LOCALE')) {
-			uni.setStorageSync('UNI_LOCALE', 'en');
-			uni.setStorageSync('locale', 'en');
-		}
-		if (!uni.getStorageSync('phoneCont')) {
-			uni.setLocale('en');
-			this.$i18n.locale = 'en';
-		}
-		const isEnglish = uni.getStorageSync('locale') === 'en';
-		const title = isEnglish ? 'Tips' : '温馨提示';
-		const content = isEnglish
-			? 'You have not logged in or your identity has expired, please log in.'
-			: '您暂未登录或身份过期，请前往登录。';
-		uni.showModal({
-			title: title,
-			content: content,
-			success: (res) => {
-				if (res.confirm) {
-					uni.redirectTo({
-						url: '/pages/public/login',
-					});
-				} else {
-					uni.navigateBack();
-				}
-			},
-		});
-	},
-	handleExpiredToken() {
-		setTimeout(() => {
-			this.ws.logout();
-		}, 300);
-	},
-	handleValidLogin(token, auth_token) {
-		this.ws.init(token, auth_token);
-	},
-	openSession: function() {
-		const userinfo = uni.getStorageSync('userinfo');
-		this.isLogin()
-		if (!userinfo || !userinfo.token) {
-			return;
-		}
-		this.ws.pageFun(() => {
-			this.ws.send({ c: 'Message', a: 'assignCsr', data: {} })
-		})
-	},
+    checkApp() {
+      this.showContact = true;
+      this.$emit("showContactFun",this.showContact);
+    },
+    
+    isLogin() {
+      const userinfo = uni.getStorageSync('userinfo');
+      const _token = uni.getStorageSync('token');
+      if (!userinfo?.token || !_token || _token.trim() === '') {
+        this.handleNotLoggedIn();
+      } else {
+        const tokenArr = userinfo.token.split('|');
+        const expirationTime = parseInt(tokenArr[2]) - 2;
+        const currentTime = Math.floor(Date.now() / 1000);
+        if (expirationTime < currentTime) {
+          this.handleExpiredToken();
+        } else {
+          this.handleValidLogin(userinfo.token, userinfo.auth_token);
+        }
+      }
+    },
+    handleNotLoggedIn() {
+      if (!uni.getStorageSync('UNI_LOCALE')) {
+        uni.setStorageSync('UNI_LOCALE', 'en');
+        uni.setStorageSync('locale', 'en');
+      }
+      if (!uni.getStorageSync('phoneCont')) {
+        uni.setLocale('en');
+        this.$i18n.locale = 'en';
+      }
+      const isEnglish = uni.getStorageSync('locale') === 'en';
+      const title = isEnglish ? 'Tips' : '温馨提示';
+      const content = isEnglish
+        ? 'You have not logged in or your identity has expired, please log in.'
+        : '您暂未登录或身份过期，请前往登录。';
+      uni.showModal({
+        title: title,
+        content: content,
+        success: (res) => {
+          if (res.confirm) {
+            uni.redirectTo({
+              url: '/pages/public/login',
+            });
+          } else {
+            uni.navigateBack();
+          }
+        },
+      });
+    },
+    handleExpiredToken() {
+      setTimeout(() => {
+        this.ws.logout();
+      }, 300);
+    },
+    handleValidLogin(token, auth_token) {
+      this.ws.init(token, auth_token);
+    },
+    openSession: function() {
+      const userinfo = uni.getStorageSync('userinfo');
+      this.isLogin()
+      if (!userinfo || !userinfo.token) {
+        return;
+      }
+      this.ws.pageFun(() => {
+        this.ws.send({ c: 'Message', a: 'assignCsr', data: {} })
+      })
+    },
     handleScroll() {
       this.transformClass = true;
       clearTimeout(this.timer);

@@ -173,7 +173,7 @@
 
 		<!-- 1 -->
 		<view class="list-layout">
-			
+
 			<view class="ll-header">
 				<view class="ll-header-left">
 					<view class="left-icon">
@@ -396,6 +396,17 @@
 							activeColor="#1DD181" backgroundColor="#EBEBEB" />
 					</view>
 
+					<view class="info_tags">
+						<block v-for="data in item.tags" :key="data.tag_id">
+							<view class="tag">
+								<image :src="data.image"></image>
+								<view>
+									<u-parse :content="isShopCont ? data.en_desc : data.zh_desc"></u-parse>
+								</view>
+							</view>
+						</block>
+					</view>
+
 					<view class="info">
 						<view class="info-left">
 							<view class="old">
@@ -418,12 +429,12 @@
 
 				</view>
 			</template>
-		
+
 			<view class="new-view-more" @click.stop="toInfo(1)">
 				<view>{{$t('home.detail.more')}}</view>
 				<image src="/static/images/auction/right_gre.png"></image>
 			</view>
-			
+
 		</view>
 
 		<!-- 2 -->
@@ -635,6 +646,17 @@
 						<image src="/static/images/new-index/$.png" class="bonus-img"></image>
 						<view class="bonus-info">{{item.can_use_invite_money_rate*1}}% bonus available</view>
 					</view>
+					
+					<view class="info_tags">
+						<block v-for="data in item.tags" :key="data.tag_id">
+							<view class="tag">
+								<image :src="data.image"></image>
+								<view>
+									<u-parse :content="isShopCont ? data.en_desc : data.zh_desc"></u-parse>
+								</view>
+							</view>
+						</block>
+					</view>
 
 					<view class="info">
 						<view class="info-left">
@@ -661,12 +683,12 @@
 
 				</view>
 			</template>
-		
+
 			<view class="new-view-more" @click.stop="toInfo(2)">
 				<view>{{$t('home.detail.more')}}</view>
 				<image src="/static/images/auction/right_gre.png"></image>
 			</view>
-			
+
 		</view>
 
 		<!-- 3 -->
@@ -701,54 +723,8 @@
 							<view>{{item.stage_num}}{{$t('shop.qi')}}</view>
 						</view>
 					</view>
-					<view class="new-list-item-right" v-if="item.check_status!=3 && item.check_status!=4">
-						<view class="new-list-item-right-txt">{{item.goods_name}}</view>
-						<view class="new-list-item-right-tags">
-							<block v-for="(data,index) in item.tags" :key="data.tag_id">
-								<image :src="data.image"></image>
-							</block>
-						</view>
 
-						<view class="new-list-item-right-start">
-							<view class="new-list-item-right-start-info">
-								<image src="../../static/images/new-index/xx.png"></image>
-								<view>{{item.litestore_goods_focus_total}}</view>
-							</view>
-							<view class="new-list-item-right-start-info">
-								<image src="../../static/images/new-index/xcz.png"></image>
-								<view>{{item.auction_goods_total}}</view>
-							</view>
-							<view class="new-list-item-right-start-info">
-								<image src="/static/images/new-index/pl.png"></image>
-								<view>{{item.litestore_goods_comment_total}}</view>
-							</view>
-						</view>
-
-
-						<view class="new-list-item-btm">
-							<view class="new-list-item-btm-price">
-								<view class="new">
-									<image src="/static/images/kbrick/diamond.png"></image>
-									<span>{{item.auction_price}}</span>
-								</view>
-								<view class="old">RM{{item.price}}</view>
-							</view>
-
-						</view>
-
-						<view class="mask" v-show="item.isMask">
-							<image src="/static/images/new-index/close.png" class="close"
-								@click.stop="item.isMask=false"></image>
-							<view style="height: 46rpx;"></view>
-							<view class="mask-info" v-for="data in item.tags">
-								<image :src="data.image"></image>
-								<view><u-parse :content="isShopCont?data.en_desc:data.zh_desc"></u-parse></view>
-							</view>
-						</view>
-
-					</view>
-
-					<view class="item-historical-des" v-else>
+					<view class="item-historical-des">
 						<view class="des-tit">{{item.goods_name}}</view>
 						<view class="des-center">
 							<view class="des-center-price">
@@ -758,7 +734,16 @@
 								</view>
 								<view class="old">RM{{item.price}}</view>
 							</view>
-							<!-- <view class="des-center-num">x{{item.join_count}}</view> -->
+							<view class="des-center-num">
+								<template v-if="item.check_status==4">
+									<image src="/static/images/auction/not-auth.png"></image>
+								</template>
+								<template v-else>
+									<image src="/static/images/new-index/lv-start.png" style="width: 24rpx;height: 24rpx;"></image>
+									<image :src="item.user_info.avatar"></image>
+									<view>{{item.user_info.nickname}}</view>
+								</template>
+							</view>
 						</view>
 						<view class="des-btm">
 							<view class="left">
@@ -779,12 +764,12 @@
 
 				</view>
 			</template>
-			
+
 			<view class="new-view-more" @click.stop="toInfo(3)">
 				<view>{{$t('home.detail.more')}}</view>
 				<image src="/static/images/auction/right_gre.png"></image>
 			</view>
-			
+
 		</view>
 
 		<!--抢拍次数 start-->
@@ -1021,7 +1006,7 @@
 						<image src="../../static/images/new/Telegram.png"></image>
 						<view>Telegram</view>
 					</view>
-				
+
 					<view class="contact-info-des" @click="onWhatsAPP()">
 						<image src="../../static/images/new/WhatsAPP.png"></image>
 						<view>WhatsAPP</view>
@@ -1168,7 +1153,7 @@
 				auction_num: '', // 剩余竞拍次数
 				isauctionNum: '', // 输入的抢拍次数
 				shopCont: {
-					auction_goods_id:0
+					auction_goods_id: 0
 				}, // 商品详情
 				shopNum: '', // 竞拍总价
 				order_no: '', // 订单编号
@@ -1219,12 +1204,12 @@
 				zenjinToRmNum: 0, //赠金可以用于扣除的数量
 				changShopNum: 0, //使用赠金后的k钻
 				set_paypwd: '',
-				invite_money_balance:0,
-				isLogin:false
+				invite_money_balance: 0,
+				isLogin: false
 			}
 		},
 		onLoad(e) {
-			if(e.promotion_code) uni.setStorageSync('invite_code',e.promotion_code)
+			if (e.promotion_code) uni.setStorageSync('invite_code', e.promotion_code)
 			let systemInfo = uni.getSystemInfoSync();
 			this.systemLocale = systemInfo.language;
 			this.applicationLocale = uni.getLocale();
@@ -1273,7 +1258,7 @@
 			this.lishiId = 1
 			this.date_start = ''
 			this.navId = 3
-			
+
 			if (uni.getStorageSync('token') && !this.isLogin) {
 				this.$http.post(this.$apiObj.MineInfo).then(res => {
 					if (res.code == 1) {
@@ -1299,12 +1284,12 @@
 				let mine = uni.getStorageSync('mine-info')
 				this.onMineInfo(mine)
 				this.isauctionNum = info.isauctionNum
-				setTimeout(()=>{
+				setTimeout(() => {
 					this.onBtnSub()
-					console.log(this.shopNum,this.isauctionNum)
+					console.log(this.shopNum, this.isauctionNum)
 					uni.removeStorageSync('wish_info')
 					uni.removeStorageSync('mine-info')
-				},1000)
+				}, 1000)
 			}
 
 		},
@@ -1326,7 +1311,7 @@
 		},
 		methods: {
 			onfacebook() {
-				
+
 				let url = 'https://www.facebook.com/kolibrimall.my'
 				// #ifdef H5
 				window.open(url)
@@ -1643,7 +1628,7 @@
 						this.historyList = this.page == 1 ? res.data.data : [...this.historyList, ...res.data
 							.data
 						]
-						if (this.id == 3) this.productList = this.historyList
+						
 						this.historyList = this.historyList.splice(0, 10)
 					}
 				})
@@ -1675,7 +1660,7 @@
 			// 个人信息获取剩余竞拍次数
 			onMineInfo(e) {
 				let that = this
-				uni.setStorageSync('mine-info',e)
+				uni.setStorageSync('mine-info', e)
 				this.isauctionNum = 1
 				this.shopCont = e
 				that.pay_pwd = ''
@@ -1701,7 +1686,7 @@
 							(res.data.auction_num === -1) ? e.total_least_num : (res.data.auction_num < e
 								.total_least_num) ? res.data.auction_num : e.total_least_num
 						if (res.data.auction_num !== 0) {
-							if(uni.getStorageSync('wish_info')) return
+							if (uni.getStorageSync('wish_info')) return
 							this.$refs.pwdPopup.open()
 						} else {
 							this.$refs.pwdPopup3.open()
@@ -1742,7 +1727,7 @@
 				this.zenjinToRmNum = (this.invite_money_balance * 1 > this.shopNum * 1 * (this.can_use_invite_money_rate *
 						1 / 100) ? this.shopNum * 1 * (this.can_use_invite_money_rate * 1 / 100) : this
 					.invite_money_balance * 1)
-					
+
 
 				//最多使用多少赠金
 				let zjPrice = (this.shopNum * 1) * (this.can_use_invite_money_rate * 1 / 100)
@@ -1796,12 +1781,12 @@
 								goods_id: this.shopCont.auction_goods_id
 							}
 							// #ifdef H5
-							if(!uni.getStorageSync('mine-info')){ //第一次会存在，连续第二次点击时如果不存在则重新设置缓存
-								uni.setStorageSync('mine-info',this.shopCont)
+							if (!uni.getStorageSync('mine-info')) { //第一次会存在，连续第二次点击时如果不存在则重新设置缓存
+								uni.setStorageSync('mine-info', this.shopCont)
 							}
 							uni.setStorageSync('wish_info', data)
 							// #endif
-							
+
 							setTimeout(() => {
 								uni.navigateTo({
 									url: '/pages/mine/K_brick_detail'
@@ -1830,8 +1815,8 @@
 										goods_id: this.shopCont.auction_goods_id
 									}
 									// #ifdef H5
-									if(!uni.getStorageSync('mine-info')){ //第一次会存在，连续第二次点击时如果不存在则重新设置缓存
-										uni.setStorageSync('mine-info',this.shopCont)
+									if (!uni.getStorageSync('mine-info')) { //第一次会存在，连续第二次点击时如果不存在则重新设置缓存
+										uni.setStorageSync('mine-info', this.shopCont)
 									}
 									uni.setStorageSync('wish_info', data)
 									// #endif
@@ -1858,8 +1843,8 @@
 										goods_id: this.shopCont.auction_goods_id
 									}
 									// #ifdef H5
-									if(!uni.getStorageSync('mine-info')){ //第一次会存在，连续第二次点击时如果不存在则重新设置缓存
-										uni.setStorageSync('mine-info',this.shopCont)
+									if (!uni.getStorageSync('mine-info')) { //第一次会存在，连续第二次点击时如果不存在则重新设置缓存
+										uni.setStorageSync('mine-info', this.shopCont)
 									}
 									uni.setStorageSync('wish_info', data)
 									// #endif
@@ -2167,68 +2152,6 @@
 		}
 	}
 
-	//右侧固定栏滚动
-	.removeRightX {
-		transform: translateX(80rpx);
-		transition: all 0.5s ease;
-	}
-
-	.removeLeftX {
-		transform: translateX(0);
-		transition: all 0.5s ease;
-	}
-
-	.leftSider {
-		position: fixed;
-		right: 32rpx; //-50
-		bottom: 200rpx;
-		z-index: 100;
-
-		.gz {
-			width: 92rpx;
-			height: 92rpx;
-		}
-
-		.newListImg {
-			width: 92rpx;
-			height: 92rpx;
-		}
-
-		.newListImgDeg {
-			width: 92rpx;
-			height: 92rpx;
-			margin-top: 30rpx;
-			transform: rotate(-45deg);
-		}
-
-		//三个入口
-		.imgArr {
-			background: #fff;
-			width: 92rpx;
-			height: 280rpx;
-			border-radius: 45rpx;
-			box-shadow: 0 0 20rpx rgba(198, 198, 198, 0.3);
-			text-align: center;
-
-			.people {
-				margin-top: 30rpx;
-
-				.pImg {
-					width: 45rpx;
-					height: 40rpx;
-				}
-			}
-
-			.minImg {
-				width: 45rpx;
-				height: 45rpx;
-				text-align: center;
-				margin-top: 40rpx;
-			}
-		}
-
-	}
-
 	.auction-page {
 		width: 100%;
 		background: #FFFFFF;
@@ -2526,8 +2449,8 @@
 			border-radius: 16rpx 16rpx 0 0;
 			padding-bottom: 50rpx;
 			// position: relative;
-			
-			.new-view-more{
+
+			.new-view-more {
 				position: relative;
 				width: 686rpx;
 				height: 56rpx;
@@ -2541,8 +2464,8 @@
 				border-radius: 56rpx;
 				margin: 32rpx auto 0 auto;
 				z-index: 10;
-				
-				image{
+
+				image {
 					display: block;
 					width: 24rpx;
 					height: 24rpx;
@@ -3065,8 +2988,25 @@
 						}
 
 						.des-center-num {
-							font-size: 16rpx;
-							color: rgb(153, 153, 153);
+							font-size: 20rpx;
+							color: rgb(51, 51, 51);
+							display: flex;
+							align-items: center;
+							
+							image{
+								display: block;
+								width: 32rpx;
+								height: 32rpx;
+								border-radius: 50%;
+								margin-right: 10rpx;
+							}
+							
+							view{
+								max-width: 180rpx;
+								overflow: hidden;
+								text-overflow: ellipsis;
+								white-space: nowrap;
+							}
 						}
 					}
 
@@ -3445,6 +3385,33 @@
 					}
 				}
 
+				.info_tags {
+					width: 628rpx;
+					display: flex;
+					flex-wrap: wrap;
+					align-items: center;
+					margin: 20rpx auto 0 auto;
+					
+					.tag{
+						display: flex;
+						align-items: center;
+						margin-right: 30rpx;
+						
+						image{
+							display: block;
+							width: 32rpx;
+							height: 32rpx;
+							border-radius: 50%;
+						}
+						
+						view{
+							font-size: 20rpx;
+							color: rgb(153, 153, 153);
+							margin-left: 10rpx;
+						}
+					}
+					
+				}
 
 				.info {
 					width: 628rpx;
