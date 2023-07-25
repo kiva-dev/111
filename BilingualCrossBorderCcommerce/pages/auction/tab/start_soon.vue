@@ -438,12 +438,12 @@
 				zenjinToRmNum: 0, //赠金可以用于扣除的数量
 				changShopNum: 0, //使用赠金后的k钻
 				set_paypwd: '',
-				totalNum: 0
+				totalNum: 0,
+				showMakeaWish:false,//是否显示许愿列表
 			}
 		},
 		onLoad(e) {
 			this.onAuctionNotbeginGoods()
-			this.getAllProducts()
 			let systemInfo = uni.getSystemInfoSync();
 			this.systemLocale = systemInfo.language;
 			this.applicationLocale = uni.getLocale();
@@ -496,9 +496,16 @@
 			}
 		},
 		onReachBottom() {
-			if (this.page * this.pagenum < this.totalNum) {
+			if (this.page * this.pagenum < this.newTotalPageNum && !this.showMakeaWish) {
+				this.page++;
+				this.onAuctionNotbeginGoods()
+			} else if (this.page * this.pagenum < this.totalNum && this.showMakeaWish) {
 				this.page++;
 				this.getAllProducts();
+			}else{
+				this.page = 1;
+				this.showMakeaWish = true;
+				this.getAllProducts()
 			}
 		},
 		//监听页面滚动
@@ -641,7 +648,7 @@
 				this.$http.post(this.$apiObj.AuctionNotbeginGoods, {
 					sort: this.jijiangId,
 					page: this.page,
-					pagenum: 100,
+					pagenum: this.pagenum,
 					keyword: this.keyword
 				}).then(res => {
 					if (res.code == 1) {
@@ -674,6 +681,10 @@
 							this.$set(item, 'datetime', time)
 						})
 						this.newTotalPageNum = res.data.total
+						if(this.newTotalPageNum < 10){
+							this.showMakeaWish = true
+							this.getAllProducts()
+						}
 						this.productList = this.page == 1 ? res.data.data : [...this.productList, ...res
 							.data.data
 						]

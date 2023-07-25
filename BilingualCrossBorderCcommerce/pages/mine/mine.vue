@@ -620,7 +620,7 @@
 					if (res.code == 1) {
 						uni.setStorageSync('userCont', res.data);
 						this.userCont = res.data;
-						this.yqUrl = this.$baseUrl + 'pages/mine/new/new-register?invite_code='+res.data.invite_code
+						this.yqUrl = this.$baseUrl + 'a/r/'+res.data.invite_code
 						this.getAllPoints();
 					}
 				})
