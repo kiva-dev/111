@@ -398,22 +398,26 @@
 
 					<view class="info_tags">
 						<block v-for="data in item.tags" :key="data.tag_id">
-							<view class="tag" v-if="data.tag_id == 1" style="color: #D81E06;border: 2rpx solid #D81E06;">
+							<view class="tag" v-if="data.tag_id == 1"
+								style="color: #D81E06;border: 2rpx solid #D81E06;">
 								<view class="tag_name">
 									<u-parse :content="isShopCont ? data.en_desc : data.zh_desc"></u-parse>
 								</view>
 							</view>
-							<view class="tag" v-else-if="data.tag_id == 2" style="color: #FF5701;border: 2rpx solid #FF5701;">
+							<view class="tag" v-else-if="data.tag_id == 2"
+								style="color: #FF5701;border: 2rpx solid #FF5701;">
 								<view class="tag_name">
 									<u-parse :content="isShopCont ? data.en_desc : data.zh_desc"></u-parse>
 								</view>
 							</view>
-							<view class="tag" v-else-if="data.tag_id == 3" style="color: #0AC68E;border: 2rpx solid #0AC68E;">
+							<view class="tag" v-else-if="data.tag_id == 3"
+								style="color: #0AC68E;border: 2rpx solid #0AC68E;">
 								<view class="tag_name">
 									<u-parse :content="isShopCont ? data.en_desc : data.zh_desc"></u-parse>
 								</view>
 							</view>
-							<view class="tag" v-else-if="data.tag_id == 9" style="color: #3A71EC;border: 2rpx solid #3A71EC;">
+							<view class="tag" v-else-if="data.tag_id == 9"
+								style="color: #3A71EC;border: 2rpx solid #3A71EC;">
 								<view class="tag_name">
 									<u-parse :content="isShopCont ? data.en_desc : data.zh_desc"></u-parse>
 								</view>
@@ -660,25 +664,29 @@
 						<image src="/static/images/new-index/$.png" class="bonus-img"></image>
 						<view class="bonus-info">{{item.can_use_invite_money_rate*1}}% bonus available</view>
 					</view>
-					
+
 					<view class="info_tags">
 						<block v-for="data in item.tags" :key="data.tag_id">
-							<view class="tag" v-if="data.tag_id == 1" style="color: #D81E06;border: 2rpx solid #D81E06;">
+							<view class="tag" v-if="data.tag_id == 1"
+								style="color: #D81E06;border: 2rpx solid #D81E06;">
 								<view class="tag_name">
 									<u-parse :content="isShopCont ? data.en_desc : data.zh_desc"></u-parse>
 								</view>
 							</view>
-							<view class="tag" v-else-if="data.tag_id == 2" style="color: #FF5701;border: 2rpx solid #FF5701;">
+							<view class="tag" v-else-if="data.tag_id == 2"
+								style="color: #FF5701;border: 2rpx solid #FF5701;">
 								<view class="tag_name">
 									<u-parse :content="isShopCont ? data.en_desc : data.zh_desc"></u-parse>
 								</view>
 							</view>
-							<view class="tag" v-else-if="data.tag_id == 3" style="color: #0AC68E;border: 2rpx solid #0AC68E;">
+							<view class="tag" v-else-if="data.tag_id == 3"
+								style="color: #0AC68E;border: 2rpx solid #0AC68E;">
 								<view class="tag_name">
 									<u-parse :content="isShopCont ? data.en_desc : data.zh_desc"></u-parse>
 								</view>
 							</view>
-							<view class="tag" v-else-if="data.tag_id == 9" style="color: #3A71EC;border: 2rpx solid #3A71EC;">
+							<view class="tag" v-else-if="data.tag_id == 9"
+								style="color: #3A71EC;border: 2rpx solid #3A71EC;">
 								<view class="tag_name">
 									<u-parse :content="isShopCont ? data.en_desc : data.zh_desc"></u-parse>
 								</view>
@@ -767,7 +775,8 @@
 									<image src="/static/images/auction/not-auth.png"></image>
 								</template>
 								<template v-else>
-									<image src="/static/images/new-index/lv-start.png" style="width: 24rpx;height: 24rpx;"></image>
+									<image src="/static/images/new-index/lv-start.png"
+										style="width: 24rpx;height: 24rpx;"></image>
 									<image :src="item.user_info.avatar"></image>
 									<view>{{item.user_info.nickname}}</view>
 								</template>
@@ -1106,10 +1115,10 @@
 		</view>
 
 		<customerService ref="customerService" @showContactFun="showContactFun" />
-		
+
 		<!--回到顶部-->
 		<image src="/static/images/auction/to-top.png" class="to_top" v-show="showTop" @click="toTop()"></image>
-		
+
 	</view>
 </template>
 
@@ -1130,7 +1139,7 @@
 		},
 		data() {
 			return {
-				showTop:false,//显示小火箭
+				showTop: false, //显示小火箭
 				switch_id: 0,
 				isBottoming: false,
 				FirstList: [], // 1级分类
@@ -1292,16 +1301,6 @@
 			this.lishiId = 1
 			this.date_start = ''
 			this.navId = 3
-			
-			if (uni.getStorageSync('token') && !this.isLogin) {
-				this.$http.post(this.$apiObj.MineInfo).then(res => {
-					if (res.code == 1) {
-						this.isLogin = true
-						this.balance = res.data.k_diamond_wallet
-						this.set_paypwd = res.data.set_paypwd
-					}
-				})
-			}
 
 			if (uni.getStorageSync('token') && !this.isLogin) {
 				this.$http.post(this.$apiObj.MineInfo).then(res => {
@@ -1345,13 +1344,13 @@
 		//监听页面滚动
 		onPageScroll(e) {
 			this.$refs.customerService.handleScroll();
-			if(e.scrollTop >= 2000 && !this.showTop) this.showTop=true
-			else if(e.scrollTop < 2000 && this.showTop) this.showTop = false
+			if (e.scrollTop >= 2000 && !this.showTop) this.showTop = true
+			else if (e.scrollTop < 2000 && this.showTop) this.showTop = false
 		},
 		methods: {
-			toTop(){
+			toTop() {
 				uni.pageScrollTo({
-					scrollTop:0
+					scrollTop: 0
 				})
 			},
 			onfacebook() {
@@ -1672,7 +1671,7 @@
 						this.historyList = this.page == 1 ? res.data.data : [...this.historyList, ...res.data
 							.data
 						]
-						
+
 						this.historyList = this.historyList.splice(0, 10)
 					}
 				})
@@ -1725,8 +1724,7 @@
 						this.money = res.data.recharge_money_balance
 						this.balance = res.data.k_diamond_wallet
 						// this.auction_num = res.data.auction_num
-						this.auction_num = (e.auction_type == 2 && e.total_least_num == 0) ? res.data
-							.auction_num :
+						this.auction_num = (e.auction_type == 2 && e.total_least_num == 0) ? res.data.auction_num :
 							(res.data.auction_num === -1) ? e.total_least_num : (res.data.auction_num < e
 								.total_least_num) ? res.data.auction_num : e.total_least_num
 						if (res.data.auction_num !== 0) {
@@ -1992,8 +1990,8 @@
 	/deep/.uni-progress-bar {
 		border-radius: 9rpx !important;
 	}
-	
-	.to_top{
+
+	.to_top {
 		position: fixed;
 		left: 20rpx;
 		bottom: 120rpx;
@@ -3046,17 +3044,17 @@
 							display: flex;
 							align-items: center;
 							margin-top: 10rpx;
-							
-							image{
+
+							image {
 								display: block;
 								width: 32rpx;
 								height: 32rpx;
 								border-radius: 50%;
 								margin-right: 10rpx;
 							}
-							
-							view{
-								
+
+							view {
+
 								// overflow: hidden;
 								// text-overflow: ellipsis;
 								// white-space: nowrap;
@@ -3446,8 +3444,8 @@
 					flex-wrap: wrap;
 					align-items: center;
 					margin: 20rpx auto;
-					
-					.tag{
+
+					.tag {
 						display: flex;
 						align-items: center;
 						padding: 2rpx 8rpx;
@@ -3456,19 +3454,19 @@
 						border-radius: 20rpx;
 						margin-right: 30rpx;
 						margin-bottom: 10rpx;
-						
-						image{
+
+						image {
 							display: block;
 							width: 32rpx;
 							height: 32rpx;
 							border-radius: 50%;
 						}
-						
-						.tag_name{
+
+						.tag_name {
 							font-size: 20rpx;
 						}
 					}
-					
+
 				}
 
 				.info {

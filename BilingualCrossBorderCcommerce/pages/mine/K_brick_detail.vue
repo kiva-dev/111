@@ -130,7 +130,9 @@
 				isShopCont: false
 			}
 		},
-		onShow() {},
+		onShow() {
+			this.getPayType()
+		},
 		onLoad() {
 			let isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
 			this.isShopCont = isShopCont
@@ -150,7 +152,6 @@
 					.zh_k_diamond_recharge_activity_desc
 			})
 
-			this.getPayType()
 			this.getKdiamondList()
 		},
 		onPullDownRefresh() {
@@ -340,7 +341,9 @@
 				let arr = getCurrentPages()
 				let listData = []
 				arr.forEach(item => {
-					listData.push(item.route)
+					if(item.route != 'pages/mine/K_brick_detail'){
+						listData.push(item.route)
+					}
 				})
 				this.$http.post(this.$apiObj.PaypalRecharge, {
 					money: this.payNum ? this.payNum : this.list[this.select - 1].k_diamond,
@@ -362,7 +365,6 @@
 								console.log(err)
 							}
 						)
-						//  #endif
 						setTimeout(() => {
 							uni.showModal({
 								title: this.$t('mine.tip'),
@@ -376,8 +378,8 @@
 									}
 								},
 							})
-						}, 1000)
-
+						}, 3000)
+						//  #endif
 					}
 
 
