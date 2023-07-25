@@ -336,10 +336,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							icon: 'none'
 						})
 						setTimeout(() => {
-							// uni.navigateBack({ delta: 1 })
-							uni.navigateTo({
-								url: './login'
-							})
+							this.loginByPhone(this.mobile_area_code.slice(1),this.mobile,pwd)
 						}, 1000);
 					}
 				})
@@ -485,14 +482,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					title: this.$t('login.qydxybty'),
 					icon: 'none'
 				})
-				//密码不能输入空格
-				// let re = new RegExp("^(?!\\s+).*(?<!\\s)$");
-				// if (re.test(this.pwd || this.pwd2) == true) {
-				// 	uni.showToast({
-				// 		title: this.$t('login.kg'),
-				// 		icon: 'none'
-				// 	})
-				// }
 				//密码中不能输入汉字
 				let h = /[\u4E00-\u9FA5]/g;
 				if (h.test(this.pwd || this.pwd2) == true) {
@@ -520,9 +509,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							icon: 'none'
 						})
 						setTimeout(() => {
-							uni.navigateTo({
-								url: './login'
-							})
+							this.loginByEmail(this.email,pwd)
 						}, 1000);
 						if (sessionStorage.getItem("invite_code")) {
 							sessionStorage.removeItem("invite_code")
@@ -539,6 +526,71 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					url
 				})
 			},
+
+			loginByEmail(email,pwd) {
+				this.$http.post(this.$apiObj.LoginEmailLogin, {
+					email, // 邮箱
+					pwd // 密码
+				}).then(res => {
+					if (res.code == 1) {
+						uni.showToast({
+							title: this.$t('login.dlcg'),
+							icon: 'none'
+						})
+						uni.setStorageSync('token', res.data.token)
+
+						uni.setStorageSync('userinfo', {
+							token: res.data.im_tourists_token,
+							auth_token: res.data.auth_token
+						});
+
+						this.$http.post(this.$apiObj.MineInfo).then(ress => {
+							if (ress.code == 1) {
+								uni.setStorageSync('userCont', ress.data)
+							}
+						})
+						this.ws.init(res.data.im_tourists_token, res.data.auth_token)
+
+						setTimeout(() => {
+							uni.switchTab({
+								url: '/pages/auction/auction'
+							});
+						}, 1000);
+					}
+				})
+			},
+			
+			loginByPhone(mobile_area_code,mobile,pwd){
+				this.$http.post(this.$apiObj.LoginMobileLogin, {
+					mobile_area_code, // 区号
+					mobile, // 手机号码
+					pwd, // 密码
+				}).then(res => {
+					if (res.code == 1) {
+						uni.showToast({
+							title: this.$t('login.dlcg'),
+							icon: 'none'
+						})
+						uni.setStorageSync('userinfo', {
+							token: res.data.im_tourists_token,
+							auth_token: res.data.auth_token
+						});
+						uni.setStorageSync('token', res.data.token)
+						this.$http.post(this.$apiObj.MineInfo).then(ress => {
+							if (ress.code == 1) {
+								uni.setStorageSync('userCont', ress.data)
+							}
+						})
+						this.ws.init(res.data.im_tourists_token, res.data.auth_token)
+						setTimeout(() => {
+							uni.switchTab({
+								url: '/pages/auction/auction'
+							});
+						}, 1000);
+					}
+				})
+			}
+			
 		}
 	}
 </script>
