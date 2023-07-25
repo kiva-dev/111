@@ -27,7 +27,7 @@
 					<image :src="qrcodeImg" mode="widthFix"></image>
 				</view>
 				<view class="content-info">
-					<a href="https://h5.kolibrimall.com" target="_blank">https://h5.kolibrimall.com</a>
+					<a href="https://h5.kolibrimall.com" target="_blank">https://wish.kolibrimall.com</a>
 					<p>{{$t('active.illustrate')}}</p>
 				</view>
 			</view>

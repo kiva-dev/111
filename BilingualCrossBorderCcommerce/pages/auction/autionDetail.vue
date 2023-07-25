@@ -192,8 +192,8 @@
 								</view>
 								<view class="item-text">{{item.goods_name}}</view>
 								<view class="item-price">
-									<span>RM</span>
-									<span>{{item.litestore_goods_spec[0].goods_price}}</span>
+									<image src="/static/images/kbrick/diamond.png"></image>
+									<span>{{item.wish_price}}</span>
 								</view>
 							</view>
 						</u-grid-item>
@@ -822,13 +822,13 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			//猜你喜欢以及热门推荐跳转
 			toYouLikeOrHot(id) {
 				uni.navigateTo({
-					url: '/pages/auction/product_info?goodsId=' + id
+					url: '/pages/auction/autionDetail?goodsId=' + id
 				})
 			},
 			getYouLikeList() {
 				this.$http.post(this.$apiObj.GetYouLikeList, {
 					goods_id: this.shopCont.goods_id,
-					is_auction_goods: 1,
+					is_auction_goods: 2,
 					page: 1,
 					pagenum: 6
 				}).then(res => {
@@ -3091,6 +3091,16 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				.item-price {
 					position: absolute;
 					bottom: 2rpx;
+					width: 100%;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					
+					image{
+						width: 24rpx;
+						height: 24rpx;
+						margin-right: 4rpx;
+					}
 
 					span {
 						color: rgb(255, 57, 57);

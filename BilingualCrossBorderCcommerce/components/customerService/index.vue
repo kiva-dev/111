@@ -186,7 +186,6 @@
 	.rightSider {
 		position: fixed;
 		right: 20rpx; //-50
-		bottom: 200rpx;
 		z-index: 100;
 		overflow: hidden;
 	}
