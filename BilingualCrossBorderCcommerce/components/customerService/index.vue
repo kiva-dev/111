@@ -1,5 +1,6 @@
 <template>
-	<view class="leftSider" :class="siderClasses">
+<!-- class="leftSider" -->
+	<view  :class="siderClasses">
 		<view class="imgArr" :class="!isOnlyServer ? `${imgArrFrames}` : ''">
 			<image v-if="isDownloadVisibility" src="/static/images/mine/download.png" class="minImg" alt=""
 				@click="toDownload('/pages/auction/download')"></image>
@@ -24,11 +25,16 @@
 	 * @property {Boolean} isDownloadVisibility 是否显示下载
 	 * @property {Boolean} isContactVisibility 是否显示社交联系
 	 * @property {Boolean} isGroupVisibility 是否显示社群
+	 * @property {Boolean} leftOrRight 左右展示
 	 * @event {Function} showContactFun 展开分享事件
 	 * @example <customerService ref="customerService" @showContactFun="showContactFun" />
 	 */
 	export default {
 		props: {
+      leftOrRight:{
+        type: String,
+				default: 'left'
+      },
 			isDownloadVisibility: {
 				type: Boolean,
 				default: true
@@ -56,7 +62,10 @@
 		},
 		computed: {
 			siderClasses() {
-				return [this.transformClass ? 'removeLeftX' : 'removeRightX'];
+        const position = this.leftOrRight === 'left';
+        const arr = [position ? 'leftSider' : 'rightSider'];
+        const classSuffix = this.transformClass ? 'RemoveLeftX' : 'removeRightX';
+        return [...arr,`${arr[0]}${classSuffix}`];
 			},
 			imgArrFrames() {
 				return [this.imgShow ? 'close' : 'active'];
@@ -172,13 +181,20 @@
 </script>
 
 <style lang="less" scoped>
-	.leftSider {
-		position: fixed;
+  .rightSider{
+    position: fixed;
 		right: 20rpx; //-50
 		bottom: 200rpx;
 		z-index: 100;
 		overflow: hidden;
-
+  }
+	.leftSider {
+		position: fixed;
+		left: 20rpx; //-50
+		bottom: 200rpx;
+		z-index: 100;
+		overflow: hidden;
+	}
 		.gwc {
 			width: 92rpx;
 			height: 92rpx;
@@ -332,15 +348,16 @@
 				height: 0;
 			}
 		}
-	}
-
-	.removeRightX {
-		transform: translateX(0);
-		transition: all 0.5s ease;
-	}
-
-	.removeLeftX {
-		transform: translateX(68rpx);
-		transition: all 0.5s ease;
-	}
+    .removeRightX {
+      transform: translateX(0);
+      transition: all 0.5s ease;
+    }
+    .rightSiderRemoveLeftX {
+      transform: translateX(68rpx);
+      transition: all 0.5s ease;
+    }
+    .leftSiderRemoveLeftX {
+      transform: translateX(-68rpx);
+      transition: all 0.5s ease;
+    }
 </style>
