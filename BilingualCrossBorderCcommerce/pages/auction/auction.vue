@@ -1332,7 +1332,7 @@
 					console.log(this.shopNum, this.isauctionNum)
 					uni.removeStorageSync('wish_info')
 					uni.removeStorageSync('mine-info')
-				}, 1000)
+				}, 2000)
 			}
 
 		},

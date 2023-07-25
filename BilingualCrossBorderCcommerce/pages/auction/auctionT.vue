@@ -784,7 +784,7 @@
 					this.onBtnSub()
 					uni.removeStorageSync('wish_info')
 					uni.removeStorageSync('mine-info')
-				}, 1000)
+				}, 2000)
 			}
 		},
 		onReachBottom() {
