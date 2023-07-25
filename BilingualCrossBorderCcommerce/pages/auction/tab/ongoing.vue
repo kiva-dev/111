@@ -228,25 +228,29 @@
 						<image src="/static/images/new-index/$.png" class="bonus-img"></image>
 						<view class="bonus-info">{{item.can_use_invite_money_rate*1}}% bonus available</view>
 					</view>
-					
+
 					<view class="info_tags">
 						<block v-for="data in item.tags" :key="data.tag_id">
-							<view class="tag" v-if="data.tag_id == 1" style="color: #D81E06;border: 2rpx solid #D81E06;">
+							<view class="tag" v-if="data.tag_id == 1"
+								style="color: #D81E06;border: 2rpx solid #D81E06;">
 								<view class="tag_name">
 									<u-parse :content="isShopCont ? data.en_desc : data.zh_desc"></u-parse>
 								</view>
 							</view>
-							<view class="tag" v-else-if="data.tag_id == 2" style="color: #FF5701;border: 2rpx solid #FF5701;">
+							<view class="tag" v-else-if="data.tag_id == 2"
+								style="color: #FF5701;border: 2rpx solid #FF5701;">
 								<view class="tag_name">
 									<u-parse :content="isShopCont ? data.en_desc : data.zh_desc"></u-parse>
 								</view>
 							</view>
-							<view class="tag" v-else-if="data.tag_id == 3" style="color: #0AC68E;border: 2rpx solid #0AC68E;">
+							<view class="tag" v-else-if="data.tag_id == 3"
+								style="color: #0AC68E;border: 2rpx solid #0AC68E;">
 								<view class="tag_name">
 									<u-parse :content="isShopCont ? data.en_desc : data.zh_desc"></u-parse>
 								</view>
 							</view>
-							<view class="tag" v-else-if="data.tag_id == 9" style="color: #3A71EC;border: 2rpx solid #3A71EC;">
+							<view class="tag" v-else-if="data.tag_id == 9"
+								style="color: #3A71EC;border: 2rpx solid #3A71EC;">
 								<view class="tag_name">
 									<u-parse :content="isShopCont ? data.en_desc : data.zh_desc"></u-parse>
 								</view>
@@ -496,7 +500,7 @@
 		<!--支付成功弹出 end-->
 
 		<!-- 许愿 -->
-		<view class="containerXy" v-if="list.length!=0">
+		<view class="containerXy" v-if="list.length!=0 && showMakeaWish">
 			<view class="xy">
 				<img src="/static/xuyuan/xy.png" class="xyImg" />
 			</view>
@@ -532,14 +536,14 @@
 							<text>(RM{{item.wish_price}})</text>
 						</view>
 					</view>
-		
+
 				</view>
 			</view>
 		</view>
-		
+
 		<!--回到顶部-->
 		<image src="/static/images/auction/to-top.png" class="to_top" v-show="showTop" @click="toTop()"></image>
-		
+
 	</view>
 </template>
 
@@ -556,7 +560,7 @@
 	export default {
 		data() {
 			return {
-				showTop:false,
+				showTop: false,
 				pagenum: 10, // 每页显示商品数目
 				page: 1,
 				transformClass: false, //购物车icon是否添加平移效果
@@ -648,7 +652,8 @@
 				zenjinToRmNum: 0, //赠金可以用于扣除的数量
 				changShopNum: 0, //使用赠金后的k钻
 				set_paypwd: '',
-				totalNum:0
+				totalNum: 0,
+				showMakeaWish: false, //是否显示许愿列表
 			}
 		},
 		watch: {
@@ -680,7 +685,7 @@
 		},
 		onLoad(e) {
 			this.onAuctionNewGoods()
-			this.getAllProducts()
+			// this.getAllProducts()
 			let systemInfo = uni.getSystemInfoSync();
 			this.systemLocale = systemInfo.language;
 			this.applicationLocale = uni.getLocale();
@@ -733,20 +738,27 @@
 			}
 		},
 		onReachBottom() {
-			if (this.page * this.pagenum < this.totalNum ) {
+			if (this.page * this.pagenum < this.totalPageNum && !this.showMakeaWish) {
+				this.page++;
+				this.onAuctionNewGoods()
+			} else if (this.page * this.pagenum < this.totalNum && this.showMakeaWish) {
 				this.page++;
 				this.getAllProducts();
+			} else {
+				this.page = 1;
+				this.showMakeaWish = true;
+				this.getAllProducts()
 			}
 		},
 		//监听页面滚动
 		onPageScroll(e) {
-			if(e.scrollTop >= 2000 && !this.showTop) this.showTop=true
-			else if(e.scrollTop < 2000 && this.showTop) this.showTop = false
+			if (e.scrollTop >= 2000 && !this.showTop) this.showTop = true
+			else if (e.scrollTop < 2000 && this.showTop) this.showTop = false
 		},
 		methods: {
-			toTop(){
+			toTop() {
 				uni.pageScrollTo({
-					scrollTop:0
+					scrollTop: 0
 				})
 			},
 			toRecharge() {
@@ -778,7 +790,7 @@
 					goods_listing_type: 2
 				}).then(res => {
 					this.totalNum = res.data.total
-					this.list = this.page == 1 ? res.data.data : [...this.list,...res.data.data]
+					this.list = this.page == 1 ? res.data.data : [...this.list, ...res.data.data]
 				})
 			},
 			//点击返回按钮、
@@ -845,7 +857,7 @@
 				this.$http.post(this.$apiObj.AuctionNewGoods, {
 					sort: this.newsjpId,
 					page: this.page,
-					pagenum: 100,
+					pagenum: this.pagenum,
 					keyword: this.keyword
 				}).then(res => {
 					if (res.code == 1) {
@@ -868,6 +880,10 @@
 							item.remain_time = item.remain_time * 1000
 						})
 						this.totalPageNum = res.data.total
+						if (this.totalPageNum < 10) {
+							this.showMakeaWish = true
+							this.getAllProducts()
+						}
 						this.productList = this.page == 1 ? res.data.data : [...this.productList, ...res.data.data]
 
 					}
@@ -1252,8 +1268,8 @@
 	/deep/.uni-progress-bar {
 		border-radius: 9rpx !important;
 	}
-	
-	.to_top{
+
+	.to_top {
 		position: fixed;
 		left: 20rpx;
 		bottom: 120rpx;
@@ -1261,7 +1277,7 @@
 		height: 96rpx;
 		z-index: 100;
 	}
-	
+
 	// 许愿
 	.containerXy {
 		width: 100%;
@@ -1270,18 +1286,18 @@
 		// padding-top: -50rpx;
 		display: block;
 		margin-top: 40rpx;
-	
+
 		.xy {
 			// width: 100%;
 			position: absolute;
 			left: -8%;
-	
+
 			.xyImg {
 				width: 100%;
 				margin-top: -72rpx;
 			}
 		}
-	
+
 		.txt {
 			position: relative;
 			color: rgb(255, 255, 255);
@@ -1290,7 +1306,7 @@
 			padding-top: 48rpx;
 			display: block;
 		}
-	
+
 		.btn {
 			position: relative;
 			width: 340rpx;
@@ -1306,19 +1322,19 @@
 			line-height: 40rpx;
 			font-size: 24rpx;
 		}
-	
+
 		.imgBottom {
 			margin-top: 5rpx;
 			display: flex;
 			align-items: center;
 			justify-content: center;
-	
+
 			.left {
 				image {
 					width: 30rpx;
 					height: 30rpx;
 				}
-	
+
 				.zs {
 					font-size: 30rpx;
 					font-weight: bold;
@@ -1326,20 +1342,20 @@
 					margin-left: 10rpx;
 				}
 			}
-	
+
 			.right {
 				font-size: 16rpx;
 				color: rgb(102, 102, 102);
 				margin-left: 8rpx;
-	
+
 				image {
 					width: 20rpx;
 					height: 20rpx;
 				}
 			}
-	
+
 		}
-	
+
 		.itemBox {
 			position: relative;
 			width: 92%;
@@ -1348,21 +1364,21 @@
 			display: flex;
 			flex-wrap: wrap;
 			justify-content: space-between;
-	
+
 			.itemBox_a {
 				width: 336rpx;
 				height: 510rpx;
 				border-radius: 20rpx;
 				margin-bottom: 20rpx;
 				background: #fff;
-	
+
 				.itemImg {
 					width: 336rpx;
 					height: 336rpx;
 					border-radius: 20rpx 20rpx 0 0;
 					margin-bottom: 5rpx;
 				}
-	
+
 				.title {
 					width: 296rpx;
 					color: #333;
@@ -1374,39 +1390,39 @@
 					display: block;
 					margin: auto;
 				}
-	
+
 				.iconArr {
 					width: 80%;
 					display: flex;
 					align-items: center;
 					margin: auto;
 					margin-top: 10rpx;
-	
+
 					image {
 						width: 20rpx;
 						height: 20rpx;
 						margin-right: 8rpx;
 					}
-	
+
 					.iconArr_item {
 						width: 100rpx;
 						border-right: 1px solid #e8e8e8;
 					}
-	
+
 					.iconArr_item:nth-child(2) {
 						border: none;
 					}
-	
+
 					.iconArr_item:nth-child(3) {
 						border: none;
 					}
 				}
-	
+
 				.new {
 					color: #999;
 					margin-top: 10rpx;
 					text-decoration: line-through;
-	
+
 					image {
 						width: 24rpx;
 						height: 24rpx;
@@ -2556,7 +2572,7 @@
 					}
 
 				}
-				
+
 				.info_tags {
 					width: 628rpx;
 					color: rgb(153, 153, 153);
@@ -2564,8 +2580,8 @@
 					flex-wrap: wrap;
 					align-items: center;
 					margin: 20rpx auto;
-					
-					.tag{
+
+					.tag {
 						display: flex;
 						align-items: center;
 						padding: 2rpx 8rpx;
@@ -2573,21 +2589,21 @@
 						border: 2rpx solid #D81E06;
 						border-radius: 20rpx;
 						margin-right: 30rpx;
-						
-						image{
+
+						image {
 							display: block;
 							width: 32rpx;
 							height: 32rpx;
 							border-radius: 50%;
 						}
-						
-						.tag_name{
+
+						.tag_name {
 							font-size: 20rpx;
 						}
 					}
-					
+
 				}
-				
+
 				.info {
 					width: 628rpx;
 					display: flex;

@@ -533,7 +533,7 @@
 		</view> -->
 
 		<!-- 许愿 -->
-		<view class="containerXy" v-if="list.length!=0 && id!=3">
+		<view class="containerXy" v-if="list.length!=0 && id!=3 && showMakeaWish">
 			<view class="xy">
 				<img src="/static/xuyuan/xy.png" class="xyImg" />
 			</view>
@@ -583,9 +583,6 @@
 <script>
 	import jsencrypt from '@/common/jsencrypt-Rsa/jsencrypt/jsencrypt.vue';
 	import apiObj from '@/http/api.js';
-	import {
-		h
-	} from "vue";
 	//公钥.
 	const publiukey = `-----BEGIN PUBLIC KEY-----
 	MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCSjs8JJr/Nyb+nOG77agUDf7uT
@@ -688,7 +685,8 @@
 				zenjinToRmNum: 0, //赠金可以用于扣除的数量
 				changShopNum: 0, //使用赠金后的k钻
 				set_paypwd: '',
-				totalNum: 0
+				totalNum: 0,
+				showMakeaWish: false, //是否显示许愿列表
 			}
 		},
 		watch: {
@@ -719,7 +717,6 @@
 			},
 		},
 		onLoad(e) {
-			this.getAllProducts() //列表数据
 			if (e.id == 1) {
 				this.id = e.id
 				this.title = this.$t('tab.zzxy')
@@ -794,10 +791,19 @@
 			if (this.page * this.pagenum < this.historyTotalPageNum && this.id == 3) {
 				this.page++;
 				this.onAuctionHistoryGoods()
-			}
-			if (this.page * this.pagenum < this.totalNum && this.id != 3) {
+			}else if(this.page * this.pagenum < this.totalPageNum && this.id == 1 && !this.showMakeaWish){
+				this.page++
+				this.onAuctionNewGoods()
+			}else if(this.page * this.pagenum < this.newTotalPageNum && this.id == 2 && !this.showMakeaWish){
+				this.page++
+				this.onAuctionNotbeginGoods()
+			}else if (this.page * this.pagenum < this.totalNum && this.id != 3 && this.showMakeaWish) {
 				this.page++;
 				this.getAllProducts();
+			}else{
+				this.page=1
+				this.showMakeaWish=true
+				this.getAllProducts()
 			}
 		},
 		//监听页面滚动
@@ -862,12 +868,6 @@
 				this.imgShow = !this.imgShow
 			},
 			getProductOrJinpai() {
-				// 最新竞拍
-
-				// 最新竞拍
-
-				// 历史竞拍
-
 				//记住当前竞拍选择的品类
 				let id = uni.getStorageSync('jinpaiId')
 				if (id) {
@@ -908,7 +908,7 @@
 				this.$http.post(this.$apiObj.AuctionNewGoods, {
 					sort: this.newsjpId,
 					page: this.page,
-					pagenum: 100,
+					pagenum: this.pagenum,
 					keyword: this.keyword
 				}).then(res => {
 					if (res.code == 1) {
@@ -931,6 +931,10 @@
 							item.remain_time = item.remain_time * 1000
 						})
 						this.totalPageNum = res.data.total
+						if(this.totalPageNum < 10){
+							this.showMakeaWish = true
+							this.getAllProducts()
+						}
 						this.productList = this.page == 1 ? res.data.data : [...this.productList, ...res.data.data]
 
 					}
@@ -941,7 +945,7 @@
 				this.$http.post(this.$apiObj.AuctionNotbeginGoods, {
 					sort: this.jijiangId,
 					page: this.page,
-					pagenum: 100,
+					pagenum: this.pagenum,
 					keyword: this.keyword
 				}).then(res => {
 					if (res.code == 1) {
@@ -974,6 +978,10 @@
 							this.$set(item, 'datetime', time)
 						})
 						this.newTotalPageNum = res.data.total
+						if(this.newTotalPageNum < 10){
+							this.showMakeaWish = true
+							this.getAllProducts()
+						}
 						this.productList = this.page == 1 ? res.data.data : [...this.productList, ...res
 							.data.data
 						]
