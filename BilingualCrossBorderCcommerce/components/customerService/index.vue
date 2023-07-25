@@ -1,5 +1,6 @@
 <template>
-	<view class="leftSider" :class="siderClasses">
+	<!-- class="leftSider" -->
+	<view :class="siderClasses">
 		<view class="imgArr" :class="!isOnlyServer ? `${imgArrFrames}` : ''">
 			<image v-if="isDownloadVisibility" src="/static/images/mine/download.png" class="minImg" alt=""
 				@click="toDownload('/pages/auction/download')"></image>
@@ -11,9 +12,11 @@
 			</view>
 			<image src="/static/images/mine/listener.png" class="minImg" alt="" @click="openSession()"></image>
 		</view>
-		<image src="/static/images/new-index/addImg.png" class="newListImgDeg" v-if="!imgShow && !isOnlyServer" @click="toggleImage">
+		<image src="/static/images/new-index/addImg.png" class="newListImgDeg" v-if="!imgShow && !isOnlyServer"
+			@click="toggleImage">
 		</image>
-		<image src="/static/images/new-index/addImg.png" class="newListImg" v-else-if="imgShow && !isOnlyServer" @click="toggleImage"></image>
+		<image src="/static/images/new-index/addImg.png" class="newListImg" v-else-if="imgShow && !isOnlyServer"
+			@click="toggleImage"></image>
 	</view>
 
 </template>
@@ -24,11 +27,16 @@
 	 * @property {Boolean} isDownloadVisibility 是否显示下载
 	 * @property {Boolean} isContactVisibility 是否显示社交联系
 	 * @property {Boolean} isGroupVisibility 是否显示社群
+	 * @property {Boolean} leftOrRight 左右展示
 	 * @event {Function} showContactFun 展开分享事件
 	 * @example <customerService ref="customerService" @showContactFun="showContactFun" />
 	 */
 	export default {
 		props: {
+			leftOrRight: {
+				type: String,
+				default: 'left'
+			},
 			isDownloadVisibility: {
 				type: Boolean,
 				default: true
@@ -56,7 +64,10 @@
 		},
 		computed: {
 			siderClasses() {
-				return [this.transformClass ? 'removeLeftX' : 'removeRightX'];
+				const position = this.leftOrRight === 'left';
+				const arr = [position ? 'leftSider' : 'rightSider'];
+				const classSuffix = this.transformClass ? 'RemoveLeftX' : 'removeRightX';
+				return [...arr, `${arr[0]}${classSuffix}`];
 			},
 			imgArrFrames() {
 				return [this.imgShow ? 'close' : 'active'];
@@ -146,10 +157,10 @@
 			},
 			toggleImage() {
 				this.imgShow = !this.imgShow;
-				if(!this.imgShow){
-					setTimeout(()=>{
+				if (!this.imgShow) {
+					setTimeout(() => {
 						this.toggleImage()
-					},3000)
+					}, 3000)
 				}
 			},
 			toMessage(url) {
@@ -172,165 +183,173 @@
 </script>
 
 <style lang="less" scoped>
-	.leftSider {
+	.rightSider {
 		position: fixed;
 		right: 20rpx; //-50
 		bottom: 200rpx;
 		z-index: 100;
 		overflow: hidden;
+	}
 
-		.gwc {
-			width: 92rpx;
-			height: 92rpx;
-		}
+	.leftSider {
+		position: fixed;
+		left: 20rpx; //-50
+		bottom: 200rpx;
+		z-index: 100;
+		overflow: hidden;
+	}
 
-		.gz {
-			width: 92rpx;
-			height: 92rpx;
-		}
+	.gwc {
+		width: 92rpx;
+		height: 92rpx;
+	}
 
-		.newListImg {
-			width: 92rpx;
-			height: 92rpx;
-		}
+	.gz {
+		width: 92rpx;
+		height: 92rpx;
+	}
 
-		.newListImgDeg {
-			width: 92rpx;
-			height: 92rpx;
-			margin-top: 30rpx;
-			transform: rotate(-45deg);
-		}
+	.newListImg {
+		width: 92rpx;
+		height: 92rpx;
+	}
 
-		//三个入口
-		.imgArr {
-			background: #fff;
-			width: 92rpx;
-			// height: 380rpx;
-			overflow: hidden;
-			border-radius: 45rpx;
-			box-shadow: 0 0 20rpx rgba(198, 198, 198, 0.3);
-			text-align: center;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			flex-direction: column;
-			
+	.newListImgDeg {
+		width: 92rpx;
+		height: 92rpx;
+		margin-top: 30rpx;
+		transform: rotate(-45deg);
+	}
 
-			.people {
-				margin: 25rpx 0;
+	//三个入口
+	.imgArr {
+		background: #fff;
+		width: 92rpx;
+		// height: 380rpx;
+		overflow: hidden;
+		border-radius: 45rpx;
+		box-shadow: 0 0 20rpx rgba(198, 198, 198, 0.3);
+		text-align: center;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
 
-				.pImg {
-					width: 45rpx;
-					height: 40rpx;
-				}
-			}
 
-			.minImg {
+		.people {
+			margin: 25rpx 0;
+
+			.pImg {
 				width: 45rpx;
-				height: 45rpx;
-				text-align: center;
-				margin: 25rpx 0;
+				height: 40rpx;
 			}
 		}
 
-		.active {
-			animation: btns-open 1s linear forwards;
+		.minImg {
+			width: 45rpx;
+			height: 45rpx;
+			text-align: center;
+			margin: 25rpx 0;
+		}
+	}
+
+	.active {
+		animation: btns-open 1s linear forwards;
+	}
+
+	.close {
+		animation: btns-close 1s linear forwards;
+	}
+
+	@keyframes btns-open {
+		0% {
+			height: 0;
 		}
 
-		.close {
-			animation: btns-close 1s linear forwards;
+		10% {
+			height: 37rpx;
 		}
 
-		@keyframes btns-open {
-			0% {
-				height: 0;
-			}
-			
-			10%{
-				height: 37rpx;
-			}
-			
-			20%{
-				height: 74rpx;
-			}
-
-			30% {
-				height: 111rpx;
-			}
-
-			40% {
-				height: 148rpx;
-			}
-			
-			50%{
-				height: 185rpx;
-			}
-			
-			60%{
-				height: 222rpx;
-			}
-			
-			70%{
-				height: 259rpx;
-			}
-			
-			80%{
-				height: 296rpx;
-			}
-			
-			90%{
-				height: 333rpx;
-			}
-
-			100% {
-				height: 370rpx;
-			}
+		20% {
+			height: 74rpx;
 		}
 
-		@keyframes btns-close {
-			0% {
-				height: 370rpx;
-			}
+		30% {
+			height: 111rpx;
+		}
 
-			10%{
-				height: 333rpx;
-			}
+		40% {
+			height: 148rpx;
+		}
 
-			20%{
-				height: 296rpx;
-			}
+		50% {
+			height: 185rpx;
+		}
 
-			30% {
-				height: 259rpx;
-			}
-			
-			40%{
-				height: 222rpx;
-			}
-			
-			50%{
-				height: 185rpx;
-			}
-			
-			60%{
-				height: 148rpx;
-			}
-			
-			70%{
-				height: 111rpx;
-			}
-			
-			80%{
-				height: 74rpx;
-			}
-			
-			90%{
-				height: 37rpx;
-			}
-			
-			100%{
-				height: 0;
-			}
+		60% {
+			height: 222rpx;
+		}
+
+		70% {
+			height: 259rpx;
+		}
+
+		80% {
+			height: 296rpx;
+		}
+
+		90% {
+			height: 333rpx;
+		}
+
+		100% {
+			height: 370rpx;
+		}
+	}
+
+	@keyframes btns-close {
+		0% {
+			height: 370rpx;
+		}
+
+		10% {
+			height: 333rpx;
+		}
+
+		20% {
+			height: 296rpx;
+		}
+
+		30% {
+			height: 259rpx;
+		}
+
+		40% {
+			height: 222rpx;
+		}
+
+		50% {
+			height: 185rpx;
+		}
+
+		60% {
+			height: 148rpx;
+		}
+
+		70% {
+			height: 111rpx;
+		}
+
+		80% {
+			height: 74rpx;
+		}
+
+		90% {
+			height: 37rpx;
+		}
+
+		100% {
+			height: 0;
 		}
 	}
 
@@ -339,8 +358,13 @@
 		transition: all 0.5s ease;
 	}
 
-	.removeLeftX {
+	.rightSiderRemoveLeftX {
 		transform: translateX(68rpx);
+		transition: all 0.5s ease;
+	}
+
+	.leftSiderRemoveLeftX {
+		transform: translateX(-68rpx);
 		transition: all 0.5s ease;
 	}
 </style>

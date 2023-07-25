@@ -1114,7 +1114,7 @@
 			</view>
 		</view>
 
-		<customerService ref="customerService" @showContactFun="showContactFun" />
+		<customerService ref="customerService" @showContactFun="showContactFun" leftOrRight="right" />
 
 		<!--回到顶部-->
 		<image src="/static/images/auction/to-top.png" class="to_top" v-show="showTop" @click="toTop()"></image>
@@ -1640,7 +1640,7 @@
 				})
 			},
 			// 历史竞拍
-			onAuctionHistoryGoods() {
+			/* onAuctionHistoryGoods() {
 				this.$http.post(this.$apiObj.AuctionHistoryGoods, {
 					sort: this.lishiId,
 					page: this.page,
@@ -1675,6 +1675,33 @@
 						this.historyList = this.historyList.splice(0, 10)
 					}
 				})
+			}, */
+			async onAuctionHistoryGoods() {
+				try {
+					const res = await this.$http.post(this.$apiObj.AuctionHistoryGoods, {
+						sort: this.lishiId,
+						page: this.page,
+						pagenum: this.pagenum,
+						keyword: this.keyword,
+						date_start: this.date_start
+					});
+
+					if (res.code === 1) {
+						const getCaptionParam = this.isShopCont ? 1 : 0;
+
+						res.data.data.forEach(item => {
+							item.goods_mark = this.getCaption(item.goods_mark, getCaptionParam) || item.goods_mark;
+							item.goods_name = this.getCaption(item.goods_name, getCaptionParam) || item.goods_name;
+							item.continue_time = this.daojishi(item.continue_time);
+						});
+
+						this.historyTotalPageNum = res.data.total;
+						this.historyList = this.page === 1 ? res.data.data : this.historyList.concat(res.data.data);
+						this.historyList = this.historyList.slice(0, 10);
+					}
+				} catch (error) {
+					console.error(error);
+				}
 			},
 			// 幸运之星
 			// 倒计时
