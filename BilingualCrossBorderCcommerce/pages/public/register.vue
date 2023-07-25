@@ -187,7 +187,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				codeTxt: this.$t('login.hqyzm'),
 				seconds: 120,
 				codeTxt1: this.$t('login.hqyzm'),
-				isQuanShow: false,
+				isQuanShow: true,
 				isShopCont: false, // 中文还是英文
 				isPwdShow: false,
 				isPwdOkShow: false,
