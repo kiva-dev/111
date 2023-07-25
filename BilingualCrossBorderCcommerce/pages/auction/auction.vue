@@ -2017,6 +2017,10 @@
 	/deep/.uni-progress-bar {
 		border-radius: 9rpx !important;
 	}
+	
+	.rightSider{
+		bottom: 200rpx;
+	}
 
 	.to_top {
 		position: fixed;
