@@ -56,15 +56,37 @@
 				</view>
 			</view>
 			<!-- #endif -->
-			<view class="li">
-				<view class="label">{{$t('user.xitong.Versionupdate')}}</view>
-				<view class="li-r">
-					<text>{{version}}</text>
-					<view class="more">
-						<image class="img" src="../../static/images/mine/more1.png"></image>
+			<template v-if="version != $version">
+				<a href="https://wish.kolibrimall.com/api/Index/getApk" download="Kolibri mall"
+					style="text-decoration:none;">
+					<view class="li">
+						<view class="label">{{$t('user.xitong.Versionupdate')}}</view>
+						<view class="li-r">
+							<view class="version">
+								<view>{{version}}</view>
+								<text class="red-span"></text>
+							</view>
+							<view class="more">
+								<image class="img" src="../../static/images/mine/more1.png"></image>
+							</view>
+						</view>
+					</view>
+				</a>
+			</template>
+			<template v-else>
+				<view class="li">
+					<view class="label">{{$t('user.xitong.Versionupdate')}}</view>
+					<view class="li-r">
+						<view class="version">
+							<view>{{version}}</view>
+						</view>
+						<view class="more">
+							<image class="img" src="../../static/images/mine/more1.png"></image>
+						</view>
 					</view>
 				</view>
-			</view>
+			</template>
+
 			<view class="li" @click="toggle1('center')">
 				<view class="label">{{$t('user.xitong.Cancelaccount')}}</view>
 				<view class="li-r">
@@ -122,19 +144,20 @@
 			</view>
 		</uni-popup>
 		<!--退出账号弹出 start-->
-		
+
 		<!--切换语言-->
 		<uni-popup ref="lange" type="bottom">
 			<view class="lange">
 				<view class="lange-info">
 					<view class="lange-des" @click="onLocaleChange('en')">English</view>
-					<view class="lange-des" @click="onLocaleChange('zh-Hans')" style="border-top: 2rpx solid rgb(239, 239, 239);">简体中文</view>
+					<view class="lange-des" @click="onLocaleChange('zh-Hans')"
+						style="border-top: 2rpx solid rgb(239, 239, 239);">简体中文</view>
 				</view>
 				<view class="lange-btn" @click="$refs.lange.close()">Cancel</view>
 			</view>
 		</uni-popup>
-		
-		
+
+
 	</view>
 </template>
 
@@ -155,8 +178,8 @@
 			this.onPlus()
 			// #endif
 			// 隐私协议等
-			this.$http.post(this.$apiObj.IndexSetting,{
-				fields:'version'
+			this.$http.post(this.$apiObj.IndexSetting, {
+				fields: 'version'
 			}).then(res => {
 				if (res.code == 1) {
 					this.version = res.data.version
@@ -278,7 +301,7 @@
 					}
 				})
 			},
-			logout: function () {
+			logout: function() {
 				var that = this
 				if (!that.ws.socketOpen || parseInt(that.ws.initializeData.config.uni_push_switch) == 0) {
 					that.ws.logout()
@@ -351,6 +374,20 @@
 					display: flex;
 					align-items: center;
 
+					.version {
+						display: flex;
+						align-items: center;
+					}
+
+					.red-span {
+						display: block;
+						width: 16rpx;
+						height: 16rpx;
+						background: red;
+						border-radius: 50%;
+						margin-left: 10rpx;
+					}
+
 					.more {
 						width: 12rpx;
 						height: 25rpx;
@@ -382,18 +419,18 @@
 			background: rgb(10, 198, 142);
 			border-radius: 88rpx;
 		}
-		
-		.lange{
-			
+
+		.lange {
+
 			width: 710rpx;
 			margin: 0 auto;
-			
-			.lange-info{
+
+			.lange-info {
 				width: 710rpx;
 				background: #fff;
 				border-radius: 28rpx;
-				
-				.lange-des{
+
+				.lange-des {
 					width: 100%;
 					height: 114rpx;
 					line-height: 114rpx;
@@ -403,8 +440,8 @@
 					box-sizing: border-box;
 				}
 			}
-			
-			.lange-btn{
+
+			.lange-btn {
 				width: 710rpx;
 				height: 114rpx;
 				line-height: 114rpx;
@@ -416,8 +453,8 @@
 				border-radius: 28rpx;
 				margin: 20rpx 0 32rpx 0;
 			}
-			
+
 		}
-		
+
 	}
 </style>

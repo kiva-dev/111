@@ -13,7 +13,7 @@
 					<image src="/static/images/new-index/lange.png" class="lange" v-show="isShopCont"
 						@click="onChangeLanuage(locales[1])"></image>
 
-					<image src="/static/images/new-index/msg.png" class="auth" @click="navClick('/pages/mine/message')">
+					<image src="/static/images/new-index/msg.png" class="auth" @click="navClick('/pages/mine/systemM')">
 					</image>
 				</view>
 			</view>
