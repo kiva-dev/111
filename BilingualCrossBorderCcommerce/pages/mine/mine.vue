@@ -5,7 +5,7 @@
 				<view class="operate-box" @click="navClick('set')">
 					<image src="@/static/images/mine/mine_set.webp" mode="widthFix"></image>
 				</view>
-				<view class="operate-box" @click="navClick('/pages/mine/message')">
+				<view class="operate-box" @click="navClick('/pages/mine/systemM')">
 					<image src="@/static/images/mine/mine_msg.webp" mode="widthFix"></image>
 				</view>
 			</view>
