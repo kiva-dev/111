@@ -9,7 +9,7 @@
 			</view>
 			<view class="head-level" v-if="userCont.level > 0">
 				<view class="level-icon">
-					<image src="@/static/images/mine/mine_icon_vip.png" mode="widthFix"></image>
+					<image src="@/static/images/mine/mine_icon_vip.webp" mode="widthFix"></image>
 				</view>
 				<view class="level-num">Lv.{{userCont.level}}</view>
 			</view>
@@ -27,7 +27,7 @@
 						<view class="t">{{$t('user.grade.sctx')}}</view>
 						<view class="c">
 							<view class="icon">
-								<image class="img" src="@/static/images/mine/mine_icon_vip.png"></image>
+								<image class="img" src="@/static/images/mine/mine_icon_vip.webp"></image>
 							</view>
 							<text>{{$t('user.grade.syj')}}</text>
 						</view>
@@ -45,7 +45,7 @@
 						<view class="t">{{$t('user.grade.smrz')}}</view>
 						<view class="c">
 							<view class="icon">
-								<image class="img" src="@/static/images/mine/mine_icon_vip.png"></image>
+								<image class="img" src="@/static/images/mine/mine_icon_vip.webp"></image>
 							</view>
 							<text>{{$t('user.grade.syj')}}</text>
 						</view>
@@ -63,7 +63,7 @@
 						<view class="t">{{$t('user.grade.email')}}</view>
 						<view class="c">
 							<view class="icon">
-								<image class="img" src="@/static/images/mine/mine_icon_vip.png"></image>
+								<image class="img" src="@/static/images/mine/mine_icon_vip.webp"></image>
 							</view>
 							<text>{{$t('user.grade.syj')}}</text>
 						</view>
@@ -81,7 +81,7 @@
 						<view class="t">{{$t('user.grade.month')}}</view>
 						<view class="c">
 							<view class="icon">
-								<image class="img" src="@/static/images/mine/mine_icon_vip.png"></image>
+								<image class="img" src="@/static/images/mine/mine_icon_vip.webp"></image>
 							</view>
 							<text>{{$t('user.grade.syj')}}</text>
 						</view>

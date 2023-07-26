@@ -354,7 +354,7 @@
 									<image class="img" :src="item.avatar"></image>
 									<view class="box-name-level">
 										<view class="level-icon">
-											<image src="@/static/images/mine/mine_icon_vip.png" mode="widthFix"></image>
+											<image src="@/static/images/mine/mine_icon_vip.webp" mode="widthFix"></image>
 										</view>
 										<view class="level-num">Lv.{{item.level}}</view>
 									</view>

@@ -24,7 +24,7 @@
                                 <u--text :text="luckyForumListItem.nickname" bold size="17" class="album__text"></u--text>
                                 <view class="item-l-level">
                                     <view class="level-icon">
-                                        <image src="@/static/images/mine/mine_icon_vip.png" mode="widthFix"></image>
+                                        <image src="@/static/images/mine/mine_icon_vip.webp" mode="widthFix"></image>
                                     </view>
                                     <view class="level-num">Lv.{{luckyForumListItem.level}}</view>
                                 </view>

@@ -61,7 +61,7 @@
 				<view class="des_info_key">{{$t('new.xym')}}</view>
 				<view class="des_info_value">
 					<text>{{info.num_id}}</text>
-					<image src="/static/images/mine/k_copy.png"
+					<image src="/static/images/mine/k_copy.webp"
 						style="width: 32rpx;height: 32rpx;margin-left: 16rpx;margin-right: 0;" @click="copyVal(info.num_id)"></image>
 				</view>
 			</view>
@@ -86,7 +86,7 @@
 				<view class="des_info_key">{{$t('new.fhm')}}</view>
 				<view class="des_info_value">
 					<text>{{info.send_number}}</text>
-					<image src="/static/images/mine/k_copy.png"
+					<image src="/static/images/mine/k_copy.webp"
 						style="width: 32rpx;height: 32rpx;margin-left: 16rpx;margin-right: 0;" @click="copyVal(info.num_id)"></image>
 				</view>
 			</view>

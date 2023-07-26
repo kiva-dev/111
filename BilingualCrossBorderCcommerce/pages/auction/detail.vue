@@ -161,7 +161,7 @@
 							<p>{{item.user.nickname}}</p>
 							<view class="head-level">
 								<view class="head-level-icon">
-									<image src="@/static/images/mine/mine_icon_vip.png" mode="widthFix"></image>
+									<image src="@/static/images/mine/mine_icon_vip.webp" mode="widthFix"></image>
 								</view>
 								<view class="head-level-num">Lv.{{item.user.level}}</view>
 							</view>
@@ -315,7 +315,7 @@
 								<view class="time">{{$filter.to_dateTimes(item.update_time)}}</view>
 								<!-- <view class="pay">RM{{item.pay_price}}</view> -->
 								<view class="order">{{item.num_id}}
-									<image src="/static/images/mine/k_copy.png" mode="scaleToFill"
+									<image src="/static/images/mine/k_copy.webp" mode="scaleToFill"
 										@click="onnumidClick(item)" />
 								</view>
 							</view>
@@ -333,7 +333,7 @@
 								<view class="name">{{item.nickname}}</view>
 								<view class="time">{{$filter.to_dateTimes(item.pay_time)}}</view>
 								<view class="order">{{item.num_id}}
-									<image src="/static/images/mine/k_copy.png" mode="scaleToFill"
+									<image src="/static/images/mine/k_copy.webp" mode="scaleToFill"
 										@click="onnumidClick(item)" />
 								</view>
 							</view>
