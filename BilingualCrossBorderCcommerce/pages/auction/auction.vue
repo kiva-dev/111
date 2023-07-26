@@ -213,7 +213,7 @@
 				<view class="new-list-item" v-for="(item,i) in jingpaiList" :key="i" @click="onJingPai(item)"
 					@longpress="item.isMask=true">
 					<image :src="item.image" class="new-list-item-left"
-						v-if="item.check_status!=3 && item.check_status!=4"></image>
+						v-if="item.check_status!=3 && item.check_status!=4" lazyLoad></image>
 					<view class="item-historical" v-else>
 						<view class="item-historical-info">
 							<image :src="item.image"></image>
@@ -497,7 +497,7 @@
 				<view class="new-list-item" v-for="(item,i) in newsjingpaiList" :key="i" @click="onJingPai(item)"
 					@longpress="item.isMask=true">
 					<image :src="item.image" class="new-list-item-left"
-						v-if="item.check_status!=3 && item.check_status!=4"></image>
+						v-if="item.check_status!=3 && item.check_status!=4" lazyLoad></image>
 					<view class="item-historical" v-else>
 						<view class="item-historical-info">
 							<image :src="item.image"></image>
@@ -755,7 +755,7 @@
 						v-if="item.check_status!=3 && item.check_status!=4"></image>
 					<view class="item-historical" v-else>
 						<view class="item-historical-info">
-							<image :src="item.image"></image>
+							<image :src="item.image" lazyLoad></image>
 							<view>{{item.stage_num}}{{$t('shop.qi')}}</view>
 						</view>
 					</view>
@@ -1081,7 +1081,7 @@
 			<text class="btn">{{$t('xytitle')}}</text>
 			<view class="itemBox">
 				<view class="itemBox_a" v-for="item in list" :key="item.id" @click.stop="toProductInfo(item)">
-					<image :src="item.image" class="itemImg" />
+					<image :src="item.image" class="itemImg" lazyLoad/>
 					<text class="title">{{item.goods_name}}</text>
 					<view class="iconArr">
 						<view class="iconArr_item">
@@ -1346,6 +1346,8 @@
 			this.$refs.customerService.handleScroll();
 			if (e.scrollTop >= 2000 && !this.showTop) this.showTop = true
 			else if (e.scrollTop < 2000 && this.showTop) this.showTop = false
+		},
+		mounted() {
 		},
 		methods: {
 			toTop() {
@@ -2021,6 +2023,8 @@
 	.rightSider{
 		bottom: 200rpx;
 	}
+	
+	.myimage{}
 
 	.to_top {
 		position: fixed;
