@@ -1,22 +1,39 @@
 <template>
 	<view class="auction-page">
-		<view class="fixed">
-			<view class="head">
-				<view>
-					<text class="head-title">{{$t('xyc')}}</text>
-				</view>
-				<view class="head-right" @click.stop="myIndex" v-if="isLogin">
-					<image src="/static/xuyuan/time.png" alt="" class="time"></image>
-					<text>{{$t('title')}}</text>
-					<image src="/static/xuyuan/headRi.png" alt="" class="r"></image>
-				</view>
-				<view class="head-right" @click="navClick('/pages/public/register')" v-else>
-					<image src="/static/xuyuan/auth.png" class="time"></image>
-					<text>{{$t('auction.sign_up')}}</text>
-					<image src="/static/xuyuan/headRi.png" alt="" class="r"></image>
+		<view class="head-info-not">
+			<view class="fixed">
+				<view class="head">
+					<image src="/static/images/new-index/logo.png" class="logo"></image>
+
+					<view v-show="isShopCont">Here you have everything you want!</view>
+					<view v-show="!isShopCont">让每个人都拥有他们想要的产品！</view>
+
+					<image src="../../static/images/auction/zw.png" class="lange" v-show="!isShopCont"
+						@click="onChangeLanuage(locales[0])"></image>
+					<image src="/static/images/new-index/lange.png" class="lange" v-show="isShopCont"
+						@click="onChangeLanuage(locales[1])"></image>
+
+					<image src="/static/images/new-index/msg.png" class="auth" @click="navClick('/pages/mine/message')">
+					</image>
 				</view>
 			</view>
+			<view style="height: 148rpx;"></view>
+			
+			<!--轮播图-->
+			<view class="auct-banner">
+				<swiper class="auct-banner-swiper" circular :indicator-dots="indicatorDots" :autoplay="autoplay"
+					:interval="interval" :duration="duration" indicator-color="rgb(190, 190, 190)"
+					indicator-active-color="rgb(255, 255, 255)">
+					<swiper-item v-for="(item, index) in banner" :key="index">
+						<view class="swiper-image" @click="getBanner(item)">
+							<image :src="item.image" mode="aspectFill"></image>
+						</view>
+					</swiper-item>
+				</swiper>
+			</view>
 		</view>
+
+
 		<view class="top-layout">
 			<view class="bid-layout">
 				<view class="bl-container" v-if="id !== 1">
@@ -24,7 +41,6 @@
 						style="background: linear-gradient(180.00deg, rgb(254, 226, 151),rgba(255, 255, 255, 0) 98.871%);">
 						<view class="head-left">
 							<image src="/static/images/new-index/ongoing.png" mode="widthFix"></image>
-							<!-- <view>{{$t('new.zzjp')}}</view> -->
 							<view>{{$t('tab.zzxy')}}</view>
 						</view>
 						<view class="head-right" @click="toInfo(1)">
@@ -1081,7 +1097,7 @@
 			<text class="btn">{{$t('xytitle')}}</text>
 			<view class="itemBox">
 				<view class="itemBox_a" v-for="item in list" :key="item.id" @click.stop="toProductInfo(item)">
-					<image :src="item.image" class="itemImg" lazyLoad/>
+					<image :src="item.image" class="itemImg" lazyLoad />
 					<text class="title">{{item.goods_name}}</text>
 					<view class="iconArr">
 						<view class="iconArr_item">
@@ -1139,6 +1155,7 @@
 		},
 		data() {
 			return {
+				banner: [], // 轮播图
 				showTop: false, //显示小火箭
 				switch_id: 0,
 				isBottoming: false,
@@ -1282,7 +1299,13 @@
 					}
 				})
 			}, 1200);
-
+			
+			// 轮播图
+			this.$http.post(this.$apiObj.AuctionBanner).then(res => {
+				if (res.code == 1) {
+					this.banner = res.data;
+				}
+			})
 		},
 		onPullDownRefresh() {
 			this.page = 1
@@ -1347,9 +1370,31 @@
 			if (e.scrollTop >= 2000 && !this.showTop) this.showTop = true
 			else if (e.scrollTop < 2000 && this.showTop) this.showTop = false
 		},
-		mounted() {
-		},
+		mounted() {},
 		methods: {
+			//切换语言
+			onChangeLanuage(e) {
+				uni.setStorageSync('UNI_LOCALE', e.code)
+				uni.setStorageSync('locale', e.code)
+				this.$i18n.locale = e.code;
+				// #ifdef APP-PLUS
+				console.log(111)
+				if (this.isAndroid) {
+					uni.showModal({
+						content: this.$t('index.language-change-confirm'),
+						success: (res) => {
+							if (res.confirm) {
+								uni.setLocale(e.code);
+							}
+						}
+					})
+				} else {
+					uni.setLocale(e.code);
+					this.$i18n.locale = e.code;
+				}
+				// #endif
+				location.reload()
+			},
 			toTop() {
 				uni.pageScrollTo({
 					scrollTop: 0
@@ -1692,8 +1737,10 @@
 						const getCaptionParam = this.isShopCont ? 1 : 0;
 
 						res.data.data.forEach(item => {
-							item.goods_mark = this.getCaption(item.goods_mark, getCaptionParam) || item.goods_mark;
-							item.goods_name = this.getCaption(item.goods_name, getCaptionParam) || item.goods_name;
+							item.goods_mark = this.getCaption(item.goods_mark, getCaptionParam) || item
+								.goods_mark;
+							item.goods_name = this.getCaption(item.goods_name, getCaptionParam) || item
+								.goods_name;
 							item.continue_time = this.daojishi(item.continue_time);
 						});
 
@@ -2019,12 +2066,12 @@
 	/deep/.uni-progress-bar {
 		border-radius: 9rpx !important;
 	}
-	
-	.rightSider{
+
+	.rightSider {
 		bottom: 200rpx;
 	}
-	
-	.myimage{}
+
+	.myimage {}
 
 	.to_top {
 		position: fixed;
@@ -2180,88 +2227,82 @@
 
 	//头部
 	.head {
-		margin: 12px 16px 0;
+		width: 100%;
+		height: 88rpx;
 		display: flex;
-		justify-content: space-between;
 		align-items: center;
 
-		.imgCont {
-			display: flex;
-			align-content: center;
+		view {
+			width: 410rpx;
+			font-size: 16rpx;
+			color: rgb(255, 255, 255);
 			text-align: center;
-			margin: auto;
-			margin-top: 10rpx;
-
-			.headImgBox {
-				width: 30rpx;
-				height: 30rpx;
-				background-color: #fff;
-				border-radius: 50%;
-
-				image {
-					width: 24rpx;
-					height: 24rpx;
-					padding-top: 5rpx;
-				}
-			}
-
-			.txt {
-				color: #fff;
-				margin-left: 10rpx;
-			}
+			margin: 0 70rpx 0 24rpx;
 		}
 
-		.head-title {
-			color: #fff;
-			font-size: 36rpx;
-			font-weight: bold;
+		.logo {
+			width: 64rpx;
+			height: 64rpx;
+			margin-left: 32rpx;
 		}
 
-		.head-right {
-			color: #fff;
-			font-size: 24rpx;
-			font-weight: bold;
-			display: flex;
-			align-items: center;
+		.auth {
+			width: 44rpx;
+			height: 44rpx;
+			margin-left: 32rpx;
+		}
 
-			.time {
-				width: 32rpx;
-				height: 32rpx;
-				margin-right: 10rpx;
-			}
-
-			.r {
-				width: 24rpx;
-				height: 24rpx;
-				margin-left: 10rpx;
-			}
+		.lange {
+			width: 42rpx;
+			height: 42rpx;
 		}
 	}
 
 	.auction-page {
 		width: 100%;
-		background: #FFFFFF;
-
+		background: rgb(248, 248, 248);
+		
+		.head-info-not{
+			position: relative;
+			width: 750rpx;
+			height: 496rpx;
+			display: flex;
+			align-items: center;
+			background: url("/static/images/tab/start_soon_bj.png") no-repeat;
+			background-size: 750rpx 496rpx;
+		}
+		
+		.auct-banner {
+			width: 686rpx;
+			margin: 240rpx auto 0 auto;
+		
+			.swiper-image {
+				width: 100%;
+				height: 296rpx;
+		
+				image {
+					width: 100%;
+					height: 100%;
+					border-radius: 24rpx;
+				}
+			}
+		}
+		
 		//顶部固定
 		.fixed {
-			width: 100%;
 			position: fixed;
 			top: 0;
+			width: 750rpx;
+			height: 88rpx;
+			padding-top: 88rpx;
+			background: url("/static/images/tab/auction-head.png") no-repeat;
+			background-size: 750rpx 176rpx;
 			z-index: 100;
-			background: url("/static/xuyuan/navBg.png") no-repeat;
-			padding: 40rpx 0 0;
-			padding-bottom: 20rpx;
-			object-fit: cover;
-			box-sizing: border-box;
 		}
 
 		.top-layout {
 			width: 100%;
-			background: url('/static/images/auction/auction_bg.png') no-repeat;
-			background-size: 100% 100%;
-			padding: 40rpx 0 0;
 			box-sizing: border-box;
-			padding-bottom: 20rpx;
 
 			.tl-header {
 				width: 100%;
@@ -2295,7 +2336,7 @@
 
 			.bid-layout {
 				width: 100%;
-				margin-top: 170rpx;
+				margin-top: 48rpx;
 				padding: 0 32rpx;
 				box-sizing: border-box;
 				display: flex;
@@ -3046,9 +3087,6 @@
 						position: absolute;
 						top: 112rpx;
 						width: 100%;
-						// display: flex;
-						// align-items: center;
-						// justify-content: space-between;
 
 						.des-center-price {
 							.new {
@@ -3086,13 +3124,6 @@
 								height: 32rpx;
 								border-radius: 50%;
 								margin-right: 10rpx;
-							}
-
-							view {
-
-								// overflow: hidden;
-								// text-overflow: ellipsis;
-								// white-space: nowrap;
 							}
 						}
 					}
