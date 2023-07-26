@@ -12,7 +12,7 @@
 					<button class="public-btn" style="background: rgb(10, 198, 142);"
 						@click="navClick('add')">
 						<image class="fixed-icon" src="/static/icon/download-Android.png"></image>
-						Android
+						Android({{version}})
 					</button>
 				</view>
 			</a>
@@ -32,9 +32,18 @@
 			return {
 				addList: [],
 				page: 1,
+				version:0,
 			}
 		},
 		onShow() {
+			// 隐私协议等
+			this.$http.post(this.$apiObj.IndexSetting,{
+				fields:'version'
+			}).then(res => {
+				if (res.code == 1) {
+					this.version = res.data.version
+				}
+			})
 		},
 		onReachBottom() {
 		},
