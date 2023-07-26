@@ -1573,11 +1573,12 @@
 
 
 	"ranking.ranking_list": "Ranking List",
+	"ranking.ranking":"Ranking",
 	"ranking.luck_forum": "Lucky Forum",
 	"ranking.gotoview": "Go to view",
-	"ranking.luck_list": "L.S Ranking",
-	"ranking.wish_list": "Wish Ranking",
-	"ranking.invitation_list": "Invite Ranking",
+	"ranking.luck_list": "Lucky Star",
+	"ranking.wish_list": "Wish",
+	"ranking.invitation_list": "Invitation",
 	"ranking.weekly_list": "Weekly",
 	"ranking.mothly_list": "Monthly",
 	"ranking.overall": "Overall",
@@ -1588,6 +1589,7 @@
 
 	"pay.paypal_ts": "Supports MY savings and credit cards, no registration required, requires KYC, and low handling fees",
 	"pay.pay_essence": "Real name required",
-	"pay.pay_not": "Stay tuned for more payment methods"
+	"pay.pay_not": "Stay tuned for more payment methods",
 
+	"start_soon.tip":"There are currently no upcoming products~"
 }

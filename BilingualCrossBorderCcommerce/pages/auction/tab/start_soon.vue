@@ -5,7 +5,7 @@
 			<view class="head_fixed">
 				<view class="head_tit">
 					<view class="tit-name">Wishing Pool</view>
-					<view class="tit-auth">
+					<view class="tit-auth" v-if="!isLogin">
 						<image src="/static/images/tab/start-auth.png" class="auth"></image>
 						<view @click="navClick('/pages/public/register')">{{$t('auction.sign_up')}}</view>
 						<image src="/static/images/luck/luck-right.png" class="right"></image>
@@ -20,7 +20,7 @@
 					<scroll-view scroll-x class="scroll-view-item">
 						<block v-for="(item,i) in timeList" :key="item.id">
 							<view class="start-time" :class="item.id == timeId?'start-select':''"
-								@click="switchJinpai(2,item.id)">
+								@click="switchJinpai(2,item)">
 								<view class="time-num">{{item.time}}</view>
 								<view class="time-btn">Start Soon</view>
 							</view>
@@ -53,7 +53,7 @@
 			</view>
 
 			<!--单行显示-->
-			<template v-if="selectId == 1">
+			<template v-if="selectId == 1 && productList.length>0">
 				<view class="new-list-item" v-for="(item,i) in productList" :key="i" @click="onJingPai(item)"
 					@longpress="item.isMask=true">
 					<image :src="item.image" class="new-list-item-left"
@@ -150,137 +150,10 @@
 				</view>
 			</template>
 
-			<!--一行双列显示-->
-			<template v-else-if="selectId == 2">
-				<view class="new-list-item-two">
-					<view class="info" v-for="(item,i) in productList" :key="i" @click="onJingPai(item)"
-						style="height: 600rpx;">
-						<image :src="item.image" class="info-img"></image>
-						<view class="info-tit">{{item.goods_name}}</view>
-
-						<view class="bonus-two" style="bottom: 200rpx;" v-if="item.can_use_invite_money_rate * 1 > 0">
-							<image src="/static/images/new-index/$.png" class="bonus-img"></image>
-							<view class="bonus-info">{{item.can_use_invite_money_rate*1}}% bonus available</view>
-						</view>
-
-						<view class="info-tags">
-							<view class="info-tag">
-								<image src="/static/images/new-index/xx.png"></image>
-								<view>{{item.wishing_pool_goods_focus_total}}</view>
-							</view>
-
-							<view class="info-tag">
-								<image src="/static/images/new-index/liulan.png"></image>
-								<view>{{item.wishing_pool_goods_appear_watch_num_total}}</view>
-							</view>
-
-							<view class="info-tag" v-if="item.wishing_pool_goods_lucky_total>0">
-								<image src="/static/images/new-index/jianbei.png"></image>
-								<view>{{item.wishing_pool_goods_lucky_total}}</view>
-							</view>
-						</view>
-
-						<view class="info-jd" v-if="id==1">
-							<progress class="progress" :percent="(item.finish_rate*100).toFixed(0)" stroke-width="9"
-								activeColor="#1DD181" backgroundColor="#EBEBEB" />
-						</view>
-
-						<view class="info-btm">
-							<view class="info-price">
-								<view class="old">RM{{item.price}}</view>
-								<view class="new">
-									<image src="/static/images/kbrick/diamond.png"></image>
-									<span>{{item.auction_price}}</span>
-									<text
-										style="color: rgb(153, 153, 153);font-weight: 400;font-size: 16rpx;margin-left: 8rpx;">(RM{{item.auction_price}})</text>
-								</view>
-							</view>
-
-							<view class="info-btn" v-if="id==1">
-								<view @click.stop="onMineInfo(item)">{{$t('tab.xy')}}</view>
-							</view>
-
-
-						</view>
-
-						<view class="new-list-item-btm-btn1" style="border: 2rpx solid rgb(248, 155, 0);width: 200rpx;">
-							<image src="/static/images/new-index/time1.png" style="width: 20rpx;height: 20rpx;">
-							</image>
-							<u-count-down :time="item.datetime" format="HH:mm:ss"
-								style="color: rgb(248, 155, 0);"></u-count-down>
-						</view>
-
-					</view>
-				</view>
-			</template>
-
-			<!--竖向单行显示-->
 			<template v-else>
-				<view class="new-list-line" v-for="(item,i) in productList" :key="i" @click="onJingPai(item)">
-					<image :src="item.image" class="product_img"></image>
-					<view class="product_txt">{{item.goods_name}}</view>
-
-					<view class="bonus-two" v-if="item.can_use_invite_money_rate * 1 > 0">
-						<image src="/static/images/new-index/$.png" class="bonus-img"></image>
-						<view class="bonus-info">{{item.can_use_invite_money_rate*1}}% bonus available</view>
-					</view>
-
-					<view class="info_tags">
-						<block v-for="data in item.tags" :key="data.tag_id">
-							<view class="tag" v-if="data.tag_id == 1"
-								style="color: #D81E06;border: 2rpx solid #D81E06;">
-								<view class="tag_name">
-									<u-parse :content="isShopCont ? data.en_desc : data.zh_desc"></u-parse>
-								</view>
-							</view>
-							<view class="tag" v-else-if="data.tag_id == 2"
-								style="color: #FF5701;border: 2rpx solid #FF5701;">
-								<view class="tag_name">
-									<u-parse :content="isShopCont ? data.en_desc : data.zh_desc"></u-parse>
-								</view>
-							</view>
-							<view class="tag" v-else-if="data.tag_id == 3"
-								style="color: #0AC68E;border: 2rpx solid #0AC68E;">
-								<view class="tag_name">
-									<u-parse :content="isShopCont ? data.en_desc : data.zh_desc"></u-parse>
-								</view>
-							</view>
-							<view class="tag" v-else-if="data.tag_id == 9"
-								style="color: #3A71EC;border: 2rpx solid #3A71EC;">
-								<view class="tag_name">
-									<u-parse :content="isShopCont ? data.en_desc : data.zh_desc"></u-parse>
-								</view>
-							</view>
-						</block>
-					</view>
-
-					<view class="info">
-						<view class="info-left">
-							<view class="info_jd" v-if="id==1">
-								<progress class="progress" :percent="(item.finish_rate*100).toFixed(0)" stroke-width="9"
-									activeColor="#1DD181" backgroundColor="#EBEBEB" />
-							</view>
-							<view class="info_price">
-								<view class="old">RM{{item.price}}</view>
-								<view class="new">
-									<image src="/static/images/kbrick/diamond.png"></image>
-									<span>{{item.auction_price}}</span>
-									<text
-										style="color: rgb(153, 153, 153);font-weight: 400;font-size: 16rpx;margin-left: 8rpx;">(RM{{item.auction_price}})</text>
-								</view>
-							</view>
-						</view>
-
-						<view class="new-list-item-btm-btn" style="border: 2rpx solid rgb(248, 155, 0);">
-							<image src="/static/images/new-index/time1.png" style="width: 20rpx;height: 20rpx;">
-							</image>
-							<u-count-down :time="item.datetime" format="HH:mm:ss"
-								style="color: rgb(248, 155, 0);"></u-count-down>
-						</view>
-					</view>
-
-				</view>
+				<uni-empty image="/static/images/mine/order_icon_null.png" :message="$t('start_soon.tip')"></uni-empty>
 			</template>
+
 		</view>
 
 		<!-- 许愿 -->
@@ -345,7 +218,8 @@
 		data() {
 			return {
 				timeId: 1,
-				timestamp: 0, //时间戳
+				start_time: 0, //起始时间戳
+				end_time: 0, //结束时间戳
 				showTop: false,
 				pagenum: 10, // 每页显示商品数目
 				page: 1,
@@ -441,10 +315,10 @@
 				totalNum: 0,
 				showMakeaWish: false, //是否显示许愿列表
 				timeList: [], //时间数组
+				isLogin: false
 			}
 		},
 		onLoad(e) {
-			this.onAuctionNotbeginGoods()
 			let systemInfo = uni.getSystemInfoSync();
 			this.systemLocale = systemInfo.language;
 			this.applicationLocale = uni.getLocale();
@@ -454,6 +328,7 @@
 			});
 
 			if (uni.getStorageSync('token')) {
+				this.isLogin = true
 				this.$http.post(this.$apiObj.MineInfo).then(res => {
 					if (res.code == 1) {
 						// 判断是否设置支付密码
@@ -470,16 +345,22 @@
 
 			let monthNum = new Date(year, month, 0).getDate()
 			let weekStartTime = new Date(year, month - 1, day - week + 1).getTime()
+			let dayEndTime = new Date(year, month - 1, day - week + 1, 23, 59, 59).getTime()
 			let weekEndTime = new Date(year, month - 1, day - week + 7, 23, 59, 59).getTime()
 
 			for (var i = 0; i < 7; i++) {
+				let end = parseInt(dayEndTime) + Number(86400 * 1000) * i
 				let time = {
 					id: i + 1,
-					time: this.strToTime(parseInt(weekStartTime) + Number(86400 * 1000) * i, i + 1),
-					nums: parseInt(weekStartTime) + Number(86400 * 1000) * i
+					time: this.strToTime(parseInt(weekStartTime) + Number(86400 * 1000) * i, i + 1, end),
+					start: parseInt(weekStartTime) + Number(86400 * 1000) * i,
+					end
 				}
 				this.timeList.push(time)
 			}
+			setTimeout(() => {
+				this.onAuctionNotbeginGoods()
+			}, 500)
 
 		},
 		onShow() {
@@ -536,11 +417,12 @@
 			else if (e.scrollTop < 2000 && this.showTop) this.showTop = false
 		},
 		methods: {
-			strToTime(str, id) {
+			strToTime(str, id, endTime) {
 				let date = new Date(str)
 				if (date.getDate() == new Date().getDate()) {
-					this.timestamp = str
+					this.start_time = str
 					this.timeId = id
+					this.end_time = endTime
 				}
 				return (date.getMonth() + 1) + '.' + (date.getDate() < 10 ? '0' + date.getDate() : date.getDate())
 			},
@@ -608,14 +490,17 @@
 				}
 			},
 			//数据切换
-			switchJinpai(id,timeId) {
+			switchJinpai(id, item) {
 				this.id = id
 				if (this.id == 3) {
 					this.timeId = 0
 					this.title = this.$t('new.lsjl')
 					this.onAuctionHistoryGoods()
 				} else {
-					this.timeId = timeId
+					this.title = this.$t('new.jjks')
+					this.timeId = item.id
+					this.start_time = item.start
+					this.end_time = item.end
 					this.onAuctionNotbeginGoods()
 				}
 			},
@@ -664,11 +549,14 @@
 			},
 			// 即将开始
 			onAuctionNotbeginGoods() {
+
 				this.$http.post(this.$apiObj.AuctionNotbeginGoods, {
 					sort: this.jijiangId,
 					page: this.page,
 					pagenum: this.pagenum,
-					keyword: this.keyword
+					keyword: this.keyword,
+					select_begin_time: this.start_time / 1000,
+					select_end_time: this.end_time / 1000
 				}).then(res => {
 					if (res.code == 1) {
 						if (this.isShopCont) {

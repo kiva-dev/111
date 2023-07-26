@@ -3,6 +3,10 @@
 		<view class="head-info">
 			<view class="top">
 				<image src="/static/images/auth/left.png" @click="toBack()"></image>
+				<view class="tit">{{$t('ranking.ranking')}}</view>
+			</view>
+			
+			<view class="top-info">
 				<view class="top-tit" :class="select===1 ? 'select':''" @click="switchSelect(1)">
 					{{$t('ranking.luck_list')}}
 					<text v-show="select==1"></text>
@@ -247,19 +251,39 @@
 			width: 750rpx;
 			height: 842rpx;
 			background: linear-gradient(180.00deg, rgb(51, 222, 114), rgb(5, 195, 146) 98.871%);
-
-			.top {
+			
+			.top{
+				position: relative;
 				width: 100%;
 				height: 88rpx;
 				padding-top: 88rpx;
 				display: flex;
 				align-items: center;
-
+				
 				image {
+					position: absolute;
+					left: 32rpx;
 					width: 40rpx;
 					height: 40rpx;
-					margin-left: 32rpx
+					z-index: 10;
 				}
+				
+				view{
+					width: 100%;
+					font-size: 40rpx;
+					font-weight: bold;
+					color: #fff;
+					text-align: center;
+				}
+				
+			}
+			
+			.top-info {
+				width: 100%;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				margin-bottom: 20rpx;
 
 				.top-tit {
 					position: relative;
