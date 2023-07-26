@@ -7,7 +7,7 @@
 					<image src="@/static/images/mine/collect_icon_back.png" mode="widthFix"></image>
 				</view>
 				<view class="box-title">{{$t('top.xtxx')}}</view>
-				<view class="box-clear" style="visibility: hidden;">
+				<view class="box-clear">
 					<image src="@/static/images/mine/msg_btn_clear.png" mode="widthFix"></image>
 				</view>
 			</view>

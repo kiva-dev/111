@@ -7,7 +7,7 @@
 					<view class="tit-name">Wishing Pool</view>
 					<view class="tit-auth">
 						<image src="/static/images/tab/start-auth.png" class="auth"></image>
-						<view>Sign up</view>
+						<view @click="navClick('/pages/public/register')">{{$t('auction.sign_up')}}</view>
 						<image src="/static/images/luck/luck-right.png" class="right"></image>
 					</view>
 				</view>
