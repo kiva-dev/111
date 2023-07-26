@@ -132,11 +132,7 @@
 				this.ws.init(token, auth_token);
 			},
 			openSession: function() {
-				const userinfo = uni.getStorageSync('userinfo');
-				this.isLogin()
-				if (!userinfo || !userinfo.token) {
-					return;
-				}
+				this.ws.init('','');
 				this.ws.pageFun(() => {
 					this.ws.send({
 						c: 'Message',
