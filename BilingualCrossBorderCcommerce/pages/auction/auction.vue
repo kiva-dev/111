@@ -16,7 +16,8 @@
 					<image src="/static/images/new-index/msg.png" class="auth" @click="navClick('/pages/mine/systemM')"
 						v-if="isNotReadNum<1">
 					</image>
-					<image src="/static/images/tab/msg_num.png" class="auth" @click="navClick('/pages/mine/systemM')" v-else></image>
+					<image src="/static/images/tab/msg_num.png" class="auth" @click="navClick('/pages/mine/systemM')"
+						v-else></image>
 				</view>
 			</view>
 			<view style="height: 148rpx;"></view>
@@ -110,7 +111,7 @@
 						</view>
 					</view>
 					<view class="bl-container-center">
-						<view class="center-item" v-for="item in historyList.slice(0,2)" :key="item.id"
+						<view class="center-item" v-for="item in historyListTwo.slice(0,2)" :key="item.id"
 							@click="onJingPai(item)">
 							<view class="center-item-cover">
 								<image :src="item.image" mode="aspectFill"></image>
@@ -1268,7 +1269,8 @@
 				set_paypwd: '',
 				invite_money_balance: 0,
 				isLogin: false,
-				isNotReadNum: 0
+				isNotReadNum: 0,
+				historyListTwo: []
 			}
 		},
 		onLoad(e) {
@@ -1757,6 +1759,14 @@
 			}, */
 			async onAuctionHistoryGoods() {
 				try {
+					
+					this.$http.post(this.$apiObj.AuctionHistoryGoods, {
+						page: 1,
+						pagenum: 2,
+						get_win: 1
+					}).then(res => {
+						this.historyListTwo = res.data.data
+					})
 					const res = await this.$http.post(this.$apiObj.AuctionHistoryGoods, {
 						sort: this.lishiId,
 						page: this.page,
