@@ -648,9 +648,10 @@
 				})
 			},
 			tomine() {
-				uni.switchTab({
-					url: '/pages/mine/mine'
-				})
+				// uni.switchTab({
+				// 	url: '/pages/mine/mine'
+				// })
+				uni.navigateBack()
 			},
 			onFengxiangClick(item) {
 				// this.qrUrl = 'https://h5.kolibrimall.com/h5/#/pages/auction/detail?id=' + item.auction_goods_id// 生成二维码的链接

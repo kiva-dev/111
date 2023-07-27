@@ -15,10 +15,11 @@
 
 					<image src="/static/images/new-index/msg.png" class="auth" @click="navClick('/pages/mine/systemM')">
 					</image>
+					<image src="/static/images/tab/msg_num.png" v-show="false"></image>
 				</view>
 			</view>
 			<view style="height: 148rpx;"></view>
-			
+
 			<!--轮播图-->
 			<view class="auct-banner">
 				<swiper class="auct-banner-swiper" circular :indicator-dots="indicatorDots" :autoplay="autoplay"
@@ -178,7 +179,7 @@
 				<view class="sl-scroll-box" v-for="item in FirstList" :key="item.id"
 					@click="switchLogoToProduct(item.id,item.name);">
 					<image :src="item.image" mode="widthFix"></image>
-					<view :style="switch_id==item.id?'color: rgb(51, 222, 114);':''">{{item.name}}</view>
+					<view>{{item.name}}</view>
 				</view>
 			</scroll-view>
 			<view class="sl-line">
@@ -1284,6 +1285,18 @@
 			setTimeout(() => {
 				this.$http.post(this.$apiObj.IndexFirstCate).then(res => {
 					if (res.code == 1) {
+						let fristData = {
+							id:0,
+							image:"/static/images/new-index/all_product.png",
+							name:'全部商品|All Proudcts'
+						}
+						let twoData={
+							id:-1,
+							image:"/static/images/new-index/new_product.png",
+							name:"最新商品|New Product"
+						}
+						res.data.unshift(twoData)
+						res.data.unshift(fristData)
 						if (this.isShopCont) {
 							res.data.map(item => {
 								item.name = this.getCaption(item.name, 1) ? this.getCaption(item
@@ -1296,10 +1309,20 @@
 							})
 						}
 						this.FirstList = res.data
+						
+						id
+							:
+							1
+						image
+							:
+							"https://kjtest.ysxrj.cn/uploads/20230531/47ae0b9ed474fa295d45af0954381413.png"
+						name
+							:
+							"数码|Digital"
 					}
 				})
 			}, 1200);
-			
+
 			// 轮播图
 			this.$http.post(this.$apiObj.AuctionBanner).then(res => {
 				if (res.code == 1) {
@@ -2261,8 +2284,8 @@
 	.auction-page {
 		width: 100%;
 		background: rgb(248, 248, 248);
-		
-		.head-info-not{
+
+		.head-info-not {
 			position: relative;
 			width: 750rpx;
 			height: 496rpx;
@@ -2271,15 +2294,15 @@
 			background: url("/static/images/tab/start_soon_bj.png") no-repeat;
 			background-size: 750rpx 496rpx;
 		}
-		
+
 		.auct-banner {
 			width: 686rpx;
 			margin: 240rpx auto 0 auto;
-		
+
 			.swiper-image {
 				width: 100%;
 				height: 296rpx;
-		
+
 				image {
 					width: 100%;
 					height: 100%;
@@ -2287,7 +2310,7 @@
 				}
 			}
 		}
-		
+
 		//顶部固定
 		.fixed {
 			position: fixed;

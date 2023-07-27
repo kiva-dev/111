@@ -6,7 +6,8 @@
 					<image src="@/static/images/mine/mine_set.webp" mode="widthFix"></image>
 				</view>
 				<view class="operate-box" @click="navClick('/pages/mine/systemM')">
-					<image src="@/static/images/mine/mine_msg.webp" mode="widthFix"></image>
+					<image src="/static/images/mine/mine-msg1.png" ></image>
+					<image src="/static/images/mine/mine-msg1-num.png" v-show="false"></image>
 				</view>
 			</view>
 			<view class="ml-top-info">
@@ -359,12 +360,11 @@
 	</view>
 </template>
 
-<script src="https://cdn.ronghub.com/RongIMLib-5.5.5.prod.js"></script>
+<!-- <script src="https://cdn.ronghub.com/RongIMLib-5.5.5.prod.js"></script>
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-<script src="./jssocials-1.4.0/jssocials.min.js"></script>
+<script src="./jssocials-1.4.0/jssocials.min.js"></script> -->
 <script>
 	import tool from "@/utils/tool.js"
-
 	export default {
 		data() {
 			return {
@@ -862,6 +862,7 @@
 
 					image {
 						width: 100%;
+						height: 48rpx;
 					}
 				}
 			}
