@@ -8,7 +8,7 @@
 
 			<view class="points-detail-info">
 				<view class="points-detail-info-num">
-					<image src="/static/images/new-index/jf.png"></image>
+					<image src="@/static/images/mine/mine_icon_integral1.png"></image>
 					<view>{{total || 0}}</view>
 				</view>
 				<view class="points-detail-info-txt">{{$t('new.wdjf')}}</view>
@@ -17,7 +17,7 @@
 			<view class="list">
 				<view class="list-tit">{{$t('new.jfmx')}}</view>
 				<view class="item" v-for="(item,i) in list" :key="i" :style="list.length==(i+1)?'border-bottom: none;':''">
-					<image src="/static/images/new-index/jf.png"></image>
+					<image src="@/static/images/mine/mine_icon_integral1.png"></image>
 					<view class="item-info">
 						<view class="item-name">{{item.desc}}</view>
 						<view class="item-time">{{$u.timeFormat(item.createtime, 'yyyy/mm/dd hh:MM:ss')}}</view>

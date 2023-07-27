@@ -41,10 +41,10 @@
 						<image :src="info2.avatar" class="auth-img" v-if="info2.avatar"></image>
 						<image src="/static/images/luck/not-auth.png" class="auth-img" v-else></image>
 					</view>
-					<view class="auth-name">{{info2.nickname || '暂无排名'}}</view>
+					<view class="auth-name">{{info2.nickname || $t('ranking.not')}}</view>
 
-					<view class="num" v-if="select==1">{{info2.goods_lucky_count}}</view>
-					<view class="num" v-else-if="select==2">{{info2.wish_list_count}}</view>
+					<view class="num" v-if="select==1">{{info2.price}}</view>
+					<view class="num" v-else-if="select==2">{{info2.count}}</view>
 					<view class="num" v-else="select==3">{{info2.invite_num}}</view>
 
 					<view class="btm" style="border-radius: 24rpx 0 0 0;">2</view>
@@ -56,10 +56,10 @@
 						<image :src="info1.avatar" class="auth-img" v-if="info1.avatar"></image>
 						<image src="/static/images/luck/not-auth.png" class="auth-img" v-else></image>
 					</view>
-					<view class="auth-name">{{info1.nickname || '暂无排名'}}</view>
+					<view class="auth-name">{{info1.nickname || $t('ranking.not')}}</view>
 
-					<view class="num" v-if="select==1">{{info1.goods_lucky_count}}</view>
-					<view class="num" v-else-if="select==2">{{info1.wish_list_count}}</view>
+					<view class="num" v-if="select==1">{{info1.price}}</view>
+					<view class="num" v-else-if="select==2">{{info1.count}}</view>
 					<view class="num" v-else="select==3">{{info1.invite_num}}</view>
 
 					<view class="btm"
@@ -74,10 +74,10 @@
 						<image :src="info3.avatar" class="auth-img" v-if="info3.avatar"></image>
 						<image src="/static/images/luck/not-auth.png" class="auth-img" v-else></image>
 					</view>
-					<view class="auth-name">{{info3.nickname || '暂无排名'}}</view>
+					<view class="auth-name">{{info3.nickname || $t('ranking.not')}}</view>
 
-					<view class="num" v-if="select==1">{{info3.goods_lucky_count}}</view>
-					<view class="num" v-else-if="select==2">{{info3.wish_list_count}}</view>
+					<view class="num" v-if="select==1">{{info3.price}}</view>
+					<view class="num" v-else-if="select==2">{{info3.count}}</view>
 					<view class="num" v-else="select==3">{{info3.invite_num}}</view>
 
 					<view class="btm" style="height: 94rpx;border-radius: 0 24rpx 0 0;">3</view>
@@ -103,8 +103,8 @@
 					<view class="item-num">{{i+4}}</view>
 					<image :src="item.avatar"></image>
 					<view class="item-name">{{item.nickname}}</view>
-					<view class="item-total" v-show="select==1">{{item.goods_lucky_count}}</view>
-					<view class="item-total" v-show="select==2">{{item.wish_list_count}}</view>
+					<view class="item-total" v-show="select==1">{{item.price}}</view>
+					<view class="item-total" v-show="select==2">{{item.count}}</view>
 					<view class="item-total" v-show="select==3">{{item.invite_num}}</view>
 				</view>
 

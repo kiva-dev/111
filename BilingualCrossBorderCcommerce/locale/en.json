@@ -1583,9 +1583,10 @@
 	"ranking.mothly_list": "Monthly",
 	"ranking.overall": "Overall",
 	"ranking.update": "Updated daily at 6:00, 12:00, 18:00, and 24:00",
-	"ranking.luck_times": "Lucky Times",
-	"ranking.wishing_times": "Wishing Times",
+	"ranking.luck_times": "Commodity Price",
+	"ranking.wishing_times": "Participation Period",
 	"ranking.invitation_num": "Number Of Invitations",
+	"ranking.not":"No Ranking Yet",
 
 	"pay.paypal_ts": "Supports MY savings and credit cards, no registration required, requires KYC, and low handling fees",
 	"pay.pay_essence": "Real name required",

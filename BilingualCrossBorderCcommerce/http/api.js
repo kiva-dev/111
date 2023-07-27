@@ -69,6 +69,8 @@ let apiObj = {
 	MineAuthDetail: 'Mine/authDetail', // 实名认证信息
 	MineLoginOut: 'Mine/loginOut', // 退出登录
 	MineCancelAccount: 'Mine/cancelAccount', // 注销账号
+	MineClearRead:"Mine/oneClickReadSysMsg",//系统消息一键已读
+	GetMineNotRead:"Mine/existsReadSysMsg",//获取是否存在已读消息
 	// 订单
 	OrderOrderList: 'Order/orderList', // 普通订单列表
 	OrderGroupOrderList: 'Order/groupOrderList', // 拼团订单列表

@@ -13,9 +13,10 @@
 					<image src="/static/images/new-index/lange.png" class="lange" v-show="isShopCont"
 						@click="onChangeLanuage(locales[1])"></image>
 
-					<image src="/static/images/new-index/msg.png" class="auth" @click="navClick('/pages/mine/systemM')">
+					<image src="/static/images/new-index/msg.png" class="auth" @click="navClick('/pages/mine/systemM')"
+						v-if="isNotReadNum<1">
 					</image>
-					<image src="/static/images/tab/msg_num.png" v-show="false"></image>
+					<image src="/static/images/tab/msg_num.png" class="auth" @click="navClick('/pages/mine/systemM')" v-else></image>
 				</view>
 			</view>
 			<view style="height: 148rpx;"></view>
@@ -1266,7 +1267,8 @@
 				changShopNum: 0, //使用赠金后的k钻
 				set_paypwd: '',
 				invite_money_balance: 0,
-				isLogin: false
+				isLogin: false,
+				isNotReadNum: 0
 			}
 		},
 		onLoad(e) {
@@ -1286,14 +1288,14 @@
 				this.$http.post(this.$apiObj.IndexFirstCate).then(res => {
 					if (res.code == 1) {
 						let fristData = {
-							id:0,
-							image:"/static/images/new-index/all_product.png",
-							name:'全部商品|All Proudcts'
+							id: 0,
+							image: "/static/images/new-index/all_product.png",
+							name: '全部商品|All Proudcts'
 						}
-						let twoData={
-							id:-1,
-							image:"/static/images/new-index/new_product.png",
-							name:"最新商品|New Product"
+						let twoData = {
+							id: -1,
+							image: "/static/images/new-index/new_product.png",
+							name: "最新商品|New Product"
 						}
 						res.data.unshift(twoData)
 						res.data.unshift(fristData)
@@ -1309,7 +1311,7 @@
 							})
 						}
 						this.FirstList = res.data
-						
+
 						id
 							:
 							1
@@ -1340,6 +1342,7 @@
 			}, 1000)
 		},
 		onShow() {
+			this.getNotRead()
 			//删除缓存临时数据
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
 			this.newsjpId = 1
@@ -1395,6 +1398,12 @@
 		},
 		mounted() {},
 		methods: {
+			//获取是否有未读消息
+			getNotRead() {
+				this.$http.post(this.$apiObj.GetMineNotRead).then(res => {
+					this.isNotReadNum = res.data
+				})
+			},
 			//切换语言
 			onChangeLanuage(e) {
 				uni.setStorageSync('UNI_LOCALE', e.code)
