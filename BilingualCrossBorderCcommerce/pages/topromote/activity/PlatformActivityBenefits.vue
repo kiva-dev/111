@@ -12,12 +12,12 @@
             <view class='topText-child-en'>Too many surprises</view>
             <view class="commissionImage">
                 <image class="child" src="@/static/demo/commissionrefund-en.webp"></image>
-                <image class="RedEnvelopes" src="@/static/demo/RedEnvelopesSurge.gif"></image>
+                <image class="RedEnvelopes" src="@/static/demo/RedEnvelopesSurge.webp"></image>
             </view>
             <image class="shopImage" src="@/static/demo/shop-en.webp" @click="toIndex()"></image>
             <image class="contentImage" src="@/static/demo/content-en.webp"></image>
             <view class="fingerI">
-                <image class="fingerImage" src="@/static/demo/fingerdown.gif"></image>
+                <image class="fingerImage" src="@/static/demo/fingerdown.webp"></image>
             </view>
             <view class="bottomBtn">
                 <view style="position: relative;" class="lfetBottomBtn">
@@ -46,12 +46,12 @@
             <view class='topText-child'>超多惊喜</view>
             <view class="commissionImage">
                 <image class="child" src="@/static/demo/commissionrefund.webp"></image>
-                <image class="RedEnvelopes" src="@/static/demo/RedEnvelopesSurge.gif"></image>
+                <image class="RedEnvelopes" src="@/static/demo/RedEnvelopesSurge.webp"></image>
             </view>
             <image class="shopImage" src="@/static/demo/shop.webp" @click="toIndex()"></image>
             <image class="contentImage" src="@/static/demo/content-cn.webp"></image>
             <view class="fingerI">
-                <image class="fingerImage" src="@/static/demo/fingerdown.gif"></image>
+                <image class="fingerImage" src="@/static/demo/fingerdown.webp"></image>
             </view>
             <view class="bottomBtn">
                 <view style="position: relative;" class="lfetBottomBtn">
