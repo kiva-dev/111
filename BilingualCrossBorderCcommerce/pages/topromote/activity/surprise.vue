@@ -4,23 +4,23 @@
 			<view class="head-info">
 				<view class="top">
 					<image src="/static/images/surprise/return.png" class="left" @click="toBack()"></image>
-					<image src="/static/images/surprise/home.png" class="index" @click="toIndex()"></image>
+					<image src="/static/images/surprise/home.webp" class="index" @click="toIndex()"></image>
 				</view>
 			</view>
 
 			<view class="info" @click="toIndex()">
-				<image src="/static/images/surprise/1.png" class="short"></image>
-				<image src="/static/images/surprise/2.png" class="long"></image>
+				<image src="/static/images/surprise/1.webp" class="short"></image>
+				<image src="/static/images/surprise/2.webp" class="long"></image>
 			</view>
 
-			<image src="/static/images/surprise/3.png" class="join" @click="toIndex()"></image>
+			<image src="/static/images/surprise/3.webp" class="join" @click="toIndex()"></image>
 
 			<view class="btn">
 				<a href="https://wish.kolibrimall.com/api/Index/getApk" download="Kolibri mall"
 					style="text-decoration:none;">
-					<image src="/static/images/surprise/download.png" class="download lfetBottomBtn"></image>
+					<image src="/static/images/surprise/download.webp" class="download lfetBottomBtn"></image>
 				</a>
-				<image src="/static/images/surprise/register.png" class="register"
+				<image src="/static/images/surprise/register.webp" class="register"
 					@click="navClick('/pages/public/register')"></image>
 			</view>
 		</template>
@@ -29,23 +29,23 @@
 			<view class="head-info head-info1">
 				<view class="top">
 					<image src="/static/images/surprise/return.png" class="left" @click="toBack()"></image>
-					<image src="/static/images/surprise/home.png" class="index" @click="toIndex()"></image>
+					<image src="/static/images/surprise/home.webp" class="index" @click="toIndex()"></image>
 				</view>
 			</view>
 
 			<view class="info" @click="toIndex()">
-				<image src="/static/images/surprise/1_en.png" class="short"></image>
-				<image src="/static/images/surprise/2_en.png" class="long"></image>
+				<image src="/static/images/surprise/1_en.webp" class="short"></image>
+				<image src="/static/images/surprise/2_en.webp" class="long"></image>
 			</view>
 
-			<image src="/static/images/surprise/3_en.png" class="join" @click="toIndex()"></image>
+			<image src="/static/images/surprise/3_en.webp" class="join" @click="toIndex()"></image>
 
 			<view class="btn">
 				<a href="https://wish.kolibrimall.com/api/Index/getApk" download="Kolibri mall"
 					style="text-decoration:none;">
-					<image src="/static/images/surprise/download_en.png" class="download lfetBottomBtn"></image>
+					<image src="/static/images/surprise/download_en.webp" class="download lfetBottomBtn"></image>
 				</a>
-				<image src="/static/images/surprise/register_en.png" class="register"
+				<image src="/static/images/surprise/register_en.webp" class="register"
 					@click="navClick('/pages/public/register')"></image>
 			</view>
 		</template>
@@ -105,7 +105,7 @@
 			width: 750rpx;
 			padding-top: 88rpx;
 			height: 812rpx;
-			background: url('/static/images/surprise/head.png') no-repeat;
+			background: url('/static/images/surprise/head.webp') no-repeat;
 			background-size: 750rpx 900rpx;
 
 			.top {
@@ -139,7 +139,7 @@
 			width: 750rpx;
 			padding-top: 88rpx;
 			height: 812rpx;
-			background: url('/static/images/surprise/head_en.png') no-repeat;
+			background: url('/static/images/surprise/head_en.webp') no-repeat;
 			background-size: 750rpx 900rpx;
 		}
 
@@ -147,7 +147,7 @@
 			position: relative;
 			width: 750rpx;
 			height: 1816rpx;
-			background: url('/static/images/surprise/info-bj.png') no-repeat;
+			background: url('/static/images/surprise/info-bj.webp') no-repeat;
 			background-size: 750rpx 1816rpx;
 			margin-top: 228rpx;
 
