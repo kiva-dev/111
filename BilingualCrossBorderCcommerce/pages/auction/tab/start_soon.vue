@@ -4,25 +4,30 @@
 
 			<view class="head_fixed">
 				<view class="head_tit">
-					<view class="tit-name">Wishing Pool</view>
-					<view class="tit-auth" v-if="!isLogin">
+					<view class="tit-name">{{$t('xyc')}}</view>
+					<view class="tit-auth" v-if="!isLogin" @click="navClick('/pages/public/register')">
 						<image src="/static/images/tab/start-auth.png" class="auth"></image>
-						<view @click="navClick('/pages/public/register')">{{$t('auction.sign_up')}}</view>
+						<view >{{$t('auction.sign_up')}}</view>
+						<image src="/static/images/luck/luck-right.png" class="right"></image>
+					</view>
+					<view class="tit-auth" v-else-if="isLogin" @click="navClick('/pages/mine/auctionM?num=1')">
+						<image src="/static/xuyuan/time.png" class="auth"></image>
+						<view>{{$t('title')}}</view>
 						<image src="/static/images/luck/luck-right.png" class="right"></image>
 					</view>
 				</view>
 
 				<view class="head-switch">
 					<view class="history" :class="id == 3?'select':''" @click="switchJinpai(3)">
-						<view class="name">History</view>
-						<view class="btn">Ended</view>
+						<view class="name">{{isShopCont ? 'History' : '历史记录'}}</view>
+						<view class="btn">{{isShopCont ? 'Ended' : '已结束'}}</view>
 					</view>
 					<scroll-view scroll-x class="scroll-view-item">
 						<block v-for="(item,i) in timeList" :key="item.id">
 							<view class="start-time" :class="item.id == timeId?'start-select':''"
 								@click="switchJinpai(2,item)">
-								<view class="time-num">{{item.time}}</view>
-								<view class="time-btn">Start Soon</view>
+								<view class="time-num">{{item.start_time}}</view>
+								<view class="time-btn">{{$t('new.jjks')}}</view>
 							</view>
 						</block>
 					</scroll-view>
@@ -347,19 +352,10 @@
 			let weekStartTime = new Date(year, month - 1, day - week + 1).getTime()
 			let dayEndTime = new Date(year, month - 1, day - week + 1, 23, 59, 59).getTime()
 			let weekEndTime = new Date(year, month - 1, day - week + 7, 23, 59, 59).getTime()
-
-			for (var i = 0; i < 7; i++) {
-				let end = parseInt(dayEndTime) + Number(86400 * 1000) * i
-				let time = {
-					id: i + 1,
-					time: this.strToTime(parseInt(weekStartTime) + Number(86400 * 1000) * i, i + 1, end),
-					start: parseInt(weekStartTime) + Number(86400 * 1000) * i,
-					end
-				}
-				this.timeList.push(time)
-			}
+			
+			this.getStartTime()
 			setTimeout(() => {
-				this.onAuctionNotbeginGoods()
+				
 			}, 500)
 
 		},
@@ -417,6 +413,17 @@
 			else if (e.scrollTop < 2000 && this.showTop) this.showTop = false
 		},
 		methods: {
+			getStartTime(){
+				this.$http.post(this.$apiObj.StartSoonGetTimeList).then(res=>{
+					res.data.data.forEach((item,i)=>{
+						let arr = item.start_time.split('-')
+						item.start_time = arr[1]+'.'+arr[2]
+						this.$set(item,'id',i+1)
+					})
+					this.timeList = res.data.data
+					this.onAuctionNotbeginGoods(this.timeList[0].since,this.timeList[0].until)
+				})
+			},
 			strToTime(str, id, endTime) {
 				let date = new Date(str)
 				if (date.getDate() == new Date().getDate()) {
@@ -499,9 +506,7 @@
 				} else {
 					this.title = this.$t('new.jjks')
 					this.timeId = item.id
-					this.start_time = item.start
-					this.end_time = item.end
-					this.onAuctionNotbeginGoods()
+					this.onAuctionNotbeginGoods(item.since,item.until)
 				}
 			},
 			getCaption(str, state) {
@@ -548,15 +553,16 @@
 				})
 			},
 			// 即将开始
-			onAuctionNotbeginGoods() {
-
+			onAuctionNotbeginGoods(start,end) {
+				let select_begin_time = new Date(start).getTime() / 1000
+				let select_end_time = new Date(end).getTime() / 1000
 				this.$http.post(this.$apiObj.AuctionNotbeginGoods, {
 					sort: this.jijiangId,
 					page: this.page,
 					pagenum: this.pagenum,
 					keyword: this.keyword,
-					select_begin_time: this.start_time / 1000,
-					select_end_time: this.end_time / 1000
+					select_begin_time,
+					select_end_time
 				}).then(res => {
 					if (res.code == 1) {
 						if (this.isShopCont) {

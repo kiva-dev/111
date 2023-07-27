@@ -2,9 +2,9 @@
 	<view class="auction-page">
 		<view class="commission-head">
 			<view class="bg">
-				<view class="slogan">Surprise Wish</view>
-				<view class="slogan1">Surprise Wish</view>
-				<view class="title">In progress</view>
+				<view class="slogan">{{$t('ongoing.tit')}}</view>
+				<view class="slogan1">{{$t('ongoing.tit')}}</view>
+				<view class="title">{{$t('ongoing.progress')}}</view>
 			</view>
 		</view>
 
@@ -1428,7 +1428,7 @@
 					width: 202rpx;
 					height: 56rpx;
 					line-height: 56rpx;
-					font-size: 32rpx;
+					font-size: 28rpx;
 					color: #fff;
 					text-align: center;
 					box-sizing: border-box;

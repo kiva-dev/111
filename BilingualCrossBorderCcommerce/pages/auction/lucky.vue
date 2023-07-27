@@ -1,7 +1,8 @@
 <template>
 	<view class="lucky-page">
 		<view class="banner-layout">
-			<image src="@/static/images/new-index/luckstar-en.png" mode="widthFix"></image>
+			<image src="/static/images/new-index/luckstar-en.png" mode="widthFix" v-if="isEnglish"></image>
+			<image src="/static/images/new-index/luckstar-zh.png" v-else></image>
 		</view>
 		<view class="switch">
 			<view class="switch-info" @click="navClick('/pages/auction/lucky/leaderboard')">
@@ -164,9 +165,11 @@
 
 		.banner-layout {
 			width: 100%;
+			height: 900rpx;
 
 			image {
 				width: 100%;
+				height: 900rpx;
 			}
 		}
 		

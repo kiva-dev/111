@@ -1175,6 +1175,13 @@
 				"navigationBarTitleText": "",
 				"navigationStyle": "custom"
 			}
+		},
+		{
+			"path": "pages/auction/coupon/coupon",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
 		}
 	],
 	"globalStyle": {

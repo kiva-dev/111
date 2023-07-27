@@ -1578,13 +1578,17 @@
 	"ranking.mothly_list":"月榜",
 	"ranking.overall":"总榜",
 	"ranking.update":"每日 6:00、12:00、18:00 和 24:00 更新",
-	"ranking.luck_times":"幸运次数",
-	"ranking.wishing_times":"许愿次数",
+	"ranking.luck_times":"商品金额",
+	"ranking.wishing_times":"参与期数",
 	"ranking.invitation_num":"邀请人数",
+	"ranking.not":"暂无排名",
 	
 	"pay.paypal_ts":"支持MY储蓄卡和信用卡，无需注册，需要KYC，手续费低",
 	"pay.pay_essence":"需实名",
 	"pay.pay_not":"更多支付方式请持续关注",
+	
+	"ongoing.tit":"惊喜许愿",
+	"ongoing.progress":"正在进行",
 	
 	"start_soon.tip":"暂时没有即将上线的商品~"
 }

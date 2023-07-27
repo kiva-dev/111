@@ -13,12 +13,15 @@
 					<image src="/static/images/new-index/lange.png" class="lange" v-show="isShopCont"
 						@click="onChangeLanuage(locales[1])"></image>
 
-					<image src="/static/images/new-index/msg.png" class="auth" @click="navClick('/pages/mine/systemM')">
+					<image src="/static/images/new-index/msg.png" class="auth" @click="navClick('/pages/mine/systemM')"
+						v-if="isNotReadNum<1">
 					</image>
+					<image src="/static/images/tab/msg_num.png" class="auth" @click="navClick('/pages/mine/systemM')"
+						v-else></image>
 				</view>
 			</view>
 			<view style="height: 148rpx;"></view>
-			
+
 			<!--轮播图-->
 			<view class="auct-banner">
 				<swiper class="auct-banner-swiper" circular :indicator-dots="indicatorDots" :autoplay="autoplay"
@@ -108,7 +111,7 @@
 						</view>
 					</view>
 					<view class="bl-container-center">
-						<view class="center-item" v-for="item in historyList.slice(0,2)" :key="item.id"
+						<view class="center-item" v-for="item in historyListTwo.slice(0,2)" :key="item.id"
 							@click="onJingPai(item)">
 							<view class="center-item-cover">
 								<image :src="item.image" mode="aspectFill"></image>
@@ -178,7 +181,7 @@
 				<view class="sl-scroll-box" v-for="item in FirstList" :key="item.id"
 					@click="switchLogoToProduct(item.id,item.name);">
 					<image :src="item.image" mode="widthFix"></image>
-					<view :style="switch_id==item.id?'color: rgb(51, 222, 114);':''">{{item.name}}</view>
+					<view>{{item.name}}</view>
 				</view>
 			</scroll-view>
 			<view class="sl-line">
@@ -1265,7 +1268,9 @@
 				changShopNum: 0, //使用赠金后的k钻
 				set_paypwd: '',
 				invite_money_balance: 0,
-				isLogin: false
+				isLogin: false,
+				isNotReadNum: 0,
+				historyListTwo: []
 			}
 		},
 		onLoad(e) {
@@ -1284,6 +1289,18 @@
 			setTimeout(() => {
 				this.$http.post(this.$apiObj.IndexFirstCate).then(res => {
 					if (res.code == 1) {
+						let fristData = {
+							id: 0,
+							image: "/static/images/new-index/all_product.png",
+							name: '全部商品|All Proudcts'
+						}
+						let twoData = {
+							id: -1,
+							image: "/static/images/new-index/new_product.png",
+							name: "最新商品|New Product"
+						}
+						res.data.unshift(twoData)
+						res.data.unshift(fristData)
 						if (this.isShopCont) {
 							res.data.map(item => {
 								item.name = this.getCaption(item.name, 1) ? this.getCaption(item
@@ -1296,10 +1313,20 @@
 							})
 						}
 						this.FirstList = res.data
+
+						id
+							:
+							1
+						image
+							:
+							"https://kjtest.ysxrj.cn/uploads/20230531/47ae0b9ed474fa295d45af0954381413.png"
+						name
+							:
+							"数码|Digital"
 					}
 				})
 			}, 1200);
-			
+
 			// 轮播图
 			this.$http.post(this.$apiObj.AuctionBanner).then(res => {
 				if (res.code == 1) {
@@ -1317,6 +1344,7 @@
 			}, 1000)
 		},
 		onShow() {
+			this.getNotRead()
 			//删除缓存临时数据
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
 			this.newsjpId = 1
@@ -1372,6 +1400,12 @@
 		},
 		mounted() {},
 		methods: {
+			//获取是否有未读消息
+			getNotRead() {
+				this.$http.post(this.$apiObj.GetMineNotRead).then(res => {
+					this.isNotReadNum = res.data
+				})
+			},
 			//切换语言
 			onChangeLanuage(e) {
 				uni.setStorageSync('UNI_LOCALE', e.code)
@@ -1725,6 +1759,14 @@
 			}, */
 			async onAuctionHistoryGoods() {
 				try {
+					
+					this.$http.post(this.$apiObj.AuctionHistoryGoods, {
+						page: 1,
+						pagenum: 2,
+						get_win: 1
+					}).then(res => {
+						this.historyListTwo = res.data.data
+					})
 					const res = await this.$http.post(this.$apiObj.AuctionHistoryGoods, {
 						sort: this.lishiId,
 						page: this.page,
@@ -2261,8 +2303,8 @@
 	.auction-page {
 		width: 100%;
 		background: rgb(248, 248, 248);
-		
-		.head-info-not{
+
+		.head-info-not {
 			position: relative;
 			width: 750rpx;
 			height: 496rpx;
@@ -2271,15 +2313,15 @@
 			background: url("/static/images/tab/start_soon_bj.png") no-repeat;
 			background-size: 750rpx 496rpx;
 		}
-		
+
 		.auct-banner {
 			width: 686rpx;
 			margin: 240rpx auto 0 auto;
-		
+
 			.swiper-image {
 				width: 100%;
 				height: 296rpx;
-		
+
 				image {
 					width: 100%;
 					height: 100%;
@@ -2287,7 +2329,7 @@
 				}
 			}
 		}
-		
+
 		//顶部固定
 		.fixed {
 			position: fixed;

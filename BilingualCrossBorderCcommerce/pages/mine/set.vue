@@ -63,7 +63,7 @@
 						<view class="label">{{$t('user.xitong.Versionupdate')}}</view>
 						<view class="li-r">
 							<view class="version">
-								<view>{{version}}</view>
+								<view style="color: #000;">{{version}}</view>
 								<text class="red-span"></text>
 							</view>
 							<view class="more">

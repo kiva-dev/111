@@ -6,7 +6,8 @@
 					<image src="@/static/images/mine/mine_set.webp" mode="widthFix"></image>
 				</view>
 				<view class="operate-box" @click="navClick('/pages/mine/systemM')">
-					<image src="@/static/images/mine/mine_msg.webp" mode="widthFix"></image>
+					<image src="/static/images/mine/mine-msg1.png" v-if="isNotReadNum<1"></image>
+					<image src="/static/images/mine/mine-msg1-num.png" v-else></image>
 				</view>
 			</view>
 			<view class="ml-top-info">
@@ -32,7 +33,7 @@
 							<template v-else>
 								<view class="box-data-detail">
 									<view class="detail-container">
-										<image src="@/static/images/mine/mine_icon_integral.webp" mode="widthFix">
+										<image src="@/static/images/mine/mine_icon_integral1.png" mode="widthFix">
 										</image>
 										<span>{{totalJf || 0}}</span>
 									</view>
@@ -94,7 +95,7 @@
 						</view>
 						<view class="cc-box-rebate">
 							<view class="rebate-num">
-								<image src="@/static/images/mine/mine_icon_integral.webp" mode="widthFix"></image>
+								<image src="@/static/images/mine/mine_icon_integral1.png" mode="widthFix"></image>
 								<p>{{totalJf || 0.00}}</p>
 							</view>
 							<p>{{$t('mine.integral')}}</p>
@@ -166,7 +167,8 @@
 						<view class="link-info">
 							<view class="info-key">{{$t('login.yqm')}}:</view>
 							<view class="info-des">{{userCont.invite_code}}</view>
-							<image src="/static/images/mine/k_copy.webp" @click.stop="copy(userCont.invite_code)"></image>
+							<image src="/static/images/mine/k_copy.webp" @click.stop="copy(userCont.invite_code)">
+							</image>
 						</view>
 					</view>
 
@@ -359,12 +361,11 @@
 	</view>
 </template>
 
-<script src="https://cdn.ronghub.com/RongIMLib-5.5.5.prod.js"></script>
+<!-- <script src="https://cdn.ronghub.com/RongIMLib-5.5.5.prod.js"></script>
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-<script src="./jssocials-1.4.0/jssocials.min.js"></script>
+<script src="./jssocials-1.4.0/jssocials.min.js"></script> -->
 <script>
 	import tool from "@/utils/tool.js"
-
 	export default {
 		data() {
 			return {
@@ -387,10 +388,11 @@
 				showLeftOrRight: true,
 				scrollLeft: 0,
 				isProhibit: true,
-				leftNum:0,//左滑
-				rightNum:0,//右滑
-				inviationNum:0,//邀请人数
-				yqUrl:'',//邀请url
+				leftNum: 0, //左滑
+				rightNum: 0, //右滑
+				inviationNum: 0, //邀请人数
+				yqUrl: '', //邀请url
+				isNotReadNum: 0
 			}
 		},
 		onLoad() {
@@ -399,6 +401,7 @@
 			// #endif
 		},
 		onShow() {
+			this.getNotRead()
 			//删除缓存临时数据
 			uni.removeStorageSync('sendTit')
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false;
@@ -416,7 +419,13 @@
 			this.showConfirm = false
 		},
 		methods: {
-			copy(val){
+			//获取是否有未读消息
+			getNotRead() {
+				this.$http.post(this.$apiObj.GetMineNotRead).then(res => {
+					this.isNotReadNum = res.data
+				})
+			},
+			copy(val) {
 				uni.setClipboardData({
 					data: val,
 					success: () => {
@@ -427,8 +436,8 @@
 					}
 				});
 			},
-			getInviationNum(){
-				this.$http.post(this.$apiObj.GetInviationNum).then(res=>{
+			getInviationNum() {
+				this.$http.post(this.$apiObj.GetInviationNum).then(res => {
 					this.inviationNum = res.data.count
 				})
 			},
@@ -437,15 +446,15 @@
 			},
 			onTouchEnd(e) {
 				this.rightNum = e.changedTouches[0].clientX
-				if(this.leftNum > this.rightNum){
+				if (this.leftNum > this.rightNum) {
 					this.scrollLeft = 343
 					this.showLeftOrRight = false
-				}else if(this.leftNum < this.rightNum){
+				} else if (this.leftNum < this.rightNum) {
 					this.scrollLeft = 0
 					this.showLeftOrRight = true
 				}
 			},
-			
+
 			onfacebook() {
 
 				let url = 'https://www.facebook.com/kolibrimall.my'
@@ -628,8 +637,11 @@
 			},
 			async getMineWinAuction() {
 				try {
-					const requestData =  {page: '1',pagenum: '1'}
-					const res = await this.$http.post(this.$apiObj.MineWinAuction,requestData);
+					const requestData = {
+						page: '1',
+						pagenum: '1'
+					}
+					const res = await this.$http.post(this.$apiObj.MineWinAuction, requestData);
 					if (res.code == 1) {
 						this.no_select = res.data.no_select;
 					}
@@ -639,8 +651,12 @@
 			},
 			async getCollectGoods() {
 				try {
-					const requestData = {page: 1,pagenum: 10,type: 1}
-					const res = await this.$http.post(this.$apiObj.MineFocusList,requestData);
+					const requestData = {
+						page: 1,
+						pagenum: 10,
+						type: 1
+					}
+					const res = await this.$http.post(this.$apiObj.MineFocusList, requestData);
 					if (res.code == 1) {
 						this.collectGoodsTotal = res.data.total;
 					}
@@ -650,7 +666,10 @@
 			},
 			async getCollectStore() {
 				try {
-					const requestData = {page: 1,pagenum: 10};
+					const requestData = {
+						page: 1,
+						pagenum: 10
+					};
 					const res = await this.$http.post(this.$apiObj.MineFocusSubscribe, requestData);
 					if (res.code === 1) {
 						this.collectStoreTotal = res.data.total;
@@ -862,6 +881,7 @@
 
 					image {
 						width: 100%;
+						height: 48rpx;
 					}
 				}
 			}
