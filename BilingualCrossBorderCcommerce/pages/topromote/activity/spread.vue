@@ -8,7 +8,7 @@
 				</view>
 			</view>
 
-			<view class="info" @click="onUrlClick()">
+			<view class="info" @click="onfenxingShow=true">
 				<view class="short short-en">
 					<view class="info-avatar">
 						<image :src="shopData.avatar || require('@/static/images/mine/mine_defalt_avatar.webp')" ></image>
@@ -172,6 +172,35 @@
 		<view class="commission-canvas">
 			<canvas class="f__canvas" style="width:140px;height:140px;" canvas-id="qrcode" id="qrcode"></canvas>
 		</view>
+		<!--分享弹出 start-->
+		<view class="fenxiang" v-if="onfenxingShow">
+			<view class="share-pop">
+				<view class="share-t">{{$t('auction.detail.fengxiangdao')}}</view>
+				<view class="share-ul">
+					<view class="share-li" @click="ontweet">
+						<view class="icon">
+							<image class="img" src="@/static/images/share21.png"></image>
+						</view>
+						<view class="t" style="color:#000">twitter</view>
+					</view>
+					<view @click="onfacebook" class="share-li">
+						<view class="icon">
+							<image class="img" src="@/static/images/share23.png"></image>
+						</view>
+						<view class="t" style="color:#000">Facebook</view>
+					</view>
+					<view class="share-li" @click="onUrlClick">
+						<view class="icon">
+							<image class="img" src="@/static/images/share25.png"></image>
+						</view>
+						<view class="t">{{$t('auction.detail.fuzhilianjie')}}</view>
+					</view>
+				</view>
+				<view class="share-bot">
+					<button class="share-btn" @click="toggle2Close">{{$t('auction.detail.query')}}</button>
+				</view>
+			</view>
+		</view>
 	</view>
 </template>
 
@@ -183,12 +212,15 @@ import {qrcodeCanvas} from '@/uni_modules/fan-canvas/plugins/utils';
 				isEnglish: uni.getStorageSync('locale') == 'en' ? true : false,
 				jingpaiList:[],
 				isShopCont:false,
+				onfenxingShow: false,
 				shopData:{},
+				auction_goods_id:'',
 				qrUrl: '',
 				qrcodeImg:''
 			}
 		},
 		onLoad(e) {
+			this.auction_goods_id = e.shopId
 			this.onAuctionDetail(JSON.parse(decodeURIComponent(e.shopId)))
 		},
 		onShow(){
@@ -314,6 +346,52 @@ import {qrcodeCanvas} from '@/uni_modules/fan-canvas/plugins/utils';
 					}
 				});
 				// #endif
+			},
+			ontweet() {
+				let url = `https://twitter.com/intent/tweet?url=${this.qrUrl}`
+				// #ifdef H5
+				window.open(url)
+				// #endif
+				// #ifndef H5
+				plus.runtime.openURL(
+					url,
+					// 打开url失败，执行，如打开的是tabao://但是手机没安装，就会执行报错
+					function(err) {
+						console.log(err);
+					}
+				);
+				// #endif
+				this.onAuctionorderShare()
+			},
+			onfacebook() {
+				let url = `https://www.facebook.com/sharer/sharer.php?u=${this.qrUrl}`
+				// #ifdef H5
+				window.open(url)
+				// #endif
+				// #ifndef H5
+				plus.runtime.openURL(
+					url,
+					// 打开url失败，执行，如打开的是tabao://但是手机没安装，就会执行报错
+					function(err) {
+						console.log(err);
+					}
+				);
+				// #endif
+				this.onAuctionorderShare()
+			},
+			// 分享--加分享次数
+			onAuctionorderShare() {
+				this.$http.post(this.$apiObj.AuctionorderShare, {
+					auction_goods_id: this.auction_goods_id
+				}).then(res => {
+					if (res.code == 1) {
+						this.onAuctionDetail()
+					}
+				})
+			},
+			// 取消分享
+			toggle2Close() {
+				this.onfenxingShow = false
 			},
 			toIndex() {
 				uni.switchTab({
@@ -505,8 +583,8 @@ import {qrcodeCanvas} from '@/uni_modules/fan-canvas/plugins/utils';
 				}
 				.commission-ewm-img{
 					position: absolute;
-					bottom: 8%;
-					right: 6%;
+					bottom: 9%;
+					right: 8%;
 					width: 134rpx;
 					height: 134rpx;
 				}
@@ -777,5 +855,68 @@ import {qrcodeCanvas} from '@/uni_modules/fan-canvas/plugins/utils';
 		position: fixed;
 		top: -1000000rpx;
 	}
-	
+	.fenxiang {
+		width: 100%;
+		height: 100%;
+		background: rgba(0, 0, 0, 0.4);
+		position: fixed;
+		top: 0;
+		left: 0;
+		z-index: 1000;
+	}
+	.share-pop {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		background: #ffffff;
+		border-radius: 20rpx 20rpx 0px 0px;
+
+		.share-t {
+			font-size: 28rpx;
+			font-weight: 550;
+			text-align: center;
+			padding: 30rpx;
+		}
+
+		.share-ul {
+			display: flex;
+			flex-wrap: wrap;
+			padding: 50rpx 30rpx;
+			text-align: center;
+
+			.share-li {
+				width: 33.3333%;
+				text-decoration: none;
+
+				.icon {
+					width: 90rpx;
+					height: 90rpx;
+					margin: 0 auto;
+				}
+
+				.t {
+					font-size: 28rpx;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
+					// line-height: 1;
+					margin-top: 25rpx;
+				}
+			}
+		}
+
+		.share-bot {
+			padding: 40rpx 30rpx;
+			border-top: 1px solid #f5f5f5;
+
+			.share-btn {
+				font-size: 28rpx;
+				font-weight: 550;
+				width: 100%;
+				padding: 0;
+				margin: 0;
+			}
+		}
+	}
 </style>
