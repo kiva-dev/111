@@ -99,7 +99,7 @@
 				</view>
 			</view>
 
-			<view class="info" @click="toIndex()">
+			<view class="info" @click="toRegister()">
 				<view class="short">
 					<view class="info-avatar">
 						<image :src="shopData.avatar || require('@/static/images/mine/mine_defalt_avatar.webp')">
@@ -229,21 +229,49 @@
 				shopData: {},
 				auction_goods_id: '',
 				qrUrl: '',
-				qrcodeImg: ''
+				qrcodeImg: '',
+				invite_code: '',
+				userCont:{}
 			}
 		},
 		onLoad(e) {
-			console.log(this.isEnglish)
-			this.auction_goods_id = e.shopId
-			this.onAuctionDetail(JSON.parse(decodeURIComponent(e.shopId)))
+			if (e.shopId) {
+				this.auction_goods_id = e.shopId
+				this.onAuctionDetail(JSON.parse(decodeURIComponent(e.shopId)))
+			}
+
+			if (e.invite_code) {
+				this.invite_code = e.invite_code
+				this.getInfo()
+			}else{
+				this.onfenxingShow = true
+			}
 		},
 		onShow() {
 			this.onAuctionNewGoods()
 		},
 		onReady() {
-			this.onfenxingShow = true
+			
 		},
 		methods: {
+			//获取用户信息
+			getInfo() {
+				this.$http.post(this.$apiObj.GetCodeInfo, {
+					code: this.invite_code
+				}).then(res => {
+					this.shopData.avatar = res.data.avatar
+					this.shopData.nickname = res.data.nickname
+				})
+			},
+			toRegister() {
+				if (this.invite_code) {
+					uni.navigateTo({
+						url:'/pages/mine/new/new-register?invite_code='+this.invite_code
+					})
+				} else {
+					this.onfenxingShow = true
+				}
+			},
 			getCaption(str, state) {
 				if (state == 1) {
 					var indexs = str.indexOf("|")
@@ -263,7 +291,7 @@
 						nickname
 					} = uni.getStorageSync('userCont');
 					this.qrUrl = this.$baseUrl + 'pages/topromote/activity/spread?invite_code=' +
-						invite_code // 生成二维码的链接
+						invite_code+'&shopId='+this.auction_goods_id // 生成二维码的链接
 					const res = await this.$http.post(this.$apiObj.AuctionDetail, {
 						auction_goods_id
 					});
@@ -503,7 +531,7 @@
 				width: 638rpx;
 				height: 872rpx;
 				background: url('/static/spread/bg.png') no-repeat;
-				background-size: 638rpx  872rpx;
+				background-size: 638rpx 872rpx;
 
 				image {
 					width: 638rpx;
