@@ -1592,5 +1592,7 @@
 	
 	"start_soon.tip":"暂时没有即将上线的商品~",
 	"start_soon.loading":"数据加载中...",
-	"start_soon.work":"搭建中,敬请期待"
+	"start_soon.work":"搭建中,敬请期待",
+	
+	"mine.recharge_xy":"用户充值协议"
 }
