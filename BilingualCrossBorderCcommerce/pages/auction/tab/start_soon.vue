@@ -380,14 +380,17 @@
 			}
 		},
 		onReachBottom() {
+			//如果缓存存在历史记录
 			if (uni.getStorageSync('historyList')) {
+				//如果当前的页面数量小于总历史记录数量并且不显示许愿商品时
 				if (this.page * this.pagenum < this.historyTotalPageNum && !this.showMakeaWish) {
 					this.page++;
 					this.onAuctionHistoryGoods()
-				} else if (this.page * this.pagenum < this.totalNum && this.showMakeaWish) {
+				} else if (this.page * this.pagenum < this.totalNum && this.showMakeaWish) { //显示许愿商品
 					this.page++;
 					this.getAllProducts();
-				} else if (this.page * this.pagenum >= this.historyTotalPageNum && !this.showMakeaWish) {
+				} else if (this.page * this.pagenum >= this.historyTotalPageNum && !this.showMakeaWish) { 
+					//页面数量大于等于总数量并且不显示许愿商品时说明历史数据已加载完毕，应该从头开始加载许愿商品
 					this.page = 1;
 					this.showMakeaWish = true;
 					this.getAllProducts()
@@ -426,11 +429,14 @@
 						this.id = 3
 						this.title = this.$t('new.lsjl')
 						this.onAuctionHistoryGoods()
+						
 					} else {
 						this.id = 2
 						this.title = this.$t('new.jjks')
-						this.timeId = uni.getStorageSync('timeId')
-						this.onAuctionNotbeginGoods(this.timeList[0].since, this.timeList[0].until)
+						let newData = uni.getStorageSync('newListData')
+						this.timeId = newData.id > 0 ? newData.id : 1
+						if(newData.id) this.onAuctionNotbeginGoods(newData.since, newData.until)
+						else this.onAuctionNotbeginGoods(this.timeList[0].since, this.timeList[0].until)
 					}
 					this.toTop()
 				})
@@ -514,7 +520,7 @@
 					location.reload()
 				} else {
 					uni.removeStorageSync('historyList')
-					uni.setStorageSync('timeId',item.id)
+					uni.setStorageSync('newListData',item)
 					location.reload()
 				}
 			},
@@ -610,6 +616,7 @@
 						this.productList = this.page == 1 ? res.data.data : [...this.productList, ...res
 							.data.data
 						]
+						
 					}
 				})
 			},
