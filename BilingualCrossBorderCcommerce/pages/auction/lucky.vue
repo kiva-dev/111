@@ -86,7 +86,7 @@
 							</view>
 						</template>
 						<view class="item-right-bot">
-							<view class="bot-box">{{$filter.to_date_time(item.update_time)}}</view>
+							<view class="bot-box">{{$filter.to_date_time(item.end_time)}}</view>
 							<view class="bot-box">{{item.stage_num}}{{$t('auction.qi')}}</view>
 						</view>
 					</view>
