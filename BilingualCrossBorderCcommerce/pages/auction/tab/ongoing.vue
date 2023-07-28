@@ -278,7 +278,7 @@
 										v-show="selectProtocol" @click="selectProtocol=false"></image>
 									<view class="protocol_info">
 										<view class="protocol_txt1">{{$t('auction.detail.brywqydbty')}}</view>
-										<navigator url="/mine/jpxy" hover-class="none" class="protocol_txt2">
+										<navigator url="/pages/mine/jpxy" hover-class="none" class="protocol_txt2">
 											{{$t('auction.detail.jphdgommzxy')}}
 										</navigator>
 									</view>

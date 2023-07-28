@@ -33,7 +33,6 @@
 					</scroll-view>
 				</view>
 			</view>
-
 			<view class="activity" @click="notOpen()">
 				<image src="/static/images/tab/activity.png" v-if="isShopCont"></image>
 				<image src="/static/images/tab/activity-zh.png" v-else></image>
@@ -1313,14 +1312,14 @@
 
 			.activity {
 				position: absolute;
-				bottom: 0;
+				bottom: -60rpx;
 				width: 100%;
 
 				image {
 					display: block;
 					width: 686rpx;
-					height: 176rpx;
-					margin: 0 auto;
+					height: 244rpx;
+					margin: 0 auto ;
 				}
 			}
 
@@ -1599,7 +1598,7 @@
 
 		.list-layout {
 			width: 100%;
-			margin-top: 16rpx;
+			margin-top: 66rpx;
 			background: #FFFFFF;
 			border-radius: 16rpx 16rpx 0 0;
 
