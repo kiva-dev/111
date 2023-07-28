@@ -69,42 +69,54 @@
 				</view>
 			</view>
 			<view class="wallet-ul" v-if="navId===1">
-				<view class="commission-item" v-for="(item,i) in MoneyList">
-					<view class="ci-left">
-						<view class="ci-left-icon">
-							<image v-if="(item.money*1) > 0" src="@/static/images/mine/wallet_icon_income.png"
-								mode="widthFix"></image>
-							<image v-else src="@/static/images/mine/wallet_icon_expenditure.png" mode="widthFix">
-							</image>
+				<template v-if="MoneyList.length > 0">
+					<view class="commission-item" v-for="(item,i) in MoneyList">
+						<view class="ci-left">
+							<view class="ci-left-icon">
+								<image v-if="(item.money*1) > 0" src="@/static/images/mine/wallet_icon_income.png"
+									mode="widthFix"></image>
+								<image v-else src="@/static/images/mine/wallet_icon_expenditure.png" mode="widthFix">
+								</image>
+							</view>
+							<view class="ci-left-info">
+								<view class="info-tit">{{isShopCont ?item.memo_en : item.memo}}</view>
+								<view class="info-time">{{$filter.to_date_time(item.addtime)}}</view>
+							</view>
 						</view>
-						<view class="ci-left-info">
-							<view class="info-tit">{{isShopCont ?item.memo_en : item.memo}}</view>
-							<view class="info-time">{{$filter.to_date_time(item.addtime)}}</view>
+						<view class="ci-right" :style="(item.money*1) > 0?'color: rgb(255, 57, 57);':''">
+							{{(item.money*1) > 0 ? '+' + item.money*1 : item.money*1}}
 						</view>
 					</view>
-					<view class="ci-right" :style="(item.money*1) > 0?'color: rgb(255, 57, 57);':''">
-						{{(item.money*1) > 0 ? '+' + item.money*1 : item.money*1}}
-					</view>
-				</view>
+				</template>
+				<template v-else>
+					<uni-empty image="/static/images/mine/order_icon_null.png"
+						:message="$t('home.zanwushuju')"></uni-empty>
+				</template>
 			</view>
 			<view class="wallet-ul" v-if="navId===2">
-				<view class="commission-item" v-for="(item,i) in MoneyList">
-					<view class="ci-left">
-						<view class="ci-left-icon">
-							<image v-if="(item.money*1) > 0" src="@/static/images/mine/wallet_icon_income.png"
-								mode="widthFix"></image>
-							<image v-else src="@/static/images/mine/wallet_icon_expenditure.png" mode="widthFix">
-							</image>
+				<template v-if="MoneyList.length > 0">
+					<view class="commission-item" v-for="(item,i) in MoneyList">
+						<view class="ci-left">
+							<view class="ci-left-icon">
+								<image v-if="(item.money*1) > 0" src="@/static/images/mine/wallet_icon_income.png"
+									mode="widthFix"></image>
+								<image v-else src="@/static/images/mine/wallet_icon_expenditure.png" mode="widthFix">
+								</image>
+							</view>
+							<view class="ci-left-info">
+								<view class="info-tit">{{isShopCont ?item.memo_en : item.memo}}</view>
+								<view class="info-time">{{$filter.to_date_time(item.addtime)}}</view>
+							</view>
 						</view>
-						<view class="ci-left-info">
-							<view class="info-tit">{{isShopCont ?item.memo_en : item.memo}}</view>
-							<view class="info-time">{{$filter.to_date_time(item.addtime)}}</view>
+						<view class="ci-right" :style="(item.money*1) > 0?'color: rgb(27, 161, 255);':''">
+							{{(item.money*1) > 0 ? '+' + item.money*1 : item.money*1}}
 						</view>
 					</view>
-					<view class="ci-right" :style="(item.money*1) > 0?'color: rgb(27, 161, 255);':''">
-						{{(item.money*1) > 0 ? '+' + item.money*1 : item.money*1}}
-					</view>
-				</view>
+				</template>
+				<template v-else>
+					<uni-empty image="/static/images/mine/order_icon_null.png"
+						:message="$t('home.zanwushuju')"></uni-empty>
+				</template>
 			</view>
 		</view>
 	</view>

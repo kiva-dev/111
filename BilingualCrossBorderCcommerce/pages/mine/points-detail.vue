@@ -16,14 +16,21 @@
 
 			<view class="list">
 				<view class="list-tit">{{$t('new.jfmx')}}</view>
-				<view class="item" v-for="(item,i) in list" :key="i" :style="list.length==(i+1)?'border-bottom: none;':''">
-					<image src="@/static/images/mine/mine_icon_integral1.png"></image>
-					<view class="item-info">
-						<view class="item-name">{{item.desc}}</view>
-						<view class="item-time">{{$u.timeFormat(item.createtime, 'yyyy/mm/dd hh:MM:ss')}}</view>
+				<template v-if="list.length > 0">
+					<view class="item" v-for="(item,i) in list" :key="i"
+						:style="list.length==(i+1)?'border-bottom: none;':''">
+						<image src="@/static/images/mine/mine_icon_integral1.png"></image>
+						<view class="item-info">
+							<view class="item-name">{{item.desc}}</view>
+							<view class="item-time">{{$u.timeFormat(item.createtime, 'yyyy/mm/dd hh:MM:ss')}}</view>
+						</view>
+						<view class="item-price">+{{item.points_number}}</view>
 					</view>
-					<view class="item-price">+{{item.points_number}}</view>
-				</view>
+				</template>
+				<template v-else>
+					<uni-empty image="/static/images/mine/order_icon_null.png"
+						:message="$t('home.zanwushuju')"></uni-empty>
+				</template>
 			</view>
 
 		</view>
@@ -35,8 +42,8 @@
 	export default {
 		data() {
 			return {
-				list:[],
-				total:0
+				list: [],
+				total: 0
 			}
 		},
 		mounted() {
@@ -51,13 +58,13 @@
 				this.$http.post(this.$apiObj.GetPointsInfo, {
 					h5_user_id: userCont.u_id
 				}).then(res => {
-					this.list=res.data.points_details
+					this.list = res.data.points_details
 				})
-				
+
 				this.$http.post(this.$apiObj.GetPoints, {
 					h5_user_id: userCont.u_id
 				}).then(res => {
-					this.total=res.data.total_points
+					this.total = res.data.total_points
 				})
 			}
 		}
