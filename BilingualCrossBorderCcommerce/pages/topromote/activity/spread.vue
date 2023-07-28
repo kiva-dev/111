@@ -39,7 +39,7 @@
 					</view>
 					<image :src="qrcodeImg" class="commission-ewm-img"></image>
 				</view>
-				<image src="/static/spread/join-en.webp" class="long"></image>
+				<image src="/static/spread/join-en.png" class="long"></image>
 			</view>
 			<view class="hot-sale">
 				<view>HOT SALE</view>
@@ -124,7 +124,7 @@
 					</view>
 					<image :src="qrcodeImg" class="commission-ewm-img"></image>
 				</view>
-				<image src="/static/spread/join.webp" class="long"></image>
+				<image src="/static/spread/join.png" class="long"></image>
 			</view>
 			<view class="hot-sale">
 				<view>热门商品</view>
@@ -415,6 +415,7 @@ import {qrcodeCanvas} from '@/uni_modules/fan-canvas/plugins/utils';
 	}
 	.surprise {
 		width: 750rpx;
+		
 		min-height: 100vh;
 		padding-bottom: 188rpx;
 		background: linear-gradient(83.16deg, rgb(253, 69, 63) 29.91%,rgb(254, 167, 129) 70.047%);
@@ -423,7 +424,7 @@ import {qrcodeCanvas} from '@/uni_modules/fan-canvas/plugins/utils';
 			width: 750rpx;
 			padding-top: 88rpx;
 			height: 450rpx;
-			background: url('/static/spread/head.webp') no-repeat;
+			background: url('/static/spread/head.png') no-repeat;
 			background-size: 750rpx 450rpx;
 
 			.top {
