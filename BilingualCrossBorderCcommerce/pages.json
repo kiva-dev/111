@@ -1156,6 +1156,13 @@
 			}
 		},
 		{
+			"path": "pages/topromote/activity/LimitedTimeEvent",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		},
+		{
 			"path": "pages/mine/video_view",
 			"style": {
 				"navigationBarTitleText": "",
