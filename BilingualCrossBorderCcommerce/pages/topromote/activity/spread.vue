@@ -11,15 +11,18 @@
 			<view class="info" @click="onfenxingShow=true">
 				<view class="short short-en">
 					<view class="info-avatar">
-						<image :src="shopData.avatar || require('@/static/images/mine/mine_defalt_avatar.webp')" ></image>
+						<image :src="shopData.avatar || require('@/static/images/mine/mine_defalt_avatar.webp')">
+						</image>
 						<span>{{shopData.nickname}}</span>
 					</view>
 					<view class="info-content">
-						Fuyoh! I just won an <span>{{shopData.goods_name}}</span> with only RM <span>{{shopData.auction_price}}</span>. It’s so exciting! I recommend you to try your luck.What surprises you the most is that it can be exchanged for cash! It’s really profitable!
+						Fuyoh! I just won an <span>{{shopData.goods_name}}</span> with only RM
+						<span>{{shopData.auction_price}}</span>. It’s so exciting! I recommend you to try your luck.What
+						surprises you the most is that it can be exchanged for cash! It’s really profitable!
 					</view>
 					<view class="info-goods">
 						<view class="info-goods-left">
-							<image :src="shopData.images" ></image>
+							<image :src="shopData.images"></image>
 						</view>
 						<view class="info-goods-right">
 							<view class="right-text-goods_name">
@@ -31,9 +34,10 @@
 							<view class="right-text-auction">
 								<image src="/static/images/kbrick/diamond.png"></image>
 								<span>{{shopData.auction_price}}
-									<text style="font-size: 20rpx;margin-left: 16rpx;">(RM{{shopData.auction_price}})</text>
+									<text
+										style="font-size: 20rpx;margin-left: 16rpx;">(RM{{shopData.auction_price}})</text>
 								</span>
-								
+
 							</view>
 						</view>
 					</view>
@@ -46,7 +50,8 @@
 				<image src="/static/spread/praise.webp"></image>
 			</view>
 			<view class="new-list-item" v-for="(item,i) in jingpaiList" :key="i" @longpress="item.isMask=true">
-				<image :src="item.image" class="new-list-item-left" v-if="item.check_status!=3 && item.check_status!=4" lazyLoad></image>
+				<image :src="item.image" class="new-list-item-left" v-if="item.check_status!=3 && item.check_status!=4"
+					lazyLoad></image>
 				<view class="item-historical" v-else>
 					<view class="item-historical-info">
 						<image :src="item.image"></image>
@@ -57,7 +62,8 @@
 					<view class="new-list-item-right-txt">{{item.goods_name}}</view>
 					<view class="new-list-item-right-jd">
 						<view class="new-list-item-right-jd-data">
-							<progress class="progress" :percent="(item.finish_rate*100).toFixed(0)" stroke-width="9" activeColor="#1DD181" backgroundColor="#EBEBEB" />
+							<progress class="progress" :percent="(item.finish_rate*100).toFixed(0)" stroke-width="9"
+								activeColor="#1DD181" backgroundColor="#EBEBEB" />
 						</view>
 						<view class="new-list-item-right-jd-auth">
 							<block v-for="img in item.new_auction_avatar">
@@ -72,7 +78,7 @@
 							</view>
 							<view class="new">
 								<image src="/static/images/kbrick/diamond.png"></image>
-								<span>{{item.auction_price}} 
+								<span>{{item.auction_price}}
 									<text style="font-size: 20rpx;margin-left: 16rpx;">(RM{{item.auction_price}})</text>
 								</span>
 							</view>
@@ -81,11 +87,11 @@
 				</view>
 			</view>
 			<view class="bottom-text" @click="toIndex()">
-				<image src="/static/spread/spredText-en.webp" ></image>
+				<image src="/static/spread/spredText-en.webp"></image>
 			</view>
 		</template>
 
-		<template v-else-if="isEnglish">
+		<template v-else>
 			<view class="head-info">
 				<view class="top">
 					<image src="/static/images/kbrick/kleft.png" class="left" @click="toBack()"></image>
@@ -96,15 +102,17 @@
 			<view class="info" @click="toIndex()">
 				<view class="short">
 					<view class="info-avatar">
-						<image :src="shopData.avatar || require('@/static/images/mine/mine_defalt_avatar.webp')" ></image>
+						<image :src="shopData.avatar || require('@/static/images/mine/mine_defalt_avatar.webp')">
+						</image>
 						<span>{{shopData.nickname}}</span>
 					</view>
 					<view class="info-content">
-						太幸运了! 我刚刚只用了RM<span>{{shopData.auction_price}}</span>居然中了一部<span>{{shopData.goods_name}}</span>。太刺激了!我推荐你们一定要来试试手气。最让你吃惊的，还可以折现哦！真是太赚了！   
+						太幸运了!
+						我刚刚只用了RM<span>{{shopData.auction_price}}</span>居然中了一部<span>{{shopData.goods_name}}</span>。太刺激了!我推荐你们一定要来试试手气。最让你吃惊的，还可以折现哦！真是太赚了！
 					</view>
 					<view class="info-goods">
 						<view class="info-goods-left">
-							<image :src="shopData.images" ></image>
+							<image :src="shopData.images"></image>
 						</view>
 						<view class="info-goods-right">
 							<view class="right-text-goods_name">
@@ -116,9 +124,10 @@
 							<view class="right-text-auction">
 								<image src="/static/images/kbrick/diamond.png"></image>
 								<span>{{shopData.auction_price}}
-									<text style="font-size: 20rpx;margin-left: 16rpx;">(RM{{shopData.auction_price}})</text>
+									<text
+										style="font-size: 20rpx;margin-left: 16rpx;">(RM{{shopData.auction_price}})</text>
 								</span>
-								
+
 							</view>
 						</view>
 					</view>
@@ -131,7 +140,8 @@
 				<image src="/static/spread/praise.webp"></image>
 			</view>
 			<view class="new-list-item" v-for="(item,i) in jingpaiList" :key="i" @longpress="item.isMask=true">
-				<image :src="item.image" class="new-list-item-left" v-if="item.check_status!=3 && item.check_status!=4" lazyLoad></image>
+				<image :src="item.image" class="new-list-item-left" v-if="item.check_status!=3 && item.check_status!=4"
+					lazyLoad></image>
 				<view class="item-historical" v-else>
 					<view class="item-historical-info">
 						<image :src="item.image"></image>
@@ -142,7 +152,8 @@
 					<view class="new-list-item-right-txt">{{item.goods_name}}</view>
 					<view class="new-list-item-right-jd">
 						<view class="new-list-item-right-jd-data">
-							<progress class="progress" :percent="(item.finish_rate*100).toFixed(0)" stroke-width="9" activeColor="#1DD181" backgroundColor="#EBEBEB" />
+							<progress class="progress" :percent="(item.finish_rate*100).toFixed(0)" stroke-width="9"
+								activeColor="#1DD181" backgroundColor="#EBEBEB" />
 						</view>
 						<view class="new-list-item-right-jd-auth">
 							<block v-for="img in item.new_auction_avatar">
@@ -157,7 +168,7 @@
 							</view>
 							<view class="new">
 								<image src="/static/images/kbrick/diamond.png"></image>
-								<span>{{item.auction_price}} 
+								<span>{{item.auction_price}}
 									<text style="font-size: 20rpx;margin-left: 16rpx;">(RM{{item.auction_price}})</text>
 								</span>
 							</view>
@@ -166,7 +177,7 @@
 				</view>
 			</view>
 			<view class="bottom-text" @click="toIndex()">
-				<image src="/static/spread/spredText.webp" ></image>
+				<image src="/static/spread/spredText.webp"></image>
 			</view>
 		</template>
 		<!-- <view class="commission-canvas">
@@ -205,28 +216,31 @@
 </template>
 
 <script>
-import {qrcodeCanvas} from '@/uni_modules/fan-canvas/plugins/utils';
+	import {
+		qrcodeCanvas
+	} from '@/uni_modules/fan-canvas/plugins/utils';
 	export default {
 		data() {
 			return {
 				isEnglish: uni.getStorageSync('locale') == 'en' ? true : false,
-				jingpaiList:[],
-				isShopCont:false,
+				jingpaiList: [],
+				isShopCont: false,
 				onfenxingShow: false,
-				shopData:{},
-				auction_goods_id:'',
+				shopData: {},
+				auction_goods_id: '',
 				qrUrl: '',
-				qrcodeImg:''
+				qrcodeImg: ''
 			}
 		},
 		onLoad(e) {
+			console.log(this.isEnglish)
 			this.auction_goods_id = e.shopId
 			this.onAuctionDetail(JSON.parse(decodeURIComponent(e.shopId)))
 		},
-		onShow(){
+		onShow() {
 			this.onAuctionNewGoods()
 		},
-		onReady(){
+		onReady() {
 			this.onfenxingShow = true
 		},
 		methods: {
@@ -243,34 +257,54 @@ import {qrcodeCanvas} from '@/uni_modules/fan-canvas/plugins/utils';
 			// 竞拍商品详情
 			async onAuctionDetail(auction_goods_id) {
 				try {
-					const { invite_code,avatar, nickname } = uni.getStorageSync('userCont');
-						this.qrUrl = this.$baseUrl + 'pages/mine/new/new-register?invite_code=' + invite_code // 生成二维码的链接
-						const res = await this.$http.post(this.$apiObj.AuctionDetail, {
+					const {
+						invite_code,
+						avatar,
+						nickname
+					} = uni.getStorageSync('userCont');
+					this.qrUrl = this.$baseUrl + 'pages/topromote/activity/spread?invite_code=' +
+						invite_code // 生成二维码的链接
+					const res = await this.$http.post(this.$apiObj.AuctionDetail, {
 						auction_goods_id
 					});
 					if (res.code === 1) {
-						const { goods_name, price, auction_price, images } = res.data;
-						let content 
-						if(this.isEnglish){
-							content = `Fuyoh! I just won an ${goods_name} with only RM${auction_price}. It’s so exciting! I recommend you to try your luck.What surprises you the most is that it can be exchanged for cash! It’s really profitable!`
-						}else{
-							content = `太幸运了! 我刚刚只用了RM${auction_price}居然中了一部${goods_name}。太刺激了!我推荐你们一定要来试试手气。最让你吃惊的，还可以折现哦！真是太赚了！   `
+						const {
+							goods_name,
+							price,
+							auction_price,
+							images
+						} = res.data;
+						let content
+						if (this.isEnglish) {
+							content =
+								`Fuyoh! I just won an ${goods_name} with only RM${auction_price}. It’s so exciting! I recommend you to try your luck.What surprises you the most is that it can be exchanged for cash! It’s really profitable!`
+						} else {
+							content =
+								`太幸运了! 我刚刚只用了RM${auction_price}居然中了一部${goods_name}。太刺激了!我推荐你们一定要来试试手气。最让你吃惊的，还可以折现哦！真是太赚了！   `
 						}
 						const image = images.length > 1 ? images[1] : images[0];
-						this.shopData = { goods_name, price, auction_price, avatar, nickname, images: image, content };
+						this.shopData = {
+							goods_name,
+							price,
+							auction_price,
+							avatar,
+							nickname,
+							images: image,
+							content
+						};
 					}
 					// this.createQrcode()
 				} catch (error) {
 					console.error(error);
 				}
-				},
+			},
 			// 最新竞拍
 			onAuctionNewGoods() {
 				this.$http.post(this.$apiObj.AuctionNewGoods, {
 					sort: 1,
 					page: 1,
 					pagenum: 5,
-					keyword:''
+					keyword: ''
 				}).then(res => {
 					if (res.code == 1) {
 						if (this.isShopCont) {
@@ -312,7 +346,7 @@ import {qrcodeCanvas} from '@/uni_modules/fan-canvas/plugins/utils';
 						canvasId: 'qrcode',
 						success(res) {
 							that.qrcodeImg = res.tempFilePath
-						
+
 						}
 					}, that)
 				})
@@ -406,19 +440,11 @@ import {qrcodeCanvas} from '@/uni_modules/fan-canvas/plugins/utils';
 </script>
 
 <style lang="less" scoped>
-	/deep/.uni-progress-inner-bar {
-		border-radius: 9rpx !important;
-	}
-
-	/deep/.uni-progress-bar {
-		border-radius: 9rpx !important;
-	}
 	.surprise {
 		width: 750rpx;
-		
 		min-height: 100vh;
 		padding-bottom: 188rpx;
-		background: linear-gradient(83.16deg, rgb(253, 69, 63) 29.91%,rgb(254, 167, 129) 70.047%);
+		background: linear-gradient(83.16deg, rgb(253, 69, 63) 29.91%, rgb(254, 167, 129) 70.047%);
 
 		.head-info {
 			width: 750rpx;
@@ -476,24 +502,28 @@ import {qrcodeCanvas} from '@/uni_modules/fan-canvas/plugins/utils';
 				display: block;
 				width: 638rpx;
 				height: 872rpx;
-				background: url('/static/spread/bg.webp') no-repeat;
-				background-size: 100% 100%;
-				image{
+				background: url('/static/spread/bg.png') no-repeat;
+				background-size: 638rpx  872rpx;
+
+				image {
 					width: 638rpx;
 					height: 872rpx;
 				}
-				.info-avatar{
+
+				.info-avatar {
 					width: 136rpx;
 					height: 136rpx;
 					position: absolute;
 					left: 56rpx;
 					top: 20rpx;
+
 					image {
 						width: 100%;
 						height: 100%;
 						border-radius: 50%;
 					}
-					span{
+
+					span {
 						position: absolute;
 						left: 158rpx;
 						top: 85rpx;
@@ -506,7 +536,8 @@ import {qrcodeCanvas} from '@/uni_modules/fan-canvas/plugins/utils';
 						font-weight: 700;
 					}
 				}
-				.info-content{
+
+				.info-content {
 					width: 540rpx;
 					position: absolute;
 					top: 25%;
@@ -514,7 +545,8 @@ import {qrcodeCanvas} from '@/uni_modules/fan-canvas/plugins/utils';
 					transform: translate(-50%, 0px);
 					font-weight: 400;
 					text-align: left;
-					span{
+
+					span {
 						max-width: 302rpx;
 						overflow: hidden;
 						max-height: 30rpx;
@@ -525,7 +557,8 @@ import {qrcodeCanvas} from '@/uni_modules/fan-canvas/plugins/utils';
 						font-weight: 700;
 					}
 				}
-				.info-goods{
+
+				.info-goods {
 					width: 540rpx;
 					position: absolute;
 					top: 52%;
@@ -536,56 +569,66 @@ import {qrcodeCanvas} from '@/uni_modules/fan-canvas/plugins/utils';
 					align-items: center;
 					border-radius: 40rpx;
 					overflow: hidden;
+
 					.info-goods-left,
 					.info-goods-right {
 						width: 50%;
 						height: 190rpx;
-						image{
+
+						image {
 							width: 100%;
 							height: 100%;
 						}
 					}
-					.info-goods-right{
+
+					.info-goods-right {
 						display: flex;
 						justify-content: space-around;
 						align-items: flex-start;
 						flex-direction: column;
 						padding: 0 0 0 30rpx;
+
 						.right-text-goods_name,
 						.right-text-price,
-						.right-text-auction{
+						.right-text-auction {
 							width: 100%;
 							overflow: hidden;
 							text-overflow: ellipsis;
 							white-space: nowrap;
 						}
-						.right-text-goods_name{
+
+						.right-text-goods_name {
 							color: rgb(51, 51, 51);
 							font-size: 25rpx;
 						}
-						.right-text-price{
+
+						.right-text-price {
 							color: rgb(153, 153, 153);
 							font-size: 16rpx;
 						}
-						.right-text-auction{
+
+						.right-text-auction {
 							color: rgb(255, 57, 57);
 							font-size: 41rpx;
 							font-size: 20rpx;
 							font-weight: bold;
 							display: flex;
 							align-items: center;
+
 							image {
 								width: 52rpx;
 								height: 52rpx;
 							}
-							span{
+
+							span {
 								margin-left: 6rpx;
 								font-size: 43rpx;
 							}
 						}
 					}
 				}
-				.commission-ewm-img{
+
+				.commission-ewm-img {
 					position: absolute;
 					bottom: 9%;
 					right: 8%;
@@ -593,10 +636,12 @@ import {qrcodeCanvas} from '@/uni_modules/fan-canvas/plugins/utils';
 					height: 134rpx;
 				}
 			}
-			.short-en{
-				background: url('/static/spread/bg-en.webp') no-repeat;
+
+			.short-en {
+				background: url('/static/spread/bg-en.png') no-repeat;
 				background-size: 100% 100%;
 			}
+
 			.long {
 				position: absolute;
 				top: 608rpx;
@@ -608,7 +653,8 @@ import {qrcodeCanvas} from '@/uni_modules/fan-canvas/plugins/utils';
 			}
 
 		}
-		.hot-sale{
+
+		.hot-sale {
 			color: #fff;
 			width: 90%;
 			height: 105rpx;
@@ -624,27 +670,32 @@ import {qrcodeCanvas} from '@/uni_modules/fan-canvas/plugins/utils';
 			border-image: -webkit-linear-gradient(-270deg, #FEEEAF 0%, #FFFFFF 50%, #FEEEAF 99%) 2 2 2 2;
 			border-image: -moz-linear-gradient(-270deg, #FEEEAF 0%, #FFFFFF 50%, #FEEEAF 99%) 2 2 2 2;
 			border-image: linear-gradient(-270deg, #FEEEAF 0%, #FFFFFF 50%, #FEEEAF 99%) 2 2 2 2;
-			image{
+
+			image {
 				width: 100rpx;
 				height: 100rpx;
 				margin-left: 20rpx;
 			}
 		}
-		.bottom-text{
+
+		.bottom-text {
 			width: 686rpx;
 			height: 160rpx;
 			margin: 50rpx auto 16rpx auto;
-			image{
+
+			image {
 				width: 100%;
 				height: 100%;
 			}
 		}
+
 		.join {
 			display: block;
 			width: 750rpx;
 			height: 502rpx;
 		}
 	}
+
 	.new-list-item {
 		position: relative;
 		width: 686rpx;
@@ -748,6 +799,7 @@ import {qrcodeCanvas} from '@/uni_modules/fan-canvas/plugins/utils';
 					width: 280rpx;
 					height: 20rpx;
 					margin-right: 20rpx;
+
 					view {
 						position: absolute;
 						top: 50%;
@@ -855,10 +907,12 @@ import {qrcodeCanvas} from '@/uni_modules/fan-canvas/plugins/utils';
 		}
 
 	}
-	.commission-canvas{
+
+	.commission-canvas {
 		position: fixed;
 		top: -1000000rpx;
 	}
+
 	.fenxiang {
 		width: 100%;
 		height: 100%;
@@ -868,6 +922,7 @@ import {qrcodeCanvas} from '@/uni_modules/fan-canvas/plugins/utils';
 		left: 0;
 		z-index: 1000;
 	}
+
 	.share-pop {
 		position: absolute;
 		bottom: 0;
