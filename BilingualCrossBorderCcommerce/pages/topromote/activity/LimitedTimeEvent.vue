@@ -4,7 +4,7 @@
             <view class="head-info">
 				<view class="top">
 					<image src="/static/images/surprise/return.png" class="left" @click="toBack()"></image>
-					<image src="/static/images/surprise/home.png" class="index" @click="toIndex()"></image>
+					<image src="/static/images/surprise/home.webp" class="index" @click="toIndex()"></image>
 				</view>
 			</view>
             <view class='topText-en'>Great value gift</view>
@@ -17,25 +17,28 @@
                     <view class="capsule_underline"></view>
                 </view>
                 <view class="commission">
-                    <image class="commission_top" src="@/static/demo/timeevent_bg.webp"></image>
-                    <image class="commission_bg" src="@/static/demo/timeevent_bg2.webp"></image>
-                    <view class="capsule_text_top">Hi！Join now</view>
+                    <!-- <image class="commission_top" src="@/static/demo/timeevent_bg.webp"></image> -->
+                    <image class="commission_bg" src="@/static/demo/timeevent_bg3-en.png"></image>
+                    <!-- <view class="capsule_text_top">Hi！Join now</view>
                     <view class="capsule_text_content">Join us & stand a chance</view>
                     <view class="capsule_text_bottom">Join us & stand a chance to win your preferred luxury items from authentic brand!
 What’s more? The platform also often holds exciting lucky draw events, allowing you to win great prizes!</view>
-                    <view class="capsule_text_red">Don't hesitate any longer and REGISTER NOW!</view>
+                    <view class="capsule_text_red">Don't hesitate any longer and REGISTER NOW!</view> -->
                 </view>
-                <view class="commission" style="top:110%">
-                    <image class="commission_top" src="@/static/demo/timeevent_bg.webp"></image>
-                    <image class="commission_bg" src="@/static/demo/timeevent_bg2.webp"></image>
-                    <view class="capsule_text_top" style="font-size:14px">Activity Content</view>
+                <view class="commission" style="top:130%">
+                    <!-- <image class="commission_top" src="@/static/demo/timeevent_bg.webp"></image> -->
+                    <image class="commission_bg" src="@/static/demo/timeevent_bg4-en.png"></image>
+                    <!-- <view class="capsule_text_top" style="font-size:14px">Activity Content</view>
                     <view class="capsule_text_content" style="left: 50%;text-align: center;">28th July 2023 - 11th August 2023</view>
                     <view class="capsule_text_red" style="left: 15%;top: 30%;">Platform Bonuses</view>
-                    <view class="capsule_text_bottom" style="top: 38%;transform: scale(0.8);">Can be used to purchase certain specific products or participate in wishing activities (deducting diamond consumption according to the merchant's set ratio)</view>
+                    <view class="capsule_text_bottom" style="top: 38%;transform: scale(0.8);">Can be used to purchase certain specific products or participate in wishing activities (deducting diamond consumption according to the merchant's set ratio)</view> -->
                 </view>
-                <view class="commission commission2">
+                <view class="commission" style="top:205%;">
+                    <image style="height:781rpx" class="commission_bg" src="@/static/demo/timeevent_bg5-en.png"></image>
+                </view>
+                <!-- <view class="commission commission2">
                     <image class="commission_top" src="@/static/demo/3-en.webp"></image>
-                </view>
+                </view> -->
             </view>
             <view class="fingerI">
                 <image class="fingerImage" src="@/static/demo/fingerdown.webp"></image>
@@ -59,7 +62,7 @@ What’s more? The platform also often holds exciting lucky draw events, allowin
             <view class="head-info">
 				<view class="top">
 					<image src="/static/images/surprise/return.png" class="left" @click="toBack()"></image>
-					<image src="/static/images/surprise/home.png" class="index" @click="toIndex()"></image>
+					<image src="/static/images/surprise/home.webp" class="index" @click="toIndex()"></image>
 				</view>
 			</view>
             <view class='topText-en'>超值礼物</view>
@@ -72,24 +75,28 @@ What’s more? The platform also often holds exciting lucky draw events, allowin
                     <view class="capsule_underline"></view>
                 </view>
                 <view class="commission">
-                    <image class="commission_top" src="@/static/demo/timeevent_bg.webp"></image>
-                    <image class="commission_bg" src="@/static/demo/timeevent_bg2.webp"></image>
-                    <view class="capsule_text_top">嗨！立即加入</view>
-                    <view class="capsule_text_content" style="text-align:center;left:50%">加入我们，就有机会</view>
-                    <view class="capsule_text_bottom" style="transform: scale(0.8);top:30%">加入我们，就有机会赢取正宗品牌的您喜爱的奢侈品！ 更重要的是？ 平台还经常举办激动人心的抽奖活动，让您赢取丰厚奖品！</view>
-                    <view class="capsule_text_red" style="left: 20%;transform: scale(1)">不要再犹豫，立即注册！</view>
+                    <!-- <image class="commission_top" src="@/static/demo/timeevent_bg.webp"></image> -->
+                    <image class="commission_bg" src="@/static/demo/timeevent_bg3.png"></image>
+                    <!-- <view class="capsule_text_top">Hi！Join now</view>
+                    <view class="capsule_text_content">Join us & stand a chance</view>
+                    <view class="capsule_text_bottom">Join us & stand a chance to win your preferred luxury items from authentic brand!
+What’s more? The platform also often holds exciting lucky draw events, allowing you to win great prizes!</view>
+                    <view class="capsule_text_red">Don't hesitate any longer and REGISTER NOW!</view> -->
                 </view>
-                <view class="commission" style="top:110%">
-                    <image class="commission_top" src="@/static/demo/timeevent_bg.webp"></image>
-                    <image class="commission_bg" src="@/static/demo/timeevent_bg2.webp"></image>
-                    <view class="capsule_text_top" style="font-size:14px">活动内容</view>
-                    <view class="capsule_text_content" style="left: 50%;text-align: center;">2023年7月28日 - 2023年8月11日</view>
-                    <view class="capsule_text_red" style="width:100%;transform: scale(1);left: 0;top: 35%;text-align: center;">平台奖金</view>
-                    <view class="capsule_text_bottom" style="top: 60%;transform: scale(0.9);">可用于购买某些特定产品或参与许愿活动（按照商家设定比例扣除钻石消耗）</view>
+                <view class="commission" style="top:130%">
+                    <!-- <image class="commission_top" src="@/static/demo/timeevent_bg.webp"></image> -->
+                    <image class="commission_bg" src="@/static/demo/timeevent_bg4.png"></image>
+                    <!-- <view class="capsule_text_top" style="font-size:14px">Activity Content</view>
+                    <view class="capsule_text_content" style="left: 50%;text-align: center;">28th July 2023 - 11th August 2023</view>
+                    <view class="capsule_text_red" style="left: 15%;top: 30%;">Platform Bonuses</view>
+                    <view class="capsule_text_bottom" style="top: 38%;transform: scale(0.8);">Can be used to purchase certain specific products or participate in wishing activities (deducting diamond consumption according to the merchant's set ratio)</view> -->
                 </view>
-                <view class="commission commission2">
-                    <image class="commission_top" src="@/static/demo/3.webp"></image>
+                <view class="commission" style="top:205%;">
+                    <image style="height:781rpx" class="commission_bg" src="@/static/demo/timeevent_bg5.png"></image>
                 </view>
+                <!-- <view class="commission commission2">
+                    <image class="commission_top" src="@/static/demo/3-en.webp"></image>
+                </view> -->
             </view>
             <view class="fingerI">
                 <image class="fingerImage" src="@/static/demo/fingerdown.webp"></image>
@@ -264,10 +271,10 @@ What’s more? The platform also often holds exciting lucky draw events, allowin
             width: 100%;
             height: 750rpx;
             position: absolute;
-            top: 35%;
+            top: 20%;
             left: 0;
-            transform: scale(1.6);
-            background: url('/static/demo/timeevent_topbg.webp') no-repeat;
+            transform: scale(1);
+            background: url('/static/demo/timeevent_topbg.png') no-repeat;
             background-size: 100% 100%;
             .capsule_bg{
                 width: 50%;
@@ -316,11 +323,11 @@ What’s more? The platform also often holds exciting lucky draw events, allowin
 
             }
             .commission{
-                width: 60%;
+                width: 100%;
                 height: 20vh;
                 position: absolute;
-                top: 60%;
-                left: 20%;
+                top: 55%;
+                left: 0;
                 .commission_top{
                     width: 70%;
                     height: 30px;
@@ -331,11 +338,12 @@ What’s more? The platform also often holds exciting lucky draw events, allowin
                     transform: translate(-50%,-10px);
                 }
                 .commission_bg{
-                    width: 100%;
-                    height: 20vh;
+                    width: 90%;
+                    height: 510rpx;
                     position: absolute;
-                    left: 0;
-                    top: 0;
+                    left: 50%;
+                    top: 50%;
+                    transform: translate(-50%, 10px);
                 }
                 .capsule_text_top{
                     z-index: 999;
@@ -381,7 +389,7 @@ What’s more? The platform also often holds exciting lucky draw events, allowin
             .commission2{
                     width: 60%;
                     height: 480rpx;
-                    top: 160%;
+                    top: 200%;
                     left: 50%;
                     transform: translate(-50%,0);
                 .commission_top{

@@ -4,7 +4,7 @@
             <view class="head-info">
 				<view class="top">
 					<image src="/static/images/surprise/return.png" class="left" @click="toBack()"></image>
-					<image src="/static/images/surprise/home.png" class="index" @click="toIndex()"></image>
+					<image src="/static/images/surprise/home.webp" class="index" @click="toIndex()"></image>
 				</view>
 			</view>
             <image class="topImage" src="@/static/demo/top.webp"></image>
@@ -38,7 +38,7 @@
             <view class="head-info">
 				<view class="top">
 					<image src="/static/images/surprise/return.png" class="left" @click="toBack()"></image>
-					<image src="/static/images/surprise/home.png" class="index" @click="toIndex()"></image>
+					<image src="/static/images/surprise/home.webp" class="index" @click="toIndex()"></image>
 				</view>
 			</view>
             <image class="topImage" src="@/static/demo/top.webp"></image>
