@@ -7,7 +7,7 @@ import axios from 'axios';
 var Fly = require("flyio/dist/npm/wx");
 var request = new Fly();
 
-Vue.prototype.$version = '1.4.0';
+Vue.prototype.$version = '1.5.0';
 
 // Vue.prototype.$baseUrl = 线上：wish.kolibrimall.com 测试：kjtest.ysxrj.cn
 Vue.prototype.$baseUrl = 'https://kjtest.ysxrj.cn/';

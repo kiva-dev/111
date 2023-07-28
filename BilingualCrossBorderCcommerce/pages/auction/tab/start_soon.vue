@@ -1927,6 +1927,7 @@
 							height: 80rpx;
 							display: flex;
 							align-items: center;
+							justify-content: center;
 							background: linear-gradient(135.00deg, rgb(255, 155, 108) 9.318%, rgb(255, 107, 107) 90%);
 							border-radius: 16rpx;
 
