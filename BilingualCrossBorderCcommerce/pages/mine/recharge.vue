@@ -9,15 +9,17 @@
 			<view class="header-input">
 				<view class="tip">RM</view>
 				<view class="myinput">
-					<input type="number" v-model="rechargeNum" placeholder-style="font-size:28rpx;color:rgb(153, 153, 153);" :placeholder="$t('user.recharge.qsrczje')" />
+					<input type="number" v-model="rechargeNum"
+						placeholder-style="font-size:28rpx;color:rgb(153, 153, 153);"
+						:placeholder="$t('user.recharge.qsrczje')" />
 				</view>
 			</view>
 		</view>
-		
+
 		<view class="paymethod">
-			
+
 			<view class="paytit">{{$t('order.zhifufangshi')}}</view>
-			
+
 			<!--支付方式-->
 			<view class="pay" v-for="item in payList.slice(0,2)" :key="item.id">
 				<view class="pay-info">
@@ -32,9 +34,9 @@
 				</view>
 				<view class="pay-info-des" v-show="item.select">{{isShopCont ? item.desc_en : item.desc}}</view>
 			</view>
-			
+
 			<view class="info-ts-sm">{{$t('pay.pay_not')}}</view>
-			
+
 			<!--暂不支持的支付方式-->
 			<view class="pay" style="opacity: 0.5;" v-for="item in payList.slice(2,6)" :key="item.id">
 				<view class="pay-info">
@@ -46,23 +48,23 @@
 				</view>
 			</view>
 		</view>
-		
+
 		<!-- <view class="info-ts-sm">{{$t('new.sxfsm')}}</view> -->
-		
+
 		<view class="protocol">
 			<image src="/static/images/new-index/wxz.png" v-show="!selectProtocol" @click="switchProtocol(true)">
 			</image>
 			<image src="/static/images/new-index/xz.png" v-show="selectProtocol" @click="switchProtocol(false)">
 			</image>
-			<view>{{$t('auction.detail.brywqydbty')}} <text>《用户充值协议》</text></view>
+			<view>{{$t('auction.detail.brywqydbty')}} <text>《{{$t('mine.recharge_xy')}}》</text></view>
 		</view>
-		
+
 		<view class="topay" v-show="!showPay">{{$t('new.payment')}}</view>
 		<view class="topay" style="background: rgb(10, 198, 142);" v-show="showPay" @click="rechargeBalance()">
 			{{$t('new.payment')}}
 		</view>
-		
-		
+
+
 	</view>
 </template>
 
@@ -74,31 +76,31 @@
 				noClick: true, // 防止重复点击 
 				money: '',
 				rechargeNum: '',
-				showPay:false,//是否显示充值按钮
-				selectProtocol:false,//协议勾选
-				infoData:[],//实名信息
+				showPay: false, //是否显示充值按钮
+				selectProtocol: false, //协议勾选
+				infoData: [], //实名信息
 				payList: [],
-				isShopCont:false
+				isShopCont: false
 			}
 		},
 		onShow() {
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
-			 
+
 			// 获取个人信息
 			this.onMineInfo()
-			
+
 			this.$http.post(this.$apiObj.MineAuthDetail).then(res => {
 				this.infoData = res.data
 			})
-			
+
 			this.getPayType()
 		},
 		methods: {
 			getPayType() {
 				this.$http.post(this.$apiObj.GetPayType).then(res => {
 					this.payList = res.data
-					this.payList.forEach(item=>{
-						this.$set(item,'select',false)
+					this.payList.forEach(item => {
+						this.$set(item, 'select', false)
 					})
 				})
 			},
@@ -126,10 +128,10 @@
 					else this.showPay = false
 				})
 			},
-			
+
 			//充值余额
 			rechargeBalance() {
-				if (!this.rechargeNum || this.rechargeNum * 1 < 10) {
+				if (!this.rechargeNum || this.rechargeNum * 1 < 15) {
 					uni.showToast({
 						title: this.$t('new.czjejx'),
 						icon: 'none',
@@ -145,14 +147,14 @@
 					})
 					return
 				}
-			
+
 				//计算支付方式
 				let isNum = 0
 				this.payList.forEach(item => {
 					if (item.select) isNum = item.pay_type
 				})
-			
-			
+
+
 				if (this.infoData.length < 1 && isNum == 1) {
 					uni.showToast({
 						title: this.$t('smrz'),
@@ -166,13 +168,13 @@
 					}, 3000)
 					return
 				}
-			
+
 				if (isNum == 2) {
 					this.payEssenceRecharge()
 				} else if (isNum == 3) {
 					this.paypalRecharge()
 				}
-			
+
 			},
 			//第三方支付
 			payEssenceRecharge() {
@@ -183,7 +185,6 @@
 				this.$http.post(this.$apiObj.RechargeAddMoney, {
 					money: this.rechargeNum
 				}).then(res => {
-					uni.hideLoading()
 					if (res.code == 1) {
 						const formStr = `<form action="${res.data.action_url}" method="POST" >
 					        <input name="MerchantCode" value="${res.data.MerchantCode}">
@@ -217,10 +218,11 @@
 							url: '/pages/mine/webview?url=' + formStr
 						});
 						//  #endif
+						uni.hideLoading()
 					}
 				})
 			},
-			
+
 			//paypal支付
 			paypalRecharge() {
 				uni.showLoading({
@@ -231,7 +233,7 @@
 				// #ifdef H5
 				type = 'web'
 				// #endif
-			
+
 				// #ifdef APP
 				type = 'app'
 				// #endif
@@ -246,7 +248,6 @@
 					referrer: type,
 					front_extra: listData.toString()
 				}).then(res => {
-					uni.hideLoading()
 					if (res.code == 1) {
 						// #ifdef H5
 						window.location.href = res.data.href_url
@@ -260,7 +261,6 @@
 								console.log(err)
 							}
 						)
-						//  #endif
 						setTimeout(() => {
 							uni.showModal({
 								title: this.$t('mine.tip'),
@@ -275,10 +275,12 @@
 								},
 							})
 						}, 1000)
-			
+						//  #endif
+
+						uni.hideLoading()
 					}
-			
-			
+
+
 				})
 			},
 			//查询订单状态
@@ -301,12 +303,12 @@
 							icon: 'none',
 							duration: 2000
 						})
-			
+
 					}
-			
+
 				})
 			}
-			
+
 		}
 	}
 </script>
@@ -316,44 +318,44 @@
 		width: 100%;
 		min-height: 100vh;
 		background: rgb(248, 248, 248);
-		
-		.header{
+
+		.header {
 			width: 750rpx;
 			padding: 40rpx 0;
 			background: #fff;
-			
-			.header-top{
+
+			.header-top {
 				width: 100%;
 				display: flex;
 				align-items: center;
-				
-				image{
+
+				image {
 					width: 40rpx;
 					height: 40rpx;
 					margin-left: 32rpx;
 				}
-				
-				view{
+
+				view {
 					font-size: 24rpx;
 					color: rgb(51, 51, 51);
 					margin-left: 16rpx;
-					
-					text{
+
+					text {
 						font-size: 32rpx;
 						font-weight: bold;
 					}
 				}
-				
+
 			}
-			
-			.header-tit{
+
+			.header-tit {
 				font-size: 32rpx;
 				font-weight: bold;
 				color: rgb(51, 51, 51);
 				margin: 64rpx 0 32rpx 32rpx;
 			}
-			
-			.header-input{
+
+			.header-input {
 				width: 686rpx;
 				height: 96rpx;
 				display: flex;
@@ -361,84 +363,84 @@
 				background: rgb(249, 249, 249);
 				border-radius: 12rpx;
 				margin: 0 auto;
-				
-				.tip{
+
+				.tip {
 					font-size: 28rpx;
 					font-weight: bold;
 					color: rgb(51, 51, 51);
 					margin: 0 40rpx 0 32rpx;
 				}
-				
-				.myinput{
+
+				.myinput {
 					width: 534rpx;
 					font-size: 28rpx;
 				}
-				
+
 			}
-			
+
 		}
-		
-		.paymethod{
+
+		.paymethod {
 			width: 750rpx;
 			padding: 32rpx 0;
 			background: #fff;
 			margin: 20rpx 0;
-			
-			.paytit{
+
+			.paytit {
 				font-size: 28rpx;
 				font-weight: bold;
 				color: rgb(51, 51, 51);
 				margin: 0 0 32rpx 32rpx;
 			}
-			
+
 		}
-		
-		.pay{
+
+		.pay {
 			position: relative;
 			width: 686rpx;
 			margin: 0 auto 40rpx auto;
 		}
-		
-		.pay-info-des{
+
+		.pay-info-des {
 			width: 558rpx;
 			font-size: 20rpx;
 			color: rgb(153, 153, 153);
 			margin: 0 auto;
 		}
-		
+
 		.pay-info {
 			position: relative;
 			width: 686rpx;
 			display: flex;
 			align-items: center;
-		
+
 			.logo {
 				width: 48rpx;
 				height: 48rpx;
 			}
-		
+
 			.pay-info-name {
 				font-size: 28rpx;
 				color: rgb(51, 51, 51);
 				margin-left: 20rpx;
-		
+
 				text {
 					color: red;
 					margin-left: 4rpx;
 				}
 			}
-			
-			
-		
+
+
+
 			.select {
 				position: absolute;
 				right: 0;
 				width: 40rpx;
 				height: 40rpx;
 			}
-		
+
 		}
-		
+
 		.info-ts-sm {
 			width: 686rpx;
 			font-size: 22rpx;
@@ -446,30 +448,30 @@
 			word-break: break-all;
 			margin: 20rpx auto 40rpx auto;
 		}
-		
+
 		.protocol {
 			width: 686rpx;
 			font-size: 24rpx;
 			color: rgb(102, 102, 102);
 			display: flex;
 			margin: 40rpx auto 0 auto;
-		
+
 			image {
 				width: 40rpx;
 				height: 40rpx;
 				margin-right: 16rpx;
 			}
-		
+
 			view {
 				width: 640rpx;
 			}
-		
+
 			text {
 				color: rgb(51, 51, 51);
 			}
-		
+
 		}
-		
+
 		.topay {
 			width: 686rpx;
 			height: 88rpx;
@@ -482,6 +484,6 @@
 			border-radius: 88rpx;
 			margin: 12rpx auto 0 auto;
 		}
-		
+
 	}
 </style>

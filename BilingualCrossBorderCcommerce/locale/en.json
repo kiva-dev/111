@@ -1598,5 +1598,7 @@
 
 	"start_soon.tip":"There are currently no upcoming products~",
 	"start_soon.loading":"Loading...",
-	"start_soon.work":"Coming Soon, Stay Tuned"
+	"start_soon.work":"Coming Soon, Stay Tuned",
+	
+	"mine.recharge_xy":"User Recharge Agreement"
 }
