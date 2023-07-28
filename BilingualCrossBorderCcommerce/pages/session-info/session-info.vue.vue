@@ -150,6 +150,18 @@
 				<image class="toolbar-icon more" src="/static/icon/more.png" @click="clickTool('more')" mode="widthFix" v-if="!showSendButton"></image>
 			</view>
 		</view>
+		<!-- 更多-start -->
+		<view v-if="showTool == 'more'" class="toolbar">
+			<view @click="clickMoreTool('image')" class="toolbar-item" hover-class="toolbar-item-hover">
+				<image src="/static/icon/image.png"></image>
++					<view>Album</view>
+			</view>
+			<view @click="clickMoreTool('Order')" class="toolbar-item" hover-class="toolbar-item-hover" v-if="info.type != 'group'">
+					<image src="/static/icon/Order.png"></image>
+					<view>Send Order</view>
+				</view>
+		</view>
+		<!-- 更多-end -->
 		<!-- 消息输入-end -->
 		<customerService ref="customerService" @propsSendMessage='propsSendMessage' />
 	</view>
