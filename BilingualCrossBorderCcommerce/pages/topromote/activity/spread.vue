@@ -8,7 +8,7 @@
 				</view>
 			</view>
 
-			<view class="info" @click="onfenxingShow=true">
+			<view class="info" @click="toRegister()">
 				<view class="short short-en">
 					<view class="info-avatar">
 						<image :src="shopData.avatar || require('@/static/images/mine/mine_defalt_avatar.webp')">
