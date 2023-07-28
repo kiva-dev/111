@@ -169,9 +169,9 @@
 				<image src="/static/spread/spredText.webp" ></image>
 			</view>
 		</template>
-		<view class="commission-canvas">
+		<!-- <view class="commission-canvas">
 			<canvas class="f__canvas" style="width:140px;height:140px;" canvas-id="qrcode" id="qrcode"></canvas>
-		</view>
+		</view> -->
 		<!--分享弹出 start-->
 		<view class="fenxiang" v-if="onfenxingShow">
 			<view class="share-pop">
@@ -226,6 +226,9 @@ import {qrcodeCanvas} from '@/uni_modules/fan-canvas/plugins/utils';
 		onShow(){
 			this.onAuctionNewGoods()
 		},
+		onReady(){
+			this.onfenxingShow = true
+		},
 		methods: {
 			getCaption(str, state) {
 				if (state == 1) {
@@ -256,7 +259,7 @@ import {qrcodeCanvas} from '@/uni_modules/fan-canvas/plugins/utils';
 						const image = images.length > 1 ? images[1] : images[0];
 						this.shopData = { goods_name, price, auction_price, avatar, nickname, images: image, content };
 					}
-					this.createQrcode()
+					// this.createQrcode()
 				} catch (error) {
 					console.error(error);
 				}
