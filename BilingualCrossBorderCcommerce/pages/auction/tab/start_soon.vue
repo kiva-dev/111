@@ -382,7 +382,7 @@
 		},
 		onReachBottom() {
 			//如果缓存存在历史记录
-			if (uni.getStorageSync('historyList')) {
+			if (this.id == 3) {
 				//如果当前的页面数量小于总历史记录数量并且不显示许愿商品时
 				if (this.page * this.pagenum < this.historyTotalPageNum && !this.showMakeaWish) {
 					this.page++;
@@ -432,31 +432,7 @@
 						this.$set(item, 'id', i + 1)
 					})
 					this.timeList = res.data.data
-					if (uni.getStorageSync('historyList')) {
-						this.scrollLeft = 0
-						this.timeId = 0
-						this.id = 3
-						this.title = this.$t('new.lsjl')
-						this.onAuctionHistoryGoods()
-					} else {
-						this.id = 2
-						this.title = this.$t('new.jjks')
-						let newData = uni.getStorageSync('newListData')
-						this.timeId = newData.id > 0 ? newData.id : 1
-						if (newData.id){
-							this.start_time = newData.since
-							this.end_time = newData.until
-							this.onAuctionNotbeginGoods(newData.since, newData.until)
-						}else{
-							this.start_time = this.timeList[0].since
-							this.end_time = this.timeList[0].until
-							this.onAuctionNotbeginGoods(this.timeList[0].since, this.timeList[0].until)
-						} 
-						setTimeout(() => {
-							this.scrollLeft = newData.id > 0 ? (newData.id - 1) * 83 : 0
-						}, 300)
-					}
-					this.toTop()
+					this.onAuctionNotbeginGoods(this.timeList[0].since, this.timeList[0].until)
 				})
 			},
 			strToTime(str, id, endTime) {
@@ -533,17 +509,29 @@
 			},
 			//数据切换
 			switchJinpai(id, item) {
-				uni.showLoading({
-					title: this.$t('start_soon.loading'),
-					mask: true
-				})
 				if (id == 3) {
-					uni.setStorageSync('historyList', true)
-					location.reload()
+					this.toTop()
+					this.page = 1
+					this.showMakeaWish = false
+					this.scrollLeft = 0
+					this.timeId = 0
+					this.id = 3
+					this.list = []
+					this.title = this.$t('new.lsjl')
+					this.onAuctionHistoryGoods()
 				} else {
-					uni.removeStorageSync('historyList')
-					uni.setStorageSync('newListData', item)
-					location.reload()
+					this.page = 1
+					this.id = 2
+					this.toTop()
+					this.productList = []
+					this.title = this.$t('new.jjks')
+					this.showMakeaWish = false
+					this.timeId = item.id
+					this.list = []
+					this.onAuctionNotbeginGoods(item.since, item.until)
+					setTimeout(() => {
+						this.scrollLeft = item.id > 0 ? (item.id - 1) * 83 : 0
+					}, 300)
 				}
 			},
 			getCaption(str, state) {
@@ -591,6 +579,7 @@
 			},
 			// 即将开始
 			onAuctionNotbeginGoods(start, end) {
+				console.log(start,end)
 				let select_begin_time = new Date(start).getTime() / 1000
 				let select_end_time = new Date(end).getTime() / 1000
 				this.$http.post(this.$apiObj.AuctionNotbeginGoods, {
