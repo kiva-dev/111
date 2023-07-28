@@ -66,6 +66,7 @@
 				transformClass: false,
 				timer: null,
 				showContact: false,
+				clickTimer:'',
 			};
 		},
 		computed: {
@@ -168,8 +169,9 @@
 			},
 			toggleImage() {
 				this.imgShow = !this.imgShow;
+				clearTimeout(this.clickTimer)
 				if (!this.imgShow) {
-					setTimeout(() => {
+					this.clickTimer = setTimeout(() => {
 						this.toggleImage()
 					}, 3000)
 				}
@@ -264,11 +266,11 @@
 	}
 
 	.active {
-		animation: btns-open 1s linear forwards;
+		animation: btns-open 0.5s linear forwards;
 	}
 
 	.close {
-		animation: btns-close 1s linear forwards;
+		animation: btns-close 0.5s linear forwards;
 	}
 
 	@keyframes btns-open {
