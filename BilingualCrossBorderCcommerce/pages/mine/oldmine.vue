@@ -692,7 +692,7 @@
 		color: rgb(255, 78, 47);
 		text-align: center;
 		text-indent: 100rpx;
-		background: url('/static/images/new/yqfy.png') no-repeat;
+		background: url('/static/images/new/yqfy.webp') no-repeat;
 		background-size: 686rpx 140rpx;
 		margin: 20rpx auto 0 auto;
 

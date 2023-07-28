@@ -6,6 +6,9 @@ import axios from 'axios';
 
 var Fly = require("flyio/dist/npm/wx");
 var request = new Fly();
+
+Vue.prototype.$version = '1.5.0';
+
 // Vue.prototype.$baseUrl = 线上：wish.kolibrimall.com 测试：kjtest.ysxrj.cn
 Vue.prototype.$baseUrl = 'https://wish.kolibrimall.com/';
 
@@ -66,6 +69,19 @@ request.interceptors.response.use(function(response) { //不要使用箭头函�
 				sign,
 				salt: salt
 			}
+			function showToast(data) {
+				if (data.error_code) {
+					uni.showToast({
+						icon: 'none',
+						title: data.error_msg
+					});
+				} else {
+					uni.showToast({
+						icon: 'none',
+						title: data.trans_result[0].dst
+					});
+				}
+			}
 			//#ifdef H5
 			// console.log($, "======uni-app的H5模式引入JQuery=====");
 			if (isShopCont) {
@@ -74,12 +90,7 @@ request.interceptors.response.use(function(response) { //不要使用箭头函�
 					type: 'get',
 					dataType: 'jsonp',
 					data: params,
-					success: function(data) {
-						uni.showToast({
-							icon: 'none',
-							title: data.trans_result[0].dst
-						})
-					}
+					success:showToast
 				});
 			} else {
 				uni.showToast({
@@ -96,12 +107,7 @@ request.interceptors.response.use(function(response) { //不要使用箭头函�
 					header: {
 						'custom-header': 'hello' //自定义请求头信息
 					},
-					success: (res) => {
-						uni.showToast({
-							icon: 'none',
-							title: res.data.trans_result[0].dst
-						})
-					}
+					success: showToast
 				});
 			} else {
 				uni.showToast({

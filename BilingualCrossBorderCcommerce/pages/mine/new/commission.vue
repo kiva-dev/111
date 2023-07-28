@@ -13,7 +13,7 @@
 				<view class="tit-left">{{$t('new.fyje')}}（RM）</view>
 				<view class="tit-right" @click="toRule('/pages/mine/new/yqlist')">
 					<p>{{$t('new.wdyq')}}</p>
-					<image src="@/static/images/mine/mine_icon_right.png" mode="widthFix"></image>
+					<image src="@/static/images/mine/mine_icon_right.webp" mode="widthFix"></image>
 				</view>
 			</view>
 			<view class="commission-center-price">{{info.rebate_money_total}}</view>
@@ -29,7 +29,7 @@
 				<view class="cl-title-left">{{$t('new.fymx')}}</view>
 				<view class="cl-title-right" @click="toRule('/pages/mine/new/commission_rule')">
 					<p>{{$t('new.fygz')}}</p>
-					<image src="@/static/images/mine/mine_icon_right.png" mode="widthFix"></image>
+					<image src="@/static/images/mine/mine_icon_right.webp" mode="widthFix"></image>
 				</view>
 			</view>
 			<view class="cl-list">

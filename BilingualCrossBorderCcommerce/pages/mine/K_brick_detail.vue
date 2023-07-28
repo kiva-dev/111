@@ -286,7 +286,7 @@
 				this.$http.post(this.$apiObj.addDiamond, {
 					money: this.payNum ? this.payNum : this.list[this.select - 1].k_diamond
 				}).then(res => {
-					uni.hideLoading()
+					
 					if (res.code == 1) {
 						const formStr = `<form action="${res.data.action_url}" method="POST" >
 					        <input name="MerchantCode" value="${res.data.MerchantCode}">
@@ -320,6 +320,7 @@
 							url: '/pages/mine/webview?url=' + formStr
 						});
 						//  #endif
+						uni.hideLoading()
 					}
 				})
 			},
@@ -351,7 +352,7 @@
 					referrer: type,
 					front_extra: listData.toString()
 				}).then(res => {
-					uni.hideLoading()
+					
 					if (res.code == 1) {
 						// #ifdef H5
 						window.location.href = res.data.href_url
@@ -380,8 +381,8 @@
 							})
 						}, 3000)
 						//  #endif
+						uni.hideLoading()
 					}
-
 
 				})
 			},

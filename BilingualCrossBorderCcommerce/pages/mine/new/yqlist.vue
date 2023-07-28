@@ -50,7 +50,7 @@
 							</view>
 						</view>
 						<view class="yl-item-right">
-							<image src="@/static/images/mine/mine_icon_right.png" mode="widthFix"></image>
+							<image src="@/static/images/mine/mine_icon_right.webp" mode="widthFix"></image>
 						</view>
 					</view>
 					<view style="padding-top: 1px;">

@@ -7,29 +7,29 @@
 					<image src="/static/images/surprise/home.png" class="index" @click="toIndex()"></image>
 				</view>
 			</view>
-            <image class="topImage" src="@/static/demo/top.png"></image>
+            <image class="topImage" src="@/static/demo/top.webp"></image>
             <view class='topText-en'>Platform Activity Benefits</view>
             <view class='topText-child-en'>Too many surprises</view>
             <view class="commissionImage">
-                <image class="child" src="@/static/demo/commissionrefund-en.png"></image>
-                <image class="RedEnvelopes" src="@/static/demo/RedEnvelopesSurge.gif"></image>
+                <image class="child" src="@/static/demo/commissionrefund-en.webp"></image>
+                <image class="RedEnvelopes" src="@/static/demo/RedEnvelopesSurge.webp"></image>
             </view>
-            <image class="shopImage" src="@/static/demo/shop-en.png" @click="toIndex()"></image>
-            <image class="contentImage" src="@/static/demo/content-en.png"></image>
+            <image class="shopImage" src="@/static/demo/shop-en.webp" @click="toIndex()"></image>
+            <image class="contentImage" src="@/static/demo/content-en.webp"></image>
             <view class="fingerI">
-                <image class="fingerImage" src="@/static/demo/fingerdown.gif"></image>
+                <image class="fingerImage" src="@/static/demo/fingerdown.webp"></image>
             </view>
             <view class="bottomBtn">
                 <view style="position: relative;" class="lfetBottomBtn">
                     <a href="https://wish.kolibrimall.com/api/Index/getApk" download="Kolibri mall"
                         style="text-decoration:none;color: #FFFFFF;">
-                        <image class="contentImage" src="@/static/demo/DownloadBtn.png"></image>
+                        <image class="contentImage" src="@/static/demo/DownloadBtn.webp"></image>
 						<view class="download" >Download app</view>
                     </a>
                     
                 </view>
                 <view style="position: relative;">
-                    <image class="contentImage" src="@/static/demo/Register.png"></image>
+                    <image class="contentImage" src="@/static/demo/Register.webp"></image>
                     <view class="Register" @click="navClick('/pages/public/register')">Register</view>
                 </view>
             </view>
@@ -41,29 +41,29 @@
 					<image src="/static/images/surprise/home.png" class="index" @click="toIndex()"></image>
 				</view>
 			</view>
-            <image class="topImage" src="@/static/demo/top.png"></image>
+            <image class="topImage" src="@/static/demo/top.webp"></image>
             <view class='topText'>平台活动福利</view>
             <view class='topText-child'>超多惊喜</view>
             <view class="commissionImage">
-                <image class="child" src="@/static/demo/commissionrefund.png"></image>
-                <image class="RedEnvelopes" src="@/static/demo/RedEnvelopesSurge.gif"></image>
+                <image class="child" src="@/static/demo/commissionrefund.webp"></image>
+                <image class="RedEnvelopes" src="@/static/demo/RedEnvelopesSurge.webp"></image>
             </view>
-            <image class="shopImage" src="@/static/demo/shop.png" @click="toIndex()"></image>
-            <image class="contentImage" src="@/static/demo/content-cn.png"></image>
+            <image class="shopImage" src="@/static/demo/shop.webp" @click="toIndex()"></image>
+            <image class="contentImage" src="@/static/demo/content-cn.webp"></image>
             <view class="fingerI">
-                <image class="fingerImage" src="@/static/demo/fingerdown.gif"></image>
+                <image class="fingerImage" src="@/static/demo/fingerdown.webp"></image>
             </view>
             <view class="bottomBtn">
                 <view style="position: relative;" class="lfetBottomBtn">
                     <a href="https://wish.kolibrimall.com/api/Index/getApk" download="Kolibri mall"
                         style="text-decoration:none;color: #FFFFFF;">
-                        <image class="contentImage" src="@/static/demo/DownloadBtn.png"></image>
+                        <image class="contentImage" src="@/static/demo/DownloadBtn.webp"></image>
 						<view class="download">下载 APP</view>
                     </a>
                    
                 </view>
                 <view style="position: relative;">
-                    <image class="contentImage" src="@/static/demo/Register.png"></image>
+                    <image class="contentImage" src="@/static/demo/Register.webp"></image>
                     <view class="Register" @click="navClick('/pages/public/register')">注册</view>
                 </view>
             </view>

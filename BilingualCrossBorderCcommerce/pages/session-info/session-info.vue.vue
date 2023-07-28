@@ -38,15 +38,6 @@
 				</view>
 			</view>
 		</u-popup>
-		<!-- <u-navbar :background="navBackground" @rightClick="rightClick" :autoBack="true">
-			<view class="navbar-title">
-				<view class="title-content">{{info.sessionUser.nickname + (info.sessionUser.user_count ? '(' + info.sessionUser.user_count + ')':'')}}</view>
-				<view class="title-other" v-if="info.sessionUser.status" :class="'user-status-' + info.sessionUser.status.value">{{info.sessionUser.status.chinese}}</view>
-			</view>
-			<view @click="sessionMenu" class="menu-wrap" slot="right">
-				<u-icon name="grid-fill" color="#000000" size="38"></u-icon>
-			</view>
-		</u-navbar> -->
 		
 		<!-- mask 目前只用于长按消息菜单显示时 -->
 		<view v-if="maskShow" @click="maskClick" :style="maskStyle" class="mask"></view>
@@ -57,20 +48,6 @@
 				<u-icon name="arrow-down-fill" color="#262626" size="30"></u-icon>
 			</view>
 		</view>
-		
-		<!-- 正在录音-start -->
-		<!-- <view v-if="recording" class="recorder-box">
-			<view class="recorder-del" id="delrecorder" :style="{opacity: delElOpacity}">
-				<image class="recorder-img" src="/static/icon/del.png" mode="widthFix"></image>
-				<view class="recorder-text">{{recorderText}}</view>
-			</view>
-			<view class="recorder">
-				<view class="recorder-title">正在录音</view>
-				<image class="recording" src="/static/icon/recording.gif" mode="widthFix"></image>
-				<view v-if="recordingCountDown !== false" class="recorder-content">还能录制 {{recordingCountDown}} 秒</view>
-			</view>
-		</view> -->
-		<!-- 正在录音-end -->
 		
 		<!-- 聊天记录-start -->
 		<scroll-view
@@ -162,8 +139,6 @@
 				</view>
 			</view>
 			<!-- @群成员-end -->
-			
-			<!-- <image class="toolbar-icon voice" @click="showVoice" :src="showVoiceBool ? '/static/icon/keyboard.png':'/static/icon/voice.png'" mode="widthFix"></image> -->
 			<view class="write-textarea" style="margin: 5px 0px 5px 40px;border-radius: 10px;">
 				<textarea confirmType="done" v-if="!showVoiceBool" :disabled="messageContenteditable" :adjust-position="false" :show-confirm-bar="false" :fixed="true" :focus="imMessageFocusBool"
 				 :auto-height="true" :cursor="imMessageFocusCursor" :cursor-spacing="14" maxlength="-1" @blur="imMessageBlur" @input="imMessageInput"
@@ -171,13 +146,11 @@
 				<view v-else class="voice-input" hover-class="voice-input-hover" @touchstart="startRecorder" @touchmove="moveRecorder" @touchend="endRecorder">按住 说话</view>
 			</view>
 			<view class="write-right" >
-				<!-- <image class="toolbar-icon emoji" src="/static/icon/emoji.png" @click="clickTool('emoji')" mode="widthFix"></image> -->
 				<button class="send-btn" @click="sendMessage(imMessage, 'default')" hover-class="send-btn-hover" v-if="showSendButton">Send</button>
 				<image class="toolbar-icon more" src="/static/icon/more.png" @click="clickTool('more')" mode="widthFix" v-if="!showSendButton"></image>
 			</view>
 		</view>
-		<!-- 消息输入-end -->
-		
+		<!-- 更多-start -->
 		<view v-if="showTool" class="footer-tool">
 			<!-- 表情-start -->
 			<!-- <view v-if="showTool == 'emoji'">
@@ -193,10 +166,10 @@
 			<!-- 快捷回复-end -->
 			<!-- 更多-start -->
 			<view v-if="showTool == 'more'" class="toolbar">
-				<view v-if="userType == 'csr'" @click="clickTool('reply')" class="toolbar-item" hover-class="toolbar-item-hover">
+				<!-- <view v-if="userType == 'csr'" @click="clickTool('reply')" class="toolbar-item" hover-class="toolbar-item-hover">
 					<image src="/static/icon/reply.png"></image>
 					<view>快捷回复</view>
-				</view>
+				</view> -->
 				<view @click="clickMoreTool('image')" class="toolbar-item" hover-class="toolbar-item-hover">
 					<image src="/static/icon/image.png"></image>
 					<view>Album</view>
@@ -219,6 +192,8 @@
 			</view>
 			<!-- 更多-end -->
 		</view>
+		<!-- 更多-end -->
+		<!-- 消息输入-end -->
 		<customerService ref="customerService" @propsSendMessage='propsSendMessage' />
 	</view>
 </template>
@@ -320,7 +295,6 @@
 			// #endif
 			
 			this.id = query.id ? query.id : 0
-			console.log('2',defaultWriteHeight);
 			this.ws.pageFun(this.pageDataLoad, this);
 			
 			this.ws.getEmoji().then(res => {
@@ -1198,11 +1172,9 @@
 			},
 			scrollIntoFooter: function (timeout = 0, scrollTop = 0) {
 				var that = this
-				console.log(timeout, scrollTop);
 				if (scrollTop) {
 					setTimeout(function() {
 						that.wrapperScrollTop = (that.wrapperScrollTop >= 99990) ? that.wrapperScrollTop + 200 : scrollTop
-						console.log(that.wrapperScrollTop, scrollTop,'-----1');
 					}, timeout)
 					return;
 				}

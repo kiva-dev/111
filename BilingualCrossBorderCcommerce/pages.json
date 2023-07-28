@@ -1149,6 +1149,20 @@
 			}
 		},
 		{
+			"path": "pages/topromote/activity/spread",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/topromote/activity/LimitedTimeEvent",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		},
+		{
 			"path": "pages/mine/video_view",
 			"style": {
 				"navigationBarTitleText": "",
@@ -1157,6 +1171,20 @@
 		},
 		{
 			"path": "pages/topromote/activity/surprise",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/auction/new_index",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/auction/coupon/coupon",
 			"style": {
 				"navigationBarTitleText": "",
 				"navigationStyle": "custom"

@@ -1287,6 +1287,7 @@
 	"zhongpai.tjss": "Submission of complaints",
 	"zhongpai.smhtpexy": "Choose one from description and picture",
 	"zhongpai.lingjiangjiang": "Collect",
+	"zhongpai.Spread": "Spread",
 	"zhongpai.ylj": "Awarded",
 	"zhongpai.zhexia": "Discount",
 	"zhongpai.lnighuo": "Picking",
@@ -1573,21 +1574,31 @@
 
 
 	"ranking.ranking_list": "Ranking List",
+	"ranking.ranking":"Ranking",
 	"ranking.luck_forum": "Lucky Forum",
 	"ranking.gotoview": "Go to view",
-	"ranking.luck_list": "Lucky List",
-	"ranking.wish_list": "Wish List",
-	"ranking.invitation_list": "Invitation List",
-	"ranking.weekly_list": "Weekly list",
-	"ranking.mothly_list": "Monthly List",
-	"ranking.overall": "Overall list",
+	"ranking.luck_list": "Lucky Star",
+	"ranking.wish_list": "Wish",
+	"ranking.invitation_list": "Invitation",
+	"ranking.weekly_list": "Weekly",
+	"ranking.mothly_list": "Monthly",
+	"ranking.overall": "Overall",
 	"ranking.update": "Updated daily at 6:00, 12:00, 18:00, and 24:00",
-	"ranking.luck_times": "Lucky Times",
-	"ranking.wishing_times": "Wishing Times",
+	"ranking.luck_times": "Commodity Price",
+	"ranking.wishing_times": "Participation Period",
 	"ranking.invitation_num": "Number Of Invitations",
+	"ranking.not":"No Ranking Yet",
 
 	"pay.paypal_ts": "Supports MY savings and credit cards, no registration required, requires KYC, and low handling fees",
 	"pay.pay_essence": "Real name required",
-	"pay.pay_not": "Stay tuned for more payment methods"
+	"pay.pay_not": "Stay tuned for more payment methods",
+	
+	"ongoing.tit":"Surprise Wish",
+	"ongoing.progress":"In progress",
 
+	"start_soon.tip":"There are currently no upcoming products~",
+	"start_soon.loading":"Loading...",
+	"start_soon.work":"Coming Soon, Stay Tuned",
+	
+	"mine.recharge_xy":"User Recharge Agreement"
 }

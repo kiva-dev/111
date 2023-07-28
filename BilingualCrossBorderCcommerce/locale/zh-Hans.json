@@ -1284,6 +1284,7 @@
 	"zhongpai.tjss": "提交申诉",
 	"zhongpai.smhtpexy": "说明和图片二选一",
 	"zhongpai.lingjiangjiang": "领取",
+	"zhongpai.Spread": "分享",
 	"zhongpai.ylj": "已领奖",
 	"zhongpai.zhexia": "折现",
 	"zhongpai.lnighuo": "领货",
@@ -1567,20 +1568,31 @@
 	"auction.history":"往期许愿",
 	
 	"ranking.ranking_list":"排行榜",
+	"ranking.ranking":"排行榜",
 	"ranking.luck_forum":"幸运论坛",
 	"ranking.gotoview":"前往查看",
-	"ranking.luck_list":"幸运名单",
-	"ranking.wish_list":"愿望清单",
-	"ranking.invitation_list":"邀请名单",
-	"ranking.weekly_list":"每周清单",
-	"ranking.mothly_list":"每月清单",
-	"ranking.overall":"总体清单",
+	"ranking.luck_list":"幸运之星",
+	"ranking.wish_list":"许愿",
+	"ranking.invitation_list":"邀请人数",
+	"ranking.weekly_list":"周榜",
+	"ranking.mothly_list":"月榜",
+	"ranking.overall":"总榜",
 	"ranking.update":"每日 6:00、12:00、18:00 和 24:00 更新",
-	"ranking.luck_times":"幸运次数",
-	"ranking.wishing_times":"许愿次数",
+	"ranking.luck_times":"商品金额",
+	"ranking.wishing_times":"参与期数",
 	"ranking.invitation_num":"邀请人数",
+	"ranking.not":"暂无排名",
 	
 	"pay.paypal_ts":"支持MY储蓄卡和信用卡，无需注册，需要KYC，手续费低",
 	"pay.pay_essence":"需实名",
-	"pay.pay_not":"更多支付方式请持续关注"
+	"pay.pay_not":"更多支付方式请持续关注",
+	
+	"ongoing.tit":"惊喜许愿",
+	"ongoing.progress":"正在进行",
+	
+	"start_soon.tip":"暂时没有即将上线的商品~",
+	"start_soon.loading":"数据加载中...",
+	"start_soon.work":"搭建中,敬请期待",
+	
+	"mine.recharge_xy":"用户充值协议"
 }

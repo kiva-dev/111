@@ -11,7 +11,18 @@ Vue.use(VueI18n)
 const i18n = new VueI18n(i18nConfig)
 uni.setStorageSync('locale', i18n.locale)
 import uView from '@/uni_modules/uview-ui'
+import VueLazyload from 'vue-lazyload'
+
+// Vue.use(VueLazyload)
+
 Vue.use(uView)
+
+Vue.use(VueLazyload, {
+	preLoad: 1.3,
+	error: require('@/static/images/auc6.png'),
+	loading: require('@/static/images/auc6.png'),
+	attempt: 1
+})
 
 Vue.prototype.$bus = new Vue()
 

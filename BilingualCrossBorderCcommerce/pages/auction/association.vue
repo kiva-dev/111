@@ -64,23 +64,12 @@
 			}
 		},
 		onShow() {
-			// var that = this
-			// that.ws.checkNetwork(that)
-			// that.ws.pageFun(function(){
-			// 	that.ws.send({
-			// 		c: 'User',
-			// 		a: 'loadSessionList',
-			// 		data: {
-			// 			"get_community_list": 1
-			// 		}
-			// 	})
-			// }, that);
 			this.getCommunityList()
 		},
 		methods: {
 			getCommunityList(){
 				var that = this
-				that.ws.checkNetwork(that)
+				/*that.ws.checkNetwork(that)
 				function pageFun(asyncFunc, context) {
 					return new Promise((resolve, reject) => {
 						asyncFunc.call(context, resolve, reject);
@@ -115,17 +104,28 @@
 				};
 				// 使用 ws.pageFun 来处理两个异步操作
 				pageFun(firstAsyncOperation, that.ws).then((result) => {console.log(result);}).catch((error) => {console.error(error);});
-				pageFun(secondAsyncOperation, that.ws).then((result) => {console.log(result);}).catch((error) => {console.error(error);});
-				// that.ws.checkNetwork(that)
-				// that.ws.pageFun(function(){
-				// 	that.ws.send({
-				// 		c: 'User',
-				// 		a: 'getCommunityList',
-				// 		data: {
-				// 			'page': 1
-				// 		}
-				// 	})
-				// }, that);
+				pageFun(secondAsyncOperation, that.ws).then((result) => {console.log(result);}).catch((error) => {console.error(error);}); */
+				that.ws.checkNetwork(that)
+				that.ws.pageFun(function(){
+				that.ws.send({
+						c: 'User',
+						a: 'loadSessionList',
+						data: {
+							"get_community_list": 1
+						}
+					})
+				}, that);
+				setTimeout(() => {
+					that.ws.pageFun(function(){
+						that.ws.send({
+							c: 'User',
+							a: 'getCommunityList',
+							data: {
+								'page': 1
+							}
+						})
+					}, that);
+				}, 1000);
 			},
 			userAction :function ({id,type}) {
 				let that = this

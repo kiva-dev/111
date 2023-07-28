@@ -141,7 +141,8 @@
 									<image src="/static/images/auction/not-auth.png"></image>
 								</template>
 								<template v-else>
-									<image src="/static/images/new-index/lv-start.png" style="width: 24rpx;height: 24rpx;"></image>
+									<image src="/static/images/new-index/lv-start.png"
+										style="width: 24rpx;height: 24rpx;"></image>
 									<image :src="item.user_info.avatar"></image>
 									<view>{{item.user_info.nickname}}</view>
 								</template>
@@ -160,7 +161,7 @@
 						<view v-if="isShopCont">{{$t('new.completed')}}</view>
 						<view v-if="!isShopCont" style="top: 26%;left: 36%;">{{$t('new.completed')}}</view>
 					</view>
-					
+
 					<view class="item-status2" v-if="item.check_status==4">
 						<view v-if="isShopCont">{{$t('new.unrealised')}}</view>
 						<view v-if="!isShopCont" style="top: 25%;left: 36%;">{{$t('new.unrealised')}}</view>
@@ -240,25 +241,29 @@
 						<image src="/static/images/new-index/$.png" class="bonus-img"></image>
 						<view class="bonus-info">{{item.can_use_invite_money_rate*1}}% bonus available</view>
 					</view>
-					
+
 					<view class="info_tags">
 						<block v-for="data in item.tags" :key="data.tag_id">
-							<view class="tag" v-if="data.tag_id == 1" style="color: #D81E06;border: 2rpx solid #D81E06;">
+							<view class="tag" v-if="data.tag_id == 1"
+								style="color: #D81E06;border: 2rpx solid #D81E06;">
 								<view class="tag_name">
 									<u-parse :content="isShopCont ? data.en_desc : data.zh_desc"></u-parse>
 								</view>
 							</view>
-							<view class="tag" v-else-if="data.tag_id == 2" style="color: #FF5701;border: 2rpx solid #FF5701;">
+							<view class="tag" v-else-if="data.tag_id == 2"
+								style="color: #FF5701;border: 2rpx solid #FF5701;">
 								<view class="tag_name">
 									<u-parse :content="isShopCont ? data.en_desc : data.zh_desc"></u-parse>
 								</view>
 							</view>
-							<view class="tag" v-else-if="data.tag_id == 3" style="color: #0AC68E;border: 2rpx solid #0AC68E;">
+							<view class="tag" v-else-if="data.tag_id == 3"
+								style="color: #0AC68E;border: 2rpx solid #0AC68E;">
 								<view class="tag_name">
 									<u-parse :content="isShopCont ? data.en_desc : data.zh_desc"></u-parse>
 								</view>
 							</view>
-							<view class="tag" v-else-if="data.tag_id == 9" style="color: #3A71EC;border: 2rpx solid #3A71EC;">
+							<view class="tag" v-else-if="data.tag_id == 9"
+								style="color: #3A71EC;border: 2rpx solid #3A71EC;">
 								<view class="tag_name">
 									<u-parse :content="isShopCont ? data.en_desc : data.zh_desc"></u-parse>
 								</view>
@@ -282,8 +287,8 @@
 								</view>
 							</view>
 						</view>
-						
-						
+
+
 						<view class="info-right" v-if="id==1">
 							<view @click.stop="onMineInfo(item)">{{$t('tab.xy')}}</view>
 						</view>
@@ -573,10 +578,10 @@
 				</view>
 			</view>
 		</view>
-		
+
 		<!--回到顶部-->
 		<image src="/static/images/auction/to-top.png" class="to_top" v-show="showTop" @click="toTop()"></image>
-		
+
 	</view>
 </template>
 
@@ -593,7 +598,7 @@
 	export default {
 		data() {
 			return {
-				showTop:false,
+				showTop: false,
 				pagenum: 10, // 每页显示商品数目
 				page: 1,
 				transformClass: false, //购物车icon是否添加平移效果
@@ -791,31 +796,32 @@
 			if (this.page * this.pagenum < this.historyTotalPageNum && this.id == 3) {
 				this.page++;
 				this.onAuctionHistoryGoods()
-			}else if(this.page * this.pagenum < this.totalPageNum && this.id == 1 && !this.showMakeaWish){
+			} else if (this.page * this.pagenum < this.totalPageNum && this.id == 1 && !this.showMakeaWish) {
 				this.page++
 				this.onAuctionNewGoods()
-			}else if(this.page * this.pagenum < this.newTotalPageNum && this.id == 2 && !this.showMakeaWish){
+			} else if (this.page * this.pagenum < this.newTotalPageNum && this.id == 2 && !this.showMakeaWish) {
 				this.page++
 				this.onAuctionNotbeginGoods()
-			}else if (this.page * this.pagenum < this.totalNum && this.id != 3 && this.showMakeaWish) {
+			} else if (this.page * this.pagenum < this.totalNum && this.id != 3 && this.showMakeaWish) {
 				this.page++;
 				this.getAllProducts();
-			}else{
-				this.page=1
-				this.showMakeaWish=true
+			} else if ((this.page * this.pagenum >= this.newTotalPageNum && this.id == 2 && !this.showMakeaWish) || this
+				.page * this.pagenum >= this.totalPageNum && this.id == 1 && !this.showMakeaWish) {
+				this.page = 1
+				this.showMakeaWish = true
 				this.getAllProducts()
 			}
 		},
 		//监听页面滚动
 		onPageScroll(e) {
 			this.transformClass = true
-			if(e.scrollTop >= 2000 && !this.showTop) this.showTop=true
-			else if(e.scrollTop < 2000 && this.showTop) this.showTop = false
+			if (e.scrollTop >= 2000 && !this.showTop) this.showTop = true
+			else if (e.scrollTop < 2000 && this.showTop) this.showTop = false
 		},
 		methods: {
-			toTop(){
+			toTop() {
 				uni.pageScrollTo({
-					scrollTop:0
+					scrollTop: 0
 				})
 			},
 			toRecharge() {
@@ -931,7 +937,7 @@
 							item.remain_time = item.remain_time * 1000
 						})
 						this.totalPageNum = res.data.total
-						if(this.totalPageNum < 10){
+						if (this.totalPageNum < 10) {
 							this.showMakeaWish = true
 							this.getAllProducts()
 						}
@@ -978,7 +984,7 @@
 							this.$set(item, 'datetime', time)
 						})
 						this.newTotalPageNum = res.data.total
-						if(this.newTotalPageNum < 10){
+						if (this.newTotalPageNum < 10) {
 							this.showMakeaWish = true
 							this.getAllProducts()
 						}
@@ -1336,7 +1342,7 @@
 		border-radius: 9rpx !important;
 	}
 
-	.to_top{
+	.to_top {
 		position: fixed;
 		left: 20rpx;
 		bottom: 120rpx;
@@ -2379,19 +2385,16 @@
 							display: flex;
 							align-items: center;
 							margin-top: 10rpx;
-							
-							image{
+
+							image {
 								display: block;
 								width: 32rpx;
 								height: 32rpx;
 								border-radius: 50%;
 								margin-right: 10rpx;
 							}
-							
-							view{
-								
-								
-							}
+
+							view {}
 						}
 					}
 
@@ -2794,7 +2797,7 @@
 
 
 				}
-			
+
 				.info_tags {
 					width: 628rpx;
 					color: rgb(153, 153, 153);
@@ -2802,8 +2805,8 @@
 					flex-wrap: wrap;
 					align-items: center;
 					margin: 20rpx auto;
-					
-					.tag{
+
+					.tag {
 						display: flex;
 						align-items: center;
 						padding: 2rpx 8rpx;
@@ -2812,21 +2815,21 @@
 						border-radius: 20rpx;
 						margin-right: 30rpx;
 						margin-bottom: 10rpx;
-						
-						image{
+
+						image {
 							display: block;
 							width: 32rpx;
 							height: 32rpx;
 							border-radius: 50%;
 						}
-						
-						.tag_name{
+
+						.tag_name {
 							font-size: 20rpx;
 						}
 					}
-					
+
 				}
-				
+
 			}
 		}
 

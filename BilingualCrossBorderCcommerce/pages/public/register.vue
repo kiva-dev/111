@@ -43,6 +43,7 @@
 					</view>
 					<view class="register-btn" @click="verifyData('email')" v-show="isOnSendEmail">{{$t('login.fsyzm')}}
 					</view>
+					<u-loading-icon mode="semicircle" :show="isSendingRequest" size='42'></u-loading-icon>
 
 					<view class="register-box" style="padding:0 30rpx">
 						<view class="login-check">
@@ -191,6 +192,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				isShopCont: false, // 中文还是英文
 				isPwdShow: false,
 				isPwdOkShow: false,
+				isSendingRequest: false, // 标志变量，记录是否正在发送请求
 				isDisabled: false
 			}
 		},
@@ -262,7 +264,15 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					icon: 'none'
 				})
 				if (this.codeTxt1 != this.$t('login.hqyzm')) return
-
+				if(this.isSendingRequest){
+					uni.showLoading({
+						title: this.$t('login.qq'),
+						mask: true
+					});
+					return
+				}
+				this.isSendingRequest = true; // 设置标志变量为 true，表示正在发送请求
+				this.isOnSendEmail = false
 				this.$http.post(this.$apiObj.LoginSendMobileCode, {
 					mobile: this.mobile,
 					mobile_area_code: this.mobile_area_code.slice(1)
@@ -275,7 +285,11 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						this.timeDowns()
 						this.blockNum = 2
 					}
-				})
+				}).finally(() => {
+					uni.hideLoading();
+					this.isOnSendEmail = true;
+					this.isSendingRequest = false;
+				});
 			},
 			timeDowns() {
 				this.results = setInterval(() => {
@@ -283,7 +297,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					this.codeTxt1 = this.seconds + 'S'
 					if (this.seconds < 0) {
 						clearInterval(this.results)
-						this.seconds = 120
+						this.seconds = 10
 						this.codeTxt1 = this.$t('login.hqyzm')
 					}
 				}, 1000)
@@ -356,10 +370,15 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						icon: 'none'
 					})
 				}
-				uni.showLoading({
-					title: this.$t('login.qq'),
-					mask: true
-				});
+				if(this.isSendingRequest){
+					uni.showLoading({
+						title: this.$t('login.qq'),
+						mask: true
+					});
+					return
+				}
+				this.isSendingRequest = true; // 设置标志变量为 true，表示正在发送请求
+				this.isOnSendEmail = false
 				this.$http.post(this.$apiObj.LoginSendEmailCode, {
 					type: this.isShopCont ? 2 : 1,
 					email: this.email
@@ -374,6 +393,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					}
 				}).finally(() => {
 					uni.hideLoading();
+					this.isOnSendEmail = true;
+					this.isSendingRequest = false;
 				})
 			},
 			timeDown() {
@@ -396,6 +417,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					})
 					return
 				}
+				this.isSendingRequest = true; // 设置标志变量为 true，表示正在发送请求
+				this.isOnSendCode = false; 
 				this.$http.post(this.$apiObj.LoginVerifyCode, {
 					email: this.email,
 					email_code: this.email_code
@@ -409,6 +432,10 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					} else {
 						this.showErrCode = true
 					}
+				}).finally(() => {
+					uni.hideLoading();
+					this.isOnSendCode = true;
+					this.isSendingRequest = false;
 				})
 			},
 			//手机验证码验证
@@ -420,6 +447,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					})
 					return
 				}
+				this.isSendingRequest = true;
+				this.isOnSendCode = false; 
 				this.$http.post(this.$apiObj.LoginVerifyPhone, {
 					mobile_area_code: this.mobile_area_code.slice(1),
 					mobile: this.mobile,
@@ -434,6 +463,10 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					} else {
 						this.showErrCode = true
 					}
+				}).finally(() => {
+					uni.hideLoading();
+					this.isOnSendCode = true;
+					this.isSendingRequest = false;
 				})
 			},
 			// 邮箱注册

@@ -182,6 +182,11 @@
 											</view>
 										</template> -->
 										<template v-if="item.select_way == 0 && item.win == 1">
+											<view class="r-button-green" @click.stop="onShareClick(item)">
+												{{$t('zhongpai.Spread')}}
+											</view>
+										</template>
+										<template v-if="item.select_way == 0 && item.win == 1">
 											<view class="r-button-green" @click.stop="onlingjiangClick(item)">
 												{{$t('zhongpai.lingjiangjiang')}}
 											</view>
@@ -494,7 +499,6 @@
 		</u-popup>
 	</view>
 </template>
-
 <script>
 	import tool from "@/utils/tool.js"
 	export default {
@@ -585,9 +589,13 @@
 			closeShare(){
 				this.shareFriendShow = false;
 			},
-			onShareClick({id}){
-				this.id = id
-				this.shareFriendShow = true;
+			onShareClick(item){
+				// this.id = id
+				// this.shareFriendShow = true;
+				const {auction_goods_id} = item
+				uni.navigateTo({
+					url: '/pages/topromote/activity/spread?shopId=' + encodeURIComponent(JSON.stringify(auction_goods_id))
+				});
 			},
 			openShare(){
 				this.shareFriendShow = false
@@ -648,9 +656,10 @@
 				})
 			},
 			tomine() {
-				uni.switchTab({
-					url: '/pages/mine/mine'
-				})
+				// uni.switchTab({
+				// 	url: '/pages/mine/mine'
+				// })
+				uni.navigateBack()
 			},
 			onFengxiangClick(item) {
 				// this.qrUrl = 'https://h5.kolibrimall.com/h5/#/pages/auction/detail?id=' + item.auction_goods_id// 生成二维码的链接

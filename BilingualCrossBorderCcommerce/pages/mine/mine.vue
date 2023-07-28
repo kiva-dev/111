@@ -3,16 +3,17 @@
 		<view class="ml-top">
 			<view class="ml-top-operate">
 				<view class="operate-box" @click="navClick('set')">
-					<image src="@/static/images/mine/mine_set.png" mode="widthFix"></image>
+					<image src="@/static/images/mine/mine_set.webp" mode="widthFix"></image>
 				</view>
-				<view class="operate-box" @click="navClick('/pages/mine/message')">
-					<image src="@/static/images/mine/mine_msg.png" mode="widthFix"></image>
+				<view class="operate-box" @click="navClick('/pages/mine/systemM')">
+					<image src="/static/images/mine/mine-msg1.png" v-if="isNotReadNum<1"></image>
+					<image src="/static/images/mine/mine-msg1-num.png" v-else></image>
 				</view>
 			</view>
 			<view class="ml-top-info">
 				<view class="info-left">
 					<view class="info-left-avatar" @click="navClick('profile')">
-						<image :src="userCont.avatar || require('@/static/images/mine/mine_defalt_avatar.png')"
+						<image :src="userCont.avatar || require('@/static/images/mine/mine_defalt_avatar.webp')"
 							mode="aspectFill"></image>
 					</view>
 					<view class="info-left-box">
@@ -20,7 +21,7 @@
 							<view class="box-name-text">{{userCont.nickname || 'Hi,Guest'}}</view>
 							<view class="box-name-level" v-if="userCont.level > 0">
 								<view class="level-icon">
-									<image src="@/static/images/mine/mine_icon_vip.png" mode="widthFix"></image>
+									<image src="@/static/images/mine/mine_icon_vip.webp" mode="widthFix"></image>
 								</view>
 								<view class="level-num">Lv.{{userCont.level}}</view>
 							</view>
@@ -32,7 +33,7 @@
 							<template v-else>
 								<view class="box-data-detail">
 									<view class="detail-container">
-										<image src="@/static/images/mine/mine_icon_integral.png" mode="widthFix">
+										<image src="@/static/images/mine/mine_icon_integral1.png" mode="widthFix">
 										</image>
 										<span>{{totalJf || 0}}</span>
 									</view>
@@ -62,14 +63,14 @@
 				<view class="container-tit">
 					<view class="ct-left">
 						<view class="ct-left-icon">
-							<image src="@/static/images/mine/assets.png" mode="widthFix"></image>
+							<image src="@/static/images/mine/assets.webp" mode="widthFix"></image>
 						</view>
 						<view class="ct-left-name">{{$t('mine.assets')}}</view>
 					</view>
 					<view class="ct-right" @click.stop="navClick('wallet')">
 						<view class="ct-right-name">{{$t('home.detail.more')}}</view>
 						<view class="ct-right-icon">
-							<image src="@/static/images/mine/mine_icon_right.png" mode="widthFix"></image>
+							<image src="@/static/images/mine/mine_icon_right.webp" mode="widthFix"></image>
 						</view>
 					</view>
 				</view>
@@ -87,14 +88,14 @@
 					<view class="cc-box">
 						<view class="cc-box-rebate">
 							<view class="rebate-num">
-								<image src="@/static/images/mine/mine_icon_diamonds.png" mode="widthFix"></image>
+								<image src="@/static/images/mine/mine_icon_diamonds.webp" mode="widthFix"></image>
 								<p>{{userCont.k_diamond_wallet*1 || 0.00}}</p>
 							</view>
 							<p>{{$t('mine.diamonds')}}</p>
 						</view>
 						<view class="cc-box-rebate">
 							<view class="rebate-num">
-								<image src="@/static/images/mine/mine_icon_integral.png" mode="widthFix"></image>
+								<image src="@/static/images/mine/mine_icon_integral1.png" mode="widthFix"></image>
 								<p>{{totalJf || 0.00}}</p>
 							</view>
 							<p>{{$t('mine.integral')}}</p>
@@ -135,7 +136,7 @@
 					<view class="commission-left">
 						<view class="left-info">
 							<view class="left-tit-info">
-								<image src="/static/images/mine/yonjin.png"></image>
+								<image src="/static/images/mine/yonjin.webp"></image>
 								<view>{{$t('new.fyje')}}(RM)</view>
 							</view>
 							<view class="left-info-num">{{userCont.rebate_money_total || 0}}</view>
@@ -151,7 +152,7 @@
 
 					<view class="commission-right">
 						<view class="tit">
-							<image src="/static/images/mine/share-link.png"></image>
+							<image src="/static/images/mine/share-link.webp"></image>
 							<view>{{$t('new.share_link')}}</view>
 						</view>
 
@@ -160,13 +161,14 @@
 							<view class="info-des">
 								{{yqUrl}}
 							</view>
-							<image src="/static/images/mine/k_copy.png" @click.stop="copy(yqUrl)"></image>
+							<image src="/static/images/mine/k_copy.webp" @click.stop="copy(yqUrl)"></image>
 						</view>
 
 						<view class="link-info">
 							<view class="info-key">{{$t('login.yqm')}}:</view>
 							<view class="info-des">{{userCont.invite_code}}</view>
-							<image src="/static/images/mine/k_copy.png" @click.stop="copy(userCont.invite_code)"></image>
+							<image src="/static/images/mine/k_copy.webp" @click.stop="copy(userCont.invite_code)">
+							</image>
 						</view>
 					</view>
 
@@ -188,7 +190,7 @@
 				<view class="top-more" @click="toAuction(1)">
 					<p>{{$t('user.myCont.ckqb')}}</p>
 					<view class="top-more-icon">
-						<image src="@/static/images/mine/mine_icon_right.png" mode="widthFix"></image>
+						<image src="@/static/images/mine/mine_icon_right.webp" mode="widthFix"></image>
 					</view>
 				</view>
 			</view>
@@ -217,7 +219,7 @@
 				<view class="top-more" @click="navClick('/pages/mine/order/order?tabIndex=10')">
 					<p>{{$t('user.order.qbdd')}}</p>
 					<view class="top-more-icon">
-						<image src="@/static/images/mine/mine_icon_right.png" mode="widthFix"></image>
+						<image src="@/static/images/mine/mine_icon_right.webp" mode="widthFix"></image>
 					</view>
 				</view>
 			</view>
@@ -262,7 +264,7 @@
 						<view class="l-name">{{$t('new.dz')}}</view>
 					</view>
 					<view class="ul-li-r">
-						<image src="@/static/images/mine/mine_icon_right.png" mode="widthFix"></image>
+						<image src="@/static/images/mine/mine_icon_right.webp" mode="widthFix"></image>
 					</view>
 				</view>
 				<view class="ul-li" @click="showContact = true">
@@ -273,7 +275,7 @@
 						<view class="l-name">{{$t('new.gzwm')}}</view>
 					</view>
 					<view class="ul-li-r">
-						<image src="@/static/images/mine/mine_icon_right.png" mode="widthFix"></image>
+						<image src="@/static/images/mine/mine_icon_right.webp" mode="widthFix"></image>
 					</view>
 				</view>
 				<view class="ul-li" @click="navClick('upgrade')">
@@ -284,7 +286,7 @@
 						<view class="l-name">{{$t('new.sh')}}</view>
 					</view>
 					<view class="ul-li-r">
-						<image src="@/static/images/mine/mine_icon_right.png" mode="widthFix"></image>
+						<image src="@/static/images/mine/mine_icon_right.webp" mode="widthFix"></image>
 					</view>
 				</view>
 				<view class="ul-li" @click="navClick('/pages/mine/Feedback')">
@@ -295,7 +297,7 @@
 						<view class="l-name">{{$t('top.yjfk')}}</view>
 					</view>
 					<view class="ul-li-r">
-						<image src="@/static/images/mine/mine_icon_right.png" mode="widthFix"></image>
+						<image src="@/static/images/mine/mine_icon_right.webp" mode="widthFix"></image>
 					</view>
 				</view>
 				<view class="ul-li" @click="navClick('/pages/mine/about')">
@@ -306,7 +308,7 @@
 						<view class="l-name">{{$t('top.about')}}</view>
 					</view>
 					<view class="ul-li-r">
-						<image src="@/static/images/mine/mine_icon_right.png" mode="widthFix"></image>
+						<image src="@/static/images/mine/mine_icon_right.webp" mode="widthFix"></image>
 					</view>
 				</view>
 			</view>
@@ -359,12 +361,11 @@
 	</view>
 </template>
 
-<script src="https://cdn.ronghub.com/RongIMLib-5.5.5.prod.js"></script>
+<!-- <script src="https://cdn.ronghub.com/RongIMLib-5.5.5.prod.js"></script>
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-<script src="./jssocials-1.4.0/jssocials.min.js"></script>
+<script src="./jssocials-1.4.0/jssocials.min.js"></script> -->
 <script>
 	import tool from "@/utils/tool.js"
-
 	export default {
 		data() {
 			return {
@@ -387,10 +388,11 @@
 				showLeftOrRight: true,
 				scrollLeft: 0,
 				isProhibit: true,
-				leftNum:0,//左滑
-				rightNum:0,//右滑
-				inviationNum:0,//邀请人数
-				yqUrl:'',//邀请url
+				leftNum: 0, //左滑
+				rightNum: 0, //右滑
+				inviationNum: 0, //邀请人数
+				yqUrl: '', //邀请url
+				isNotReadNum: 0
 			}
 		},
 		onLoad() {
@@ -403,13 +405,13 @@
 			uni.removeStorageSync('sendTit')
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false;
 			if (uni.getStorageSync('token')) {
+				this.getNotRead()
 				this.isLogin = true;
 				this.getMineInfo();
-				this.getMineWinAuction();
+				// this.getMineWinAuction();
 				this.getCollectGoods();
 				this.getCollectStore();
 				this.getInviationNum()
-				
 			}
 		},
 		onHide() {
@@ -417,8 +419,13 @@
 			this.showConfirm = false
 		},
 		methods: {
-			copy(val){
-				console.log(111)
+			//获取是否有未读消息
+			getNotRead() {
+				this.$http.post(this.$apiObj.GetMineNotRead).then(res => {
+					this.isNotReadNum = res.data
+				})
+			},
+			copy(val) {
 				uni.setClipboardData({
 					data: val,
 					success: () => {
@@ -429,8 +436,8 @@
 					}
 				});
 			},
-			getInviationNum(){
-				this.$http.post(this.$apiObj.GetInviationNum).then(res=>{
+			getInviationNum() {
+				this.$http.post(this.$apiObj.GetInviationNum).then(res => {
 					this.inviationNum = res.data.count
 				})
 			},
@@ -439,15 +446,15 @@
 			},
 			onTouchEnd(e) {
 				this.rightNum = e.changedTouches[0].clientX
-				if(this.leftNum > this.rightNum){
+				if (this.leftNum > this.rightNum) {
 					this.scrollLeft = 343
 					this.showLeftOrRight = false
-				}else if(this.leftNum < this.rightNum){
+				} else if (this.leftNum < this.rightNum) {
 					this.scrollLeft = 0
 					this.showLeftOrRight = true
 				}
 			},
-			
+
 			onfacebook() {
 
 				let url = 'https://www.facebook.com/kolibrimall.my'
@@ -615,46 +622,61 @@
 					url: '/pages/public/login'
 				})
 			},
-			getMineInfo() {
-				this.$http.post(this.$apiObj.MineInfo).then(res => {
-					if (res.code == 1) {
+			async getMineInfo() {
+				try {
+					const res = await this.$http.post(this.$apiObj.MineInfo);
+					if (res.code === 1) {
 						uni.setStorageSync('userCont', res.data);
 						this.userCont = res.data;
-						this.yqUrl = this.$baseUrl + 'a/r/'+res.data.invite_code
+						this.yqUrl = this.$baseUrl + 'a/r/' + res.data.invite_code;
 						this.getAllPoints();
 					}
-				})
+				} catch (error) {
+					console.error(error);
+				}
 			},
-			getMineWinAuction() {
-				this.$http.post(this.$apiObj.MineWinAuction, {
-					page: '1',
-					pagenum: '1'
-				}).then(res => {
+			async getMineWinAuction() {
+				try {
+					const requestData = {
+						page: '1',
+						pagenum: '1'
+					}
+					const res = await this.$http.post(this.$apiObj.MineWinAuction, requestData);
 					if (res.code == 1) {
 						this.no_select = res.data.no_select;
 					}
-				})
+				} catch (error) {
+					console.error(error);
+				}
 			},
-			getCollectGoods() {
-				this.$http.post(this.$apiObj.MineFocusList, {
-					page: 1,
-					pagenum: 10,
-					type: 1
-				}).then(res => {
+			async getCollectGoods() {
+				try {
+					const requestData = {
+						page: 1,
+						pagenum: 10,
+						type: 1
+					}
+					const res = await this.$http.post(this.$apiObj.MineFocusList, requestData);
 					if (res.code == 1) {
 						this.collectGoodsTotal = res.data.total;
 					}
-				})
+				} catch (error) {
+					console.error(error);
+				}
 			},
-			getCollectStore() {
-				this.$http.post(this.$apiObj.MineFocusSubscribe, {
-					page: 1,
-					pagenum: 10
-				}).then(res => {
-					if (res.code == 1) {
+			async getCollectStore() {
+				try {
+					const requestData = {
+						page: 1,
+						pagenum: 10
+					};
+					const res = await this.$http.post(this.$apiObj.MineFocusSubscribe, requestData);
+					if (res.code === 1) {
 						this.collectStoreTotal = res.data.total;
 					}
-				})
+				} catch (error) {
+					console.error(error);
+				}
 			},
 		},
 		//监听页面滚动
@@ -832,63 +854,6 @@
 
 	}
 
-	//右侧固定栏滚动
-	.removeRightX {
-		transform: translateX(80rpx);
-		transition: all 0.5s ease;
-	}
-
-	.removeLeftX {
-		transform: translateX(0);
-		transition: all 0.5s ease;
-	}
-
-	.leftSider {
-		position: fixed;
-		right: 32rpx; //-50
-		bottom: 200rpx;
-		z-index: 100;
-
-		.newListImg {
-			width: 92rpx;
-			height: 92rpx;
-		}
-
-		.newListImgDeg {
-			width: 92rpx;
-			height: 92rpx;
-			margin-top: 30rpx;
-			transform: rotate(-45deg);
-		}
-
-		//三个入口
-		.imgArr {
-			background: #fff;
-			width: 92rpx;
-			height: 280rpx;
-			border-radius: 45rpx;
-			box-shadow: 0 0 20rpx rgba(198, 198, 198, 0.3);
-			text-align: center;
-
-			.people {
-				margin-top: 30rpx;
-
-				.pImg {
-					width: 45rpx;
-					height: 40rpx;
-				}
-			}
-
-			.minImg {
-				width: 45rpx;
-				height: 45rpx;
-				text-align: center;
-				margin-top: 40rpx;
-			}
-		}
-
-	}
-
 	.mine-layout {
 		width: 100%;
 		min-height: 100vh;
@@ -916,6 +881,7 @@
 
 					image {
 						width: 100%;
+						height: 48rpx;
 					}
 				}
 			}
@@ -1244,7 +1210,7 @@
 			.ml-commission-box {
 				width: 100%;
 				height: 140rpx;
-				background: url('/static/images/new/yqfy.png') no-repeat;
+				background: url('/static/images/new/yqfy.webp') no-repeat;
 				background-size: 100% 100%;
 				margin-top: 24rpx;
 				padding-top: 14rpx;

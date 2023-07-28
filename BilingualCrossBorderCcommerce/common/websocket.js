@@ -431,16 +431,17 @@ var ws = {
 		}
 		var msgFun = new Map([
 			['open', () => {
-				that.initializeData.tokens.auth_token = that.authToken
-				let message = {
+				const { userinfo, tokens } = that.initializeData;
+				tokens.auth_token = userinfo.cache_token ? userinfo.cache_token : that.authToken;
+				const message = {
 					c: 'ImBase',
 					a: 'login',
 					data: {
-						'tokens': that.initializeData.tokens,
-						'identity': that.initializeData.userinfo.identity,
-						'platform': that.userPlatform
+					tokens: tokens,
+					identity: userinfo.identity,
+					platform: that.userPlatform,
 					}
-				}
+				};
 				that.send(message);
 			}],
 			['login_success', () => {
@@ -2698,11 +2699,10 @@ var ws = {
 		// var protocol = imConfig.httpsSwitch ? 'https://' : 'http://';
 		var protocol = '';
 		var port = imConfig.httPort ? ':' + imConfig.httPort : '';
-
+		const initializeUrl = `/addons/fastim/index/initialize?referrer=${token ? 'uni-app' : ''}&im_tourists_token=` + token;
 		var buildFun = new Map([
 			['initialize', () => {
-				return protocol  + port +
-					'/addons/fastim/index/initialize?referrer=uni-app&im_tourists_token=' + token;
+				return protocol  + port + initializeUrl
 			}],
 			['ws', () => {
 				let protocol = parseInt(that.initializeData.config.wss_switch) == 1 ? 'wss://' :
@@ -2751,7 +2751,7 @@ var ws = {
 				uni.hideToast()
 				that.initializeData = false
 				uni.reLaunch({
-					url: '/pages/center/login'
+					url: '/pages/public/login'
 				})
 			}
 			that.needReconnect = false
@@ -2766,7 +2766,7 @@ var ws = {
 		} catch (e) {
 			console.log(e)
 			uni.showToast({
-				title: '注销失败,请重试!',
+				title: 'Logout failed, please try again!',
 				icon: 'none'
 			})
 		}

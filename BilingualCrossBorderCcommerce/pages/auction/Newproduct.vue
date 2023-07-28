@@ -290,24 +290,21 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				this.$http.post(this.$apiObj.LitestoregoodsIndex, {
 					page: this.page,
 					pagenum: this.pagenum,
-					category_id: id == 0 ? '' : id,
-					goods_listing_type: 2
+					category_id: id < 1 ? '' : id,
+					goods_listing_type: 2,
+					category_type: id == -1? "newGoods": ''
 				}).then(res => {
 					if (res.code == 1) {
 						this.totalPageNum = res.data.total
-						let arrs = []
 						res.data.data.forEach(item => {
 							item.litestore_tag.forEach(data => {
 								let arr = data.name.split("|")
 								if (!this.isShopCont) data.name = arr[0]
 								else data.name = arr[1]
 							})
-							if (item.is_belong_to_mall == 1 && item.goods_status == 10) {
-								arrs.push(item)
-							}
 						})
-						this.productList = this.page == 1 ? arrs : [...this.productList,
-							...arrs
+						this.productList = this.page == 1 ? res.data.data : [...this.productList,
+							...res.data.data
 						];
 					}
 				})
@@ -394,6 +391,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			// 最新竞拍
 			// this.$bus.$emit('onReachBottom', this.selectProductsId)
 			if (this.page * this.pagenum >= this.totalPageNum) return
+			else if(this.productInfoId == -1 && this.page == 2) return
 			this.page++
 			this.getAllProducts(this.productInfoId)
 
@@ -860,30 +858,30 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						}
 
 					}
-					
+
 					.iconArr {
 						position: absolute;
 						top: 104rpx;
 						width: 100%;
 						display: flex;
 						align-items: center;
-					
+
 						image {
 							width: 20rpx;
 							height: 20rpx;
 							margin-right: 8rpx;
 						}
-					
+
 						.iconArr_item {
 							width: 100rpx;
 							text-align: center;
 							border-right: 1px solid #e8e8e8;
 						}
-					
+
 						.iconArr_item:nth-child(2) {
 							border: none;
 						}
-					
+
 						.iconArr_item:nth-child(3) {
 							border: none;
 						}
@@ -1390,15 +1388,16 @@ NoR+zv3KaEmPSHtooQIDAQAB
 										font-size: 32rpx;
 									}
 								}
-								
-								.right{
+
+								.right {
 									margin-left: 10rpx;
-									image{
+
+									image {
 										width: 20rpx;
 										height: 20rpx;
 									}
-									
-									text{
+
+									text {
 										font-size: 20rpx;
 										font-weight: 400;
 										color: #999;
@@ -1527,20 +1526,20 @@ NoR+zv3KaEmPSHtooQIDAQAB
 								color: rgb(153, 153, 153);
 								text-decoration: line-through;
 							}
-							
-							.rmtokdiamond{
+
+							.rmtokdiamond {
 								font-size: 20rpx;
 								color: #999;
 								display: flex;
 								align-items: center;
 								margin-left: 10rpx;
-								
-								image{
+
+								image {
 									width: 20rpx;
 									height: 20rpx;
 								}
 							}
-							
+
 						}
 
 					}

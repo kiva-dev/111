@@ -8,14 +8,14 @@
 		<view class="commission-center">
 			<view class="commission-center-left">
                 <view class="commission-center-text">
-                    <image  :src="require(`@/static/images/mine/${previewImg}.png`)" mode="widthFix" @click="previewImgList(previewImg)"></image>
+                    <image  :src="require(`@/static/images/mine/${previewImg}.webp`)" mode="widthFix" @click="previewImgList(previewImg)"></image>
                     <view class="PreView" @click="previewImgList(previewImg)">{{$t('new.yjfxPreView')}}</view>
                 </view>
 			    <view class="commission-center-btn"  @click="onUrlClick('PlatformActivityBenefits')">{{$t('new.yjfxBtn')}}</view>
 			</view>
 			<view class="commission-center-right">
                 <view class="commission-center-text">
-                    <image  :src="require(`@/static/images/mine/${preview2Img}.png`)" mode="widthFix"  @click="previewImgList(preview2Img)"></image>
+                    <image  :src="require(`@/static/images/mine/${preview2Img}.webp`)" mode="widthFix"  @click="previewImgList(preview2Img)"></image>
                     <view class="PreView" @click="previewImgList(preview2Img)">{{$t('new.yjfxPreView')}}</view>
                 </view>
 			    <view class="commission-center-btn" @click="onUrlClick('surprise')">{{$t('new.yjfxBtn')}}</view>
@@ -27,7 +27,7 @@
                 <scroll-view class="show_images-child" scroll-y="true" style="height:100vh">
                     <image src="/static/images/new-index/close.png" class="close" @click="closeImg"></image>
                     <view class="carousel">
-                        <image  :src="require(`@/static/images/mine/${showImagUrl}.png`)" mode="widthFix"></image>
+                        <image  :src="require(`@/static/images/mine/${showImagUrl}.webp`)" mode="widthFix"></image>
                     </view>
                 </scroll-view>
 			</view>

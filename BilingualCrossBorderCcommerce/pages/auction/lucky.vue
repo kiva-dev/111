@@ -1,7 +1,8 @@
 <template>
 	<view class="lucky-page">
 		<view class="banner-layout">
-			<image src="@/static/images/new-index/luckstar-en.png" mode="widthFix"></image>
+			<image src="/static/images/new-index/luckstar-en.png" mode="widthFix" v-if="isEnglish"></image>
+			<image src="/static/images/new-index/luckstar-zh.png" v-else></image>
 		</view>
 		<view class="switch">
 			<view class="switch-info" @click="navClick('/pages/auction/lucky/leaderboard')">
@@ -17,7 +18,7 @@
 			<!-- <view class="switch-info">
 				<view class="left">
 					<view class="left-name">{{$t('ranking.luck_forum')}}</view>
-					<view class="left-more">{{$t('ranking.gotoview')}}<image src="/static/images/mine/mine_icon_right.png"></image></view>
+					<view class="left-more">{{$t('ranking.gotoview')}}<image src="/static/images/mine/mine_icon_right.webp"></image></view>
 				</view>
 				<view class="right">
 					<image src="/static/images/luck/msg_list.png"></image>
@@ -41,7 +42,7 @@
 						</view>
 						<view class="item-l-level">
 							<view class="level-icon">
-								<image src="@/static/images/mine/mine_icon_vip.png" mode="widthFix"></image>
+								<image src="@/static/images/mine/mine_icon_vip.webp" mode="widthFix"></image>
 							</view>
 							<view class="level-num">Lv.{{item.level}}</view>
 						</view>
@@ -85,7 +86,7 @@
 							</view>
 						</template>
 						<view class="item-right-bot">
-							<view class="bot-box">{{$filter.to_date_time(item.update_time)}}</view>
+							<view class="bot-box">{{$filter.to_date_time(item.end_time)}}</view>
 							<view class="bot-box">{{item.stage_num}}{{$t('auction.qi')}}</view>
 						</view>
 					</view>
@@ -164,9 +165,11 @@
 
 		.banner-layout {
 			width: 100%;
+			height: 900rpx;
 
 			image {
 				width: 100%;
+				height: 900rpx;
 			}
 		}
 		

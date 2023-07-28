@@ -1,22 +1,42 @@
 <template>
 	<view class="auction-page">
-		<view class="fixed">
-			<view class="head">
-				<view>
-					<text class="head-title">{{$t('xyc')}}</text>
-				</view>
-				<view class="head-right" @click.stop="myIndex" v-if="isLogin">
-					<image src="/static/xuyuan/time.png" alt="" class="time"></image>
-					<text>{{$t('title')}}</text>
-					<image src="/static/xuyuan/headRi.png" alt="" class="r"></image>
-				</view>
-				<view class="head-right" @click="navClick('/pages/public/register')" v-else>
-					<image src="/static/xuyuan/auth.png" class="time"></image>
-					<text>{{$t('auction.sign_up')}}</text>
-					<image src="/static/xuyuan/headRi.png" alt="" class="r"></image>
+		<view class="head-info-not">
+			<view class="fixed">
+				<view class="head">
+					<image src="/static/images/new-index/logo.png" class="logo"></image>
+
+					<view v-show="isShopCont">Here you have everything you want!</view>
+					<view v-show="!isShopCont">让每个人都拥有他们想要的产品！</view>
+
+					<image src="../../static/images/auction/zw.png" class="lange" v-show="!isShopCont"
+						@click="onChangeLanuage(locales[0])"></image>
+					<image src="/static/images/new-index/lange.png" class="lange" v-show="isShopCont"
+						@click="onChangeLanuage(locales[1])"></image>
+
+					<image src="/static/images/new-index/msg.png" class="auth" @click="navClick('/pages/mine/systemM')"
+						v-if="isNotReadNum<1">
+					</image>
+					<image src="/static/images/tab/msg_num.png" class="auth" @click="navClick('/pages/mine/systemM')"
+						v-else></image>
 				</view>
 			</view>
+			<view style="height: 148rpx;"></view>
+
+			<!--轮播图-->
+			<view class="auct-banner">
+				<swiper class="auct-banner-swiper" circular :indicator-dots="indicatorDots" :autoplay="autoplay"
+					:interval="interval" :duration="duration" indicator-color="rgb(190, 190, 190)"
+					indicator-active-color="rgb(255, 255, 255)">
+					<swiper-item v-for="(item, index) in banner" :key="index">
+						<view class="swiper-image" @click="getBanner(item)">
+							<image :src="item.image" mode="aspectFill"></image>
+						</view>
+					</swiper-item>
+				</swiper>
+			</view>
 		</view>
+
+
 		<view class="top-layout">
 			<view class="bid-layout">
 				<view class="bl-container" v-if="id !== 1">
@@ -24,7 +44,6 @@
 						style="background: linear-gradient(180.00deg, rgb(254, 226, 151),rgba(255, 255, 255, 0) 98.871%);">
 						<view class="head-left">
 							<image src="/static/images/new-index/ongoing.png" mode="widthFix"></image>
-							<!-- <view>{{$t('new.zzjp')}}</view> -->
 							<view>{{$t('tab.zzxy')}}</view>
 						</view>
 						<view class="head-right" @click="toInfo(1)">
@@ -92,7 +111,7 @@
 						</view>
 					</view>
 					<view class="bl-container-center">
-						<view class="center-item" v-for="item in historyList.slice(0,2)" :key="item.id"
+						<view class="center-item" v-for="item in historyListTwo.slice(0,2)" :key="item.id"
 							@click="onJingPai(item)">
 							<view class="center-item-cover">
 								<image :src="item.image" mode="aspectFill"></image>
@@ -162,7 +181,7 @@
 				<view class="sl-scroll-box" v-for="item in FirstList" :key="item.id"
 					@click="switchLogoToProduct(item.id,item.name);">
 					<image :src="item.image" mode="widthFix"></image>
-					<view :style="switch_id==item.id?'color: rgb(51, 222, 114);':''">{{item.name}}</view>
+					<view>{{item.name}}</view>
 				</view>
 			</scroll-view>
 			<view class="sl-line">
@@ -213,7 +232,7 @@
 				<view class="new-list-item" v-for="(item,i) in jingpaiList" :key="i" @click="onJingPai(item)"
 					@longpress="item.isMask=true">
 					<image :src="item.image" class="new-list-item-left"
-						v-if="item.check_status!=3 && item.check_status!=4"></image>
+						v-if="item.check_status!=3 && item.check_status!=4" lazyLoad></image>
 					<view class="item-historical" v-else>
 						<view class="item-historical-info">
 							<image :src="item.image"></image>
@@ -497,7 +516,7 @@
 				<view class="new-list-item" v-for="(item,i) in newsjingpaiList" :key="i" @click="onJingPai(item)"
 					@longpress="item.isMask=true">
 					<image :src="item.image" class="new-list-item-left"
-						v-if="item.check_status!=3 && item.check_status!=4"></image>
+						v-if="item.check_status!=3 && item.check_status!=4" lazyLoad></image>
 					<view class="item-historical" v-else>
 						<view class="item-historical-info">
 							<image :src="item.image"></image>
@@ -755,7 +774,7 @@
 						v-if="item.check_status!=3 && item.check_status!=4"></image>
 					<view class="item-historical" v-else>
 						<view class="item-historical-info">
-							<image :src="item.image"></image>
+							<image :src="item.image" lazyLoad></image>
 							<view>{{item.stage_num}}{{$t('shop.qi')}}</view>
 						</view>
 					</view>
@@ -1081,7 +1100,7 @@
 			<text class="btn">{{$t('xytitle')}}</text>
 			<view class="itemBox">
 				<view class="itemBox_a" v-for="item in list" :key="item.id" @click.stop="toProductInfo(item)">
-					<image :src="item.image" class="itemImg" />
+					<image :src="item.image" class="itemImg" lazyLoad />
 					<text class="title">{{item.goods_name}}</text>
 					<view class="iconArr">
 						<view class="iconArr_item">
@@ -1139,6 +1158,7 @@
 		},
 		data() {
 			return {
+				banner: [], // 轮播图
 				showTop: false, //显示小火箭
 				switch_id: 0,
 				isBottoming: false,
@@ -1248,7 +1268,9 @@
 				changShopNum: 0, //使用赠金后的k钻
 				set_paypwd: '',
 				invite_money_balance: 0,
-				isLogin: false
+				isLogin: false,
+				isNotReadNum: 0,
+				historyListTwo: []
 			}
 		},
 		onLoad(e) {
@@ -1267,6 +1289,18 @@
 			setTimeout(() => {
 				this.$http.post(this.$apiObj.IndexFirstCate).then(res => {
 					if (res.code == 1) {
+						let fristData = {
+							id: 0,
+							image: "/static/images/new-index/all_product.png",
+							name: '全部商品|All Proudcts'
+						}
+						let twoData = {
+							id: -1,
+							image: "/static/images/new-index/new_product.png",
+							name: "最新商品|New Product"
+						}
+						res.data.unshift(twoData)
+						res.data.unshift(fristData)
 						if (this.isShopCont) {
 							res.data.map(item => {
 								item.name = this.getCaption(item.name, 1) ? this.getCaption(item
@@ -1279,10 +1313,26 @@
 							})
 						}
 						this.FirstList = res.data
+
+						id
+							:
+							1
+						image
+							:
+							"https://kjtest.ysxrj.cn/uploads/20230531/47ae0b9ed474fa295d45af0954381413.png"
+						name
+							:
+							"数码|Digital"
 					}
 				})
 			}, 1200);
 
+			// 轮播图
+			this.$http.post(this.$apiObj.AuctionBanner).then(res => {
+				if (res.code == 1) {
+					this.banner = res.data;
+				}
+			})
 		},
 		onPullDownRefresh() {
 			this.page = 1
@@ -1294,6 +1344,7 @@
 			}, 1000)
 		},
 		onShow() {
+		
 			//删除缓存临时数据
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
 			this.newsjpId = 1
@@ -1302,7 +1353,8 @@
 			this.date_start = ''
 			this.navId = 3
 
-			if (uni.getStorageSync('token') && !this.isLogin) {
+			if (uni.getStorageSync('token')) {
+				this.getNotRead()
 				this.$http.post(this.$apiObj.MineInfo).then(res => {
 					if (res.code == 1) {
 						this.isLogin = true
@@ -1347,7 +1399,37 @@
 			if (e.scrollTop >= 2000 && !this.showTop) this.showTop = true
 			else if (e.scrollTop < 2000 && this.showTop) this.showTop = false
 		},
+		mounted() {},
 		methods: {
+			//获取是否有未读消息
+			getNotRead() {
+				this.$http.post(this.$apiObj.GetMineNotRead).then(res => {
+					this.isNotReadNum = res.data
+				})
+			},
+			//切换语言
+			onChangeLanuage(e) {
+				uni.setStorageSync('UNI_LOCALE', e.code)
+				uni.setStorageSync('locale', e.code)
+				this.$i18n.locale = e.code;
+				// #ifdef APP-PLUS
+				console.log(111)
+				if (this.isAndroid) {
+					uni.showModal({
+						content: this.$t('index.language-change-confirm'),
+						success: (res) => {
+							if (res.confirm) {
+								uni.setLocale(e.code);
+							}
+						}
+					})
+				} else {
+					uni.setLocale(e.code);
+					this.$i18n.locale = e.code;
+				}
+				// #endif
+				location.reload()
+			},
 			toTop() {
 				uni.pageScrollTo({
 					scrollTop: 0
@@ -1678,6 +1760,14 @@
 			}, */
 			async onAuctionHistoryGoods() {
 				try {
+					
+					this.$http.post(this.$apiObj.AuctionHistoryGoods, {
+						page: 1,
+						pagenum: 2,
+						get_win: 1
+					}).then(res => {
+						this.historyListTwo = res.data.data
+					})
 					const res = await this.$http.post(this.$apiObj.AuctionHistoryGoods, {
 						sort: this.lishiId,
 						page: this.page,
@@ -1690,8 +1780,10 @@
 						const getCaptionParam = this.isShopCont ? 1 : 0;
 
 						res.data.data.forEach(item => {
-							item.goods_mark = this.getCaption(item.goods_mark, getCaptionParam) || item.goods_mark;
-							item.goods_name = this.getCaption(item.goods_name, getCaptionParam) || item.goods_name;
+							item.goods_mark = this.getCaption(item.goods_mark, getCaptionParam) || item
+								.goods_mark;
+							item.goods_name = this.getCaption(item.goods_name, getCaptionParam) || item
+								.goods_name;
 							item.continue_time = this.daojishi(item.continue_time);
 						});
 
@@ -2017,10 +2109,12 @@
 	/deep/.uni-progress-bar {
 		border-radius: 9rpx !important;
 	}
-	
-	.rightSider{
+
+	.rightSider {
 		bottom: 200rpx;
 	}
+
+	.myimage {}
 
 	.to_top {
 		position: fixed;
@@ -2176,88 +2270,82 @@
 
 	//头部
 	.head {
-		margin: 12px 16px 0;
+		width: 100%;
+		height: 88rpx;
 		display: flex;
-		justify-content: space-between;
 		align-items: center;
 
-		.imgCont {
-			display: flex;
-			align-content: center;
+		view {
+			width: 410rpx;
+			font-size: 16rpx;
+			color: rgb(255, 255, 255);
 			text-align: center;
-			margin: auto;
-			margin-top: 10rpx;
-
-			.headImgBox {
-				width: 30rpx;
-				height: 30rpx;
-				background-color: #fff;
-				border-radius: 50%;
-
-				image {
-					width: 24rpx;
-					height: 24rpx;
-					padding-top: 5rpx;
-				}
-			}
-
-			.txt {
-				color: #fff;
-				margin-left: 10rpx;
-			}
+			margin: 0 70rpx 0 24rpx;
 		}
 
-		.head-title {
-			color: #fff;
-			font-size: 36rpx;
-			font-weight: bold;
+		.logo {
+			width: 64rpx;
+			height: 64rpx;
+			margin-left: 32rpx;
 		}
 
-		.head-right {
-			color: #fff;
-			font-size: 24rpx;
-			font-weight: bold;
-			display: flex;
-			align-items: center;
+		.auth {
+			width: 44rpx;
+			height: 44rpx;
+			margin-left: 32rpx;
+		}
 
-			.time {
-				width: 32rpx;
-				height: 32rpx;
-				margin-right: 10rpx;
-			}
-
-			.r {
-				width: 24rpx;
-				height: 24rpx;
-				margin-left: 10rpx;
-			}
+		.lange {
+			width: 42rpx;
+			height: 42rpx;
 		}
 	}
 
 	.auction-page {
 		width: 100%;
-		background: #FFFFFF;
+		background: rgb(248, 248, 248);
+
+		.head-info-not {
+			position: relative;
+			width: 750rpx;
+			height: 496rpx;
+			display: flex;
+			align-items: center;
+			background: url("/static/images/tab/start_soon_bj.png") no-repeat;
+			background-size: 750rpx 496rpx;
+		}
+
+		.auct-banner {
+			width: 686rpx;
+			margin: 240rpx auto 0 auto;
+
+			.swiper-image {
+				width: 100%;
+				height: 296rpx;
+
+				image {
+					width: 100%;
+					height: 100%;
+					border-radius: 24rpx;
+				}
+			}
+		}
 
 		//顶部固定
 		.fixed {
-			width: 100%;
 			position: fixed;
 			top: 0;
+			width: 750rpx;
+			height: 88rpx;
+			padding-top: 88rpx;
+			background: url("/static/images/tab/auction-head.png") no-repeat;
+			background-size: 750rpx 176rpx;
 			z-index: 100;
-			background: url("/static/xuyuan/navBg.png") no-repeat;
-			padding: 40rpx 0 0;
-			padding-bottom: 20rpx;
-			object-fit: cover;
-			box-sizing: border-box;
 		}
 
 		.top-layout {
 			width: 100%;
-			background: url('/static/images/auction/auction_bg.png') no-repeat;
-			background-size: 100% 100%;
-			padding: 40rpx 0 0;
 			box-sizing: border-box;
-			padding-bottom: 20rpx;
 
 			.tl-header {
 				width: 100%;
@@ -2291,7 +2379,7 @@
 
 			.bid-layout {
 				width: 100%;
-				margin-top: 170rpx;
+				margin-top: 48rpx;
 				padding: 0 32rpx;
 				box-sizing: border-box;
 				display: flex;
@@ -3042,9 +3130,6 @@
 						position: absolute;
 						top: 112rpx;
 						width: 100%;
-						// display: flex;
-						// align-items: center;
-						// justify-content: space-between;
 
 						.des-center-price {
 							.new {
@@ -3082,13 +3167,6 @@
 								height: 32rpx;
 								border-radius: 50%;
 								margin-right: 10rpx;
-							}
-
-							view {
-
-								// overflow: hidden;
-								// text-overflow: ellipsis;
-								// white-space: nowrap;
 							}
 						}
 					}

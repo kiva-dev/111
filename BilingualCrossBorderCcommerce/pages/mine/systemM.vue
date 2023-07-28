@@ -7,7 +7,7 @@
 					<image src="@/static/images/mine/collect_icon_back.png" mode="widthFix"></image>
 				</view>
 				<view class="box-title">{{$t('top.xtxx')}}</view>
-				<view class="box-clear" style="visibility: hidden;">
+				<view class="box-clear" @click="clearRead()">
 					<image src="@/static/images/mine/msg_btn_clear.png" mode="widthFix"></image>
 				</view>
 			</view>
@@ -76,6 +76,13 @@
 		methods: {
 			onBack() {
 				uni.navigateBack();
+			},
+			clearRead(){
+				this.$http.post(this.$apiObj.MineClearRead).then(res=>{
+					if(res.code == 1) {
+						this.onMineSysmsgList()
+					}
+				})
 			},
 			// 列表
 			onMineSysmsgList() {
