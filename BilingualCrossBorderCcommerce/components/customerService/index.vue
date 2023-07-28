@@ -31,6 +31,12 @@
 	 * @event {Function} showContactFun 展开分享事件
 	 * @example <customerService ref="customerService" @showContactFun="showContactFun" />
 	 */
+	function checkTokenValidity(token) {
+		const tokenArr = token.split('|');
+		const expirationTime = parseInt(tokenArr[2]) - 2;
+		const currentTime = Math.floor(Date.now() / 1000);
+		return expirationTime >= currentTime;
+	}
 	export default {
 		props: {
 			leftOrRight: {
@@ -78,20 +84,17 @@
 				this.showContact = true;
 				this.$emit("showContactFun", this.showContact);
 			},
-
 			isLogin() {
 				const userinfo = uni.getStorageSync('userinfo');
 				const _token = uni.getStorageSync('token');
 				if (!userinfo?.token || !_token || _token.trim() === '') {
 					this.handleNotLoggedIn();
 				} else {
-					const tokenArr = userinfo.token.split('|');
-					const expirationTime = parseInt(tokenArr[2]) - 2;
-					const currentTime = Math.floor(Date.now() / 1000);
-					if (expirationTime < currentTime) {
-						this.handleExpiredToken();
-					} else {
+					const isTokenValid = checkTokenValidity(userinfo.token);
+					if (isTokenValid) {
 						this.handleValidLogin(userinfo.token, userinfo.auth_token);
+					} else {
+						this.handleExpiredToken();
 					}
 				}
 			},
@@ -132,7 +135,19 @@
 				this.ws.init(token, auth_token);
 			},
 			openSession: function() {
-				this.ws.init('','');
+				const userinfo = uni.getStorageSync('userinfo');
+				const _token = uni.getStorageSync('token');
+				if (!userinfo?.token || !_token || _token.trim() === '') {
+					console.error('token is missing');
+					this.ws.init('', '');
+				} else {
+					const isTokenValid = checkTokenValidity(userinfo.token);
+					if (isTokenValid) {
+						this.handleValidLogin(userinfo.token, userinfo.auth_token);
+					} else {
+						this.handleExpiredToken();
+					}
+				}
 				this.ws.pageFun(() => {
 					this.ws.send({
 						c: 'Message',
