@@ -1292,12 +1292,12 @@
 						let fristData = {
 							id: 0,
 							image: "/static/images/new-index/all_product.png",
-							name: '全部商品|All Proudcts'
+							name: '全部商品|All'
 						}
 						let twoData = {
 							id: -1,
 							image: "/static/images/new-index/new_product.png",
-							name: "最新商品|New Product"
+							name: "最新商品|New"
 						}
 						res.data.unshift(twoData)
 						res.data.unshift(fristData)
