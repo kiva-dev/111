@@ -7,7 +7,7 @@
 					<view class="tit-name">{{$t('xyc')}}</view>
 					<view class="tit-auth" v-if="!isLogin" @click="navClick('/pages/public/register')">
 						<image src="/static/images/tab/start-auth.png" class="auth"></image>
-						<view >{{$t('auction.sign_up')}}</view>
+						<view>{{$t('auction.sign_up')}}</view>
 						<image src="/static/images/luck/luck-right.png" class="right"></image>
 					</view>
 					<view class="tit-auth" v-else-if="isLogin" @click="navClick('/pages/mine/auctionM?num=1')">
@@ -341,22 +341,7 @@
 					}
 				})
 			}
-
-			let date = new Date()
-			let year = date.getFullYear()
-			let month = date.getMonth() + 1
-			let day = date.getDate()
-			let week = date.getDay()
-
-			let monthNum = new Date(year, month, 0).getDate()
-			let weekStartTime = new Date(year, month - 1, day - week + 1).getTime()
-			let dayEndTime = new Date(year, month - 1, day - week + 1, 23, 59, 59).getTime()
-			let weekEndTime = new Date(year, month - 1, day - week + 7, 23, 59, 59).getTime()
-			
 			this.getStartTime()
-			setTimeout(() => {
-				
-			}, 500)
 
 		},
 		onShow() {
@@ -395,17 +380,32 @@
 			}
 		},
 		onReachBottom() {
-			if (this.page * this.pagenum < this.newTotalPageNum && !this.showMakeaWish) {
-				this.page++;
-				this.onAuctionNotbeginGoods()
-			} else if (this.page * this.pagenum < this.totalNum && this.showMakeaWish) {
-				this.page++;
-				this.getAllProducts();
-			} else {
-				this.page = 1;
-				this.showMakeaWish = true;
-				this.getAllProducts()
+			if (uni.getStorageSync('historyList')) {
+				if (this.page * this.pagenum < this.historyTotalPageNum && !this.showMakeaWish) {
+					this.page++;
+					this.onAuctionHistoryGoods()
+				} else if (this.page * this.pagenum < this.totalNum && this.showMakeaWish) {
+					this.page++;
+					this.getAllProducts();
+				} else if (this.page * this.pagenum >= this.historyTotalPageNum && !this.showMakeaWish) {
+					this.page = 1;
+					this.showMakeaWish = true;
+					this.getAllProducts()
+				}
+			}else{
+				if (this.page * this.pagenum < this.newTotalPageNum && !this.showMakeaWish) {
+					this.page++;
+					this.onAuctionNotbeginGoods()
+				} else if (this.page * this.pagenum < this.totalNum && this.showMakeaWish) {
+					this.page++;
+					this.getAllProducts();
+				} else if (this.page * this.pagenum >= this.newTotalPageNum && !this.showMakeaWish) {
+					this.page = 1;
+					this.showMakeaWish = true;
+					this.getAllProducts()
+				}
 			}
+
 		},
 		//监听页面滚动
 		onPageScroll(e) {
@@ -413,15 +413,26 @@
 			else if (e.scrollTop < 2000 && this.showTop) this.showTop = false
 		},
 		methods: {
-			getStartTime(){
-				this.$http.post(this.$apiObj.StartSoonGetTimeList).then(res=>{
-					res.data.data.forEach((item,i)=>{
+			getStartTime() {
+				this.$http.post(this.$apiObj.StartSoonGetTimeList).then(res => {
+					res.data.data.forEach((item, i) => {
 						let arr = item.start_time.split('-')
-						item.start_time = arr[1]+'.'+arr[2]
-						this.$set(item,'id',i+1)
+						item.start_time = arr[1] + '.' + arr[2]
+						this.$set(item, 'id', i + 1)
 					})
 					this.timeList = res.data.data
-					this.onAuctionNotbeginGoods(this.timeList[0].since,this.timeList[0].until)
+					if (uni.getStorageSync('historyList')) {
+						this.timeId = 0
+						this.id = 3
+						this.title = this.$t('new.lsjl')
+						this.onAuctionHistoryGoods()
+					} else {
+						this.id = 2
+						this.title = this.$t('new.jjks')
+						this.timeId = uni.getStorageSync('timeId')
+						this.onAuctionNotbeginGoods(this.timeList[0].since, this.timeList[0].until)
+					}
+					this.toTop()
 				})
 			},
 			strToTime(str, id, endTime) {
@@ -498,15 +509,13 @@
 			},
 			//数据切换
 			switchJinpai(id, item) {
-				this.id = id
-				if (this.id == 3) {
-					this.timeId = 0
-					this.title = this.$t('new.lsjl')
-					this.onAuctionHistoryGoods()
+				if (id == 3) {
+					uni.setStorageSync('historyList', true)
+					location.reload()
 				} else {
-					this.title = this.$t('new.jjks')
-					this.timeId = item.id
-					this.onAuctionNotbeginGoods(item.since,item.until)
+					uni.removeStorageSync('historyList')
+					uni.setStorageSync('timeId',item.id)
+					location.reload()
 				}
 			},
 			getCaption(str, state) {
@@ -553,7 +562,7 @@
 				})
 			},
 			// 即将开始
-			onAuctionNotbeginGoods(start,end) {
+			onAuctionNotbeginGoods(start, end) {
 				let select_begin_time = new Date(start).getTime() / 1000
 				let select_end_time = new Date(end).getTime() / 1000
 				this.$http.post(this.$apiObj.AuctionNotbeginGoods, {
@@ -633,6 +642,10 @@
 							item.continue_time = this.daojishi(item.continue_time)
 						})
 						this.historyTotalPageNum = res.data.total
+						if (this.historyTotalPageNum < 10) {
+							this.showMakeaWish = true
+							this.getAllProducts()
+						}
 						this.productList = this.page == 1 ? res.data.data : [...this.productList, ...res.data
 							.data
 						]

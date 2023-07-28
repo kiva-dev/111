@@ -698,7 +698,7 @@
 			} else if (this.page * this.pagenum < this.totalNum && this.showMakeaWish) {
 				this.page++;
 				this.getAllProducts();
-			} else {
+			} else if (this.page * this.pagenum >= this.totalPageNum && !this.showMakeaWish){
 				this.page = 1;
 				this.showMakeaWish = true;
 				this.getAllProducts()
