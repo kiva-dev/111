@@ -1596,5 +1596,7 @@
 	"ongoing.tit":"Surprise Wish",
 	"ongoing.progress":"In progress",
 
-	"start_soon.tip":"There are currently no upcoming products~"
+	"start_soon.tip":"There are currently no upcoming products~",
+	"start_soon.loading":"Loading...",
+	"start_soon.work":"Coming Soon, Stay Tuned"
 }

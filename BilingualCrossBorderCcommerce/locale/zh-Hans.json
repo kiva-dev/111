@@ -1590,5 +1590,7 @@
 	"ongoing.tit":"惊喜许愿",
 	"ongoing.progress":"正在进行",
 	
-	"start_soon.tip":"暂时没有即将上线的商品~"
+	"start_soon.tip":"暂时没有即将上线的商品~",
+	"start_soon.loading":"数据加载中...",
+	"start_soon.work":"搭建中,敬请期待"
 }

@@ -22,7 +22,7 @@
 						<view class="name">{{isShopCont ? 'History' : '历史记录'}}</view>
 						<view class="btn">{{isShopCont ? 'Ended' : '已结束'}}</view>
 					</view>
-					<scroll-view scroll-x class="scroll-view-item">
+					<scroll-view scroll-x class="scroll-view-item" :scroll-left="scrollLeft">
 						<block v-for="(item,i) in timeList" :key="item.id">
 							<view class="start-time" :class="item.id == timeId?'start-select':''"
 								@click="switchJinpai(2,item)">
@@ -34,8 +34,9 @@
 				</view>
 			</view>
 
-			<view class="activity">
-				<image src="/static/images/tab/activity.png"></image>
+			<view class="activity" @click="notOpen()">
+				<image src="/static/images/tab/activity.png" v-if="isShopCont"></image>
+				<image src="/static/images/tab/activity-zh.png" v-else></image>
 			</view>
 
 		</view>
@@ -320,7 +321,8 @@
 				totalNum: 0,
 				showMakeaWish: false, //是否显示许愿列表
 				timeList: [], //时间数组
-				isLogin: false
+				isLogin: false,
+				scrollLeft: 0, //控制滚动位置
 			}
 		},
 		onLoad(e) {
@@ -389,13 +391,13 @@
 				} else if (this.page * this.pagenum < this.totalNum && this.showMakeaWish) { //显示许愿商品
 					this.page++;
 					this.getAllProducts();
-				} else if (this.page * this.pagenum >= this.historyTotalPageNum && !this.showMakeaWish) { 
+				} else if (this.page * this.pagenum >= this.historyTotalPageNum && !this.showMakeaWish) {
 					//页面数量大于等于总数量并且不显示许愿商品时说明历史数据已加载完毕，应该从头开始加载许愿商品
 					this.page = 1;
 					this.showMakeaWish = true;
 					this.getAllProducts()
 				}
-			}else{
+			} else {
 				if (this.page * this.pagenum < this.newTotalPageNum && !this.showMakeaWish) {
 					this.page++;
 					this.onAuctionNotbeginGoods()
@@ -416,6 +418,13 @@
 			else if (e.scrollTop < 2000 && this.showTop) this.showTop = false
 		},
 		methods: {
+			notOpen() {
+				uni.showToast({
+					title: this.$t('start_soon.work'),
+					duration: 2000,
+					icon: 'none'
+				})
+			},
 			getStartTime() {
 				this.$http.post(this.$apiObj.StartSoonGetTimeList).then(res => {
 					res.data.data.forEach((item, i) => {
@@ -425,18 +434,22 @@
 					})
 					this.timeList = res.data.data
 					if (uni.getStorageSync('historyList')) {
+						this.scrollLeft = 0
 						this.timeId = 0
 						this.id = 3
 						this.title = this.$t('new.lsjl')
 						this.onAuctionHistoryGoods()
-						
+
 					} else {
 						this.id = 2
 						this.title = this.$t('new.jjks')
 						let newData = uni.getStorageSync('newListData')
 						this.timeId = newData.id > 0 ? newData.id : 1
-						if(newData.id) this.onAuctionNotbeginGoods(newData.since, newData.until)
+						if (newData.id) this.onAuctionNotbeginGoods(newData.since, newData.until)
 						else this.onAuctionNotbeginGoods(this.timeList[0].since, this.timeList[0].until)
+						setTimeout(() => {
+							this.scrollLeft = newData.id > 0 ? (newData.id - 1) * 83 : 0
+						}, 300)
 					}
 					this.toTop()
 				})
@@ -515,12 +528,16 @@
 			},
 			//数据切换
 			switchJinpai(id, item) {
+				uni.showLoading({
+					title: this.$t('start_soon.loading'),
+					mask: true
+				})
 				if (id == 3) {
 					uni.setStorageSync('historyList', true)
 					location.reload()
 				} else {
 					uni.removeStorageSync('historyList')
-					uni.setStorageSync('newListData',item)
+					uni.setStorageSync('newListData', item)
 					location.reload()
 				}
 			},
@@ -616,7 +633,7 @@
 						this.productList = this.page == 1 ? res.data.data : [...this.productList, ...res
 							.data.data
 						]
-						
+
 					}
 				})
 			},
