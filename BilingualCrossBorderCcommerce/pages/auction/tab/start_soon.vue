@@ -400,7 +400,7 @@
 			} else {
 				if (this.page * this.pagenum < this.newTotalPageNum && !this.showMakeaWish) {
 					this.page++;
-					this.onAuctionNotbeginGoods()
+					this.onAuctionNotbeginGoods(this.start_time,this.end_time)
 				} else if (this.page * this.pagenum < this.totalNum && this.showMakeaWish) {
 					this.page++;
 					this.getAllProducts();
@@ -445,8 +445,15 @@
 						this.title = this.$t('new.jjks')
 						let newData = uni.getStorageSync('newListData')
 						this.timeId = newData.id > 0 ? newData.id : 1
-						if (newData.id) this.onAuctionNotbeginGoods(newData.since, newData.until)
-						else this.onAuctionNotbeginGoods(this.timeList[0].since, this.timeList[0].until)
+						if (newData.id){
+							this.start_time = newData.since
+							this.end_time = newData.until
+							this.onAuctionNotbeginGoods(newData.since, newData.until)
+						}else{
+							this.start_time = this.timeList[0].since
+							this.end_time = this.timeList[0].until
+							this.onAuctionNotbeginGoods(this.timeList[0].since, this.timeList[0].until)
+						} 
 						setTimeout(() => {
 							this.scrollLeft = newData.id > 0 ? (newData.id - 1) * 83 : 0
 						}, 300)
