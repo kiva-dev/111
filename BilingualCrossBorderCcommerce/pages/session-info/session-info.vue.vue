@@ -151,15 +151,46 @@
 			</view>
 		</view>
 		<!-- 更多-start -->
-		<view v-if="showTool == 'more'" class="toolbar">
-			<view @click="clickMoreTool('image')" class="toolbar-item" hover-class="toolbar-item-hover">
-				<image src="/static/icon/image.png"></image>
-+					<view>Album</view>
+		<view v-if="showTool" class="footer-tool">
+			<!-- 表情-start -->
+			<!-- <view v-if="showTool == 'emoji'">
+				<view v-for="(item, index) in emoji" :key="index" class="emoji-img" hover-class="emoji-img-hover">
+					<image :src="item.image" @click="selectEmoji(index)"></image>
+				</view>
+			</view> -->
+			<!-- 表情-end -->
+			<!-- 快捷回复-start -->
+			<view v-if="showTool == 'reply'" class="reply-list">
+				<view v-for="(item, index) in fastReply" :key="index" @click="sendMessage(item.content, 'default')" class="reply-item">{{item.title}}</view>
 			</view>
-			<view @click="clickMoreTool('Order')" class="toolbar-item" hover-class="toolbar-item-hover" v-if="info.type != 'group'">
+			<!-- 快捷回复-end -->
+			<!-- 更多-start -->
+			<view v-if="showTool == 'more'" class="toolbar">
+				<!-- <view v-if="userType == 'csr'" @click="clickTool('reply')" class="toolbar-item" hover-class="toolbar-item-hover">
+					<image src="/static/icon/reply.png"></image>
+					<view>快捷回复</view>
+				</view> -->
+				<view @click="clickMoreTool('image')" class="toolbar-item" hover-class="toolbar-item-hover">
+					<image src="/static/icon/image.png"></image>
+					<view>Album</view>
+				</view>
+				<view @click="clickMoreTool('Order')" class="toolbar-item" hover-class="toolbar-item-hover" v-if="info.type != 'group'">
 					<image src="/static/icon/Order.png"></image>
 					<view>Send Order</view>
 				</view>
+				<!-- <u-button @click="popShow = true">打开</u-button> -->
+				<!-- <view @click="clickMoreTool('attachment')" class="toolbar-item" hover-class="toolbar-item-hover">
+					<image src="/static/icon/attachment.png"></image>
+					<view>发送文件</view>
+					<image src="/static/icon/video.png"></image>
+					<view>发送视频</view>
+				</view>
+				<view @click="clickMoreTool('collection')" class="toolbar-item" hover-class="toolbar-item-hover">
+					<image src="/static/icon/collection.png"></image>
+					<view>发送收藏</view>
+				</view> -->
+			</view>
+			<!-- 更多-end -->
 		</view>
 		<!-- 更多-end -->
 		<!-- 消息输入-end -->
