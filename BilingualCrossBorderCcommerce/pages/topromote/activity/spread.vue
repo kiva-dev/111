@@ -222,7 +222,7 @@
 	export default {
 		data() {
 			return {
-				isEnglish: uni.getStorageSync('locale') == 'en' ? true : false,
+				isEnglish: uni.getStorageSync('locale') == 'zh-Hans' ? false : true,
 				jingpaiList: [],
 				isShopCont: false,
 				onfenxingShow: false,

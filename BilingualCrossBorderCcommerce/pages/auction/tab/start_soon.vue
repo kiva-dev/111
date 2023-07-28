@@ -427,7 +427,7 @@
 			getStartTime() {
 				this.$http.post(this.$apiObj.StartSoonGetTimeList).then(res => {
 					res.data.data.forEach((item, i) => {
-						let arr = item.start_time.split('-')
+						let arr = item.start_time.split('/')
 						item.start_time = arr[1] + '.' + arr[2]
 						this.$set(item, 'id', i + 1)
 					})
@@ -438,7 +438,6 @@
 						this.id = 3
 						this.title = this.$t('new.lsjl')
 						this.onAuctionHistoryGoods()
-
 					} else {
 						this.id = 2
 						this.title = this.$t('new.jjks')
