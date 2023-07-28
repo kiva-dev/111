@@ -401,11 +401,11 @@
 			// #endif
 		},
 		onShow() {
-			this.getNotRead()
 			//删除缓存临时数据
 			uni.removeStorageSync('sendTit')
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false;
 			if (uni.getStorageSync('token')) {
+				this.getNotRead()
 				this.isLogin = true;
 				this.getMineInfo();
 				// this.getMineWinAuction();

@@ -296,19 +296,15 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				}).then(res => {
 					if (res.code == 1) {
 						this.totalPageNum = res.data.total
-						let arrs = []
 						res.data.data.forEach(item => {
 							item.litestore_tag.forEach(data => {
 								let arr = data.name.split("|")
 								if (!this.isShopCont) data.name = arr[0]
 								else data.name = arr[1]
 							})
-							if (item.is_belong_to_mall == 1 && item.goods_status == 10) {
-								arrs.push(item)
-							}
 						})
-						this.productList = this.page == 1 ? arrs : [...this.productList,
-							...arrs
+						this.productList = this.page == 1 ? res.data.data : [...this.productList,
+							...res.data.data
 						];
 					}
 				})

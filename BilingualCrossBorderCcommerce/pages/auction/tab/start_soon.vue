@@ -7,7 +7,7 @@
 					<view class="tit-name">{{$t('xyc')}}</view>
 					<view class="tit-auth" v-if="!isLogin" @click="navClick('/pages/public/register')">
 						<image src="/static/images/tab/start-auth.png" class="auth"></image>
-						<view >{{$t('auction.sign_up')}}</view>
+						<view>{{$t('auction.sign_up')}}</view>
 						<image src="/static/images/luck/luck-right.png" class="right"></image>
 					</view>
 					<view class="tit-auth" v-else-if="isLogin" @click="navClick('/pages/mine/auctionM?num=1')">
@@ -22,7 +22,7 @@
 						<view class="name">{{isShopCont ? 'History' : '历史记录'}}</view>
 						<view class="btn">{{isShopCont ? 'Ended' : '已结束'}}</view>
 					</view>
-					<scroll-view scroll-x class="scroll-view-item">
+					<scroll-view scroll-x class="scroll-view-item" :scroll-left="scrollLeft">
 						<block v-for="(item,i) in timeList" :key="item.id">
 							<view class="start-time" :class="item.id == timeId?'start-select':''"
 								@click="switchJinpai(2,item)">
@@ -34,8 +34,9 @@
 				</view>
 			</view>
 
-			<view class="activity">
-				<image src="/static/images/tab/activity.png"></image>
+			<view class="activity" @click="notOpen()">
+				<image src="/static/images/tab/activity.png" v-if="isShopCont"></image>
+				<image src="/static/images/tab/activity-zh.png" v-else></image>
 			</view>
 
 		</view>
@@ -320,7 +321,8 @@
 				totalNum: 0,
 				showMakeaWish: false, //是否显示许愿列表
 				timeList: [], //时间数组
-				isLogin: false
+				isLogin: false,
+				scrollLeft: 0, //控制滚动位置
 			}
 		},
 		onLoad(e) {
@@ -341,22 +343,7 @@
 					}
 				})
 			}
-
-			let date = new Date()
-			let year = date.getFullYear()
-			let month = date.getMonth() + 1
-			let day = date.getDate()
-			let week = date.getDay()
-
-			let monthNum = new Date(year, month, 0).getDate()
-			let weekStartTime = new Date(year, month - 1, day - week + 1).getTime()
-			let dayEndTime = new Date(year, month - 1, day - week + 1, 23, 59, 59).getTime()
-			let weekEndTime = new Date(year, month - 1, day - week + 7, 23, 59, 59).getTime()
-			
 			this.getStartTime()
-			setTimeout(() => {
-				
-			}, 500)
 
 		},
 		onShow() {
@@ -395,17 +382,35 @@
 			}
 		},
 		onReachBottom() {
-			if (this.page * this.pagenum < this.newTotalPageNum && !this.showMakeaWish) {
-				this.page++;
-				this.onAuctionNotbeginGoods()
-			} else if (this.page * this.pagenum < this.totalNum && this.showMakeaWish) {
-				this.page++;
-				this.getAllProducts();
+			//如果缓存存在历史记录
+			if (uni.getStorageSync('historyList')) {
+				//如果当前的页面数量小于总历史记录数量并且不显示许愿商品时
+				if (this.page * this.pagenum < this.historyTotalPageNum && !this.showMakeaWish) {
+					this.page++;
+					this.onAuctionHistoryGoods()
+				} else if (this.page * this.pagenum < this.totalNum && this.showMakeaWish) { //显示许愿商品
+					this.page++;
+					this.getAllProducts();
+				} else if (this.page * this.pagenum >= this.historyTotalPageNum && !this.showMakeaWish) {
+					//页面数量大于等于总数量并且不显示许愿商品时说明历史数据已加载完毕，应该从头开始加载许愿商品
+					this.page = 1;
+					this.showMakeaWish = true;
+					this.getAllProducts()
+				}
 			} else {
-				this.page = 1;
-				this.showMakeaWish = true;
-				this.getAllProducts()
+				if (this.page * this.pagenum < this.newTotalPageNum && !this.showMakeaWish) {
+					this.page++;
+					this.onAuctionNotbeginGoods(this.start_time,this.end_time)
+				} else if (this.page * this.pagenum < this.totalNum && this.showMakeaWish) {
+					this.page++;
+					this.getAllProducts();
+				} else if (this.page * this.pagenum >= this.newTotalPageNum && !this.showMakeaWish) {
+					this.page = 1;
+					this.showMakeaWish = true;
+					this.getAllProducts()
+				}
 			}
+
 		},
 		//监听页面滚动
 		onPageScroll(e) {
@@ -413,15 +418,47 @@
 			else if (e.scrollTop < 2000 && this.showTop) this.showTop = false
 		},
 		methods: {
-			getStartTime(){
-				this.$http.post(this.$apiObj.StartSoonGetTimeList).then(res=>{
-					res.data.data.forEach((item,i)=>{
+			notOpen() {
+				uni.showToast({
+					title: this.$t('start_soon.work'),
+					duration: 2000,
+					icon: 'none'
+				})
+			},
+			getStartTime() {
+				this.$http.post(this.$apiObj.StartSoonGetTimeList).then(res => {
+					res.data.data.forEach((item, i) => {
 						let arr = item.start_time.split('-')
-						item.start_time = arr[1]+'.'+arr[2]
-						this.$set(item,'id',i+1)
+						item.start_time = arr[1] + '.' + arr[2]
+						this.$set(item, 'id', i + 1)
 					})
 					this.timeList = res.data.data
-					this.onAuctionNotbeginGoods(this.timeList[0].since,this.timeList[0].until)
+					if (uni.getStorageSync('historyList')) {
+						this.scrollLeft = 0
+						this.timeId = 0
+						this.id = 3
+						this.title = this.$t('new.lsjl')
+						this.onAuctionHistoryGoods()
+
+					} else {
+						this.id = 2
+						this.title = this.$t('new.jjks')
+						let newData = uni.getStorageSync('newListData')
+						this.timeId = newData.id > 0 ? newData.id : 1
+						if (newData.id){
+							this.start_time = newData.since
+							this.end_time = newData.until
+							this.onAuctionNotbeginGoods(newData.since, newData.until)
+						}else{
+							this.start_time = this.timeList[0].since
+							this.end_time = this.timeList[0].until
+							this.onAuctionNotbeginGoods(this.timeList[0].since, this.timeList[0].until)
+						} 
+						setTimeout(() => {
+							this.scrollLeft = newData.id > 0 ? (newData.id - 1) * 83 : 0
+						}, 300)
+					}
+					this.toTop()
 				})
 			},
 			strToTime(str, id, endTime) {
@@ -498,15 +535,17 @@
 			},
 			//数据切换
 			switchJinpai(id, item) {
-				this.id = id
-				if (this.id == 3) {
-					this.timeId = 0
-					this.title = this.$t('new.lsjl')
-					this.onAuctionHistoryGoods()
+				uni.showLoading({
+					title: this.$t('start_soon.loading'),
+					mask: true
+				})
+				if (id == 3) {
+					uni.setStorageSync('historyList', true)
+					location.reload()
 				} else {
-					this.title = this.$t('new.jjks')
-					this.timeId = item.id
-					this.onAuctionNotbeginGoods(item.since,item.until)
+					uni.removeStorageSync('historyList')
+					uni.setStorageSync('newListData', item)
+					location.reload()
 				}
 			},
 			getCaption(str, state) {
@@ -553,7 +592,7 @@
 				})
 			},
 			// 即将开始
-			onAuctionNotbeginGoods(start,end) {
+			onAuctionNotbeginGoods(start, end) {
 				let select_begin_time = new Date(start).getTime() / 1000
 				let select_end_time = new Date(end).getTime() / 1000
 				this.$http.post(this.$apiObj.AuctionNotbeginGoods, {
@@ -601,6 +640,7 @@
 						this.productList = this.page == 1 ? res.data.data : [...this.productList, ...res
 							.data.data
 						]
+
 					}
 				})
 			},
@@ -633,6 +673,10 @@
 							item.continue_time = this.daojishi(item.continue_time)
 						})
 						this.historyTotalPageNum = res.data.total
+						if (this.historyTotalPageNum < 10) {
+							this.showMakeaWish = true
+							this.getAllProducts()
+						}
 						this.productList = this.page == 1 ? res.data.data : [...this.productList, ...res.data
 							.data
 						]

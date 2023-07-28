@@ -1344,7 +1344,7 @@
 			}, 1000)
 		},
 		onShow() {
-			this.getNotRead()
+		
 			//删除缓存临时数据
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
 			this.newsjpId = 1
@@ -1353,7 +1353,8 @@
 			this.date_start = ''
 			this.navId = 3
 
-			if (uni.getStorageSync('token') && !this.isLogin) {
+			if (uni.getStorageSync('token')) {
+				this.getNotRead()
 				this.$http.post(this.$apiObj.MineInfo).then(res => {
 					if (res.code == 1) {
 						this.isLogin = true
