@@ -118,7 +118,7 @@
 							</view>
 							<view class="center-item-auth">
 								<image :src="item.user_info.avatar" mode="aspectFill"></image>
-								<p>Lucky Star</p>
+								<p>{{$t('xyzx')}}</p>
 							</view>
 							<view class="center-item-price">
 								<image src="/static/images/kbrick/diamond.png" mode="widthFix"></image>
