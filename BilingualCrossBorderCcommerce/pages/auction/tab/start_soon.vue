@@ -333,6 +333,10 @@
 				this.applicationLocale = e.locale;
 			});
 
+			this.getStartTime()
+
+		},
+		onShow() {
 			if (uni.getStorageSync('token')) {
 				this.isLogin = true
 				this.$http.post(this.$apiObj.MineInfo).then(res => {
@@ -342,10 +346,6 @@
 					}
 				})
 			}
-			this.getStartTime()
-
-		},
-		onShow() {
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
 			this.page = 1
 			this.newsjpId = 1

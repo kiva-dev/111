@@ -1401,6 +1401,18 @@
 		},
 		mounted() {},
 		methods: {
+			getBanner(item) {
+				console.log(item.url)
+				if (item.url.indexOf('.png') !== -1 || item.url.indexOf('.jpg') !== -1) {
+					uni.navigateTo({
+						url: '/pages/active/activities?url=' + JSON.stringify(item.url) 
+					})
+				} else {
+					uni.navigateTo({
+						url: item.url
+					})
+				}
+			},
 			//获取是否有未读消息
 			getNotRead() {
 				this.$http.post(this.$apiObj.GetMineNotRead).then(res => {

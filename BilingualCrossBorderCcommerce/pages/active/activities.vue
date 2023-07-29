@@ -18,7 +18,8 @@
 			}
 		},
 		onLoad(option) {
-			this.url = option.url || '';
+			this.url = 'https://' + JSON.parse(option.url)  || '';
+			console.log(this.url)
 		}
 	}
 </script>
