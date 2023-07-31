@@ -332,9 +332,7 @@
 			uni.onLocaleChange((e) => {
 				this.applicationLocale = e.locale;
 			});
-
 			this.getStartTime()
-
 		},
 		onShow() {
 			if (uni.getStorageSync('token')) {
