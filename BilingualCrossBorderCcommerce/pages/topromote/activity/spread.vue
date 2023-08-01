@@ -1,6 +1,7 @@
 <template>
 	<view class="surprise">
-		<template v-if="isEnglish">
+		<!-- v-if="isEnglish" -->
+		<template >
 			<view class="head-info">
 				<view class="top">
 					<image src="/static/images/kbrick/kleft.png" class="left" @click="toBack()"></image>
@@ -9,104 +10,18 @@
 			</view>
 
 			<view class="info" @click="toRegister()">
-				<view class="short short-en">
+				<view class="short " :class="shortClass">
 					<view class="info-avatar">
 						<image :src="shopData.avatar || require('@/static/images/mine/mine_defalt_avatar.webp')">
 						</image>
 						<span>{{shopData.nickname}}</span>
 					</view>
-					<view class="info-content">
+					<view class="info-content"  v-if="isEnglish">
 						Fuyoh! I just won an <span>{{shopData.goods_name}}</span> with only RM
 						<span>{{shopData.auction_price}}</span>. It’s so exciting! I recommend you to try your luck.What
 						surprises you the most is that it can be exchanged for cash! It’s really profitable!
 					</view>
-					<view class="info-goods">
-						<view class="info-goods-left">
-							<image :src="shopData.images"></image>
-						</view>
-						<view class="info-goods-right">
-							<view class="right-text-goods_name">
-								{{shopData.goods_name}}
-							</view>
-							<view class="right-text-price" style="text-decoration:line-through">
-								RM{{shopData.price}}
-							</view>
-							<view class="right-text-auction">
-								<image src="/static/images/kbrick/diamond.png"></image>
-								<span>{{shopData.auction_price}}
-									<text
-										style="font-size: 20rpx;margin-left: 16rpx;">(RM{{shopData.auction_price}})</text>
-								</span>
-
-							</view>
-						</view>
-					</view>
-					<image :src="qrcodeImg" class="commission-ewm-img"></image>
-				</view>
-				<image src="/static/spread/join-en.png" class="long"></image>
-			</view>
-			<view class="hot-sale">
-				<view>HOT SALE</view>
-				<image src="/static/spread/praise.webp"></image>
-			</view>
-			<view class="new-list-item" v-for="(item,i) in jingpaiList" :key="i" @longpress="item.isMask=true">
-				<image :src="item.image" class="new-list-item-left" v-if="item.check_status!=3 && item.check_status!=4"
-					lazyLoad></image>
-				<view class="item-historical" v-else>
-					<view class="item-historical-info">
-						<image :src="item.image"></image>
-						<view>{{item.stage_num}}{{$t('shop.qi')}}</view>
-					</view>
-				</view>
-				<view class="new-list-item-right" v-if="item.check_status!=3 && item.check_status!=4">
-					<view class="new-list-item-right-txt">{{item.goods_name}}</view>
-					<view class="new-list-item-right-jd">
-						<view class="new-list-item-right-jd-data">
-							<progress class="progress" :percent="(item.finish_rate*100).toFixed(0)" stroke-width="9"
-								activeColor="#1DD181" backgroundColor="#EBEBEB" />
-						</view>
-						<view class="new-list-item-right-jd-auth">
-							<block v-for="img in item.new_auction_avatar">
-								<image :src="img"></image>
-							</block>
-						</view>
-					</view>
-					<view class="new-list-item-btm">
-						<view class="new-list-item-btm-price">
-							<view class="old">
-								<view class="old_price">RM{{item.price}}</view>
-							</view>
-							<view class="new">
-								<image src="/static/images/kbrick/diamond.png"></image>
-								<span>{{item.auction_price}}
-									<text style="font-size: 20rpx;margin-left: 16rpx;">(RM{{item.auction_price}})</text>
-								</span>
-							</view>
-						</view>
-					</view>
-				</view>
-			</view>
-			<view class="bottom-text" @click="toIndex()">
-				<image src="/static/spread/spredText-en.webp"></image>
-			</view>
-		</template>
-
-		<template v-else>
-			<view class="head-info">
-				<view class="top">
-					<image src="/static/images/kbrick/kleft.png" class="left" @click="toBack()"></image>
-					<image src="/static/spread/path.webp" class="index" @click="toIndex()"></image>
-				</view>
-			</view>
-
-			<view class="info" @click="toRegister()">
-				<view class="short">
-					<view class="info-avatar">
-						<image :src="shopData.avatar || require('@/static/images/mine/mine_defalt_avatar.webp')">
-						</image>
-						<span>{{shopData.nickname}}</span>
-					</view>
-					<view class="info-content">
+					<view class="info-content" v-else>
 						太幸运了!
 						我刚刚只用了RM<span>{{shopData.auction_price}}</span>居然中了一部<span>{{shopData.goods_name}}</span>。太刺激了!我推荐你们一定要来试试手气。最让你吃惊的，还可以折现哦！真是太赚了！
 					</view>
@@ -133,10 +48,10 @@
 					</view>
 					<image :src="qrcodeImg" class="commission-ewm-img"></image>
 				</view>
-				<image src="/static/spread/join.png" class="long"></image>
+				<image :src="joinImgSrc" class="long"></image>
 			</view>
 			<view class="hot-sale">
-				<view>热门商品</view>
+				<view>{{isEnglish ? 'HOT SALE' : '热门商品'}}</view>
 				<image src="/static/spread/praise.webp"></image>
 			</view>
 			<view class="new-list-item" v-for="(item,i) in jingpaiList" :key="i" @longpress="item.isMask=true">
@@ -177,7 +92,7 @@
 				</view>
 			</view>
 			<view class="bottom-text" @click="toIndex()">
-				<image src="/static/spread/spredText.webp"></image>
+				<image :src="bottomTextImageSrc"></image>
 			</view>
 		</template>
 		<!-- <view class="commission-canvas">
@@ -234,6 +149,21 @@
 				userCont:{}
 			}
 		},
+		computed:{
+			shortClass(){
+				return [this.isEnglish ? 'short-en' : ""]
+			},
+			bottomTextImageSrc() {
+                return this.isEnglish
+                    ? require('@/static/spread/spredText-en.webp')
+                    : require('@/static/spread/spredText.webp');
+            },
+			joinImgSrc() {
+                return this.isEnglish
+                    ? require('@/static/spread/join-en.png')
+                    : require('@/static/spread/join.png');
+            },
+		},
 		onLoad(e) {
 			if (e.shopId) {
 				this.auction_goods_id = e.shopId
@@ -242,7 +172,7 @@
 
 			if (e.invite_code) {
 				this.invite_code = e.invite_code
-				this.getInfo()
+				// this.getInfo()
 			}else{
 				this.onfenxingShow = true
 			}
@@ -254,6 +184,31 @@
 			
 		},
 		methods: {
+			generateQrUrl(invite_code) {
+				return this.$baseUrl + 'pages/topromote/activity/spread?invite_code=' + invite_code + '&shopId=' + this.auction_goods_id;
+			},
+			selectImage(images) {
+				return images.length > 1 ? images[1] : images[0];
+			},
+			setShopData(goods_name, price, auction_price, avatar, nickname, image) {
+				let content
+				if (this.isEnglish) {
+					content =
+						`Fuyoh! I just won an <span>${goods_name}</span> with only RM<span>${auction_price}</span>. It’s so exciting! I recommend you to try your luck.What surprises you the most is that it can be exchanged for cash! It’s really profitable!`
+				} else {
+					content =
+						`太幸运了! 我刚刚只用了RM<span>${auction_price}</span>居然中了一部<span>${goods_name}</span>。太刺激了!我推荐你们一定要来试试手气。最让你吃惊的，还可以折现哦！真是太赚了！   `
+				}
+				this.shopData = {
+					goods_name,
+					price,
+					auction_price,
+					avatar,
+					nickname,
+					images: image,
+					content // Assuming content is defined somewhere
+				};
+			},
 			//获取用户信息
 			getInfo() {
 				this.$http.post(this.$apiObj.GetCodeInfo, {
@@ -285,41 +240,18 @@
 			// 竞拍商品详情
 			async onAuctionDetail(auction_goods_id) {
 				try {
-					const {
-						invite_code,
-						avatar,
-						nickname
-					} = uni.getStorageSync('userCont');
-					this.qrUrl = this.$baseUrl + 'pages/topromote/activity/spread?invite_code=' +
-						invite_code+'&shopId='+this.auction_goods_id // 生成二维码的链接
-					const res = await this.$http.post(this.$apiObj.AuctionDetail, {
-						auction_goods_id
-					});
+					const { invite_code, avatar, nickname } = uni.getStorageSync('userCont');
+					this.qrUrl = this.generateQrUrl(invite_code);
+
+					const res = await this.$http.post(this.$apiObj.AuctionDetail, { auction_goods_id });
 					if (res.code === 1) {
-						const {
-							goods_name,
-							price,
-							auction_price,
-							images
-						} = res.data;
-						let content
-						if (this.isEnglish) {
-							content =
-								`Fuyoh! I just won an ${goods_name} with only RM${auction_price}. It’s so exciting! I recommend you to try your luck.What surprises you the most is that it can be exchanged for cash! It’s really profitable!`
-						} else {
-							content =
-								`太幸运了! 我刚刚只用了RM${auction_price}居然中了一部${goods_name}。太刺激了!我推荐你们一定要来试试手气。最让你吃惊的，还可以折现哦！真是太赚了！   `
+						const { goods_name, price, auction_price, images } = res.data;
+						const image = this.selectImage(images);
+						this.setShopData(goods_name, price, auction_price, avatar, nickname, image);
+
+						if (this.invite_code) {
+							this.getInfo();
 						}
-						const image = images.length > 1 ? images[1] : images[0];
-						this.shopData = {
-							goods_name,
-							price,
-							auction_price,
-							avatar,
-							nickname,
-							images: image,
-							content
-						};
 					}
 					// this.createQrcode()
 				} catch (error) {
