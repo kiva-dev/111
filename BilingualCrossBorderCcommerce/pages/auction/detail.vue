@@ -303,7 +303,7 @@
 							<image src="/static/images/mine/lucky_icon_trophy.png"></image>
 							<p>{{$t('xyzx')}}<text></text></p>
 						</view>
-
+				
 						<view class="conter" style="margin-bottom:50rpx;">
 							<view v-for="item,k in goodlucky" :key="k" class="list">
 								<view class="kuan">
@@ -312,11 +312,8 @@
 									</view>
 								</view>
 								<view class="name">{{item.nickname}}</view>
-								<view class="time">{{$filter.to_dateTimes(item.update_time)}}</view>
-								<!-- <view class="pay">RM{{item.pay_price}}</view> -->
+								<view class="time">{{$u.timeFormat(item.update_time, 'mm/dd hh:MM:ss')}}</view>
 								<view class="order">{{item.num_id}}
-									<image src="/static/images/mine/k_copy.webp" mode="scaleToFill"
-										@click="onnumidClick(item)" />
 								</view>
 							</view>
 						</view>
@@ -331,11 +328,12 @@
 									<image :src="item.avatar" mode="" />
 								</view>
 								<view class="name">{{item.nickname}}</view>
-								<view class="time">{{$filter.to_dateTimes(item.pay_time)}}</view>
-								<view class="order">{{item.num_id}}
-									<image src="/static/images/mine/k_copy.webp" mode="scaleToFill"
-										@click="onnumidClick(item)" />
-								</view>
+								<view class="time">{{$u.timeFormat(item.pay_time, 'mm/dd hh:MM:ss')}}</view>
+								<view class="order">{{item.num_id}}</view>
+							</view>
+							<view class="more" @click="showMore()" v-show="showRecord">
+								<view>{{$t('home.detail.more')}}</view>
+								<image src="/static/images/kbrick/btm.png"></image>
 							</view>
 						</view>
 					</view>
@@ -397,6 +395,10 @@
 					<view class="bl-right-add" v-else-if="auction_num>='-1'&&auction_num!=0||shopCont.check_status==2"
 						@click="onMineInfos">
 						<p>{{$t('tab.xy')}}</p>
+						<p>
+							<image src="/static/images/kbrick/diamond.png"></image>
+							<text>{{shopCont.auction_price}}</text>
+						</p>
 					</view>
 					<view class="bl-right-add" v-else>
 						<p>{{$t('auction.detail.jingpaiwan')}}</p>
@@ -674,6 +676,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		},
 		data() {
 			return {
+				showRecord:false,
 				showImages: false,
 				selectProtocol: false, //默认不勾选协议
 				useInvite: false, //是否使用赠金
@@ -730,7 +733,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				OrderList: [], // 竞拍记录
 				search: '', // 搜索
 				page: 1,
-				pagenum: 20,
+				pagenum: 10,
 				totalPageNum: 0,
 				isShopCont: false, // 商品详情显示中文还是英文
 				auction_rule: '',
@@ -864,6 +867,10 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 		},
 		methods: {
+			showMore(){
+				this.page++
+				this.onAuctionorderOrderList()
+			},
 			toRecharge() {
 				uni.setStorageSync('recharge', true)
 				this.navClick('/pages/mine/K_brick_detail')
@@ -1263,6 +1270,10 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				}).then(res => {
 					if (res.code == 1) {
 						this.totalPageNums = res.data.total
+						
+						if(this.page * this.pagenum >= this.totalPageNums) this.showRecord = false
+						else this.showRecord = true
+						
 						this.OrderList = this.page == 1 ? res.data.data : [...this.OrderList, ...res.data.data]
 					}
 				})
@@ -3381,7 +3392,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					width: 212rpx;
 					height: 88rpx;
 					margin: 0 12rpx;
-					background: rgb(10, 185, 198);
+					background: rgb(255, 57, 57);
 					border-radius: 200rpx;
 					display: flex;
 					flex-direction: column;
@@ -3391,6 +3402,21 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					p {
 						color: rgb(255, 255, 255);
 						font-size: 24rpx;
+					}
+					
+					p:nth-child(2){
+						font-size: 28rpx;
+						font-weight: bold;
+						color: rgb(255, 255, 255);
+						display: flex;
+						align-items: center;
+					}
+					
+					image{
+						display: block;
+						width: 32rpx;
+						height: 32rpx;
+						margin-right: 8rpx;
 					}
 				}
 			}
@@ -3942,12 +3968,32 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		}
 
 		.conter {
+			
+			.more{
+				width: 100%;
+				font-size: 24rpx;
+				color: rgb(102, 102, 102);
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				margin-top: 20rpx;
+				
+				image{
+					display: block;
+					width: 24rpx;
+					height: 24rpx;
+					margin-left: 8rpx;
+				}
+			}
+			
 			.list {
+				width: 90%;
 				padding-top: 30rpx;
 				display: flex;
 				justify-content: space-between;
 				align-items: center;
 				font-size: 24rpx;
+				margin-left: 5%;
 
 				.kuan {
 					position: relative;
@@ -3955,7 +4001,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					height: 80rpx;
 					background: url('../../static/images/new/kuan.png') no-repeat;
 					background-size: 80rpx 80rpx;
-					margin-left: 30rpx;
 
 					.user {
 						position: absolute;
@@ -3981,7 +4026,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						height: 60rpx;
 						border-radius: 50%;
 						display: block;
-						margin-left: 40rpx;
+						margin-left: 10rpx;
 					}
 				}
 
