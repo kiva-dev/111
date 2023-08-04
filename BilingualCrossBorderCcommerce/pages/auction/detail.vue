@@ -395,6 +395,10 @@
 					<view class="bl-right-add" v-else-if="auction_num>='-1'&&auction_num!=0||shopCont.check_status==2"
 						@click="onMineInfos">
 						<p>{{$t('tab.xy')}}</p>
+						<p>
+							<image src="/static/images/kbrick/diamond.png"></image>
+							<text>{{shopCont.auction_price}}</text>
+						</p>
 					</view>
 					<view class="bl-right-add" v-else>
 						<p>{{$t('auction.detail.jingpaiwan')}}</p>
@@ -3388,7 +3392,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					width: 212rpx;
 					height: 88rpx;
 					margin: 0 12rpx;
-					background: rgb(10, 185, 198);
+					background: rgb(255, 57, 57);
 					border-radius: 200rpx;
 					display: flex;
 					flex-direction: column;
@@ -3398,6 +3402,21 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					p {
 						color: rgb(255, 255, 255);
 						font-size: 24rpx;
+					}
+					
+					p:nth-child(2){
+						font-size: 28rpx;
+						font-weight: bold;
+						color: rgb(255, 255, 255);
+						display: flex;
+						align-items: center;
+					}
+					
+					image{
+						display: block;
+						width: 32rpx;
+						height: 32rpx;
+						margin-right: 8rpx;
 					}
 				}
 			}
