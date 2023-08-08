@@ -1,6 +1,7 @@
 <template>
 	<view class="address-page">
-	    <view  v-if="isEnglish">
+        <!-- v-if="isEnglish" -->
+	    <view  >
             <view class="head-info">
 				<view class="top">
 					<image src="/static/images/surprise/return.png" class="left" @click="toBack()"></image>
@@ -8,14 +9,16 @@
 				</view>
 			</view>
             <image class="topImage" src="@/static/demo/top.webp"></image>
-            <view class='topText-en'>Platform Activity Benefits</view>
-            <view class='topText-child-en'>Too many surprises</view>
+            <view :class='topText'>{{isEnglish ? 'Platform Activity Benefits' : '平台活动福利'}}</view>
+            <view :class='topTextChild'>{{isEnglish ? 'Too many surprises' : '超多惊喜'}}</view>
             <view class="commissionImage">
                 <image class="child" src="@/static/demo/commissionrefund-en.webp"></image>
                 <image class="RedEnvelopes" src="@/static/demo/RedEnvelopesSurge.webp"></image>
             </view>
-            <image class="shopImage" src="@/static/demo/shop-en.webp" @click="toIndex()"></image>
-            <image class="contentImage" src="@/static/demo/content-en.webp"></image>
+            <view>
+                <image class="shopImage" :src="shopImageSrc" @click="toIndex()"></image>
+                <image class="contentImage" :src="contentImageSrc"></image>
+            </view>
             <view class="fingerI">
                 <image class="fingerImage" src="@/static/demo/fingerdown.webp"></image>
             </view>
@@ -24,47 +27,13 @@
                     <a href="https://wish.kolibrimall.com/api/Index/getApk" download="Kolibri mall"
                         style="text-decoration:none;color: #FFFFFF;">
                         <image class="contentImage" src="@/static/demo/DownloadBtn.webp"></image>
-						<view class="download" >Download app</view>
+						<view class="download" >{{isEnglish ? 'Download App' : '下载 APP'}}</view>
                     </a>
                     
                 </view>
                 <view style="position: relative;">
                     <image class="contentImage" src="@/static/demo/Register.webp"></image>
-                    <view class="Register" @click="navClick('/pages/public/register')">Register</view>
-                </view>
-            </view>
-        </view>
-        <view v-else>
-            <view class="head-info">
-				<view class="top">
-					<image src="/static/images/surprise/return.png" class="left" @click="toBack()"></image>
-					<image src="/static/images/surprise/home.webp" class="index" @click="toIndex()"></image>
-				</view>
-			</view>
-            <image class="topImage" src="@/static/demo/top.webp"></image>
-            <view class='topText'>平台活动福利</view>
-            <view class='topText-child'>超多惊喜</view>
-            <view class="commissionImage">
-                <image class="child" src="@/static/demo/commissionrefund.webp"></image>
-                <image class="RedEnvelopes" src="@/static/demo/RedEnvelopesSurge.webp"></image>
-            </view>
-            <image class="shopImage" src="@/static/demo/shop.webp" @click="toIndex()"></image>
-            <image class="contentImage" src="@/static/demo/content-cn.webp"></image>
-            <view class="fingerI">
-                <image class="fingerImage" src="@/static/demo/fingerdown.webp"></image>
-            </view>
-            <view class="bottomBtn">
-                <view style="position: relative;" class="lfetBottomBtn">
-                    <a href="https://wish.kolibrimall.com/api/Index/getApk" download="Kolibri mall"
-                        style="text-decoration:none;color: #FFFFFF;">
-                        <image class="contentImage" src="@/static/demo/DownloadBtn.webp"></image>
-						<view class="download">下载 APP</view>
-                    </a>
-                   
-                </view>
-                <view style="position: relative;">
-                    <image class="contentImage" src="@/static/demo/Register.webp"></image>
-                    <view class="Register" @click="navClick('/pages/public/register')">注册</view>
+                    <view class="Register" @click="navClick('/pages/public/register')">{{isEnglish ? 'Register' : '注册'}}</view>
                 </view>
             </view>
         </view>
@@ -86,7 +55,23 @@
 			
 			if(e.promotion_code) uni.setStorageSync('invite_code',e.promotion_code)
 		},
-		onReachBottom() {
+        computed: {
+			topText() {
+				return [this.isEnglish ? 'topText-en' : 'topText'];
+			},
+            topTextChild(){
+				return [this.isEnglish ? 'topText-child-en' : 'topText-child'];
+            },
+            shopImageSrc() {
+                return this.isEnglish
+                    ? require('@/static/demo/shop-en.webp')
+                    : require('@/static/demo/shop.webp');
+            },
+            contentImageSrc(){
+                return this.isEnglish
+                    ? require('@/static/demo/content-en.webp')
+                    : require('@/static/demo/content-cn.webp');
+            },
 		},
 		methods: {
             toBack() {

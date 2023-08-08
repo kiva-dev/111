@@ -114,6 +114,8 @@ let apiObj = {
 	AddressAdd: 'Address/add', // 新增收货地址
 	AddressEdit: 'Address/edit', // 编辑收货地址
 	AddressDelete: 'Address/delete', // 删除地址
+	GetDeliveryArea: 'Common/getDeliveryArea', // 获取快递邮寄地区列表
+	LatestWinAuction: 'Mine/latestWinAuction', // 未领取奖品的最新竞拍记录
 	// 其他
 	MineFocus: 'Mine/focus', // 关注或取消关注
 	IndexSetting: 'Index/setting', // 隐私协议等

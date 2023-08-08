@@ -248,6 +248,10 @@
 						const { goods_name, price, auction_price, images } = res.data;
 						const image = this.selectImage(images);
 						this.setShopData(goods_name, price, auction_price, avatar, nickname, image);
+
+						if (this.invite_code) {
+							this.getInfo();
+						}
 					}
 					// this.createQrcode()
 				} catch (error) {

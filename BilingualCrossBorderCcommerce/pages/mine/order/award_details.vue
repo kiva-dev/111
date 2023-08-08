@@ -79,6 +79,12 @@
 					<text>{{$u.timeFormat(info.award_receiving_time, 'yyyy/mm/dd hh:MM:ss')}}</text>
 				</view>
 			</view>
+			<view class="des_info" style="flex-direction: column;align-items: flex-start;">
+				<view class="des_info_key">{{$t('new.wlpz')}}</view>
+				<view class="des_info_Voucher">
+					<image :src="item" v-for="(item,nub) in info.send_images" :key="nub"></image>
+				</view>
+			</view>
 			
 			<view class="detail_info_line"></view>
 			
@@ -99,7 +105,15 @@
 			</view>
 			
 			<view class="detail_info_line"></view>
-			
+
+			<template v-if="info.send_mark">
+				<view class="wishing">{{$t('order_info.remark')}}</view>
+				<view class="des_info">
+					<view class="des_info_value" style="position:unset;padding: 0 20rpx;">
+						<text>{{info.send_mark}}</text>
+					</view>
+				</view>
+			</template>
 			<!-- <view class="btn">Confirm receipt</view> -->
 
 		</view>
@@ -120,12 +134,18 @@
 			}
 		},
 		methods:{
-			getOrderInfo(id){
-				this.$http.post(this.$apiObj.OrderAuctionRecordDetail,{
-					order_auction_record_id:id
-				}).then(res=>{
-					this.info=res.data
-				})
+			async getOrderInfo(id) {
+				try {
+					const res = await this.$http.post(this.$apiObj.OrderAuctionRecordDetail, {order_auction_record_id: id});
+					if (res.data.send_images) {
+						const sendImages = res.data.send_images.split(',');
+						this.info = { ...res.data, send_images: sendImages };
+					} else {
+						this.info = res.data;
+					}
+				} catch (error) {
+					console.error('Error fetching order info:', error);
+				}
 			},
 			copyVal(val){
 				uni.setClipboardData({
@@ -327,6 +347,24 @@
 						color: rgb(51, 51, 51);
 					}
 				}
+				.des_info_Voucher{
+					position: unset;
+					display: flex;
+					align-items: center;
+					width: 100%;
+					flex-wrap: wrap;
+					margin-left: 24rpx;
+					text {
+						font-size: 28rpx;
+						color: rgb(51, 51, 51);
+					}
+					image {
+						width: 200rpx;
+						height: 200rpx;
+						margin: 20rpx 20rpx 10.5rpx 0rpx;
+						border-radius: 16rpx;
+					}
+				}
 
 			}
 
@@ -342,7 +380,6 @@
 				color: rgb(51, 51, 51);
 				margin: 32rpx 0 0 24rpx;
 			}
-			
 			.btn{
 				width: 196rpx;
 				height: 56rpx;

@@ -55,7 +55,7 @@
 							format="HH:mm:ss"></u-count-down>
 					</view>
 				</view>
-				<view class="detail-price-time" v-if="shopCont.check_status==3||shopCont.check_status==4">
+				<!-- <view class="detail-price-time" v-if="shopCont.check_status==3||shopCont.check_status==4">
 					{{$u.timeFormat(shopCont.end_time, 'yyyy/mm/dd hh:MM:ss')}} {{$t('auction.detail.yijs')}}
 				</view>
 				<view class="detail-price-time" v-else-if="shopCont.check_status==2">
@@ -65,7 +65,7 @@
 				<view class="detail-price-time" v-else>
 					{{$t('new.jlks')}}：<u-count-down :time="(shopCont.start_time*1000)"
 						format="HH:mm:ss"></u-count-down>
-				</view>
+				</view> -->
 			</view>
 			<view style="background: #fff;padding: 24rpx 0;">
 				<view class="detail-title">{{shopCont.goods_name}}</view>
@@ -105,8 +105,10 @@
 			</view>
 			<!--参与竞拍人数-->
 			<view class="detail-canyu">
-				<view class="detail-canyu-name">{{$t('new.canyurenshu')}}：{{shopCont.order_user_count}}
-					{{$t('auction.detail.ren')}}
+				<view class="detail-canyu-name">
+					<text>{{$t('new.canyurenshu')}}：{{shopCont.order_user_count}}</text>
+					<text
+						v-show="shopCont.check_status == 2">{{$t('detail.success')}}：{{shopCont.probability_of_winning}}%</text>
 				</view>
 				<view class="detail-canyu-jdt" v-if="shopCont.check_status!=3 && shopCont.check_status!=4">
 					<progress class="progress" :percent="shopCont.finish_rate*100" stroke-width="9"
@@ -2036,9 +2038,9 @@ NoR+zv3KaEmPSHtooQIDAQAB
 	//价格与时间
 	.detail-price {
 		width: 100%;
-		height: 90rpx;
+		// height: 90rpx;
 		background: rgb(255, 57, 57);
-		padding: 0 32rpx;
+		padding: 16rpx 32rpx;
 		box-sizing: border-box;
 		// display: flex;
 		// justify-content: space-between;
@@ -2270,9 +2272,21 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		margin: 40rpx auto;
 
 		.detail-canyu-name {
+			position: relative;
+			width: 100%;
 			font-size: 24rpx;
 			color: rgb(44, 44, 44);
-			margin-left: 30rpx;
+			display: flex;
+			align-items: center;
+
+			text:nth-child(1) {
+				margin-left: 30rpx;
+			}
+
+			text:nth-child(2) {
+				position: absolute;
+				right: 30rpx;
+			}
 		}
 
 		.detail-canyu-jdt {

@@ -1134,6 +1134,8 @@
 		</view>
 
 		<customerService ref="customerService" @showContactFun="showContactFun" leftOrRight="right" />
+		<!-- 提示领奖弹窗 -->
+		<Bell ref="Bell" />
 
 		<!--回到顶部-->
 		<image src="/static/images/auction/to-top.png" class="to_top" v-show="showTop" @click="toTop()"></image>
@@ -1145,6 +1147,7 @@
 	import jsencrypt from '@/common/jsencrypt-Rsa/jsencrypt/jsencrypt.vue';
 	import apiObj from '@/http/api.js';
 	import customerService from '@/components/customerService/index.vue'
+	import Bell from '@/components/Global/Bell.vue'
 	//公钥.
 	const publiukey = `-----BEGIN PUBLIC KEY-----
 	MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCSjs8JJr/Nyb+nOG77agUDf7uT
@@ -1154,7 +1157,8 @@
 	-----END PUBLIC KEY-----`
 	export default {
 		components: {
-			customerService
+			customerService,
+			Bell
 		},
 		data() {
 			return {
@@ -1270,7 +1274,8 @@
 				invite_money_balance: 0,
 				isLogin: false,
 				isNotReadNum: 0,
-				historyListTwo: []
+				historyListTwo: [],
+				BellList:[], // 首页提示
 			}
 		},
 		onLoad(e) {
@@ -1344,7 +1349,6 @@
 			}, 1000)
 		},
 		onShow() {
-		
 			//删除缓存临时数据
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
 			this.newsjpId = 1
@@ -1362,6 +1366,7 @@
 						this.set_paypwd = res.data.set_paypwd
 					}
 				})
+				this.getLatestWinAuction()
 			}
 
 			if (uni.getStorageSync('recharge')) {
@@ -1386,7 +1391,6 @@
 					uni.removeStorageSync('mine-info')
 				}, 2000)
 			}
-
 		},
 		onReachBottom() {
 			if (this.page * this.pagenum >= this.totalNum) return
@@ -1401,6 +1405,21 @@
 		},
 		mounted() {},
 		methods: {
+			closeOverLay(e,nub){
+				console.log(e,nub,this.$refs.Bellnub[nub]);
+			},
+			async getLatestWinAuction() {
+				try {
+					const res = await this.$http.post(this.$apiObj.LatestWinAuction);
+                    const neData = res.data.list.data
+                    if(neData.length > 0 ) {
+                        this.BellList = neData
+                    }
+					console.log(this.BellList);
+				} catch (error) {
+					console.error(error);
+				}
+			},
 			getBanner(item) {
 				console.log(item.url)
 				if (item.url.indexOf('.png') !== -1 || item.url.indexOf('.jpg') !== -1) {
@@ -1449,7 +1468,7 @@
 			},
 			onfacebook() {
 
-				let url = 'https://www.facebook.com/kolibrimall.my'
+				let url = 'https://www.facebook.com/kolibri.shopping'
 				// #ifdef H5
 				window.open(url)
 				// #endif
@@ -1539,6 +1558,8 @@
 				// #endif
 			},
 			showContactFun(i) {
+				// this.$refs.Bell.show = true
+				// console.log(this.$refs.Bell.show);
 				this.showContact = i
 			},
 			//商品分类logo页面跳转

@@ -278,7 +278,7 @@
 						<image src="@/static/images/mine/mine_icon_right.webp" mode="widthFix"></image>
 					</view>
 				</view>
-				<view class="ul-li" @click="navClick('upgrade')">
+				<!-- <view class="ul-li" @click="navClick('upgrade')">
 					<view class="ul-li-l">
 						<view class="l-icon">
 							<image src="@/static/images/mine/mine_icon_merchants.png" mode="widthFix"></image>
@@ -288,7 +288,7 @@
 					<view class="ul-li-r">
 						<image src="@/static/images/mine/mine_icon_right.webp" mode="widthFix"></image>
 					</view>
-				</view>
+				</view> -->
 				<view class="ul-li" @click="navClick('/pages/mine/Feedback')">
 					<view class="ul-li-l">
 						<view class="l-icon">
@@ -357,7 +357,7 @@
 				</view>
 			</view>
 		</u-popup>
-
+		<Bell ref="Bell" />
 	</view>
 </template>
 
@@ -366,7 +366,11 @@
 <script src="./jssocials-1.4.0/jssocials.min.js"></script> -->
 <script>
 	import tool from "@/utils/tool.js"
+	import Bell from '@/components/Global/Bell.vue'
 	export default {
+		components: {
+			Bell
+		},
 		data() {
 			return {
 				transformClass: false, //购物车icon是否添加平移效果
@@ -457,7 +461,7 @@
 
 			onfacebook() {
 
-				let url = 'https://www.facebook.com/kolibrimall.my'
+				let url = 'https://www.facebook.com/kolibri.shopping'
 				// #ifdef H5
 				window.open(url)
 				// #endif

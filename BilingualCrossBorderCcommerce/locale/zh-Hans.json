@@ -419,6 +419,9 @@
 	"user.address.edit": "编辑",
 	"user.address.zwdz": "暂无地址",
 	"user.address.addxdz": "添加新地址",
+	"user.address.yjdq": "邮寄地区",
+	"user.address.addyjdq": "添加邮寄地区",
+	"user.address.xzyjdq": "请选择邮寄地区",
 	"user.address.shr": "收货人",
 	"user.address.qtxxm": "请填写姓名",
 	"user.address.sjhm": "手机号码",
@@ -497,7 +500,7 @@
 	"user.vid.name": "名字",
 	"user.vid.qsrxm": "请输入名字",
 	"user.vid.xs": "姓氏",
-	"user.vid.qsrxs": "请输入姓氏",
+	"user.vid.qsrxs": "请输入姓名",
 	"user.vid.sfzh": "身份证",
 	"user.vid.sfzh1": "身份证",
 	"user.vid.qsrsfzh": "请输入您的身份证号",
@@ -1520,6 +1523,7 @@
 	"new.xym": "许愿码",
 	"new.xdsj": "下单时间",
 	"new.lqsj": "领取时间",
+	"new.wlpz": "物流凭证",
 	"new.fhm": "发货订单号",
 	"new.fhsj": "发货公司名称",
 	"new.shsm": "申诉说明",
@@ -1586,6 +1590,8 @@
 	"pay.paypal_ts":"支持MY储蓄卡和信用卡，无需注册，需要KYC，手续费低",
 	"pay.pay_essence":"需实名",
 	"pay.pay_not":"更多支付方式请持续关注",
+
+	"detail.success":"必中率",
 	
 	"ongoing.tit":"惊喜许愿",
 	"ongoing.progress":"正在进行",
@@ -1594,5 +1600,7 @@
 	"start_soon.loading":"数据加载中...",
 	"start_soon.work":"搭建中,敬请期待",
 	
-	"mine.recharge_xy":"用户充值协议"
+	"mine.recharge_xy":"用户充值协议",
+
+	"order_info.remark":"备注"
 }

@@ -422,6 +422,9 @@
 	"user.address.edit": "Edit",
 	"user.address.zwdz": "No Address",
 	"user.address.addxdz": "Add new Address",
+	"user.address.addyjdq": "Add Mailing Area",
+	"user.address.yjdq": "Mailing Area",
+	"user.address.xzyjdq": "Please select the shipping area",
 	"user.address.shr": "Consignee",
 	"user.address.qtxxm": "Please fill in your name",
 	"user.address.sjhm": "Phone",
@@ -498,7 +501,7 @@
 
 	"user.vid.zjlx": "Document Types",
 	"user.vid.name": "Name",
-	"user.vid.qsrxm": "Please enter your first name",
+	"user.vid.qsrxm": "Please enter your full name",
 	"user.vid.xs": "Surname",
 	"user.vid.qsrxs": "Please enter last name",
 	"user.vid.sfzh": "ID",
@@ -1525,6 +1528,7 @@
 	"new.xym": "Wish Code",
 	"new.xdsj": "Order time",
 	"new.lqsj": "Pick up time",
+	"new.wlpz": "Logistics Voucher",
 	"new.fhm": "Shipping order number",
 	"new.fhsj": "Shipping company name",
 	"new.shsm": "Appeal Description",
@@ -1592,6 +1596,8 @@
 	"pay.paypal_ts": "Supports MY savings and credit cards, no registration required, requires KYC, and low handling fees",
 	"pay.pay_essence": "Real name required",
 	"pay.pay_not": "Stay tuned for more payment methods",
+
+	"detail.success":"Winning Percentage",
 	
 	"ongoing.tit":"Surprise Wish",
 	"ongoing.progress":"In progress",
@@ -1600,5 +1606,8 @@
 	"start_soon.loading":"Loading...",
 	"start_soon.work":"Coming Soon, Stay Tuned",
 	
-	"mine.recharge_xy":"User Recharge Agreement"
+	"mine.recharge_xy":"User Recharge Agreement",
+
+	"order_info.remark":"Remark"
+
 }
