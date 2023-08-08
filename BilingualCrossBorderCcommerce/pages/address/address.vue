@@ -14,6 +14,7 @@
 					<view class="user-edit" @click.stop="onEditClick(item)">{{$t('user.address.edit')}}</view>
 				</view>
 				<view class="address-li-detail">
+					<view class="detail-container">{{isEnglish ? item.delivery_area_name_en : item.delivery_area_name }}</view>
 					<view class="detail-container">{{item.detail}}</view>
 					<view class="detail-defalt" v-if="item.is_default === '1'">{{$t('user.address.default')}}</view>
 				</view>
@@ -40,6 +41,7 @@
 			return {
 				addList: [],
 				page: 1,
+				isEnglish:uni.getStorageSync('locale') !== 'zh-Hans'
 			}
 		},
 		onShow() {
@@ -66,12 +68,20 @@
 				})
 			},
 			onaddClick(item) {
+				if(!item.delivery_area_id){
+					uni.showToast({
+						title: this.$t('user.address.xzyjdq'),
+						icon: 'none'
+					})
+					return
+				}
 				this.$http.post(this.$apiObj.AddressEdit, {
 					mobile_area_code: item.mobile_area_code, // 手机号区域编码
 					mobile: item.mobile, // 手机号码
 					detail: item.detail, // 收货地址
 					is_default: 1, // 1默认，0不默认
 					name: item.name, // 收货人
+					delivery_area_id: item.delivery_area_id,  // 邮寄地区
 					address_id: item.id
 				}).then(res => {
 					if (res.code == 1) {
