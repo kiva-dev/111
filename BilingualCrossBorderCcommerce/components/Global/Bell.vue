@@ -8,7 +8,7 @@
                         <image src="@/static/Bell/trumpet.png"></image>
                     </view>
                     <view class="imgTrumpet-shop-img">
-                        <image :src="LatestWinObj.image"></image>
+                        <image :src="info.image"></image>
                     </view>
                     <view class="imgTrumpet-text">
                         Congratulations ！Become the lucky star Of
@@ -28,7 +28,7 @@
                         Share
                     </view>
                 </view>
-                <image class="imgClose" src="@/static/Bell/close.png" @click="show = false"></image>
+                <image class="imgClose" src="@/static/Bell/close.png" @click="closeOverLay()"></image>
             </view>
             <!--分享弹出 start-->
             <view class="fenxiang" v-if="onfenxingShow">
@@ -71,14 +71,28 @@
 <script>
 	export default {
         props: {
-			LatestWinObj: {
-				type: Object,
-				default: {}
-			}
+			// LatestWinObj: {
+			// 	type: Object,
+			// 	default: {}
+			// },
+            newArr:{
+                type: Array,
+                default: []
+            },
+			nub: {
+				type: Number,
+				default:0
+			},
+			// show: {
+			// 	type: Boolean,
+			// 	default: false
+			// }
 		},
 		data() {
 			return {
-                show:true,
+                info:{},
+                newNub:0,
+                show:false,
 				onfenxingShow: false,
                 qrUrl:'',
 				audio: 'https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/music-a.png',
@@ -91,13 +105,26 @@
 			}
 		},
         mounted() {
-            this.auction_goods_id = this.LatestWinObj.auction_goods_id
-            const { invite_code } = uni.getStorageSync('userCont');
-            this.qrUrl = this.generateQrUrl(invite_code);
+            setTimeout(() => {
+                this.closeOverLay()
+            }, 2000);
 		},
 
 		methods: {
-            async getLatestWinAuction() {
+            closeOverLay(){
+                if(this.newArr.length > this.newNub){
+                    this.newNub ++ 
+                    this.auction_goods_id = this.newArr[this.newNub].auction_goods_id
+                    this.info = this.newArr[this.newNub]
+                    const { invite_code } = uni.getStorageSync('userCont');
+                    this.qrUrl = this.generateQrUrl(invite_code);
+                    this.show = true
+                }else{
+                    this.newNub = 0
+                    this.show = false
+                }
+            },
+           /*  async getLatestWinAuction() {
 				try {
 					const res = await this.$http.post(this.$apiObj.LatestWinAuction);
                     const neData = res.data.list.data
@@ -108,7 +135,7 @@
 				} catch (error) {
 					console.error(error);
 				}
-			},
+			}, */
             toGift(){
                 uni.navigateTo({
                     url: '/pages/mine/auctionM?num=' + 3
@@ -116,7 +143,6 @@
             },
             generateQrUrl(invite_code) {
 				return this.$baseUrl + 'pages/topromote/activity/spread?invite_code=' + invite_code + '&shopId=' + this.auction_goods_id;
-				// return this.$baseUrl + 'pages/topromote/activity/spread?invite_code=' + invite_code ;
 			},
             copyUrl(){
                 console.log('1');

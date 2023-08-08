@@ -11,7 +11,8 @@
 					</view>
 				</view>
 			</view>
-			<view class="add-li">
+			<!-- 区域 -->
+			<!-- <view class="add-li">
 				<view class="label" style="fontSize:12px">{{$t('user.address.yjdq')}}</view>
 				<view class="li-fr">
 					<view class="li-input" @click="pickerShow = true">
@@ -19,8 +20,7 @@
 					</view>
 				</view>
 			</view>
-			<!-- 区域 -->
-			<u-picker :show="pickerShow" :columns="columns" keyName="label" @confirm="pickerFun" @cancel="pickerCancel" confirmText="confirm" cancelText="cancel"></u-picker>
+			<u-picker :show="pickerShow" :columns="columns" keyName="label" @confirm="pickerFun" @cancel="pickerCancel" confirmText="confirm" cancelText="cancel"></u-picker> -->
 			
 			<view class="add-li">
 				<view class="label">{{$t('user.address.sjhm')}}</view>
@@ -89,7 +89,7 @@
 				}
 				uni.setStorageSync('phoneCont', JSON.stringify(title))
 			}
-			this.getAreaList()
+			// this.getAreaList()
 			// this.getLatestWinAuction()
 		},
 		methods: {
@@ -167,21 +167,21 @@
 					title: this.$t('user.address.qsrshdz'),
 					icon: 'none'
 				})
-				const {delivery_area_id} = this.AreaForm
+				/* const {delivery_area_id} = this.AreaForm
 				if(!delivery_area_id){
 					uni.showToast({
 						title: this.$t('user.address.xzyjdq'),
 						icon: 'none'
 					})
 					return
-				}
+				} */
 				this.$http.post(this.$apiObj.AddressAdd, {
 					mobile_area_code: this.mobile_area_code.slice(1), // 手机号区域编码
 					mobile: this.mobile, // 手机号码
 					detail: this.detail, // 收货地址
 					is_default: this.is_default == true ? 1 : 0, // 1默认，0不默认
 					name: this.name, // 收货人
-					delivery_area_id, // 邮寄地区
+					// delivery_area_id, // 邮寄地区
 				}).then(res => {
 					if (res.code == 1) {
 						uni.showToast({

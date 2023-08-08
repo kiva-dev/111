@@ -1134,9 +1134,9 @@
 		</view>
 
 		<customerService ref="customerService" @showContactFun="showContactFun" leftOrRight="right" />
-		<view v-for="(item,nub) in BellList" :key="nub">
-			<Bell ref="Bell"  :LatestWinObj="item"/>
-		</view>
+		<!-- <view v-for="(item,nub) in BellList" :key="nub"> -->
+		<Bell ref="Bel" :newArr="BellList" />
+		<!-- </view> -->
 
 		<!--回到顶部-->
 		<image src="/static/images/auction/to-top.png" class="to_top" v-show="showTop" @click="toTop()"></image>
@@ -1406,6 +1406,9 @@
 		},
 		mounted() {},
 		methods: {
+			closeOverLay(e,nub){
+				console.log(e,nub,this.$refs.Bellnub[nub]);
+			},
 			async getLatestWinAuction() {
 				try {
 					const res = await this.$http.post(this.$apiObj.LatestWinAuction);
@@ -1413,7 +1416,7 @@
                     if(neData.length > 0 ) {
                         this.BellList = neData
                     }
-					console.log(res,neData);
+					console.log(this.BellList);
 				} catch (error) {
 					console.error(error);
 				}

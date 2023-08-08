@@ -1606,5 +1606,8 @@
 	"start_soon.loading":"Loading...",
 	"start_soon.work":"Coming Soon, Stay Tuned",
 	
-	"mine.recharge_xy":"User Recharge Agreement"
+	"mine.recharge_xy":"User Recharge Agreement",
+
+	"order_info.remark":"Remark"
+
 }

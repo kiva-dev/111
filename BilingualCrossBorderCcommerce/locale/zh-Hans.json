@@ -1600,5 +1600,7 @@
 	"start_soon.loading":"数据加载中...",
 	"start_soon.work":"搭建中,敬请期待",
 	
-	"mine.recharge_xy":"用户充值协议"
+	"mine.recharge_xy":"用户充值协议",
+
+	"order_info.remark":"备注"
 }
