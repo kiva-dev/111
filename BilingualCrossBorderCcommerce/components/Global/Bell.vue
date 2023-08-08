@@ -112,7 +112,7 @@
             if(uni.getStorageSync('BellCode')){
                 setInterval(()=>{
                     this.getLatestWinAuction()
-                },20000)
+                },1000*60*60)
             }else{
                 uni.setStorageSync('BellCode', true)
                 this.getLatestWinAuction()
