@@ -73,12 +73,15 @@
 
 			<!--标签-->
 			<view class="li-tags">
+				<view class="bonus" v-if="shopCont.can_use_invite_money_rate * 1 > 0">
+					<image src="/static/images/new-index/$.png" class="bonus-img"></image>
+					<view class="bonus-info">{{shopCont.can_use_invite_money_rate*1}}% bonus available</view>
+				</view>
 				<view class="li-icon" v-for="item in shopCont.tags" :key="item.tag_id">
 					<image :src="item.image" mode="widthFix"></image>
 					<text> <u-parse :content="isShopCont ? item.en_desc : item.zh_desc"></u-parse></text>
 				</view>
 			</view>
-
 			<view class="operate-layout">
 				<view class="ol-container">
 					<image src="@/static/images/new-index/detail_icon_collect.png" mode="widthFix"></image>
@@ -103,10 +106,10 @@
 			</view>
 			<view class="detail-luck-star" v-else>
 				<view class="detail-luck-star-name">{{$t('xsjp')}}</view>
-				<view class="detail-luck-star-info">
+				<!-- <view class="detail-luck-star-info">
 					<image src="../../static/images/mine/lucky_icon_trophy.png"></image>
 					{{$t('xyzx')}}：{{shopCont.lucky_num}}
-				</view>
+				</view> -->
 			</view>
 			<!--参与竞拍人数-->
 			<view class="detail-canyu">
@@ -2180,6 +2183,29 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			}
 
 			text {
+				margin-left: 4rpx;
+			}
+		}
+		.bonus {
+			height: 28rpx;
+			display: flex;
+			align-items: center;
+			box-sizing: border-box;
+			border: 2rpx solid rgb(255, 57, 57);
+			border-radius: 28rpx;
+			margin: 0 20rpx 12rpx 0;
+			padding: 15rpx;
+			.bonus-img {
+				display: block;
+				width: 28rpx;
+				height: 28rpx;
+				border-radius: 50%;
+			}
+
+			view {
+				font-size: 16rpx;
+				color: rgb(255, 57, 57);
+				white-space: nowrap;
 				margin-left: 4rpx;
 			}
 		}
