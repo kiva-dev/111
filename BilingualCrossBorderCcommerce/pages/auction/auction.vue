@@ -1449,7 +1449,7 @@
 			},
 			onfacebook() {
 
-				let url = 'https://www.facebook.com/kolibrimall.my'
+				let url = 'https://www.facebook.com/kolibri.shopping'
 				// #ifdef H5
 				window.open(url)
 				// #endif
