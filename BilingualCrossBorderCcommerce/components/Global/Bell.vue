@@ -306,7 +306,7 @@
             width: 400rpx;
             height: 104rpx;
             position: absolute;
-            top: 70%;
+            top: 75%;
             right: -2%;
             background: url('/static/Bell/footer.png') no-repeat;
             background-size:100% 100%;
@@ -325,7 +325,7 @@
             width: 224rpx;
             height: 120rpx;
             position: absolute;
-            top: 71%;
+            top: 76%;
             left: 2%;
             display: flex;
             justify-content: center;
@@ -388,7 +388,7 @@
             height: 64rpx;
             position: absolute;
             left: 50%;
-            top: 80%;
+            top: 86%;
             transform: translate(-50%, 30rpx);
         }
 	}
@@ -415,6 +415,7 @@
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
+        text-align: center;
     }
 	.share-pop {
 		position: absolute;
