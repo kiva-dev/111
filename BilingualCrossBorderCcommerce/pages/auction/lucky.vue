@@ -93,11 +93,17 @@
 				</view>
 			</view>
 		</view>
+		<!-- 提示领奖弹窗 -->
+		<Bell ref="Bell" />
 	</view>
 </template>
 
 <script>
+	import Bell from '@/components/Global/Bell.vue'
 	export default {
+		components: {
+			Bell
+		},
 		data() {
 			return {
 				page: 1,

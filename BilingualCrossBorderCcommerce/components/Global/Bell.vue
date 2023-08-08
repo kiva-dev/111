@@ -75,10 +75,10 @@
 			// 	type: Object,
 			// 	default: {}
 			// },
-            newArr:{
-                type: Array,
-                default: []
-            },
+            // newArr:{
+            //     type: Array,
+            //     default: []
+            // },
 			nub: {
 				type: Number,
 				default:0
@@ -92,6 +92,7 @@
 			return {
                 info:{},
                 newNub:0,
+                newArr:[],
                 show:false,
 				onfenxingShow: false,
                 qrUrl:'',
@@ -105,37 +106,44 @@
 			}
 		},
         mounted() {
-            setTimeout(() => {
-                this.closeOverLay()
-            }, 2000);
+            if(uni.getStorageSync('BellCode')){
+                setInterval(()=>{
+                    this.getLatestWinAuction()
+                },1000*60*60)
+            }else{
+                uni.setStorageSync('BellCode', true)
+                this.getLatestWinAuction()
+            }
 		},
 
 		methods: {
             closeOverLay(){
                 if(this.newArr.length > this.newNub){
-                    this.newNub ++ 
                     this.auction_goods_id = this.newArr[this.newNub].auction_goods_id
                     this.info = this.newArr[this.newNub]
                     const { invite_code } = uni.getStorageSync('userCont');
                     this.qrUrl = this.generateQrUrl(invite_code);
+                    this.newNub ++ 
                     this.show = true
                 }else{
-                    this.newNub = 0
                     this.show = false
                 }
             },
-           /*  async getLatestWinAuction() {
+            async getLatestWinAuction() {
 				try {
 					const res = await this.$http.post(this.$apiObj.LatestWinAuction);
                     const neData = res.data.list.data
+                    neData.forEach(i=>{
+                        console.log(i.auction_goods_id);
+                    })
                     if(neData.length > 0) {
-                        this.LatestWinObj = neData[0]
+                        this.newArr = neData
+                        this.closeOverLay()
                     }
-					console.log(res,neData,this.LatestWinObj);
 				} catch (error) {
 					console.error(error);
 				}
-			}, */
+			},
             toGift(){
                 uni.navigateTo({
                     url: '/pages/mine/auctionM?num=' + 3

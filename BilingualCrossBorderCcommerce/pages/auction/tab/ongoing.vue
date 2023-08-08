@@ -452,7 +452,8 @@
 			</view>
 		</uni-popup>
 		<!--支付成功弹出 end-->
-
+		<!-- 提示领奖弹窗 -->
+		<Bell ref="Bell" />
 		<!-- 许愿 -->
 		<view class="containerXy" v-if="list.length!=0 && showMakeaWish">
 			<view class="xy">
@@ -494,7 +495,7 @@
 				</view>
 			</view>
 		</view>
-
+		
 		<!--回到顶部-->
 		<image src="/static/images/auction/to-top.png" class="to_top" v-show="showTop" @click="toTop()"></image>
 
@@ -504,6 +505,7 @@
 <script>
 	import jsencrypt from '@/common/jsencrypt-Rsa/jsencrypt/jsencrypt.vue';
 	import apiObj from '@/http/api.js';
+	import Bell from '@/components/Global/Bell.vue'
 	//公钥.
 	const publiukey = `-----BEGIN PUBLIC KEY-----
 	MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCSjs8JJr/Nyb+nOG77agUDf7uT
@@ -512,6 +514,9 @@
 	NoR+zv3KaEmPSHtooQIDAQAB
 	-----END PUBLIC KEY-----`
 	export default {
+		components: {
+			Bell
+		},
 		data() {
 			return {
 				showTop: false,

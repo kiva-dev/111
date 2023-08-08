@@ -391,6 +391,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							title: this.$t('login.dlcg'),
 							icon: 'none'
 						})
+						uni.removeStorageSync('BellCode')
 						uni.setStorageSync('userinfo', {
 							token: res.data.im_tourists_token,
 							auth_token: res.data.auth_token
@@ -443,7 +444,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							icon: 'none'
 						})
 						uni.setStorageSync('token', res.data.token)
-
+						uni.removeStorageSync('BellCode')
 						uni.setStorageSync('userinfo', {
 							token: res.data.im_tourists_token,
 							auth_token: res.data.auth_token

@@ -1134,9 +1134,8 @@
 		</view>
 
 		<customerService ref="customerService" @showContactFun="showContactFun" leftOrRight="right" />
-		<!-- <view v-for="(item,nub) in BellList" :key="nub"> -->
-		<Bell ref="Bel" :newArr="BellList" />
-		<!-- </view> -->
+		<!-- 提示领奖弹窗 -->
+		<Bell ref="Bell" />
 
 		<!--回到顶部-->
 		<image src="/static/images/auction/to-top.png" class="to_top" v-show="showTop" @click="toTop()"></image>
