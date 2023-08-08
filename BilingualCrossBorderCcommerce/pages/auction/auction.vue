@@ -1366,7 +1366,6 @@
 						this.set_paypwd = res.data.set_paypwd
 					}
 				})
-				this.getLatestWinAuction()
 			}
 
 			if (uni.getStorageSync('recharge')) {
@@ -1407,18 +1406,6 @@
 		methods: {
 			closeOverLay(e,nub){
 				console.log(e,nub,this.$refs.Bellnub[nub]);
-			},
-			async getLatestWinAuction() {
-				try {
-					const res = await this.$http.post(this.$apiObj.LatestWinAuction);
-                    const neData = res.data.list.data
-                    if(neData.length > 0 ) {
-                        this.BellList = neData
-                    }
-					console.log(this.BellList);
-				} catch (error) {
-					console.error(error);
-				}
 			},
 			getBanner(item) {
 				console.log(item.url)

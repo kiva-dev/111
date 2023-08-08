@@ -109,13 +109,15 @@
 			}
 		},
         mounted() {
-            if(uni.getStorageSync('BellCode')){
-                setInterval(()=>{
+            if(uni.getStorageSync('token')){
+                if(uni.getStorageSync('BellCode')){
+                    setInterval(()=>{
+                        this.getLatestWinAuction()
+                    },10000)
+                }else{
+                    uni.setStorageSync('BellCode', true)
                     this.getLatestWinAuction()
-                },1000*60*60)
-            }else{
-                uni.setStorageSync('BellCode', true)
-                this.getLatestWinAuction()
+                }
             }
 		},
 

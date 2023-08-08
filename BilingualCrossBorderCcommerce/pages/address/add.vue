@@ -90,17 +90,8 @@
 				uni.setStorageSync('phoneCont', JSON.stringify(title))
 			}
 			// this.getAreaList()
-			// this.getLatestWinAuction()
 		},
 		methods: {
-			async getLatestWinAuction() {
-				try {
-					const res = await this.$http.post(this.$apiObj.LatestWinAuction);
-					console.log(res);
-				} catch (error) {
-					console.error(error);
-				}
-			},
 			async getAreaList() {
 				const isEnglish = uni.getStorageSync('locale') !== 'zh-Hans';
 				try {
