@@ -109,12 +109,9 @@
 			<template v-if="info.send_mark">
 				<view class="wishing">{{$t('order_info.remark')}}</view>
 				<view class="des_info">
-					<view class="des_info_key">{{$t('dueihuanma')}}</view>
-					<view class="des_info_value">
+					<!-- <view class="des_info_key">{{$t('dueihuanma')}}</view> -->
+					<view class="des_info_value" style="position:unset;padding: 0 20rpx;">
 						<text>{{info.send_mark}}</text>
-						<image src="/static/images/mine/k_copy.webp"
-							style="width: 32rpx;height: 32rpx;margin-left: 16rpx;margin-right: 0;"
-							@click="copyVal(info.send_mark)"></image>
 					</view>
 				</view>
 			</template>
