@@ -591,7 +591,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			position: relative;
 			width: 100%;
 			height: 88rpx;
-			padding-top: 60rpx;
+			padding-top: 88rpx;
 			display: flex;
 			align-items: center;
 
@@ -663,7 +663,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			position: relative;
 			width: 750rpx;
 			height: 88rpx;
-			padding-top: 60rpx;
+			padding-top: 88rpx;
 			display: flex;
 			align-items: center;
 			background: rgb(10, 198, 142);

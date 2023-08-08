@@ -494,7 +494,7 @@ page::before {
   .invite-box {
     position: relative;
     .max-title {
-      padding-top: 60rpx;
+      padding-top: 88rpx;
       text-align: center;
       font-size: 68rpx;
       color: #ffffff;
@@ -545,7 +545,7 @@ page::before {
         width: 625rpx;
         margin: 0 auto;
         text-align: center;
-        padding-top: 60rpx;
+        padding-top: 88rpx;
       }
       .btnsub {
         margin: 60rpx auto 0;

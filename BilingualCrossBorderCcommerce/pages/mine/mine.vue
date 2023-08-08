@@ -869,7 +869,7 @@
 			width: 100%;
 			height: 408rpx;
 			background: linear-gradient(270.00deg, rgba(212.32, 253.86, 212.32, 1.00), rgba(217.91, 253.72, 255, 1.00) 99.237%);
-			padding-top: 60rpx;
+			padding-top: 88rpx;
 			box-sizing: border-box;
 
 			.ml-top-operate {

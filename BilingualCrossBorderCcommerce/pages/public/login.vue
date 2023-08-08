@@ -862,7 +862,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			.login-close {
 				width: 100%;
 				height: 88rpx;
-				padding-top: 60rpx;
+				padding-top: 88rpx;
 
 				image {
 					width: 40rpx;

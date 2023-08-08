@@ -2326,7 +2326,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			position: relative;
 			width: 100%;
 			height: 440rpx;
-			padding-top: 60rpx;
+			padding-top: 88rpx;
 			box-sizing: border-box;
 			background: url('/static/images/new-index/header.png') no-repeat;
 			background-size: 100% 100%;
@@ -5241,7 +5241,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		left: 0;
 		bottom: 0;
 		width: 100%;
-		padding-top: 60rpx;
+		padding-top: 88rpx;
 		padding-bottom: 24rpx;
 
 		.mode-close {

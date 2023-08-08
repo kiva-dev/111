@@ -221,7 +221,7 @@
 		.cl-header {
 			width: 100%;
 			background: rgb(255, 255, 255);
-			padding-top: 60rpx;
+			padding-top: 88rpx;
 			box-sizing: border-box;
 
 			.cl-header-container {

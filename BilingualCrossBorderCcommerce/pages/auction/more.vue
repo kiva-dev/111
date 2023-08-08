@@ -875,7 +875,7 @@
 			position: relative;
 			width: 100%;
 			height: 88rpx;
-			padding-top: 60rpx;
+			padding-top: 88rpx;
 			display: flex;
 			align-items: center;
 			// background: linear-gradient(180.00deg, rgb(51, 222, 114), rgb(5, 195, 146) 98.871%);

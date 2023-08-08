@@ -2970,7 +2970,7 @@
 			left: 0;
 			bottom: 0;
 			width: 100%;
-			padding-top: 60rpx;
+			padding-top: 88rpx;
 			padding-bottom: 24rpx;
 
 			.mode-close {

@@ -2357,7 +2357,7 @@
 			top: 0;
 			width: 750rpx;
 			height: 88rpx;
-			padding-top: 60rpx;
+			padding-top: 88rpx;
 			background: url("/static/images/tab/auction-head.png") no-repeat;
 			background-size: 750rpx 176rpx;
 			z-index: 100;
@@ -4068,7 +4068,7 @@
 			left: 0;
 			bottom: 0;
 			width: 100%;
-			padding-top: 60rpx;
+			padding-top: 88rpx;
 			padding-bottom: 24rpx;
 
 			.mode-close {

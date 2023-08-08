@@ -156,7 +156,7 @@ What’s more? The platform also often holds exciting lucky draw events, allowin
 </script>
 <style lang="less" scoped>
     .head-info {
-        padding-top: 60rpx;
+        padding-top: 88rpx;
         background-size: 750rpx 900rpx;
         position: absolute;
         z-index: 999;

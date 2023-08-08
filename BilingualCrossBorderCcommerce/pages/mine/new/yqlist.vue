@@ -265,7 +265,7 @@
 				width: 100%;
 				height: 88rpx;
 				background: rgb(255, 255, 255);
-				padding-top: 60rpx;
+				padding-top: 88rpx;
 				display: flex;
 				justify-content: center;
 				align-items: center;
