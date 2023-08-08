@@ -1134,7 +1134,9 @@
 		</view>
 
 		<customerService ref="customerService" @showContactFun="showContactFun" leftOrRight="right" />
-		<Bell ref="Bell"/>
+		<view v-for="(item,nub) in BellList" :key="nub">
+			<Bell ref="Bell"  :LatestWinObj="item"/>
+		</view>
 
 		<!--回到顶部-->
 		<image src="/static/images/auction/to-top.png" class="to_top" v-show="showTop" @click="toTop()"></image>
@@ -1273,7 +1275,8 @@
 				invite_money_balance: 0,
 				isLogin: false,
 				isNotReadNum: 0,
-				historyListTwo: []
+				historyListTwo: [],
+				BellList:[], // 首页提示
 			}
 		},
 		onLoad(e) {
@@ -1347,7 +1350,6 @@
 			}, 1000)
 		},
 		onShow() {
-		
 			//删除缓存临时数据
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
 			this.newsjpId = 1
@@ -1365,6 +1367,7 @@
 						this.set_paypwd = res.data.set_paypwd
 					}
 				})
+				this.getLatestWinAuction()
 			}
 
 			if (uni.getStorageSync('recharge')) {
@@ -1389,7 +1392,6 @@
 					uni.removeStorageSync('mine-info')
 				}, 2000)
 			}
-
 		},
 		onReachBottom() {
 			if (this.page * this.pagenum >= this.totalNum) return
@@ -1404,6 +1406,18 @@
 		},
 		mounted() {},
 		methods: {
+			async getLatestWinAuction() {
+				try {
+					const res = await this.$http.post(this.$apiObj.LatestWinAuction);
+                    const neData = res.data.list.data
+                    if(neData.length > 0 ) {
+                        this.BellList = neData
+                    }
+					console.log(res,neData);
+				} catch (error) {
+					console.error(error);
+				}
+			},
 			getBanner(item) {
 				console.log(item.url)
 				if (item.url.indexOf('.png') !== -1 || item.url.indexOf('.jpg') !== -1) {
@@ -1542,9 +1556,9 @@
 				// #endif
 			},
 			showContactFun(i) {
-				this.$refs.Bell.show = true
-				console.log(this.$refs.Bell.show);
-				// this.showContact = i
+				// this.$refs.Bell.show = true
+				// console.log(this.$refs.Bell.show);
+				this.showContact = i
 			},
 			//商品分类logo页面跳转
 			switchLogoToProduct(id, name) {
