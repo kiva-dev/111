@@ -105,7 +105,19 @@
 			</view>
 			
 			<view class="detail_info_line"></view>
-			
+
+			<template v-if="info.send_mark">
+				<view class="wishing">{{$t('order_info.remark')}}</view>
+				<view class="des_info">
+					<view class="des_info_key">{{$t('dueihuanma')}}</view>
+					<view class="des_info_value">
+						<text>{{info.send_mark}}</text>
+						<image src="/static/images/mine/k_copy.webp"
+							style="width: 32rpx;height: 32rpx;margin-left: 16rpx;margin-right: 0;"
+							@click="copyVal(info.send_mark)"></image>
+					</view>
+				</view>
+			</template>
 			<!-- <view class="btn">Confirm receipt</view> -->
 
 		</view>
@@ -372,7 +384,6 @@
 				color: rgb(51, 51, 51);
 				margin: 32rpx 0 0 24rpx;
 			}
-			
 			.btn{
 				width: 196rpx;
 				height: 56rpx;
