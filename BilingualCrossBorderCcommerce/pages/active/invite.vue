@@ -71,7 +71,7 @@
 			height: 950rpx;
 			background: url("@/static/images/active/active_bg_top.png") no-repeat;
 			background-size: 100% 100%;
-			padding-top: 88rpx;
+			padding-top: 60rpx;
 			box-sizing: border-box;
 			
 			.il-header {

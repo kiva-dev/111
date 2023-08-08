@@ -413,7 +413,7 @@
 
 		.head-info {
 			width: 750rpx;
-			padding-top: 88rpx;
+			padding-top: 60rpx;
 			height: 450rpx;
 			background: url('/static/spread/head.png') no-repeat;
 			background-size: 750rpx 450rpx;
@@ -447,7 +447,7 @@
 
 		.head-info1 {
 			width: 750rpx;
-			padding-top: 88rpx;
+			padding-top: 60rpx;
 			height: 812rpx;
 			background: url('/static/images/surprise/head_en.webp') no-repeat;
 			background-size: 750rpx 900rpx;

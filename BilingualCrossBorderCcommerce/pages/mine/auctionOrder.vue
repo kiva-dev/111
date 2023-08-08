@@ -83,7 +83,7 @@
 		.ap-header {
 			width: 100%;
 			background: rgb(255, 255, 255);
-			padding-top: 88rpx;
+			padding-top: 60rpx;
 			box-sizing: border-box;
 		
 			.ap-header-container {

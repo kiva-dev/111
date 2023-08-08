@@ -2007,7 +2007,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		position: relative;
 		widows: 100%;
 		height: 88rpx;
-		padding-top: 88rpx;
+		padding-top: 60rpx;
 		display: flex;
 		align-items: center;
 		// background: #fff;
@@ -3655,7 +3655,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		left: 0;
 		bottom: 0;
 		width: 100%;
-		padding-top: 88rpx;
+		padding-top: 60rpx;
 		padding-bottom: 24rpx;
 
 		.mode-close {

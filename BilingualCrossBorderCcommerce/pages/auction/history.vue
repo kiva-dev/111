@@ -1416,7 +1416,7 @@
 			position: relative;
 			width: 100%;
 			height: 88rpx;
-			padding-top: 88rpx;
+			padding-top: 60rpx;
 			display: flex;
 			align-items: center;
 			background-image: url("../../static/xuyuan/navBg.png");
@@ -2963,7 +2963,7 @@
 			left: 0;
 			bottom: 0;
 			width: 100%;
-			padding-top: 88rpx;
+			padding-top: 60rpx;
 			padding-bottom: 24rpx;
 
 			.mode-close {
