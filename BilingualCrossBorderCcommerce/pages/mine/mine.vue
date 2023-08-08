@@ -278,7 +278,7 @@
 						<image src="@/static/images/mine/mine_icon_right.webp" mode="widthFix"></image>
 					</view>
 				</view>
-				<view class="ul-li" @click="navClick('upgrade')">
+				<!-- <view class="ul-li" @click="navClick('upgrade')">
 					<view class="ul-li-l">
 						<view class="l-icon">
 							<image src="@/static/images/mine/mine_icon_merchants.png" mode="widthFix"></image>
@@ -288,7 +288,7 @@
 					<view class="ul-li-r">
 						<image src="@/static/images/mine/mine_icon_right.webp" mode="widthFix"></image>
 					</view>
-				</view>
+				</view> -->
 				<view class="ul-li" @click="navClick('/pages/mine/Feedback')">
 					<view class="ul-li-l">
 						<view class="l-icon">
