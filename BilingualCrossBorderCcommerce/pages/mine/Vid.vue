@@ -31,13 +31,13 @@
 				<input class="input" v-model="firstName" v-else placeholder-class="color-999"
 					:placeholder="$t('user.vid.qsrxm')" />
 			</view>
-			<view class="li">
+			<!-- <view class="li">
 				<view class="label">{{$t('user.vid.xs')}}</view>
 				<input class="input" v-model="lastName" v-if="status==='0'" disabled placeholder-class="color-999"
 					:placeholder="$t('user.vid.qsrxs')" />
 				<input class="input" v-model="lastName" v-else placeholder-class="color-999"
 					:placeholder="$t('user.vid.qsrxs')" />
-			</view>
+			</view> -->
 			<view class="li" v-if="index==0">
 				<view class="label">{{$t('user.vid.sfzh1')}}</view>
 				<input class="input" v-model="idcard" v-if="status==='0'" disabled placeholder-class="color-999"
@@ -274,10 +274,10 @@
 					title: this.$t('user.vid.qsrxm'),
 					icon: 'none'
 				})
-				if (!this.lastName) return uni.showToast({
-					title: this.$t('user.vid.qsrxs'),
-					icon: 'none'
-				})
+				// if (!this.lastName) return uni.showToast({
+				// 	title: this.$t('user.vid.qsrxs'),
+				// 	icon: 'none'
+				// })
 				if (!this.idcard) return uni.showToast({
 					title: this.$t('user.vid.qsrsfzh'),
 					icon: 'none'

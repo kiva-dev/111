@@ -1134,6 +1134,7 @@
 		</view>
 
 		<customerService ref="customerService" @showContactFun="showContactFun" leftOrRight="right" />
+		<Bell ref="Bell"/>
 
 		<!--回到顶部-->
 		<image src="/static/images/auction/to-top.png" class="to_top" v-show="showTop" @click="toTop()"></image>
@@ -1145,6 +1146,7 @@
 	import jsencrypt from '@/common/jsencrypt-Rsa/jsencrypt/jsencrypt.vue';
 	import apiObj from '@/http/api.js';
 	import customerService from '@/components/customerService/index.vue'
+	import Bell from '@/components/Global/Bell.vue'
 	//公钥.
 	const publiukey = `-----BEGIN PUBLIC KEY-----
 	MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCSjs8JJr/Nyb+nOG77agUDf7uT
@@ -1154,7 +1156,8 @@
 	-----END PUBLIC KEY-----`
 	export default {
 		components: {
-			customerService
+			customerService,
+			Bell
 		},
 		data() {
 			return {
@@ -1539,7 +1542,9 @@
 				// #endif
 			},
 			showContactFun(i) {
-				this.showContact = i
+				this.$refs.Bell.show = true
+				console.log(this.$refs.Bell.show);
+				// this.showContact = i
 			},
 			//商品分类logo页面跳转
 			switchLogoToProduct(id, name) {
