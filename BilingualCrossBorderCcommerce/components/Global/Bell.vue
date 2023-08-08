@@ -12,9 +12,7 @@
                     <view class="imgTrumpet-img">
                         <image src="@/static/Bell/trumpet.png"></image>
                     </view>
-                    <view class="imgTrumpet-shop-img">
-                        <image :src="info.image"></image>
-                    </view>
+                    <image :src="info.image" class="imgTrumpet-shop-img"></image>
                     <view class="imgTrumpet-text">
                         Congratulations ！Become the lucky star Of
                     </view>
@@ -354,10 +352,6 @@
                 transform: translate(-50%, -50%);
                 width: 200rpx;
                 height: 200rpx;
-                image{
-                    width: 200rpx;
-                    height: 200rpx;
-                }
             }
             .imgTrumpet-img{
                 width: 678rpx;
