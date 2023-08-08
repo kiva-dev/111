@@ -109,7 +109,6 @@
 			<template v-if="info.send_mark">
 				<view class="wishing">{{$t('order_info.remark')}}</view>
 				<view class="des_info">
-					<!-- <view class="des_info_key">{{$t('dueihuanma')}}</view> -->
 					<view class="des_info_value" style="position:unset;padding: 0 20rpx;">
 						<text>{{info.send_mark}}</text>
 					</view>

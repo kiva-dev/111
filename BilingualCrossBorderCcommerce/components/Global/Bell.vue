@@ -1,6 +1,6 @@
 <template>
     <view class="page-body">
-	    <u-overlay :show="show">
+	    <u-overlay :show="show" :opacity="0.9">
             <view class="warp">
                 <image class="imgLottery" src="@/static/Bell/lottery.png"></image>
                 <view class="imgTrumpet">
