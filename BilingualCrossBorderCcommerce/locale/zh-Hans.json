@@ -1586,6 +1586,8 @@
 	"pay.paypal_ts":"支持MY储蓄卡和信用卡，无需注册，需要KYC，手续费低",
 	"pay.pay_essence":"需实名",
 	"pay.pay_not":"更多支付方式请持续关注",
+
+	"detail.success":"必中率",
 	
 	"ongoing.tit":"惊喜许愿",
 	"ongoing.progress":"正在进行",

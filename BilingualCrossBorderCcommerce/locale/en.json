@@ -1592,6 +1592,8 @@
 	"pay.paypal_ts": "Supports MY savings and credit cards, no registration required, requires KYC, and low handling fees",
 	"pay.pay_essence": "Real name required",
 	"pay.pay_not": "Stay tuned for more payment methods",
+
+	"detail.success":"Winning Percentage",
 	
 	"ongoing.tit":"Surprise Wish",
 	"ongoing.progress":"In progress",
