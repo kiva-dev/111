@@ -3,6 +3,11 @@
 	    <u-overlay :show="show" :opacity="0.9">
             <view class="warp">
                 <image class="imgLottery" src="@/static/Bell/lottery.png"></image>
+                <view class="bell-shop-name">
+                    <view class="name">
+                       {{info.goods_name}}
+                    </view>
+                </view>
                 <view class="imgTrumpet">
                     <view class="imgTrumpet-img">
                         <image src="@/static/Bell/trumpet.png"></image>
@@ -109,7 +114,7 @@
             if(uni.getStorageSync('BellCode')){
                 setInterval(()=>{
                     this.getLatestWinAuction()
-                },1000*60*60)
+                },20000)
             }else{
                 uni.setStorageSync('BellCode', true)
                 this.getLatestWinAuction()
@@ -378,7 +383,7 @@
             width: 490rpx;
             height: 260rpx;
             position: absolute;
-            top: 12%;
+            top: 6%;
             left: 50%;
             transform: translate(-50%,0);
         }
@@ -400,7 +405,21 @@
 		left: 0;
 		z-index: 1000;
 	}
-
+    .bell-shop-name{
+        color: rgb(255, 255, 255);
+        font-size: 28rpx;
+        font-weight: 700;
+        position: absolute;
+        top: 18%;
+        left: 50%;
+        transform: translate(-50%, 0px);
+        font-weight: 700;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
 	.share-pop {
 		position: absolute;
 		bottom: 0;
