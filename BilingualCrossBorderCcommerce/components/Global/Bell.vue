@@ -12,7 +12,7 @@
                     <view class="imgTrumpet-img">
                         <image src="@/static/Bell/trumpet.png"></image>
                     </view>
-                    <image :src="info.image" class="imgTrumpet-shop-img"></image>
+                    <image :src="info.transparentShopBg" class="imgTrumpet-shop-img"></image>
                     <view class="imgTrumpet-text">
                         Congratulations ！Become the lucky star Of
                     </view>
@@ -137,9 +137,12 @@
             async getLatestWinAuction() {
 				try {
 					const res = await this.$http.post(this.$apiObj.LatestWinAuction);
-                    const neData = res.data.list.data
-                    neData.forEach(i=>{
-                        console.log(i.auction_goods_id);
+                    let neData = res.data.list.data.map(i=>{
+                        return {
+                            ...i,
+                            images:i.images.split(','),
+                            transparentShopBg:i.images.split(',')[0]
+                        }
                     })
                     if(neData.length > 0) {
                         this.newArr = neData
@@ -350,10 +353,10 @@
             .imgTrumpet-shop-img{
                 position: absolute;
                 top: 40%;
-                left: 52%;
+                left: 50%;
                 transform: translate(-50%, -50%);
-                width: 200rpx;
-                height: 200rpx;
+                width: 360rpx;
+                height: 360rpx;
             }
             .imgTrumpet-img{
                 width: 678rpx;
