@@ -7,17 +7,17 @@ import axios from 'axios';
 var Fly = require("flyio/dist/npm/wx");
 var request = new Fly();
 
-Vue.prototype.$version = '1.5.1';
+Vue.prototype.$version = '1.5.0';
 
 // Vue.prototype.$baseUrl = 线上：wish.kolibrimall.com 测试：kjtest.ysxrj.cn
-Vue.prototype.$baseUrl = 'https://wish.kolibrimall.com/';
+Vue.prototype.$baseUrl = 'https://kjtest.ysxrj.cn/';
 
 // request.config.baseURL = 'https://kuajing.ysxrj.cn/api/';
-request.config.baseURL = 'https://wish.kolibrimall.com/api/';
+request.config.baseURL = 'https://kjtest.ysxrj.cn/api/';
 
 Vue.prototype.$Fly = request;
 // Vue.prototype.$url = 'https://kuajing.ysxrj.cn/api/';
-Vue.prototype.$url = 'https://wish.kolibrimall.com/api/';
+Vue.prototype.$url = 'https://kjtest.ysxrj.cn/api/';
 request.interceptors.request.use((request) => {
 	const token = uni.getStorageSync('token')
 	// request.headers['Content-Type'] = 'multipart/form-data'
