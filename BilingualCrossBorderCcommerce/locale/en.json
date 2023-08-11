@@ -500,8 +500,8 @@
 	"user.upgrade.qddkflx": "Please wait for customer service to contact you",
 
 	"user.vid.zjlx": "Document Types",
-	"user.vid.name": "Name",
-	"user.vid.qsrxm": "Please enter your full name",
+	"user.vid.name": "Full Name",
+	"user.vid.qsrxm": "Please enter your first name",
 	"user.vid.xs": "Surname",
 	"user.vid.qsrxs": "Please enter last name",
 	"user.vid.sfzh": "ID",
@@ -1239,8 +1239,8 @@
 	"kefu.title": "Contact customer service",
 	"Unlimited sho": "Unlimited",
 	"zdcsbn": "The maximum number of times cannot exceed 10000",
-	"xejp": "Amount-Limited Wish Pool",
-	"xsjp": "Limited Time Wish",
+	"xejp": "Amount Limited",
+	"xsjp": "Amount-Limited Wish Pool",
 	"xyzx": "Lucky Star",
 	"ge": "Individual",
 	"time": "Time",
@@ -1523,12 +1523,12 @@
 	"new.view_order": "View order",
 	"new.toindex": "Homepage",
 	"new.xyje": "Wishing amount",
+	"new.wlpz": "Logistics Voucher",
 	"new.xyxx": "Wishing information",
 	"new.spqs": "Commodity period",
 	"new.xym": "Wish Code",
 	"new.xdsj": "Order time",
 	"new.lqsj": "Pick up time",
-	"new.wlpz": "Logistics Voucher",
 	"new.fhm": "Shipping order number",
 	"new.fhsj": "Shipping company name",
 	"new.shsm": "Appeal Description",
@@ -1578,6 +1578,7 @@
 
 
 	"ranking.ranking_list": "Ranking Board",
+	"ranking.auction_ranking":"Ranking",
 	"ranking.ranking":"Ranking Board",
 	"ranking.luck_forum": "Lucky Forum",
 	"ranking.gotoview": "Go to view",
@@ -1592,12 +1593,11 @@
 	"ranking.wishing_times": "Participation Period",
 	"ranking.invitation_num": "Number Of Invitations",
 	"ranking.not":"No Ranking Yet",
+	"ranking.not_img":"Sorry, There is no leaderboard content yet",
 
 	"pay.paypal_ts": "Supports MY savings and credit cards, no registration required, requires KYC, and low handling fees",
 	"pay.pay_essence": "Real name required",
 	"pay.pay_not": "Stay tuned for more payment methods",
-
-	"detail.success":"Winning Percentage",
 	
 	"ongoing.tit":"Surprise Wish",
 	"ongoing.progress":"In progress",
@@ -1605,9 +1605,61 @@
 	"start_soon.tip":"There are currently no upcoming products~",
 	"start_soon.loading":"Loading...",
 	"start_soon.work":"Coming Soon, Stay Tuned",
+	"product_info.bonus":"Available Bonus ratio",
+	"product_info.bonus_deduction":"Bonus deduction：",
 	
 	"mine.recharge_xy":"User Recharge Agreement",
-
-	"order_info.remark":"Remark"
-
+	"mine.bindPhone":"Please bind your phone number first!",
+	"mine.send_code":"Resend",
+	"mine.bind_phone":"Bind phone number",
+	"mine.real_need_bind_phone":"Mobile phone number needs to be bound before real name authentication",
+	"mine.bind_phone_success":"The mobile phone number is bound successfully",
+	
+	"product_info.soldout":"SOLD OUT",
+	
+	"detail.success":"Probability",
+	
+	"app.tip":"Notification permissions enable reminders",
+	"app.content":"You have not enabled the notification permission and cannot receive message notifications, please go to settings!",
+	"app.next":"Go to settings",
+	"app.cancel":"Cancel",
+	
+	"order_info.remark":"Remark",
+	"order_info.after_sales":"After Sales",
+	"order_info.refund_amount":"Refund Amount",
+	"order_info.notesAndImages":"Notes and images",
+	"order_info.upload_tip":"Suggested size 400*400, up to 5 images, with a single image size of no more than 20mb",
+	"order_info.notes_info":"Please enter a description",
+	"order_info.refund_num":"Refund Quantity",
+	"order_info.after_sales_time":"After Sales Time",
+	"order_info.after_sales_info":"After Sales Information",
+	"order_info.cancel_after_sales":"Cancel After Sales",
+	"order_info.show_after_sales":"View After Sales",
+	"order_info.after_sales_detail":"After Sales Details",
+	"order_info.return_address":"Return Address",
+	"order_info.return_log":"Return Logistics",
+	"order_info.goto_fill_out":"Go To Fill Out",
+	"order_info.copy":"Copy",
+	"order_info.logistics_company":"Logistics Company",
+	"order_info.logistics_number":"Logistics Number",
+	"order_info.confirm_setting":"Confirm Settings",
+	"order_info.enter":"Enter",
+	"order_info.balance":"Deposits Amount",
+	"order_info.bonus":"Bonus Amount",
+	"order_info.intiate_appeal":"Initiate  Appeal",
+	"order_info.appeal_description":"Appeal Description",
+	"order_info.intiate":"Initiate",
+	"order_info.submit":"Submit",
+	"order_info.show_intiate_appeal":"Appeal Information",
+	
+	"detail.enter_number":"Please enter search number",
+	
+	"bonus.gifts":"Newcomers have good gifts",
+	"bonus.snhl":"Send you a gift",
+	"bonus.yxq":"Validity period: 7 days",
+	"bonus.cf":"Go immediately",
+	"bell.gx":"Congratulations ！Become the lucky star Of",
+	"bell.xyhd":"The Wishing Event!",
+	"bell.ljlq":"Receive your Gift now！",
+	"bell.fx":"Share"
 }

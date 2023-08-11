@@ -80,7 +80,8 @@
 				selectProtocol: false, //协议勾选
 				infoData: [], //实名信息
 				payList: [],
-				isShopCont: false
+				isShopCont: false,
+				phone:''
 			}
 		},
 		onShow() {
@@ -109,6 +110,7 @@
 				this.$http.post(this.$apiObj.MineInfo).then(res => {
 					if (res.code == 1) {
 						this.money = res.data.recharge_money_balance
+						this.phone = res.data.mobile
 					}
 				})
 			},
@@ -219,6 +221,14 @@
 						});
 						//  #endif
 						uni.hideLoading()
+					}else{
+						if (!this.infoData || this.infoData.length < 1) {
+							setTimeout(() => {
+								uni.navigateTo({
+									url: '/pages/mine/Vid'
+								})
+							}, 2000)
+						} 
 					}
 				})
 			},

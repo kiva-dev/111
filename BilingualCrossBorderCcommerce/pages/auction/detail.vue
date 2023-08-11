@@ -116,7 +116,7 @@
 				<view class="detail-canyu-name">
 					<text>{{$t('new.canyurenshu')}}：{{shopCont.order_user_count}}</text>
 					<text
-						v-show="shopCont.check_status == 2">{{$t('detail.success')}}：{{shopCont.probability_of_winning}}%</text>
+						v-show="shopCont.check_status == 2">{{$t('detail.success')}}：{{shopCont.probability_of_winning}}</text>
 				</view>
 				<view class="detail-canyu-jdt" v-if="shopCont.check_status!=3 && shopCont.check_status!=4">
 					<progress class="progress" :percent="shopCont.finish_rate*100" stroke-width="9"
@@ -1545,11 +1545,40 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					})
 					return
 				}
-
+			
 				//k钻加赠金
-				if (this.useInvite && this.balance * 1 < this.shopNum && !this.kdiamondSelect) {
-					let zj = this.shopNum * 1 * this.can_use_invite_money_rate //最多赠金
+				if (this.useInvite && !this.kdiamondSelect) {
+					let zj = this.shopNum * 1 * (this.can_use_invite_money_rate * 1 / 100) //最多赠金
 					let flag = zj <= this.invite_money_balance * 1
+					if (!this.MineCont || this.MineCont.length < 1) {
+						uni.showToast({
+							title: this.$t('shimingrenzheng'),
+							icon: 'none',
+							duration: 3000,
+							success: () => {
+								setTimeout(() => {
+									uni.navigateTo({
+										url: '/pages/mine/Vid'
+									})
+								}, 2000)
+							}
+						})
+						return
+					}else if(this.MineCont.status == -1){
+						uni.showToast({
+							title: this.$t('smrzwtg'),
+							icon: 'none',
+							duration: 3000
+						})
+						return
+					}else if(this.MineCont.status == 0){
+						uni.showToast({
+							title: this.$t('smrzshh'),
+							icon: 'none',
+							duration: 3000
+						})
+						return
+					}
 					if (flag) { //赠金足够
 						if ((this.shopNum * 1 - zj) > this.balance * 1) {
 							uni.showToast({
@@ -1602,7 +1631,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						}
 					}
 				}
-
+			
 				//k钻加赠金加兑换
 				if (this.useInvite && this.kdiamondSelect) {
 					if (this.money * 1 < this.useInviteRmNum * 1) {
@@ -1613,10 +1642,10 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						return
 					}
 				}
-
+			
 				if (this.kdiamondSelect) {
 					if (this.set_paypwd != 1) {
-
+			
 						uni.showToast({
 							title: this.$t('new.qszmm'),
 							icon: 'none',
