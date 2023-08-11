@@ -116,7 +116,7 @@
 				<view class="detail-canyu-name">
 					<text>{{$t('new.canyurenshu')}}：{{shopCont.order_user_count}}</text>
 					<text
-						v-show="shopCont.check_status == 2">{{$t('detail.success')}}：{{shopCont.probability_of_winning}}%</text>
+						v-show="shopCont.check_status == 2">{{$t('detail.success')}}：{{shopCont.probability_of_winning}}</text>
 				</view>
 				<view class="detail-canyu-jdt" v-if="shopCont.check_status!=3 && shopCont.check_status!=4">
 					<progress class="progress" :percent="shopCont.finish_rate*100" stroke-width="9"
