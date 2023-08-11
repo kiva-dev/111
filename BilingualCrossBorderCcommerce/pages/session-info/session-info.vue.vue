@@ -1334,7 +1334,6 @@ page {
 	vertical-align: top;
 	border-radius: 10rpx;
 	word-wrap: break-word;
-	word-break: break-all;
 }
 .wrapper .message-item.me .message-content {
 	color: $--white;
