@@ -113,7 +113,7 @@
 			uploadFilePromise(url) {
 				return new Promise((resolve, reject) => {
 					let a = uni.uploadFile({
-						url: 'https://kjtest.ysxrj.cn/api/Mine/upload', // 仅为示例，非真实的接口地址
+						url: this.$baseUrl + 'api/Mine/upload', // 仅为示例，非真实的接口地址
 						filePath: url,
 						name: 'file',
 						formData: {
