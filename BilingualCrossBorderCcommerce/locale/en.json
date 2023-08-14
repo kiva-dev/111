@@ -1661,5 +1661,8 @@
 	"bell.gx":"Congratulations ！Become the lucky star Of",
 	"bell.xyhd":"The Wishing Event!",
 	"bell.ljlq":"Receive your Gift now！",
-	"bell.fx":"Share"
+	"bell.fx":"Share",
+
+	"Global.NewVersion":"New Version Found",
+	"Global.VersionContent":"update content:"
 }
