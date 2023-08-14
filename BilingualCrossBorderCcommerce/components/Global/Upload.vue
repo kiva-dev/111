@@ -9,7 +9,7 @@
                     </view>
                     <view class="version-content">
                         <view class="imgFooter-text">{{$t('Global.VersionContent')}}</view>
-                        <span class="imgFooter">fix known issues</span>
+                        <span class="imgFooter">{{version_auction_desc}}</span>
                     </view>
                 </view>
                 <a href="https://wish.kolibrimall.com/api/Index/getApk" download="Kolibri mall" style="text-decoration:none;">
@@ -30,6 +30,7 @@
 			return {
                 info:{},
                 version:'',
+                version_auction_desc:'',
                 show:false,
 			}
 		},
@@ -40,9 +41,13 @@
 		methods: {
             async checkVersion() {
                 try {
-                    const res = await this.$http.post(this.$apiObj.IndexSetting, {fields: 'version'});
+				    const isEnglish = uni.getStorageSync('locale') !== 'zh-Hans';
+                    const res = await this.$http.post(this.$apiObj.IndexSetting, {fields: 'version_auction,version_auction_desc,version_auction_desc_en'});
                     if (res.code === 1) {
-                        this.show = this.$version !== res.data.version;
+                        const {version_auction,version_auction_desc_en,version_auction_desc} = res.data
+                        this.version_auction_desc  =  isEnglish ? version_auction_desc_en : version_auction_desc
+                        this.version = version_auction
+                        this.show = this.$version !== version_auction;
                     }
                 } catch (error) {
                     console.error('Error checking version:', error);
