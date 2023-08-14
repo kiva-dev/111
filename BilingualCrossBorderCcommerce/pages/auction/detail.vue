@@ -106,10 +106,6 @@
 			</view>
 			<view class="detail-luck-star" v-else>
 				<view class="detail-luck-star-name">{{$t('xsjp')}}</view>
-				<!-- <view class="detail-luck-star-info">
-					<image src="../../static/images/mine/lucky_icon_trophy.png"></image>
-					{{$t('xyzx')}}：{{shopCont.lucky_num}}
-				</view> -->
 			</view>
 			<!--参与竞拍人数-->
 			<view class="detail-canyu">
@@ -127,20 +123,20 @@
 					<block v-if="shopCont.order_user.length > 12">
 						<view class="detail-canyu-item" :style="(i+1)%6==0?'margin-right: 0rpx;':''"
 							v-for="(item,i) in shopCont.order_user.slice(0,10)">
-							<image :src="item.avatar"></image>
+							<image :src="item.avatar" @click="toRecode()"></image>
 						</view>
 						<view class="detail-canyu-more">
 							<image src="/static/images//products/more.png"></image>
 						</view>
 						<view class="detail-canyu-item" style="margin-right: 0rpx;"
 							v-for="(item,i) in shopCont.order_user.slice(10,11)">
-							<image :src="item.avatar"></image>
+							<image :src="item.avatar" @click="toRecode()"></image>
 						</view>
 					</block>
 					<block v-else>
 						<view class="detail-canyu-item" :style="(i+1)%6==0?'margin-right: 0rpx;':''"
 							v-for="(item,i) in shopCont.order_user">
-							<image :src="item.avatar"></image>
+							<image :src="item.avatar" @click="toRecode()"></image>
 						</view>
 					</block>
 				</view>
@@ -235,7 +231,7 @@
 			<view class="guess-layout">
 				<view class="gl-title">
 					<view class="gl-title-left">
-						<image src="@/static/images/new-index/detail_icon_guess.png" mode="widthFix"></image>
+						<image src="/static/images/new-index/detail_icon_guess.png" mode="widthFix"></image>
 						<p>{{$t('detail.guess')}}</p>
 					</view>
 				</view>
@@ -301,7 +297,7 @@
 			</view>
 			<view id="div4"></view>
 			<!--竞拍记录-->
-			<view class="jingpaiCont" v-if="OrderList.length > 0">
+			<view class="jingpaiCont" >
 				<view class="six-tit">
 					<view class="line"></view>
 					<text>{{$t('auction.detail.jingpaijilu')}}</text>
@@ -313,32 +309,52 @@
 							<image src="/static/images/mine/lucky_icon_trophy.png"></image>
 							<p>{{$t('xyzx')}}<text></text></p>
 						</view>
-				
-						<view class="conter" style="margin-bottom:50rpx;">
-							<view v-for="item,k in goodlucky" :key="k" class="list">
+
+						<view class="conter" style="margin-bottom:10rpx;">
+							<view v-for="item,k in goodlucky" :key="k" class="list" style="width: 98%;margin-left: 1%;">
 								<view class="kuan">
 									<view class="user">
 										<image :src="item.avatar" mode="" />
 									</view>
+									<view class="start">
+										<image src="/static/images/auction/start.png"></image>
+									</view>
 								</view>
-								<view class="name">{{item.nickname}}</view>
-								<view class="time">{{$u.timeFormat(item.update_time, 'mm/dd hh:MM:ss')}}</view>
+								<view class="user-info">
+									<view class="name">{{item.nickname}}</view>
+									<view class="time">{{$u.timeFormat(item.update_time, 'mm/dd hh:MM:ss')}}</view>
+								</view>
+
 								<view class="order">{{item.num_id}}
+									<image src="/static/images/mine/k_copy.png" @click="copy(item.num_id)"></image>
 								</view>
 							</view>
 						</view>
 					</view>
 				</block>
-				<block v-if="OrderList.length">
+				<block >
 					<view class="jingpaiCont-jpjl" style="margin-top: 20rpx;">
-						<view class="max-title">{{$t('auction.detail.jingpaijilu')}}</view>
+						<view class="head">
+							<view class="max-title" style="margin-bottom: 0;">{{$t('auction.detail.jingpaijilu')}}
+							</view>
+							<view class="myinput" v-if="shopCont.check_status==3||shopCont.check_status==4">
+								<u--input prefixIcon="search" placeholderStyle="font-size:26rpx;" @confirm="sendById()"
+									:placeholder="$t('detail.enter_number')" border="surround"
+									v-model="search_number"></u--input>
+							</view>
+						</view>
+
 						<view class="conter">
-							<view v-for="item,k in OrderList" :key="k" class="list">
-								<view class="user">
+							<view v-for="item,k in OrderList" :key="k" class="list" style="justify-content: flex-start;">
+								<view class="user" style="margin-right: 24rpx;">
 									<image :src="item.avatar" mode="" />
 								</view>
-								<view class="name">{{item.nickname}}</view>
-								<view class="time">{{$u.timeFormat(item.pay_time, 'mm/dd hh:MM:ss')}}</view>
+
+								<view class="user-info">
+									<view class="name">{{item.nickname}}</view>
+									<view class="time">{{$u.timeFormat(item.pay_time, 'mm/dd hh:MM:ss')}}</view>
+								</view>
+
 								<view class="order">{{item.num_id}}</view>
 							</view>
 							<view class="more" @click="showMore()" v-show="showRecord">
@@ -362,39 +378,11 @@
 					<view class="agree-box" v-else v-html="auction_rule"></view>
 				</view>
 			</view>
-			<!--底部 start-->
-			<!-- <view class="fixed-fr">
-				<view class="detail-btn" v-if="shopCont.check_status==3||shopCont.check_status==4"
-					style="font-size: 40rpx;color:#FFF;background:rgb(190, 190, 190)">
-					<view>{{$t('auction.detail.yijs')}}</view>
-					<view style="font-size: 20rpx;">RM{{shopCont.auction_price}}</view>
-				</view>
-				<view class="detail-btn" v-else-if="shopCont.check_status==1"
-					style="font-size: 40rpx;color:#fff;background:rgba(255, 78, 47, 0.3)">
-					{{$t('auction.detail.jijks')}}
-					<view style="font-size: 20rpx;">RM{{shopCont.auction_price}}</view>
-				</view>
-				<view class="detail-btn" v-else-if="auction_num>='-1'&&auction_num!=0||shopCont.check_status==2"
-					@click="onMineInfos">
-					<view style="font-size: 40rpx;">{{$t('auction.detail.qiangpai')}}</view>
-					<view style="font-size: 20rpx;">RM{{shopCont.auction_price}}</view>
-				</view>
-				<view class="detail-btn" v-else style="color:#000;background:#ccc">
-					{{$t('auction.detail.jingpaiwan')}}
-				</view>
-			</view> -->
+
 			<view class="bottom-layout">
-				<!-- <view class="bl-left">
-					<view class="bl-left-box" @click="toMyCart()">
-						<image src="@/static/images/new-index/detail_btn_car2.png" mode="widthFix"></image>
-						<p>My Cart</p>
-					</view>
-				</view> -->
+
 				<view class="bl-right">
-					<!-- <view class="bl-right-buy" @click="toPay()">
-						<p class="buy-name">Buy Now</p>
-						<p class="buy-info"><span>RM</span> 4888.00</p>
-					</view> -->
+
 					<view class="bl-right-add" style="color: #FFF; background: rgb(190, 190, 190)"
 						v-if="shopCont.check_status==3||shopCont.check_status==4">
 						<p>{{$t('auction.detail.yijs')}}</p>
@@ -490,7 +478,6 @@
 		</uni-popup>
 		<view class="fenxiang" v-if="jingpaiShow">
 			<view class="jingpai-ok">
-				<!-- <image src="../../static/images/new/tck.png" class="kct"></image> -->
 				<view class="jingpai-pop">
 					<view class="title">
 						{{$t('auction.detail.sfqr')}} {{shopNum}} {{$t('new.kz')}} {{$t('auction.detail.gmygjpme')}}
@@ -565,6 +552,12 @@
 
 				<view class="mode-banlace" v-show="balance*1 < shopNum">{{$t('new.kzyebz')}}</view>
 
+				<view class="mode-banlace" v-show="useInvite" style="color: rgb(153, 153, 153);">
+					({{$t('product_info.bonus_deduction')}}<text
+						style="color: rgb(10, 198, 142);margin-right: 10rpx;">{{(shopNum*1 - changShopNum*1).toFixed(2)}}</text>
+					{{$t('new.kz')}})
+				</view>
+
 				<view class="mode-info">
 					<image src="/static/images/kbrick/diamond.png" class="logo"></image>
 					<view class="info-tit">
@@ -573,8 +566,8 @@
 					</view>
 					<view class="mode-info-right" @click="showRmToKdiamond=!showRmToKdiamond">
 						<view>{{$t('new.dhfk')}}</view>
-						<image src="/static/images/kbrick/btm.png" v-show="!showRmToKdiamond"></image>
-						<image src="/static/images/kbrick/top.png" v-show="showRmToKdiamond"></image>
+						<image src="/static/images/kbrick/btm.png" class="top" v-show="!showRmToKdiamond"></image>
+						<image src="/static/images/kbrick/top.png" class="top" v-show="showRmToKdiamond"></image>
 					</view>
 				</view>
 
@@ -597,8 +590,24 @@
 						@click="kdiamondSelect=false"></image>
 				</view>
 
-				<view style="color: rgb(102, 102, 102);margin: 12rpx 0 0 100rpx;" v-if="useInvite">({{$t('new.zjkc')}}
+				<!-- <view style="color: rgb(102, 102, 102);margin: 12rpx 0 0 100rpx;" v-if="useInvite">({{$t('new.zjkc')}}
 					{{zenjinToRmNum.toFixed(2)}} {{$t('new.kz')}})
+				</view> -->
+
+				<view class="mode-info" style="margin-top: 40rpx;" v-if="can_use_invite_money_rate*1 > 0">
+					<image src="/static/images/mine/yonjin.webp" class="logo"></image>
+					<view class="info-tit">
+						<view class="info-name">{{$t('product_info.bonus')}} ({{can_use_invite_money_rate}}%)</view>
+						<view class="info-price">({{$t('mine.Bonus')}}:<text>{{invite_money_balance}}</text>))</view>
+					</view>
+					<view class="mode-info-right" v-if="invite_money_balance*1 > 0">
+						<image src="/static/images/new-index/wxz.png" class="use" v-show="!useInvite"
+							@click="useInvite=!useInvite">
+						</image>
+						<image src="/static/images/new-index/xz.png" class="use" v-show="useInvite"
+							@click="useInvite=!useInvite">
+						</image>
+					</view>
 				</view>
 
 				<view class="mode-cz" v-if="balance*1 < shopNum*1">
@@ -606,14 +615,7 @@
 					<image src="/static/images/kbrick/right.png"></image>
 				</view>
 
-				<view class="mode-switch" v-if="can_use_invite_money_rate>0">
-					<image src="/static/images/new-index/wxz.png" v-show="!useInvite" @click="useInvite=!useInvite">
-					</image>
-					<image src="/static/images/new-index/xz.png" v-show="useInvite" @click="useInvite=!useInvite">
-					</image>
-					<view>({{$t('new.zjkc')}} {{can_use_invite_money_rate}}% {{$t('new.kz')}})</view>
-				</view>
-				<view class="mode-switch" v-else></view>
+				<view class="mode-switch"></view>
 
 				<view class="mode-btn" @click.stop="$noMultipleClicks(onPayClick)">{{$t('new.payment')}}</view>
 
@@ -686,7 +688,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		},
 		data() {
 			return {
-				showRecord:false,
+				search_number: '',
+				showRecord: false,
 				showImages: false,
 				selectProtocol: false, //默认不勾选协议
 				useInvite: false, //是否使用赠金
@@ -854,6 +857,9 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			}
 
 		},
+		onHide() {
+			this.zhifushow = false
+		},
 		beforeDestroy() {
 			clearInterval(this.timer)
 		},
@@ -877,7 +883,43 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 		},
 		methods: {
-			showMore(){
+			//根据编号搜索指定的用户
+			sendById() {
+				// if(!this.search_number) return
+				this.search = this.search_number
+				this.onAuctionorderOrderList()
+			},
+			copy(val) {
+				// #ifdef H5
+				let oInput = document.createElement('input');
+				oInput.value = val; //要复制的订单编号
+				document.body.appendChild(oInput);
+				oInput.select(); // 选择对象;
+				document.execCommand("Copy"); // 执行浏览器复制命令
+				uni.showToast({
+					icon: 'none',
+					title: this.$t('user.order.detail.fzcg')
+				})
+				oInput.remove()
+				// #endif
+				// #ifndef H5
+				uni.setClipboardData({
+					data: val,
+					success: () => {
+						uni.showToast({
+							icon: 'none',
+							title: this.$t('user.order.detail.fzcg')
+						})
+					}
+				});
+				// #endif
+			},
+			toRecode() {
+				uni.pageScrollTo({
+					scrollTop: this.heightList[3]
+				})
+			},
+			showMore() {
 				this.page++
 				this.onAuctionorderOrderList()
 			},
@@ -948,23 +990,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					url: '/pages/auction/auction'
 				})
 			},
-			//计算距离
-			/* getTopNum() {
-				for (var i = 0; i < this.navList.length; i++) {
-					uni.createSelectorQuery()
-						.select('#div' + (i + 1))
-						.boundingClientRect(data => {
-							console.log(data);
-							//目标位置节点 类或者 id
-							uni.createSelectorQuery()
-								.select('.detail-page')
-								.boundingClientRect(res => {
-									let num = data.top > 0 ? data.top - 100 : data.top
-									this.heightList.push(num)
-								}).exec();
-						}).exec();
-				}
-			}, */
+
 			//计算距离
 			getTopNum() {
 				const queryList = [];
@@ -1280,10 +1306,9 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				}).then(res => {
 					if (res.code == 1) {
 						this.totalPageNums = res.data.total
-						
-						if(this.page * this.pagenum >= this.totalPageNums) this.showRecord = false
+						if (this.page * this.pagenum >= this.totalPageNums) this.showRecord = false
 						else this.showRecord = true
-						
+
 						this.OrderList = this.page == 1 ? res.data.data : [...this.OrderList, ...res.data.data]
 					}
 				})
@@ -1545,7 +1570,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					})
 					return
 				}
-			
 				//k钻加赠金
 				if (this.useInvite && !this.kdiamondSelect) {
 					let zj = this.shopNum * 1 * (this.can_use_invite_money_rate * 1 / 100) //最多赠金
@@ -1631,7 +1655,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						}
 					}
 				}
-			
 				//k钻加赠金加兑换
 				if (this.useInvite && this.kdiamondSelect) {
 					if (this.money * 1 < this.useInviteRmNum * 1) {
@@ -1642,10 +1665,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						return
 					}
 				}
-			
 				if (this.kdiamondSelect) {
 					if (this.set_paypwd != 1) {
-			
 						uni.showToast({
 							title: this.$t('new.qszmm'),
 							icon: 'none',
@@ -1760,7 +1781,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			// 点击复制链接
 			onUrlClick() {
 				this.onAuctionorderShare()
-				// this.$emit('copy', this.shopCont.tui_express_no);
 				// #ifdef H5
 				let oInput = document.createElement('input');
 				oInput.value = this.qrUrl; //要复制的订单编号
@@ -1858,6 +1878,11 @@ NoR+zv3KaEmPSHtooQIDAQAB
 <style lang="less" scoped>
 	* {
 		box-sizing: border-box;
+	}
+
+	/deep/.u-input {
+		height: 60rpx;
+		text-align: right;
 	}
 
 	/deep/.u-count-down__text {
@@ -2039,7 +2064,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		position: relative;
 		widows: 100%;
 		height: 88rpx;
-		padding-top: 88rpx;
+		padding-top: 60rpx;
 		display: flex;
 		align-items: center;
 		// background: #fff;
@@ -2075,9 +2100,9 @@ NoR+zv3KaEmPSHtooQIDAQAB
 	//价格与时间
 	.detail-price {
 		width: 100%;
-		// height: 90rpx;
+		height: 90rpx;
 		background: rgb(255, 57, 57);
-		padding: 16rpx 32rpx;
+		padding: 0 32rpx;
 		box-sizing: border-box;
 		// display: flex;
 		// justify-content: space-between;
@@ -2189,7 +2214,34 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		padding: 0 32rpx;
 		box-sizing: border-box;
 		display: flex;
+		align-items: center;
 		flex-wrap: wrap;
+
+		.bonus {
+			// width: 190rpx;
+			height: 28rpx;
+			padding: 10rpx 0;
+			display: flex;
+			align-items: center;
+			box-sizing: border-box;
+			border: 2rpx solid rgb(255, 57, 57);
+			border-radius: 28rpx;
+			margin-right: 20rpx;
+
+			.bonus-img {
+				display: block;
+				width: 28rpx;
+				height: 28rpx;
+				border-radius: 50%;
+			}
+
+			view {
+				font-size: 16rpx;
+				color: rgb(255, 57, 57);
+				white-space: nowrap;
+				margin-left: 4rpx;
+			}
+		}
 
 		.tag {
 			margin: 0 12rpx 12rpx 0;
@@ -2212,29 +2264,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			}
 
 			text {
-				margin-left: 4rpx;
-			}
-		}
-		.bonus {
-			height: 28rpx;
-			display: flex;
-			align-items: center;
-			box-sizing: border-box;
-			border: 2rpx solid rgb(255, 57, 57);
-			border-radius: 28rpx;
-			margin: 0 20rpx 12rpx 0;
-			padding: 15rpx;
-			.bonus-img {
-				display: block;
-				width: 28rpx;
-				height: 28rpx;
-				border-radius: 50%;
-			}
-
-			view {
-				font-size: 16rpx;
-				color: rgb(255, 57, 57);
-				white-space: nowrap;
 				margin-left: 4rpx;
 			}
 		}
@@ -3022,12 +3051,12 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 			/deep/ uni-swiper {
 				position: relative;
-				height: 600rpx;
+				height: 750rpx;
 			}
 
 			.big-img {
 				width: 100%;
-				height: 600rpx;
+				height: 750rpx;
 			}
 
 			/deep/.uni-swiper__dots-nav {
@@ -3477,16 +3506,16 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						color: rgb(255, 255, 255);
 						font-size: 24rpx;
 					}
-					
-					p:nth-child(2){
+
+					p:nth-child(2) {
 						font-size: 28rpx;
 						font-weight: bold;
 						color: rgb(255, 255, 255);
 						display: flex;
 						align-items: center;
 					}
-					
-					image{
+
+					image {
 						display: block;
 						width: 32rpx;
 						height: 32rpx;
@@ -3710,7 +3739,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		left: 0;
 		bottom: 0;
 		width: 100%;
-		padding-top: 88rpx;
+		padding-top: 60rpx;
 		padding-bottom: 24rpx;
 
 		.mode-close {
@@ -3795,11 +3824,17 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				display: flex;
 				align-items: center;
 
-				image {
+				.top {
 					width: 24rpx;
 					height: 24rpx;
 					margin-left: 8rpx;
 				}
+
+				.use {
+					width: 36rpx;
+					height: 36rpx;
+				}
+
 			}
 
 			.select {
@@ -4026,9 +4061,25 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 		.jingpaiCont-jpjl {
 			width: 100%;
-			padding-top: 10rpx;
-			padding-bottom: 30rpx;
+			padding-top: 30rpx;
+			padding-bottom: 10rpx;
 			background: #fff;
+
+			.head {
+				position: relative;
+				width: 100%;
+				height: 60rpx;
+				display: flex;
+				align-items: center;
+
+				.myinput {
+					position: absolute;
+					right: 24rpx;
+					width: 400rpx;
+					height: 60rpx;
+				}
+			}
+
 		}
 
 		.navCont {
@@ -4042,8 +4093,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		}
 
 		.conter {
-			
-			.more{
+
+			.more {
 				width: 100%;
 				font-size: 24rpx;
 				color: rgb(102, 102, 102);
@@ -4051,20 +4102,20 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				align-items: center;
 				justify-content: center;
 				margin-top: 20rpx;
-				
-				image{
+
+				image {
 					display: block;
 					width: 24rpx;
 					height: 24rpx;
 					margin-left: 8rpx;
 				}
 			}
-			
+
 			.list {
 				width: 90%;
 				padding-top: 30rpx;
 				display: flex;
-				justify-content: space-between;
+				// justify-content: space-between;
 				align-items: center;
 				font-size: 24rpx;
 				margin-left: 5%;
@@ -4073,8 +4124,18 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					position: relative;
 					width: 80rpx;
 					height: 80rpx;
-					background: url('../../static/images/new/kuan.png') no-repeat;
-					background-size: 80rpx 80rpx;
+					margin-right: 24rpx;
+
+					.start {
+						position: absolute;
+						right: 0rpx;
+						bottom: 10rpx;
+
+						image {
+							width: 24rpx;
+							height: 24rpx;
+						}
+					}
 
 					.user {
 						position: absolute;
@@ -4104,16 +4165,25 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					}
 				}
 
-				.time {
-					color: #999;
+
+
+				.user-info {
+					width: 290rpx;
+
+					.name {
+						width: 100%;
+						overflow: hidden;
+						text-overflow: ellipsis;
+						white-space: nowrap;
+					}
+
+					.time {
+						color: #999;
+						margin-top: 4rpx;
+					}
 				}
 
-				.name {
-					max-width: 120rpx;
-					overflow: hidden;
-					text-overflow: ellipsis;
-					white-space: nowrap;
-				}
+
 
 				.pay {}
 
@@ -4125,8 +4195,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					image {
 						width: 40rpx;
 						height: 40rpx;
-						margin-left: 5rpx;
-						margin-right: 30rpx;
+						margin-left: 20rpx;
 					}
 				}
 
