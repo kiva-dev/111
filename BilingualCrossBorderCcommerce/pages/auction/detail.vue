@@ -123,20 +123,20 @@
 					<block v-if="shopCont.order_user.length > 12">
 						<view class="detail-canyu-item" :style="(i+1)%6==0?'margin-right: 0rpx;':''"
 							v-for="(item,i) in shopCont.order_user.slice(0,10)">
-							<image :src="item.avatar" @click="toRecode()"></image>
+							<image :src="item.avatar" @click="onNavClick(4)"></image>
 						</view>
 						<view class="detail-canyu-more">
 							<image src="/static/images//products/more.png"></image>
 						</view>
 						<view class="detail-canyu-item" style="margin-right: 0rpx;"
 							v-for="(item,i) in shopCont.order_user.slice(10,11)">
-							<image :src="item.avatar" @click="toRecode()"></image>
+							<image :src="item.avatar" @click="onNavClick(4)"></image>
 						</view>
 					</block>
 					<block v-else>
 						<view class="detail-canyu-item" :style="(i+1)%6==0?'margin-right: 0rpx;':''"
 							v-for="(item,i) in shopCont.order_user">
-							<image :src="item.avatar" @click="toRecode()"></image>
+							<image :src="item.avatar" @click="onNavClick(4)"></image>
 						</view>
 					</block>
 				</view>
@@ -1036,6 +1036,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			},
 			//锚点跳转方法
 			onScrollIntoView(id) {
+				this.navId = id
 				uni.createSelectorQuery()
 					.select('#div' + id)
 					.boundingClientRect(data => {
@@ -1285,7 +1286,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				this.onAuctionorderOrderList()
 			},
 			onNavClick(e) {
-				this.navId = e
 				this.isClick = true
 				clearTimeout(this.opacityTimer)
 				this.opacityTimer = setTimeout(() => {
