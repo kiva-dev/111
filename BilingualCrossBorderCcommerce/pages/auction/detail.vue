@@ -1568,7 +1568,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					})
 					return
 				}
-
+			
 				//k钻加赠金
 				if (this.useInvite && !this.kdiamondSelect) {
 					let zj = this.shopNum * 1 * (this.can_use_invite_money_rate * 1 / 100) //最多赠金
@@ -1654,7 +1654,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						}
 					}
 				}
-
+			
 				//k钻加赠金加兑换
 				if (this.useInvite && this.kdiamondSelect) {
 					if (this.money * 1 < this.useInviteRmNum * 1) {
@@ -1665,10 +1665,10 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						return
 					}
 				}
-
+			
 				if (this.kdiamondSelect) {
 					if (this.set_paypwd != 1) {
-
+			
 						uni.showToast({
 							title: this.$t('new.qszmm'),
 							icon: 'none',

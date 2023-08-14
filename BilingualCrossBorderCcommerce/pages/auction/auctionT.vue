@@ -1190,11 +1190,40 @@
 					})
 					return
 				}
-
+			
 				//k钻加赠金
-				if (this.useInvite && this.balance * 1 < this.shopNum && !this.kdiamondSelect) {
-					let zj = this.shopNum * 1 * this.can_use_invite_money_rate //最多赠金
+				if (this.useInvite && !this.kdiamondSelect) {
+					let zj = this.shopNum * 1 * (this.can_use_invite_money_rate * 1 / 100) //最多赠金
 					let flag = zj <= this.invite_money_balance * 1
+					if (!this.authData || this.authData.length < 1) {
+						uni.showToast({
+							title: this.$t('shimingrenzheng'),
+							icon: 'none',
+							duration: 3000,
+							success: () => {
+								setTimeout(() => {
+									uni.navigateTo({
+										url: '/pages/mine/Vid'
+									})
+								}, 2000)
+							}
+						})
+						return
+					}else if(this.authData.status == -1){
+						uni.showToast({
+							title: this.$t('smrzwtg'),
+							icon: 'none',
+							duration: 3000
+						})
+						return
+					}else if(this.authData.status == 0){
+						uni.showToast({
+							title: this.$t('smrzshh'),
+							icon: 'none',
+							duration: 3000
+						})
+						return
+					}
 					if (flag) { //赠金足够
 						if ((this.shopNum * 1 - zj) > this.balance * 1) {
 							uni.showToast({
@@ -1253,7 +1282,7 @@
 						}
 					}
 				}
-
+			
 				//k钻加赠金加兑换
 				if (this.useInvite && this.kdiamondSelect) {
 					if (this.money * 1 < this.useInviteRmNum * 1) {
@@ -1264,7 +1293,7 @@
 						return
 					}
 				}
-
+			
 				if (this.kdiamondSelect) {
 					if (this.set_paypwd != 1) {
 						uni.showToast({

@@ -497,10 +497,10 @@
 	"user.upgrade.qddkflx": "请等待客服与您联系",
 
 	"user.vid.zjlx": "证件类型",
-	"user.vid.name": "名字",
+	"user.vid.name": "姓名",
 	"user.vid.qsrxm": "请输入名字",
 	"user.vid.xs": "姓氏",
-	"user.vid.qsrxs": "请输入姓名",
+	"user.vid.qsrxs": "请输入姓氏",
 	"user.vid.sfzh": "身份证",
 	"user.vid.sfzh1": "身份证",
 	"user.vid.qsrsfzh": "请输入您的身份证号",
@@ -1573,6 +1573,7 @@
 	
 	"ranking.ranking_list":"排行榜",
 	"ranking.ranking":"排行榜",
+	"ranking.auction_ranking":"排行榜",
 	"ranking.luck_forum":"幸运论坛",
 	"ranking.gotoview":"前往查看",
 	"ranking.luck_list":"幸运之星",
@@ -1586,12 +1587,11 @@
 	"ranking.wishing_times":"参与期数",
 	"ranking.invitation_num":"邀请人数",
 	"ranking.not":"暂无排名",
+	"ranking.not_img":"抱歉，还没有排行榜内容",
 	
 	"pay.paypal_ts":"支持MY储蓄卡和信用卡，无需注册，需要KYC，手续费低",
 	"pay.pay_essence":"需实名",
 	"pay.pay_not":"更多支付方式请持续关注",
-
-	"detail.success":"必中率",
 	
 	"ongoing.tit":"惊喜许愿",
 	"ongoing.progress":"正在进行",
@@ -1601,6 +1601,60 @@
 	"start_soon.work":"搭建中,敬请期待",
 	
 	"mine.recharge_xy":"用户充值协议",
-
-	"order_info.remark":"备注"
+	"mine.bindPhone":"请先绑定手机号",
+	"mine.send_code":"获取验证码",
+	"mine.bind_phone":"绑定手机号码",
+	"mine.real_need_bind_phone":"实名认证前需绑定手机号码",
+	"mine.bind_phone_success":"手机号绑定成功",
+	
+	
+	"product_info.soldout":"售完",
+	"detail.success":"获得概率",
+	"product_info.bonus":"可使用赠金比例",
+	"product_info.bonus_deduction":"奖金扣除：",
+	
+	"app.tip":"通知权限开启提醒",
+	"app.content":"您还没有开启通知权限，无法接受到消息通知，请前往设置！",
+	"app.next":"去设置",
+	"app.cancel":"取消",
+	
+	"order_info.remark":"备注",
+	"order_info.after_sales":"申请售后",
+	"order_info.refund_amount":"退款金额",
+	"order_info.notesAndImages":"描述与图片",
+	"order_info.upload_tip":"建议尺寸400*400，最多5张图片，单张图片大小不超过20mb",
+	"order_info.notes_info":"请输入描述信息",
+	"order_info.after_sales_product":"售后商品",
+	"order_info.refund_num":"退款数量",
+	"order_info.after_sales_time":"申请售后时间",
+	"order_info.after_sales_info":"售后信息",
+	"order_info.cancel_after_sales":"取消售后",
+	"order_info.show_after_sales":"查看售后",
+	"order_info.after_sales_detail":"售后详情",
+	"order_info.return_address":"退货地址",
+	"order_info.return_log":"退货物流",
+	"order_info.goto_fill_out":"前往填写",
+	"order_info.copy":"复制",
+	"order_info.logistics_company":"物流公司",
+	"order_info.logistics_number":"物流单号",
+	"order_info.confirm_setting":"确认设置",
+	"order_info.enter":"输入",
+	"order_info.balance":"余额",
+	"order_info.bonus":"赠金",
+	"order_info.intiate_appeal":"申述",
+	"order_info.appeal_description":"申述说明",
+	"order_info.intiate":"发起",
+	"order_info.submit":"提交",
+	"order_info.show_intiate_appeal":"申述信息",
+	
+	"detail.enter_number":"请输入搜索编号",
+	
+	"bonus.gifts":"新人有好礼物",
+	"bonus.snhl":"送你一份礼物",
+	"bonus.yxq":"有效期：7天",
+	"bonus.cf":"立即出发",
+	"bell.gx":"恭喜您成为幸运星",
+	"bell.xyhd":"许愿活动",
+	"bell.ljlq":"立即领取您的礼物！",
+	"bell.fx":"分享"
 }

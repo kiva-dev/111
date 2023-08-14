@@ -1967,7 +1967,7 @@
 							}
 							uni.setStorageSync('wish_info', data)
 							// #endif
-
+			
 							setTimeout(() => {
 								uni.navigateTo({
 									url: '/pages/mine/K_brick_detail'
@@ -1977,70 +1977,102 @@
 					})
 					return
 				}
-
+			
 				//k钻加赠金
-				if (this.useInvite && this.balance * 1 < this.shopNum && !this.kdiamondSelect) {
-					let zj = this.shopNum * 1 * this.can_use_invite_money_rate //最多赠金
+				if (this.useInvite  && !this.kdiamondSelect) {
+					let zj = this.shopNum * 1 * (this.can_use_invite_money_rate * 1 / 100) //最多赠金
 					let flag = zj <= this.invite_money_balance * 1
-					if (flag) { //赠金足够
-						if ((this.shopNum * 1 - zj) > this.balance * 1) {
-							uni.showToast({
-								icon: 'none',
-								title: this.$t('new.kzyebz'),
-								duration: 3000,
-								success: () => {
-									uni.setStorageSync('recharge', true)
-									let data = {
-										shopNum: this.shopNum,
-										isauctionNum: this.isauctionNum,
-										goods_id: this.shopCont.auction_goods_id
-									}
-									// #ifdef H5
-									if (!uni.getStorageSync('mine-info')) { //第一次会存在，连续第二次点击时如果不存在则重新设置缓存
-										uni.setStorageSync('mine-info', this.shopCont)
-									}
-									uni.setStorageSync('wish_info', data)
-									// #endif
-									setTimeout(() => {
-										uni.navigateTo({
-											url: '/pages/mine/K_brick_detail'
-										})
-									}, 2500)
-								}
-							})
-							return
-						}
+					if (!this.authData || this.authData.length < 1) {
+						uni.showToast({
+							title: this.$t('shimingrenzheng'),
+							icon: 'none',
+							duration: 3000,
+							success: () => {
+								setTimeout(() => {
+									uni.navigateTo({
+										url: '/pages/mine/Vid'
+									})
+								}, 2000)
+							}
+						})
+						return
+					}else if(this.authData.status == -1){
+						uni.showToast({
+							title: this.$t('smrzwtg'),
+							icon: 'none',
+							duration: 3000
+						})
+						return
+					}else if(this.authData.status == 0){
+						uni.showToast({
+							title: this.$t('smrzshh'),
+							icon: 'none',
+							duration: 3000
+						})
+						return
 					} else {
-						if ((this.shopNum * 1 - this.invite_money_balance * 1) > this.balance * 1) {
-							uni.showToast({
-								icon: 'none',
-								title: this.$t('new.kzyebz'),
-								duration: 3000,
-								success: () => {
-									uni.setStorageSync('recharge', true)
-									let data = {
-										shopNum: this.shopNum,
-										isauctionNum: this.isauctionNum,
-										goods_id: this.shopCont.auction_goods_id
+						if (flag) { //赠金足够
+							if ((this.shopNum * 1 - zj) > this.balance * 1) {
+								uni.showToast({
+									icon: 'none',
+									title: this.$t('new.kzyebz'),
+									duration: 3000,
+									success: () => {
+										uni.setStorageSync('recharge', true)
+										let data = {
+											shopNum: this.shopNum,
+											isauctionNum: this.isauctionNum,
+											goods_id: this.shopCont.auction_goods_id
+										}
+										// #ifdef H5
+										if (!uni.getStorageSync('mine-info')) { //第一次会存在，连续第二次点击时如果不存在则重新设置缓存
+											uni.setStorageSync('mine-info', this.shopCont)
+										}
+										uni.setStorageSync('wish_info', data)
+										// #endif
+										setTimeout(() => {
+											uni.navigateTo({
+												url: '/pages/mine/K_brick_detail'
+											})
+										}, 2500)
 									}
-									// #ifdef H5
-									if (!uni.getStorageSync('mine-info')) { //第一次会存在，连续第二次点击时如果不存在则重新设置缓存
-										uni.setStorageSync('mine-info', this.shopCont)
+								})
+								return
+							}
+						} else {
+							if ((this.shopNum * 1 - this.invite_money_balance * 1) > this.balance * 1) {
+								uni.showToast({
+									icon: 'none',
+									title: this.$t('new.kzyebz'),
+									duration: 3000,
+									success: () => {
+										uni.setStorageSync('recharge', true)
+										let data = {
+											shopNum: this.shopNum,
+											isauctionNum: this.isauctionNum,
+											goods_id: this.shopCont.auction_goods_id
+										}
+										// #ifdef H5
+										if (!uni.getStorageSync('mine-info')) { //第一次会存在，连续第二次点击时如果不存在则重新设置缓存
+											uni.setStorageSync('mine-info', this.shopCont)
+										}
+										uni.setStorageSync('wish_info', data)
+										// #endif
+										setTimeout(() => {
+											uni.navigateTo({
+												url: '/pages/mine/K_brick_detail'
+											})
+										}, 2500)
 									}
-									uni.setStorageSync('wish_info', data)
-									// #endif
-									setTimeout(() => {
-										uni.navigateTo({
-											url: '/pages/mine/K_brick_detail'
-										})
-									}, 2500)
-								}
-							})
-							return
+								})
+								return
+							}
 						}
+			
 					}
+			
 				}
-
+			
 				//k钻加赠金加兑换
 				if (this.useInvite && this.kdiamondSelect) {
 					if (this.money * 1 < this.useInviteRmNum * 1) {
@@ -2051,9 +2083,9 @@
 						return
 					}
 				}
-
+			
 				if (this.kdiamondSelect) {
-
+			
 					if (this.set_paypwd != 1) {
 						uni.showToast({
 							title: this.$t('new.qszmm'),

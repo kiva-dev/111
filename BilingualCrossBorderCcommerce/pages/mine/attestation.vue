@@ -5,7 +5,7 @@
       <view class="li">
         <view class="label">{{$t('user.attestation.smrz')}}</view>
         <view class="li-r" v-if="MineCont.status==1">
-          <view class="gray">{{MineCont.firstName}}{{MineCont.lastName}}</view>
+          <view class="gray">{{MineCont.firstName}}</view>
         </view>
         <view class="li-r" v-else @click="navClick('Vid')">
           <view class="red" v-if="MineCont.status==0">{{$t('user.attestation.dsh')}}</view>

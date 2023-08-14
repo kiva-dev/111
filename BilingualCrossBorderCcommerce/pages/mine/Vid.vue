@@ -31,13 +31,6 @@
 				<input class="input" v-model="firstName" v-else placeholder-class="color-999"
 					:placeholder="$t('user.vid.qsrxm')" />
 			</view>
-			<!-- <view class="li">
-				<view class="label">{{$t('user.vid.xs')}}</view>
-				<input class="input" v-model="lastName" v-if="status==='0'" disabled placeholder-class="color-999"
-					:placeholder="$t('user.vid.qsrxs')" />
-				<input class="input" v-model="lastName" v-else placeholder-class="color-999"
-					:placeholder="$t('user.vid.qsrxs')" />
-			</view> -->
 			<view class="li" v-if="index==0">
 				<view class="label">{{$t('user.vid.sfzh1')}}</view>
 				<input class="input" v-model="idcard" v-if="status==='0'" disabled placeholder-class="color-999"
@@ -74,7 +67,7 @@
 							</view>
 							<view class="t">{{$t('user.vid.zjzm')}}</view>
 						</view>
-						
+
 					</view>
 					<view class="li-con" @click="chooseImages">
 						<view class="li-img" v-if="front_image">
@@ -88,7 +81,7 @@
 							</view>
 							<view class="t">{{$t('user.vid.zjfm')}}</view>
 						</view>
-						
+
 					</view>
 				</view>
 				<view class="id-tip">
@@ -114,6 +107,39 @@
 			</view>
 		</view>
 		<!--id-fixed end-->
+
+		<!--未实名弹框-->
+		<u-popup :show="showBindPhone" mode="center" bgColor="transparent">
+			<view class="bind-phone">
+				<view class="tit">{{$t('mine.bind_phone')}}</view>
+				<view class="tit-info">{{$t('mine.real_need_bind_phone')}}</view>
+				<view class="email-input">
+					<view class="phone-qh" @click="navClick()">{{mobile_area_code}}
+						<image src="/static/images/mine/btm.png"></image>
+					</view>
+					<view class="email-input-info">
+						<u--input :placeholder="$t('login.qsrsjh')" border="none" v-model="mobile" />
+					</view>
+				</view>
+				<view class="bind-btn">
+					<view class="email-input" :class="showErr?'errinfo':''" style="width: 352rpx;margin: 0;">
+						<view class="email-input-info" style="width: 320rpx;margin: 0 auto;">
+							<u--input :placeholder="$t('user.Vemail.qsryzm')" border="none" v-model="mobile_code" />
+						</view>
+					</view>
+					<view class="input-btn" @click="getSendCode()">{{mobile_txt}}{{show_mobile_time?'S':''}}</view>
+				</view>
+				<view class="tip" v-if="showErr">{{$t('new.yzmcw')}}</view>
+
+				<view class="btn" :style="showErr?'margin-top: 36rpx;':''">
+					<view class="cancel" @click="toBack()">{{$t('home.search.query')}}</view>
+					<view class="confirm" @click="$noMultipleClicks(addBindPhone)">{{$t('auction.detail.btnsub')}}
+					</view>
+				</view>
+
+			</view>
+		</u-popup>
+
 	</view>
 </template>
 
@@ -134,15 +160,43 @@
 				status: '',
 				refuse_reason: '',
 				isShopCont: false, // 商品详情显示中文还是英文
+				user: {},
+				showBindPhone: false,
+				mobile_area_code: '',
+				mobile: '',
+				mobile_code: '',
+				mobile_txt: this.$t('mine.send_code'),
+				show_mobile_time: false,
+				showErr: false
+			}
+		},
+		onShow() {
+			if (uni.getStorageSync('phoneCont')) {
+				this.mobile_area_code = JSON.parse(uni.getStorageSync('phoneCont')).code
+			} else {
+				this.mobile_area_code = '+60'
+				let title = {
+					city: this.$t('phone.mlxy'),
+					code: "+60",
+					"sou": "M"
+				}
+				uni.setStorageSync('phoneCont', JSON.stringify(title))
 			}
 		},
 		mounted() {
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
+
+			this.$http.post(this.$apiObj.MineInfo).then(res => {
+				console.log(!res.data.mobile)
+				if (!res.data.mobile) {
+					this.showBindPhone = true
+				}
+			})
+
 			// 实名认证
 			this.$http.post(this.$apiObj.MineAuthDetail).then(res => {
 				if (res.code == 1) {
-					if (res.data) {
-						console.log(res.data)
+					if (res.data.length > 1) {
 						this.index = res.data.type - 1 || 0
 						this.firstName = res.data.firstName
 						this.lastName = res.data.lastName
@@ -162,6 +216,90 @@
 			})
 		},
 		methods: {
+			addBindPhone() {
+				if (!this.mobile) {
+					return uni.showToast({
+						title: this.$t('login.qsrsjhm'),
+						icon: 'none',
+						duration: 3000
+					})
+				}
+				if (!this.mobile_code) {
+					return uni.showToast({
+						title: this.$t('user.phone.qsryzm'),
+						icon: 'none',
+						duration: 3000
+					})
+				}
+
+				this.$http.post(this.$apiObj.MineChangeMobile, {
+					code: this.mobile_code, // 手机号验证码
+					mobile: this.mobile, // 手机号码
+					mobile_area_code: this.mobile_area_code.slice(1), // 手机号区域码 
+				}).then(res => {
+					if (res.code == 1) {
+						uni.showToast({
+							title: this.$t('mine.bind_phone_success'),
+							icon: 'none',
+							duration: 3000
+						})
+						this.showBindPhone = false
+					} else {
+						this.showErr = true
+					}
+				})
+			},
+			getSendCode() {
+				if (this.show_mobile_time) return
+				if (!this.mobile) {
+					return uni.showToast({
+						title: this.$t('login.qsrsjhm'),
+						icon: 'none',
+						duration: 3000
+					})
+				}
+
+				uni.showLoading({
+					title: this.$t('login.qq'),
+					mask: true
+				});
+
+				this.$http.post(this.$apiObj.LoginSendMobileCode, {
+					mobile: this.mobile,
+					mobile_area_code: this.mobile_area_code.slice(1)
+				}).then(res => {
+					if (res.code == 1) {
+						uni.showToast({
+							title: this.$t('login.fscg'),
+							icon: 'none'
+						})
+						this.timeDone()
+					}
+					uni.hideLoading();
+				})
+
+			},
+			timeDone() {
+				this.mobile_txt = 119
+				this.show_mobile_time = true
+				let timer = setInterval(() => {
+					if (this.mobile_txt > 1) {
+						this.mobile_txt -= 1
+					} else {
+						this.mobile_txt = this.$t('mine.send_code')
+						this.show_mobile_time = false
+						clearInterval(timer)
+					}
+				}, 1000)
+			},
+			navClick() {
+				uni.navigateTo({
+					url: '/pages/public/ownership'
+				})
+			},
+			toBack() {
+				uni.navigateBack()
+			},
 			getCaption(str, state) {
 				if (state == 1) {
 					var indexs = str.indexOf("|")
@@ -274,10 +412,6 @@
 					title: this.$t('user.vid.qsrxm'),
 					icon: 'none'
 				})
-				// if (!this.lastName) return uni.showToast({
-				// 	title: this.$t('user.vid.qsrxs'),
-				// 	icon: 'none'
-				// })
 				if (!this.idcard) return uni.showToast({
 					title: this.$t('user.vid.qsrsfzh'),
 					icon: 'none'
@@ -292,7 +426,6 @@
 				})
 				this.$http.post(this.$apiObj.MineRealAuth, {
 					firstName: this.firstName, // 名字
-					lastName: this.lastName, // 姓氏
 					idcard: this.idcard, // 身份证号
 					front_image: this.front_image, // 身份证正面
 					back_image: this.back_image, // 身份证反面
@@ -318,6 +451,130 @@
 <style lang="less" scoped>
 	.id-page {
 		padding-bottom: 200rpx;
+
+		.bind-phone {
+			width: 622rpx;
+			padding: 40rpx 0;
+			background: #fff;
+			border-radius: 20rpx;
+
+			.tit {
+				width: 100%;
+				font-size: 28rpx;
+				font-weight: bold;
+				color: rgb(51, 51, 51);
+				text-align: center;
+			}
+
+			.tit-info {
+				width: 486rpx;
+				font-size: 24rpx;
+				color: rgb(153, 153, 153);
+				text-align: center;
+				margin: 24rpx auto 32rpx auto;
+			}
+
+			.bind-btn {
+				width: 542rpx;
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				margin: 0 auto;
+
+				.input-btn {
+					width: 174rpx;
+					height: 76rpx;
+					line-height: 76rpx;
+					font-size: 24rpx;
+					font-weight: bold;
+					color: #fff;
+					text-align: center;
+					background: rgb(10, 198, 142);
+					border-radius: 8rpx;
+				}
+			}
+
+			.tip {
+				font-size: 24rpx;
+				color: rgb(255, 57, 57);
+				margin: 20rpx 0 0 40rpx;
+			}
+
+			.email-input {
+				width: 542rpx;
+				height: 76rpx;
+				display: flex;
+				align-items: center;
+				background: rgb(241, 241, 241);
+				border-radius: 8rpx;
+				margin: 0 auto 32rpx auto;
+
+				.phone-qh {
+					width: 140rpx;
+					font-size: 28rpx;
+					color: rgb(51, 51, 51);
+					text-align: center;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+
+					image {
+						width: 16rpx;
+						height: 16rpx;
+						margin-left: 8rpx;
+					}
+				}
+
+				.email-input-info {
+					width: 390rpx;
+				}
+
+				.pwd {
+					display: block;
+					width: 36rpx;
+					height: 36rpx;
+					margin-left: 10rpx;
+				}
+			}
+
+			.btn {
+				width: 100%;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				margin-top: 80rpx;
+
+				view {
+					width: 256rpx;
+					height: 68rpx;
+					line-height: 68rpx;
+					font-size: 28rpx;
+					font-weight: 500;
+					text-align: center;
+					border-radius: 68rpx;
+					margin: 0 14rpx;
+				}
+
+				.cancel {
+					color: rgb(10, 198, 142);
+					box-sizing: border-box;
+					border: 2rpx solid rgb(10, 198, 142);
+				}
+
+				.confirm {
+					color: #fff;
+					background: rgb(10, 198, 142);
+				}
+
+			}
+
+			.errinfo {
+				box-sizing: border-box;
+				border: 2rpx solid rgb(255, 57, 57);
+				background: rgba(255, 57, 57, 0.1);
+			}
+
+		}
 
 		.id-box {
 			padding: 0 30rpx;
@@ -390,23 +647,23 @@
 							position: relative;
 							background: rgba(10, 198, 142, 0.08);
 							border-radius: 16rpx;
-							
-							.t{
+
+							.t {
 								position: absolute;
 								left: 50%;
 								bottom: 56rpx;
-								transform: translate(-50%,0);
+								transform: translate(-50%, 0);
 								font-size: 24rpx;
 								color: rgb(10, 198, 142);
 							}
-							
-							.icon{
+
+							.icon {
 								position: absolute;
 								top: 56rpx;
 								left: 50%;
-								transform: translate(-50%,0);
+								transform: translate(-50%, 0);
 							}
-							
+
 						}
 					}
 				}

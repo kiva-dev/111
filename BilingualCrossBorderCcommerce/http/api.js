@@ -71,6 +71,8 @@ let apiObj = {
 	MineCancelAccount: 'Mine/cancelAccount', // 注销账号
 	MineClearRead:"Mine/oneClickReadSysMsg",//系统消息一键已读
 	GetMineNotRead:"Mine/existsReadSysMsg",//获取是否存在已读消息
+	MineUpdateAuth:"Mine/merchantApplication",//用户申请成为商家
+	MineBindClientId:"Mine/pushUserDataByClientId",//绑定用户clientid
 	// 订单
 	OrderOrderList: 'Order/orderList', // 普通订单列表
 	OrderGroupOrderList: 'Order/groupOrderList', // 拼团订单列表
@@ -115,7 +117,6 @@ let apiObj = {
 	AddressEdit: 'Address/edit', // 编辑收货地址
 	AddressDelete: 'Address/delete', // 删除地址
 	GetDeliveryArea: 'Common/getDeliveryArea', // 获取快递邮寄地区列表
-	LatestWinAuction: 'Mine/latestWinAuction', // 未领取奖品的最新竞拍记录
 	// 其他
 	MineFocus: 'Mine/focus', // 关注或取消关注
 	IndexSetting: 'Index/setting', // 隐私协议等
@@ -184,12 +185,19 @@ let apiObj = {
 	GoodLuckyLeaderboard:"/Leaderboard/goodLuckyLeaderboard",//幸运之星排行榜
 	WishlistLeaderboard:"/Leaderboard/wishlistLeaderboard",//愿望清单排行榜
 	InvitationListLeaderboard:"/Leaderboard/invitationListLeaderboard",//邀请清单排行榜
+	RankingOnLuckStar:"/Leaderboard/goodLuckyLeaderboardRichNumberOne",//幸运之星第一名
 
 	// 中拍
 	createAuctionGoodsSharing:"/Auctiongoodssharing/createAuctionGoodsSharing", //中排商品分享的数据记录
 	commentSharing:"/Auctiongoodssharing/commentSharing", //评论分享的中拍商品
 	auctionGoodsSharingList:"/Auctiongoodssharing/auctionGoodsSharingList", //分享的中拍商品列表
 	likes:"/Auctiongoodssharing/likes", //中拍商品的点赞次数
-	auctionGoodsSharingCommentList:"/Auctiongoodssharing/auctionGoodsSharingCommentList" //分享的中拍商品评论列表
+	auctionGoodsSharingCommentList:"/Auctiongoodssharing/auctionGoodsSharingCommentList", //分享的中拍商品评论列表
+	LatestWinAuction: 'Mine/latestWinAuction', // 未领取奖品的最新竞拍记录
+	
+	BonusRecord:'/Mine/bonusRecord',//用户赠金记录
+	
+	ProductGetAddressFree:"/Litestoregoods/getDeliveryFee",//获取商品邮费
+	EditOrderAddressByOne:"/order/editOrderAddress",//修改订单收货地址,适用于单个商品订单
 }
 export default apiObj

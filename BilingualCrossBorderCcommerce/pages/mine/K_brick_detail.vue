@@ -99,8 +99,10 @@
 				{{$t('new.payment')}}
 			</view>
 			<view style="height: 240rpx;"></view>
+
 			<customerService ref="customerService" :isDownloadVisibility='false' :isContactVisibility='false'
-				:isGroupVisibility='false' :isOnlyServer="true" leftOrRight="right"  style="position: fixed;top: 460rpx;"/>
+				:isGroupVisibility='false' :isOnlyServer="true" leftOrRight="right"
+				style="position: fixed;top: 460rpx;" />
 
 		</scroll-view>
 	</view>
@@ -127,7 +129,8 @@
 				payList: [],
 				kdiamondxy: '',
 				infoData: [],
-				isShopCont: false
+				isShopCont: false,
+				phone: ''
 			}
 		},
 		onShow() {
@@ -139,6 +142,7 @@
 
 			this.$http.post(this.$apiObj.MineInfo).then(res => {
 				this.balance = res.data.k_diamond_wallet
+				this.phone = res.data.mobile
 			})
 
 			this.$http.post(this.$apiObj.MineAuthDetail).then(res => {
@@ -163,6 +167,7 @@
 			this.getKdiamondList()
 			this.$http.post(this.$apiObj.MineInfo).then(res => {
 				this.balance = res.data.k_diamond_wallet
+				this.phone = res.data.mobile
 			})
 			setTimeout(() => {
 				uni.stopPullDownRefresh()
@@ -172,8 +177,8 @@
 			getPayType() {
 				this.$http.post(this.$apiObj.GetPayType).then(res => {
 					this.payList = res.data
-					this.payList.forEach(item=>{
-						this.$set(item,'select',false)
+					this.payList.forEach(item => {
+						this.$set(item, 'select', false)
 					})
 				})
 			},
@@ -286,7 +291,7 @@
 				this.$http.post(this.$apiObj.addDiamond, {
 					money: this.payNum ? this.payNum : this.list[this.select - 1].k_diamond
 				}).then(res => {
-					
+
 					if (res.code == 1) {
 						const formStr = `<form action="${res.data.action_url}" method="POST" >
 					        <input name="MerchantCode" value="${res.data.MerchantCode}">
@@ -321,6 +326,14 @@
 						});
 						//  #endif
 						uni.hideLoading()
+					} else {
+						if (!this.infoData || this.infoData.length < 1) {
+							setTimeout(() => {
+								uni.navigateTo({
+									url: '/pages/mine/Vid'
+								})
+							}, 2000)
+						} 
 					}
 				})
 			},
@@ -342,7 +355,7 @@
 				let arr = getCurrentPages()
 				let listData = []
 				arr.forEach(item => {
-					if(item.route != 'pages/mine/K_brick_detail'){
+					if (item.route != 'pages/mine/K_brick_detail') {
 						listData.push(item.route)
 					}
 				})
@@ -352,7 +365,7 @@
 					referrer: type,
 					front_extra: listData.toString()
 				}).then(res => {
-					
+
 					if (res.code == 1) {
 						// #ifdef H5
 						window.location.href = res.data.href_url
@@ -431,7 +444,7 @@
 			position: relative;
 			width: 100%;
 			height: 88rpx;
-			padding-top: 88rpx;
+			padding-top: 60rpx;
 			display: flex;
 			align-items: center;
 			background: #FFF;
