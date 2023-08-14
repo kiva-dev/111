@@ -864,12 +864,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			clearInterval(this.timer)
 		},
 		onPageScroll(res) {
-			if (res.scrollTop <= 650) {
-				let num = res.scrollTop / 2 / 100
-				this.myOpacity = num
-			} else {
-				this.myOpacity = 1
-			}
 			if (!this.isClick) {
 				if (res.scrollTop >= this.heightList[0] && res.scrollTop < this.heightList[1]) this.navId = 1
 				else if (res.scrollTop >= this.heightList[1] && res.scrollTop < this.heightList[2]) this.navId = 2
@@ -877,6 +871,14 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				else if (res.scrollTop >= this.heightList[3] && res.scrollTop < (this.heightList[4])) this.navId = 4
 				else this.navId = 5
 			}
+			if (res.scrollTop <= 650) {
+				let num = res.scrollTop / 2 / 100
+				this.myOpacity = num
+				this.navId = 1
+			} else {
+				this.myOpacity = 1
+			}
+			
 
 		},
 		mounted() {
@@ -915,9 +917,9 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				// #endif
 			},
 			toRecode() {
-				this.onScrollIntoView(4)
+				this.onNavClick(4)
 				// uni.pageScrollTo({
-				// 	scrollTop: this.heightList[3]
+				// 	scrollTop: this.heightList[4]
 				// })
 			},
 			showMore() {
@@ -1034,7 +1036,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			},
 			//锚点跳转方法
 			onScrollIntoView(id) {
-				console.log(id);
 				uni.createSelectorQuery()
 					.select('#div' + id)
 					.boundingClientRect(data => {
