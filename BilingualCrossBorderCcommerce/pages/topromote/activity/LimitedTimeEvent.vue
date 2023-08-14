@@ -8,10 +8,10 @@
 				</view>
 			</view>
             <view class='topText-en'>Great value gift</view>
-            <view class='topText-child-en'>Register TODAY and Join Member</view>
+            <view class='topText-child-en'>Register TODAY and Join as a Member</view>
             <view class="topImage">
                 <image class="capsule_bg" src="@/static/demo/capsule_bg.webp"></image>
-                <view class="capsule_text">You Get EXTRA</view>
+                <view class="capsule_text">YOU’LL GET EXTRA</view>
                 <view class="capsule_right">
                     <view class="capsule_number">RM30</view>
                     <view class="capsule_underline"></view>
@@ -241,7 +241,7 @@ What’s more? The platform also often holds exciting lucky draw events, allowin
             background: url('/static/demo/timeevent_topbg.png') no-repeat;
             background-size: 100% 100%;
             .capsule_bg{
-                width: 50%;
+                width: 55%;
                 height: 75rpx;
                 position: absolute;
                 left: 50%;
@@ -254,7 +254,7 @@ What’s more? The platform also often holds exciting lucky draw events, allowin
                 color: rgb(255, 57, 57);
                 text-align: center;
                 position: absolute;
-                left: 40%;
+                left: 39%;
                 top: 4%;
                 transform: translate(-45%,9%);
                 text-shadow:-1px 0 white,0 1px white,1px 0 white,0 -1px white;
@@ -395,7 +395,7 @@ What’s more? The platform also often holds exciting lucky draw events, allowin
             font-size: 80rpx;
         }
         .topText-child-en{
-            font-size: 40rpx;
+            font-size: 35rpx;
         }
         .topText-child,
         .topText-child-en{
