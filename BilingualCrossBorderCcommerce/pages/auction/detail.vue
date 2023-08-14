@@ -915,9 +915,10 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				// #endif
 			},
 			toRecode() {
-				uni.pageScrollTo({
-					scrollTop: this.heightList[3]
-				})
+				this.onScrollIntoView(4)
+				// uni.pageScrollTo({
+				// 	scrollTop: this.heightList[3]
+				// })
 			},
 			showMore() {
 				this.page++
@@ -1033,6 +1034,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			},
 			//锚点跳转方法
 			onScrollIntoView(id) {
+				console.log(id);
 				uni.createSelectorQuery()
 					.select('#div' + id)
 					.boundingClientRect(data => {
