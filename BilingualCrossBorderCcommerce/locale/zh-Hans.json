@@ -1656,5 +1656,9 @@
 	"bell.gx":"恭喜您成为幸运星",
 	"bell.xyhd":"许愿活动",
 	"bell.ljlq":"立即领取您的礼物！",
-	"bell.fx":"分享"
+	"bell.fx":"分享",
+
+	"Global.NewVersion":"发现新版本",
+	"Global.VersionContent":"更新内容:"
+
 }

@@ -61,7 +61,7 @@
 			// 实名认证
 			this.$http.post(this.$apiObj.MineAuthDetail).then(res => {
 				if (res.code == 1) {
-					this.username = res.data.firstName + res.data.lastName
+					this.username = res.data.firstName
 				}
 			})
 		},

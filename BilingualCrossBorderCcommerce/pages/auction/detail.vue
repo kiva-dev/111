@@ -123,20 +123,20 @@
 					<block v-if="shopCont.order_user.length > 12">
 						<view class="detail-canyu-item" :style="(i+1)%6==0?'margin-right: 0rpx;':''"
 							v-for="(item,i) in shopCont.order_user.slice(0,10)">
-							<image :src="item.avatar" @click="toRecode()"></image>
+							<image :src="item.avatar" @click="onNavClick(4)"></image>
 						</view>
 						<view class="detail-canyu-more">
 							<image src="/static/images//products/more.png"></image>
 						</view>
 						<view class="detail-canyu-item" style="margin-right: 0rpx;"
 							v-for="(item,i) in shopCont.order_user.slice(10,11)">
-							<image :src="item.avatar" @click="toRecode()"></image>
+							<image :src="item.avatar" @click="onNavClick(4)"></image>
 						</view>
 					</block>
 					<block v-else>
 						<view class="detail-canyu-item" :style="(i+1)%6==0?'margin-right: 0rpx;':''"
 							v-for="(item,i) in shopCont.order_user">
-							<image :src="item.avatar" @click="toRecode()"></image>
+							<image :src="item.avatar" @click="onNavClick(4)"></image>
 						</view>
 					</block>
 				</view>
@@ -309,7 +309,6 @@
 							<image src="/static/images/mine/lucky_icon_trophy.png"></image>
 							<p>{{$t('xyzx')}}<text></text></p>
 						</view>
-				
 						<view class="conter" style="margin-bottom:10rpx;">
 							<view v-for="item,k in goodlucky" :key="k" class="list" style="width: 98%;margin-left: 1%;">
 								<view class="kuan">
@@ -380,7 +379,9 @@
 			</view>
 
 			<view class="bottom-layout">
+
 				<view class="bl-right">
+
 					<view class="bl-right-add" style="color: #FFF; background: rgb(190, 190, 190)"
 						v-if="shopCont.check_status==3||shopCont.check_status==4">
 						<p>{{$t('auction.detail.yijs')}}</p>
@@ -862,12 +863,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			clearInterval(this.timer)
 		},
 		onPageScroll(res) {
-			if (res.scrollTop <= 650) {
-				let num = res.scrollTop / 2 / 100
-				this.myOpacity = num
-			} else {
-				this.myOpacity = 1
-			}
 			if (!this.isClick) {
 				if (res.scrollTop >= this.heightList[0] && res.scrollTop < this.heightList[1]) this.navId = 1
 				else if (res.scrollTop >= this.heightList[1] && res.scrollTop < this.heightList[2]) this.navId = 2
@@ -875,6 +870,14 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				else if (res.scrollTop >= this.heightList[3] && res.scrollTop < (this.heightList[4])) this.navId = 4
 				else this.navId = 5
 			}
+			if (res.scrollTop <= 650) {
+				let num = res.scrollTop / 2 / 100
+				this.myOpacity = num
+				this.navId = 1
+			} else {
+				this.myOpacity = 1
+			}
+			
 
 		},
 		mounted() {
@@ -913,9 +916,10 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				// #endif
 			},
 			toRecode() {
-				uni.pageScrollTo({
-					scrollTop: this.heightList[3]
-				})
+				this.onNavClick(4)
+				// uni.pageScrollTo({
+				// 	scrollTop: this.heightList[4]
+				// })
 			},
 			showMore() {
 				this.page++
@@ -1031,6 +1035,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			},
 			//锚点跳转方法
 			onScrollIntoView(id) {
+				this.navId = id
 				uni.createSelectorQuery()
 					.select('#div' + id)
 					.boundingClientRect(data => {
@@ -1280,7 +1285,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				this.onAuctionorderOrderList()
 			},
 			onNavClick(e) {
-				this.navId = e
 				this.isClick = true
 				clearTimeout(this.opacityTimer)
 				this.opacityTimer = setTimeout(() => {
@@ -1568,7 +1572,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					})
 					return
 				}
-			
 				//k钻加赠金
 				if (this.useInvite && !this.kdiamondSelect) {
 					let zj = this.shopNum * 1 * (this.can_use_invite_money_rate * 1 / 100) //最多赠金
@@ -1654,7 +1657,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						}
 					}
 				}
-			
 				//k钻加赠金加兑换
 				if (this.useInvite && this.kdiamondSelect) {
 					if (this.money * 1 < this.useInviteRmNum * 1) {
@@ -1665,10 +1667,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						return
 					}
 				}
-			
 				if (this.kdiamondSelect) {
 					if (this.set_paypwd != 1) {
-			
 						uni.showToast({
 							title: this.$t('new.qszmm'),
 							icon: 'none',
