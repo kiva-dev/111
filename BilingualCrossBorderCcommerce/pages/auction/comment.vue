@@ -109,7 +109,7 @@
 		methods: {
 			onShareClick() {
 				uni.navigateTo({
-					url: '/pages/auction/CommentChild/sharing?orderauctionrecordid=' + this.id
+					url: '/pages/auction/CommentChild/forum?orderauctionrecordid=' + this.id
 				});
 			},
 			onShowmsg(item) {

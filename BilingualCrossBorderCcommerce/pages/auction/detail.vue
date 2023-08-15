@@ -1026,7 +1026,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			//前往评论
 			toComment() {
 				uni.navigateTo({
-					url: '/pages/auction/comment?id=' + this.shopCont.goods_id
+					url: '/pages/auction/CommentChild/forum?id=' + this.shopCont.goods_id
 				})
 			},
 			onNextUrl(url) {

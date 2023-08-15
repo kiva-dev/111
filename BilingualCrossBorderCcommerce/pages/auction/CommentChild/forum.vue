@@ -1,5 +1,5 @@
 <template>
-     <view class="u-page">
+     <view class="u-page" catchtouchmove="false" >
          <view class="mp-header">
 			<view style="height: 88rpx;"></view>
 			<view class="mp-header-box">
@@ -7,7 +7,7 @@
 					<image src="@/static/images/mine/collect_icon_back.png" mode="widthFix"></image>
 				</view>
 				<view class="box-title">{{$t('top.luckyforum')}}</view>
-				<view class="box-clear" @click="getComment">
+				<view class="box-clear" @click="onShareClick">
 					<image src="@/static/images/mine/msg_btn_clear.png" mode="widthFix"></image>
 				</view>
 			</view>
@@ -19,53 +19,103 @@
                 </view>
 			</view>
 		</view>
-        <view class="u-demo-block" v-for="(luckyForumListItem,topNub) in luckyForumList" :key="topNub">
+        <view class="u-demo-block" v-for="(luckyForumListItem,topNub) in luckyForumList" :key="topNub" >
             <view class="u-demo-block__content">
                 <view class="album">
+                    <!-- 左侧头像 -->
                     <view class="album__header">
                         <view class="album__right">
                             <view class="album__avatar">
-                                <u-avatar :src="luckyForumListItem.avatar" size='40'></u-avatar>
+                                <u-avatar :src="luckyForumListItem.user.avatar" size='40'></u-avatar>
                             </view>
-                            <view>
-                                <u--text :text="luckyForumListItem.nickname" bold size="17" class="album__text"></u--text>
-                                <view class="item-l-level">
-                                    <view class="level-icon">
-                                        <image src="@/static/images/mine/mine_icon_vip.webp" mode="widthFix"></image>
+                            <view style="display:flex;flex-direction: column">
+                                <view class="album__nickname">
+                                    <u--text :text="luckyForumListItem.user.nickname" bold size="17" class="album__text"></u--text>
+                                    <view class="item-l-level">
+                                        <view class="level-icon">
+                                            <image src="@/static/images/mine/mine_icon_vip.webp" mode="widthFix"></image>
+                                        </view>
+                                        <view class="level-num">Lv.{{luckyForumListItem.user.level}}</view>
                                     </view>
-                                    <view class="level-num">Lv.{{luckyForumListItem.level}}</view>
                                 </view>
-                            </view> 
+                                <view class="album__createtime">
+                                    <view class="level-num">{{luckyForumListItem.createtime}}</view>
+                                </view>
+                            </view>
                         </view>
-                        <view class="album__left">
+                         <view class="album__left">
                             <view class="level-num">{{$filter.to_DateMonth(luckyForumListItem.createtime)}}</view>
                         </view>
                     </view>
+                    <!-- 内容 -->
                     <view class="album__content">
-                        <u--text margin="0 0 8px 0" :text="luckyForumListItem.desc" ></u--text>
+                        <view class="start-class">
+                            <u-rate active-color="#0AC68E" inactive-color="#CCCCCC" readonly minCount='1' gutter="8" size='18' :allowHalf='true' v-model="luckyForumListItem.the_star"></u-rate>
+                            <span>{{luckyForumListItem.the_star}}</span>
+                        </view>
+                        <u--text margin="6px 2px" :text="luckyForumListItem.comment" ></u--text>
                         <view class="album__urls">
                             <image :src="item" v-for="(item,index) in luckyForumListItem.images" :key="index"></image>
                         </view>
                     </view>
+                    <!-- 子级评论 -->
                     <view class="album__bottom">
                         <view class="album__bottom__btn">
-                            <view class="Like" @click="likesBtn(luckyForumListItem)">
-                                <image src="@/static/images/mine/unLike.png" mode="widthFix" v-if="!luckyForumListItem.is_like"></image>
-                                <image src="@/static/images/mine/Like.png" mode="widthFix" v-else></image>
-                                <view class="Like-num">{{luckyForumListItem.likes || 0}}</view>
-                            </view>
-                            <view class="forumComment">
+                            <view class="forumComment" @click="childComment(luckyForumListItem)">
                                 <image src="@/static/images/mine/forumComment.png" mode="widthFix"></image>
-                                <view class="forumComment__comment" @click="tocommit(luckyForumListItem)">{{luckyForumListItem.luckyForumComments.length || 'Comment'}}</view>
+                                <view class="forumComment__comment">{{luckyForumListItem.luckyForumComments.length || 'Comment'}}</view>
                             </view>
                         </view>
-                        <view class="album__bottom__text" v-if="luckyForumListItem.luckyForumComments.length > 0">
+                        <!-- <view class="album__bottom__text" v-if="luckyForumListItem.luckyForumComments.length > 0">
                             <view class="CommentsText" v-for="(CommentsItem,CommentsNub) in luckyForumListItem.luckyForumComments" :key="CommentsNub">{{CommentsItem.nickname}}:{{CommentsItem.comment}}</view>
-                        </view>
+                        </view> -->
                     </view>
                 </view>
             </view>
         </view>
+        <u-popup :show="popupShow" @close="close" @open="open" mode="bottom" round="20" :closeOnClickOverlay='false' :closeable='true'>
+            <view class="popup-child album" >
+                <view class="popup-top">
+                    {{commentaryList.length || 0}} Replies
+                </view>
+                <view style="width: 100%;height: 50vh;overflow: overlay;">
+                    <view v-for="(commentaryListItem,topNub) in commentaryList" :key="topNub" style="width: 100%;box-sizing: border-box;padding: 20px;">
+                        <!-- 左侧头像 -->
+                        <view class="album__header">
+                            <view class="album__right">
+                                <view class="album__avatar">
+                                    <u-avatar :src="commentaryListItem.user.avatar" size='40'></u-avatar>
+                                </view>
+                                <view style="display:flex;flex-direction: column" >
+                                    <view class="album__nickname">
+                                        <u--text :text="commentaryListItem.user.nickname" bold size="17" class="album__text"></u--text>
+                                        <view class="item-l-level">
+                                            <view class="level-icon">
+                                                <image src="@/static/images/mine/mine_icon_vip.webp" mode="widthFix"></image>
+                                            </view>
+                                            <view class="level-num">Lv.{{commentaryListItem.user.level}}</view>
+                                        </view>
+                                    </view>
+                                    <view class="popup__createtime">
+                                        <view class="level-num">{{commentaryListItem.comment}}</view>
+                                    </view>
+                                    <view style="color:#666666;display: flex;" @click="tocommit(commentaryListItem)">
+                                        <view>{{commentaryListItem.createtime}}</view>
+                                        <span style="color:#0AC68E">Reply</span>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view class="comment-botm">
+                <view class="comment-botm-inpit">
+                    <u--input :placeholder="$t('new.wxs')" border="surround" maxlength="100" v-model="comment" @confirm="sendCommentTwoInfo()"></u--input>
+                </view>
+                <view class="comment-num">{{comment.length}}/100</view>
+            </view>
+		</u-popup>
         <inputbox v-show="imMessageFocusBool" :imMessageFocusBool="imMessageFocusBool" @updateImMessageFocusBool="updateImMessageFocusBool" @submit="submit"></inputbox>
     </view>
 </template>
@@ -78,11 +128,16 @@ import inputbox from "@/components/session/input.vue";
         },
 		data() {
 			return {
+                id:'',
                 luckyForumList:[],
+                user_comment_id:'',
+                comment:'',
+                commentaryList:[],
                 imMessageFocusBool:false,
                 albumWidth: 0,
                 likeNub:1,
                 dyid:'',
+                popupShow: false,
 				navId: 1,
                 navList: [{
 					id: 1,
@@ -104,23 +159,69 @@ import inputbox from "@/components/session/input.vue";
                 return this.$t('luckysharing.content')
             }
         },
+        onLoad(e) {
+			if (e.id) this.id = e.id;
+		},
         onShow(){
             this.getComment()
         },
 		methods:{
-            onNavClick(e){
-                console.log(e);
+            //获取子列表
+			getSelectComment(id) {
+				this.$http.post(this.$apiObj.getSelectCommentList, {
+					user_comment_id: id
+				}).then(res => {
+					if (res.code == 1) {
+						this.commentaryList = res.data.data
+					}
+				})
+			},
+            //发送二级评论
+			sendCommentTwoInfo() {
+                const user_comment_id = this.user_comment_id
+				this.$http.post(this.$apiObj.SendComment, {
+					goods_id: this.id,
+					comment: this.comment,
+					user_comment_id
+				}).then(res => {
+					if (res.code == 1) {
+						uni.showToast({
+							title: this.$t('new.fsplcg'),
+							icon:"none"
+						})
+						this.getSelectComment(user_comment_id)
+						this.comment = ''
+					}
+				})
+			},
+            childComment({user_comment_id}){
+                this.popupShow = true
+                this.user_comment_id = user_comment_id
+            },
+            open() {
+                this.getSelectComment(this.user_comment_id)
+            },
+            close() {
+                this.popupShow = false
+                this.user_comment_id = ''
+            },
+            onShareClick(e){
+				uni.navigateTo({
+					url: '/pages/auction/CommentChild/sharing?orderauctionrecordid=' + this.id
+				});
             },
             updateImMessageFocusBool(newValue) {
                 this.imMessageFocusBool = newValue;
             },
+
             async getComment() {
-                const url = this.$apiObj.auctionGoodsSharingList;
+                const url = this.$apiObj.GoodsCommentList;
                 const CommentList = this.$apiObj.auctionGoodsSharingCommentList;
                 try {
-                    const res = await this.$http.post(url, {});
+                    const res = await this.$http.post(url, {
+					    goods_id: this.id
+                    });
                     if (res.code === 1) {
-                        console.log(res);
                         const commentRequests = res.data.data.map(async (i) => {
                             const commentRes = await this.$http.post(CommentList, {
                             "auction_goods_sharing_id": i.auction_goods_sharing_id
@@ -130,6 +231,9 @@ import inputbox from "@/components/session/input.vue";
                         const comments = await Promise.all(commentRequests);
                         this.luckyForumList = res.data.data;
                         this.luckyForumList.forEach((item, index) => {
+                            if (item.images) {
+                                item.images = item.images.split(',');
+                            }
                             item.luckyForumComments = comments[index];
                         });
                     }
@@ -139,9 +243,11 @@ import inputbox from "@/components/session/input.vue";
                 }
             },
             //键盘弹起
-            tocommit({auction_goods_sharing_id}){
+            tocommit({auction_goods_sharing_id,user_comment_id}){
+                console.log('1',user_comment_id);
                 this.imMessageFocusBool=true;
                 this.dyid=auction_goods_sharing_id;
+                this.user_comment_id = user_comment_id
             },
             //评论
             async submit(val) {
@@ -155,11 +261,6 @@ import inputbox from "@/components/session/input.vue";
                 }else{
                     console.error('错误');
                 }
-            },
-            // 点赞
-            likesBtn({auction_goods_sharing_id,is_like}){
-                let obj = {auction_goods_sharing_id,is_like}
-                console.log(obj);
             },
             onBack(){
                 const routeArr = getCurrentPages().map(i => i.route);
@@ -177,6 +278,12 @@ import inputbox from "@/components/session/input.vue";
 </script>
 
 <style lang="less" scoped>
+/deep/ .u-popup__content{
+    overflow: hidden;
+}
+/deep/ .u-popup__content__close--top-right{
+    top: 25px;
+}
 .auct-nav {
     width: 100%;
     padding: 40rpx 0 30rpx 0;
@@ -215,6 +322,9 @@ import inputbox from "@/components/session/input.vue";
 }
 .u-page{
     background: #F8F8F8;
+    .u-demo-block{
+        margin: 20rpx 0;
+    }
 }
 .album {
     display: flex;
@@ -226,7 +336,7 @@ import inputbox from "@/components/session/input.vue";
     .item-l-level{
         width: 80rpx;
         height: 30rpx;
-        margin-top: 8rpx;
+        margin: 8rpx 0 0 20rpx;
         padding-right: 5rpx;
         box-sizing: border-box;
         background: rgb(253, 240, 226);
@@ -266,6 +376,10 @@ import inputbox from "@/components/session/input.vue";
                     height: 100%;
                 }
             }
+            .album__nickname{
+                display: flex;
+                justify-content: flex-start;
+            }
         }
         .album__left{
              justify-content: flex-end;
@@ -291,6 +405,16 @@ import inputbox from "@/components/session/input.vue";
                 height: 180rpx !important;
                 margin: 0 40rpx 40rpx 0;
                 border-radius: 24rpx;
+            }
+        }
+        .start-class{
+            display: flex;
+            align-items: center;
+            span{
+                color: rgb(10, 198, 142);
+                font-size: 32rpx;
+                font-weight: 500;
+                text-align: left;
             }
         }
     }
@@ -375,6 +499,49 @@ import inputbox from "@/components/session/input.vue";
                 width: 100%;
             }
         }
+    }
+}
+.popup-child{
+    background: #fff;
+    height: 60vh;
+    overflow: scroll;
+    padding:40rpx 0;
+    .popup-top{
+        width: 100%;
+        height: 100rpx;
+        color: rgb(51, 51, 51);
+        font-size: 42rpx;
+        text-align: center;
+        border-bottom: 1px solid #F3F3F3;
+    }
+    .popup__createtime{
+        color: rgb(51, 51, 51);
+        font-size: 42rpx;
+        text-align: left;
+        text-transform: capitalize;
+    }
+}
+.comment-botm {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 144rpx;
+    display: flex;
+    align-items: center;
+    background: #FFF;
+    box-shadow: 0px -4rpx 14rpx rgba(255, 198, 188, 0.3);
+
+    .comment-botm-inpit {
+        width: 600rpx;
+        display: flex;
+        align-items: center;
+        margin: 0 auto;
+    }
+    
+    .comment-num{
+        width: 100rpx;
+        font-size: 24rpx;
+        text-align: center;
     }
 }
 </style>
