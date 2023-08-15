@@ -40,6 +40,12 @@
 				<u--input :placeholder="$t('new.wxs')" border="surround" maxlength="100" v-model="comment" @confirm="sendComment()"></u--input>
 			</view>
 			<view class="comment-num">{{comment.length}}/100</view>
+			<view class="address-fixed">
+				<view class="fixed-con">
+					<button class="public-btn" style="background: rgb(10, 198, 142);"
+						@click="onShareClick">{{$t('comment.Btn')}}</button>
+				</view>
+			</view>
 		</view>
 
 		<u-popup :show="showComment" mode="bottom" bgColor="transparent">
@@ -101,6 +107,11 @@
 			this.getCommentList();
 		},
 		methods: {
+			onShareClick() {
+				uni.navigateTo({
+					url: '/pages/auction/CommentChild/sharing?orderauctionrecordid=' + this.id
+				});
+			},
 			onShowmsg(item) {
 				this.selectId = item.user_comment_id
 				this.showComment = true
@@ -409,5 +420,20 @@
 				}
 			}
 		}
+		.address-fixed {
+			width: 100%;
+			background: #ffffff;
+			box-shadow: 0 0 20rpx 0 rgba(153, 153, 153, 0.1);
+			position: fixed;
+			left: 0;
+			bottom: 0;
+			z-index: 99;
+
+			.fixed-con {
+				padding: 32rpx 32rpx 64rpx 32rpx;
+				box-sizing: border-box;
+			}
+		}
 	}
+	
 </style>

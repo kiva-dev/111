@@ -868,6 +868,20 @@
 			}
 		},
 		{
+			"path": "pages/auction/CommentChild/forum",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/auction/CommentChild/sharing",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		},
+		{
 			"path": "pages/auction/product_info",
 			"style": {
 				"navigationBarTitleText": "",

@@ -1664,5 +1664,7 @@
 	"bell.fx":"Share",
 
 	"Global.NewVersion":"New Version Found",
-	"Global.VersionContent":"update content:"
+	"Global.VersionContent":"update content:",
+
+	"comment.Btn":"Post comments"
 }
