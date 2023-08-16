@@ -254,8 +254,19 @@
 		</view>
 
 		<view class="ml-operate">
-			<view class="ml-operate-title">{{$t('new.wdfw')}}</view>
+			<view class="ml-operate-title">{{$t('rule.title')}}</view>
 			<view class="ml-operate-ul">
+				<view class="ul-li" @click="navClick('/pages/mine/new/rule')">
+					<view class="ul-li-l">
+						<view class="l-icon">
+							<image src="@/static/images/mine/mine_icon_rule.png" mode="widthFix"></image>
+						</view>
+						<view class="l-name">{{$t('new.dz')}}</view>
+					</view>
+					<view class="ul-li-r">
+						<image src="@/static/images/mine/mine_icon_right.webp" mode="widthFix"></image>
+					</view>
+				</view>
 				<view class="ul-li" @click="navClick('/pages/address/address')">
 					<view class="ul-li-l">
 						<view class="l-icon">

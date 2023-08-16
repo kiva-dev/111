@@ -1665,6 +1665,17 @@
 	"bell.ljlq":"Receive your Gift now！",
 	"bell.fx":"Share",
 
+	"rule.title":"Rule Introduction",
+	"rule.QuotaWishingRules":"Wish Pool Campaign Limit Rules",
+	"rule.closingle":"Wishing Pool Campaign‘s Raffle and completed",
+	"rule.luckyCode":"Wishing Results (lucky code)",
+	"rule.announcedLuckyCode":"After the wishing period ends, the wishing results and lucky codes will be announced. You can check in 'Me - Lucky Records' to see if you have won. If you win, you can choose the method to claim your wishing prize in the Lucky Records section.",
+	"rule.limitedTime":"Limited-Time Wishing Rules",
+	"rule.limitedTimeClose":"Within the specified timeframe, each cumulative wish reaching a certain quantity will generate a lucky star. If the cumulative amount of K-Diamonds reaches the previous activation value but is insufficient to trigger the next activation, we will refund the later participating users in order of participation.",
+	"rule.Reminder":"Friendly Reminder:",
+	"rule.ReminderConent":"We are committed to providing you with a fair and enjoyable wishing activity experience. If you have any questions, please feel free to contact our customer service team, and we will do our utmost to assist you.",
+	"rule.note":"Note: KOLIBRIMALL reserves the right to interpret the activity rules finally.",
+
 	"Global.NewVersion":"New Version Found",
 	"Global.VersionContent":"update content:",
 

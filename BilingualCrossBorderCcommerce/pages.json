@@ -924,6 +924,13 @@
 			}
 		},
 		{
+			"path": "pages/mine/new/rule",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		},
+		{
 			"path": "pages/mine/oldmine",
 			"style": {
 				"navigationBarTitleText": "",

@@ -1661,6 +1661,18 @@
 	"bell.ljlq":"立即领取您的礼物！",
 	"bell.fx":"分享",
 
+	"rule.title":"规则介绍",
+	"rule.QuotaWishingRules":"限额许愿规则",
+	"rule.closingle":"许愿开奖和封盘",
+	"rule.luckyCode":"许愿结果(幸运码)",
+	"rule.announcedLuckyCode":"许愿结束后，将公布许愿结果和幸运码。您可以在我的-幸运记录中查看您是否中奖。如果您中奖了，你可以在幸运记录中选择领取许愿奖品的方式",
+	"rule.limitedTime":"限时许愿规则",
+	"rule.limitedTimeClose":"在规定时间内，许愿每累计达到一定数量，将产生一名幸运之星。如果累计K钻金额达到上一次点亮值，但不足以开启下一次点亮时，我们将按照参与顺序，对后面参与的用户进行退款处理。",
+	"rule.Reminder":"温馨提示：",
+	"rule.ReminderConent":"我们致力于为您提供公平、有趣的许愿活动体验，如果您有任何疑问，请随时联系我们的客服团队，我们将全力为您解答！",
+	"rule.note":"注意：KOLIBRI MALL保留对活动规则的最终解释权。",
+
+
 	"Global.NewVersion":"发现新版本",
 	"Global.VersionContent":"更新内容:",
 

@@ -409,11 +409,9 @@
 					<view class="agree-box" v-else v-html="auction_rule"></view>
 				</view>
 			</view>
-
+			<!-- 底部按钮 -->
 			<view class="bottom-layout">
-
 				<view class="bl-right">
-
 					<view class="bl-right-add" style="color: #FFF; background: rgb(190, 190, 190)"
 						v-if="shopCont.check_status==3||shopCont.check_status==4">
 						<p>{{$t('auction.detail.yijs')}}</p>
