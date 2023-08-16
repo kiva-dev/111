@@ -7,8 +7,8 @@
 					<image src="@/static/images/mine/collect_icon_back.png" mode="widthFix"></image>
 				</view>
 				<view class="box-title">{{$t('top.CommentsSection')}}</view>
-				<view class="box-clear" @click="onShareClick">
-					<image src="@/static/images/mine/msg_btn_clear.png" mode="widthFix"></image>
+                <view class="box-clear" >
+					<!-- <image src="@/static/images/mine/msg_btn_clear.png" mode="widthFix"></image> -->
 				</view>
 			</view>
             <!--头部导航 start-->
@@ -20,57 +20,65 @@
 			</view>
 		</view>
         <template v-if="luckyForumList && luckyForumList.length > 0">
-            <view class="u-demo-block" v-for="(luckyForumListItem,topNub) in luckyForumList" :key="topNub" >
-                <view class="u-demo-block__content">
-                    <view class="album">
-                        <!-- 左侧头像 -->
-                        <view class="album__header">
-                            <view class="album__right">
-                                <view class="album__avatar">
-                                    <u-avatar :src="luckyForumListItem.user.avatar" size='40'></u-avatar>
-                                </view>
-                                <view style="display:flex;flex-direction: column">
-                                    <view class="album__nickname">
-                                        <u--text :text="luckyForumListItem.user.nickname" bold size="17" class="album__text"></u--text>
-                                        <view class="item-l-level">
-                                            <view class="level-icon">
-                                                <image src="@/static/images/mine/mine_icon_vip.webp" mode="widthFix"></image>
+            <view style="padding-bottom:190rpx">
+                <view class="u-demo-block" v-for="(luckyForumListItem,topNub) in luckyForumList" :key="topNub" >
+                    <view class="u-demo-block__content">
+                        <view class="album">
+                            <!-- 左侧头像 -->
+                            <view class="album__header">
+                                <view class="album__right">
+                                    <view class="album__avatar">
+                                        <u-avatar :src="luckyForumListItem.user.avatar" size='40'></u-avatar>
+                                    </view>
+                                    <view style="display:flex;flex-direction: column">
+                                        <view class="album__nickname">
+                                            <u--text :text="luckyForumListItem.user.nickname" bold size="17" class="album__text"></u--text>
+                                            <view class="item-l-level">
+                                                <view class="level-icon">
+                                                    <image src="@/static/images/mine/mine_icon_vip.webp" mode="widthFix"></image>
+                                                </view>
+                                                <view class="level-num">Lv.{{luckyForumListItem.user.level}}</view>
                                             </view>
-                                            <view class="level-num">Lv.{{luckyForumListItem.user.level}}</view>
+                                        </view>
+                                        <view class="album__createtime">
+                                            <view class="level-num">{{luckyForumListItem.createtime}}</view>
                                         </view>
                                     </view>
-                                    <view class="album__createtime">
-                                        <view class="level-num">{{luckyForumListItem.createtime}}</view>
-                                    </view>
+                                </view>
+                                <view class="album__left"  v-if="luckyForumListItem.is_featured">
+                                    <image src="/static/spread/featured.png" mode="widthFix"></image>
                                 </view>
                             </view>
-                            <view class="album__left"  v-if="luckyForumListItem.is_featured">
-                                <image src="/static/spread/featured.png" mode="widthFix"></image>
+                            <!-- 内容 -->
+                            <view class="album__content">
+                                <view class="start-class">
+                                    <u-rate active-color="#0AC68E" inactive-color="#CCCCCC" readonly minCount='1' gutter="8" size='18' :allowHalf='true' v-model="luckyForumListItem.the_star"></u-rate>
+                                    <span>{{luckyForumListItem.the_star}}</span>
+                                </view>
+                                <u--text margin="6px 2px" :text="luckyForumListItem.comment" ></u--text>
+                                <view class="album__urls">
+                                    <image :src="item" v-for="(item,index) in luckyForumListItem.images" :key="index"></image>
+                                </view>
                             </view>
-                        </view>
-                        <!-- 内容 -->
-                        <view class="album__content">
-                            <view class="start-class">
-                                <u-rate active-color="#0AC68E" inactive-color="#CCCCCC" readonly minCount='1' gutter="8" size='18' :allowHalf='true' v-model="luckyForumListItem.the_star"></u-rate>
-                                <span>{{luckyForumListItem.the_star}}</span>
-                            </view>
-                            <u--text margin="6px 2px" :text="luckyForumListItem.comment" ></u--text>
-                            <view class="album__urls">
-                                <image :src="item" v-for="(item,index) in luckyForumListItem.images" :key="index"></image>
-                            </view>
-                        </view>
-                        <!-- 子级评论 -->
-                        <view class="album__bottom">
-                            <view class="album__bottom__btn">
-                                <view class="forumComment" @click="childComment(luckyForumListItem)">
-                                    <image src="@/static/images/mine/forumComment.png" mode="widthFix"></image>
-                                    <view class="forumComment__comment">{{luckyForumListItem.luckyForumComments.length || 'Comment'}}</view>
+                            <!-- 子级评论 -->
+                            <view class="album__bottom">
+                                <view class="album__bottom__btn">
+                                    <view class="forumComment" @click="childComment(luckyForumListItem)">
+                                        <image src="@/static/images/mine/forumComment.png" mode="widthFix"></image>
+                                        <view class="forumComment__comment">{{luckyForumListItem.luckyForumComments.length || 'Comment'}}</view>
+                                    </view>
                                 </view>
                             </view>
                         </view>
                     </view>
                 </view>
             </view>
+            <view class="address-fixed">
+				<view class="fixed-con">
+					<button class="public-btn" style="background: rgb(10, 198, 142);"
+						@click="onShareClick">{{$t('comment.Btn')}}</button>
+				</view>
+			</view>
         </template>
         <template v-else>
             <uni-empty image="/static/images/new/wpl.png" :message="$t('new.zwpl')"></uni-empty>
