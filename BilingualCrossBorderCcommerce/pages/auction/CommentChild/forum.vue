@@ -124,7 +124,7 @@
                             </view>
                         </view>
                         <!-- 子级聊天回复 -->
-                        <childForum :commentChild='commentaryListItem' @submit="submit"/>
+                        <childForum :commentChild='commentaryListItem' @submit="submit" @ChildTocommit='tocommit(commentaryListItem)'/>
                     </view>
                 </view>
             </view>
@@ -150,6 +150,7 @@ import childForum from "./childForum.vue";
 		data() {
 			return {
                 id:'',
+				isLogin: false,
                 search:'',
                 luckyForumList:[],
                 props_user_comment_id:'',
@@ -166,17 +167,17 @@ import childForum from "./childForum.vue";
 					id: 1,
                     name:"",
                     code:'All',
-					title: this.$t('comment.All')
+					title: this.$t('comment.all_comment')
 				}, {
                     id: 2,
                     name:"photo",
                     code:'images',
-					title: this.$t('comment.Picture')
+					title: this.$t('comment.images_comment')
 				}, {
                     id: 3,
                     name:"heart",
                     code:'featured_comment',
-					title: this.$t('comment.SelectedComments')
+					title: this.$t('comment.featured_comment')
 				}]
             }
 		},
@@ -189,9 +190,10 @@ import childForum from "./childForum.vue";
 			if (e.id) this.id = e.id;
 		},
         onShow(){
-            this.navList.map(i=>{
-                this.getComment(i.code)
-            })
+            if(uni.getStorageSync('token')){
+                this.isLogin = true
+            }
+            this.getComment('All')
         },
 		methods:{
             onNavClick({id,code}) {
@@ -251,6 +253,27 @@ import childForum from "./childForum.vue";
             updateImMessageFocusBool(newValue) {
                 this.imMessageFocusBool = newValue;
             },
+            async getCount(){
+                try {
+                    const url = this.$apiObj.getCommentCount;
+                    const res = await this.$http.post(url, {goods_id: this.id});
+                    if(res.code === 1){
+                        const keyToIndexMap = {
+                            'all_comment': 0,
+                            'images_comment': 1,
+                            'featured_comment': 2
+                        };
+                        for (const key in res.data) {
+                            const index = keyToIndexMap[key];
+                            if (index !== undefined) {
+                                this.navList[index].title = this.$t(`comment.${key}`) + `(${res.data[key] || 0 })`;
+                            }
+                        }
+                    }
+                } catch (error) {
+                    console.error(error);
+                }
+            },
             async getComment(search) {
                 const url = this.$apiObj.GoodsCommentList;
                 const CommentList = this.$apiObj.getSelectCommentList;
@@ -267,21 +290,8 @@ import childForum from "./childForum.vue";
                             return commentRes.data.data;
                         });
                         const comments = await Promise.all(commentRequests);
+                        this.getCount()
                         this.luckyForumList = res.data.data;
-
-
-                        this.navList = this.navList.map(item => {
-                            let codeToTitleMap = {
-                                'All': this.$t('comment.All'),
-                                'images': this.$t('comment.Picture'),
-                                'featured_comment': this.$t('comment.SelectedComments')
-                            };
-                            if (codeToTitleMap.hasOwnProperty(item.code)&& search === item.code) {
-                                item.title = codeToTitleMap[item.code] + `(${res.data.data.length || 0 })`;
-                            }
-                            return item;
-                        });
-
                         this.luckyForumList.forEach((item, index) => {
                             if (item.images) {
                                 item.images = item.images.split(',');
@@ -296,11 +306,26 @@ import childForum from "./childForum.vue";
             },
             //键盘弹起
             tocommit(data){
-                const {auction_goods_sharing_id,user_comment_id} = data
-                console.log(data,'1',user_comment_id);
-                this.imMessageFocusBool=true;
-                this.dyid=auction_goods_sharing_id;
-                this.user_comment_id = user_comment_id
+                if(this.isLogin){
+                    const {auction_goods_sharing_id,user_comment_id} = data
+                    console.log(data,'1',user_comment_id);
+                    this.imMessageFocusBool=true;
+                    this.dyid=auction_goods_sharing_id;
+                    this.user_comment_id = user_comment_id
+                }else{
+                    this.close()
+                    uni.showModal({
+						title: this.$t('mine.tip'),
+						content: this.$t('mine.prompt'),
+						success: (res) => {
+							if (res.confirm) {
+								uni.navigateTo({
+									url: '/pages/public/login'
+								})
+							}
+						},
+					})
+                }
             },
             //评论
             async submit(val) {
@@ -364,6 +389,7 @@ import childForum from "./childForum.vue";
 }
 .u-page{
     background: #F8F8F8;
+    min-height: 96vh;
     .u-demo-block{
         margin: 20rpx 0;
     }

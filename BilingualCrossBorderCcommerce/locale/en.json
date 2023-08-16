@@ -1679,8 +1679,8 @@
 	"Global.NewVersion":"New Version Found",
 	"Global.VersionContent":"update content:",
 
-	"comment.All":"All",
-	"comment.Picture":"Picture",
-	"comment.SelectedComments":"Selected comments",
+	"comment.all_comment":"All",
+	"comment.images_comment":"Picture",
+	"comment.featured_comment":"Selected comments",
 	"comment.Btn":"Post comments"
 }

@@ -126,11 +126,12 @@ import inputbox from "@/components/session/input.vue";
             },
             //键盘弹起
             tocommit(data){
-                const {auction_goods_sharing_id,user_comment_id} = data
-                console.log(data,'1',user_comment_id);
-                this.imMessageFocusBool=true;
-                this.dyid=auction_goods_sharing_id;
-                this.user_comment_id = user_comment_id
+                // const {auction_goods_sharing_id,user_comment_id} = data
+                // console.log(data,'1',user_comment_id);
+                // this.imMessageFocusBool=true;
+                // this.dyid=auction_goods_sharing_id;
+                // this.user_comment_id = user_comment_id
+                this.$emit('ChildTocommit')
             },
             //评论
             async submit(val) {

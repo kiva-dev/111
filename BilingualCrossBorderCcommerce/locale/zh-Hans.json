@@ -1676,8 +1676,8 @@
 	"Global.NewVersion":"发现新版本",
 	"Global.VersionContent":"更新内容:",
 
-	"comment.All":"全部",
-	"comment.Picture":"有图",
-	"comment.SelectedComments":"中拍评论",
+	"comment.all_comment":"全部",
+	"comment.images_comment":"有图",
+	"comment.featured_comment":"中拍评论",
 	"comment.Btn":"Post comments"
 }
