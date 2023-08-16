@@ -261,7 +261,7 @@
 						<view class="l-icon">
 							<image src="@/static/images/mine/mine_icon_rule.png" mode="widthFix"></image>
 						</view>
-						<view class="l-name">{{$t('new.dz')}}</view>
+						<view class="l-name">{{$t('new.Rule')}}</view>
 					</view>
 					<view class="ul-li-r">
 						<image src="@/static/images/mine/mine_icon_right.webp" mode="widthFix"></image>
