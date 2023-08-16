@@ -89,6 +89,8 @@
 	"top.luckysharing": "幸运分享",
 	"top.luckyforum": "幸运论坛",
 	"top.CommentsSection": "商品评论",
+	"top.PostComments": "发表评论",
+
 
 	"index.demo-description": "包含 uni-framework、manifest.json、pages.json、tabbar、页面、组件、API、Schema",
 	"index.detail": "详情",
