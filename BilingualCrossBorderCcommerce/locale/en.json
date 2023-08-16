@@ -89,6 +89,7 @@
 	"top.luckysharing": "Lucky Sharing",
 	"top.luckyforum": "Lucky Forum",
 	"top.CommentsSection": "Comments Section",
+	"top.PostComments": "Post Comments",
 
 	"index.demo": "uni-app globalization",
 	"index.demo-description": "Include uni-framework, manifest.json, pages.json, tabbar, Page, Component, API, Schema",

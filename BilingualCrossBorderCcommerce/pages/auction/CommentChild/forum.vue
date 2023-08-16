@@ -45,7 +45,7 @@
                                         </view>
                                     </view>
                                 </view>
-                                <view class="album__left"  v-if="luckyForumListItem.is_featured">
+                                <view class="album__left"  v-if="!luckyForumListItem.is_featured">
                                     <image src="/static/spread/featured.png" mode="widthFix"></image>
                                 </view>
                             </view>
@@ -209,8 +209,7 @@ import childForum from "./childForum.vue";
 			},
             //发送二级评论
 			sendCommentTwoInfo() {
-                const user_comment_id = this.user_comment_id
-                const props_user_comment_id = this.props_user_comment_id
+                const user_comment_id = this.props_user_comment_id
 				this.$http.post(this.$apiObj.SendComment, {
 					goods_id: this.id,
 					comment: this.comment,
@@ -221,7 +220,7 @@ import childForum from "./childForum.vue";
 							title: this.$t('new.fsplcg'),
 							icon:"none"
 						})
-						this.getSelectComment(props_user_comment_id)
+						this.getSelectComment(user_comment_id)
 						this.comment = ''
 					}
 				})
@@ -229,6 +228,7 @@ import childForum from "./childForum.vue";
             childComment({user_comment_id}){
                 this.popupShow = true
                 this.props_user_comment_id = user_comment_id
+                console.log(user_comment_id);
             },
             open() {
                 this.getSelectComment(this.props_user_comment_id)
@@ -236,6 +236,8 @@ import childForum from "./childForum.vue";
             close() {
                 this.popupShow = false
                 this.user_comment_id = ''
+                this.props_user_comment_id = ''
+
             },
             onShareClick(e){
 				uni.navigateTo({
@@ -410,11 +412,11 @@ import childForum from "./childForum.vue";
         width: 100%;
         .album__right,
         .album__left{
-            width: 50%;
             display: flex;
             align-items: center;
         }
         .album__right{
+            width: 70%;
             justify-content: flex-start;
             .album__avatar {
                 margin-right: 40rpx;
@@ -429,6 +431,7 @@ import childForum from "./childForum.vue";
             }
         }
         .album__left{
+            width: 30%;
             justify-content: flex-end;
             color: #666;
             font-size: 16px;

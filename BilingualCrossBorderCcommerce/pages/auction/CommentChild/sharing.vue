@@ -6,7 +6,7 @@
 				<view class="box-back" @click="onBack">
 					<image src="@/static/images/mine/collect_icon_back.png" mode="widthFix"></image>
 				</view>
-				<view class="box-title">{{$t('top.luckysharing')}}</view>
+				<view class="box-title">{{$t('top.PostComments')}}</view>
 				<view class="box-clear" style="visibility: hidden;">
 					<image src="@/static/images/mine/msg_btn_clear.png" mode="widthFix"></image>
 				</view>
@@ -115,12 +115,14 @@
                         the_star,
                         "goods_id": this.orderauctionrecordid
                     });
-                    this.shareFriendShow = res.code === 1 ? true : false;
+                    // this.shareFriendShow = res.code === 1 ? true : false;
                     if (res.code !== 1) {
                         uni.showToast({
                             title: res.msg,
                             icon: 'none'
                         });
+                    }else{
+                        this.onBack()
                     }
                 } catch (error) {
                     console.error("An error occurred:", error);
