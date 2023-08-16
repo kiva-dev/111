@@ -155,6 +155,7 @@ let apiObj = {
 	SendComment: '/Mine/comment', //发布评论
 	getSelectCommentList: '/Litestoregoods/getSubComment', //获取子列表
 	getStageNumByUid: '/Litestoregoods/getStageNumByUid', //获取期数
+	getAuctionGoodsIdByStageNum: '/Litestoregoods/getAuctionGoodsIdByStageNum', //期数查竞拍商品的 ID
 	getCommentCount: '/Litestoregoods/getCommentCount', // 评论数量
 	SendLike: '/Litestoregoods/like', //点赞或取消
 	MineFocusList: '/Mine/focusList', //关注商品

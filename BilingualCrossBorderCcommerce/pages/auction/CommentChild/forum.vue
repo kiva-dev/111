@@ -61,7 +61,7 @@
                                 </view>
                             </view>
                             <!-- 中拍期数 -->
-                            <view class="album__content" style="margin-bottom:40rpx" v-if="luckyForumListItem.is_featured && luckyForumListItem.auction_goods_stage_num">
+                            <view class="album__content" style="margin-bottom:40rpx" v-if="luckyForumListItem.is_featured && luckyForumListItem.auction_goods_stage_num"  @click="onJingPai(luckyForumListItem)" >
                                 <view class="start-class">
                                     <view  style="font-size: 32rpx;margin-right:20rpx">Wishing sessions:</view>
                                     <span>{{luckyForumListItem.auction_goods_stage_num}}</span>
@@ -137,7 +137,7 @@
             </view>
             <view class="comment-botm">
                 <view class="comment-botm-inpit">
-                    <u--input :placeholder="$t('new.wxs')" border="surround" maxlength="100" v-model="comment" @confirm="sendCommentTwoInfo()"></u--input>
+                    <u--input :placeholder="$t('new.wxs')" border="surround" maxlength="100" v-model="comment" @focus="focusFun()" @confirm="sendCommentTwoInfo()"></u--input>
                 </view>
                 <view class="comment-num">{{comment.length}}/100</view>
             </view>
@@ -203,6 +203,11 @@ import childForum from "./childForum.vue";
             this.getComment('All')
         },
 		methods:{
+            onJingPai(item) {
+				uni.navigateTo({
+					url: '/pages/auction/detail?id=' + item.auction_goods_id
+				})
+			},
             onNavClick({id,code}) {
 				this.navId = id
                 this.search = code
@@ -220,6 +225,21 @@ import childForum from "./childForum.vue";
 			},
             //发送二级评论
 			sendCommentTwoInfo() {
+                if(!this.isLogin){
+                    this.close()
+                    uni.showModal({
+						title: this.$t('mine.tip'),
+						content: this.$t('mine.prompt'),
+						success: (res) => {
+							if (res.confirm) {
+								uni.navigateTo({
+									url: '/pages/public/login'
+								})
+							}
+						},
+					})
+                    return
+                }
                 const user_comment_id = this.user_comment_id
                 const props_user_comment_id = this.props_user_comment_id
 				this.$http.post(this.$apiObj.SendComment, {
@@ -285,6 +305,7 @@ import childForum from "./childForum.vue";
             async getComment(search) {
                 const url = this.$apiObj.GoodsCommentList;
                 const CommentList = this.$apiObj.getSelectCommentList;
+                const GoodsIdByStageNum = this.$apiObj.getAuctionGoodsIdByStageNum;
                 try {
                     const res = await this.$http.post(url, {
 					    goods_id: this.id,
@@ -306,6 +327,14 @@ import childForum from "./childForum.vue";
                             }
                             item.luckyForumComments = comments[index];
                         });
+                        this.luckyForumList.forEach(async (item, index) => {
+                            if(item.auction_goods_stage_num){
+                                const GoodsIdRes = await this.$http.post(GoodsIdByStageNum, {
+                                    stage_num: item.auction_goods_stage_num
+                                });
+                                return item.auction_goods_id = GoodsIdRes.data
+                            }
+                        });
                     }
                 } catch (error) {
                     // 处理请求错误
@@ -321,6 +350,22 @@ import childForum from "./childForum.vue";
                     this.dyid=auction_goods_sharing_id;
                     this.user_comment_id = user_comment_id
                 }else{
+                    this.close()
+                    uni.showModal({
+						title: this.$t('mine.tip'),
+						content: this.$t('mine.prompt'),
+						success: (res) => {
+							if (res.confirm) {
+								uni.navigateTo({
+									url: '/pages/public/login'
+								})
+							}
+						},
+					})
+                }
+            },
+            focusFun(){
+                if(!this.isLogin){
                     this.close()
                     uni.showModal({
 						title: this.$t('mine.tip'),

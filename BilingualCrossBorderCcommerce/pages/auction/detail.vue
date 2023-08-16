@@ -405,7 +405,7 @@
 					<view class="line"></view>
 				</view>
 				<!-- 限额许愿规则 -->
-				<view class="rule-conent" v-if="shopCont.auction_type === 1">
+				<view class="rule-conent" v-if="shopCont.auction_type === '1' ">
 					<view class="titleRule">
 						<image class="titleStart" src="@/static/images/mine/ruleStart.png" mode="widthFix"></image>
 						<span>{{$t('rule.QuotaWishingRules')}}</span>
