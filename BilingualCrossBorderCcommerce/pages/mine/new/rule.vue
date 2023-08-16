@@ -1,5 +1,5 @@
 <template>
-    <view style="background:#F8F8F8;min-height:100vh">
+    <view style="background:#F8F8F8;min-height:100vh width: 100%; overflow-x: hidden;">
         <view class="rule-header">
 			<view class="mp-header-box">
 				<view class="box-back" @click="onBack">

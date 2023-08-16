@@ -13,7 +13,7 @@
 			</view>
             <!--头部导航 start-->
 			<view class="auct-nav">
-				<view v-for="item in navList" :key="item.id" class="li" :class="item.id==navId?'active':''" @click="onNavClick(item)">
+				<view v-for="(item,navNub) in navList" :key="navNub" class="li" :class="item.id==navId?'active':''" @click="onNavClick(item)">
                     <u-icon :name="item.name" :color="item.id==navId?'#1DD181':'#666666'" ></u-icon>
                     {{item.title}}
                 </view>
@@ -60,6 +60,13 @@
                                     <image :src="item" v-for="(item,index) in luckyForumListItem.images" :key="index"></image>
                                 </view>
                             </view>
+                            <!-- 中拍期数 -->
+                            <view class="album__content" style="margin-bottom:40rpx" v-if="luckyForumListItem.is_featured && luckyForumListItem.auction_goods_stage_num">
+                                <view class="start-class">
+                                    <view  style="font-size: 32rpx;margin-right:20rpx">Wishing sessions:</view>
+                                    <span>{{luckyForumListItem.auction_goods_stage_num}}</span>
+                                </view>
+                            </view>
                             <!-- 子级评论 -->
                             <view class="album__bottom">
                                 <view class="album__bottom__btn">
@@ -96,7 +103,7 @@
                     {{commentaryList.length || 0}} Replies
                 </view>
                 <view style="width: 100%;height: 50vh;overflow: overlay;">
-                    <view v-for="(commentaryListItem,topNub) in commentaryList" :key="topNub" style="width: 100%;box-sizing: border-box;padding: 20px;">
+                    <view v-for="(commentaryListItem,commentaryNub) in commentaryList" :key="commentaryNub" style="width: 100%;box-sizing: border-box;padding: 20px;">
                         <!-- 左侧头像 -->
                         <view class="album__header">
                             <view class="album__right" style="width: 100%;">
@@ -241,6 +248,7 @@ import childForum from "./childForum.vue";
             },
             close() {
                 this.popupShow = false
+                this.commentaryList = []
                 this.user_comment_id = ''
                 this.props_user_comment_id = ''
 
@@ -512,7 +520,6 @@ import childForum from "./childForum.vue";
             .forumComment{
                 display: flex;
                 align-items: center;
-                margin-left: 40rpx;
                 justify-content: space-around;
                 .forumComment__comment{
                     margin-left: 20rpx;

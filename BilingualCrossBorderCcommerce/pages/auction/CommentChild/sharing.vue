@@ -40,6 +40,39 @@
             </u-upload>
         </view>
 
+        <!-- 选择中拍期数 -->
+        <view style="background:#ffffff;margin:20rpx 0" v-if="actions.length > 0">
+            <u--form labelPosition="left" :model="model1" ref="uForm" >
+                <u-form-item
+                        label="Wishing sessions"
+                        prop="auction_goods_stage_num"
+                        borderBottom
+                        @click="showSex = true"
+                        ref="item1"
+                >
+                    <u--input
+                            v-model="model1.auction_goods_stage_num"
+                            disabled
+                            disabledColor="#ffffff"
+                            placeholder="select"
+                            border="none"
+                    ></u--input>
+                    <u-icon
+                            slot="right"
+                            name="arrow-right"
+                    ></u-icon>
+                </u-form-item>
+            </u--form>
+            <u-action-sheet
+                    :show="showSex"
+                    :actions="actions"
+                    title="select"
+                    @close="showSex = false"
+                    @select="sexSelect"
+            >
+            </u-action-sheet>
+        </view>
+
         <view class="address-fixed">
 			<view class="fixed-con">
 				<button class="public-btn" style="background: rgb(10, 198, 142);"
@@ -68,20 +101,30 @@
                 imgUrl:require('@/static/icon/path.png'),
                 value5: '',
 				fileList1: [],
+                showSex: false,
+                model1: {
+                    auction_goods_stage_num: '',
+                },
+                actions: [],
+                columns:[],
+                AreaForm:'',
+                pickerShow:false,
 			}
 		},
         computed: {
             siderClasses() {
-                return this.$t('luckysharing.content')
             }
         },
         onLoad(e) {
             if(e.orderauctionrecordid){
                 this.orderauctionrecordid = e.orderauctionrecordid
-                this.fun()
+                this.StageNumFun()
             }
 		},
 		methods:{
+            sexSelect(e) {
+                this.model1.auction_goods_stage_num = e.name
+            },
             onBack(){
                 const routeArr = getCurrentPages().map(i => i.route);
 				if (routeArr.length > 1) {
@@ -93,10 +136,17 @@
 				}
             },
             // 获取期数
-            async fun(){
+            async StageNumFun(){
                 const url = this.$apiObj.getStageNumByUid;
                 const res = await this.$http.post(url, {"goods_id": this.orderauctionrecordid});
-                console.log(res);
+                if(res.code === 1){
+                    const dataArray = Object.keys(res.data).map(id => ({
+                        id: id,
+                        name: res.data[id]
+                    }));
+                    this.actions = dataArray
+                }
+                console.log(res,this.actions);
             },
             // 分享
             close() {
@@ -115,11 +165,13 @@
                 const the_star = this.stareValue
                 const urlArray = this.fileList1.map(item => item.url);
                 const images = urlArray.join(',');
+                const {auction_goods_stage_num} = this.model1
                 try {
                     const res = await this.$http.post(url, {
                         comment,
                         images,
                         the_star,
+                        auction_goods_stage_num,
                         "goods_id": this.orderauctionrecordid
                     });
                     // this.shareFriendShow = res.code === 1 ? true : false;
@@ -198,6 +250,15 @@
 </script>
 
 <style lang="less" scoped>
+.u-textarea--no-radius{
+    height: 500rpx;
+}
+/deep/ .u-form-item__body{
+    padding: 40rpx;
+}
+/deep/ .u-form-item__body__left{
+    width: 300rpx !important;
+}
 .u-upload__wrap__preview__image{
     border-radius: 24rpx;
 }
