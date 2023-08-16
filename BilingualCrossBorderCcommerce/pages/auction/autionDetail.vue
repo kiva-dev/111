@@ -97,8 +97,9 @@
 					</view>
 				</view>
 			</view> -->
+			<!-- 评论 -->
 			<view class="detail-comment">
-				<div id="div2"></div>
+				<view id="div2"></view>
 				<view class="detail-comment-head">
 					<view class="detail-comment-tit">{{$t('newDetail.pinglun')}} <span>（{{JudgeList.length}}）</span>
 					</view>
@@ -108,22 +109,53 @@
 					</view>
 				</view>
 				<block v-if="JudgeList.length > 0">
-					<view class="detail-comment-item" v-for="(item,i) in JudgeList.slice(0,2)"
-						:key="item.user_comment_id">
-						<view class="detail-comment-item-head">
-							<image :src="item.user.avatar" mode="aspectFill"></image>
-							<p>{{item.user.nickname}}</p>
-							<view class="head-level">
-								<view class="head-level-icon">
-									<image src="@/static/images/mine/mine_icon_vip.webp" mode="widthFix"></image>
-								</view>
-								<view class="head-level-num">Lv.{{item.user.level}}</view>
+					<view class="album"v-for="(item,i) in JudgeList.slice(0,2)" :key="i" @click="toComment()">
+                        <!-- 左侧头像 -->
+                        <view class="album__header">
+                            <view class="album__right">
+                                <view class="album__avatar">
+                                    <u-avatar :src="item.user.avatar" size='40'></u-avatar>
+                                </view>
+                                <view style="display:flex;flex-direction: column">
+                                    <view class="album__nickname">
+                                        <u--text :text="item.user.nickname" bold size="17" class="album__text"></u--text>
+                                        <view class="item-l-level">
+                                            <view class="level-icon">
+                                                <image src="@/static/images/mine/mine_icon_vip.webp" mode="widthFix"></image>
+                                            </view>
+                                            <view class="level-num">Lv.{{item.user.level}}</view>
+                                        </view>
+                                    </view>
+                                    <view class="album__createtime">
+                                        <view class="level-num">{{item.createtime}}</view>
+                                    </view>
+                                </view>
+                            </view>
+                            <view class="album__left"  v-if="item.is_featured">
+								<image src="/static/spread/featured.png" mode="widthFix"></image>
 							</view>
-						</view>
-						<view class="detail-comment-item-info">
-							{{item.comment}}
-						</view>
-					</view>
+                        </view>
+                        <!-- 内容 -->
+                        <view class="album__content">
+                            <view class="start-class">
+                                <u-rate active-color="#0AC68E" inactive-color="#CCCCCC" readonly minCount='1' gutter="8" size='18' :allowHalf='true' v-model="item.the_star"></u-rate>
+                                <span>{{item.the_star}}</span>
+                            </view>
+                            <u--text margin="6px 2px" :text="item.comment" ></u--text>
+                            <view class="album__urls">
+                                <image :src="imagesItem" v-for="(imagesItem,index) in item.images" :key="index"></image>
+                            </view>
+                        </view>
+                        <!-- 子级评论图标 -->
+                        <view class="album__bottom">
+                            <view class="album__bottom__btn">
+                                <view class="forumComment" @click="childComment(item)">
+                                    <image src="@/static/images/mine/forumComment.png" mode="widthFix"></image>
+                                    <view class="forumComment__comment">{{item.luckyForumComments.length || 'Comment'}}</view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
 				</block>
 				<block v-else>
 					<view class="detail-comment-not">{{$t('newDetail.not')}}</view>
@@ -958,7 +990,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			//前往评论
 			toComment() {
 				uni.navigateTo({
-					url: '/pages/auction/comment?id=' + this.id
+					url: '/pages/auction/CommentChild/forum?id=' + this.shopCont.goods_id
 				})
 			},
 			//历史竞拍列表

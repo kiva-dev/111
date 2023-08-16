@@ -189,7 +189,9 @@ import childForum from "./childForum.vue";
 			if (e.id) this.id = e.id;
 		},
         onShow(){
-            this.getComment('All')
+            this.navList.map(i=>{
+                this.getComment(i.code)
+            })
         },
 		methods:{
             onNavClick({id,code}) {
@@ -209,7 +211,8 @@ import childForum from "./childForum.vue";
 			},
             //发送二级评论
 			sendCommentTwoInfo() {
-                const user_comment_id = this.props_user_comment_id
+                const user_comment_id = this.user_comment_id
+                const props_user_comment_id = this.props_user_comment_id
 				this.$http.post(this.$apiObj.SendComment, {
 					goods_id: this.id,
 					comment: this.comment,
@@ -220,7 +223,7 @@ import childForum from "./childForum.vue";
 							title: this.$t('new.fsplcg'),
 							icon:"none"
 						})
-						this.getSelectComment(user_comment_id)
+						this.getSelectComment(props_user_comment_id)
 						this.comment = ''
 					}
 				})
@@ -301,6 +304,7 @@ import childForum from "./childForum.vue";
             //评论
             async submit(val) {
                 if(val!=''){
+                    this.comment = val
                     this.sendCommentTwoInfo()
                     // let data= {"auction_goods_sharing_id":this.dyid,"comment":val}
                     // const url = this.$apiObj.SendComment;
@@ -356,18 +360,6 @@ import childForum from "./childForum.vue";
         color: #1DD181;
         font-weight: 550;
     }
-    // .active::after {
-    //     width: 32rpx;
-    //     height: 5rpx;
-    //     background: #1DD181;
-    //     border-radius: 3rpx;
-    //     position: absolute;
-    //     bottom: -10rpx;
-    //     left: 50%;
-    //     margin-left: -16rpx;
-    //     display: block;
-    //     content: "";
-    // }
 }
 .u-page{
     background: #F8F8F8;
