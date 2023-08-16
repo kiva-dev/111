@@ -231,6 +231,7 @@ import childForum from "./childForum.vue";
             childComment({user_comment_id}){
                 this.popupShow = true
                 this.props_user_comment_id = user_comment_id
+                this.user_comment_id = user_comment_id
                 console.log(user_comment_id);
             },
             open() {

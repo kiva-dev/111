@@ -78,6 +78,7 @@
         onLoad(e) {
             if(e.orderauctionrecordid){
                 this.orderauctionrecordid = e.orderauctionrecordid
+                this.fun()
             }
 		},
 		methods:{
@@ -90,6 +91,12 @@
 						url: '/pages/auction/auction'
 					});
 				}
+            },
+            // 获取期数
+            async fun(){
+                const url = this.$apiObj.getStageNumByUid;
+                const res = await this.$http.post(url, {"goods_id": this.orderauctionrecordid});
+                console.log(res);
             },
             // 分享
             close() {
