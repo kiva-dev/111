@@ -88,6 +88,7 @@
 	"top.appealDetail": "Appeal Detail",
 	"top.luckysharing": "Lucky Sharing",
 	"top.luckyforum": "Lucky Forum",
+	"top.CommentsSection": "Comments Section",
 
 	"index.demo": "uni-app globalization",
 	"index.demo-description": "Include uni-framework, manifest.json, pages.json, tabbar, Page, Component, API, Schema",
@@ -1666,5 +1667,8 @@
 	"Global.NewVersion":"New Version Found",
 	"Global.VersionContent":"update content:",
 
+	"comment.All":"All",
+	"comment.Picture":"Picture",
+	"comment.SelectedComments":"Selected comments",
 	"comment.Btn":"Post comments"
 }

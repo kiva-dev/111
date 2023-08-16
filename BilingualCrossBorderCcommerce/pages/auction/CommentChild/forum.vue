@@ -6,14 +6,14 @@
 				<view class="box-back" @click="onBack">
 					<image src="@/static/images/mine/collect_icon_back.png" mode="widthFix"></image>
 				</view>
-				<view class="box-title">{{$t('top.luckyforum')}}</view>
+				<view class="box-title">{{$t('top.CommentsSection')}}</view>
 				<view class="box-clear" @click="onShareClick">
 					<image src="@/static/images/mine/msg_btn_clear.png" mode="widthFix"></image>
 				</view>
 			</view>
             <!--头部导航 start-->
 			<view class="auct-nav">
-				<view v-for="item in navList" :key="item.id" class="li" :class="item.id==navId?'active':''" @click="onNavClick(item.id)">
+				<view v-for="item in navList" :key="item.id" class="li" :class="item.id==navId?'active':''" @click="onNavClick(item)">
                     <u-icon :name="item.name" :color="item.id==navId?'#1DD181':'#666666'" ></u-icon>
                     {{item.title}}
                 </view>
@@ -44,8 +44,8 @@
                                     </view>
                                 </view>
                             </view>
-                            <view class="album__left">
-                                <view class="level-num">{{$filter.to_DateMonth(luckyForumListItem.createtime)}}</view>
+                            <view class="album__left"  v-if="luckyForumListItem.is_featured">
+                                <image src="/static/spread/featured.png" mode="widthFix"></image>
                             </view>
                         </view>
                         <!-- 内容 -->
@@ -67,9 +67,6 @@
                                     <view class="forumComment__comment">{{luckyForumListItem.luckyForumComments.length || 'Comment'}}</view>
                                 </view>
                             </view>
-                            <!-- <view class="album__bottom__text" v-if="luckyForumListItem.luckyForumComments.length > 0">
-                                <view class="CommentsText" v-for="(CommentsItem,CommentsNub) in luckyForumListItem.luckyForumComments" :key="CommentsNub">{{CommentsItem.nickname}}:{{CommentsItem.comment}}</view>
-                            </view> -->
                         </view>
                     </view>
                 </view>
@@ -84,6 +81,7 @@
 				</view>
 			</view>
         </template>
+        <!-- 子评论 -->
         <u-popup :show="popupShow" @close="close" @open="open" mode="bottom" round="20" :closeOnClickOverlay='false' :closeable='true'>
             <view class="popup-child album" >
                 <view class="popup-top">
@@ -144,6 +142,7 @@ import childForum from "./childForum.vue";
 		data() {
 			return {
                 id:'',
+                search:'',
                 luckyForumList:[],
                 props_user_comment_id:'',
                 user_comment_id:'',
@@ -158,15 +157,18 @@ import childForum from "./childForum.vue";
                 navList: [{
 					id: 1,
                     name:"",
-					title: this.$t('newDetail.shangpin')
+                    code:'All',
+					title: this.$t('comment.All')
 				}, {
                     id: 2,
                     name:"photo",
-					title: this.$t('newDetail.pinglun')
+                    code:'images',
+					title: this.$t('comment.Picture')
 				}, {
                     id: 3,
                     name:"heart",
-					title: this.$t('newDetail.xianqin')
+                    code:'featured_comment',
+					title: this.$t('comment.SelectedComments')
 				}]
             }
 		},
@@ -179,9 +181,14 @@ import childForum from "./childForum.vue";
 			if (e.id) this.id = e.id;
 		},
         onShow(){
-            this.getComment()
+            this.getComment('All')
         },
 		methods:{
+            onNavClick({id,code}) {
+				this.navId = id
+                this.search = code
+                this.getComment(code)
+			},
             //获取子列表
 			getSelectComment(id) {
 				this.$http.post(this.$apiObj.getSelectCommentList, {
@@ -230,13 +237,13 @@ import childForum from "./childForum.vue";
             updateImMessageFocusBool(newValue) {
                 this.imMessageFocusBool = newValue;
             },
-
-            async getComment() {
+            async getComment(search) {
                 const url = this.$apiObj.GoodsCommentList;
                 const CommentList = this.$apiObj.getSelectCommentList;
                 try {
                     const res = await this.$http.post(url, {
-					    goods_id: this.id
+					    goods_id: this.id,
+                        search
                     });
                     if (res.code === 1) {
                         const commentRequests = res.data.data.map(async (i) => {
@@ -247,6 +254,20 @@ import childForum from "./childForum.vue";
                         });
                         const comments = await Promise.all(commentRequests);
                         this.luckyForumList = res.data.data;
+
+
+                        this.navList = this.navList.map(item => {
+                            let codeToTitleMap = {
+                                'All': this.$t('comment.All'),
+                                'images': this.$t('comment.Picture'),
+                                'featured_comment': this.$t('comment.SelectedComments')
+                            };
+                            if (codeToTitleMap.hasOwnProperty(item.code)&& search === item.code) {
+                                item.title = codeToTitleMap[item.code] + `(${res.data.data.length || 0 })`;
+                            }
+                            return item;
+                        });
+
                         this.luckyForumList.forEach((item, index) => {
                             if (item.images) {
                                 item.images = item.images.split(',');
@@ -312,7 +333,6 @@ import childForum from "./childForum.vue";
 
 
     .li {
-        width: 20%;
         font-size: 26rpx;
         text-align: center;
         position: relative;
@@ -401,9 +421,13 @@ import childForum from "./childForum.vue";
             }
         }
         .album__left{
-             justify-content: flex-end;
-             color: #666;
-             font-size: 16px;
+            justify-content: flex-end;
+            color: #666;
+            font-size: 16px;
+            image{
+                width: 144rpx;
+                height: 144rpx;
+            }
         }
         .album__text{
             margin: 20rpx 0;

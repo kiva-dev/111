@@ -160,22 +160,53 @@
 					</view>
 				</view>
 				<block v-if="JudgeList.length > 0">
-					<view class="detail-comment-item" v-for="(item,i) in JudgeList.slice(0,2)"
-						:key="item.user_comment_id">
-						<view class="detail-comment-item-head">
-							<image :src="item.user.avatar" mode="aspectFill"></image>
-							<p>{{item.user.nickname}}</p>
-							<view class="head-level">
-								<view class="head-level-icon">
-									<image src="@/static/images/mine/mine_icon_vip.webp" mode="widthFix"></image>
-								</view>
-								<view class="head-level-num">Lv.{{item.user.level}}</view>
-							</view>
-						</view>
-						<view class="detail-comment-item-info">
-							{{item.comment}}
-						</view>
-					</view>
+					<view class="album"v-for="(item,i) in JudgeList.slice(0,2)" :key="i" @click="toComment()">
+                        <!-- 左侧头像 -->
+                        <view class="album__header">
+                            <view class="album__right">
+                                <view class="album__avatar">
+                                    <u-avatar :src="item.user.avatar" size='40'></u-avatar>
+                                </view>
+                                <view style="display:flex;flex-direction: column">
+                                    <view class="album__nickname">
+                                        <u--text :text="item.user.nickname" bold size="17" class="album__text"></u--text>
+                                        <view class="item-l-level">
+                                            <view class="level-icon">
+                                                <image src="@/static/images/mine/mine_icon_vip.webp" mode="widthFix"></image>
+                                            </view>
+                                            <view class="level-num">Lv.{{item.user.level}}</view>
+                                        </view>
+                                    </view>
+                                    <view class="album__createtime">
+                                        <view class="level-num">{{item.createtime}}</view>
+                                    </view>
+                                </view>
+                            </view>
+                            <view class="album__left">
+                                <view class="level-num">{{$filter.to_DateMonth(item.createtime)}}</view>
+                            </view>
+                        </view>
+                        <!-- 内容 -->
+                        <view class="album__content">
+                            <view class="start-class">
+                                <u-rate active-color="#0AC68E" inactive-color="#CCCCCC" readonly minCount='1' gutter="8" size='18' :allowHalf='true' v-model="item.the_star"></u-rate>
+                                <span>{{item.the_star}}</span>
+                            </view>
+                            <u--text margin="6px 2px" :text="item.comment" ></u--text>
+                            <view class="album__urls">
+                                <image :src="imagesItem" v-for="(imagesItem,index) in item.images" :key="index"></image>
+                            </view>
+                        </view>
+                        <!-- 子级评论图标 -->
+                        <view class="album__bottom">
+                            <view class="album__bottom__btn">
+                                <view class="forumComment" @click="childComment(item)">
+                                    <image src="@/static/images/mine/forumComment.png" mode="widthFix"></image>
+                                    <view class="forumComment__comment">{{item.luckyForumComments.length || 'Comment'}}</view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
 				</block>
 				<block v-else>
 					<view class="detail-comment-not">{{$t('newDetail.not')}}</view>
@@ -1014,14 +1045,35 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				this.showImages = true
 			},
 			//获取评论
-			getCommentList() {
-				this.$http.post(this.$apiObj.GoodsCommentList, {
-					goods_id: this.shopCont.goods_id
-				}).then(res => {
-					if (res.code) {
-						this.JudgeList = res.data.data
-					}
-				})
+			async getCommentList() {
+				const url = this.$apiObj.GoodsCommentList;
+                const CommentList = this.$apiObj.getSelectCommentList;
+                try {
+                    const res = await this.$http.post(url, {
+					    goods_id: this.shopCont.goods_id
+                    });
+                    if (res.code === 1) {
+                        const commentRequests = res.data.data.map(async (i) => {
+                            const commentRes = await this.$http.post(CommentList, {
+                                user_comment_id: i.user_comment_id
+                            });
+                            return commentRes.data.data;
+                        });
+                        const comments = await Promise.all(commentRequests);
+                        this.JudgeList = res.data.data;
+                        this.JudgeList.forEach((item, index) => {
+							console.log(item.images);
+                            if (item.images) {
+                                item.images = item.images.split(',');
+                            }
+                            item.luckyForumComments = comments[index];
+							console.log(item);
+                        });
+                    }
+                } catch (error) {
+                    // 处理请求错误
+                    console.error(error);
+                }
 			},
 			//前往评论
 			toComment() {
@@ -2542,7 +2594,144 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			text-align: center;
 		}
 	}
-
+	// 新评论
+	.album {
+		display: flex;
+		align-items: flex-start;
+		flex-direction: column;
+		padding: 40rpx 0;
+		margin-bottom: 20rpx;
+		background: #fff;
+		.item-l-level{
+			width: 80rpx;
+			height: 30rpx;
+			margin: 8rpx 0 0 20rpx;
+			padding-right: 5rpx;
+			box-sizing: border-box;
+			background: rgb(253, 240, 226);
+			border-radius: 100rpx;
+			display: flex;
+			.level-icon {
+				width: 30rpx;
+				height: 30rpx;
+				image {
+					width: 100%;
+				}
+			}
+			.level-num {
+				margin-left: 5rpx;
+				color: rgb(219, 132, 37);
+				font-size: 16rpx;
+				line-height: 30rpx;
+			}
+		}
+		.album__header{
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			width: 100%;
+			.album__right,
+			.album__left{
+				width: 50%;
+				display: flex;
+				align-items: center;
+			}
+			.album__right{
+				justify-content: flex-start;
+				.album__avatar {
+					margin-right: 40rpx;
+					image{
+						width: 100%;
+						height: 100%;
+					}
+				}
+				.album__nickname{
+					display: flex;
+					justify-content: flex-start;
+				}
+			}
+			.album__left{
+				justify-content: flex-end;
+				color: #666;
+				font-size: 16px;
+			}
+			.album__text{
+				margin: 20rpx 0;
+			}
+		}
+		.album__content {
+			margin:45rpx 0rpx 0 0;
+			flex: 1;
+			.album__urls{
+				margin-top:40rpx;
+				display: flex;
+				align-items: center;
+				flex-direction: row;
+				flex-wrap: wrap;
+				align-content: space-between;
+				image{
+					width: 180rpx;
+					height: 180rpx !important;
+					margin: 0 20rpx 20rpx 0;
+					border-radius: 24rpx;
+				}
+			}
+			.start-class{
+				display: flex;
+				align-items: center;
+				span{
+					color: rgb(10, 198, 142);
+					font-size: 32rpx;
+					font-weight: 500;
+					text-align: left;
+				}
+			}
+		}
+		.album__bottom{
+			// height: 80rpx;
+			width: 100%;
+			display: flex;
+			align-items: center;
+			flex-direction: column;
+			color: #666;
+			font-size: 16px;
+			.album__bottom__btn{
+				display: flex;
+				width: 100%;
+				align-items: center;
+				.Like{
+					display: flex;
+					justify-content: space-around;
+					align-items: center;
+					width: 15%;
+				}
+				.forumComment{
+					display: flex;
+					align-items: center;
+					margin-left: 40rpx;
+					justify-content: space-around;
+					.forumComment__comment{
+						margin-left: 20rpx;
+					}
+				}
+				image{
+					width: 45rpx;
+				}
+			}
+			.album__bottom__text{
+				box-sizing: border-box;
+				width: 100%;
+				font-size: 30rpx;
+				background: #F5F5F5;
+				margin-top: 20rpx;
+				padding: 30rpx;
+				border-radius: 30rpx;
+				.CommentsText{
+					margin: 10rpx 0;
+				}
+			}
+		}
+	}
 	//输入密码
 	.pay-pwd {
 		position: absolute;
