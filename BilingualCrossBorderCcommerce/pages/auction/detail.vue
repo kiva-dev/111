@@ -182,9 +182,9 @@
                                     </view>
                                 </view>
                             </view>
-                            <view class="album__left">
-                                <view class="level-num">{{$filter.to_DateMonth(item.createtime)}}</view>
-                            </view>
+                            <view class="album__left"  v-if="item.is_featured">
+								<image src="/static/spread/featured.png" mode="widthFix"></image>
+							</view>
                         </view>
                         <!-- 内容 -->
                         <view class="album__content">
@@ -2630,11 +2630,11 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			width: 100%;
 			.album__right,
 			.album__left{
-				width: 50%;
 				display: flex;
 				align-items: center;
 			}
 			.album__right{
+            	width: 70%;
 				justify-content: flex-start;
 				.album__avatar {
 					margin-right: 40rpx;
@@ -2649,6 +2649,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				}
 			}
 			.album__left{
+            	width: 30%;
 				justify-content: flex-end;
 				color: #666;
 				font-size: 16px;

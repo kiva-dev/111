@@ -45,7 +45,7 @@
                                         </view>
                                     </view>
                                 </view>
-                                <view class="album__left"  v-if="!luckyForumListItem.is_featured">
+                                <view class="album__left"  v-if="luckyForumListItem.is_featured">
                                     <image src="/static/spread/featured.png" mode="widthFix"></image>
                                 </view>
                             </view>
