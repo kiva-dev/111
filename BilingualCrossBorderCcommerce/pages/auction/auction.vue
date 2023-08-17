@@ -1281,6 +1281,7 @@
 				isNotReadNum: 0,
 				historyListTwo: [],
 				BellList:[], // 首页提示
+				authData: []
 			}
 		},
 		onLoad(e) {
@@ -1364,6 +1365,7 @@
 
 			if (uni.getStorageSync('token')) {
 				this.getNotRead()
+				this.getAuthDetail()
 				this.$http.post(this.$apiObj.MineInfo).then(res => {
 					if (res.code == 1) {
 						this.isLogin = true
@@ -1409,6 +1411,12 @@
 		},
 		mounted() {},
 		methods: {
+			//获取实名认证信息
+			getAuthDetail() {
+				this.$http.post(this.$apiObj.MineAuthDetail).then(res => {
+					this.authData = res.data
+				})
+			},
 			closeOverLay(e,nub){
 				console.log(e,nub,this.$refs.Bellnub[nub]);
 			},
