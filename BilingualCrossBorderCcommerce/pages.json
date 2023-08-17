@@ -868,6 +868,13 @@
 			}
 		},
 		{
+			"path": "pages/mine/faq",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		},
+		{
 			"path": "pages/auction/CommentChild/forum",
 			"style": {
 				"navigationBarTitleText": "",
