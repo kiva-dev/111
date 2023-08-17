@@ -158,6 +158,9 @@ import childForum from "./childForum.vue";
 			return {
                 id:'',
 				isLogin: false,
+                page: 1, // 页码
+				pagenum: 10, // 每页显示商品数目
+				totalNum: 0,
                 search:'',
                 luckyForumList:[],
                 props_user_comment_id:'',
@@ -202,6 +205,12 @@ import childForum from "./childForum.vue";
             }
             this.getComment('All')
         },
+        onReachBottom() {
+            if (this.page * this.pagenum >= this.totalNum) return
+			this.page++
+            const newSear = this.search
+            this.getComment(newSear)
+		},
 		methods:{
             onJingPai(item) {
 				uni.navigateTo({
@@ -209,6 +218,7 @@ import childForum from "./childForum.vue";
 				})
 			},
             onNavClick({id,code}) {
+                this.page = 1
 				this.navId = id
                 this.search = code
                 this.getComment(code)
@@ -216,6 +226,7 @@ import childForum from "./childForum.vue";
             //获取子列表
 			getSelectComment(id) {
 				this.$http.post(this.$apiObj.getSelectCommentList, {
+                    pagenum: 999,
 					user_comment_id: id
 				}).then(res => {
 					if (res.code == 1) {
@@ -308,7 +319,8 @@ import childForum from "./childForum.vue";
                 const GoodsIdByStageNum = this.$apiObj.getAuctionGoodsIdByStageNum;
                 try {
                     const res = await this.$http.post(url, {
-					    pagenum: 100,
+                        page: this.page,
+					    pagenum: this.pagenum,
 					    goods_id: this.id,
                         search
                     });
@@ -320,15 +332,15 @@ import childForum from "./childForum.vue";
                             return commentRes.data.data;
                         });
                         const comments = await Promise.all(commentRequests);
-                        this.getCount()
-                        this.luckyForumList = res.data.data;
-                        this.luckyForumList.forEach((item, index) => {
+                        this.getCount() // 头部
+                        let _NewData = res.data.data;
+                        _NewData.forEach((item, index) => {
                             if (item.images) {
                                 item.images = item.images.split(',');
                             }
                             item.luckyForumComments = comments[index];
                         });
-                        this.luckyForumList.forEach(async (item, index) => {
+                        _NewData.forEach(async (item, index) => {
                             if(item.auction_goods_stage_num){
                                 const GoodsIdRes = await this.$http.post(GoodsIdByStageNum, {
                                     stage_num: item.auction_goods_stage_num
@@ -336,6 +348,9 @@ import childForum from "./childForum.vue";
                                 return item.auction_goods_id = GoodsIdRes.data
                             }
                         });
+                        console.log(res.data);
+                        this.totalNum = res.data.total
+                        this.luckyForumList = this.page == 1 ? _NewData : [...this.luckyForumList, ..._NewData]
                     }
                 } catch (error) {
                     // 处理请求错误

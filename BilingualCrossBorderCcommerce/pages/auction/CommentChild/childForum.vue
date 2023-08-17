@@ -66,6 +66,7 @@ import inputbox from "@/components/session/input.vue";
             //获取子列表
 			getSelectComment(id) {
 				this.$http.post(this.$apiObj.getSelectCommentList, {
+                    pagenum: 999,
 					user_comment_id: id
 				}).then(res => {
 					if (res.code == 1) {
@@ -101,6 +102,7 @@ import inputbox from "@/components/session/input.vue";
                 const CommentList = this.$apiObj.getSelectCommentList;
                 try {
                     const res = await this.$http.post(url, {
+					    pagenum:999,
 					    goods_id: this.id
                     });
                     if (res.code === 1) {

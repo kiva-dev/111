@@ -77,7 +77,7 @@
 					<image src="/static/images/new-index/$.png" class="bonus-img"></image>
 					<view class="bonus-info">{{shopCont.can_use_invite_money_rate*1}}% bonus available</view>
 				</view>
-				<view class="li-icon" v-for="item in shopCont.tags" :key="item.tag_id">
+				<view class="li-icon" v-for="(item,tagNub) in shopCont.tags" :key="tagNub">
 					<image :src="item.image" mode="widthFix"></image>
 					<text> <u-parse :content="isShopCont ? item.en_desc : item.zh_desc"></u-parse></text>
 				</view>
@@ -149,21 +149,21 @@
 					:style="shopCont.check_status==3 || shopCont.check_status==4?'margin-top:30rpx;':''">
 					<block v-if="shopCont.order_user.length > 12">
 						<view class="detail-canyu-item" :style="(i+1)%6==0?'margin-right: 0rpx;':''"
-							v-for="(item,i) in shopCont.order_user.slice(0,10)">
-							<image :src="item.avatar" @click="toRecode()"></image>
+							v-for="(item,orderNub) in shopCont.order_user.slice(0,10)" :key="orderNub">
+							<image :src="item.avatar" @click="onNavClick(4)"></image>
 						</view>
 						<view class="detail-canyu-more">
 							<image src="/static/images//products/more.png"></image>
 						</view>
 						<view class="detail-canyu-item" style="margin-right: 0rpx;"
-							v-for="(item,i) in shopCont.order_user.slice(10,11)">
-							<image :src="item.avatar" @click="toRecode()"></image>
+							v-for="(item,userNub) in shopCont.order_user.slice(10,11)" :key="userNub">
+							<image :src="item.avatar" @click="onNavClick(4)"></image>
 						</view>
 					</block>
 					<block v-else>
 						<view class="detail-canyu-item" :style="(i+1)%6==0?'margin-right: 0rpx;':''"
-							v-for="(item,i) in shopCont.order_user">
-							<image :src="item.avatar" @click="toRecode()"></image>
+							v-for="(item,user2Nub) in shopCont.order_user" :key="user2Nub">
+							<image :src="item.avatar" @click="onNavClick(4)"></image>
 						</view>
 					</block>
 				</view>
@@ -299,7 +299,7 @@
 				</view>
 				<view class="gl-content">
 					<u-grid :border="false" @click="click">
-						<u-grid-item v-for="item in youLikeList.slice(0,6)" :key="item.goods_id"
+						<u-grid-item v-for="(item,youLikeNub) in youLikeList.slice(0,6)" :key="youLikeNub"
 							@click="toYouLikeOrHot(item.auction_goods_id)">
 							<view class="gl-content-item">
 								<view class="item-cover">
@@ -326,7 +326,7 @@
 				</view>
 				<view class="gl-content">
 					<u-grid :border="false" @click="click">
-						<u-grid-item v-for="item in hotList.slice(0,6)" :key="item.auction_goods_id"
+						<u-grid-item v-for="(item,hotNub) in hotList.slice(0,6)" :key="hotNub"
 							@click="toYouLikeOrHot(item.auction_goods_id)">
 							<view class="gl-content-item">
 								<view class="item-cover">
@@ -1048,9 +1048,9 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				// #endif
 			},
 			toRecode() {
-				uni.pageScrollTo({
-					scrollTop: this.heightList[3] + 1
-				})
+				// uni.pageScrollTo({
+				// 	scrollTop: this.heightList[3] + 1
+				// })
 			},
 			showMore() {
 				this.page++
