@@ -2,8 +2,21 @@
 	<!-- class="leftSider" -->
 	<view :class="siderClasses">
 		<view class="imgArr" :class="!isOnlyServer ? `${imgArrFrames}` : ''">
-			<image v-if="isDownloadVisibility" src="/static/images/mine/download.png" class="minImg" alt=""
-				@click="toDownload('/pages/auction/download')"></image>
+			
+			<!-- #ifdef H5 -->
+			<template>
+				<image v-if="isDownloadVisibility" src="/static/images/mine/download.png" class="minImg" alt=""
+					@click="toDownload('/pages/auction/download')"></image>
+			</template>
+			<!-- #endif -->
+			<!-- #ifndef H5 -->
+			<template>
+				<image v-if="isDownloadVisibility" src="/static/images/mine/download.png" class="minImg" alt=""
+					@click="toDownload('/pages/mine/version_update')"></image>
+			</template>
+			<!-- #endif -->
+			
+
 			<image v-if="isContactVisibility" src="/static/images/mine/aixin.png" class="minImg" alt=""
 				@click="checkApp()"></image>
 			<view class="people" v-if="isGroupVisibility">
@@ -66,7 +79,7 @@
 				transformClass: false,
 				timer: null,
 				showContact: false,
-				clickTimer:'',
+				clickTimer: '',
 			};
 		},
 		computed: {
@@ -206,7 +219,6 @@
 	.leftSider {
 		position: fixed;
 		left: 20rpx; //-50
-		bottom: 200rpx;
 		z-index: 100;
 		overflow: hidden;
 	}
