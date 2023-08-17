@@ -379,7 +379,11 @@
 				</view>
 			</view>
 		</u-popup>
-		<Bell ref="Bell" />
+		<!--中拍弹出-->
+		<Bell/>
+		
+		<!--赠金弹出-->
+		<Bonus></Bonus>
 	</view>
 </template>
 
@@ -388,11 +392,7 @@
 <script src="./jssocials-1.4.0/jssocials.min.js"></script> -->
 <script>
 	import tool from "@/utils/tool.js"
-	import Bell from '@/components/Global/Bell.vue'
 	export default {
-		components: {
-			Bell
-		},
 		data() {
 			return {
 				transformClass: false, //购物车icon是否添加平移效果

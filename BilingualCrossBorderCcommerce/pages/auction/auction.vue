@@ -1136,6 +1136,8 @@
 		<customerService ref="customerService" @showContactFun="showContactFun" leftOrRight="right" />
 		<!-- 提示领奖弹窗 -->
 		<Bell ref="Bell" />
+		<!--赠金弹出-->
+		<Bonus></Bonus>
 		<!-- 更新提示 -->
 		<!-- #ifdef APP-PLUS -->
 		<Upload ref="Upload" />
@@ -1150,7 +1152,6 @@
 	import jsencrypt from '@/common/jsencrypt-Rsa/jsencrypt/jsencrypt.vue';
 	import apiObj from '@/http/api.js';
 	import customerService from '@/components/customerService/index.vue'
-	import Bell from '@/components/Global/Bell.vue'
 	import Upload from '@/components/Global/Upload.vue'
 	//公钥.
 	const publiukey = `-----BEGIN PUBLIC KEY-----
@@ -1162,7 +1163,6 @@
 	export default {
 		components: {
 			customerService,
-			Bell,
 			Upload
 		},
 		data() {

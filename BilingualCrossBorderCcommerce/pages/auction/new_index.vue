@@ -860,6 +860,11 @@
 				</view>
 			</view>
 		</u-popup>
+		<!--中拍弹出-->
+		<Bell/>
+		
+		<!--赠金弹出-->
+		<Bonus update="true"></Bonus>
 
 		<view style="height: 20rpx;"></view>
 	</view>

@@ -11,6 +11,10 @@ Vue.use(VueI18n)
 const i18n = new VueI18n(i18nConfig)
 uni.setStorageSync('locale', i18n.locale)
 import uView from '@/uni_modules/uview-ui'
+import Bell from '@/components/Global/Bell.vue'
+import Bonus from '@/components/Bonus/Bonus.vue'
+Vue.component('Bell',Bell)
+Vue.component('Bonus',Bonus)
 // import VueLazyload from 'vue-lazyload'
 
 // Vue.use(VueLazyload)

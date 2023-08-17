@@ -54,9 +54,13 @@
 
 			<!--单行显示-->
 			<block v-if="selectId==1">
-				<view class="new-list-item" v-for="(item,i) in productList" :key="i"
-					@click="toProductInfo(item.goods_id)" @longpress="item.isMask=true">
-					<image :src="item.image" class="new-list-item-left"></image>
+				<view class="new-list-item" :class="item.soldOut == 0?'not_data':''" v-for="(item,i) in productList"
+					:key="i" @click="toProductInfo(item.goods_id)" @longpress="item.isMask=true">
+
+					<view class="new-list-item-left">
+						<image v-show="item.soldOut === 0" :src="shopImageSrc" class="soldoutClass"></image>
+						<image :src="item.image" class="goodsImgClass"></image>
+					</view>
 					<view class="new-list-item-right">
 						<view class="product-right-txt">{{item.goods_name}}</view>
 
@@ -78,10 +82,10 @@
 								<view class="new">RM<span>{{item.litestore_goods_spec[0].goods_price}}</span></view>
 							</view>
 
-							<view class="add_gwc" @click.stop="addCart(item)"></view>
+							<view class="add_gwc" @click.stop="addCart(item)" v-show="item.soldOut > 0"></view>
 						</view>
 
-						<view class="mask" v-show="item.isMask">
+						<!-- <view class="mask" v-show="item.isMask">
 							<image src="/static/images/new-index/close.png" class="close"
 								@click.stop="item.isMask=false"></image>
 							<view style="height: 46rpx;"></view>
@@ -89,7 +93,7 @@
 								<image :src="data.image"></image>
 								<view><u-parse :content="isShopCont?data.en_desc:data.zh_desc"></u-parse></view>
 							</view>
-						</view>
+						</view> -->
 
 					</view>
 				</view>
@@ -98,8 +102,12 @@
 			<!--一行双列显示-->
 			<block v-else-if="selectId==2">
 				<view class="new-list-item-two">
-					<view class="info" v-for="(item,i) in productList" :key="i" @click="toProductInfo(item.goods_id)">
-						<image :src="item.image" class="info-img"></image>
+					<view class="info" :class="item.soldOut == 0?'not_data':''" v-for="(item,i) in productList" :key="i"
+						@click="toProductInfo(item.goods_id)">
+						<view class="info-img">
+							<image v-show="item.soldOut === 0" :src="shopImageSrc" class="soldoutClass"></image>
+							<image :src="item.image" class="info-child-img"></image>
+						</view>
 						<view class="info-tit">{{item.goods_name}}</view>
 
 						<!-- <view class="info-tags">
@@ -116,7 +124,7 @@
 								<view class="new">RM<span>{{item.litestore_goods_spec[0].goods_price}}</span></view>
 							</view>
 
-							<view class="add_gwc" @click.stop="addCart(item)"></view>
+							<view class="add_gwc" v-show="item.soldOut > 0" @click.stop="addCart(item)"></view>
 						</view>
 					</view>
 				</view>
@@ -124,9 +132,12 @@
 
 			<!--竖向单行显示-->
 			<block v-else>
-				<view class="new-list-line" v-for="(item,i) in productList" :key="i"
-					@click="toProductInfo(item.goods_id)">
-					<image :src="item.image" class="product_img"></image>
+				<view class="new-list-line" :class="item.soldOut == 0?'not_data':''" v-for="(item,i) in productList"
+					:key="i" @click="toProductInfo(item.goods_id)">
+					<view class="product_img">
+						<image v-show="item.soldOut === 0" :src="shopImageSrc" class="soldoutClass"></image>
+						<image :src="item.image" class="productChild_img"></image>
+					</view>
 					<view class="product_txt">{{item.goods_name}}</view>
 
 					<view class="info">
@@ -137,7 +148,7 @@
 						</view>
 
 						<view class="add_gwc" style="width: 64rpx;height: 64rpx;background-size: 64rpx 64rpx;"
-							@click.stop="addCart(item)">
+							@click.stop="addCart(item)" v-show="item.soldOut > 0">
 						</view>
 					</view>
 
@@ -147,7 +158,15 @@
 		</view>
 
 		<image src="/static/images/new-index/gwc.png" class="gwc" @click="navClick('/pages/cart/cart')"></image>
+		
+		<!--中拍弹出-->
+		<Bell/>
+		
+		<!--赠金弹出-->
+		<Bonus></Bonus>
 
+		<!--回到顶部-->
+		<image src="/static/images/auction/to-top.png" class="to_top" v-show="showTop" @click="toTop()"></image>
 
 	</view>
 </template>
@@ -172,6 +191,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		},
 		data() {
 			return {
+				showTop: false,
 				kdiamondSelect: false,
 				showRmToKdiamond: false,
 				addressInfo: {},
@@ -313,7 +333,13 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				addCartTimer: ''
 			}
 		},
-
+		computed: {
+			shopImageSrc() {
+				return this.isShopCont ?
+					require('@/static/images/soldOut-en.png') :
+					require('@/static/images/soldOut.png');
+			}
+		},
 		onShow() {
 			this.scrollToTop = 0
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
@@ -384,10 +410,20 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				uni.stopPullDownRefresh()
 			}, 1000)
 		},
+		//监听页面滚动
+		onPageScroll(e) {
+			if (e.scrollTop >= 2000 && !this.showTop) this.showTop = true
+			else if (e.scrollTop < 2000 && this.showTop) this.showTop = false
+		},
 		beforeDestroy() {
 
 		},
 		methods: {
+			toTop() {
+				uni.pageScrollTo({
+					scrollTop: 0
+				})
+			},
 			//添加购物车
 			addCart(item) {
 				clearTimeout(this.addCartTimer)
@@ -446,19 +482,18 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				}).then(res => {
 					if (res.code == 1) {
 						this.totalPageNum = res.data.total
-						let arrs = []
 						res.data.data.forEach(item => {
+							let stockNumTotal = item.litestore_goods_spec.reduce((total, specItem) =>
+								total + specItem.stock_num, 0);
 							item.litestore_tag.forEach(data => {
 								let arr = data.name.split("|")
 								if (!this.isShopCont) data.name = arr[0]
 								else data.name = arr[1]
 							})
-							if (item.is_belong_to_mall == 1 && item.goods_status == 10) {
-								arrs.push(item)
-							}
+							item.soldOut = stockNumTotal === 0 ? 0 : 1;
 						})
-						this.productList = this.page == 1 ? arrs : [...this.productList,
-							...arrs
+						this.productList = this.page == 1 ? res.data.data : [...this.productList,
+							...res.data.data
 						];
 					}
 				})
@@ -651,13 +686,37 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		border-radius: 6rpx !important;
 	}
 
+	.not_data {
+		opacity: 0.6;
+	}
+
+	.soldoutClass {
+		width: 172rpx;
+		height: 172rpx;
+		border-radius: 20rpx 0 0 20rpx;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		z-index: 10;
+		transform: translate(-50%, -50%);
+	}
+
+	.to_top {
+		position: fixed;
+		left: 20rpx;
+		bottom: 120rpx;
+		width: 96rpx;
+		height: 96rpx;
+		z-index: 100;
+	}
+
 	.auct-page {
 
 		.more-head {
 			position: relative;
 			width: 100%;
 			height: 88rpx;
-			padding-top: 88rpx;
+			padding-top: 60rpx;
 			display: flex;
 			align-items: center;
 
@@ -729,10 +788,11 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			position: relative;
 			width: 750rpx;
 			height: 88rpx;
-			padding-top: 88rpx;
+			padding-top: 60rpx;
 			display: flex;
 			align-items: center;
-			background: rgb(10, 198, 142);
+			background: url('/static/images/auction/head-top.png') no-repeat;
+			background-size: 750rpx 148rpx;
 
 			view {
 				width: 100%;
@@ -958,10 +1018,12 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				border-radius: 20rpx;
 				margin: 0 auto 16rpx auto;
 
-				.new-list-item-left {
+				.new-list-item-left,
+				.goodsImgClass {
 					width: 272rpx;
 					height: 272rpx;
 					border-radius: 20rpx 0 0 20rpx;
+					position: relative;
 				}
 
 				.item-historical {
@@ -1400,11 +1462,13 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					border-radius: 20rpx;
 					margin-bottom: 20rpx;
 
-					.info-img {
+					.info-img,
+					.info-child-img {
 						display: block;
 						width: 336rpx;
 						height: 336rpx;
 						border-radius: 20rpx 20rpx 0 0;
+						position: relative;
 					}
 
 					.info-tit {
@@ -1566,11 +1630,18 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				box-shadow: 0px 4rpx 12rpx rgba(198, 198, 198, 0.3);
 				margin: 0 auto 20rpx auto;
 
+				.productChild_img,
 				.product_img {
 					display: block;
 					width: 686rpx;
 					height: 686rpx;
 					border-radius: 20rpx 20rpx 0 0;
+					position: relative;
+				
+					.soldoutClass {
+						width: 486rpx;
+						height: 486rpx;
+					}
 				}
 
 				.product_txt {

@@ -95,15 +95,15 @@
 		</view>
 		<!-- 提示领奖弹窗 -->
 		<Bell ref="Bell" />
+		
+		<!--赠金弹出-->
+		<Bonus></Bonus>
 	</view>
 </template>
 
 <script>
-	import Bell from '@/components/Global/Bell.vue'
 	export default {
-		components: {
-			Bell
-		},
+		components: {},
 		data() {
 			return {
 				page: 1,
