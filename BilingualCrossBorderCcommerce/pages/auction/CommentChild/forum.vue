@@ -131,7 +131,7 @@
                             </view>
                         </view>
                         <!-- 子级聊天回复 -->
-                        <childForum :commentChild='commentaryListItem' @submit="submit" @ChildTocommit='tocommit(commentaryListItem)'/>
+                        <childForum :commentChild='commentaryListItem' @submit="submit" @ChildTocommit='childComment(commentaryListItem)'/>
                     </view>
                 </view>
             </view>

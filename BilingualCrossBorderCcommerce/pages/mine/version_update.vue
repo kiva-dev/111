@@ -68,13 +68,13 @@
 		},
 		mounted() {
 			this.$http.post(this.$apiObj.IndexSetting, {
-				fields: 'version,version_desc,version_date,version_desc_en'
+				fields: 'version_auction,version_auction_desc,version_auction_date,version_auction_desc_en'
 			}).then(res => {
 				if (res.code == 1) {
-					this.version = res.data.version
-					this.version_desc = res.data.version
-					this.time = res.data.version_date
-					this.version_desc_en = res.data.version_desc_en
+					this.version = res.data.version_auction
+					this.version_desc = res.data.version_auction_desc
+					this.time = res.data.version_auction_date
+					this.version_desc_en = res.data.version_auction_desc_en
 				}
 			})
 		},
