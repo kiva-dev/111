@@ -868,6 +868,13 @@
 			}
 		},
 		{
+			"path": "pages/mine/version_update",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		},
+		{
 			"path": "pages/mine/faq",
 			"style": {
 				"navigationBarTitleText": "",
