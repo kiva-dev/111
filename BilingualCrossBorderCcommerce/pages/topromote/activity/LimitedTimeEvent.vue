@@ -8,11 +8,11 @@
 				</view>
 			</view>
             <view class='topText-en'>Great value gift</view>
-            <view class='topText-child-en'>Register TODAY and Join as a Member</view>
+            <view class='topText-child-en' style="margin-top: -20rpx;">Register TODAY and Join as a Member/Join us as a Member</view>
             <view class="topImage">
-                <image class="capsule_bg" src="@/static/demo/capsule_bg.webp"></image>
-                <view class="capsule_text">YOU’LL GET EXTRA</view>
-                <view class="capsule_right">
+                <image class="capsule_bg" style="width: 60%;" src="@/static/demo/capsule_bg.webp"></image>
+                <view class="capsule_text" style="top: 5%;">YOU’LL GET EXTRA</view>
+                <view class="capsule_right" style="left: 58%;">
                     <view class="capsule_number">RM30</view>
                     <view class="capsule_underline"></view>
                 </view>
@@ -121,6 +121,37 @@ What’s more? The platform also often holds exciting lucky draw events, allowin
 </template>
 
 <script>
+    const supportsWebp = ({ createImageBitmap, Image }) => {
+        if (!createImageBitmap || !Image) return Promise.resolve(false);
+
+        return new Promise(resolve => {
+            const image = new Image();
+            image.onload = () => {
+                createImageBitmap(image)
+                    .then(() => {
+                        resolve(true);
+                    })
+                    .catch(() => {
+                        resolve(false);
+                    });
+            };
+            image.onerror = () => {
+                resolve(false);
+            };
+            image.src = 'data:image/webp;base64,UklGRh4AAABXRUJQVlA4TBEAAAAvAAAAAAfQ//73v/+BiOh/AAA=';
+        });
+    };
+
+    const webpIsSupported = () => {
+    let memo = null;
+    return () => {
+        if (!memo) {
+            memo = supportsWebp(window);
+        }
+        return memo;
+    };
+    };
+
 	export default {
 		data() {
 			return {
@@ -134,6 +165,11 @@ What’s more? The platform also often holds exciting lucky draw events, allowin
 			else this.isEnglish = false
 			
 			if(e.promotion_code) uni.setStorageSync('invite_code',e.promotion_code)
+             webpIsSupported()().then(res => {
+                console.log("是否支持 webp", res)
+            }).catch(err => {
+                console.log(err)
+            })
 		},
 		onReachBottom() {
 		},
@@ -156,7 +192,7 @@ What’s more? The platform also often holds exciting lucky draw events, allowin
 </script>
 <style lang="less" scoped>
     .head-info {
-        padding-top: 88rpx;
+        padding-top: 60rpx;
         background-size: 750rpx 900rpx;
         position: absolute;
         z-index: 999;
@@ -241,7 +277,7 @@ What’s more? The platform also often holds exciting lucky draw events, allowin
             background: url('/static/demo/timeevent_topbg.png') no-repeat;
             background-size: 100% 100%;
             .capsule_bg{
-                width: 55%;
+                width: 50%;
                 height: 75rpx;
                 position: absolute;
                 left: 50%;
@@ -249,12 +285,12 @@ What’s more? The platform also often holds exciting lucky draw events, allowin
                 transform: translate(-50%,0);
             }
             .capsule_text{
-                font-size: 12px;
+                font-size: 24rpx;
                 font-weight: 700;
                 color: rgb(255, 57, 57);
                 text-align: center;
                 position: absolute;
-                left: 39%;
+                left: 40%;
                 top: 4%;
                 transform: translate(-45%,9%);
                 text-shadow:-1px 0 white,0 1px white,1px 0 white,0 -1px white;
@@ -395,7 +431,7 @@ What’s more? The platform also often holds exciting lucky draw events, allowin
             font-size: 80rpx;
         }
         .topText-child-en{
-            font-size: 35rpx;
+            font-size: 40rpx;
         }
         .topText-child,
         .topText-child-en{

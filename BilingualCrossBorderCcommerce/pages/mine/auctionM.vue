@@ -183,7 +183,7 @@
 										</template> -->
 										<template v-if="item.select_way == 0 && item.win == 1">
 											<view class="r-button-green" @click.stop="onShareClick(item)">
-												{{$t('zhongpai.Share')}}
+												{{$t('zhongpai.Spread')}}
 											</view>
 										</template>
 										<template v-if="item.select_way == 0 && item.win == 1">

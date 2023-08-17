@@ -1,7 +1,8 @@
 <template>
 	<view class="auction-page">
 		<view class="commission-head">
-			<view class="bg">
+			<view class="bg" @click="onReturn()">
+				<image src="@/static/xuyuan/svg.png" class="commission-head-left">
 				<view class="slogan">{{$t('ongoing.tit')}}</view>
 				<view class="slogan1">{{$t('ongoing.tit')}}</view>
 				<view class="title">{{$t('ongoing.progress')}}</view>
@@ -460,7 +461,7 @@
 				<img src="/static/xuyuan/xy.png" class="xyImg" />
 			</view>
 			<text class="txt">{{$t('xylist')}}</text>
-			<text class="btn">{{$t('xytitle')}}</text>
+			<text class="btn" :style="isShopCont?'width:500rpx;':''">{{$t('xytitle')}}</text>
 			<view class="itemBox">
 				<view class="itemBox_a" v-for="item in list" :key="item.id" @click.stop="toProductInfo(item)">
 					<image :src="item.image" class="itemImg" />
@@ -495,7 +496,6 @@
 				</view>
 			</view>
 		</view>
-		
 		<!--回到顶部-->
 		<image src="/static/images/auction/to-top.png" class="to_top" v-show="showTop" @click="toTop()"></image>
 
@@ -505,7 +505,6 @@
 <script>
 	import jsencrypt from '@/common/jsencrypt-Rsa/jsencrypt/jsencrypt.vue';
 	import apiObj from '@/http/api.js';
-	import Bell from '@/components/Global/Bell.vue'
 	//公钥.
 	const publiukey = `-----BEGIN PUBLIC KEY-----
 	MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCSjs8JJr/Nyb+nOG77agUDf7uT
@@ -514,9 +513,6 @@
 	NoR+zv3KaEmPSHtooQIDAQAB
 	-----END PUBLIC KEY-----`
 	export default {
-		components: {
-			Bell
-		},
 		data() {
 			return {
 				showTop: false,
@@ -1268,7 +1264,7 @@
 
 		.btn {
 			position: relative;
-			width: 340rpx;
+			width: 270rpx;
 			height: 48rpx;
 			box-sizing: border-box;
 			background: rgb(255, 255, 255);
@@ -1407,11 +1403,18 @@
 				height: 268rpx;
 				background-image: url("/static/images/tab/ongoing_head.png");
 				background-size: 750rpx 268rpx;
-
+				.commission-head-left {
+					position: absolute;
+					top: 138rpx;
+					left: 20rpx;
+					width: 40rpx;
+					height: 40rpx;
+					z-index: 10;
+				}
 				.slogan {
 					position: absolute;
 					top: 88rpx;
-					left: 52rpx;
+					left: 72rpx;
 					font-size: 60rpx;
 					font-weight: bold;
 					color: #FFA0A0;
@@ -1420,7 +1423,7 @@
 				.slogan1 {
 					position: absolute;
 					top: 84rpx;
-					left: 48rpx;
+					left: 68rpx;
 					font-size: 60rpx;
 					font-weight: bold;
 					color: rgb(255, 255, 255);
@@ -1429,7 +1432,7 @@
 				.title {
 					position: absolute;
 					top: 188rpx;
-					left: 52rpx;
+					left: 72rpx;
 					width: 202rpx;
 					height: 56rpx;
 					line-height: 56rpx;
@@ -2970,7 +2973,7 @@
 			left: 0;
 			bottom: 0;
 			width: 100%;
-			padding-top: 88rpx;
+			padding-top: 60rpx;
 			padding-bottom: 24rpx;
 
 			.mode-close {

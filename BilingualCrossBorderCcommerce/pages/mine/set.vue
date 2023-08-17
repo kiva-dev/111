@@ -56,7 +56,8 @@
 				</view>
 			</view>
 			<!-- #endif -->
-			<template v-if="version != $version">
+			
+			<!-- <template v-if="version != $version">
 				<a href="https://wish.kolibrimall.com/api/Index/getApk" download="Kolibri mall"
 					style="text-decoration:none;">
 					<view class="li">
@@ -72,9 +73,9 @@
 						</view>
 					</view>
 				</a>
-			</template>
-			<template v-else>
-				<view class="li">
+			</template> -->
+			<template>
+				<view class="li" @click="navClick('/pages/mine/version_update')">
 					<view class="label">{{$t('user.xitong.Versionupdate')}}</view>
 					<view class="li-r">
 						<view class="version">
@@ -86,7 +87,7 @@
 					</view>
 				</view>
 			</template>
-			<!-- 注销账号 -->
+
 			<!-- <view class="li" @click="toggle1('center')">
 				<view class="label">{{$t('user.xitong.Cancelaccount')}}</view>
 				<view class="li-r">
@@ -114,7 +115,7 @@
 		<!--清除缓存弹出 start-->
 
 		<!--注销账号弹出 start-->
-		<!-- <uni-popup ref="popup2">
+		<uni-popup ref="popup2">
 			<view class="public-pop">
 				<view class="pop-con">
 					<view class="pop-t">{{$t('user.xitong.tishi')}}</view>
@@ -126,7 +127,7 @@
 					</view>
 				</view>
 			</view>
-		</uni-popup> -->
+		</uni-popup>
 		<!--注销账号弹出 start-->
 
 		<!--退出账号弹出 start-->

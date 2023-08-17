@@ -4,6 +4,7 @@
 
 			<view class="head_fixed">
 				<view class="head_tit">
+					<image src="@/static/xuyuan/svg.png" class="commission-head-left"  @click="onReturn()">
 					<view class="tit-name">{{$t('xyc')}}</view>
 					<view class="tit-auth" v-if="!isLogin" @click="navClick('/pages/public/register')">
 						<image src="/static/images/tab/start-auth.png" class="auth"></image>
@@ -167,7 +168,7 @@
 				<img src="/static/xuyuan/xy.png" class="xyImg" />
 			</view>
 			<text class="txt">{{$t('xylist')}}</text>
-			<text class="btn">{{$t('xytitle')}}</text>
+			<text class="btn" :style="isShopCont?'width:500rpx;':''">{{$t('xytitle')}}</text>
 			<view class="itemBox">
 				<view class="itemBox_a" v-for="item in list" :key="item.id" @click.stop="toProductInfo(item)">
 					<image :src="item.image" class="itemImg" />
@@ -202,8 +203,7 @@
 				</view>
 			</view>
 		</view>
-		<!-- 领奖弹窗 -->
-		<Bell ref="Bell" />
+
 		<!--回到顶部-->
 		<image src="/static/images/auction/to-top.png" class="to_top" v-show="showTop" @click="toTop()"></image>
 
@@ -213,7 +213,6 @@
 <script>
 	import jsencrypt from '@/common/jsencrypt-Rsa/jsencrypt/jsencrypt.vue';
 	import apiObj from '@/http/api.js';
-	import Bell from '@/components/Global/Bell.vue'
 	//公钥.
 	const publiukey = `-----BEGIN PUBLIC KEY-----
 	MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCSjs8JJr/Nyb+nOG77agUDf7uT
@@ -222,9 +221,6 @@
 	NoR+zv3KaEmPSHtooQIDAQAB
 	-----END PUBLIC KEY-----`
 	export default {
-		components: {
-			Bell
-		},
 		data() {
 			return {
 				timeId: 1,
@@ -337,9 +333,7 @@
 			uni.onLocaleChange((e) => {
 				this.applicationLocale = e.locale;
 			});
-			this.getStartTime()
-		},
-		onShow() {
+
 			if (uni.getStorageSync('token')) {
 				this.isLogin = true
 				this.$http.post(this.$apiObj.MineInfo).then(res => {
@@ -349,6 +343,10 @@
 					}
 				})
 			}
+			this.getStartTime()
+
+		},
+		onShow() {
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
 			this.page = 1
 			this.newsjpId = 1
@@ -412,7 +410,6 @@
 					this.getAllProducts()
 				}
 			}
-
 		},
 		//监听页面滚动
 		onPageScroll(e) {
@@ -582,7 +579,6 @@
 			},
 			// 即将开始
 			onAuctionNotbeginGoods(start, end) {
-				console.log(start,end)
 				let select_begin_time = new Date(start).getTime() / 1000
 				let select_end_time = new Date(end).getTime() / 1000
 				this.$http.post(this.$apiObj.AuctionNotbeginGoods, {
@@ -1014,7 +1010,7 @@
 
 		.btn {
 			position: relative;
-			width: 340rpx;
+			width: 270rpx;
 			height: 48rpx;
 			box-sizing: border-box;
 			background: rgb(255, 255, 255);
@@ -1185,11 +1181,22 @@
 					height: 88rpx;
 					display: flex;
 					align-items: center;
-
+					.commission-head-left{
+						position: absolute;
+						// top: 138rpx;
+						// left: 20rpx;
+						margin-left: 32rpx;
+						width: 40rpx;
+						height: 40rpx;
+						z-index: 10;
+					}
 					.tit-name {
 						font-size: 36rpx;
 						color: #fff;
-						margin-left: 32rpx;
+						// margin-left: 32rpx;
+						width: 100%;
+						display: flex;
+						justify-content: center;
 					}
 
 					.tit-auth {
