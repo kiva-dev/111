@@ -127,7 +127,7 @@
 							<u--input :placeholder="$t('user.Vemail.qsryzm')" border="none" v-model="mobile_code" />
 						</view>
 					</view>
-					<view class="input-btn" @click="getSendCode()">{{mobile_txt}}{{show_mobile_time?'S':''}}</view>
+					<view class="input-btn" @click="verifyEmailOrPhone()">{{mobile_txt}}{{show_mobile_time?'S':''}}</view>
 				</view>
 				<view class="tip" v-if="showErr">{{$t('new.yzmcw')}}</view>
 
@@ -249,7 +249,7 @@
 					}
 				})
 			},
-			getSendCode() {
+			verifyEmailOrPhone() {
 				if (this.show_mobile_time) return
 				if (!this.mobile) {
 					return uni.showToast({
@@ -258,7 +258,25 @@
 						duration: 3000
 					})
 				}
-
+				this.$http.post(this.$apiObj.verifyEmailOrPhone, {
+					email: '',
+					mobile_area_code: this.mobile_area_code.slice(1),
+					mobile: this.mobile
+				}).then(res => {
+					if (res.data) {
+						uni.showToast({
+							title: this.$t('register.verify_phone'),
+							icon: 'none',
+							duration: 3000
+						})
+					} else{
+						this.getSendCode()
+					}
+				})
+			},
+			getSendCode() {
+				if (this.show_mobile_time) return
+				
 				uni.showLoading({
 					title: this.$t('login.qq'),
 					mask: true

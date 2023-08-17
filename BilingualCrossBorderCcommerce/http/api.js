@@ -16,6 +16,7 @@ let apiObj = {
 	LoginClickNum: '/Login/clickNum', // 分析点击量接口
 	LoginVerifyCode: '/Login/checkEmailCodeByApp', //邮箱验证码验证
 	LoginVerifyPhone: '/Login/checkMobileCodeByApp', //手机验证码验证
+	verifyEmailOrPhone:'/Login/existsEmailOrMobile',//验证手机或邮箱是否已注册过
 	// 商城-首页
 	IndexShopList: 'Index/shopList', // 首页搜索店铺
 	bannerList: 'Index/bannerList', // 商城首页banner图
@@ -73,6 +74,7 @@ let apiObj = {
 	GetMineNotRead:"Mine/existsReadSysMsg",//获取是否存在已读消息
 	MineUpdateAuth:"Mine/merchantApplication",//用户申请成为商家
 	MineBindClientId:"Mine/pushUserDataByClientId",//绑定用户clientid
+	MineUpdateOperate:"Mine/readOperationGuide",
 	// 订单
 	OrderOrderList: 'Order/orderList', // 普通订单列表
 	OrderGroupOrderList: 'Order/groupOrderList', // 拼团订单列表

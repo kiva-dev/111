@@ -22,7 +22,7 @@
 					</view>
 				</view>
 
-				<view class="li-btn" @click.stop="$noMultipleClicks(onLoginSendMobileCode)">{{$t('login.fsyzm')}}</view>
+				<view class="li-btn" @click.stop="$noMultipleClicks(verifyEmailOrPhone)">{{$t('login.fsyzm')}}</view>
 			</block>
 
 			<block v-else-if="blockNum==2">
@@ -32,10 +32,12 @@
 							clearable></u--input>
 					</view>
 				</view>
-				<view class="getcode" @click="onLoginSendMobileCode(1)" v-show="seconds<60 && isShopCont">{{$t('new.kcxhq')}} {{codeTxt1}}</view>
-				<view class="getcode" @click="onLoginSendMobileCode(1)" v-show="seconds<60 && !isShopCont">{{codeTxt1}} {{$t('new.kcxhq')}}</view>
-				<view  class="getcode" @click="onLoginSendMobileCode()" v-show="seconds>=60">{{$t('login.fsyzm')}}</view>
-				
+				<view class="getcode" @click="onLoginSendMobileCode(1)" v-show="seconds<60 && isShopCont">
+					{{$t('new.kcxhq')}} {{codeTxt1}}</view>
+				<view class="getcode" @click="onLoginSendMobileCode(1)" v-show="seconds<60 && !isShopCont">{{codeTxt1}}
+					{{$t('new.kcxhq')}}</view>
+				<view class="getcode" @click="onLoginSendMobileCode()" v-show="seconds>=60">{{$t('login.fsyzm')}}</view>
+
 				<view class="li-btn" @click="onMineChangeMobile">{{$t('user.address.baocun')}}</view>
 			</block>
 
@@ -72,7 +74,7 @@
 				mobile_area_code: '', // 手机号国家区域码
 				seconds: 60,
 				codeTxt1: this.$t('user.phone.hqyzm'),
-				isShopCont:''
+				isShopCont: ''
 			}
 		},
 		onShow() {
@@ -95,14 +97,31 @@
 					url: '../public/ownership'
 				})
 			},
-			// 获取验证码
-			onLoginSendMobileCode(val) {
-				console.log(val)
-				if (this.seconds < 60 && val == 1) return
+			verifyEmailOrPhone() {
 				if (!this.mobile) return uni.showToast({
 					title: this.$t('user.phone.qsrphone'),
 					icon: 'none'
 				})
+				this.$http.post(this.$apiObj.verifyEmailOrPhone, {
+					email: '',
+					mobile_area_code: this.mobile_area_code.slice(1),
+					mobile: this.mobile
+				}).then(res => {
+					if (res.data) {
+						uni.showToast({
+							title: this.$t('register.verify_phone'),
+							icon: 'none',
+							duration: 3000
+						})
+					} else{
+						this.onLoginSendMobileCode()
+					}
+				})
+			},
+			// 获取验证码
+			onLoginSendMobileCode(val) {
+				if (this.seconds < 60 && val == 1) return
+				
 				if (this.mobile_area_code == 86) {
 					if (this.mobile) {
 						var reg_tel =

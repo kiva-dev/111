@@ -10,6 +10,7 @@
 			<view class="kbrick-info">
 				<view class="info-name">{{$t('new.wdkz')}}</view>
 				<view class="info-num">{{(balance*1).toFixed(2)}}</view>
+				<!-- <view class="info-bonus">(Included 12 gift diamond)</view> -->
 				<image src="/static/images/kbrick/diamond.png"></image>
 			</view>
 
@@ -478,9 +479,9 @@
 		.kbrick-info {
 			position: relative;
 			width: 686rpx;
-			height: 172rpx;
+			height: 180rpx;
 			color: #FFF;
-			padding-top: 48rpx;
+			padding-top: 40rpx;
 			background: url('/static/images/kbrick/kbrick_bj.png')no-repeat;
 			background-size: 686rpx 220rpx;
 			margin: 24rpx auto 40rpx auto;
@@ -492,11 +493,18 @@
 			}
 
 			.info-num {
-				font-size: 56rpx;
+				font-size: 48rpx;
 				font-weight: bold;
 				color: rgb(255, 255, 255);
 				margin-left: 48rpx;
-				margin-top: 14rpx;
+				// margin-top: 14rpx;
+				margin: 16rpx 0 12rpx 48rpx;
+			}
+			
+			.info-bonus{
+				font-size: 26rpx;
+				color: rgb(255, 255, 255);
+				margin-left: 48rpx;
 			}
 
 			image {
