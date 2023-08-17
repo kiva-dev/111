@@ -41,7 +41,8 @@
 					<view class="register-btn" style="background: rgba(10, 198, 142,0.5);" v-show="!isOnSendEmail">
 						{{$t('login.fsyzm')}}
 					</view>
-					<view class="register-btn" @click="verifyData('email')" v-show="isOnSendEmail">{{$t('login.fsyzm')}}
+					<view class="register-btn" @click="$noMultipleClicks(verifyData)" v-show="isOnSendEmail">
+						{{$t('login.fsyzm')}}
 					</view>
 					<u-loading-icon mode="semicircle" :show="isSendingRequest" size='42'></u-loading-icon>
 
@@ -252,10 +253,35 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					return
 				}
 				if (this.emailOrPhone == 1) {
-					this.onLoginSendEmailCode()
+					this.verifyEmailOrPhone('email')
 				} else {
-					this.onLoginSendMobileCode()
+					this.verifyEmailOrPhone('phone')
 				}
+			},
+			verifyEmailOrPhone(val) {
+				this.$http.post(this.$apiObj.verifyEmailOrPhone, {
+					email: val == 'email' ? this.email : '',
+					mobile_area_code: val == 'email' ? '' : this.mobile_area_code.slice(1),
+					mobile: val == 'email' ? '' : this.mobile
+				}).then(res => {
+					if (res.data && val == 'email') {
+						uni.showToast({
+							title: this.$t('register.verify_email'),
+							icon: 'none',
+							duration: 3000
+						})
+					}else if(res.data && val == 'phone'){
+						uni.showToast({
+							title: this.$t('register.verify_phone'),
+							icon: 'none',
+							duration: 3000
+						})
+					}else if(!res.data && val == 'email'){
+						this.onLoginSendEmailCode()
+					}else if(!res.data && val == 'phone'){
+						this.onLoginSendMobileCode()
+					}
+				})
 			},
 			// 获取手机验证码
 			onLoginSendMobileCode() {
@@ -264,7 +290,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					icon: 'none'
 				})
 				if (this.codeTxt1 != this.$t('login.hqyzm')) return
-				if(this.isSendingRequest){
+				if (this.isSendingRequest) {
 					uni.showLoading({
 						title: this.$t('login.qq'),
 						mask: true
@@ -350,7 +376,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							icon: 'none'
 						})
 						setTimeout(() => {
-							this.loginByPhone(this.mobile_area_code.slice(1),this.mobile,pwd)
+							this.loginByPhone(this.mobile_area_code.slice(1), this.mobile, pwd)
 						}, 1000);
 					}
 				})
@@ -370,7 +396,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						icon: 'none'
 					})
 				}
-				if(this.isSendingRequest){
+				if (this.isSendingRequest) {
 					uni.showLoading({
 						title: this.$t('login.qq'),
 						mask: true
@@ -418,7 +444,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					return
 				}
 				this.isSendingRequest = true; // 设置标志变量为 true，表示正在发送请求
-				this.isOnSendCode = false; 
+				this.isOnSendCode = false;
 				this.$http.post(this.$apiObj.LoginVerifyCode, {
 					email: this.email,
 					email_code: this.email_code
@@ -448,7 +474,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					return
 				}
 				this.isSendingRequest = true;
-				this.isOnSendCode = false; 
+				this.isOnSendCode = false;
 				this.$http.post(this.$apiObj.LoginVerifyPhone, {
 					mobile_area_code: this.mobile_area_code.slice(1),
 					mobile: this.mobile,
@@ -542,7 +568,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							icon: 'none'
 						})
 						setTimeout(() => {
-							this.loginByEmail(this.email,pwd)
+							this.loginByEmail(this.email, pwd)
 						}, 1000);
 						if (sessionStorage.getItem("invite_code")) {
 							sessionStorage.removeItem("invite_code")
@@ -560,10 +586,18 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				})
 			},
 
-			loginByEmail(email,pwd) {
+			loginByEmail(email, pwd) {
+				let loginType
+				// #ifdef H5
+				loginType = 1
+				// #endif
+				// #ifndef H5
+				loginType = 2
+				// #endif
 				this.$http.post(this.$apiObj.LoginEmailLogin, {
 					email, // 邮箱
-					pwd // 密码
+					pwd, // 密码
+					referer: loginType
 				}).then(res => {
 					if (res.code == 1) {
 						uni.showToast({
@@ -571,60 +605,121 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							icon: 'none'
 						})
 						uni.setStorageSync('token', res.data.token)
-						uni.removeStorageSync('BellCode')
+
 						uni.setStorageSync('userinfo', {
 							token: res.data.im_tourists_token,
 							auth_token: res.data.auth_token
 						});
 
+						this.ws.init(res.data.im_tourists_token, res.data.auth_token)
+
 						this.$http.post(this.$apiObj.MineInfo).then(ress => {
 							if (ress.code == 1) {
 								uni.setStorageSync('userCont', ress.data)
+
+								try {
+									// #ifdef APP-PLUS
+									if (!uni.getStorageSync(ress.data.u_id + '_cilent')) {
+										uni.getPushClientId({
+											success: (info) => {
+												let push_clientid = info.cid
+												this.$http.post(this.$apiObj
+												.MineBindClientId, {
+													client_id: push_clientid
+												}).then(data => {
+													uni.setStorageSync(ress.data.u_id +
+														'_cilent', push_clientid)
+												})
+											},
+											fail(err) {
+												console.log(err)
+											}
+										})
+									}
+									// #endif
+								} catch (err) {
+									console.log(err)
+								} finally {
+									setTimeout(() => {
+										uni.switchTab({
+											url: '/pages/auction/new_index'
+										});
+									}, 1000);
+								}
 							}
 						})
-						this.ws.init(res.data.im_tourists_token, res.data.auth_token)
 
-						setTimeout(() => {
-							uni.switchTab({
-								url: '/pages/auction/auction'
-							});
-						}, 1000);
 					}
 				})
 			},
-			
-			loginByPhone(mobile_area_code,mobile,pwd){
+
+			loginByPhone(mobile_area_code, mobile, pwd) {
+				let loginType
+				// #ifdef H5
+				loginType = 1
+				// #endif
+				// #ifndef H5
+				loginType = 2
+				// #endif
 				this.$http.post(this.$apiObj.LoginMobileLogin, {
 					mobile_area_code, // 区号
 					mobile, // 手机号码
 					pwd, // 密码
+					referer: loginType
 				}).then(res => {
 					if (res.code == 1) {
 						uni.showToast({
 							title: this.$t('login.dlcg'),
 							icon: 'none'
 						})
-						uni.removeStorageSync('BellCode')
 						uni.setStorageSync('userinfo', {
 							token: res.data.im_tourists_token,
 							auth_token: res.data.auth_token
 						});
 						uni.setStorageSync('token', res.data.token)
+
+						this.ws.init(res.data.im_tourists_token, res.data.auth_token)
+
 						this.$http.post(this.$apiObj.MineInfo).then(ress => {
 							if (ress.code == 1) {
 								uni.setStorageSync('userCont', ress.data)
+
+								try {
+									// #ifdef APP-PLUS
+									if (!uni.getStorageSync(ress.data.u_id + '_cilent')) {
+										uni.getPushClientId({
+											success: (info) => {
+												let push_clientid = info.cid
+												this.$http.post(this.$apiObj
+												.MineBindClientId, {
+													client_id: push_clientid
+												}).then(data => {
+													uni.setStorageSync(ress.data.u_id +
+														'_cilent', push_clientid)
+												})
+											},
+											fail(err) {
+												console.log(err)
+											}
+										})
+									}
+									// #endif
+								} catch (err) {
+									console.log(err)
+								} finally {
+									setTimeout(() => {
+										uni.switchTab({
+											url: '/pages/auction/new_index'
+										});
+									}, 1000);
+								}
 							}
 						})
-						this.ws.init(res.data.im_tourists_token, res.data.auth_token)
-						setTimeout(() => {
-							uni.switchTab({
-								url: '/pages/auction/auction'
-							});
-						}, 1000);
+
 					}
 				})
 			}
-			
+
 		}
 	}
 </script>
