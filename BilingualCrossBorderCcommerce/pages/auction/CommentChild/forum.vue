@@ -131,13 +131,13 @@
                             </view>
                         </view>
                         <!-- 子级聊天回复 -->
-                        <childForum :commentChild='commentaryListItem' @submit="submit" @ChildTocommit='childComment(commentaryListItem)'/>
+                        <childForum :commentChild='commentaryListItem' @submit="submit" @ChildTocommit='tocommit(commentaryListItem)'/>
                     </view>
                 </view>
             </view>
             <view class="comment-botm">
                 <view class="comment-botm-inpit">
-                    <u--input :placeholder="$t('new.wxs')" border="surround" maxlength="100" v-model="comment" @focus="focusFun()" @confirm="sendCommentTwoInfo()"></u--input>
+                    <u--input :placeholder="$t('new.wxs')" border="surround" maxlength="100" v-model="comment" :focus='isFocusBool' @blur="isBlurFun" @focus="focusFun()" @confirm="sendCommentTwoInfo()"></u--input>
                 </view>
                 <view class="comment-num">{{comment.length}}/100</view>
             </view>
@@ -167,6 +167,7 @@ import childForum from "./childForum.vue";
                 user_comment_id:'',
                 comment:'',
                 commentaryList:[],
+                isFocusBool:false,
                 imMessageFocusBool:false,
                 albumWidth: 0,
                 likeNub:1,
@@ -271,6 +272,7 @@ import childForum from "./childForum.vue";
             childComment({user_comment_id}){
                 this.popupShow = true
                 // this.imMessageFocusBool=true;
+                this.isFocusBool=false;
                 this.props_user_comment_id = user_comment_id
                 this.user_comment_id = user_comment_id
                 console.log(user_comment_id);
@@ -280,6 +282,7 @@ import childForum from "./childForum.vue";
             },
             close() {
                 this.popupShow = false
+                this.isFocusBool=false;
                 this.commentaryList = []
                 this.user_comment_id = ''
                 this.props_user_comment_id = ''
@@ -292,6 +295,7 @@ import childForum from "./childForum.vue";
             },
             updateImMessageFocusBool(newValue) {
                 this.imMessageFocusBool = newValue;
+                this.isFocusBool=newValue;
             },
             async getCount(){
                 try {
@@ -358,12 +362,17 @@ import childForum from "./childForum.vue";
                     console.error(error);
                 }
             },
+            //失去焦点
+            isBlurFun(){
+                this.isFocusBool=false;
+            },
             //键盘弹起
             tocommit(data){
                 if(this.isLogin){
                     const {auction_goods_sharing_id,user_comment_id} = data
                     console.log(data,'1',user_comment_id);
                     // this.imMessageFocusBool=true;
+                    this.isFocusBool=true;
                     this.dyid=auction_goods_sharing_id;
                     this.user_comment_id = user_comment_id
                 }else{

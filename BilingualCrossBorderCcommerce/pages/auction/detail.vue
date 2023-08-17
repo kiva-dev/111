@@ -179,15 +179,15 @@
 			<view class="detail-comment">
 				<view id="div2"></view>
 				<view class="detail-comment-head">
-					<view class="detail-comment-tit">{{$t('newDetail.pinglun')}} <span>（{{JudgeList.total}}）</span>
+					<view class="detail-comment-tit">{{$t('newDetail.pinglun')}} <span>（{{JudgeTotal}}）</span>
 					</view>
 					<view class="detail-comment-more" @click="toComment()">
 						<view>{{$t('user.myCont.ckqb')}}</view>
 						<image src="/static/images/products/right.png"></image>
 					</view>
 				</view>
-				<block v-if="JudgeList.data.length > 0" >
-					<view class="album" v-for="(item,i) in JudgeList.data.slice(0,2)" :key="i" @click="toComment()">
+				<block v-if="JudgeList.length > 0" >
+					<view class="album" v-for="item in JudgeList.slice(0,2)" :key="item.id" @click="toComment()">
 						<!-- 左侧头像 -->
 						<view class="album__header">
 							<view class="album__right">
@@ -886,6 +886,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				e_auction_rule: '',
 				goodlucky: [], // 幸运之星
 				JudgeList: [], // 评价列表
+				JudgeTotal:0,
 				money: 0, // 充值余额
 				balance: 0,
 				isauctionNum: 1, // 填写金额
@@ -1159,8 +1160,9 @@ NoR+zv3KaEmPSHtooQIDAQAB
                             return commentRes.data.data;
                         });
                         const comments = await Promise.all(commentRequests);
-                        this.JudgeList = res.data;
-                        this.JudgeList.data.forEach((item, index) => {
+						this.JudgeTotal = res.data.total
+                        this.JudgeList = res.data.data;
+                        this.JudgeList.forEach((item, index) => {
 							console.log(item.images);
                             if (item.images) {
                                 item.images = item.images.split(',');
@@ -1470,22 +1472,22 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			},
 			// 评价列表
 			onOrderGoodsJudgeList() {
-				this.$http.post(this.$apiObj.OrderGoodsJudgeList, {
-					goods_id: this.shopCont.goods_id,
-					type: 1,
-					page: this.page,
-					pagenum: this.pagenum
-				}).then(res => {
-					if (res.code == 1) {
-						this.goods_judge = res.data.goods_judge
-						this.normal_judge = res.data.normal_judge
-						this.bad_judge = res.data.bad_judge
-						this.totalPageNum = res.data.list.total
-						this.JudgeList = this.page == 1 ? res.data.list.data : [...this.JudgeList, ...res.data.list
-							.data
-						]
-					}
-				})
+				// this.$http.post(this.$apiObj.OrderGoodsJudgeList, {
+				// 	goods_id: this.shopCont.goods_id,
+				// 	type: 1,
+				// 	page: this.page,
+				// 	pagenum: this.pagenum
+				// }).then(res => {
+				// 	if (res.code == 1) {
+				// 		this.goods_judge = res.data.goods_judge
+				// 		this.normal_judge = res.data.normal_judge
+				// 		this.bad_judge = res.data.bad_judge
+				// 		this.totalPageNum = res.data.list.total
+				// 		this.JudgeList = this.page == 1 ? res.data.list.data : [...this.JudgeList, ...res.data.list
+				// 			.data
+				// 		]
+				// 	}
+				// })
 			},
 			// 个人信息获取剩余竞拍次数
 			onMineInfos() {
