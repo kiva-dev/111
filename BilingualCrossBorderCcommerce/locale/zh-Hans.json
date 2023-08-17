@@ -91,7 +91,6 @@
 	"top.CommentsSection": "商品评论",
 	"top.PostComments": "发表评论",
 
-
 	"index.demo-description": "包含 uni-framework、manifest.json、pages.json、tabbar、页面、组件、API、Schema",
 	"index.detail": "详情",
 	"index.language": "语言",
@@ -1492,7 +1491,7 @@
 	"new.wdzc": "我的资产",
 	"new.czjejx": "充值金额不能少于RM15",
 	"new.qtczje": "其他数量（15起）",
-	"new.xyzf": "需要支付",
+	"new.xyzf": "总计支付",
 	"new.kzzf": "K钻支付",
 	"new.kz": "K钻",
 	"new.payment": "支付",
@@ -1610,12 +1609,13 @@
 	"mine.bind_phone":"绑定手机号码",
 	"mine.real_need_bind_phone":"实名认证前需绑定手机号码",
 	"mine.bind_phone_success":"手机号绑定成功",
+	"mine.current_version_tip":"当前已是最新版，无需更新",
 	
 	
 	"product_info.soldout":"售完",
-	"detail.success":"获得概率",
+	"detail.success":"必中率",
 	"product_info.bonus":"可使用赠金比例",
-	"product_info.bonus_deduction":"奖金扣除：",
+	"product_info.bonus_deduction":"赠金扣除：",
 	
 	"app.tip":"通知权限开启提醒",
 	"app.content":"您还没有开启通知权限，无法接受到消息通知，请前往设置！",
@@ -1652,6 +1652,11 @@
 	"order_info.show_intiate_appeal":"申述信息",
 	
 	"detail.enter_number":"请输入搜索编号",
+	"detail.index_analysis":"指标分析",
+	"detail.success_rate":"成功率",
+	"detail.all_luck_start":"累计幸运之星数",
+	"detail.luck_start_by":"幸运之星人均下单次数",
+	"detail.recharge_price_not":"充值余额不足",
 	
 	"bonus.gifts":"新人有好礼物",
 	"bonus.snhl":"送你一份礼物",
@@ -1661,7 +1666,24 @@
 	"bell.xyhd":"许愿活动",
 	"bell.ljlq":"立即领取您的礼物！",
 	"bell.fx":"分享",
-
+	
+	"version.current_version":"当前版本",
+	"version.version_update_time":"版本更新时间",
+	"version.last_version":"最新版本",
+	"version.des":"版本说明",
+	"version.add_last":"下载最新版本",
+	"version.stay_tuned":"敬请期待",
+	"version.new_version":"发现新版本",
+	"version.update_now":"立即更新",
+	
+	"register.verify_email":"该邮箱已被使用",
+	"register.verify_phone":"该手机号已被使用",
+	
+	"comment.all_comment":"全部",
+	"comment.images_comment":"有图",
+	"comment.featured_comment":"中拍评论",
+	"comment.Btn":"Post comments",
+	
 	"rule.title":"规则介绍",
 	"rule.QuotaWishingRules":"限额许愿规则",
 	"rule.closingle":"许愿开奖和封盘",
