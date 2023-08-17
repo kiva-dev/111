@@ -48,7 +48,7 @@
 				<view class="detail-title">{{shopCont.goods_name}}</view>
 
 				<view class="li-tags">
-					<view class="li-icon" v-for="item in shopCont.litestore_tag" :key="item.id">
+					<view class="li-icon" v-for="(item,tagNub) in shopCont.litestore_tag" :key="tagNub">
 						<image :src="item.image" mode="widthFix"></image>
 						<text> <u-parse :content="isShopCont ? item.en_desc : item.zh_desc"></u-parse></text>
 					</view>
@@ -72,34 +72,30 @@
 				</view>
 			</view>
 
-			<!-- <view class="select-layout">
-				<view class="sl-address">
-					<view class="sl-address-choose" @click="$refs.popupAddress.open()">
-						<view class="choose-left">
-							<view class="choose-left-name">Address</view>
-							<view class="choose-left-content">
-								<image src="@/static/images/new-index/detail_icon_address.png" mode="widthFix"></image>
-								<template v-if="addressInfo.id">
-									<p>{{addressInfo.name}}</p>
-									<p>{{addressInfo.mobile}}</p>
-								</template>
-								<template v-else>
-									<p>{{$t('user.address.addxdz')}}</p>
-								</template>
-							</view>
-						</view>
-						<view class="choose-right">
-							<image src="@/static/images/new-index/detail_btn_arrow.png" mode="widthFix"></image>
-						</view>
-					</view>
-					<view class="sl-address-info" v-if="false">
-						A-15-09 Tower Suite,No8,Jalan Kerinci Bangsar South, Wp KLaKuala,No8,Jalan Kerinci Bangsar South
-					</view>
+			<!--指标分析-->
+			<view class="index_analysis">
+				<view class="tit">
+					<view>{{$t('detail.index_analysis')}}</view>
+					<image src="/static/images/auction/wh.png"></image>
 				</view>
-			</view> -->
-			<!-- 评论 -->
+				<view class="list">
+					<view class="list-info">
+						<view class="item"><text class="round"></text>{{$t('detail.success_rate')}}: <text
+								class="num">{{(shopCont.success_rate*1).toFixed(2)}}%</text></view>
+						<view class="item"><text class="round"></text>{{$t('detail.all_luck_start')}}: <text
+								class="num">{{shopCont.add_up_lucky}}</text></view>
+					</view>
+					<view class="list-info">
+						<view class="item"><text class="round"></text>{{$t('detail.luck_start_by')}}:
+							<text class="num">{{shopCont.average_join_count}}</text>
+						</view>
+					</view>
+			
+				</view>
+			</view>
+			
 			<view class="detail-comment">
-				<view id="div2"></view>
+				<div id="div2"></div>
 				<view class="detail-comment-head">
 					<view class="detail-comment-tit">{{$t('newDetail.pinglun')}} <span>（{{JudgeList.length}}）</span>
 					</view>
@@ -109,53 +105,22 @@
 					</view>
 				</view>
 				<block v-if="JudgeList.length > 0">
-					<view class="album"v-for="(item,i) in JudgeList.slice(0,2)" :key="i" @click="toComment()">
-                        <!-- 左侧头像 -->
-                        <view class="album__header">
-                            <view class="album__right">
-                                <view class="album__avatar">
-                                    <u-avatar :src="item.user.avatar" size='40'></u-avatar>
-                                </view>
-                                <view style="display:flex;flex-direction: column">
-                                    <view class="album__nickname">
-                                        <u--text :text="item.user.nickname" bold size="17" class="album__text"></u--text>
-                                        <view class="item-l-level">
-                                            <view class="level-icon">
-                                                <image src="@/static/images/mine/mine_icon_vip.webp" mode="widthFix"></image>
-                                            </view>
-                                            <view class="level-num">Lv.{{item.user.level}}</view>
-                                        </view>
-                                    </view>
-                                    <view class="album__createtime">
-                                        <view class="level-num">{{item.createtime}}</view>
-                                    </view>
-                                </view>
-                            </view>
-                            <view class="album__left"  v-if="item.is_featured">
-								<image src="/static/spread/featured.png" mode="widthFix"></image>
+					<view class="detail-comment-item" v-for="(item,i) in JudgeList.slice(0,2)"
+						:key="i">
+						<view class="detail-comment-item-head">
+							<image :src="item.user.avatar" mode="aspectFill"></image>
+							<p>{{item.user.nickname}}</p>
+							<view class="head-level">
+								<view class="head-level-icon">
+									<image src="@/static/images/mine/mine_icon_vip.webp" mode="widthFix"></image>
+								</view>
+								<view class="head-level-num">Lv.{{item.user.level}}</view>
 							</view>
-                        </view>
-                        <!-- 内容 -->
-                        <view class="album__content">
-                            <view class="start-class">
-                                <u-rate active-color="#0AC68E" inactive-color="#CCCCCC" readonly minCount='1' gutter="8" size='18' :allowHalf='true' v-model="item.the_star"></u-rate>
-                                <span>{{item.the_star}}</span>
-                            </view>
-                            <u--text margin="6px 2px" :text="item.comment" ></u--text>
-                            <view class="album__urls">
-                                <image :src="imagesItem" v-for="(imagesItem,index) in item.images" :key="index"></image>
-                            </view>
-                        </view>
-                        <!-- 子级评论图标 -->
-                        <view class="album__bottom">
-                            <view class="album__bottom__btn">
-                                <view class="forumComment" @click="childComment(item)">
-                                    <image src="@/static/images/mine/forumComment.png" mode="widthFix"></image>
-                                    <view class="forumComment__comment">{{item.luckyForumComments.length || 'Comment'}}</view>
-                                </view>
-                            </view>
-                        </view>
-                    </view>
+						</view>
+						<view class="detail-comment-item-info">
+							{{item.comment}}
+						</view>
+					</view>
 				</block>
 				<block v-else>
 					<view class="detail-comment-not">{{$t('newDetail.not')}}</view>
@@ -215,7 +180,7 @@
 				</view>
 				<view class="gl-content">
 					<u-grid :border="false" @click="click">
-						<u-grid-item v-for="item in youLikeList.slice(0,6)" :key="item.goods_id"
+						<u-grid-item v-for="(item,youLikeNub) in youLikeList.slice(0,6)" :key="youLikeNub"
 							@click="toYouLikeOrHot(item.goods_id)">
 							<view class="gl-content-item">
 								<view class="item-cover">
@@ -296,7 +261,7 @@
 										<view class="box-progress">{{(item.finish_rate*100).toFixed(0)}}%</view>
 									</view>
 									<view class="new-list-item-right-jd-auth">
-										<block v-for="img in item.new_auction_avatar">
+										<block v-for="(img,avatarNub) in item.new_auction_avatar" :key="avatarNub">
 											<image :src="img"></image>
 										</block>
 									</view>
@@ -990,7 +955,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			//前往评论
 			toComment() {
 				uni.navigateTo({
-					url: '/pages/auction/CommentChild/forum?id=' + this.shopCont.goods_id
+					url: '/pages/auction/comment?id=' + this.id
 				})
 			},
 			//历史竞拍列表
@@ -1162,7 +1127,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 						setTimeout(() => {
 							this.getTopNum()
-						}, 2000)
+						}, 1000)
 					}
 				})
 			},
@@ -1761,6 +1726,69 @@ NoR+zv3KaEmPSHtooQIDAQAB
 	a {
 		color: rgb(44, 44, 44);
 		text-decoration: none;
+	}
+	
+	//指标分析
+	.index_analysis {
+		width: 750rpx;
+		padding: 32rpx 0;
+		background: #fff;
+		margin: 24rpx 0;
+	
+		.tit {
+			font-size: 28rpx;
+			font-weight: bold;
+			color: rgb(51, 51, 51);
+			display: flex;
+			align-items: center;
+			margin-left: 44rpx;
+	
+			image {
+				display: block;
+				width: 24rpx;
+				height: 24rpx;
+				margin-left: 12rpx;
+			}
+		}
+	
+		.list {
+			width: 662rpx;
+			margin: 0 auto 0 auto;
+			
+			.list-info{
+				width: 100%;
+				display: flex;
+				flex-wrap: wrap;
+				align-items: center;
+				justify-content: space-between;
+			}
+			
+			.item {
+				min-width: 50%;
+				font-size: 24rpx;
+				color: rgb(51, 51, 51);
+				display: flex;
+				align-items: center;
+				margin-top: 40rpx;
+	
+				.round {
+					display: block;
+					width: 12rpx;
+					height: 12rpx;
+					background: rgb(10, 198, 142);
+					border-radius: 50%;
+					margin-right: 8rpx;
+				}
+	
+				.num {
+					font-weight: bold;
+					margin-left: 6rpx;
+				}
+	
+			}
+	
+		}
+	
 	}
 	
 	//图片预览
@@ -2500,7 +2528,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			position: relative;
 			widows: 100%;
 			height: 88rpx;
-			padding-top: 88rpx;
+			padding-top: 60rpx;
 			display: flex;
 			align-items: center;
 
@@ -3604,12 +3632,12 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			// margin-top: 100rpx;
 
 			/deep/ uni-swiper {
-				height: 600rpx;
+				height: 750rpx;
 			}
 
 			.big-img {
 				width: 100%;
-				height: 600rpx;
+				height: 750rpx;
 			}
 
 			/deep/.uni-swiper__dots-nav {
