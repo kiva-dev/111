@@ -179,15 +179,15 @@
 			<view class="detail-comment">
 				<view id="div2"></view>
 				<view class="detail-comment-head">
-					<view class="detail-comment-tit">{{$t('newDetail.pinglun')}} <span>（{{JudgeList.length}}）</span>
+					<view class="detail-comment-tit">{{$t('newDetail.pinglun')}} <span>（{{JudgeList.total}}）</span>
 					</view>
 					<view class="detail-comment-more" @click="toComment()">
 						<view>{{$t('user.myCont.ckqb')}}</view>
 						<image src="/static/images/products/right.png"></image>
 					</view>
 				</view>
-				<block v-if="JudgeList.length > 0">
-					<view class="album" v-for="(item,i) in JudgeList.slice(0,2)" :key="i" @click="toComment()">
+				<block v-if="JudgeList.data.length > 0" >
+					<view class="album" v-for="(item,i) in JudgeList.data.slice(0,2)" :key="i" @click="toComment()">
 						<!-- 左侧头像 -->
 						<view class="album__header">
 							<view class="album__right">
@@ -1159,8 +1159,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
                             return commentRes.data.data;
                         });
                         const comments = await Promise.all(commentRequests);
-                        this.JudgeList = res.data.data;
-                        this.JudgeList.forEach((item, index) => {
+                        this.JudgeList = res.data;
+                        this.JudgeList.data.forEach((item, index) => {
 							console.log(item.images);
                             if (item.images) {
                                 item.images = item.images.split(',');

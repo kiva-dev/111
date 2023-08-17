@@ -308,6 +308,7 @@ import childForum from "./childForum.vue";
                 const GoodsIdByStageNum = this.$apiObj.getAuctionGoodsIdByStageNum;
                 try {
                     const res = await this.$http.post(url, {
+					    pagenum: 100,
 					    goods_id: this.id,
                         search
                     });
