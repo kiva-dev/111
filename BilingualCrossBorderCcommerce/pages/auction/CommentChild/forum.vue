@@ -270,6 +270,7 @@ import childForum from "./childForum.vue";
 			},
             childComment({user_comment_id}){
                 this.popupShow = true
+                // this.imMessageFocusBool=true;
                 this.props_user_comment_id = user_comment_id
                 this.user_comment_id = user_comment_id
                 console.log(user_comment_id);
@@ -362,7 +363,7 @@ import childForum from "./childForum.vue";
                 if(this.isLogin){
                     const {auction_goods_sharing_id,user_comment_id} = data
                     console.log(data,'1',user_comment_id);
-                    this.imMessageFocusBool=true;
+                    // this.imMessageFocusBool=true;
                     this.dyid=auction_goods_sharing_id;
                     this.user_comment_id = user_comment_id
                 }else{

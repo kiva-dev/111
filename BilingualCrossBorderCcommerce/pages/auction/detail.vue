@@ -485,13 +485,10 @@
 						<view style="color:#999999;font-size:10px">{{$t('rule.note')}}</view>
 					</view>
 				</view>
-
 			</view>
-
+			<!-- 底部按钮 -->
 			<view class="bottom-layout">
-
 				<view class="bl-right">
-
 					<view class="bl-right-add" style="color: #FFF; background: rgb(190, 190, 190)"
 						v-if="shopCont.check_status==3||shopCont.check_status==4">
 						<p>{{$t('auction.detail.yijs')}}</p>
@@ -587,7 +584,6 @@
 		</uni-popup>
 		<view class="fenxiang" v-if="jingpaiShow">
 			<view class="jingpai-ok">
-
 				<view class="jingpai-pop">
 					<view class="title">
 						{{$t('auction.detail.sfqr')}} {{shopNum}} {{$t('new.kz')}} {{$t('auction.detail.gmygjpme')}}
@@ -817,10 +813,8 @@ UuCwtdmXOsq/b1JWKyEXzQlPIiwdHnAUjGbmHOEMAY3jKEy2dY2I6J+giJqo8B2H
 NoR+zv3KaEmPSHtooQIDAQAB
 -----END PUBLIC KEY-----`
 	export default {
-
 		data() {
 			return {
-				useKdiamondBonus: false,
 				search_number: '',
 				showRecord: false,
 				showImages: false,
@@ -1000,6 +994,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			if (res.scrollTop <= 650) {
 				let num = res.scrollTop / 2 / 100
 				this.myOpacity = num
+				this.navId = 1
 			} else {
 				this.myOpacity = 1
 			}
@@ -1010,7 +1005,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				else if (res.scrollTop >= this.heightList[3] && res.scrollTop < (this.heightList[4])) this.navId = 4
 				else this.navId = 5
 			}
-
 		},
 		mounted() {
 
@@ -1049,7 +1043,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			},
 			toRecode() {
 				// uni.pageScrollTo({
-				// 	scrollTop: this.heightList[3] + 1
+				// 	scrollTop: this.heightList[4]
 				// })
 			},
 			showMore() {
@@ -1187,6 +1181,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			},
 			//锚点跳转方法
 			onScrollIntoView(id) {
+				this.navId = id
 				uni.createSelectorQuery()
 					.select('#div' + id)
 					.boundingClientRect(data => {
@@ -1436,7 +1431,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				this.onAuctionorderOrderList()
 			},
 			onNavClick(e) {
-				this.navId = e
 				this.isClick = true
 				clearTimeout(this.opacityTimer)
 				this.opacityTimer = setTimeout(() => {
@@ -1464,6 +1458,25 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						else this.showRecord = true
 
 						this.OrderList = this.page == 1 ? res.data.data : [...this.OrderList, ...res.data.data]
+					}
+				})
+			},
+			// 评价列表
+			onOrderGoodsJudgeList() {
+				this.$http.post(this.$apiObj.OrderGoodsJudgeList, {
+					goods_id: this.shopCont.goods_id,
+					type: 1,
+					page: this.page,
+					pagenum: this.pagenum
+				}).then(res => {
+					if (res.code == 1) {
+						this.goods_judge = res.data.goods_judge
+						this.normal_judge = res.data.normal_judge
+						this.bad_judge = res.data.bad_judge
+						this.totalPageNum = res.data.list.total
+						this.JudgeList = this.page == 1 ? res.data.list.data : [...this.JudgeList, ...res.data.list
+							.data
+						]
 					}
 				})
 			},
@@ -1706,7 +1719,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					})
 					return
 				}
-
 				//k钻加赠金
 				if (this.useInvite && !this.kdiamondSelect) {
 					let zj = this.shopNum * 1 * (this.can_use_invite_money_rate * 1 / 100) //最多赠金
@@ -1794,7 +1806,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						}
 					}
 				}
-
 				//k钻加赠金加兑换
 				if (this.useInvite && this.kdiamondSelect) {
 					if (this.money * 1 < this.useInviteRmNum * 1) {
@@ -1805,10 +1816,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						return
 					}
 				}
-
 				if (this.kdiamondSelect) {
 					if (this.set_paypwd != 1) {
-
 						uni.showToast({
 							title: this.$t('new.qszmm'),
 							icon: 'none',
@@ -2045,7 +2054,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		color: rgb(44, 44, 44);
 		text-decoration: none;
 	}
-
 	//指标分析
 	.index_analysis {
 		width: 750rpx;
@@ -2108,7 +2116,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		}
 
 	}
-
 	//图片预览
 	.show_images {
 		position: relative;
@@ -2744,7 +2751,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			text-align: center;
 		}
 	}
-
 	// 新评论
 	.album {
 		display: flex;
@@ -2753,8 +2759,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		padding: 40rpx 0;
 		margin-bottom: 20rpx;
 		background: #fff;
-
-		.item-l-level {
+		.item-l-level{
 			width: 80rpx;
 			height: 30rpx;
 			margin: 8rpx 0 0 20rpx;
@@ -2763,16 +2768,13 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			background: rgb(253, 240, 226);
 			border-radius: 100rpx;
 			display: flex;
-
 			.level-icon {
 				width: 30rpx;
 				height: 30rpx;
-
 				image {
 					width: 100%;
 				}
 			}
-
 			.level-num {
 				margin-left: 5rpx;
 				color: rgb(219, 132, 37);
@@ -2780,75 +2782,62 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				line-height: 30rpx;
 			}
 		}
-
-		.album__header {
+		.album__header{
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
 			width: 100%;
-
 			.album__right,
-			.album__left {
+			.album__left{
 				display: flex;
 				align-items: center;
 			}
-
-			.album__right {
-				width: 70%;
+			.album__right{
+            	width: 70%;
 				justify-content: flex-start;
-
 				.album__avatar {
 					margin-right: 40rpx;
-
-					image {
+					image{
 						width: 100%;
 						height: 100%;
 					}
 				}
-
-				.album__nickname {
+				.album__nickname{
 					display: flex;
 					justify-content: flex-start;
 				}
 			}
-
-			.album__left {
-				width: 30%;
+			.album__left{
+            	width: 30%;
 				justify-content: flex-end;
 				color: #666;
 				font-size: 16px;
 			}
-
-			.album__text {
+			.album__text{
 				margin: 20rpx 0;
 			}
 		}
-
 		.album__content {
-			margin: 45rpx 0rpx 0 0;
+			margin:45rpx 0rpx 0 0;
 			flex: 1;
-
-			.album__urls {
-				margin-top: 40rpx;
+			.album__urls{
+				margin-top:40rpx;
 				display: flex;
 				align-items: center;
 				flex-direction: row;
 				flex-wrap: wrap;
 				align-content: space-between;
-
-				image {
+				image{
 					width: 180rpx;
 					height: 180rpx !important;
 					margin: 0 20rpx 20rpx 0;
 					border-radius: 24rpx;
 				}
 			}
-
-			.start-class {
+			.start-class{
 				display: flex;
 				align-items: center;
-
-				span {
+				span{
 					color: rgb(10, 198, 142);
 					font-size: 32rpx;
 					font-weight: 500;
@@ -2856,8 +2845,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				}
 			}
 		}
-
-		.album__bottom {
+		.album__bottom{
 			// height: 80rpx;
 			width: 100%;
 			display: flex;
@@ -2865,36 +2853,30 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			flex-direction: column;
 			color: #666;
 			font-size: 16px;
-
-			.album__bottom__btn {
+			.album__bottom__btn{
 				display: flex;
 				width: 100%;
 				align-items: center;
-
-				.Like {
+				.Like{
 					display: flex;
 					justify-content: space-around;
 					align-items: center;
 					width: 15%;
 				}
-
-				.forumComment {
+				.forumComment{
 					display: flex;
 					align-items: center;
 					margin-left: 40rpx;
 					justify-content: space-around;
-
-					.forumComment__comment {
+					.forumComment__comment{
 						margin-left: 20rpx;
 					}
 				}
-
-				image {
+				image{
 					width: 45rpx;
 				}
 			}
-
-			.album__bottom__text {
+			.album__bottom__text{
 				box-sizing: border-box;
 				width: 100%;
 				font-size: 30rpx;
@@ -2902,14 +2884,12 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				margin-top: 20rpx;
 				padding: 30rpx;
 				border-radius: 30rpx;
-
-				.CommentsText {
+				.CommentsText{
 					margin: 10rpx 0;
 				}
 			}
 		}
 	}
-
 	//输入密码
 	.pay-pwd {
 		position: absolute;
@@ -4101,7 +4081,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 	}
 
 	//share-pop E
-	// 支付方式弹出
+	//支付方式弹出 S
 	.mode-pop {
 		background: #ffffff;
 		border-radius: 20rpx 20rpx 0px 0px;
@@ -4121,24 +4101,21 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		}
 
 		.mode-tit {
-			width: 670rpx;
 			display: flex;
 			align-items: center;
-			// justify-content: center;
-			margin: 8rpx auto 0 auto;
+			justify-content: center;
 
-			.logo {
+			image {
 				width: 40rpx;
 				height: 40rpx;
 				margin-right: 20rpx;
 			}
 
-			.num {
+			view {
 				font-size: 56rpx;
 				font-weight: bold;
 				color: rgb(51, 51, 51);
 			}
-
 		}
 
 		.mode-des {
@@ -4223,14 +4200,12 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					}
 				}
 			}
-
 			.bonus_price {
 				position: absolute;
 				right: 96rpx;
 				font-size: 24rpx;
 				color: rgb(10, 198, 142);
 			}
-
 			.mode-info-right {
 				position: absolute;
 				right: 40rpx;
@@ -4284,14 +4259,12 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				color: rgb(102, 102, 102);
 				margin-left: 8rpx;
 			}
-
 			.bonus_price {
 				position: absolute;
 				right: 96rpx;
 				font-size: 24rpx;
 				color: rgb(10, 198, 142);
 			}
-
 			.price {
 				position: absolute;
 				right: 100rpx;
@@ -4336,7 +4309,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				margin: 0 12rpx 0 32rpx;
 			}
 		}
-
 		.mode-bonus {
 			font-size: 28rpx;
 			color: rgb(51, 51, 51);
@@ -4808,7 +4780,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		}
 
 	}
-	
 	.rule-conent{
 		background: #fff;
 		margin: 21rpx 0 0 0;
@@ -4916,5 +4887,4 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			}
 		}
 	}
-	
 </style>
