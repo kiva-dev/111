@@ -76,7 +76,7 @@
         <view class="address-fixed">
 			<view class="fixed-con">
 				<button class="public-btn" style="background: rgb(10, 198, 142);"
-					@click="onShareClick">{{$t('luckysharing.Btn')}}</button>
+					@click="onShareClick">{{$t('comment.sharingBtn')}}</button>
 			</view>
 		</view>
         <u-popup ref="childShare" :show="shareFriendShow" :round="10" mode="center" closeable @close="close">

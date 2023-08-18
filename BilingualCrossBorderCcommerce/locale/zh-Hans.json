@@ -1679,11 +1679,6 @@
 	"register.verify_email":"该邮箱已被使用",
 	"register.verify_phone":"该手机号已被使用",
 	
-	"comment.all_comment":"全部",
-	"comment.images_comment":"有图",
-	"comment.featured_comment":"中拍评论",
-	"comment.Btn":"Post comments",
-	
 	"rule.title":"规则介绍",
 	"rule.QuotaWishingRules":"限额许愿规则",
 	"rule.closingle":"许愿开奖和封盘",
@@ -1702,5 +1697,6 @@
 	"comment.all_comment":"全部",
 	"comment.images_comment":"有图",
 	"comment.featured_comment":"中拍评论",
-	"comment.Btn":"Post comments"
+	"comment.sharingBtn":"发布",
+	"comment.Btn":"发布评论"
 }
