@@ -13,7 +13,7 @@
 					<view class="imgTrumpet-img">
 						<image src="/static/Bell/trumpet.png"></image>
 					</view>
-					<image :src="info.showimg" class="imgTrumpet-shop-img"></image>
+					<image :src="info.showimg" class="imgTrumpet-shop-img" mode="widthFix"></image>
 					<view class="imgTrumpet-text">
 						{{$t('bell.gx')}}
 					</view>
@@ -352,7 +352,6 @@
 				left: 50%;
 				transform: translate(-50%, -50%);
 				width: 360rpx;
-				height: 360rpx;
 			}
 
 			.imgTrumpet-img {
