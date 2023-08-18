@@ -1,8 +1,7 @@
 <template>
 	<view class="auction-page">
 		<view class="commission-head">
-			<view class="bg" @click="onReturn()">
-				<image src="@/static/xuyuan/svg.png" class="commission-head-left">
+			<view class="bg">
 				<view class="slogan">{{$t('ongoing.tit')}}</view>
 				<view class="slogan1">{{$t('ongoing.tit')}}</view>
 				<view class="title">{{$t('ongoing.progress')}}</view>

@@ -4,7 +4,6 @@
 
 			<view class="head_fixed">
 				<view class="head_tit">
-					<image src="@/static/xuyuan/svg.png" class="commission-head-left"  @click="onReturn()">
 					<view class="tit-name">{{$t('xyc')}}</view>
 					<view class="tit-auth" v-if="!isLogin" @click="navClick('/pages/public/register')">
 						<image src="/static/images/tab/start-auth.png" class="auth"></image>
