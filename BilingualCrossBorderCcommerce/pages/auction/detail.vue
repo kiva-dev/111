@@ -149,21 +149,21 @@
 					:style="shopCont.check_status==3 || shopCont.check_status==4?'margin-top:30rpx;':''">
 					<block v-if="shopCont.order_user.length > 12">
 						<view class="detail-canyu-item" :style="(i+1)%6==0?'margin-right: 0rpx;':''"
-							v-for="(item,orderNub) in shopCont.order_user.slice(0,10)" :key="orderNub">
-							<image :src="item.avatar" @click="onNavClick(4)"></image>
+							v-for="(item,i) in shopCont.order_user.slice(0,10)">
+							<image :src="item.avatar" @click="toRecode()"></image>
 						</view>
 						<view class="detail-canyu-more">
 							<image src="/static/images//products/more.png"></image>
 						</view>
 						<view class="detail-canyu-item" style="margin-right: 0rpx;"
-							v-for="(item,userNub) in shopCont.order_user.slice(10,11)" :key="userNub">
-							<image :src="item.avatar" @click="onNavClick(4)"></image>
+							v-for="(item,i) in shopCont.order_user.slice(10,11)">
+							<image :src="item.avatar" @click="toRecode()"></image>
 						</view>
 					</block>
 					<block v-else>
 						<view class="detail-canyu-item" :style="(i+1)%6==0?'margin-right: 0rpx;':''"
-							v-for="(item,user2Nub) in shopCont.order_user" :key="user2Nub">
-							<image :src="item.avatar" @click="onNavClick(4)"></image>
+							v-for="(item,i) in shopCont.order_user">
+							<image :src="item.avatar" @click="toRecode()"></image>
 						</view>
 					</block>
 				</view>
@@ -179,15 +179,15 @@
 			<view class="detail-comment">
 				<view id="div2"></view>
 				<view class="detail-comment-head">
-					<view class="detail-comment-tit">{{$t('newDetail.pinglun')}} <span>（{{JudgeTotal}}）</span>
+					<view class="detail-comment-tit">{{$t('newDetail.pinglun')}} <span>（{{judgeTotaoNUm}}）</span>
 					</view>
 					<view class="detail-comment-more" @click="toComment()">
 						<view>{{$t('user.myCont.ckqb')}}</view>
 						<image src="/static/images/products/right.png"></image>
 					</view>
 				</view>
-				<block v-if="JudgeList.length > 0" >
-					<view class="album" v-for="item in JudgeList.slice(0,2)" :key="item.id" @click="toComment()">
+				<block v-if="JudgeList.length > 0">
+					<view class="album" v-for="(item,i) in JudgeList.slice(0,2)" :key="i" @click="toComment()">
 						<!-- 左侧头像 -->
 						<view class="album__header">
 							<view class="album__right">
@@ -886,7 +886,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				e_auction_rule: '',
 				goodlucky: [], // 幸运之星
 				JudgeList: [], // 评价列表
-				JudgeTotal:0,
+				judgeTotaoNUm:0,//评价数量
 				money: 0, // 充值余额
 				balance: 0,
 				isauctionNum: 1, // 填写金额
@@ -1001,7 +1001,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			if (res.scrollTop <= 650) {
 				let num = res.scrollTop / 2 / 100
 				this.myOpacity = num
-				this.navId = 1
 			} else {
 				this.myOpacity = 1
 			}
@@ -1012,6 +1011,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				else if (res.scrollTop >= this.heightList[3] && res.scrollTop < (this.heightList[4])) this.navId = 4
 				else this.navId = 5
 			}
+
 		},
 		mounted() {
 
@@ -1049,9 +1049,9 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				// #endif
 			},
 			toRecode() {
-				// uni.pageScrollTo({
-				// 	scrollTop: this.heightList[3] + 1
-				// })
+				uni.pageScrollTo({
+					scrollTop: this.heightList[3] + 1
+				})
 			},
 			showMore() {
 				this.page++
@@ -1145,36 +1145,14 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				this.showImages = true
 			},
 			//获取评论
-			async getCommentList() {
-				const url = this.$apiObj.GoodsCommentList;
-                const CommentList = this.$apiObj.getSelectCommentList;
-                try {
-                    const res = await this.$http.post(url, {
-					    goods_id: this.shopCont.goods_id
-                    });
-                    if (res.code === 1) {
-                        const commentRequests = res.data.data.map(async (i) => {
-                            const commentRes = await this.$http.post(CommentList, {
-                                user_comment_id: i.user_comment_id
-                            });
-                            return commentRes.data.data;
-                        });
-                        const comments = await Promise.all(commentRequests);
-						this.JudgeTotal = res.data.total
-                        this.JudgeList = res.data.data;
-                        this.JudgeList.forEach((item, index) => {
-							console.log(item.images);
-                            if (item.images) {
-                                item.images = item.images.split(',');
-                            }
-                            item.luckyForumComments = comments[index];
-							console.log(item);
-                        });
-                    }
-                } catch (error) {
-                    // 处理请求错误
-                    console.error(error);
-                }
+			getCommentList() {
+				this.$http.post(this.$apiObj.GoodsCommentList, {
+					goods_id: this.shopCont.goods_id
+				}).then(res => {
+					if (res.code) {
+						this.JudgeList = res.data.data
+					}
+				})
 			},
 			//前往评论
 			toComment() {
@@ -1189,7 +1167,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			},
 			//锚点跳转方法
 			onScrollIntoView(id) {
-				this.navId = id
 				uni.createSelectorQuery()
 					.select('#div' + id)
 					.boundingClientRect(data => {
@@ -1470,24 +1447,36 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					}
 				})
 			},
-			// 评价列表
-			onOrderGoodsJudgeList() {
-				// this.$http.post(this.$apiObj.OrderGoodsJudgeList, {
-				// 	goods_id: this.shopCont.goods_id,
-				// 	type: 1,
-				// 	page: this.page,
-				// 	pagenum: this.pagenum
-				// }).then(res => {
-				// 	if (res.code == 1) {
-				// 		this.goods_judge = res.data.goods_judge
-				// 		this.normal_judge = res.data.normal_judge
-				// 		this.bad_judge = res.data.bad_judge
-				// 		this.totalPageNum = res.data.list.total
-				// 		this.JudgeList = this.page == 1 ? res.data.list.data : [...this.JudgeList, ...res.data.list
-				// 			.data
-				// 		]
-				// 	}
-				// })
+			//获取评论
+			async getCommentList() {
+				const url = this.$apiObj.GoodsCommentList;
+				const CommentList = this.$apiObj.getSelectCommentList;
+				try {
+					const res = await this.$http.post(url, {
+						goods_id: this.shopCont.goods_id
+					});
+					if (res.code === 1) {
+						const commentRequests = res.data.data.map(async (i) => {
+							const commentRes = await this.$http.post(CommentList, {
+								user_comment_id: i.user_comment_id
+							});
+							return commentRes.data.data;
+						});
+						const comments = await Promise.all(commentRequests);
+						this.judgeTotaoNUm= res.data.total
+						this.JudgeList = res.data.data;
+						this.JudgeList.forEach((item, index) => {
+							if (item.images) {
+								item.images = item.images.split(',');
+							}
+							item.luckyForumComments = comments[index];
+							console.log(item);
+						});
+					}
+				} catch (error) {
+					// 处理请求错误
+					console.error(error);
+				}
 			},
 			// 个人信息获取剩余竞拍次数
 			onMineInfos() {
@@ -1728,6 +1717,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					})
 					return
 				}
+
 				//k钻加赠金
 				if (this.useInvite && !this.kdiamondSelect) {
 					let zj = this.shopNum * 1 * (this.can_use_invite_money_rate * 1 / 100) //最多赠金
@@ -1815,6 +1805,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						}
 					}
 				}
+
 				//k钻加赠金加兑换
 				if (this.useInvite && this.kdiamondSelect) {
 					if (this.money * 1 < this.useInviteRmNum * 1) {
@@ -1825,8 +1816,10 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						return
 					}
 				}
+
 				if (this.kdiamondSelect) {
 					if (this.set_paypwd != 1) {
+
 						uni.showToast({
 							title: this.$t('new.qszmm'),
 							icon: 'none',
@@ -2063,6 +2056,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		color: rgb(44, 44, 44);
 		text-decoration: none;
 	}
+
 	//指标分析
 	.index_analysis {
 		width: 750rpx;
@@ -2125,6 +2119,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		}
 
 	}
+
 	//图片预览
 	.show_images {
 		position: relative;
@@ -4824,6 +4819,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		}
 
 	}
+	
 	.rule-conent{
 		background: #fff;
 		margin: 21rpx 0 0 0;
@@ -4931,4 +4927,5 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			}
 		}
 	}
+	
 </style>
