@@ -16,6 +16,7 @@
 					<image src="@/static/images/mine/mine_icon_right.webp" mode="widthFix"></image>
 				</view>
 			</view>
+			
 			<view class="commission-center-price">{{info.rebate_money_total}}</view>
 			<!-- <view class="commission-center-jjdz">
 				<view class="jjdz-icon">
