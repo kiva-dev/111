@@ -2595,12 +2595,12 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		}
 
 		.detail-canyu-list {
-			// width: 630rpx;
+			width: 650rpx;
 			display: flex;
 			flex-wrap: wrap;
 			align-items: center;
 			margin: 0 auto;
-			padding:0 20rpx ;
+			// padding:0 20rpx ;
 			.detail-canyu-item {
 				margin-right: 30rpx;
 				margin-bottom: 10rpx;

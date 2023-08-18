@@ -17,7 +17,7 @@
                 <u-rate active-color="#0AC68E" inactive-color="#CCCCCC" minCount='1' gutter="16" size='24' :allowHalf='true' v-model="stareValue"></u-rate>
                 <span>{{stareValue}}</span>
             </view>
-            <u--textarea confirm-type="done" v-model="value5" :placeholder="siderClasses" border="bottom" height='380' count maxlength='3000'></u--textarea>
+            <u--textarea confirm-type="done" v-model="value5" :placeholder="siderClasses" border="bottom" height='250' count maxlength='3000'></u--textarea>
 		</view>
         <view class="upload-prop">
             <u-upload
@@ -28,9 +28,8 @@
                 name="1"
                 multiple
                 :maxCount="5"
-                width="110"
-	            height="110"
-
+                width="210"
+	            height="210"
             >
                 <view class="upload-class">
                     <image :src="imgUrl" mode="widthFix" class="upload-image"></image>
@@ -333,6 +332,7 @@
     margin: 21rpx 0 0 0;
     padding: 21rpx;
     box-sizing: border-box;
+    overflow: hidden;
     .start-class{
         display: flex;
         align-items: center;
