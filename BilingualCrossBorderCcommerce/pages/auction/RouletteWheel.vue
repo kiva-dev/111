@@ -33,7 +33,13 @@
         <image src="/static/rouletteWheel/roulette-green.png" class="bgTurntable"></image>
         <view  class="cloudBg"></view>
         <view  class="dynamics-shop">
-          <image src="/static/rouletteWheel/shopDemo.png" class="shopImage"></image>
+          <image
+            src="/static/rouletteWheel/shopDemo.png"
+            class="shopImage"
+            v-for="(item, index) in shopItems"
+            :key="index"
+            :style="{transform: 'translate(-50%, 0%) rotate(' + rotationAngle(index) + 'deg)' }"
+          ></image>
         </view>
       </view>
     </view>
@@ -48,6 +54,7 @@
 export default {
   data() {
     return {
+        shopItems: Array.from({ length: 6 }), // 设置图片的数量
         switch_id: 1,
         items: ['奖品1', '奖品2', '奖品3', '奖品4', '奖品5', '奖品6', '奖品7', '奖品8'],
         rotation: 0,
@@ -55,6 +62,11 @@ export default {
     };
   },
   methods: {
+    rotationAngle(index) {
+      const totalItems = this.shopItems.length;
+      const degreesPerItem = 360 / totalItems;
+      return degreesPerItem * index;
+    },
     switchId(e){
         console.log('切换',e);
     },
@@ -198,7 +210,20 @@ export default {
           margin-top: -667rpx;
         }
         .dynamics-shop{
-          
+          width: 100%;
+          height: 100%;
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%,-50%);
+          .shopImage{
+            width: 20%;
+            height: 20%;
+            position: absolute;
+            left: 50%;
+            top: 20%;
+            transform-origin: 50% 150%;
+          }
         }
       }
     }
