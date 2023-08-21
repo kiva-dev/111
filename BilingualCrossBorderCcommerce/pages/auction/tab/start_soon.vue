@@ -578,6 +578,8 @@
 			},
 			// 即将开始
 			onAuctionNotbeginGoods(start, end) {
+				this.start_time = start
+    			this.end_time = end
 				let select_begin_time = new Date(start).getTime() / 1000
 				let select_end_time = new Date(end).getTime() / 1000
 				this.$http.post(this.$apiObj.AuctionNotbeginGoods, {
