@@ -21,7 +21,7 @@
 						:style="list.length==(i+1)?'border-bottom: none;':''">
 						<image src="@/static/images/mine/mine_icon_integral1.png"></image>
 						<view class="item-info">
-							<view class="item-name">{{item.desc}}</view>
+							<view class="item-name">{{isShopCont ? item.en_desc : item.desc}}</view>
 							<view class="item-time">{{$u.timeFormat(item.createtime, 'yyyy/mm/dd hh:MM:ss')}}</view>
 						</view>
 						<view class="item-price">+{{item.points_number}}</view>
@@ -43,8 +43,12 @@
 		data() {
 			return {
 				list: [],
-				total: 0
+				total: 0,
+				isShopCont:false
 			}
+		},
+		onShow() {
+			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
 		},
 		mounted() {
 			this.getPointInfo()
@@ -88,7 +92,7 @@
 			position: relative;
 			width: 100%;
 			height: 88rpx;
-			padding-top: 88rpx;
+			padding-top: 60rpx;
 			display: flex;
 			align-items: center;
 			justify-content: center;
