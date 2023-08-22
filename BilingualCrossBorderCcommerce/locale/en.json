@@ -1703,6 +1703,9 @@
 	"Global.NewVersion":"New Version Found",
 	"Global.VersionContent":"update content:",
 
+	"kIntroduction.title":"Introduction to Kolibri Mall Coins",
+	"kIntroduction.VersionContent":"update content:",
+
 	"comment.all_comment":"All",
 	"comment.images_comment":"Picture",
 	"comment.featured_comment":"Selected comments",

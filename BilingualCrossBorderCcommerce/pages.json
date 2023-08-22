@@ -485,6 +485,13 @@
 			}
 		},
 		{
+			"path": "pages/mine/K_coin_introduction",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		},
+		{
 			"path": "pages/address/address",
 			"style": {
 				"navigationBarTitleText": "",
