@@ -278,7 +278,7 @@
 						<image src="@/static/images/mine/mine_icon_right.webp" mode="widthFix"></image>
 					</view>
 				</view>
-				<view class="ul-li" @click="navClick('/pages/mine/new/rule')">
+				<view class="ul-li" @click="toRule()">
 					<view class="ul-li-l">
 						<view class="l-icon">
 							<image src="@/static/images/mine/mine_icon_rule.png" mode="widthFix"></image>
@@ -657,6 +657,11 @@
 			toFaq(){
 				uni.navigateTo({
 					url:'/pages/mine/faq'
+				})
+			},
+			toRule(){
+				uni.navigateTo({
+					url:'/pages/mine/new/rule'
 				})
 			},
 			toCollect(type) {
