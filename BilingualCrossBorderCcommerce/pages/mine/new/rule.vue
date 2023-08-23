@@ -20,7 +20,7 @@
             </view>
             <view class="conentRule">
                 <view class="conentTopRule green">#{{$t('rule.closingle')}}#</view>
-                <view class="conentBottomRule">{{$t('rule.limitedTimeClose')}}</view>
+                <view class="conentBottomRule">{{$t('rule.quotaRuleContent')}}</view>
             </view>
             <view class="fotterRule">
                 <view class="fotterBottomRule">
