@@ -75,6 +75,7 @@ let apiObj = {
 	MineUpdateAuth:"Mine/merchantApplication",//用户申请成为商家
 	MineBindClientId:"Mine/pushUserDataByClientId",//绑定用户clientid
 	MineUpdateOperate:"Mine/readOperationGuide",
+	kCoinList:"Mine/kCoinList",  // K币变化明细
 	// 订单
 	OrderOrderList: 'Order/orderList', // 普通订单列表
 	OrderGroupOrderList: 'Order/groupOrderList', // 拼团订单列表
