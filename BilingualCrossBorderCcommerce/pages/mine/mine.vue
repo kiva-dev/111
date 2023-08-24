@@ -83,6 +83,13 @@
 							<p>(RM)</p>
 							<p>{{$t('user.wallet.zhje')}}</p>
 						</view>
+						<view class="cc-box-amount">
+							<view class="rebate-num">
+								<image src="@/static/images/mine/mine_icon_diamonds.webp" mode="widthFix"></image>
+								<p>{{userCont.k_coin_wallet*1 || 0.00 }}</p>
+							</view>
+							<p>{{$t('new.wdkb')}}</p>
+						</view>
 					</view>
 					<view class="cc-border"></view>
 					<view class="cc-box">
@@ -1163,11 +1170,26 @@
 							flex-direction: column;
 							justify-content: flex-end;
 							align-items: center;
-
 							p {
 								color: rgb(102, 102, 102);
 								font-size: 20rpx;
 								font-weight: 400;
+							}
+							.rebate-num {
+								display: flex;
+								justify-content: center;
+								align-items: center;
+
+								image {
+									width: 28rpx;
+								}
+
+								p {
+									margin-left: 8rpx;
+									color: rgb(51, 51, 51);
+									font-size: 32rpx;
+									font-weight: bold;
+								}
 							}
 						}
 
