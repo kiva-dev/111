@@ -39,20 +39,33 @@
 		</view>
 
 		<view class="wallet-center">
-			<view class="info" @click="navClick('/pages/mine/K_brick_detail')">
+			<view class="info diamond" @click="navClick('/pages/mine/K_brick_detail')">
 				<view class="info-tit">
 					<view>{{$t('new.wdkz')}}</view>
 					<image src="/static/images/products/right.png"></image>
 				</view>
 				<view class="info-price">{{kdiamond*1 || 0}}</view>
+				<image class="diaClass" src="/static/images/new-index/diamond.png" mode="widthFix"></image>
 			</view>
-			<view class="info" @click="navClick('/pages/mine/points-detail')"
-				style="background: url('/static/images/new-index/wallet_jf.png') no-repeat;background-size: 332rpx 168rpx;">
-				<view class="info-tit">
-					<view>{{$t('new.wdjf')}}</view>
-					<image src="/static/images/products/right.png"></image>
+			<view class="aaaaaaaaaaaaaa">
+				<!-- 1 -->
+				<view class="info" @click="navClick('/pages/mine/points-detail')"
+					style="background: url('/static/images/new-index/wallet_jf.png') no-repeat;background-size: 332rpx 110rpx;margin: 0 6rpx 12rpx 6rpx;">
+					<view class="info-tit">
+						<view>{{$t('new.wdjf')}}</view>
+						<image src="/static/images/products/right.png"></image>
+					</view>
+					<view class="info-price">{{totalJf || 0}}</view>
 				</view>
-				<view class="info-price">{{totalJf || 0}}</view>
+				<!-- 2 -->
+				<view class="info" @click="navClick('/pages/mine/kCoinList')"
+					style="background: url('/static/images/new-index/kCoinBg.png') no-repeat;background-size: 332rpx 110rpx;">
+					<view class="info-tit">
+						<view>{{$t('new.wdkb')}}</view>
+						<image src="/static/images/products/right.png"></image>
+					</view>
+					<view class="info-price">{{kCoinWallet * 1 || 0}}</view>
+				</view>
 			</view>
 		</view>
 
@@ -72,12 +85,11 @@
 				<template v-if="MoneyList.length > 0">
 					<view class="commission-item" v-for="(item,i) in MoneyList">
 						<view class="ci-left">
-							<view class="ci-left-icon">
-								<image v-if="(item.money*1) > 0" src="@/static/images/mine/wallet_icon_income.png"
-									mode="widthFix"></image>
+							<!-- <view class="ci-left-icon">
+								<image v-if="(item.money*1) > 0" src="@/static/images/mine/wallet_icon_income.png" mode="widthFix"></image>
 								<image v-else src="@/static/images/mine/wallet_icon_expenditure.png" mode="widthFix">
 								</image>
-							</view>
+							</view> -->
 							<view class="ci-left-info">
 								<view class="info-tit">{{isShopCont ?item.memo_en : item.memo}}</view>
 								<view class="info-time">{{$filter.to_date_time(item.addtime)}}</view>
@@ -97,12 +109,12 @@
 				<template v-if="MoneyList.length > 0">
 					<view class="commission-item" v-for="(item,i) in MoneyList">
 						<view class="ci-left">
-							<view class="ci-left-icon">
+							<!-- <view class="ci-left-icon">
 								<image v-if="(item.money*1) > 0" src="@/static/images/mine/wallet_icon_income.png"
 									mode="widthFix"></image>
 								<image v-else src="@/static/images/mine/wallet_icon_expenditure.png" mode="widthFix">
 								</image>
-							</view>
+							</view> -->
 							<view class="ci-left-info">
 								<view class="info-tit">{{isShopCont ?item.memo_en : item.memo}}</view>
 								<view class="info-time">{{$filter.to_date_time(item.addtime)}}</view>
@@ -142,6 +154,7 @@
 				navId: 2,
 				totalJf: 0,
 				kdiamond: 0,
+				kCoinWallet:0,
 				isShopCont: false
 			}
 		},
@@ -153,6 +166,7 @@
 			this.$http.post(this.$apiObj.MineInfo).then(res => {
 				if (res.code == 1) {
 					this.kdiamond = res.data.k_diamond_wallet
+					this.kCoinWallet = res.data.k_coin_wallet
 					this.money = res.data.money
 					this.tocash_money = res.data.recharge_money_balance
 					this.rebate_money_total = res.data.invite_money_balance
@@ -390,11 +404,10 @@
 			display: flex;
 			align-items: center;
 			justify-content: center;
-
 			.info {
 				width: 332rpx;
-				height: 126rpx;
-				padding-top: 42rpx;
+				height: 110rpx;
+				padding-top: 10rpx;
 				background: url('/static/images/new-index/kz.png') no-repeat;
 				background-size: 332rpx 168rpx;
 				margin: 0 6rpx 32rpx 6rpx;
@@ -423,6 +436,21 @@
 					margin: 24rpx 0 0 24rpx;
 				}
 
+			}
+			.diamond{
+				position: relative;
+				width: 332rpx;
+				height: 220rpx;
+				padding-top: 42rpx;
+				background-size: cover;
+				overflow: hidden;
+				border-radius: 40rpx;
+				.diaClass{
+					width: 135rpx;
+					position: absolute;
+					bottom: 5%;
+					right: -10%;
+				}
 			}
 		}
 

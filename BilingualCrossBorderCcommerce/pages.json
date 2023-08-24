@@ -966,6 +966,13 @@
 			}
 		},
 		{
+			"path": "pages/mine/kCoinList",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		},
+		{
 			"path": "pages/mine/mid-shot",
 			"style": {
 				"navigationBarTitleText": "",
@@ -1206,6 +1213,13 @@
 		},
 		{
 			"path": "pages/topromote/activity/LimitedTimeEvent",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/topromote/activity/InvitationTR",
 			"style": {
 				"navigationBarTitleText": "",
 				"navigationStyle": "custom"
