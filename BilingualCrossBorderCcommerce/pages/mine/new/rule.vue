@@ -137,7 +137,7 @@
 .rule-header {
     width: 100%;
     background: #fff;
-
+    padding-top: 90rpx;
     .mp-header-box {
         width: 100%;
         height: 88rpx;
