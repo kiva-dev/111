@@ -1709,10 +1709,13 @@
 
 	"kIntroduction.title":"Introduction to Kolibri Mall Coins",
 	"kIntroduction.VersionContent":"update content:",
+	"k_icon_what":"What is K coin?",
+
 
 	"comment.all_comment":"All",
 	"comment.images_comment":"Picture",
 	"comment.featured_comment":"Selected comments",
 	"comment.sharingBtn":"Issue",
 	"comment.Btn":"Post comments"
+	
 }

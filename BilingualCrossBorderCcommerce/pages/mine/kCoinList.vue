@@ -11,6 +11,7 @@
 					<view>{{kCoinWallet * 1 || 0}}</view>
 				</view>
 				<view class="points-detail-info-txt">{{$t('new.wdkb')}}</view>
+				<view class="what" @click="navClick('/pages/mine/K_coin_introduction')">{{$t('k_icon_what')}}<image src="/static/images/new-index/what.png"></image></view>
 			</view>
 
 			<view class="list">
@@ -62,6 +63,11 @@
 				this.$http.post(this.$apiObj.MineInfo).then(res => {
 					this.kCoinWallet = res.data.k_coin_wallet
 				})
+			},
+			navClick(url){
+				uni.navigateTo({
+					url
+				})
 			}
 		}
 	}
@@ -110,6 +116,23 @@
 		.points-detail-info {
 			width: 100%;
 			margin: 50rpx auto 0 auto;
+			
+			.what{
+				width: 100%;
+				font-size: 24rpx;
+				color: rgb(255, 255, 255);
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				margin-top: 40rpx;
+				
+				image{
+					display: block;
+					width: 24rpx;
+					height: 24rpx;
+					margin-left: 8rpx;
+				}
+			}
 
 			.points-detail-info-num {
 				width: 100%;
@@ -264,7 +287,7 @@
 					position: absolute;
 					right: 0;
 					font-size: 32rpx;
-					color: rgb(255, 57, 57);
+					color: rgb(10, 198, 142);
 				}
 
 			}
