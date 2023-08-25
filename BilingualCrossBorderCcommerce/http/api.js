@@ -17,6 +17,7 @@ let apiObj = {
 	LoginVerifyCode: '/Login/checkEmailCodeByApp', //邮箱验证码验证
 	LoginVerifyPhone: '/Login/checkMobileCodeByApp', //手机验证码验证
 	verifyEmailOrPhone:'/Login/existsEmailOrMobile',//验证手机或邮箱是否已注册过
+	
 	// 商城-首页
 	IndexShopList: 'Index/shopList', // 首页搜索店铺
 	bannerList: 'Index/bannerList', // 商城首页banner图
@@ -109,6 +110,8 @@ let apiObj = {
 	AuctionOrderDetail: 'Auctionorder/auctionOrderDetail', // 竞拍订单
 	OrderAuctionRecordDetail:"Auctionorder/orderAuctionRecordDetail",//竞拍领奖信息
 	StartSoonGetTimeList:"Auction/comingSoonByTime",//获取即将上线可选择时间
+	MineUpdateBank:"/Mine/editBankCard",//修改银行卡信息
+	MineInviteGiftRM:"/Mine/inviteeStatus",//获取用户邀请送马币列表
 	// 优惠券列表
 	MineCouponList: 'Mine/couponList', // 我的优惠券列表
 	MineSetPwd: 'Mine/setPwd', // 设置支付密码

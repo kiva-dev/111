@@ -424,9 +424,8 @@
 					<image src="/static/images/kbrick/diamond.png" class="logo"></image>
 					<view class="num">{{shopNum}}</view>
 				</view>
-
 				<view class="mode-banlace"
-					v-show="balance*1 < shopNum && !useInvite || useInvite && balance*1 < changShopNum*1">
+					v-show="(balance*1 <shopNum && !useInvite && !useKdiamondBonus) || (useInvite && !useKdiamondBonus && balance*1 < changShopNum*1) || (useKdiamondBonus && !useInvite && (shopNum - useKdiamondBonus) > balance) || (useInvite && useKdiamondBonus && (shopNum - (zenjinToRmNum + giftKdiamondBalance)) > balance )">
 					<view class="tit">{{$t('new.kzyebz')}}</view>
 					<view class="btn" @click="toRecharge()">
 						<view class="btn-tit">Purchase</view>
@@ -471,25 +470,27 @@
 
 				<u-line style="width: 670rpx;margin: 32rpx auto 0 auto;"></u-line>
 
-				<!-- <view class="mode-info" style="margin-top: 40rpx;">
-						<image src="/static/images/kbrick/diamond.png" class="logo"></image>
-					
-						<view class="info-tit">
-							<view class="info-name">(Gift K-Diamonds: 26)</view>
-						</view>
-					
-						<view class="bonus_price" v-show="useKdiamondBonus">- {{(shopNum*1 - changShopNum*1).toFixed(2)}}
-						</view>
-					
-						<view class="mode-info-right">
-							<image src="/static/images/new-index/wxz.png" class="use" v-show="!useKdiamondBonus"
-								@click="useKdiamondBonus=!useKdiamondBonus">
-							</image>
-							<image src="/static/images/new-index/xz.png" class="use" v-show="useKdiamondBonus"
-								@click="useKdiamondBonus=!useKdiamondBonus">
-							</image>
-						</view>
-					</view> -->
+				<view class="mode-info" style="margin-top: 40rpx;">
+					<image src="/static/images/kbrick/diamond.png" class="logo"></image>
+
+					<view class="info-tit">
+						<view class="info-name">({{$t('detail.pay_gift_diamond')}}: {{giftKdiamondBalance}})</view>
+					</view>
+
+					<view class="bonus_price" v-show="useKdiamondBonus">
+						- {{ useInvite ? giftKdiamondBalance >= shopNum - zenjinToRmNum ? (shopNum - zenjinToRmNum).toFixed(2) : 
+							giftKdiamondBalance : giftKdiamondBalance >= shopNum ? shopNum : giftKdiamondBalance }}
+					</view>
+
+					<view class="mode-info-right" v-show="giftKdiamondBalance*1 > 0">
+						<image src="/static/images/new-index/wxz.png" class="use" v-show="!useKdiamondBonus"
+							@click="useKdiamondBonus=!useKdiamondBonus">
+						</image>
+						<image src="/static/images/new-index/xz.png" class="use" v-show="useKdiamondBonus"
+							@click="useKdiamondBonus=!useKdiamondBonus">
+						</image>
+					</view>
+				</view>
 
 				<view class="mode-info" style="margin-top: 40rpx;" v-if="can_use_invite_money_rate*1 > 0">
 					<image src="/static/images/mine/yonjin.webp" class="logo"></image>
@@ -513,13 +514,29 @@
 
 				<view class="mode-switch"></view>
 
-				<view class="mode-bonus" v-show="useInvite || useKdiamondBonus">Total deduction <image
-						src="/static/images/kbrick/diamond.png"></image> <text
-						style="font-weight: bold;">{{(shopNum*1 - changShopNum*1).toFixed(2)}}</text></view>
+				<view class="mode-bonus" v-show="useInvite || useKdiamondBonus">
+					{{isShopCont ? 'Total deduction' : '扣除金额合计'}}
+					<image src="/static/images/kbrick/diamond.png"></image>
+					<text style="font-weight: bold;">
+						{{(useKdiamondBonus && !useInvite) ? (giftKdiamondBalance * 1 >= shopNum * 1 ? shopNum :
+							giftKdiamondBalance * 1) : (useInvite && useKdiamondBonus ? (zenjinToRmNum >= shopNum ?
+							shopNum : (giftKdiamondBalance * 1 + zenjinToRmNum * 1) >= shopNum ? shopNum : (
+							(giftKdiamondBalance * 1 + zenjinToRmNum * 1)).toFixed(2)) :
+							zenjinToRmNum * 1 == shopNum ? shopNum : zenjinToRmNum)}}
+					</text>
+				</view>
 
 				<view class="mode-btn" @click.stop="$noMultipleClicks(onPayClick)">{{$t('new.payment')}}
-					<image src="/static/images/kbrick/diamond.png"></image> <text
-						v-show="useInvite || useKdiamondBonus">{{(changShopNum*1).toFixed(2)}}</text>
+					<image src="/static/images/kbrick/diamond.png"></image>
+					<text v-show="useInvite && !useKdiamondBonus">
+						{{(shopNum - zenjinToRmNum).toFixed(2)}}
+					</text>
+					<text v-show="!useInvite && useKdiamondBonus">
+						{{giftKdiamondBalance >= shopNum ? 0 : (shopNum - giftKdiamondBalance).toFixed(2)}}
+					</text>
+					<text v-show="useInvite && useKdiamondBonus">
+						{{(giftKdiamondBalance + zenjinToRmNum) >= shopNum ? 0 : (shopNum - (giftKdiamondBalance+zenjinToRmNum)).toFixed(2)}}
+					</text>
 					<text v-show="!useInvite && !useKdiamondBonus">{{(shopNum*1).toFixed(2)}}</text>
 				</view>
 			</view>
@@ -712,6 +729,7 @@
 				pay_pwd: '', // 支付密码
 				money: '', // 总金额
 				balance: '', //k钻余额
+				giftKdiamondBalance: '', //K钻赠送余额
 				noClick: true, // 防止重复点击 
 				dateTimePickerShow: false,
 				// 年列表
@@ -1131,6 +1149,7 @@
 				that.showRmToKdiamond = false
 				this.selectProtocol = false
 				this.useInvite = false
+				this.useKdiamondBonus = false
 
 				that.orderPayList.forEach(item => {
 					item.isShow = false
@@ -1143,7 +1162,8 @@
 						this.can_use_invite_money_rate = res.data.can_use_invite_money_rate
 						this.money = res.data.recharge_money_balance
 						this.balance = res.data.k_diamond_wallet
-						// this.auction_num = res.data.auction_num
+						this.giftKdiamondBalance = res.data.temporary_k_diamond_wallet
+
 						this.auction_num = (e.auction_type == 2 && e.total_least_num == 0) ? res.data
 							.auction_num :
 							(res.data.auction_num === -1) ? e.total_least_num : (res.data.auction_num < e
@@ -1399,7 +1419,8 @@
 					is_use_recharge: 2,
 					is_use_invite: this.useInvite ? 1 : 2,
 					is_use_k_diamond: 1,
-					is_balance_convert_k_diamond: this.kdiamondSelect ? 1 : 2
+					is_balance_convert_k_diamond: this.kdiamondSelect ? 1 : 2,
+					is_use_temporary_k_diamond: this.useKdiamondBonus ? 1 : 2
 				}).then(res => {
 					if (res.code == 1) {
 						this.isShowAegin = this.auction_num > this.isauctionNum
@@ -3360,11 +3381,11 @@
 				display: flex;
 				align-items: flex-end;
 				margin-top: 12rpx;
-				
-				.tit{
+
+				.tit {
 					margin-left: 40rpx;
 				}
-				
+
 				.btn {
 					position: absolute;
 					right: 32rpx;
@@ -3375,24 +3396,24 @@
 					justify-content: center;
 					background: rgb(10, 198, 142);
 					border-radius: 64rpx;
-				
+
 					.btn-tit {
 						font-size: 24rpx;
 						color: rgb(255, 255, 255);
 					}
-					
-					.btn-diamond{
+
+					.btn-diamond {
 						display: block;
 						width: 32rpx;
 						height: 32rpx;
 						margin: 0 12rpx 0 8rpx;
 					}
-					
-					.btn-right{
+
+					.btn-right {
 						width: 24rpx;
 						height: 24rpx;
 					}
-					
+
 				}
 			}
 

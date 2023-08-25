@@ -2,6 +2,9 @@
 	<view class="mine-layout">
 		<view class="ml-top">
 			<view class="ml-top-operate">
+				<view class="operate-box" @click="openSession()">
+					<image src="/static/images/mine/service.png" mode="widthFix"></image>
+				</view>
 				<view class="operate-box" @click="navClick('set')">
 					<image src="@/static/images/mine/mine_set.webp" mode="widthFix"></image>
 				</view>
@@ -75,17 +78,19 @@
 					</view>
 				</view>
 				<view class="container-content">
-					<view class="cc-box">
-						<view class="cc-box-num">
-							<span>{{userCont.money*1 || 0.00}}</span>
-						</view>
-						<view class="cc-box-amount">
-							<p>(RM)</p>
-							<p>{{$t('user.wallet.zhje')}}</p>
-						</view>
-						<view class="cc-box-amount">
+					<view class="cc-box" style="padding-top: 50rpx;">
+						<view class="cc-box-rebate">
 							<view class="rebate-num">
 								<image src="@/static/images/mine/mine_icon_diamonds.webp" mode="widthFix"></image>
+								<p>{{userCont.k_diamond_wallet*1 || 0.00}}</p>
+							</view>
+							<p style="margin: 10rpx 0;">({{isShopCont ? 'Included' : '包含'}} {{userCont.temporary_k_diamond_wallet}} {{isShopCont ? 'gift diamond' : '赠送K钻'}})</p>
+							<p>{{$t('mine.diamonds')}}</p>
+						</view>
+			
+						<view class="cc-box-amount" style="margin-top: 20rpx;">
+							<view class="rebate-num">
+								<image src="/static/images/mine/k_coins.png" mode="widthFix"></image>
 								<p>{{userCont.k_coin_wallet*1 || 0.00 }}</p>
 							</view>
 							<p>{{$t('new.wdkb')}}</p>
@@ -93,12 +98,12 @@
 					</view>
 					<view class="cc-border"></view>
 					<view class="cc-box">
-						<view class="cc-box-rebate">
+						<view class="cc-box-rebate" >
 							<view class="rebate-num">
-								<image src="@/static/images/mine/mine_icon_diamonds.webp" mode="widthFix"></image>
-								<p>{{userCont.k_diamond_wallet*1 || 0.00}}</p>
+								<text>RM</text>
+								<p>{{userCont.money*1 || 0.00}}</p>
 							</view>
-							<p>{{$t('mine.diamonds')}}</p>
+							<p>{{$t('user.wallet.zhje')}}</p>
 						</view>
 						<view class="cc-box-rebate">
 							<view class="rebate-num">
@@ -119,12 +124,19 @@
 		</view>
 
 		<!--邀请返佣-->
-		<view class="ml-commission">
+		<!-- <view class="ml-commission">
 			<view class="ml-commission-box" @click="navClick('/pages/mine/new/commission')">
 				<p>{{$t('new.yqfy')}}</p>
 			</view>
+		</view> -->
+		
+		<!--邀请好友送马币-->
+		<view class="invite_gift" @click="navClick('/pages/mine/new/invite_friend')">
+			<view class="tit">{{$t('mine.invite_friend')}}</view>
+			<view class="info">{{$t('mine.cash_reward')}} <text>RM5</text></view>
 		</view>
-
+		
+		<!--邀请返佣-->
 		<view class="commission-info">
 			<view class="head">
 				<view class="head-left">{{$t('new.yqfy')}}</view>
@@ -220,60 +232,10 @@
 				</view>
 			</view>
 		</view>
-		<view class="ml-auction" v-if="false">
-			<view class="ml-auction-top">
-				<view class="top-name">{{$t('user.myCont.order')}}</view>
-				<view class="top-more" @click="navClick('/pages/mine/order/order?tabIndex=10')">
-					<p>{{$t('user.order.qbdd')}}</p>
-					<view class="top-more-icon">
-						<image src="@/static/images/mine/mine_icon_right.webp" mode="widthFix"></image>
-					</view>
-				</view>
-			</view>
-			<view class="ml-auction-content">
-				<scroll-view class="content-scroll" scroll-x="true" @scrolltoupper="isBottoming = false"
-					@scrolltolower="isBottoming = true">
-					<view class="content-scroll-box" @click="navClick('/pages/mine/order/order?tabIndex=0')">
-						<image src="@/static/images/mine/mine_icon_ship.png" mode="widthFix"></image>
-						<p>{{$t('user.order.daifuk')}}</p>
-					</view>
-					<view class="content-scroll-box" @click="navClick('/pages/mine/order/order?tabIndex=2')">
-						<image src="@/static/images/mine/mine_icon_receive.png" mode="widthFix"></image>
-						<p>{{$t('user.order.daifahuo')}}</p>
-					</view>
-					<view class="content-scroll-box" @click="navClick('/pages/mine/order/order?tabIndex=3')">
-						<image src="@/static/images/mine/mine_icon_confirmed.png" mode="widthFix"></image>
-						<p>{{$t('user.order.dsh')}}</p>
-					</view>
-					<view class="content-scroll-box" @click="navClick('/pages/mine/order/order?tabIndex=5')">
-						<image src="@/static/images/mine/mine_icon_completed.png" mode="widthFix"></image>
-						<p>{{$t('user.order.yiwanc')}}</p>
-					</view>
-					<view class="content-scroll-box" @click="navClick('/pages/mine/order/order?tabIndex=6')">
-						<image src="@/static/images/mine/mine_icon_after.png" mode="widthFix"></image>
-						<p>{{$t('user.order.closing')}}</p>
-					</view>
-				</scroll-view>
-			</view>
-			<view class="ml-auction-line">
-				<view class="line-bg" :style="{ left: isBottoming ? '14rpx':'0'}"></view>
-			</view>
-		</view>
 
 		<view class="ml-operate">
-			<view class="ml-operate-title">{{$t('rule.title')}}</view>
+			<view class="ml-operate-title">{{$t('new.wdfw')}}</view>
 			<view class="ml-operate-ul">
-				<!-- <view class="ul-li" @click="toKb()">
-					<view class="ul-li-l">
-						<view class="l-icon">
-							<image src="/static/images/mine/faq.png" mode="widthFix"></image>
-						</view>
-						<view class="l-name">K币介绍</view>
-					</view>
-					<view class="ul-li-r">
-						<image src="@/static/images/mine/mine_icon_right.webp" mode="widthFix"></image>
-					</view>
-				</view> -->
 				<view class="ul-li" @click="toFaq()">
 					<view class="ul-li-l">
 						<view class="l-icon">
@@ -288,12 +250,12 @@
 				<view class="ul-li" @click="toRule()">
 					<view class="ul-li-l">
 						<view class="l-icon">
-							<image src="@/static/images/mine/mine_icon_rule.png" mode="widthFix"></image>
+							<image src="/static/images/mine/mine_icon_rule.png" mode="widthFix"></image>
 						</view>
 						<view class="l-name">{{$t('new.Rule')}}</view>
 					</view>
 					<view class="ul-li-r">
-						<image src="@/static/images/mine/mine_icon_right.webp" mode="widthFix"></image>
+						<image src="/static/images/mine/mine_icon_right.webp" mode="widthFix"></image>
 					</view>
 				</view>
 				<view class="ul-li" @click="navClick('/pages/address/address')">
@@ -410,6 +372,12 @@
 <script src="./jssocials-1.4.0/jssocials.min.js"></script> -->
 <script>
 	import tool from "@/utils/tool.js"
+	function checkTokenValidity(token) {
+		const tokenArr = token.split('|');
+		const expirationTime = parseInt(tokenArr[2]) - 2;
+		const currentTime = Math.floor(Date.now() / 1000);
+		return expirationTime >= currentTime;
+	}
 	export default {
 		data() {
 			return {
@@ -436,7 +404,8 @@
 				rightNum: 0, //右滑
 				inviationNum: 0, //邀请人数
 				yqUrl: '', //邀请url
-				isNotReadNum: 0
+				isNotReadNum: 0,
+				isShopCont:false
 			}
 		},
 		onLoad() {
@@ -463,6 +432,36 @@
 			this.showConfirm = false
 		},
 		methods: {
+			handleExpiredToken() {
+				setTimeout(() => {
+					this.ws.logout();
+				}, 300);
+			},
+			handleValidLogin(token, auth_token) {
+				this.ws.init(token, auth_token);
+			},
+			openSession: function() {
+				const userinfo = uni.getStorageSync('userinfo');
+				const _token = uni.getStorageSync('token');
+				if (!userinfo?.token || !_token || _token.trim() === '') {
+					console.error('token is missing');
+					this.ws.init('', '');
+				} else {
+					const isTokenValid = checkTokenValidity(userinfo.token);
+					if (isTokenValid) {
+						this.handleValidLogin(userinfo.token, userinfo.auth_token);
+					} else {
+						this.handleExpiredToken();
+					}
+				}
+				this.ws.pageFun(() => {
+					this.ws.send({
+						c: 'Message',
+						a: 'assignCsr',
+						data: {}
+					})
+				})
+			},
 			//获取是否有未读消息
 			getNotRead() {
 				this.$http.post(this.$apiObj.GetMineNotRead).then(res => {
@@ -500,7 +499,6 @@
 			},
 
 			onfacebook() {
-
 				let url = 'https://www.facebook.com/kolibri.shopping'
 				// #ifdef H5
 				window.open(url)
@@ -751,6 +749,44 @@
 </script>
 
 <style lang="less" scoped>
+	
+	//邀请赠送马币
+	.invite_gift{
+		position: relative;
+		width: 750rpx;
+		height: 224rpx;
+		background: url('/static/images/mine/invite_open.png') no-repeat;
+		background-size: 750rpx 224rpx;
+		margin: 16rpx 0;
+		
+		.tit{
+			position: absolute;
+			top: 46rpx;
+			left: 296rpx;
+			width: 200rpx;
+			font-size: 28rpx;
+			font-weight: bold;
+			color: rgb(255, 49, 13);
+			text-align: center;
+		}
+		
+		.info{
+			position: absolute;
+			top: 110rpx;
+			left: 232rpx;
+			width: 340rpx;
+			font-size: 32rpx;
+			font-weight: bold;
+			color: rgb(255, 255, 255);
+			text-align: center;
+			
+			text{
+				font-size: 52rpx;
+				margin-left: 4rpx;
+			}
+		}
+	}
+	
 	//返佣
 	.commission-info {
 		width: 686rpx;
@@ -1076,23 +1112,23 @@
 		}
 
 		.ml-wallet {
-			width: 100%;
-			margin-top: -85rpx;
-			padding: 0 32rpx;
+			width: 686rpx;
 			box-sizing: border-box;
+			margin: -85rpx auto 0 auto;
 
 			.ml-wallet-container {
 				width: 100%;
 				background: rgb(255, 255, 255);
 				border-radius: 20rpx;
-				padding: 24rpx 32rpx 20rpx;
+				padding: 24rpx 0 20rpx 0;
 				box-sizing: border-box;
 
 				.container-tit {
-					width: 100%;
+					width: 90%;
 					display: flex;
 					justify-content: space-between;
 					align-items: center;
+					margin-left: 5%;
 
 					.ct-left {
 						display: flex;
@@ -1138,6 +1174,7 @@
 
 				.container-content {
 					width: 100%;
+					height: 216rpx;
 					margin-top: 18rpx;
 					display: flex;
 					justify-content: center;
@@ -1146,6 +1183,7 @@
 
 					.cc-box {
 						width: 50%;
+						height: 216rpx;
 						display: flex;
 						flex-direction: column;
 						justify-content: center;
@@ -1183,6 +1221,11 @@
 								image {
 									width: 28rpx;
 								}
+								
+								text{
+									font-size: 16rpx;
+									font-weight: bold;
+								}
 
 								p {
 									margin-left: 8rpx;
@@ -1201,7 +1244,7 @@
 							align-items: center;
 
 							&:last-child {
-								margin-top: 20rpx;
+								margin-top: 68rpx;
 							}
 
 							.rebate-num {
@@ -1231,7 +1274,7 @@
 
 					.cc-border {
 						width: 1rpx;
-						height: 160rpx;
+						height: 216rpx;
 						background: rgb(204, 204, 204);
 						position: absolute;
 						left: 50%;

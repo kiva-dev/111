@@ -23,9 +23,10 @@
 									<image class="img" src="../../static/images/bank1.png"></image>
 								</view>
 							</view>
-							<view class="t">{{item.bank_name}}{{$t('user.bank.cxk')}}</view>
+							<view class="t">{{item.bank_name}} <br/>{{$t('user.bank.cxk')}}</view>
 						</view>
 						<button class="li-btn" @click.stop="onseach(item)">{{$t('user.bank.jcbd')}}</button>
+						<button class="li-btn edit" @click.stop="onEdit(item)">{{$t('user.address.edit')}}</button>
 					</view>
 					<view class="li-bd">**** **** **** {{item.account.substr(-4)}}</view>
 				</view>
@@ -73,6 +74,11 @@
 			this.onMineBankCardList()
 		},
 		methods: {
+			onEdit(item){
+				uni.navigateTo({
+					url:'/pages/mine/bindingB?data='+JSON.stringify(item)
+				})
+			},
 			onClick(item) {
 				uni.setStorageSync('yhkList', item)
 				uni.showToast({
@@ -184,6 +190,7 @@
 				margin-top: 40rpx;
 
 				.bank-li {
+					position: relative;
 					margin: 20rpx 0;
 					background: url('/static/images/kbrick/bank_bj.png') no-repeat;
 					background-size: 100% 100%;
@@ -232,13 +239,20 @@
 							font-size: 24rpx;
 							color: #fff;
 						}
+						
+						.edit{
+							position: absolute;
+							top: 120rpx;
+							right: 32rpx;
+						}
 					}
 
 					.li-bd {
+						width: 100%;
 						padding: 50rpx 0 30rpx 0;
 						font-size: 44rpx;
 						color: #fff;
-						text-align: center;
+						// text-align: center;
 					}
 				}
 

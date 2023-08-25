@@ -33,18 +33,18 @@
 						des: `You can sign up directly via the invitation link or you may click"Sign Up"/"Register now" using your email address or mobile number and wait for the verification code to be sent to either one.`,
 						des_cn: `您可以通过邀请链接直接注册，输入您可以使用您的电子邮件地址或手机号码点击"登陆" / "注册"，并等待验证码发送到其中一个。`
 					},
-					{
-						tit: 'Do I need to pay anything to register?',
-						tit_cn: '注册需要支付任何费用吗？',
-						des: `No, you don’t have to. All registration to our e-commerce platform is free!`,
-						des_cn: `不需要，我们的电子商务平台所有注册都是免费的！`
-					},
-					{
-						tit: 'Why did I not get verification code?',
-						tit_cn: '我为什么没有收到验证码？',
-						des: `You can try to resend the verification code to your number or try to use your email address to register.`,
-						des_cn: `您可以尝试重新发送验证码到您的号码，或尝试使用您的电子邮件地址进行注册。`
-					},
+					// {
+					// 	tit: 'Do I need to pay anything to register?',
+					// 	tit_cn: '注册需要支付任何费用吗？',
+					// 	des: `No, you don’t have to. All registration to our e-commerce platform is free!`,
+					// 	des_cn: `不需要，我们的电子商务平台所有注册都是免费的！`
+					// },
+					// {
+					// 	tit: 'Why did I not get verification code?',
+					// 	tit_cn: '我为什么没有收到验证码？',
+					// 	des: `You can try to resend the verification code to your number or try to use your email address to register.`,
+					// 	des_cn: `您可以尝试重新发送验证码到您的号码，或尝试使用您的电子邮件地址进行注册。`
+					// },
 					{
 						tit: `I'm under 18, can I participate?`,
 						tit_cn: '我还未满18岁，我能参与吗？',
@@ -63,12 +63,12 @@
 						des: `We must do the Real Name Authentication as we need to avoid frauds from happening and our platform are bind with rules and regulations.`,
 						des_cn: `我们必须进行实名认证，以避免发生欺诈行为，我们的平台受到法规的约束。`
 					},
-					{
-						tit: 'How to change my nickname?',
-						tit_cn: '如何更改我的昵称？',
-						des: `You may click on your Profile Picture and choose Nickname to do modification or set a new one.`,
-						des_cn: `您可以点击您的个人资料图片，选择"昵称"进行修改或设置一个新的昵称。`
-					},
+					// {
+					// 	tit: 'How to change my nickname?',
+					// 	tit_cn: '如何更改我的昵称？',
+					// 	des: `You may click on your Profile Picture and choose Nickname to do modification or set a new one.`,
+					// 	des_cn: `您可以点击您的个人资料图片，选择"昵称"进行修改或设置一个新的昵称。`
+					// },
 					{
 						tit: 'How to change my password?',
 						tit_cn: '如何更改我的密码？',

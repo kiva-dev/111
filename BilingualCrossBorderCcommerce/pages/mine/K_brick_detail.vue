@@ -27,9 +27,11 @@
 				<view class="item"
 					:style="select==(i+1)?'height:216rpx;background: rgb(224, 242, 255);box-sizing: border-box;border: 4rpx solid rgb(27, 161, 255);':''"
 					v-for="(item,i) in list" :key="i" @click="switchCzNum(i+1)">
-					<view class="item-tags" v-show="item.activity_money">
+					<view class="item-tags" v-show="item.all_money">
 						<image src="/static/images/kbrick/white_bx.png"></image>
-						Free RM {{item.activity_money*1}}
+						<text v-if="item.temporary_k_diamond *1 > 0">Free <image
+								src="/static/images/kbrick/diamond.png" style="margin-left: 4rpx;"></image> {{item.all_money*1}}</text>
+						<text v-if="item.temporary_k_diamond *1 == 0">Free RM {{item.all_money*1}}</text>
 					</view>
 					<view class="item-num">
 						<image src="/static/images/kbrick/diamond.png"></image>
@@ -334,7 +336,7 @@
 									url: '/pages/mine/Vid'
 								})
 							}, 2000)
-						} 
+						}
 					}
 				})
 			},
@@ -366,7 +368,7 @@
 					referrer: type,
 					front_extra: listData.toString()
 				}).then(res => {
-
+					console.log(res.data)
 					if (res.code == 1) {
 						// #ifdef H5
 						window.location.href = res.data.href_url
@@ -500,8 +502,8 @@
 				// margin-top: 14rpx;
 				margin: 16rpx 0 12rpx 48rpx;
 			}
-			
-			.info-bonus{
+
+			.info-bonus {
 				font-size: 26rpx;
 				color: rgb(255, 255, 255);
 				margin-left: 48rpx;
