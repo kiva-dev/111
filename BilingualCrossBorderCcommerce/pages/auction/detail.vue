@@ -437,24 +437,36 @@
 					<view class="line"></view>
 				</view>
 				<!-- 限额许愿规则 -->
-				<view class="rule-conent" v-if="shopCont.auction_type === '1' ">
+				 <view class="rule-conent" v-if="shopCont.auction_type === '1' ">
 					<view class="titleRule">
-						<image class="titleStart" src="@/static/images/mine/ruleStart.png" mode="widthFix"></image>
-						<span>{{$t('rule.QuotaWishingRules')}}</span>
-						<image class="titleStart" src="@/static/images/mine/ruleStart.png" mode="widthFix"></image>
+						<image class="titleStart" src="@/static/images/mine/rule/ruleStartGreen.png" mode="widthFix"></image>
+						<span class="green">{{$t('rule.QuotaWishingRules')}}</span>
+						<image class="titleStart" src="@/static/images/mine/rule/ruleStartGreen.png" mode="widthFix"></image>
 					</view>
 					<view class="conentRule">
-						<view class="conentTopRule">#{{$t('rule.closingle')}}#</view>
-						<view class="conentBottomRule">{{$t('rule.limitedTimeClose')}}</view>
+						<view class="conentTopRule green">#{{$t('rule.closingle')}}#</view>
+						<view class="conentBottomRule">{{$t('rule.quotaRuleContent')}}</view>
 					</view>
 					<view class="fotterRule">
-						<view class="fotterTopRule">{{$t('rule.luckyCode')}}</view>
 						<view class="fotterBottomRule">
-							<image src="@/static/images/mine/luckyCode.png" mode="widthFix"></image>
+							<image :src="CaseAImageSrc" mode="widthFix"></image>
+						</view>
+						<view class="fotterBottomRule" style="margin-top:60rpx;">
+							<image :src="CaseBImageSrc" mode="widthFix"></image>
 						</view>
 					</view>
 					<view class="conentEnd">
 						<view>{{$t('rule.announcedLuckyCode')}}</view>
+					</view>
+					<!-- 温馨提示 -->
+					<view class="KindTips">
+						<view class="tipsTop">{{$t('rule.Reminder')}}</view>
+						<view>
+							<view style="color:#666666;font-size:12px">{{$t('rule.ReminderConent')}}</view>
+						</view>
+					</view>
+					<view style="margin-bottom: 50rpx;">
+						<view style="color:#999999;font-size:10px">{{$t('rule.note')}}</view>
 					</view>
 				</view>
 				<!-- 限时许愿规则 -->
@@ -464,12 +476,12 @@
 						<span>{{$t('rule.limitedTime')}}</span>
 						<image class="titleStart" src="@/static/images/mine/ruleStart.png" mode="widthFix"></image>
 					</view>
-					<view class="conentRule">
+					<view class="conentRule" style="border: 2px solid #E5C09F">
 						<view class="conentTopRule">#{{$t('rule.closingle')}}#</view>
 						<view class="conentBottomRule">{{$t('rule.limitedTimeClose')}}</view>
 					</view>
 					<view class="LimitedImag">
-						<image src="@/static/images/mine/Limited-TimeWishingRules.png" mode="widthFix"></image>
+						<image :src="limitedCaseImageSrc" mode="widthFix"></image>
 					</view>
 					<view class="conentEnd">
 						<view>{{$t('rule.announcedLuckyCode')}}</view>
@@ -1016,6 +1028,33 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		mounted() {
 
 		},
+		computed: {
+            CaseAImageSrc() {
+                return this.isShopCont
+                    ? require('@/static/images/mine/rule/CaseA-en.png')
+                    : require('@/static/images/mine/rule/CaseA-cn.png')
+            },
+            CaseBImageSrc() {
+                return this.isShopCont
+                    ? require('@/static/images/mine/rule/CaseB-en.png')
+                    : require('@/static/images/mine/rule/CaseB-cn.png')
+            },
+            limitedCaseImageSrc() {
+                return this.isShopCont
+                    ? require('@/static/images/mine/rule/limitedCase-en.png')
+                    : require('@/static/images/mine/rule/limitedCase-cn.png')
+            },
+            principleTextImageSrc() {
+                return this.isShopCont
+                    ? require('@/static/images/mine/rule/principleText-en.png')
+                    : require('@/static/images/mine/rule/principleText-cn.png')
+            },
+            principleImageSrc() {
+                return this.isShopCont
+                    ? require('@/static/images/mine/rule/principleImage-en.png')
+                    : require('@/static/images/mine/rule/principleImage-cn.png')
+            },
+        },
 		methods: {
 			//根据编号搜索指定的用户
 			sendById() {
@@ -4810,51 +4849,51 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 	}
 
-	.rule-conent {
+	.rule-conent{
 		background: #fff;
 		margin: 21rpx 0 0 0;
 		padding: 21rpx 40rpx;
 		box-sizing: border-box;
-
-		.titleRule {
+		.titleRule{
 			display: flex;
 			justify-content: center;
 			align-items: center;
-
-			.titleStart {
+			.titleStart{
 				width: 40rpx;
 				height: 40rpx;
 			}
-
-			span {
-				background: linear-gradient(135.00deg, rgb(255, 83, 56) 0%, rgb(255, 165, 117) 100%);
-				border-radius: 105rpx;
+			span{
+				background: linear-gradient(135.00deg, rgb(255, 83, 56) 0%,rgb(255, 165, 117) 100%);
+				border-radius:105rpx;
 				font-weight: 700;
 				padding: 30rpx;
 				color: rgb(255, 255, 255);
 				text-align: center;
 				margin: 0 40rpx
 			}
+			.green{
+				background: linear-gradient(180.00deg, rgb(51, 222, 114),rgb(5, 195, 146) 98.871%);
+			}
+			.blue{
+				background: linear-gradient(135.00deg, rgb(0, 185, 255) 0%,rgb(125, 219, 255) 100%);
+			}
 		}
-
 		.conentRule,
-		.fotterRule {
+		.fotterRule{
 			background: rgb(255, 255, 255);
-			border: 2px solid rgb(229, 192, 159);
 			border-radius: 16px;
 			display: flex;
 			justify-content: center;
 			align-items: center;
 			flex-direction: column;
 		}
-
-		.conentRule {
+		.conentRule{
 			margin: 40rpx 0;
-
-			.conentTopRule {
+			border: 2px solid rgba(10, 198, 142, 0.4);
+			.conentTopRule{
 				height: 26px;
-				background: linear-gradient(135.00deg, rgb(255, 107, 29) 9.104%, rgb(255, 187, 131) 89.786%);
-				border-radius: 0px 0px 6px 6px;
+				background: linear-gradient(135.00deg, rgb(255, 107, 29) 9.104%,rgb(255, 187, 131) 89.786%);
+				border-radius:0px 0px 6px 6px;
 				display: flex;
 				align-items: center;
 				padding: 10rpx 20rpx;
@@ -4862,62 +4901,54 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				font-weight: 500;
 				text-align: center;
 			}
-
-			.conentBottomRule {
+			.green{
+				background: linear-gradient(180.00deg, rgb(51, 222, 114),rgb(5, 195, 146) 98.871%);
+			}
+			.conentBottomRule{
 				box-sizing: border-box;
 				padding: 40rpx;
 				color: rgb(102, 102, 102);
 				text-align: left;
 			}
 		}
-
-		.fotterRule {
+		.fotterRule{
 			margin: 40rpx 0;
-
-			.fotterTopRule {
-				background: linear-gradient(225.00deg, rgb(255, 36, 74) 3.817%, rgb(254, 80, 45) 100%);
+			.fotterTopRule{
+				background: linear-gradient(225.00deg, rgb(255, 36, 74) 3.817%,rgb(254, 80, 45) 100%);
 				opacity: 0.8;
-				border-radius: 16px 16px 0px 0px;
+				border-radius:16px 16px 0px 0px;
 				width: 100%;
 				text-align: center;
-				padding: 30rpx 40rpx;
+				padding:30rpx 40rpx ;
 				box-sizing: border-box;
 				color: #fff;
 				font-size: 32rpx;
 				font-weight: 700;
 			}
-
-			.fotterBottomRule {
-				width: 600rpx;
-				padding: 80rpx;
-
-				image {
+			.fotterBottomRule{
+				width: 670rpx;
+				image{
 					width: 100%;
 					height: 100%;
 				}
 			}
 		}
-
-		.conentEnd {
+		.conentEnd{
 			color: rgb(102, 102, 102);
 			font-size: 12px;
 			margin: 20rpx 0;
 			text-align: left;
 		}
-
-		.LimitedImag {
-			width: 100%;
+		.LimitedImag{
+			width: 670rpx;
 			display: flex;
 			align-items: center;
 			justify-content: center;
 			margin: 80rpx 0;
-
-			image {
+			image{
 				width: 100%;
-				transform: scale(1.15);
 			}
 		}
-
 		.KindTips {
 			background: rgb(243, 243, 243);
 			border-radius: 10px;
