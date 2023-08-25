@@ -1,25 +1,25 @@
 <template>
 	<view class="bind-page">
-		
+
 		<view style="height: 24rpx;"></view>
 		<view class="tips">
 			<span>*Tips</span>: For the security of your account funds, bind your bank card Only limited to bank card
 			accounts corresponding to real-name authentication
 		</view>
-		
+
 		<view class="bind-box">
 			<view class="li">
-				<view class="label">{{$t('user.bank.yhzh')}}</view>
+				<view class="label"><text>*</text>{{$t('user.bank.yhzh')}}</view>
 				<input class="input" placeholder-class="color-999" v-model="account"
 					:placeholder="$t('user.bank.qsryhkh')" />
 			</view>
 			<view class="li">
-				<view class="label">{{$t('user.bank.khyh')}}</view>
+				<view class="label"><text>*</text>{{$t('user.bank.khyh')}}</view>
 				<input class="input" placeholder-class="color-999" v-model="bank_name"
 					:placeholder="$t('user.bank.qsrkhyh')" />
 			</view>
 			<view class="li">
-				<view class="label">{{$t('user.bank.ckr')}}</view>
+				<view class="label"><text>*</text>{{$t('user.bank.ckr')}}</view>
 				<input class="input" placeholder-class="color-999" v-model="name"
 					:placeholder="$t('user.bank.qsrckrxm')" />
 			</view>
@@ -39,7 +39,9 @@
 
 		<view class="card-btn">
 			<button class="public-btn" style="background: rgb(10, 198, 142);"
-				@click.stop="$noMultipleClicks(onMineAddBankCard)">{{$t('user.bank.qrbd')}}</button>
+				@click.stop="$noMultipleClicks(onMineAddBankCard)" v-show="!edit">{{$t('user.bank.qrbd')}}</button>
+			<button class="public-btn" style="background: rgb(10, 198, 142);"
+				@click.stop="$noMultipleClicks(onMineUpdateBank)" v-show="edit">{{$t('user.phone.qrxg')}}</button>
 		</view>
 
 	</view>
@@ -55,6 +57,19 @@
 				name: '', // 姓名
 				swift_code: '', // 国际代码
 				username: '', // 实名信息
+				id: 0,
+				edit: false
+			}
+		},
+		onLoad(e) {
+			if (e.data) {
+				let data = JSON.parse(e.data)
+				this.swift_code = data.swift_code
+				this.account = data.account
+				this.name = data.name
+				this.bank_name = data.bank_name
+				this.edit = true
+				this.id = data.id
 			}
 		},
 		onShow() {
@@ -66,6 +81,44 @@
 			})
 		},
 		methods: {
+			onMineUpdateBank() {
+				if (!this.account) return uni.showToast({
+					title: this.$t('user.bank.qsryhkh'),
+					icon: 'none'
+				})
+				if (!this.bank_name) return uni.showToast({
+					title: this.$t('user.bank.qsrkhyh'),
+					icon: 'none'
+				})
+				if (!this.name) return uni.showToast({
+					title: this.$t('user.bank.qsrckrxm'),
+					icon: 'none'
+				})
+				if (this.username != this.name) return uni.showToast({
+					title: this.$t('usernames'),
+					icon: 'none'
+				})
+				this.$http.post(this.$apiObj.MineUpdateBank, {
+					user_bank_id: this.id,
+					account: this.account,
+					bank_name: this.bank_name,
+					name: this.name,
+					swift_code: this.swift_code
+				}).then(res => {
+					if (res.code == 1) {
+						uni.showToast({
+							title: this.$t('mine.send_setting'),
+							icon: 'none',
+							duration: 3000,
+							success: () => {
+								setTimeout(() => {
+									uni.navigateBack()
+								}, 2000)
+							}
+						})
+					}
+				})
+			},
 			onMineAddBankCard() {
 				if (!this.account) return uni.showToast({
 					title: this.$t('user.bank.qsryhkh'),
@@ -118,20 +171,20 @@
 		width: 100%;
 		min-height: 100vh;
 		background: rgb(248, 248, 248);
-		
-		.tips{
+
+		.tips {
 			width: 686rpx;
 			line-height: 36rpx;
 			font-size: 24rpx;
 			color: rgb(153, 153, 153);
 			word-break: break-all;
 			margin: 0 auto 24rpx auto;
-			
-			span{
+
+			span {
 				color: rgb(255, 57, 57);
 			}
 		}
-		
+
 		.bind-box {
 			width: 686rpx;
 			background: #fff;
@@ -145,11 +198,18 @@
 				border-bottom: 1px solid #f5f5f5;
 				padding: 30rpx 0;
 				font-size: 28rpx;
-				
-				.label{
+
+				.label {
 					max-width: 200rpx;
 					word-break: break-all;
 					margin-left: 32rpx;
+					display: flex;
+					align-items: center;
+
+					text {
+						color: #ff3939;
+						margin-top: 10rpx;
+					}
 				}
 
 				.input {
@@ -173,11 +233,11 @@
 				}
 			}
 		}
-		
+
 		.card-btn {
 			width: 686rpx;
 			margin: 80rpx auto;
 		}
-		
+
 	}
 </style>

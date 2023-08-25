@@ -47,7 +47,7 @@
 				<view class="info-price">{{kdiamond*1 || 0}}</view>
 				<image class="diaClass" src="/static/images/new-index/diamond.png" mode="widthFix"></image>
 			</view>
-			<view class="aaaaaaaaaaaaaa">
+			<view>
 				<!-- 1 -->
 				<view class="info" @click="navClick('/pages/mine/points-detail')"
 					style="background: url('/static/images/new-index/wallet_jf.png') no-repeat;background-size: 332rpx 110rpx;margin: 0 6rpx 12rpx 6rpx;">
@@ -85,14 +85,31 @@
 				<template v-if="MoneyList.length > 0">
 					<view class="commission-item" v-for="(item,i) in MoneyList">
 						<view class="ci-left">
-							<!-- <view class="ci-left-icon">
-								<image v-if="(item.money*1) > 0" src="@/static/images/mine/wallet_icon_income.png" mode="widthFix"></image>
-								<image v-else src="@/static/images/mine/wallet_icon_expenditure.png" mode="widthFix">
-								</image>
-							</view> -->
 							<view class="ci-left-info">
-								<view class="info-tit">{{isShopCont ?item.memo_en : item.memo}}</view>
-								<view class="info-time">{{$filter.to_date_time(item.addtime)}}</view>
+								<view class="info-tit">
+									<view>{{isShopCont ?item.memo_en : item.memo}}</view>
+									<text style="color: rgb(255, 57, 57);border: 2rpx solid rgb(255, 57, 57);"
+										v-show="item.money_type == 2">{{$t('mine.Bonus')}}</text>
+								</view>
+								<view class="info-time">
+									<view>{{$t('wallet.get_time')}}</view>
+									<text>{{$filter.to_date_time(item.addtime)}}</text>
+								</view>
+
+								<view class="info-time"
+									@click="navClick('/pages/mine/auctionDetail?orderNo='+item.order_no)"
+									v-if="item.order_type == 2 && item.order_no">
+									<view>{{$t('user.order.detail.number')}}</view>
+									<text>{{item.order_no}}</text>
+									<image src="/static/images/mine/wallet_right.png"></image>
+								</view>
+								<view class="info-time"
+									@click="navClick('/pages/mine/order/orderDetail?id='+item.order_no)"
+									v-else-if="item.order_type == 1 && item.order_no">
+									<view>{{$t('user.order.detail.number')}}</view>
+									<text>{{item.order_no}}</text>
+									<image src="/static/images/mine/wallet_right.png"></image>
+								</view>
 							</view>
 						</view>
 						<view class="ci-right" :style="(item.money*1) > 0?'color: rgb(255, 57, 57);':''">
@@ -109,15 +126,26 @@
 				<template v-if="MoneyList.length > 0">
 					<view class="commission-item" v-for="(item,i) in MoneyList">
 						<view class="ci-left">
-							<!-- <view class="ci-left-icon">
-								<image v-if="(item.money*1) > 0" src="@/static/images/mine/wallet_icon_income.png"
-									mode="widthFix"></image>
-								<image v-else src="@/static/images/mine/wallet_icon_expenditure.png" mode="widthFix">
-								</image>
-							</view> -->
 							<view class="ci-left-info">
-								<view class="info-tit">{{isShopCont ?item.memo_en : item.memo}}</view>
-								<view class="info-time">{{$filter.to_date_time(item.addtime)}}</view>
+								<view class="info-tit">
+									<view>{{isShopCont ?item.memo_en : item.memo}}</view>
+									<text v-show="item.money_type == 2">{{$t('wallet.gift_kdiamond')}}</text>
+								</view>
+								<view class="info-time">
+									<view>{{$t('wallet.get_time')}}</view>
+									<text>{{$filter.to_date_time(item.addtime)}}</text>
+								</view>
+								<view class="info-time" v-show="item.expire_time">
+									<view>{{$t('wallet.out_time')}}</view>
+									<text>{{$filter.to_date_time(item.expire_time)}}</text>
+								</view>
+
+								<view class="info-time" v-show="item.order_no"
+									@click="navClick('/pages/mine/auctionDetail?orderNo='+item.order_no)">
+									<view>{{$t('user.order.detail.number')}}</view>
+									<text>{{item.order_no}}</text>
+									<image src="/static/images/mine/wallet_right.png"></image>
+								</view>
 							</view>
 						</view>
 						<view class="ci-right" :style="(item.money*1) > 0?'color: rgb(27, 161, 255);':''">
@@ -620,7 +648,7 @@
 			border-bottom: 1rpx solid rgb(204, 204, 204);
 			display: flex;
 			justify-content: space-between;
-			align-items: center;
+			align-items: flex-start;
 
 			.ci-left {
 				display: flex;
@@ -640,19 +668,53 @@
 					margin-left: 32rpx;
 
 					.info-tit {
-						max-width: 420rpx;
-						margin: 9rpx 0;
-						color: rgb(51, 51, 51);
-						font-size: 28rpx;
-						overflow: hidden;
-						text-overflow: ellipsis;
-						white-space: nowrap;
+						display: flex;
+						align-items: center;
+
+						view {
+							max-width: 420rpx;
+							margin: 9rpx 0;
+							color: rgb(51, 51, 51);
+							font-size: 28rpx;
+							overflow: hidden;
+							text-overflow: ellipsis;
+							white-space: nowrap;
+						}
+
+						text {
+							display: block;
+							font-size: 16rpx;
+							color: rgb(27, 161, 255);
+							padding: 2rpx 10rpx;
+							box-sizing: border-box;
+							border: 2rpx solid rgb(27, 161, 255);
+							border-radius: 28rpx;
+							margin-left: 24rpx;
+						}
 					}
 
 					.info-time {
 						margin: 9rpx 0;
 						color: rgb(153, 153, 153);
 						font-size: 24rpx;
+						display: flex;
+						align-items: flex-end;
+						margin-top: 20rpx;
+
+						view {
+							width: 190rpx;
+						}
+
+						image {
+							width: 24rpx;
+							height: 24rpx;
+							margin-left: 8rpx;
+						}
+
+						text {
+							color: rgb(51, 51, 51);
+							margin-left: 64rpx;
+						}
 					}
 				}
 			}
@@ -660,6 +722,7 @@
 			.ci-right {
 				font-size: 32rpx;
 				color: rgb(153, 153, 153);
+				margin-top: 10rpx;
 			}
 
 		}

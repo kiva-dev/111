@@ -943,27 +943,38 @@
 		<uni-popup ref="popup1" type="bottom">
 			<view class="mode-pop">
 				<image src="/static/images/close1.png" class="mode-close" @click="$refs.popup1.close()"></image>
+				<view class="mode-des">
+					{{$t('new.xyzf')}}
+				</view>
 				<view class="mode-tit">
-					<image src="/static/images/kbrick/diamond.png"></image>
-					<view v-if="!useInvite">{{shopNum}}</view>
-					<view v-else>
-						{{changShopNum.toFixed(2)}}
+					<image src="/static/images/kbrick/diamond.png" class="logo"></image>
+					<view class="num">{{shopNum}}</view>
+				</view>
+				<view class="mode-banlace"
+					v-show="(balance*1 <shopNum && !useInvite && !useKdiamondBonus) || (useInvite && !useKdiamondBonus && balance*1 < changShopNum*1) || (useKdiamondBonus && !useInvite && (shopNum - useKdiamondBonus) > balance) || (useInvite && useKdiamondBonus && (shopNum - (zenjinToRmNum + giftKdiamondBalance)) > balance )">
+					<view class="tit">{{$t('new.kzyebz')}}</view>
+					<view class="btn" @click="toRecharge()">
+						<view class="btn-tit">Purchase</view>
+						<image src="/static/images/kbrick/diamond.png" class="btn-diamond"></image>
+						<image src="/static/images/luck/luck-right.png" class="btn-right"></image>
 					</view>
 				</view>
-				<view class="mode-des">{{$t('new.xyzf')}}</view>
-				<view class="mode-banlace" v-show="balance*1 < shopNum">{{$t('new.kzyebz')}}</view>
+		
 				<view class="mode-info">
 					<image src="/static/images/kbrick/diamond.png" class="logo"></image>
+		
 					<view class="info-tit">
 						<view class="info-name">{{$t('new.kzzf')}}</view>
 						<view class="info-price">({{$t('new.kz')}}:<text>{{balance}}</text>)</view>
 					</view>
+		
 					<view class="mode-info-right" @click="showRmToKdiamond=!showRmToKdiamond">
 						<view>{{$t('new.dhfk')}}</view>
-						<image src="/static/images/kbrick/btm.png" v-show="!showRmToKdiamond"></image>
-						<image src="/static/images/kbrick/top.png" v-show="showRmToKdiamond"></image>
+						<image src="/static/images/kbrick/btm.png" class="top" v-show="!showRmToKdiamond"></image>
+						<image src="/static/images/kbrick/top.png" class="top" v-show="showRmToKdiamond"></image>
 					</view>
 				</view>
+		
 				<view class="mode-more" v-show="showRmToKdiamond">
 					<view class="tit">{{$t('new.jh')}}:</view>
 					<image src="/static/images/kbrick/diamond.png" class="logo"></image>
@@ -982,29 +993,82 @@
 						v-show="kdiamondSelect && (((shopNum*1 - balance*1) > 0 && money*1 >= shopNum*1) && !useInvite || (can_use_invite_money_rate>0 && money *1 >=useInviteRmNum && useInvite && balance*1 < shopNum*1 && useInviteRmNum>0))"
 						@click="kdiamondSelect=false"></image>
 				</view>
-
-				<view style="color: rgb(102, 102, 102);margin: 12rpx 0 0 100rpx;" v-if="useInvite">({{$t('new.zjkc')}}
-					{{zenjinToRmNum.toFixed(2)}}
-					{{$t('new.kz')}})
+		
+				<u-line style="width: 670rpx;margin: 32rpx auto 0 auto;"></u-line>
+		
+				<view class="mode-info" style="margin-top: 40rpx;">
+					<image src="/static/images/kbrick/diamond.png" class="logo"></image>
+		
+					<view class="info-tit">
+						<view class="info-name">({{$t('detail.pay_gift_diamond')}}: {{giftKdiamondBalance}})</view>
+					</view>
+		
+					<view class="bonus_price" v-show="useKdiamondBonus">
+						- {{ useInvite ? giftKdiamondBalance >= shopNum - zenjinToRmNum ? (shopNum - zenjinToRmNum).toFixed(2) : 
+						giftKdiamondBalance : giftKdiamondBalance >= shopNum ? shopNum : giftKdiamondBalance }}
+					</view>
+		
+					<view class="mode-info-right" v-show="giftKdiamondBalance*1 > 0">
+						<image src="/static/images/new-index/wxz.png" class="use" v-show="!useKdiamondBonus"
+							@click="useKdiamondBonus=!useKdiamondBonus">
+						</image>
+						<image src="/static/images/new-index/xz.png" class="use" v-show="useKdiamondBonus"
+							@click="useKdiamondBonus=!useKdiamondBonus">
+						</image>
+					</view>
 				</view>
-
-				<view class="mode-cz" v-if="balance*1 < shopNum*1">
-					<view @click="toRecharge()">{{$t('new.qcz')}}</view>
-					<image src="/static/images/kbrick/right.png"></image>
+		
+				<view class="mode-info" style="margin-top: 40rpx;" v-if="can_use_invite_money_rate*1 > 0">
+					<image src="/static/images/mine/yonjin.webp" class="logo"></image>
+		
+					<view class="info-tit">
+						<view class="info-name">{{$t('product_info.bonus')}} ({{can_use_invite_money_rate}}%)</view>
+						<view class="info-price">({{$t('mine.Bonus')}}:<text>{{invite_money_balance}}</text>)</view>
+					</view>
+		
+					<view class="bonus_price" v-show="useInvite">- {{(shopNum*1 - changShopNum*1).toFixed(2)}}</view>
+		
+					<view class="mode-info-right" v-if="invite_money_balance*1 > 0">
+						<image src="/static/images/new-index/wxz.png" class="use" v-show="!useInvite"
+							@click="useInvite=!useInvite">
+						</image>
+						<image src="/static/images/new-index/xz.png" class="use" v-show="useInvite"
+							@click="useInvite=!useInvite">
+						</image>
+					</view>
 				</view>
-
-				<view class="mode-switch" v-if="can_use_invite_money_rate>0">
-					<image src="/static/images/new-index/wxz.png" v-show="!useInvite" @click="useInvite=!useInvite">
-					</image>
-					<image src="/static/images/new-index/xz.png" v-show="useInvite" @click="useInvite=!useInvite">
-					</image>
-					<view>({{$t('new.zjkc')}} {{can_use_invite_money_rate}}% {{$t('new.kz')}})</view>
+		
+				<view class="mode-switch"></view>
+		
+				<view class="mode-bonus" v-show="useInvite || useKdiamondBonus">
+					{{isEnglish ? 'Total deduction' : '扣除金额合计'}}
+					<image src="/static/images/kbrick/diamond.png"></image>
+					<text style="font-weight: bold;">
+						{{(useKdiamondBonus && !useInvite) ? (giftKdiamondBalance * 1 >= shopNum * 1 ? shopNum :
+						giftKdiamondBalance * 1) : (useInvite && useKdiamondBonus ? (zenjinToRmNum >= shopNum ?
+						shopNum : (giftKdiamondBalance * 1 + zenjinToRmNum * 1) >= shopNum ? shopNum : (
+						(giftKdiamondBalance * 1 + zenjinToRmNum * 1)).toFixed(2)) :
+						zenjinToRmNum * 1 == shopNum ? shopNum : zenjinToRmNum)}}
+					</text>
 				</view>
-				<view class="mode-switch" v-else></view>
-				<view class="mode-btn" @click.stop="$noMultipleClicks(onPayClick)">{{$t('new.payment')}}</view>
+		
+				<view class="mode-btn" @click.stop="$noMultipleClicks(onPayClick)">{{$t('new.payment')}}
+					<image src="/static/images/kbrick/diamond.png"></image>
+					<text v-show="useInvite && !useKdiamondBonus">
+						{{(shopNum - zenjinToRmNum).toFixed(2)}}
+					</text>
+					<text v-show="!useInvite && useKdiamondBonus">
+						{{giftKdiamondBalance >= shopNum ? 0 : (shopNum - giftKdiamondBalance).toFixed(2)}}
+					</text>
+					<text v-show="useInvite && useKdiamondBonus">
+						{{(giftKdiamondBalance + zenjinToRmNum) >= shopNum ? 0 : (shopNum - (giftKdiamondBalance+zenjinToRmNum)).toFixed(2)}}
+					</text>
+					<text v-show="!useInvite && !useKdiamondBonus">{{(shopNum*1).toFixed(2)}}</text>
+				</view>
 			</view>
 		</uni-popup>
 		<!--支付方式弹出 end-->
+		
 
 		<!--支付密码弹出 start-->
 		<uni-popup ref="pwdsPopup" type="center">
@@ -1184,6 +1248,7 @@
 				timer: '', //记录定时器状态
 				imgShow: true, //三个图标入口
 				useInvite: false, //是否使用赠金
+				useKdiamondBonus: false, //是否使用k钻赠金
 				rmtoKdiamondNum: 0,
 				useInviteRmNum: 0, //勾选使用赠金后rm可用数量
 				can_use_invite_money_rate: 0, //可使用的增金比例
@@ -1245,6 +1310,7 @@
 				pay_pwd: '', // 支付密码
 				money: '', // 总金额
 				balance: '', //k钻余额
+				giftKdiamondBalance: '', //K钻赠送余额
 				noClick: true, // 防止重复点击 
 				dateTimePickerShow: false,
 				// 年列表
@@ -1863,6 +1929,7 @@
 				that.kdiamondSelect = false
 				that.showRmToKdiamond = false
 				this.selectProtocol = false
+				this.useKdiamondBonus = false
 
 				that.orderPayList.forEach(item => {
 					item.isShow = false
@@ -1875,7 +1942,8 @@
 						this.can_use_invite_money_rate = res.data.can_use_invite_money_rate
 						this.money = res.data.recharge_money_balance
 						this.balance = res.data.k_diamond_wallet
-						// this.auction_num = res.data.auction_num
+						this.giftKdiamondBalance = res.data.temporary_k_diamond_wallet
+						
 						this.auction_num = (e.auction_type == 2 && e.total_least_num == 0) ? res.data.auction_num :
 							(res.data.auction_num === -1) ? e.total_least_num : (res.data.auction_num < e
 								.total_least_num) ? res.data.auction_num : e.total_least_num
@@ -2135,7 +2203,8 @@
 					is_use_recharge: 2,
 					is_use_invite: this.useInvite ? 1 : 2,
 					is_use_k_diamond: 1,
-					is_balance_convert_k_diamond: this.kdiamondSelect ? 1 : 2
+					is_balance_convert_k_diamond: this.kdiamondSelect ? 1 : 2,
+					is_use_temporary_k_diamond: this.useKdiamondBonus ? 1 : 2
 				}).then(res => {
 					if (res.code == 1) {
 						this.isShowAegin = this.auction_num > this.isauctionNum
@@ -4113,7 +4182,7 @@
 			left: 0;
 			bottom: 0;
 			width: 100%;
-			padding-top: 88rpx;
+			padding-top: 60rpx;
 			padding-bottom: 24rpx;
 
 			.mode-close {
@@ -4125,28 +4194,31 @@
 			}
 
 			.mode-tit {
+				width: 670rpx;
 				display: flex;
 				align-items: center;
-				justify-content: center;
+				// justify-content: center;
+				margin: 8rpx auto 0 auto;
 
-				image {
+				.logo {
 					width: 40rpx;
 					height: 40rpx;
 					margin-right: 20rpx;
 				}
 
-				view {
+				.num {
 					font-size: 56rpx;
 					font-weight: bold;
 					color: rgb(51, 51, 51);
 				}
+
 			}
 
 			.mode-des {
 				width: 100%;
 				font-size: 28rpx;
-				color: rgb(153, 153, 153);
-				text-align: center;
+				color: rgb(102, 102, 102);
+				margin-left: 40rpx;
 				margin-top: 24rpx;
 			}
 
@@ -4154,8 +4226,43 @@
 				width: 100%;
 				font-size: 28rpx;
 				color: rgb(255, 57, 57);
-				text-align: center;
+				display: flex;
+				align-items: flex-end;
 				margin-top: 12rpx;
+
+				.tit {
+					margin-left: 40rpx;
+				}
+
+				.btn {
+					position: absolute;
+					right: 32rpx;
+					width: 206rpx;
+					height: 64rpx;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					background: rgb(10, 198, 142);
+					border-radius: 64rpx;
+
+					.btn-tit {
+						font-size: 24rpx;
+						color: rgb(255, 255, 255);
+					}
+
+					.btn-diamond {
+						display: block;
+						width: 32rpx;
+						height: 32rpx;
+						margin: 0 12rpx 0 8rpx;
+					}
+
+					.btn-right {
+						width: 24rpx;
+						height: 24rpx;
+					}
+
+				}
 			}
 
 			.mode-info {
@@ -4190,6 +4297,13 @@
 					}
 				}
 
+				.bonus_price {
+					position: absolute;
+					right: 96rpx;
+					font-size: 24rpx;
+					color: rgb(10, 198, 142);
+				}
+
 				.mode-info-right {
 					position: absolute;
 					right: 40rpx;
@@ -4198,11 +4312,17 @@
 					display: flex;
 					align-items: center;
 
-					image {
+					.top {
 						width: 24rpx;
 						height: 24rpx;
 						margin-left: 8rpx;
 					}
+
+					.use {
+						width: 36rpx;
+						height: 36rpx;
+					}
+
 				}
 
 				.select {
@@ -4236,6 +4356,13 @@
 					font-size: 28rpx;
 					color: rgb(102, 102, 102);
 					margin-left: 8rpx;
+				}
+
+				.bonus_price {
+					position: absolute;
+					right: 96rpx;
+					font-size: 24rpx;
+					color: rgb(10, 198, 142);
 				}
 
 				.price {
@@ -4273,7 +4400,7 @@
 				color: rgb(102, 102, 102);
 				display: flex;
 				align-items: center;
-				margin-top: 240rpx;
+				margin-top: 200rpx;
 
 				image {
 					display: block;
@@ -4283,19 +4410,44 @@
 				}
 			}
 
+			.mode-bonus {
+				font-size: 28rpx;
+				color: rgb(51, 51, 51);
+				display: flex;
+				align-items: center;
+				margin-left: 40rpx;
+
+				image {
+					display: block;
+					width: 32rpx;
+					height: 32rpx;
+					margin: 0 4rpx;
+				}
+			}
+
 			.mode-btn {
 				width: 686rpx;
 				height: 88rpx;
 				line-height: 88rpx;
-				font-size: 40rpx;
+				font-size: 36rpx;
 				color: rgb(255, 255, 255);
 				text-align: center;
+				display: flex;
+				align-items: center;
+				justify-content: center;
 				background: rgb(10, 198, 142);
 				border-radius: 88rpx;
 				margin: 24rpx auto;
+
+				image {
+					display: block;
+					width: 32rpx;
+					height: 32rpx;
+					margin: 0 4rpx;
+				}
+
 			}
 		}
-
 		// 支付密码弹出 支付成功弹出
 		.pay-pwd {
 			position: relative;

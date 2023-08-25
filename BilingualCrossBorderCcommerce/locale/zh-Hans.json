@@ -1612,7 +1612,9 @@
 	"mine.real_need_bind_phone":"实名认证前需绑定手机号码",
 	"mine.bind_phone_success":"手机号绑定成功",
 	"mine.current_version_tip":"当前已是最新版，无需更新",
-	
+	"mine.invite_friend":"邀请朋友",
+	"mine.cash_reward":"现金奖励",
+	"mine.send_setting":"已提交系统审核",
 	
 	"product_info.soldout":"售完",
 	"detail.success":"必中率",
@@ -1659,6 +1661,7 @@
 	"detail.all_luck_start":"累计幸运之星数",
 	"detail.luck_start_by":"幸运之星人均下单次数",
 	"detail.recharge_price_not":"充值余额不足",
+	"detail.pay_gift_diamond":"赠送K钻",
 	
 	"bonus.gifts":"新人有好礼物",
 	"bonus.snhl":"送你一份礼物",
@@ -1695,7 +1698,6 @@
 	"rule.ReminderConent":"我们致力于为您提供公平、有趣的许愿活动体验，如果您有任何疑问，请随时联系我们的客服团队，我们将全力为您解答！",
 	"rule.note":"注意：KOLIBRI MALL保留对活动规则的最终解释权。",
 
-
 	"Global.NewVersion":"发现新版本",
 	"Global.VersionContent":"更新内容:",
 
@@ -1703,10 +1705,31 @@
 	"kIntroduction.VersionContent":"update content:",
 	"k_icon_what":"K币是什么？",
 
-
 	"comment.all_comment":"全部",
 	"comment.images_comment":"有图",
 	"comment.featured_comment":"中拍评论",
 	"comment.sharingBtn":"发布",
-	"comment.Btn":"发布评论"
+	"comment.Btn":"发布评论",
+	
+	"wallet.get_time":"获得时间",
+	"wallet.out_time":"过期时间",
+	"wallet.gift_kdiamond":"赠送K钻",
+	
+	"invite.num":"我的邀请人数",
+	"invite.under_way":"进行中",
+	"invite.view_rule":"查看规则",
+	"invite.current_status":"当前状态",
+	"invite.rule_ms":"福利描述",
+	"invite.rule_invite_reward":"邀请奖励",
+	"invite.rule_success":"对于每一位成功邀请的用户，您将收到",
+	"invite.rule_cash_reward":"现金奖励",
+	"incite.rule_invite_user":"受邀用户奖励",
+	"invite.rule_user_will":"受邀用户将获得",
+	"invite.rule_k_coins":"平台K币",
+	"invite.rule_activity_time":"活动时间",
+	"invite.rule_event":"活动规则",
+	"invite.rule1":"活动期限：立即生效，持续一个月。",
+	"invite.rule2_1":"邀请奖励：每成功邀请一位用户，您将获得",
+	"invite.rule3":"邀请要求：每位受邀用户必须填写完整身份信息验证，包括上传真实身份证件照片并链接个人银行帐户。",
+	"invite.rule4":"奖励提取：审核通过后，可直接提取现金奖励到您的银行帐户。"
 }

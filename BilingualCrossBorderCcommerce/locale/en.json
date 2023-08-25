@@ -1620,6 +1620,9 @@
 	"mine.bind_phone":"Bind phone number",
 	"mine.real_need_bind_phone":"Mobile phone number needs to be bound before real name authentication",
 	"mine.bind_phone_success":"The mobile phone number is bound successfully",
+	"mine.invite_friend":"Invite Friends",
+	"mine.cash_reward":"Cash Reward",
+	"mine.send_setting":"Submitted for system review",
 	
 	"product_info.soldout":"SOLD OUT",
 	
@@ -1664,6 +1667,7 @@
 	"detail.all_luck_start":"Cumulative Number Of Lucky Stars",
 	"detail.luck_start_by":"Average Number Of Orders Placed By Lucky Star",
 	"detail.recharge_price_not":"Insufficient recharge balance",
+	"detail.pay_gift_diamond":"Gift K-Diamonds",
 	
 	"bonus.gifts":"Newcomers have good gifts",
 	"bonus.snhl":"Send you a gift",
@@ -1698,7 +1702,7 @@
 	"rule.announcedLuckyCode":"After the wishing period ends, the wishing results and lucky codes will be announced. You can check in 'Me - Lucky Records' to see if you have won. If you win, you can choose the method to claim your wishing prize in the Lucky Records section.",
 	"rule.limitedTime":"Limited-Time Wishing Rules",
 	"rule.quotaRuleContent":"Within the specified timeframe, each cumulative wish reaching a certain quantity will generate a lucky star. If the cumulative amount of K-Diamonds reaches the previous activation value but is insufficient to trigger the next activation, we will refund the later participating users in order of participation.",
-	"rule.limitedTimeClose":"Time-Limited Wish Pool' refers to a scenario in which a merchant allows multiple individuals to make wishes for the same item within a specified timeframe, resulting in the creation of multiple Lucky Stars. (See the example diagram on the next page). The trigger for the end of 'Time-Limited Wish Pool' is based on the effective duration. It ends when the allocated time is up, and all the Lucky Stars are unveiled at once. If the merchant specifies 3 Lucky Stars, it's also possible to closing campaign with the full amount of subscriptions before the effective time ends, thus concluding early and revealing the Lucky Stars. If the merchant doesn't specify the number of Lucky Stars, the actual number of Lucky Stars that can be select will primarily depend on the transaction volume achieved within the effective time after it expires. This number is not determined in advance. For instance, if 100 diamonds are transacted within the effective time at a price of 5 diamonds, 20 Lucky Stars can be selected. If 1000 diamonds are transacted, then 200 Lucky Stars can be selected.",
+	"rule.limitedTimeClose":"Time-Limited Wish Pool'refers to a scenario in which a merchant allows multiple individuals to make wishes for the same item within a specified timeframe, resulting in the creation of multiple Lucky Stars. (See the example diagram on the next page). The trigger for the end of 'Time-Limited Wish Pool' is based on the effective duration. It ends when the allocated time is up, and all the Lucky Stars are unveiled at once. If the merchant specifies 3 Lucky Stars, it's also possible to closing campaign with the full amount of subscriptions before the effective time ends, thus concluding early and revealing the Lucky Stars. If the merchant doesn't specify the number of Lucky Stars, the actual number of Lucky Stars that can be select will primarily depend on the transaction volume achieved within the effective time after it expires. This number is not determined in advance. For instance, if 100 diamonds are transacted within the effective time at a price of 5 diamonds, 20 Lucky Stars can be selected. If 1000 diamonds are transacted, then 200 Lucky Stars can be selected.",
 	"rule.principle":"Implementation principle",
 	"rule.Reminder":"Friendly Reminder:",
 	"rule.ReminderConent":"We are committed to providing you with a fair and enjoyable wishing activity experience. If you have any questions, please feel free to contact our customer service team, and we will do our utmost to assist you.",
@@ -1711,11 +1715,32 @@
 	"kIntroduction.VersionContent":"update content:",
 	"k_icon_what":"What is K coin?",
 
-
 	"comment.all_comment":"All",
 	"comment.images_comment":"Picture",
 	"comment.featured_comment":"Selected comments",
 	"comment.sharingBtn":"Issue",
-	"comment.Btn":"Post comments"
+	"comment.Btn":"Post comments",
 	
+	"wallet.get_time":"Occurrence Time",
+	"wallet.out_time":"Period of validity",
+	"wallet.gift_kdiamond":"Gift of K-Diamonds",
+	
+	"invite.num":"My invitation peoples",
+	"invite.under_way":"Under way",
+	"invite.view_rule":"View Rules",
+	"invite.current_status":"Current status",
+	"invite.rule_ms":"Benefit Description",
+	"invite.rule_invite_reward":"Invitation Rewards",
+	"invite.rule_success":"For every successfully invited user, you will receive",
+	"invite.rule_cash_reward":"in cash rewards.",
+	"incite.rule_invite_user":"Invited User Rewards",
+	"invite.rule_user_will":"Invited users will receive",
+	"invite.rule_k_coins":"platform K Coins.",
+	"invite.rule_activity_time":"Activity time",
+	"invite.rule_event":"Event Rules",
+	"invite.rule1":"Event Period : It will take effect immediately and last for one month.",
+	"invite.rule2_1":"Invitation Rewards: For every successfully invited user, you will receive",
+	"invite.rule3":"Invitation Requirements : Each invited user must complete identity verification, including uploading real ID documentations's photos and linking a personal bank account.",
+	"invite.rule4":"Reward Withdrawal : Once approved, you can directly withdraw the cash rewards to your bank account."
+
 }
