@@ -9,8 +9,9 @@
 
 			<view class="kbrick-info">
 				<view class="info-name">{{$t('new.wdkz')}}</view>
-				<view class="info-num">{{(balance*1).toFixed(2)}}</view>
-				<!-- <view class="info-bonus">(Included 12 gift diamond)</view> -->
+				<view class="info-num">{{(balance*1 + giftBalance*1).toFixed(2)}}</view>
+				<view class="info-bonus" v-show="isShopCont">(Included {{giftBalance}} gift K-Diamonds)</view>
+				<view class="info-bonus" v-show="!isShopCont">(包含 {{giftBalance}} 赠送K钻)</view>
 				<image src="/static/images/kbrick/diamond.png"></image>
 			</view>
 
@@ -123,6 +124,7 @@
 		data() {
 			return {
 				balance: 0,
+				giftBalance:0,
 				select: 1,
 				payNum: '',
 				selectPayNum: false,
@@ -146,6 +148,7 @@
 			this.$http.post(this.$apiObj.MineInfo).then(res => {
 				this.balance = res.data.k_diamond_wallet
 				this.phone = res.data.mobile
+				this.giftBalance = res.data.temporary_k_diamond_wallet
 			})
 
 			this.$http.post(this.$apiObj.MineAuthDetail).then(res => {

@@ -212,7 +212,7 @@
 					align-items: center;
 					
 					view {
-						max-width: 420rpx;
+						max-width: 260rpx;
 						margin: 9rpx 0;
 						color: rgb(51, 51, 51);
 						font-size: 28rpx;
