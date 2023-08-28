@@ -90,7 +90,6 @@
 					order_no: id,
 					token: uni.getStorageSync('token'),
 				}).then((res) => {
-					console.log(res);
 					if (res.code === 1) {
 						this.auctionInfo = res.data;
 					}
@@ -178,6 +177,11 @@
 							color: rgb(51, 51, 51);
 							font-size: 24rpx;
 							line-height: 36rpx;
+							overflow: hidden;
+							text-overflow: ellipsis;
+							display: -webkit-box;
+							-webkit-box-orient: vertical;
+							-webkit-line-clamp: 4;
 						}
 
 						.box-detail {
