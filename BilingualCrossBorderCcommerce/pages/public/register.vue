@@ -610,6 +610,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							token: res.data.im_tourists_token,
 							auth_token: res.data.auth_token
 						});
+						
+						uni.removeStorageSync('BellCode')
 
 						this.ws.init(res.data.im_tourists_token, res.data.auth_token)
 
@@ -677,6 +679,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							auth_token: res.data.auth_token
 						});
 						uni.setStorageSync('token', res.data.token)
+						
+						uni.removeStorageSync('BellCode')
 
 						this.ws.init(res.data.im_tourists_token, res.data.auth_token)
 

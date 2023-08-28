@@ -182,7 +182,7 @@
 				navId: 2,
 				totalJf: 0,
 				kdiamond: 0,
-				kCoinWallet:0,
+				kCoinWallet: 0,
 				isShopCont: false
 			}
 		},
@@ -247,8 +247,8 @@
 				let isShopCont = uni.getStorageSync('locale') == 'en' ? true : false // 中文还是英文
 
 				this.$http.post(this.$apiObj.diamondDetail, {
-					page: 1,
-					pagenum: 20
+					page: this.page,
+					pagenum: this.pagenum
 				}).then(res => {
 					this.totalPageNum = res.data.total
 					this.MoneyList = this.page == 1 ? res.data.data : [...this.MoneyList, ...res.data.data]
@@ -277,7 +277,12 @@
 			// 判断是否还有数据
 			if (this.totalPageNum <= this.page * this.pagenum) return
 			this.page++
-			this.onMineMoneyList()
+			if (this.navId == 2) {
+				this.getAllList()
+			}else{
+				this.onMineMoneyList()
+			}
+
 		}
 	}
 </script>
@@ -432,6 +437,7 @@
 			display: flex;
 			align-items: center;
 			justify-content: center;
+
 			.info {
 				width: 332rpx;
 				height: 110rpx;
@@ -465,7 +471,8 @@
 				}
 
 			}
-			.diamond{
+
+			.diamond {
 				position: relative;
 				width: 332rpx;
 				height: 220rpx;
@@ -473,7 +480,8 @@
 				background-size: cover;
 				overflow: hidden;
 				border-radius: 40rpx;
-				.diaClass{
+
+				.diaClass {
 					width: 135rpx;
 					position: absolute;
 					bottom: 5%;

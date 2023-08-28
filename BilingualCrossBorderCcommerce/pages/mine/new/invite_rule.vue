@@ -32,7 +32,7 @@
 			<view class="tit">{{$t('invite.rule_event')}}</view>
 			<view class="rules_info">
 				<view class="info_key">1</view>
-				<view class="info_value">{{$t('invite.rule1')}}</view>
+				<view class="info_value">{{$t('invite.rule1')}} {{$u.timeFormat(startTime, 'yyyy.mm.dd')}} - {{$u.timeFormat(endTime, 'yyyy.mm.dd')}}</view>
 			</view>
 
 			<view class="rules_info">
@@ -116,7 +116,7 @@
 				qrcodeImg: '',
 				lange: '',
 				userCont: {},
-				isShopCont: false, // ÖÐÎÄ»¹ÊÇÓ¢ÎÄ
+				isShopCont: false, // ï¿½ï¿½ï¿½Ä»ï¿½ï¿½ï¿½Ó¢ï¿½ï¿½
 				info: {},
 				startTime:'',
 				endTime:'',
@@ -131,18 +131,18 @@
 			}).then(res => {
 				this.info = res.data
 			})
-			// »ñÈ¡¸öÈËÐÅÏ¢
+			// ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
 			this.$http.post(this.$apiObj.MineInfo).then(res => {
 				if (res.code == 1) {
 					this.userCont = res.data
 					this.code = res.data.invite_code
 					this.qrUrl = this.$baseUrl + 'pages/mine/new/new-register?invite_code=' + res.data
-						.invite_code // Éú³É¶þÎ¬ÂëµÄÁ´½Ó
+						.invite_code // ï¿½ï¿½ï¿½É¶ï¿½Î¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 					this.createQrcode()
 				}
 			})
 
-			// ÒþË½Ð­ÒéµÈ
+			// ï¿½ï¿½Ë½Ð­ï¿½ï¿½ï¿½
 			this.$http.post(this.$apiObj.IndexSetting, {
 				fields: 'gift_balance_invitation_event_activity_money_withdraw,activity_user_register_gift_k_coin,gift_balance_invitation_event_start_time,gift_balance_invitation_event_end_time'
 			}).then(res => {
@@ -158,25 +158,20 @@
 			capture() {
 				this.showyq = true
 				let that = this
-				// »ñÈ¡APPµÄËùÓÐÒ³ÃæÁÐ±í
 				const pages = getCurrentPages();
 			
-				// »ñÈ¡µ½µ±Ç°Ò³Ãæ
 				const page = pages[pages.length - 1];
 				try {
 					const currentWebview = page.$getAppWebview();
 					let bitmap = new plus.nativeObj.Bitmap('amway_img');
-					// ½«webviewÄÚÈÝ»æÖÆµ½Bitmap¶ÔÏóÖÐ
 					setTimeout(() => {
 						currentWebview.draw(bitmap, function() {
-							console.log('½ØÆÁ»æÖÆÍ¼Æ¬³É¹¦');
 							let fileName = '_doc/' + new Date().getTime() + '.png'
 							bitmap.save(fileName, {}, function(i) {
-								// ½«Í¼Æ¬±£´æµ½Ïà²á
 								uni.saveImageToPhotosAlbum({
 									filePath: i.target,
 									success: function() {
-										bitmap.clear(); //Ïú»ÙBitmapÍ¼Æ¬
+										bitmap.clear();
 										uni.showToast({
 											title: that.$t('new.bctpcg'),
 											duration: 2000,
@@ -188,11 +183,11 @@
 									}
 								});
 							}, function(e) {
-								console.log('±£´æÍ¼Æ¬Ê§°Ü£º' + JSON.stringify(e));
+								console.log('ï¿½ï¿½ï¿½ï¿½Í¼Æ¬Ê§ï¿½Ü£ï¿½' + JSON.stringify(e));
 							});
 						}, function(e) {
 							that.showyq = false
-							console.log('½ØÆÁ»æÖÆÍ¼Æ¬Ê§°Ü£º' + JSON.stringify(e));
+							console.log('ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼Æ¬Ê§ï¿½Ü£ï¿½' + JSON.stringify(e));
 						});
 					}, 1000)
 				} catch {
@@ -222,7 +217,6 @@
 						// fileType:'jpg',
 						canvasId: 'qrcode',
 						success(res) {
-							// ¶þÎ¬Âë±¾µØÍ¼
 							that.qrcodeImg = res.tempFilePath
 						}
 					}, that)
@@ -231,10 +225,10 @@
 			copy(val){
 				// #ifdef H5
 				let oInput = document.createElement('input');
-				oInput.value = val; //Òª¸´ÖÆµÄ¶©µ¥±àºÅ
+				oInput.value = val;
 				document.body.appendChild(oInput);
-				oInput.select(); // Ñ¡Ôñ¶ÔÏó;
-				document.execCommand("Copy"); // Ö´ÐÐä¯ÀÀÆ÷¸´ÖÆÃüÁî
+				oInput.select();
+				document.execCommand("Copy");
 				uni.showToast({
 					icon: 'none',
 					title: this.$t('user.order.detail.fzcg')
@@ -513,16 +507,16 @@
 			margin: 0 auto;
 
 			.ewm {
-				width: 160rpx;
-				height: 160rpx;
-				background: #fff;
+				width: 200rpx;
+				height: 200rpx;
+				// background: #fff;
 				border-radius: 8rpx;
 				margin: 32rpx auto 0 auto;
 
 				image {
 					display: block;
-					width: 154rpx;
-					height: 154rpx;
+					width: 200rpx;
+					height: 200rpx;
 				}
 			}
 

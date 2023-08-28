@@ -1010,7 +1010,7 @@
 		{
 			"path": "pages/mine/auctionDetail",
 			"style": {
-				"navigationBarTitleText": "%top.auctionDetail%",
+				"navigationBarTitleText": "%top.jpxq%",
 				"enablePullDownRefresh": false
 			}
 		},

@@ -26,7 +26,7 @@
                     <span>{{isEnglish ? InterpretationText : InterpretationTextCn}}</span>
                 </view>
                 <view class="bottomClass"></view>
-                <view class="fingerI">
+                <view class="fingerI" v-show="!isLogin">
                     <image class="fingerImage" src="@/static/demo/fingerdown.webp"></image>
                 </view>
 
@@ -39,7 +39,7 @@
                         </a>
                         
                     </view>
-                    <view style="position: relative;">
+                    <view style="position: relative;" v-show="!isLogin">
                         <image class="contentImage" src="@/static/demo/ITRRegister.png"></image>
                         <view class="Register" @click="navClick('/pages/public/register')">{{isEnglish ? 'Register' : '注册'}}</view>
                     </view>
@@ -58,14 +58,14 @@
                 illustrateText:'The value of K Coins will be determined based on the actual value on the subsequent public chain, bringing you more value!',
                 illustrateTextCn:'K币的价值将根据后续公链上的实际价值来确定，为您带来更多的价值！',
 				addList: [],
-                isEnglish:true,
+                isEnglish:uni.getStorageSync('locale') == 'en' ? true : false,
+                isLogin:uni.getStorageSync('token') ? true : false,
 				page: 1,
 			}
 		},
 		onLoad(e) {
-			if(e.language == 'en') this.isEnglish = true
-			else this.isEnglish = false
-			
+			// if(e.language == 'en') this.isEnglish = true
+			// else this.isEnglish = false
 			if(e.promotion_code) uni.setStorageSync('invite_code',e.promotion_code)
 		},
         computed: {

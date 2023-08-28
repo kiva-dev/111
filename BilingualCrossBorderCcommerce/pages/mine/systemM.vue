@@ -67,19 +67,19 @@
 				SysmsgList: []
 			}
 		},
-		onShow() {
+		onLoad() {
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
-			this.page = 1
-			this.SysmsgList = []
+			// this.page = 1
+			// this.SysmsgList = []
 			this.onMineSysmsgList()
 		},
 		methods: {
 			onBack() {
 				uni.navigateBack();
 			},
-			clearRead(){
-				this.$http.post(this.$apiObj.MineClearRead).then(res=>{
-					if(res.code == 1) {
+			clearRead() {
+				this.$http.post(this.$apiObj.MineClearRead).then(res => {
+					if (res.code == 1) {
 						this.onMineSysmsgList()
 					}
 				})
@@ -100,48 +100,67 @@
 			},
 			//导航点击的跳转处理函数
 			navClick(item) {
-				//  "type": 1, //消息类型：1提现 recharge_tocash ，2充值 recharge，3订单（data_id是订单id，order_no是订单号，跳转订单详情），4售后（data_id是售后订单id），5竞拍（data_id是竞拍商品id），6优惠券（data_id为0时跳转优惠券列表，data_id>0s时跳转商品列表）
 				this.$http.post(this.$apiObj.readSysmsg, {
 					msg_id: item.id
 				}).then(res => {
-					if (res.code == 1) {
-						this.page = 1
-						this.SysmsgList = []
-						this.onMineSysmsgList()
+					if (res.code === 1) {
+						this.page = 1;
+						this.SysmsgList = [];
+						this.onMineSysmsgList();
 					}
-				})
-				// if (item.type == 1) {
-				// 	uni.navigateTo({
-				// 		url: './wallet'
-				// 	})
-				// } else if (item.type == 2) {
-				// 	uni.navigateTo({
-				// 		url: './wallet'
-				// 	})
-				// } else if (item.type == 3) {
-				// 	uni.navigateTo({
-				// 		url: './order/detail?order_no=' + item.order_no
-				// 	})
-				// } else if (item.type == 4) {
-				// 	uni.navigateTo({
-				// 		url: './refund/detail?id=' + item.data_id
-				// 	})
-				// } else if (item.type == 5) {
-				// 	uni.navigateTo({
-				// 	  url: "/pages/auction/detail?id=" + item.data_id
-				// 	})
-				// } else if (item.type == 6) {
-				// 	if (item.data_id == 0) {
-				// 		uni.navigateTo({
-				// 			url: "./coupon"
-				// 		})
-				// 	} else {
-				// 		uni.navigateTo({
-				// 			url: '/pages/class/search'
-				// 		});
-				// 	}
-				// }
-			},
+				});
+
+				switch (item.type) {
+					case 1:
+					case 2:
+						uni.navigateTo({
+							url: './wallet'
+						});
+						break;
+					case 3:
+						this.$http.post(this.$apiObj.AuctionOrderDetail, {
+							order_no: item.order_no,
+							token: uni.getStorageSync('token')
+						}).then(res => {
+							if (res.code === 1) {
+								const url = res.data ? '/pages/mine/auctionDetail?orderNo=' + item.order_no : '/pages/mine/order/orderDetail?id=' + item.order_no;
+								uni.navigateTo({
+									url: url
+								});
+							}
+						});
+						break;
+					case 4:
+						uni.navigateTo({
+							url: './refund/detail?id=' + item.data_id
+						});
+						break;
+					case 5:
+						this.$http.post(this.$apiObj.MineSystemRecord, {
+							order_auction_record_id: item.data_id
+						}).then(res => {
+							if (res.code === 1) {
+								const url = res.data.auction_goods_id ? "/pages/auction/detail?id=" + res.data.auction_goods_id : "/pages/auction/detail?id=" + item.data_id;
+								uni.navigateTo({
+									url: url
+								});
+							}
+						});
+						break;
+					case 6:
+						uni.navigateTo({
+							url: item.data_id === 0 ? "./coupon" : '/pages/class/search'
+						});
+						break;
+					case 9:
+						uni.navigateTo({
+							url: '/pages/mine/auctionM?num=3'
+						});
+						break;
+					default:
+						break;
+				}
+			}
 		},
 		// 页面滑动到底部
 		onReachBottom() {
@@ -162,7 +181,7 @@
 		.mp-header {
 			width: 100%;
 			background: #fff;
-			
+
 			.mp-header-box {
 				width: 100%;
 				height: 88rpx;
@@ -172,32 +191,32 @@
 				justify-content: space-between;
 				align-items: center;
 				border-bottom: 1rpx solid rgb(204, 204, 204);
-				
+
 				.box-back {
 					width: 40rpx;
 					height: 40rpx;
-					
+
 					image {
 						width: 100%;
 					}
 				}
-				
+
 				.box-title {
 					color: rgb(51, 51, 51);
 					font-size: 40rpx;
 				}
-				
+
 				.box-clear {
 					width: 36rpx;
 					height: 36rpx;
-					
+
 					image {
 						width: 100%;
 					}
 				}
 			}
 		}
-		
+
 		.sys-box {
 			margin: 30rpx;
 
@@ -217,7 +236,7 @@
 					.t {
 						display: flex;
 						align-items: center;
-						
+
 						.dian {
 							width: 20rpx;
 							height: 20rpx;
@@ -225,7 +244,7 @@
 							background: red;
 							border-radius: 50%;
 						}
-						
+
 						.title {
 							font-size: 28rpx;
 							font-weight: 550;

@@ -12,15 +12,15 @@
 				</view>
 			</view>
 			<!-- 区域 -->
-			<!-- <view class="add-li">
+			<view class="add-li">
 				<view class="label" style="fontSize:12px">{{$t('user.address.yjdq')}}</view>
 				<view class="li-fr">
 					<view class="li-input" @click="pickerShow = true">
-						<input class="input" placeholder-class="color-9999" v-model="AreaForm.label" :placeholder="$t('user.address.xzyjdq')" />
+						<input class="input" placeholder-class="color-9999" disabled v-model="AreaForm.label" :placeholder="$t('user.address.xzyjdq')" />
 					</view>
 				</view>
 			</view>
-			<u-picker :show="pickerShow" :columns="columns" keyName="label" @confirm="pickerFun" @cancel="pickerCancel" confirmText="confirm" cancelText="cancel"></u-picker> -->
+			<u-picker :show="pickerShow" :columns="columns" keyName="label" @confirm="pickerFun" @cancel="pickerCancel" :confirmText="$t('user.refund.detail.btnsub')" :cancelText="$t('user.refund.detail.query')"></u-picker>
 			
 			<view class="add-li">
 				<view class="label">{{$t('user.address.sjhm')}}</view>
@@ -110,10 +110,10 @@
 				name,
 				id
 			} = JSON.parse(args.conter)
-			// this.AreaForm = {
-			// 	label: isEnglish ? delivery_area_name_en : delivery_area_name,
-			// 	delivery_area_id
-			// }
+			this.AreaForm = {
+				label: isEnglish ? delivery_area_name_en : delivery_area_name,
+				delivery_area_id
+			}
 			this.mobile_area_code = mobile_area_code // 手机号区域编码
 			this.mobile = mobile // 手机号码
 			this.detail = detail // 收货地址
@@ -133,13 +133,13 @@
 				}
 				uni.setStorageSync('phoneCont', JSON.stringify(title))
 			}
-			// this.getAreaList()
+			this.getAreaList()
 		},
 		methods: {
 			async getAreaList() {
 				const isEnglish = uni.getStorageSync('locale') !== 'zh-Hans';
 				try {
-					const res = await this.$http.post(this.$apiObj.GetDeliveryArea,{pagenum:20});
+					const res = await this.$http.post(this.$apiObj.GetDeliveryArea,{pagenum: 40});
 					const options = res.data.data.map(({ name, name_en, delivery_area_id }) => ({
 						label: isEnglish ? name_en : name,
 						delivery_area_id
@@ -203,21 +203,21 @@
 					title: this.$t('user.address.qsrshdz'),
 					icon: 'none'
 				})
-				/* const {delivery_area_id} = this.AreaForm
+				const {delivery_area_id} = this.AreaForm
 				if(!delivery_area_id){
 					uni.showToast({
 						title: this.$t('user.address.xzyjdq'),
 						icon: 'none'
 					})
 					return
-				} */
+				}
 				this.$http.post(this.$apiObj.AddressEdit, {
 					mobile_area_code: this.mobile_area_code.slice(1), // 手机号区域编码
 					mobile: this.mobile, // 手机号码
 					detail: this.detail, // 收货地址
 					is_default: this.is_default == true ? 1 : 0, // 1默认，0不默认
 					name: this.name, // 收货人
-					// delivery_area_id, // 邮寄地区
+					delivery_area_id, // 邮寄地区
 					address_id: this.address_id
 				}).then(res => {
 					if (res.code == 1) {
