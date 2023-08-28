@@ -74,7 +74,7 @@
 
 			<!--指标分析-->
 			<view class="index_analysis">
-				<view class="tit">
+				<view class="tit" @click="showNoun=true">
 					<view>{{$t('detail.index_analysis')}}</view>
 					<image src="/static/images/auction/wh.png"></image>
 				</view>
@@ -90,7 +90,7 @@
 							<text class="num">{{shopCont.average_join_count}}</text>
 						</view>
 					</view>
-			
+
 				</view>
 			</view>
 			<!--评论-->
@@ -489,7 +489,7 @@
 			</view>
 		</uni-popup>
 		<!-- 选择地址 end -->
-		
+
 		<!--图片预览-->
 		<u-overlay :show="showImages" :duration="400" :z-index="999" :opacity="1">
 			<view class="show_images">
@@ -499,6 +499,63 @@
 				</view>
 			</view>
 		</u-overlay>
+
+		<!--名词解释-->
+		<u-popup :show="showNoun" mode="bottom" bgColor="transparent">
+			<view class="noun">
+				<image src="/static/images/kbrick/close.png" class="noun-close" @click="showNoun=false"></image>
+				<view class="noun-tit">{{$t('detail.noun')}}</view>
+				<view class="noun-switch">
+					<scroll-view scroll-x style="width: 654rpx;white-space: nowrap;">
+						<view class="noun-switch-info" @click="nounNum=2">
+							<view class="name">{{$t('detail.success_rate')}}</view>
+							<text v-show="nounNum == 2"></text>
+						</view>
+						<view class="noun-switch-info" @click="nounNum=3">
+							<view class="name">{{$t('detail.all_luck_start')}}</view>
+							<text v-show="nounNum == 3"></text>
+						</view>
+						<view class="noun-switch-info" @click="nounNum=4">
+							<view class="name">{{$t('detail.luck_start_by')}}</view>
+							<text v-show="nounNum == 4"></text>
+						</view>
+					</scroll-view>
+				</view>
+				<u-line style="width: 654rpx;margin: 2rpx auto 0 auto;"></u-line>
+
+				<scroll-view scroll-y style="width: 654rpx;height: 700rpx;margin: 24rpx auto;">
+
+					<view class="noun-des" v-if="nounNum==2 && !isShopCont">
+						成功率：当前商品所有的许愿活动中，成功点亮的比例
+					</view>
+					<view class="noun-des" v-else-if="nounNum==2 && isShopCont">
+						Hit Rate: The proportion of successful activations among all wishes made for the current
+						product.
+					</view>
+
+					<view class="noun-des" v-if="nounNum==3 && !isShopCont">
+						累计幸运之星数：当前商品的所有许愿活动中，累计开出的幸运之星数量
+					</view>
+					<view class="noun-des" v-else-if="nounNum==3 && isShopCont">
+						Accumulated Lucky Star Count: The total number of lucky stars awarded in all wish pool campaign
+						for the current product.
+					</view>
+
+					<view class="noun-des" v-if="nounNum==4 && !isShopCont">
+						幸运之星人均下单次数：获得过该商品幸运之星的用户的平均下单次数
+					</view>
+					<view class="noun-des" v-else-if="nounNum==4 && isShopCont">
+						Average Orders per Lucky Star Recipient: The average number of orders placed by users who have
+						received a lucky star for this product.
+					</view>
+				</scroll-view>
+
+
+				<view class="noun-btn" @click="showNoun = false">{{isShopCont ? 'I know' : '我知道了'}}</view>
+
+			</view>
+		</u-popup>
+
 	</view>
 </template>
 
@@ -518,7 +575,9 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		},
 		data() {
 			return {
-				showImages:false,
+				showNoun: false,
+				nounNum: 2,
+				showImages: false,
 				jingpaiList: [], // 竞拍列表
 				max: 3, //默认展示几条数据
 				isOpen: false,
@@ -549,7 +608,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				mode: 'nav',
 				shopCont: '', // 商品详情
 				JudgeList: [], //评论列表
-				JudgeTotal:0,//评价数量
 				isShowAll: false,
 				page: 1,
 				pagenum: 5,
@@ -959,10 +1017,10 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					queryList.push(query);
 				}
 				queryList.forEach(query => query.exec());
-			}, 
+			},
 			//预览图片
 			previewImgList() {
-				this.showImages=true
+				this.showImages = true
 			},
 			//前往竞拍详情
 			toDrawInfo(id) {
@@ -1776,14 +1834,95 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		color: rgb(44, 44, 44);
 		text-decoration: none;
 	}
-	
+
+	//名词解释
+	.noun {
+		position: relative;
+		width: 750rpx;
+		height: 1054rpx;
+		padding: 36rpx 0 24rpx 0;
+		background: rgb(255, 255, 255);
+		border-radius: 24rpx 24rpx 0 0;
+
+		.noun-close {
+			position: absolute;
+			top: 32rpx;
+			right: 32rpx;
+			width: 40rpx;
+			height: 40rpx;
+			z-index: 5;
+		}
+
+		.noun-tit {
+			width: 100%;
+			font-size: 28rpx;
+			font-weight: 700;
+			color: rgb(51, 51, 51);
+			text-align: center;
+		}
+
+		.noun-switch {
+			width: 654rpx;
+			display: flex;
+			align-items: center;
+			// border-bottom: 2rpx solid rgb(204, 204, 204);
+			margin: 44rpx auto 0 auto;
+
+			.noun-switch-info {
+				position: relative;
+				height: 46rpx;
+				font-size: 24rpx;
+				font-weight: 500;
+				color: rgb(51, 51, 51);
+				text-align: center;
+				display: inline-block;
+				margin-right: 80rpx;
+
+				text {
+					position: absolute;
+					left: 50%;
+					bottom: 0;
+					transform: translate(-50%, 0);
+					width: 52rpx;
+					height: 8rpx;
+					background: rgb(10, 198, 142);
+					border-radius: 8rpx;
+				}
+			}
+
+			.noun-switch-info:last-child {
+				margin-right: 10rpx;
+			}
+		}
+
+		.noun-des {
+			width: 654rpx;
+			font-size: 24rpx;
+			color: rgb(51, 51, 51);
+			margin: 0 auto;
+		}
+
+		.noun-btn {
+			width: 686rpx;
+			height: 88rpx;
+			line-height: 88rpx;
+			font-size: 36rpx;
+			color: rgb(255, 255, 255);
+			text-align: center;
+			background: rgb(10, 198, 142);
+			border-radius: 88rpx;
+			margin: 20rpx auto 0 auto;
+		}
+
+	}
+
 	//指标分析
 	.index_analysis {
 		width: 750rpx;
 		padding: 32rpx 0;
 		background: #fff;
 		margin: 24rpx 0;
-	
+
 		.tit {
 			font-size: 28rpx;
 			font-weight: bold;
@@ -1791,7 +1930,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			display: flex;
 			align-items: center;
 			margin-left: 44rpx;
-	
+
 			image {
 				display: block;
 				width: 24rpx;
@@ -1799,19 +1938,19 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				margin-left: 12rpx;
 			}
 		}
-	
+
 		.list {
 			width: 662rpx;
 			margin: 0 auto 0 auto;
-			
-			.list-info{
+
+			.list-info {
 				width: 100%;
 				display: flex;
 				flex-wrap: wrap;
 				align-items: center;
 				justify-content: space-between;
 			}
-			
+
 			.item {
 				min-width: 50%;
 				font-size: 24rpx;
@@ -1819,7 +1958,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				display: flex;
 				align-items: center;
 				margin-top: 40rpx;
-	
+
 				.round {
 					display: block;
 					width: 12rpx;
@@ -1828,24 +1967,24 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					border-radius: 50%;
 					margin-right: 8rpx;
 				}
-	
+
 				.num {
 					font-weight: bold;
 					margin-left: 6rpx;
 				}
-	
+
 			}
-	
+
 		}
-	
+
 	}
-	
+
 	//图片预览
 	.show_images {
 		position: relative;
 		width: 100%;
 		min-height: 100vh;
-	
+
 		.close {
 			position: absolute;
 			top: 20rpx;
@@ -1853,7 +1992,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			width: 50rpx;
 			height: 50rpx;
 		}
-	
+
 		.carousel {
 			position: absolute;
 			top: 50%;
@@ -2723,13 +2862,13 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				font-weight: bold;
 				margin-left: 10rpx;
 			}
-			
-			p{
+
+			p {
 				font-size: 20rpx;
 				color: rgb(255, 255, 255);
 				margin-left: 8rpx;
 			}
-			
+
 		}
 	}
 
@@ -2780,8 +2919,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				width: 38rpx;
 				height: 38rpx;
 			}
-			
-			text{
+
+			text {
 				margin-left: 4rpx;
 			}
 		}
@@ -3009,7 +3148,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		}
 
 	}
-	//评论
+
 	.detail-comment {
 		width: 710rpx;
 		padding: 24rpx 32rpx;
@@ -3122,7 +3261,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			text-align: center;
 		}
 	}
-
 	// 新评论
 	.album {
 		display: flex;
@@ -3366,8 +3504,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					display: flex;
 					align-items: center;
 					justify-content: center;
-					
-					image{
+
+					image {
 						width: 24rpx;
 						height: 24rpx;
 						margin-right: 4rpx;
