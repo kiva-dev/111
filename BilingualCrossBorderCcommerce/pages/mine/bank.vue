@@ -15,7 +15,7 @@
 
 			<view class="bank-ul">
 				<view v-for="item,k in CardList" :key="k" class="bank-li" :class="k%3==1?'green':k%3==2?'blue':''"
-					@click="onClick(item)">
+					@click="onClick(item)" :style="item.create_status!=1?'opacity: 0.8;':''">
 					<view class="li-hd">
 						<view class="hd-fl">
 							<view class="li-logo">
@@ -25,8 +25,17 @@
 							</view>
 							<view class="t">{{item.bank_name}} <br/>{{$t('user.bank.cxk')}}</view>
 						</view>
-						<button class="li-btn" @click.stop="onseach(item)">{{$t('user.bank.jcbd')}}</button>
-						<button class="li-btn edit" @click.stop="onEdit(item)">{{$t('user.address.edit')}}</button>
+						<view class="status" v-if="item.create_status == 0">
+							<image src="/static/images/tab/start-time.png"></image>
+							<view>{{isShopCont ? 'Under Review':'审核中'}}</view>
+						</view>
+						<view class="status" v-else-if="item.create_status == -1">
+							<image src="/static/images/mine/red_close.png"></image>
+							<view>{{isShopCont ? 'Audit Failure' : '审核失败'}}</view>
+						</view>
+						
+						<button class="li-btn" v-show="item.create_status == 1" @click.stop="onseach(item)">{{$t('user.bank.jcbd')}}</button>
+						<button class="li-btn edit" v-show="item.create_status == 1" @click.stop="onEdit(item)">{{$t('user.address.edit')}}</button>
 					</view>
 					<view class="li-bd">**** **** **** {{item.account.substr(-4)}}</view>
 				</view>
@@ -61,6 +70,7 @@
 				id: '',
 				name: '',
 				status: '', // 实名认证
+				isShopCont:false
 			}
 		},
 		onShow() {
@@ -70,6 +80,7 @@
 					this.status = res.data.status
 				}
 			})
+			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false;
 			// 银行卡列表
 			this.onMineBankCardList()
 		},
@@ -80,16 +91,29 @@
 				})
 			},
 			onClick(item) {
-				uni.setStorageSync('yhkList', item)
-				uni.showToast({
-					title: this.$t('user.bank.qhyhkcg'),
-					icon: 'none'
-				})
-				setTimeout(() => {
-					uni.navigateBack({
-						delta: 1
+				if(item.create_status != 1){
+					uni.showToast({
+						title: item.create_status == 0? this.$t('mine.bank_tip1') : this.$t('mine.bank_tip2'),
+						icon: 'none'
 					})
-				}, 1500);
+				}else if(item.create_status == 1 && item.status == 0){
+					uni.showToast({
+						title: this.$t('mine.bank_tip3'),
+						icon: 'none'
+					})
+				}else{
+					uni.setStorageSync('yhkList', item)
+					uni.showToast({
+						title: this.$t('user.bank.qhyhkcg'),
+						icon: 'none'
+					})
+					setTimeout(() => {
+						uni.navigateBack({
+							delta: 1
+						})
+					}, 1500);
+				}
+				
 			},
 			onBindClick() {
 				if (this.status) {
@@ -107,8 +131,7 @@
 			onMineBankCardList() {
 				this.$http.post(this.$apiObj.MineBankCardList).then(res => {
 					if (res.code == 1) {
-						this.CardList = res.data
-						uni.setStorageSync('yhkList', res.data[0])
+						this.CardList=res.data
 					}
 				})
 			},
@@ -227,7 +250,23 @@
 								color: #fff;
 							}
 						}
-
+						
+						.status{
+							position: absolute;
+							top: 48rpx;
+							right: 32rpx;
+							font-size: 24rpx;
+							color: rgb(255, 255, 255);
+							display: flex;
+							align-items: center;
+							
+							image{
+								width: 24rpx;
+								height: 24rpx;
+								margin-right: 4rpx;
+							}
+						}
+						
 						.li-btn {
 							width: 140rpx;
 							height: 55rpx;

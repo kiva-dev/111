@@ -100,7 +100,7 @@
 
 			<!--指标分析-->
 			<view class="index_analysis">
-				<view class="tit">
+				<view class="tit" @click="showNoun = true">
 					<view>{{$t('detail.index_analysis')}}</view>
 					<image src="/static/images/auction/wh.png"></image>
 				</view>
@@ -149,20 +149,20 @@
 					:style="shopCont.check_status==3 || shopCont.check_status==4?'margin-top:30rpx;':''">
 					<block v-if="shopCont.order_user.length > 12">
 						<view class="detail-canyu-item" :style="(i+1)%6==0?'margin-right: 0rpx;':''"
-							v-for="(item,orderNub) in shopCont.order_user.slice(0,10)" :key="orderNub">
+							v-for="(item,i) in shopCont.order_user.slice(0,10)">
 							<image :src="item.avatar" @click="onNavClick(4)"></image>
 						</view>
 						<view class="detail-canyu-more">
 							<image src="/static/images//products/more.png"></image>
 						</view>
 						<view class="detail-canyu-item" style="margin-right: 0rpx;"
-							v-for="(item,userNub) in shopCont.order_user.slice(10,11)" :key="userNub">
+							v-for="(item,i) in shopCont.order_user.slice(11,12)">
 							<image :src="item.avatar" @click="onNavClick(4)"></image>
 						</view>
 					</block>
 					<block v-else>
 						<view class="detail-canyu-item" :style="(i+1)%6==0?'margin-right: 0rpx;':''"
-							v-for="(item,user2Nub) in shopCont.order_user" :key="user2Nub">
+							v-for="(item,i) in shopCont.order_user">
 							<image :src="item.avatar" @click="onNavClick(4)"></image>
 						</view>
 					</block>
@@ -179,7 +179,7 @@
 			<view class="detail-comment">
 				<view id="div2"></view>
 				<view class="detail-comment-head">
-					<view class="detail-comment-tit">{{$t('newDetail.pinglun')}} <span>（{{JudgeTotal}}）</span>
+					<view class="detail-comment-tit">{{$t('newDetail.pinglun')}} <span>（{{judgeTotalNum}}）</span>
 					</view>
 					<view class="detail-comment-more" @click="toComment()">
 						<view>{{$t('user.myCont.ckqb')}}</view>
@@ -437,11 +437,13 @@
 					<view class="line"></view>
 				</view>
 				<!-- 限额许愿规则 -->
-				 <view class="rule-conent" v-if="shopCont.auction_type === '1' ">
+				<view class="rule-conent" v-if="shopCont.auction_type === '1' ">
 					<view class="titleRule">
-						<image class="titleStart" src="@/static/images/mine/rule/ruleStartGreen.png" mode="widthFix"></image>
+						<image class="titleStart" src="@/static/images/mine/rule/ruleStartGreen.png" mode="widthFix">
+						</image>
 						<span class="green">{{$t('rule.QuotaWishingRules')}}</span>
-						<image class="titleStart" src="@/static/images/mine/rule/ruleStartGreen.png" mode="widthFix"></image>
+						<image class="titleStart" src="@/static/images/mine/rule/ruleStartGreen.png" mode="widthFix">
+						</image>
 					</view>
 					<view class="conentRule">
 						<view class="conentTopRule green">#{{$t('rule.closingle')}}#</view>
@@ -723,7 +725,7 @@
 
 					<view class="bonus_price" v-show="useKdiamondBonus">
 						- {{ useInvite ? giftKdiamondBalance >= shopNum - zenjinToRmNum ? (shopNum - zenjinToRmNum).toFixed(2) : 
-							giftKdiamondBalance : giftKdiamondBalance >= shopNum ? shopNum : giftKdiamondBalance }}
+						giftKdiamondBalance : giftKdiamondBalance >= shopNum ? shopNum : giftKdiamondBalance }}
 					</view>
 
 					<view class="mode-info-right" v-show="giftKdiamondBalance*1 > 0">
@@ -833,6 +835,102 @@
 			</view>
 		</u-overlay>
 
+		<!--名词解释-->
+		<u-popup :show="showNoun" mode="bottom" bgColor="transparent">
+			<view class="noun">
+				<image src="/static/images/kbrick/close.png" class="noun-close" @click="showNoun=false"></image>
+				<view class="noun-tit">{{$t('detail.noun')}}</view>
+				<view class="noun-switch">
+					<scroll-view scroll-x style="width: 654rpx;white-space: nowrap;">
+						<view class="noun-switch-info" @click="nounNum=1">
+							<view class="name">{{$t('detail.success')}}</view>
+							<text v-show="nounNum == 1"></text>
+						</view>
+						<view class="noun-switch-info" @click="nounNum=2">
+							<view class="name">{{$t('detail.success_rate')}}</view>
+							<text v-show="nounNum == 2"></text>
+						</view>
+						<view class="noun-switch-info" @click="nounNum=3">
+							<view class="name">{{$t('detail.all_luck_start')}}</view>
+							<text v-show="nounNum == 3"></text>
+						</view>
+						<view class="noun-switch-info" @click="nounNum=4">
+							<view class="name">{{$t('detail.luck_start_by')}}</view>
+							<text v-show="nounNum == 4"></text>
+						</view>
+					</scroll-view>
+				</view>
+				<u-line style="width: 654rpx;margin: 2rpx auto 0 auto;"></u-line>
+
+				<scroll-view scroll-y style="width: 654rpx;height: 700rpx;margin: 24rpx auto;">
+					<view class="noun-des" v-if="nounNum==1 && !isShopCont">
+						表示当前参与认购的人数占总认购份额的比率，例如:总份额为
+						10份，认购人数为10人，那必中率为1/10，当用户A首先人够了4份，
+						剩余6份，那么此时必中率为1/7，之后B用户认购了4份，剩余2份，
+						此时必中率为1/4，最后C认购了最后2份，必中率为1/3，系统封盘开箱。
+						<br /><br />
+						必中率分母越小意味着当前的竞争者相对较小，有着非常重要的参考价值，
+						幸运之星是由系统根据认购订单号来随机选取的，认购份额越多，理论上被
+						选中的概率自然会大一些。
+						<br /><br />
+						但是系统是公平的，无人可以干预，无论你认购多少份额，幸运之星名额只有
+						一个(限时许愿除外)，也就是说当参与的竞争者越少，哪怕是你只认购了1份，
+						你依然拥有和其他人一样的机会和概率被系统选中。
+					</view>
+					<view class="noun-des" v-else-if="nounNum==1 && isShopCont">
+						The Participation Rate represents the ratio of the current number
+						of participants in the subscription to the total subscription units
+						available. For example, if there are 10 total units and 10
+						participants, the hit rate is 1/10. If User 'A' subscribes to 4
+						units, leaving 6 units remaining, the hit rate becomes 1/7. Later,
+						User 'B' subscribes to 4 units, leaving 2 units, resulting in a hit
+						rate of 1/4. Finally, User 'C' subscribes to the last 2 units, yielding
+						a hit rate of 1/3. The system then closes the wish pool campaign and
+						announces the result.
+						<br /><br />
+						A smaller denominator in the hit rate implies fewer current competitors,
+						which holds significant reference value. The lucky star is randomly
+						selected by the system based on subscription order numbers. The more
+						subscription units, the higher the theoretical probability of being selected.
+						<br /><br />
+						However, the system is fair, and no one can intervene. Regardless of the number
+						of units you subscribe to, there's only one lucky star spot available (except
+						for limited-time wishing events). This means that with fewer participants, even
+						if you subscribe to just 1 unit, you still have the same opportunity and
+						probability of being selected by the system, just like everyone else
+					</view>
+
+					<view class="noun-des" v-if="nounNum==2 && !isShopCont">
+						成功率：当前商品所有的许愿活动中，成功点亮的比例
+					</view>
+					<view class="noun-des" v-else-if="nounNum==2 && isShopCont">
+						Hit Rate: The proportion of successful activations among all wishes made for the current
+						product.
+					</view>
+
+					<view class="noun-des" v-if="nounNum==3 && !isShopCont">
+						累计幸运之星数：当前商品的所有许愿活动中，累计开出的幸运之星数量
+					</view>
+					<view class="noun-des" v-else-if="nounNum==3 && isShopCont">
+						Accumulated Lucky Star Count: The total number of lucky stars awarded in all wish pool campaign
+						for the current product.
+					</view>
+
+					<view class="noun-des" v-if="nounNum==4 && !isShopCont">
+						幸运之星人均下单次数：获得过该商品幸运之星的用户的平均下单次数
+					</view>
+					<view class="noun-des" v-else-if="nounNum==4 && isShopCont">
+						Average Orders per Lucky Star Recipient: The average number of orders placed by users who have
+						received a lucky star for this product.
+					</view>
+				</scroll-view>
+
+
+				<view class="noun-btn" @click="showNoun = false">{{isShopCont ? 'I know' : '我知道了'}}</view>
+
+			</view>
+		</u-popup>
+
 	</view>
 </template>
 
@@ -846,9 +944,10 @@ UuCwtdmXOsq/b1JWKyEXzQlPIiwdHnAUjGbmHOEMAY3jKEy2dY2I6J+giJqo8B2H
 NoR+zv3KaEmPSHtooQIDAQAB
 -----END PUBLIC KEY-----`
 	export default {
-
 		data() {
 			return {
+				showNoun: false, //名词解释
+				nounNum: 1,
 				useKdiamondBonus: false,
 				search_number: '',
 				showRecord: false,
@@ -915,7 +1014,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				e_auction_rule: '',
 				goodlucky: [], // 幸运之星
 				JudgeList: [], // 评价列表
-				JudgeTotal: 0, //评价数量
+				judgeTotalNum: 0,
 				money: 0, // 充值余额
 				balance: 0,
 				giftKdiamondBalance: '', //K钻赠送余额
@@ -1031,7 +1130,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			if (res.scrollTop <= 650) {
 				let num = res.scrollTop / 2 / 100
 				this.myOpacity = num
-				this.navId = 1
 			} else {
 				this.myOpacity = 1
 			}
@@ -1042,37 +1140,38 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				else if (res.scrollTop >= this.heightList[3] && res.scrollTop < (this.heightList[4])) this.navId = 4
 				else this.navId = 5
 			}
+
 		},
 		mounted() {
 
 		},
 		computed: {
-            CaseAImageSrc() {
-                return this.isShopCont
-                    ? require('@/static/images/mine/rule/CaseA-en.png')
-                    : require('@/static/images/mine/rule/CaseA-cn.png')
-            },
-            CaseBImageSrc() {
-                return this.isShopCont
-                    ? require('@/static/images/mine/rule/CaseB-en.png')
-                    : require('@/static/images/mine/rule/CaseB-cn.png')
-            },
-            limitedCaseImageSrc() {
-                return this.isShopCont
-                    ? require('@/static/images/mine/rule/limitedCase-en.png')
-                    : require('@/static/images/mine/rule/limitedCase-cn.png')
-            },
-            principleTextImageSrc() {
-                return this.isShopCont
-                    ? require('@/static/images/mine/rule/principleText-en.png')
-                    : require('@/static/images/mine/rule/principleText-cn.png')
-            },
-            principleImageSrc() {
-                return this.isShopCont
-                    ? require('@/static/images/mine/rule/principleImage-en.png')
-                    : require('@/static/images/mine/rule/principleImage-cn.png')
-            },
-        },
+			CaseAImageSrc() {
+				return this.isShopCont ?
+					require('@/static/images/mine/rule/CaseA-en.png') :
+					require('@/static/images/mine/rule/CaseA-cn.png')
+			},
+			CaseBImageSrc() {
+				return this.isShopCont ?
+					require('@/static/images/mine/rule/CaseB-en.png') :
+					require('@/static/images/mine/rule/CaseB-cn.png')
+			},
+			limitedCaseImageSrc() {
+				return this.isShopCont ?
+					require('@/static/images/mine/rule/limitedCase-en.png') :
+					require('@/static/images/mine/rule/limitedCase-cn.png')
+			},
+			principleTextImageSrc() {
+				return this.isShopCont ?
+					require('@/static/images/mine/rule/principleText-en.png') :
+					require('@/static/images/mine/rule/principleText-cn.png')
+			},
+			principleImageSrc() {
+				return this.isShopCont ?
+					require('@/static/images/mine/rule/principleImage-en.png') :
+					require('@/static/images/mine/rule/principleImage-cn.png')
+			},
+		},
 		methods: {
 			//根据编号搜索指定的用户
 			sendById() {
@@ -1385,7 +1484,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						this.getYouLikeList()
 						setTimeout(() => {
 							this.getTopNum()
-						}, 1000)
+						}, 2000)
 
 					}
 				})
@@ -1510,8 +1609,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							return commentRes.data.data;
 						});
 						const comments = await Promise.all(commentRequests);
-						this.JudgeTotal = res.data.total
 						this.JudgeList = res.data.data;
+						this.judgeTotalNum = res.data.total
 						this.JudgeList.forEach((item, index) => {
 							if (item.images) {
 								item.images = item.images.split(',');
@@ -1534,7 +1633,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				this.selectProtocol = false
 				this.useInvite = false
 				this.useKdiamondBonus = false
-				
 				this.orderPayList.forEach(item => {
 					item.isShow = false
 				})
@@ -1547,7 +1645,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						this.money = res.data.recharge_money_balance
 						this.balance = res.data.k_diamond_wallet
 						this.giftKdiamondBalance = res.data.temporary_k_diamond_wallet
-						
+
 						this.auction_num = (this.shopCont.auction_type == 2 && this.shopCont.total_least_num ==
 								0) ? res.data.auction_num : (res.data.auction_num === -1) ? this.shopCont
 							.total_least_num : (res.data.auction_num < this.shopCont.total_least_num) ? res.data
@@ -2109,6 +2207,87 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		text-decoration: none;
 	}
 
+	//名词解释
+	.noun {
+		position: relative;
+		width: 750rpx;
+		height: 1054rpx;
+		padding: 36rpx 0 24rpx 0;
+		background: rgb(255, 255, 255);
+		border-radius: 24rpx 24rpx 0 0;
+
+		.noun-close {
+			position: absolute;
+			top: 32rpx;
+			right: 32rpx;
+			width: 40rpx;
+			height: 40rpx;
+			z-index: 5;
+		}
+
+		.noun-tit {
+			width: 100%;
+			font-size: 28rpx;
+			font-weight: 700;
+			color: rgb(51, 51, 51);
+			text-align: center;
+		}
+
+		.noun-switch {
+			width: 654rpx;
+			display: flex;
+			align-items: center;
+			// border-bottom: 2rpx solid rgb(204, 204, 204);
+			margin: 44rpx auto 0 auto;
+
+			.noun-switch-info {
+				position: relative;
+				height: 46rpx;
+				font-size: 24rpx;
+				font-weight: 500;
+				color: rgb(51, 51, 51);
+				text-align: center;
+				display: inline-block;
+				margin-right: 80rpx;
+
+				text {
+					position: absolute;
+					left: 50%;
+					bottom: 0;
+					transform: translate(-50%, 0);
+					width: 52rpx;
+					height: 8rpx;
+					background: rgb(10, 198, 142);
+					border-radius: 8rpx;
+				}
+			}
+
+			.noun-switch-info:last-child {
+				margin-right: 10rpx;
+			}
+		}
+
+		.noun-des {
+			width: 654rpx;
+			font-size: 24rpx;
+			color: rgb(51, 51, 51);
+			margin: 0 auto;
+		}
+
+		.noun-btn {
+			width: 686rpx;
+			height: 88rpx;
+			line-height: 88rpx;
+			font-size: 36rpx;
+			color: rgb(255, 255, 255);
+			text-align: center;
+			background: rgb(10, 198, 142);
+			border-radius: 88rpx;
+			margin: 20rpx auto 0 auto;
+		}
+
+	}
+
 	//指标分析
 	.index_analysis {
 		width: 750rpx;
@@ -2657,13 +2836,12 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		}
 
 		.detail-canyu-list {
-			width: 650rpx;
+			width: 630rpx;
 			display: flex;
 			flex-wrap: wrap;
 			align-items: center;
 			margin: 0 auto;
 
-			// padding:0 20rpx ;
 			.detail-canyu-item {
 				margin-right: 30rpx;
 				margin-bottom: 10rpx;
@@ -4873,37 +5051,43 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 	}
 
-	.rule-conent{
+	.rule-conent {
 		background: #fff;
 		margin: 21rpx 0 0 0;
 		padding: 21rpx 40rpx;
 		box-sizing: border-box;
-		.titleRule{
+
+		.titleRule {
 			display: flex;
 			justify-content: center;
 			align-items: center;
-			.titleStart{
+
+			.titleStart {
 				width: 40rpx;
 				height: 40rpx;
 			}
-			span{
-				background: linear-gradient(135.00deg, rgb(255, 83, 56) 0%,rgb(255, 165, 117) 100%);
-				border-radius:105rpx;
+
+			span {
+				background: linear-gradient(135.00deg, rgb(255, 83, 56) 0%, rgb(255, 165, 117) 100%);
+				border-radius: 105rpx;
 				font-weight: 700;
 				padding: 30rpx;
 				color: rgb(255, 255, 255);
 				text-align: center;
 				margin: 0 40rpx
 			}
-			.green{
-				background: linear-gradient(180.00deg, rgb(51, 222, 114),rgb(5, 195, 146) 98.871%);
+
+			.green {
+				background: linear-gradient(180.00deg, rgb(51, 222, 114), rgb(5, 195, 146) 98.871%);
 			}
-			.blue{
-				background: linear-gradient(135.00deg, rgb(0, 185, 255) 0%,rgb(125, 219, 255) 100%);
+
+			.blue {
+				background: linear-gradient(135.00deg, rgb(0, 185, 255) 0%, rgb(125, 219, 255) 100%);
 			}
 		}
+
 		.conentRule,
-		.fotterRule{
+		.fotterRule {
 			background: rgb(255, 255, 255);
 			border-radius: 16px;
 			display: flex;
@@ -4911,13 +5095,15 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			align-items: center;
 			flex-direction: column;
 		}
-		.conentRule{
+
+		.conentRule {
 			margin: 40rpx 0;
 			border: 2px solid rgba(10, 198, 142, 0.4);
-			.conentTopRule{
+
+			.conentTopRule {
 				height: 26px;
-				background: linear-gradient(135.00deg, rgb(255, 107, 29) 9.104%,rgb(255, 187, 131) 89.786%);
-				border-radius:0px 0px 6px 6px;
+				background: linear-gradient(135.00deg, rgb(255, 107, 29) 9.104%, rgb(255, 187, 131) 89.786%);
+				border-radius: 0px 0px 6px 6px;
 				display: flex;
 				align-items: center;
 				padding: 10rpx 20rpx;
@@ -4925,54 +5111,64 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				font-weight: 500;
 				text-align: center;
 			}
-			.green{
-				background: linear-gradient(180.00deg, rgb(51, 222, 114),rgb(5, 195, 146) 98.871%);
+
+			.green {
+				background: linear-gradient(180.00deg, rgb(51, 222, 114), rgb(5, 195, 146) 98.871%);
 			}
-			.conentBottomRule{
+
+			.conentBottomRule {
 				box-sizing: border-box;
 				padding: 40rpx;
 				color: rgb(102, 102, 102);
 				text-align: left;
 			}
 		}
-		.fotterRule{
+
+		.fotterRule {
 			margin: 40rpx 0;
-			.fotterTopRule{
-				background: linear-gradient(225.00deg, rgb(255, 36, 74) 3.817%,rgb(254, 80, 45) 100%);
+
+			.fotterTopRule {
+				background: linear-gradient(225.00deg, rgb(255, 36, 74) 3.817%, rgb(254, 80, 45) 100%);
 				opacity: 0.8;
-				border-radius:16px 16px 0px 0px;
+				border-radius: 16px 16px 0px 0px;
 				width: 100%;
 				text-align: center;
-				padding:30rpx 40rpx ;
+				padding: 30rpx 40rpx;
 				box-sizing: border-box;
 				color: #fff;
 				font-size: 32rpx;
 				font-weight: 700;
 			}
-			.fotterBottomRule{
+
+			.fotterBottomRule {
 				width: 670rpx;
-				image{
+
+				image {
 					width: 100%;
 					height: 100%;
 				}
 			}
 		}
-		.conentEnd{
+
+		.conentEnd {
 			color: rgb(102, 102, 102);
 			font-size: 12px;
 			margin: 20rpx 0;
 			text-align: left;
 		}
-		.LimitedImag{
+
+		.LimitedImag {
 			width: 670rpx;
 			display: flex;
 			align-items: center;
 			justify-content: center;
 			margin: 80rpx 0;
-			image{
+
+			image {
 				width: 100%;
 			}
 		}
+
 		.KindTips {
 			background: rgb(243, 243, 243);
 			border-radius: 10px;

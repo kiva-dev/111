@@ -1623,6 +1623,9 @@
 	"mine.invite_friend":"Invite Friends",
 	"mine.cash_reward":"Cash Reward",
 	"mine.send_setting":"Submitted for system review",
+	"mine.bank_tip1":"Current bank card review",
+	"mine.bank_tip2":"The current bank card has not been approved",
+	"mine.banl_tip3":"The current bank card has been banned",
 	
 	"product_info.soldout":"SOLD OUT",
 	
@@ -1668,6 +1671,8 @@
 	"detail.luck_start_by":"Average Number Of Orders Placed By Lucky Star",
 	"detail.recharge_price_not":"Insufficient recharge balance",
 	"detail.pay_gift_diamond":"Gift K-Diamonds",
+	"detail.shipping":"Shipping Address",
+	"detail.noun":"Definition of nouns",
 	
 	"bonus.gifts":"Newcomers have good gifts",
 	"bonus.snhl":"Send you a gift",
@@ -1741,9 +1746,13 @@
 	"invite.rule_k_coins":"platform K Coins.",
 	"invite.rule_activity_time":"Activity time",
 	"invite.rule_event":"Event Rules",
-	"invite.rule1":"Event Period : It will take effect immediately and last for one month.",
+	"invite.rule1":"Activity period: ",
 	"invite.rule2_1":"Invitation Rewards: For every successfully invited user, you will receive",
 	"invite.rule3":"Invitation Requirements : Each invited user must complete identity verification, including uploading real ID documentations's photos and linking a personal bank account.",
-	"invite.rule4":"Reward Withdrawal : Once approved, you can directly withdraw the cash rewards to your bank account."
-
+	"invite.rule4":"Reward Withdrawal : Once approved, you can directly withdraw the cash rewards to your bank account.",
+	
+	"task_center.kb":"Exchange for Kolibri Mall Coins",
+	"task_center.exchange":"Convertible",
+	"task_center.my_points":"My points",
+	"task_center.mall_coins":"Kolibri Mall Coins"
 }

@@ -1615,6 +1615,9 @@
 	"mine.invite_friend":"邀请朋友",
 	"mine.cash_reward":"现金奖励",
 	"mine.send_setting":"已提交系统审核",
+	"mine.bank_tip1":"当前银行卡审核中",
+	"mine.bank_tip2":"当前银行卡未通过审核",
+	"mine.banl_tip3":"当前银行卡已被禁止使用",
 	
 	"product_info.soldout":"售完",
 	"detail.success":"必中率",
@@ -1662,6 +1665,8 @@
 	"detail.luck_start_by":"幸运之星人均下单次数",
 	"detail.recharge_price_not":"充值余额不足",
 	"detail.pay_gift_diamond":"赠送K钻",
+	"detail.shipping":"收件地址",
+	"detail.noun":"名词的定义",
 	
 	"bonus.gifts":"新人有好礼物",
 	"bonus.snhl":"送你一份礼物",
@@ -1731,8 +1736,14 @@
 	"invite.rule_k_coins":"平台K币",
 	"invite.rule_activity_time":"活动时间",
 	"invite.rule_event":"活动规则",
-	"invite.rule1":"活动期限：立即生效，持续一个月。",
+	"invite.rule1":"活动期限：",
 	"invite.rule2_1":"邀请奖励：每成功邀请一位用户，您将获得",
 	"invite.rule3":"邀请要求：每位受邀用户必须填写完整身份信息验证，包括上传真实身份证件照片并链接个人银行帐户。",
-	"invite.rule4":"奖励提取：审核通过后，可直接提取现金奖励到您的银行帐户。"
+	"invite.rule4":"奖励提取：审核通过后，可直接提取现金奖励到您的银行帐户。",
+	
+	"task_center.kb":"兑换 Kolibri 商城货币",
+	"task_center.exchange":"可交换",
+	"task_center.my_points":"我的积分",
+	"task_center.mall_coins":"Kolibri 商城货币"
+	
 }

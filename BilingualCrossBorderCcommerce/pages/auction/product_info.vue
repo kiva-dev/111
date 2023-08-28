@@ -89,6 +89,16 @@
 							<image src="@/static/images/new-index/detail_btn_arrow.png" mode="widthFix"></image>
 						</view>
 					</view>
+					<view class="sl-address-choose" style="margin-top: 20rpx;">
+						<view class="choose-left">
+							<view class="choose-left-name">Freight</view>
+							<view class="choose-left-content">
+								<template>
+									<p>RM{{addressFree}}</p>
+								</template>
+							</view>
+						</view>
+					</view>
 					<view class="sl-address-info" v-if="false">
 						A-15-09 Tower Suite,No8,Jalan Kerinci Bangsar South, Wp KLaKuala,No8,Jalan Kerinci Bangsar South
 					</view>
@@ -196,7 +206,6 @@
 								</view>
 							</view>
 						</u-grid-item>
-
 					</u-grid>
 				</view>
 			</view>
@@ -304,15 +313,25 @@
 						<p>{{$t('home.shop.shpping')}}</p>
 					</view>
 				</view>
-				<view class="bl-right">
-					<view class="bl-right-buy" @click="toPay()">
-						<p class="buy-name">{{$t('home.shop.buynow')}}</p>
-						<p class="buy-info"><span>RM</span>{{shopCont.litestore_goods_spec[0].goods_price}}</p>
+
+				<template v-if="DataStockNum>0">
+					<view class="bl-right">
+						<view class="bl-right-buy" @click="toPay()">
+							<p class="buy-name">{{$t('home.shop.buynow')}}</p>
+							<p class="buy-info"><span>RM</span>{{shopCont.litestore_goods_spec[0].goods_price}}</p>
+						</view>
+						<view class="bl-right-add" @click="addCart()">
+							<p>{{$t('detail.addCart')}}</p>
+						</view>
 					</view>
-					<view class="bl-right-add" @click="addCart()">
-						<p>{{$t('detail.addCart')}}</p>
+				</template>
+				<template v-else>
+					<view class="bl-right">
+						<view class="bl-right-add" style="background: rgb(204, 204, 204);width: 448rpx;">
+							<p>{{$t('product_info.soldout')}}</p>
+						</view>
 					</view>
-				</view>
+				</template>
 			</view>
 			<!--底部 end-->
 		</block>
@@ -397,7 +416,7 @@
 		<uni-popup ref="popupAddress" type="bottom">
 			<view class="showaddress">
 				<view class="top">
-					<view>Shipping Address</view>
+					<view>{{$t('detail.shipping')}}</view>
 					<image src="../../static/images/close1.png" @click="$refs.popupAddress.close()"></image>
 				</view>
 				<scroll-view scroll-y style="height: 900rpx;">
@@ -420,7 +439,7 @@
 			</view>
 		</uni-popup>
 		<!-- 选择地址 end -->
-		
+
 		<!--图片预览-->
 		<u-overlay :show="showImages" :duration="400" :z-index="999" :opacity="1">
 			<view class="show_images">
@@ -430,7 +449,7 @@
 				</view>
 			</view>
 		</u-overlay>
-		
+
 	</view>
 </template>
 
@@ -452,7 +471,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		},
 		data() {
 			return {
-				showImages:false,
+				showImages: false,
 				status: false,
 				noClick: true, // 防止重复点击 
 				id: '',
@@ -492,7 +511,14 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				youLikeList: [],
 				addressList: [],
 				addressInfo: {},
+				DataStockNum: 1, // 初始化商品数量
+				addressFree:0
 			}
+		},
+		computed: {
+			blRightBtnClass() {
+				return [this.DataStockNum === 0 ? 'bl-right-gratsclae' : '']
+			},
 		},
 		watch: {
 			money: {
@@ -550,7 +576,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 		},
 		onShow() {
-			if(uni.getStorageSync('token')){
+			if (uni.getStorageSync('token')) {
 				this.getAllAddress()
 			}
 		},
@@ -576,6 +602,14 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 		},
 		methods: {
+			productGetAddressFree(goods_id,delivery_area_id){
+				this.$http.post(this.$apiObj.ProductGetAddressFree,{
+					goods_id,
+					delivery_area_id
+				}).then(res=>{
+					this.addressFree = res.data.delivery_fee
+				})
+			},
 			//修改地址
 			editAddress(item) {
 				this.$http.post(this.$apiObj.AddressEdit, {
@@ -584,6 +618,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					detail: item.detail, // 收货地址
 					is_default: 1, // 1默认，0不默认
 					name: item.name, // 收货人
+					delivery_area_id: item.delivery_area_id,  // 邮寄地区
 					address_id: item.id
 				}).then(res => {
 					if (res.code == 1) {
@@ -603,7 +638,10 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				this.$http.post(this.$apiObj.AddressList).then(res => {
 					this.addressList = res.data.data
 					res.data.data.forEach(item => {
-						if (item.is_default * 1 == 1) this.addressInfo = item
+						if (item.is_default * 1 == 1){
+							this.addressInfo = item
+							this.productGetAddressFree(this.id,item.delivery_area_id)
+						} 
 					})
 				})
 			},
@@ -626,11 +664,11 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			toPay() {
 				if (this.addressList.length < 0) {
 					uni.showModal({
-						title: '提示',
-						content: '请先添加收货地址',
-						cancelText: "取消",
-						confirmText: "确认",
-						success: function(res) {
+						title: this.$t('mine.tip'),
+						content: this.$t('user.address.qsrshdz'),
+						cancelText: this.$t('user.address.query'),
+						confirmText: this.$t('user.address.btnsub'),
+						success: (res) => {
 							if (res.confirm) {
 								uni.navigateTo({
 									url: '/pages/address/address'
@@ -638,11 +676,20 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							} else if (res.cancel) {
 								console.log('用户点击取消');
 							}
-						}
-					});
+						},
+					})
 					return
 				}
 
+				let stockNumTotal = this.shopCont.litestore_goods_spec.reduce((total, specItem) => total + specItem
+					.stock_num, 0);
+				if (stockNumTotal === 0) {
+					uni.showToast({
+						icon: 'none',
+						title: this.isShopCont ? 'This item is sold out' : '此商品已售罄'
+					})
+					return
+				}
 				//提交订单
 				this.$http.post(this.$apiObj.OrderReferOrder, {
 					goods_spec_id: this.shopCont.litestore_goods_spec[0].goods_spec_id,
@@ -716,10 +763,10 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					queryList.push(query);
 				}
 				queryList.forEach(query => query.exec());
-			}, 
+			},
 			//预览图片
 			previewImgList() {
-				this.showImages=true
+				this.showImages = true
 			},
 			//前往竞拍详情
 			toDrawInfo(id) {
@@ -901,6 +948,9 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					goods_listing_type: 1
 				}).then(res => {
 					if (res.code == 1) {
+						let stockNumTotal = res.data.litestore_goods_spec.reduce((total, specItem) => total +
+							specItem.stock_num, 0);
+						this.DataStockNum = stockNumTotal === 0 ? 0 : stockNumTotal;
 						res.data.litestore_tag.forEach(item => {
 							let arr = item.name.split("|")
 							if (!this.isShopCont) item.name = arr[0]
@@ -911,6 +961,10 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						})
 						this.status = true
 						this.shopCont = res.data
+						
+						// if(uni.getStorageSync('token')){
+						// 	this.getAllAddress()
+						// }
 						// 评价列表
 						this.getCommentList()
 						//猜你喜欢
@@ -918,7 +972,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 						setTimeout(() => {
 							this.getTopNum()
-						}, 2000)
+						}, 1000)
 					}
 				})
 			},
@@ -1518,13 +1572,13 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		color: rgb(44, 44, 44);
 		text-decoration: none;
 	}
-	
+
 	//图片预览
 	.show_images {
 		position: relative;
 		width: 100%;
 		min-height: 100vh;
-	
+
 		.close {
 			position: absolute;
 			top: 20rpx;
@@ -1532,7 +1586,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			width: 50rpx;
 			height: 50rpx;
 		}
-	
+
 		.carousel {
 			position: absolute;
 			top: 50%;
@@ -1790,7 +1844,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			position: relative;
 			widows: 100%;
 			height: 88rpx;
-			padding-top: 88rpx;
+			padding-top: 60rpx;
 			display: flex;
 			align-items: center;
 
@@ -2849,12 +2903,12 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			// margin-top: 100rpx;
 
 			/deep/ uni-swiper {
-				height: 600rpx;
+				height: 750rpx;
 			}
 
 			.big-img {
 				width: 100%;
-				height: 600rpx;
+				height: 750rpx;
 			}
 
 			/deep/.uni-swiper__dots-nav {
@@ -3249,6 +3303,10 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							font-size: 16rpx;
 						}
 					}
+				}
+
+				.bl-right-gratsclae {
+					background: #999;
 				}
 
 				.bl-right-add {
