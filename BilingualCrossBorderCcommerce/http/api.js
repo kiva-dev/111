@@ -175,6 +175,7 @@ let apiObj = {
 	//积分
 	GetPoints: "/Points/getUserPoints", //获取所有积分
 	GetPointsInfo: "/Points/getPointsDetailByH5UserId", //获取所有积分明细
+	PointConvertKCoin: "/Points/pointConvertKCoin", //积分兑换K币
 
 	GetHotList: "/Auction/popularRecommendation", //热门推荐
 	GetYouLikeList: "/Litestoregoods/youMayAlsoLike", //猜你喜欢

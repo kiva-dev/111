@@ -654,11 +654,6 @@
 					})
 				}
 			},
-			toKb(){
-				uni.navigateTo({
-					url:'/pages/mine/K_coin_introduction'
-				})
-			},
 			toFaq(){
 				uni.navigateTo({
 					url:'/pages/mine/faq'

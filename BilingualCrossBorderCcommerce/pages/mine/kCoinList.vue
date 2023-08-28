@@ -19,17 +19,16 @@
 				<template v-if="list.length > 0">
 					<view class="item" v-for="(item,i) in list" :key="i" :style="list.length==(i+1)?'border-bottom: none;':''">
 						<view class="item-info">
-							<view class="item-name">{{isShopCont ? item.en_desc : item.desc}}</view>
-							<view class="item-time">{{$u.timeFormat(item.createtime, 'yyyy/mm/dd hh:MM:ss')}}</view>
+							<view class="item-name">{{isShopCont ? item.memo_en : item.memo}}</view>
+							<view class="item-time">{{$u.timeFormat(item.addtime, 'yyyy/mm/dd hh:MM:ss')}}</view>
 						</view>
-						<view class="item-price">+{{item.points_number}}</view>
+						<view class="item-price">{{ item.money * 1 * 1 > 0 ? '+' : '' }}{{item.money * 1 || 0}}</view>
 					</view>
 				</template>
 				<template v-else>
 					<uni-empty image="/static/images/mine/order_icon_null.png" :message="$t('home.zanwushuju')"></uni-empty>
 				</template>
 			</view>
-
 		</view>
 		<view style="height: 40rpx;"></view>
 	</view>
@@ -57,7 +56,7 @@
 			getPointInfo() {
 				let userCont = uni.getStorageSync('userCont')
 				this.$http.post(this.$apiObj.kCoinList).then(res => {
-					this.list = res.data
+					this.list = res.data.data
 				})
 
 				this.$http.post(this.$apiObj.MineInfo).then(res => {
@@ -293,6 +292,5 @@
 			}
 
 		}
-
 	}
 </style>
