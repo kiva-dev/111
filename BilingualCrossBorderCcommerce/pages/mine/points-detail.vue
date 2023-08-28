@@ -38,24 +38,33 @@
 		<u-popup :show="showExchange" mode="center" bgColor="transparent">
 			<view class="exchange">
 				<image src="/static/images/close1.png" class="close" @click="showExchange=false"></image>
-				<view class="tit">Exchange for Kolibri Mall Coins</view>
-				<view class="tit-des">Convertible</view>
+				<view class="tit">{{$t('task_center.kb')}}</view>
+				<view class="tit-des">{{$t('task_center.exchange')}}</view>
 				<view class="info">
 					<view class="info-left">
 						<image src="/static/images/mine/mine_icon_integral1.png"></image>
-						<view class="name">My points</view>
+						<view class="name">{{$t('task_center.my_points')}}</view>
 						<view class="num">{{newData.point}}</view>
 					</view>
 					<image src="/static/images/task_center/exchange.png" class="des"></image>
 					<view class="info-left">
 						<image src="/static/images/task_center/app_logo.png"></image>
-						<view class="name">My points</view>
+						<view class="name">{{$t('task_center.mall_coins')}}</view>
 						<view class="num">{{newData.KCoin}}</view>
 					</view>
 				</view>
-				<view class="tip">You have {{newData.points_number}} points, which can be exchanged for {{newData.points_number}} Kolibri Mall Coins when we release them</view>
-				<view class="btn" @click="ExchangeKcoin">I know</view>
-				<view class="what" @click="navClick('/pages/mine/K_coin_introduction')">What is K coin? <image src="/static/images/task_center/doubt.png"></image> </view>
+				<view class="tip" v-show="isShopCont">You have {{newData.point}} points, which can be exchanged
+					for {{newData.KCoin}} Kolibri Mall Coins when we release them</view>
+				<view class="tip" v-show="!isShopCont">您有 {{newData.point}} 积分，我们发布时可以兑换
+					{{newData.KCoin}} Kolibri 商城币</view>
+				<view class="btns">
+					<view class="btn cancel" @click="showExchange=false">{{$t('home.search.query')}}</view>
+					<view class="btn" @click="ExchangeKcoin">{{$t('zhongpai.qr')}}</view>
+				</view>
+
+				<view class="what" @click="navClick('/pages/mine/K_coin_introduction')">{{$t('k_icon_what')}} <image
+						src="/static/images/new-index/doubt.png"></image>
+				</view>
 			</view>
 		</u-popup>
 		<view style="height: 40rpx;"></view>
@@ -66,14 +75,14 @@
 	export default {
 		data() {
 			return {
-				newData:{
-					points_number:0,
-					KCoin:0
+				newData: {
+					points_number: 0,
+					KCoin: 0
 				},
 				list: [],
 				total: 0,
 				showExchange: false,
-				isShopCont:false
+				isShopCont: false
 			}
 		},
 		onShow() {
@@ -83,8 +92,8 @@
 			this.getPointInfo()
 		},
 		methods: {
-			ExChangePop(points_number){
-				if(this.total === 0){
+			ExChangePop(points_number) {
+				if (this.total === 0) {
 					uni.showToast({
 						title: this.$t('Exchange_TotalError'),
 						icon: 'none'
@@ -92,7 +101,7 @@
 					return
 				}
 				const poinIsTotla = points_number > this.total
-				if(points_number * 1 < 0 &&  !poinIsTotla) {
+				if (points_number * 1 < 0 && !poinIsTotla) {
 					uni.showToast({
 						title: this.$t('Exchange_Error'),
 						icon: 'none'
@@ -100,17 +109,24 @@
 					return
 				}
 				const _data = {
-					point:points_number,
-					KCoin:points_number
+					point: points_number,
+					KCoin: points_number
 				}
 				this.newData = _data
 				this.showExchange = true
 			},
-			ExchangeKcoin(){
-				const {point} = this.newData 
-				this.$http.post(this.$apiObj.PointConvertKCoin, {point}).then(res => {
+			ExchangeKcoin() {
+				const {
+					point
+				} = this.newData
+				this.$http.post(this.$apiObj.PointConvertKCoin, {
+					point
+				}).then(res => {
 					this.showExchange = false
-					this.newData = {point:0,KCoin:0}
+					this.newData = {
+						point: 0,
+						KCoin: 0
+					}
 					this.getPointInfo()
 					console.log(res);
 				})
@@ -132,7 +148,7 @@
 					this.total = res.data.total_points
 				})
 			},
-			navClick(url){
+			navClick(url) {
 				uni.navigateTo({
 					url
 				})
@@ -146,7 +162,8 @@
 		width: 100%;
 		min-height: 100vh;
 		background: rgb(248, 248, 248);
-		.what{
+
+		.what {
 			width: 45%;
 			font-size: 24rpx;
 			color: #ffffff;
@@ -158,13 +175,15 @@
 			padding: 10rpx;
 			border: 2px solid #FFFFFF;
 			border-radius: 40rpx;
-			image{
+
+			image {
 				display: block;
 				width: 40rpx;
 				height: 40rpx;
 				margin-right: 18rpx;
 			}
 		}
+
 		.points-detail-content {
 			width: 100%;
 			height: 526rpx;
@@ -362,14 +381,15 @@
 			}
 
 		}
-		.exchange{
+
+		.exchange {
 			position: relative;
 			width: 590rpx;
 			padding: 34rpx 0 40rpx 0;
 			background: #fff;
 			border-radius: 24rpx;
-			
-			.close{
+
+			.close {
 				position: absolute;
 				top: 32rpx;
 				right: 32rpx;
@@ -377,80 +397,94 @@
 				height: 36rpx;
 				z-index: 5;
 			}
-			
-			.tit{
+
+			.tit {
 				width: 100%;
 				font-size: 28rpx;
 				font-weight: 700;
 				color: rgb(51, 51, 51);
 				text-align: center;
 			}
-			
-			.tit-des{
+
+			.tit-des {
 				width: 100%;
 				font-size: 24rpx;
 				color: rgb(51, 51, 51);
 				text-align: center;
 				margin-top: 30rpx;
 			}
-			
-			.info{
+
+			.info {
 				width: 100%;
 				display: flex;
 				align-items: flex-start;
 				justify-content: center;
-				
-				.info-left{
+
+				.info-left {
+					width: 190rpx;
 					text-align: center;
-					
-					image{
+
+					image {
 						width: 80rpx;
 						height: 80rpx;
 					}
-					
-					.name{
+
+					.name {
 						font-size: 24rpx;
 						font-weight: 500;
 						color: rgb(51, 51, 51);
 						margin: 20rpx 0;
 					}
-					
-					.num{
+
+					.num {
 						font-size: 52rpx;
 						font-weight: 700;
 					}
 				}
-				
-				.des{
+
+				.des {
 					display: block;
 					width: 40rpx;
 					height: 40rpx;
-					margin: 20rpx 56rpx 0 56rpx;
+					margin: 20rpx 20rpx 0 20rpx;
 				}
 			}
-			
-			.tip{
+
+			.tip {
 				width: 446rpx;
 				font-size: 22rpx;
 				color: rgb(102, 102, 102);
 				text-align: center;
 				margin: 40rpx auto;
 			}
-			
-			.btn{
-				width: 312rpx;
-				height: 96rpx;
-				line-height: 96rpx;
-				font-size: 36rpx;
-				font-weight: 700;
+
+			.btns {
+				width: 100%;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+
+			.btn {
+				width: 256rpx;
+				height: 68rpx;
+				line-height: 68rpx;
+				font-size: 28rpx;
 				color: rgb(255, 255, 255);
 				text-align: center;
-				background: linear-gradient(180.00deg, rgb(51, 222, 114),rgb(5, 195, 146) 98.871%);
-				border-radius: 96rpx;
-				margin: 0 auto;
+				background: linear-gradient(180.00deg, rgb(51, 222, 114), rgb(5, 195, 146) 98.871%);
+				border-radius: 68rpx;
+				margin: 0 8rpx;
 			}
-			
-			.what{
+
+			.cancel {
+				color: rgb(10, 198, 142);
+				box-sizing: border-box;
+				background: #FFFFFF;
+				border: 2rpx solid rgb(10, 198, 142);
+			}
+
+			.what {
 				width: 100%;
 				font-size: 24rpx;
 				color: rgb(10, 198, 142);
@@ -458,14 +492,14 @@
 				align-items: center;
 				justify-content: center;
 				margin-top: 40rpx;
-				
-				image{
+
+				image {
 					width: 24rpx;
 					height: 24rpx;
 					margin-left: 8rpx;
 				}
 			}
-			
+
 		}
 	}
 </style>

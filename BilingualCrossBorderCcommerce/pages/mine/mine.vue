@@ -82,7 +82,7 @@
 						<view class="cc-box-rebate">
 							<view class="rebate-num">
 								<image src="@/static/images/mine/mine_icon_diamonds.webp" mode="widthFix"></image>
-								<p>{{userCont.k_diamond_wallet*1 || 0.00}}</p>
+								<p>{{(userCont.k_diamond_wallet*1 + userCont.temporary_k_diamond_wallet*1) || 0.00}}</p>
 							</view>
 							<p style="margin: 10rpx 0;">({{isShopCont ? 'Included' : '包含'}} {{userCont.temporary_k_diamond_wallet}} {{isShopCont ? 'gift diamond' : '赠送K钻'}})</p>
 							<p>{{$t('mine.diamonds')}}</p>
@@ -124,16 +124,16 @@
 		</view>
 
 		<!--邀请返佣-->
-		<!-- <view class="ml-commission">
+		<view class="ml-commission" v-if="!showInviteFriend">
 			<view class="ml-commission-box" @click="navClick('/pages/mine/new/commission')">
 				<p>{{$t('new.yqfy')}}</p>
 			</view>
-		</view> -->
+		</view>
 		
 		<!--邀请好友送马币-->
-		<view class="invite_gift" @click="navClick('/pages/mine/new/invite_friend')">
+		<view class="invite_gift" @click="navClick('/pages/mine/new/invite_friend')" v-else>
 			<view class="tit">{{$t('mine.invite_friend')}}</view>
-			<view class="info">{{$t('mine.cash_reward')}} <text>RM5</text></view>
+			<view class="info">{{$t('mine.cash_reward')}} <text>RM{{inviteFriendPrice*1}}</text></view>
 		</view>
 		
 		<!--邀请返佣-->
@@ -405,7 +405,9 @@
 				inviationNum: 0, //邀请人数
 				yqUrl: '', //邀请url
 				isNotReadNum: 0,
-				isShopCont:false
+				isShopCont:false,
+				showInviteFriend:false,
+				inviteFriendPrice:0
 			}
 		},
 		onLoad() {
@@ -426,6 +428,13 @@
 				this.getCollectStore();
 				this.getInviationNum()
 			}
+			
+			this.$http.post(this.$apiObj.IndexSetting,{
+				fields: 'gift_balance_invitation_event,gift_balance_invitation_event_activity_money_withdraw'
+			}).then(res=>{
+				this.showInviteFriend = res.data.gift_balance_invitation_event
+				this.inviteFriendPrice = res.data.gift_balance_invitation_event_activity_money_withdraw
+			})
 		},
 		onHide() {
 			this.showContact = false

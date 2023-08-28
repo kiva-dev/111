@@ -44,7 +44,7 @@
 					<view>{{$t('new.wdkz')}}</view>
 					<image src="/static/images/products/right.png"></image>
 				</view>
-				<view class="info-price">{{kdiamond*1 || 0}}</view>
+				<view class="info-price">{{(kdiamond*1 + giftKdiamond*1) || 0}}</view>
 				<image class="diaClass" src="/static/images/new-index/diamond.png" mode="widthFix"></image>
 			</view>
 			<view>
@@ -182,6 +182,7 @@
 				navId: 2,
 				totalJf: 0,
 				kdiamond: 0,
+				giftKdiamond:0,
 				kCoinWallet: 0,
 				isShopCont: false
 			}
@@ -194,6 +195,7 @@
 			this.$http.post(this.$apiObj.MineInfo).then(res => {
 				if (res.code == 1) {
 					this.kdiamond = res.data.k_diamond_wallet
+					this.giftKdiamond = res.data.temporary_k_diamond_wallet
 					this.kCoinWallet = res.data.k_coin_wallet
 					this.money = res.data.money
 					this.tocash_money = res.data.recharge_money_balance
@@ -680,7 +682,7 @@
 						align-items: center;
 
 						view {
-							max-width: 420rpx;
+							max-width: 260rpx;
 							margin: 9rpx 0;
 							color: rgb(51, 51, 51);
 							font-size: 28rpx;
