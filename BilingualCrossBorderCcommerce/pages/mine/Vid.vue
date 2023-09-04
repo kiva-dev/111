@@ -55,34 +55,55 @@
 			<view class="id-pic">
 				<view class="label">{{$t('user.vid.sczz')}}</view>
 				<view class="pic-li">
-					<view class="li-con" @click="chooseImage">
-						<view class="li-img" v-if="front_image">
-							<image class="img"
-								:src="front_image.startsWith('http') ? front_image : baseUrl+front_image"></image>
-						</view>
-						<view class="li-img" v-else>
-							<!-- <image class="img" src="../../static/images/mine/id1.png"></image> -->
-							<view class="icon">
-								<image class="img" src="@/static/images/mine/profile_set_avatar.png"></image>
+					<view class="pic-info">
+						<view class="tit">{{$t('user.vid.zjzm')}}</view>
+						<view class="li-con" @click="chooseImage">
+							<view class="li-img" v-if="front_image">
+								<image class="img" :src="front_image? front_image : baseUrl+front_image"></image>
 							</view>
-							<view class="t">{{$t('user.vid.zjzm')}}</view>
-						</view>
-
-					</view>
-					<view class="li-con" @click="chooseImages">
-						<view class="li-img" v-if="front_image">
-							<image class="img" :src="back_image.startsWith('http') ? back_image : baseUrl+back_image">
-							</image>
-						</view>
-						<view class="li-img" v-else>
-							<!-- <image class="img" src="../../static/images/mine/id2.png"></image> -->
-							<view class="icon">
-								<image class="img" src="@/static/images/mine/profile_set_avatar.png"></image>
+							<view class="li-img" v-else>
+								<view class="icon">
+									<image class="img" src="@/static/images/mine/profile_set_avatar.png"></image>
+								</view>
+								<view class="t">{{$t('user.vid.upload')}}</view>
 							</view>
-							<view class="t">{{$t('user.vid.zjfm')}}</view>
 						</view>
-
 					</view>
+
+					<view class="pic-info">
+						<view class="tit">{{$t('user.vid.zjfm')}}</view>
+						<view class="li-con" @click="chooseImages">
+							<view class="li-img" v-if="back_image">
+								<image class="img" :src="back_image ? back_image : baseUrl+back_image">
+								</image>
+							</view>
+							<view class="li-img" v-else>
+								<!-- <image class="img" src="../../static/images/mine/id2.png"></image> -->
+								<view class="icon">
+									<image class="img" src="@/static/images/mine/profile_set_avatar.png"></image>
+								</view>
+								<view class="t">{{$t('user.vid.upload')}}</view>
+							</view>
+						</view>
+					</view>
+
+					<view class="pic-info">
+						<view class="tit">{{$t('user.vid.hand_card')}}</view>
+						<view class="li-con" @click="chooseImageByHand">
+							<view class="li-img" v-if="hand_image">
+								<image class="img" :src="hand_image ? hand_image : baseUrl+hand_image">
+								</image>
+							</view>
+							<view class="li-img" v-else>
+								<!-- <image class="img" src="../../static/images/mine/id2.png"></image> -->
+								<view class="icon">
+									<image class="img" src="@/static/images/mine/profile_set_avatar.png"></image>
+								</view>
+								<view class="t">{{$t('user.vid.upload')}}</view>
+							</view>
+						</view>
+					</view>
+
 				</view>
 				<view class="id-tip">
 					<view class="icon">
@@ -127,7 +148,8 @@
 							<u--input :placeholder="$t('user.Vemail.qsryzm')" border="none" v-model="mobile_code" />
 						</view>
 					</view>
-					<view class="input-btn" @click="verifyEmailOrPhone()">{{mobile_txt}}{{show_mobile_time?'S':''}}</view>
+					<view class="input-btn" @click="verifyEmailOrPhone()">{{mobile_txt}}{{show_mobile_time?'S':''}}
+					</view>
 				</view>
 				<view class="tip" v-if="showErr">{{$t('new.yzmcw')}}</view>
 
@@ -156,6 +178,7 @@
 				idcard: '', // 身份证号
 				front_image: '', // 身份证正面
 				back_image: '', // 身份证反面
+				hand_image: '', // 手持身份证
 				baseUrl: this.$baseUrl,
 				status: '',
 				refuse_reason: '',
@@ -187,7 +210,6 @@
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
 
 			this.$http.post(this.$apiObj.MineInfo).then(res => {
-				console.log(!res.data.mobile)
 				if (!res.data.mobile) {
 					this.showBindPhone = true
 				}
@@ -196,12 +218,13 @@
 			// 实名认证
 			this.$http.post(this.$apiObj.MineAuthDetail).then(res => {
 				if (res.code == 1) {
-					if (res.data.length > 1) {
+					if (res.data) {
 						this.index = res.data.type - 1 || 0
 						this.firstName = res.data.firstName
 						this.lastName = res.data.lastName
 						this.idcard = res.data.idcard
 						this.front_image = res.data.front_image
+						this.hand_image = res.data.hand_image
 						this.back_image = res.data.back_image
 						this.status = res.data.status || '1'
 						if (this.isShopCont) {
@@ -269,14 +292,14 @@
 							icon: 'none',
 							duration: 3000
 						})
-					} else{
+					} else {
 						this.getSendCode()
 					}
 				})
 			},
 			getSendCode() {
 				if (this.show_mobile_time) return
-				
+
 				uni.showLoading({
 					title: this.$t('login.qq'),
 					mask: true
@@ -422,6 +445,56 @@
 					}
 				});
 			},
+
+			// 上传手持身份证图片
+			chooseImageByHand() {
+				if (this.status === 0 && this.firstName) return
+				this.show = false
+				uni.chooseImage({
+					count: 1,
+					size: 10 * 1000000,
+					sizeType: ['compressed'],
+					success: (res) => {
+						uni.showLoading({
+							title: this.$t('user.vid.scz'),
+							mask: true
+						});
+						this.resImg = res.tempFilePaths[0] //这就是要的blod
+						this.uploadImgByHand(this.resImg)
+					}
+				})
+			},
+			//-----------------------------------------------结束
+			uploadImgByHand(tempFilePaths) {
+				// console.log(tempFilePaths, "触发上传接口")
+				uni.uploadFile({
+					url: this.$baseUrl + 'api/Common/upload',
+					filePath: tempFilePaths,
+					name: 'file',
+					header: {
+						token: uni.getStorageSync('token'),
+					},
+					success: res => {
+						var data = JSON.parse(res.data);
+						if (data.code == 200) {
+							this.hand_image = data.data.url
+							uni.showToast({
+								title: this.$t('user.vid.sccg'),
+								icon: 'none',
+								duration: 1000
+							});
+						} else {
+							uni.showToast({
+								title: this.$t('user.vid.scsb'),
+								icon: 'none',
+								duration: 1000
+							});
+						}
+					}
+				});
+			},
+
+
 			bindPickerChange: function(e) {
 				this.index = e.detail.value
 			},
@@ -447,6 +520,7 @@
 					idcard: this.idcard, // 身份证号
 					front_image: this.front_image, // 身份证正面
 					back_image: this.back_image, // 身份证反面
+					hand_image: this.hand_image, //手持身份证
 					type: this.index + 1, // 1身份证,2驾驶证，3护照
 				}).then(res => {
 					if (res.code == 1) {
@@ -642,11 +716,27 @@
 				padding: 36rpx 0;
 
 				.pic-li {
-					display: flex;
-					justify-content: space-between;
+					// display: flex;
+					// flex-wrap: wrap;
+					// justify-content: center;
 					margin: 30rpx 0;
+					
+					.pic-info{
+						display: flex;
+						align-items: center;
+						
+						.tit{
+							width: 220rpx;
+							font-size: 24rpx;
+							font-weight: 700;
+							color: rgb(51, 51, 51);
+							margin-left: 60rpx;
+						}
+					}
 
 					.li-con {
+						margin: 0 8rpx 32rpx 24rpx;
+
 						.t {
 							font-size: 22rpx;
 							margin-top: 20rpx;
@@ -669,7 +759,7 @@
 							.t {
 								position: absolute;
 								left: 50%;
-								bottom: 56rpx;
+								bottom: 40rpx;
 								transform: translate(-50%, 0);
 								font-size: 24rpx;
 								color: rgb(10, 198, 142);
