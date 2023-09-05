@@ -527,33 +527,44 @@
 				qrUrl: "",
 				shifting: '8%',
 				chooseDraw: 1,
+				otherData:{},
+				other:false
 			}
 		},
 		onLoad(e) {
 			if (e.num) this.type = parseInt(e.num);
+			if(e.data) this.otherData = JSON.parse(e.data)
+			if(e.type == 'other') this.other = true
+			
+			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false;
+			// 我的竞拍
+			console.log(this.type)
 			if (this.type === 1) {
 				this.shifting = '8%'
+				this.onMineAttendAuction();
 			}
 			if (this.type === 5) {
 				this.shifting = '33%'
+				this.AuctionorderMineOrder();
 			}
 			if (this.type === 3) {
 				this.shifting = '58.5%'
+				this.onMineWinAuction();
 			}
 			if (this.type === 4) {
 				this.shifting = '83.5%'
+				this.onMineRecordList();
 			}
 		},
 		onShow() {
-			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false;
-			// 我的竞拍
-			this.onMineAttendAuction();
+			
 
-			this.onMineWinAuction();
-
-			this.onMineRecordList();
-			this.AuctionorderMineOrder();
-
+		},
+		mounted() {
+			if(this.other){
+				this.chooseDraw=2
+				this.onlingjiangClick(this.otherData)
+			}	
 		},
 		methods: {
 			toAwardDetail(item) {
@@ -1195,7 +1206,7 @@
 		.ap-header {
 			width: 100%;
 			background: rgb(255, 255, 255);
-			padding-top: 88rpx;
+			padding-top: 60rpx;
 			box-sizing: border-box;
 
 			.ap-header-container {
@@ -2048,6 +2059,7 @@
 				color: rgb(51, 51, 51);
 				font-size: 24rpx;
 				line-height: 36rpx;
+				word-break: break-all;
 			}
 
 			.info-bot {

@@ -224,7 +224,10 @@
 							</view>
 							<u--text margin="6px 2px" :text="item.comment"></u--text>
 							<view class="album__urls">
-								<image :src="imagesItem" v-for="(imagesItem,index) in item.images" :key="index"></image>
+								<view class="album_url" v-for="(item,index) in item.images"
+									:key="index">
+									<img :src="item"></img>
+								</view>
 							</view>
 						</view>
 						<!-- 子级评论图标 -->
@@ -1616,7 +1619,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 								item.images = item.images.split(',');
 							}
 							item.luckyForumComments = comments[index];
-							console.log(item);
 						});
 					}
 				} catch (error) {
@@ -2359,7 +2361,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 		.close {
 			position: absolute;
-			top: 20rpx;
+			top: 50rpx;
 			right: 32rpx;
 			width: 50rpx;
 			height: 50rpx;
@@ -3072,18 +3074,31 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 			.album__urls {
 				margin-top: 40rpx;
+				margin-bottom: 10rpx;
 				display: flex;
 				align-items: center;
-				flex-direction: row;
 				flex-wrap: wrap;
 				align-content: space-between;
-
-				image {
+			
+				.album_url {
+					position: relative;
 					width: 180rpx;
-					height: 180rpx !important;
-					margin: 0 20rpx 20rpx 0;
+					height: 180rpx;
 					border-radius: 24rpx;
+					background: #F8F8F8;
+					margin: 0 10rpx 10rpx 10rpx;
+			
+					img {
+						position: absolute;
+						top: 50%;
+						left: 50%;
+						transform: translate(-50%, -50%);
+						object-fit: contain;
+						width: 160rpx;
+						height: 160rpx;
+					}
 				}
+			
 			}
 
 			.start-class {
