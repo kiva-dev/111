@@ -1,6 +1,6 @@
 <template>
-    <view style="background: #eee;min-height:100vh">
-        <view class="mp-header">
+	<view style="background: #eee;min-height:100vh">
+		<view class="mp-header">
 			<view style="height: 88rpx;"></view>
 			<view class="mp-header-box">
 				<view class="box-back" @click="onBack">
@@ -13,72 +13,46 @@
 			</view>
 		</view>
 		<view class="content">
-            <view class="start-class">
-                <u-rate active-color="#0AC68E" inactive-color="#CCCCCC" minCount='1' gutter="16" size='24' :allowHalf='true' v-model="stareValue"></u-rate>
-                <span>{{stareValue}}</span>
-            </view>
-            <u--textarea confirm-type="done" v-model="value5" :placeholder="siderClasses" border="bottom" height='250' count maxlength='3000'></u--textarea>
+			<view class="start-class">
+				<u-rate active-color="#0AC68E" inactive-color="#CCCCCC" minCount='1' gutter="16" size='24'
+					:allowHalf='true' v-model="stareValue"></u-rate>
+				<span>{{stareValue}}</span>
+			</view>
+			<u--textarea confirm-type="done" v-model="value5" :placeholder="siderClasses" border="bottom" height='250'
+				count maxlength='3000'></u--textarea>
 		</view>
-        <view class="upload-prop">
-            <u-upload
-                deletable
-                :fileList="fileList1"
-                @afterRead="afterRead"
-                @delete="deletePic"
-                name="1"
-                multiple
-                :maxCount="5"
-                width="210"
-	            height="210"
-            >
-                <view class="upload-class">
-                    <image :src="imgUrl" mode="widthFix" class="upload-image"></image>
-                    <view class="upload-pictures">{{$t('luckysharing.pictures')}}</view>
-                    <view>{{fileList1.length}}/5</view>
-                </view>
-            </u-upload>
-        </view>
+		<view class="upload-prop">
+			<u-upload deletable :fileList="fileList1" @afterRead="afterRead" @delete="deletePic" name="1" multiple
+				:maxCount="5" width="106" height="106">
+				<view class="upload-class">
+					<image :src="imgUrl" mode="widthFix" class="upload-image"></image>
+					<view class="upload-pictures">{{$t('luckysharing.pictures')}}</view>
+					<view>{{fileList1.length}}/5</view>
+				</view>
+			</u-upload>
+		</view>
 
-        <!-- 选择中拍期数 -->
-        <view style="background:#ffffff;margin:20rpx 0" v-if="actions.length > 0">
-            <u--form labelPosition="left" :model="model1" ref="uForm" >
-                <u-form-item
-                        label="Wishing sessions"
-                        prop="auction_goods_stage_num"
-                        borderBottom
-                        @click="showSex = true"
-                        ref="item1"
-                >
-                    <u--input
-                            v-model="model1.auction_goods_stage_num"
-                            disabled
-                            disabledColor="#ffffff"
-                            placeholder="select"
-                            border="none"
-                    ></u--input>
-                    <u-icon
-                            slot="right"
-                            name="arrow-right"
-                    ></u-icon>
-                </u-form-item>
-            </u--form>
-            <u-action-sheet
-                    :show="showSex"
-                    :actions="actions"
-                    title="select"
-                    @close="showSex = false"
-                    @select="sexSelect"
-            >
-            </u-action-sheet>
-        </view>
+		<!-- 选择中拍期数 -->
+		<view style="background:#ffffff;margin:20rpx 0" v-if="actions.length > 0">
+			<u--form labelPosition="left" :model="model1" ref="uForm">
+				<u-form-item :label="isEnglish ? 'Wishing sessions' : '许愿期数'" prop="auction_goods_stage_num"
+					borderBottom @click="showSex = true" ref="item1">
+					<u--input v-model="model1.auction_goods_stage_num" disabled disabledColor="#ffffff"
+						:placeholder="isEnglish ? 'Select Period' : '选择期数'" border="none"></u--input>
+					<u-icon slot="right" name="arrow-right"></u-icon>
+				</u-form-item>
+			</u--form>
+			<u-action-sheet :show="showSex" :actions="actions" :title="isEnglish ? 'Select Period' : '选择期数'"
+				@close="showSex = false" @select="sexSelect">
+			</u-action-sheet>
+		</view>
 
-        <view class="address-fixed">
-			<view class="fixed-con">
-				<button class="public-btn" style="background: rgb(10, 198, 142);"
-					@click="onShareClick">{{$t('comment.sharingBtn')}}</button>
+		<view class="address-fixed">
+			<view class="fixed-con" @click="onShareClick">
+				{{$t('comment.sharingBtn')}}
 			</view>
 		</view>
-        <u-popup ref="childShare" :show="shareFriendShow" :round="10" mode="center" closeable @close="close">
+		<u-popup ref="childShare" :show="shareFriendShow" :round="10" mode="center" closeable @close="close">
 			<view class="tishingCont sareFriends">
 				<view class="title">{{$t('luckysharing.Successfullypublished')}}</view>
 				<view class="name">{{$t('luckysharing.SuccessText')}}</view>
@@ -87,45 +61,46 @@
 				</view>
 			</view>
 		</u-popup>
-    </view>
+		<view style="height: 140rpx;"></view>
+	</view>
 </template>
 
 <script>
 	export default {
 		data() {
 			return {
-                stareValue:5,
-                orderauctionrecordid:'',
-                shareFriendShow:false,
-                imgUrl:require('@/static/icon/path.png'),
-                value5: '',
+				stareValue: 5,
+				orderauctionrecordid: '',
+				shareFriendShow: false,
+				imgUrl: require('@/static/icon/path.png'),
+				value5: '',
 				fileList1: [],
-                showSex: false,
-                model1: {
-                    auction_goods_stage_num: '',
-                },
-                actions: [],
-                columns:[],
-                AreaForm:'',
-                pickerShow:false,
+				showSex: false,
+				model1: {
+					auction_goods_stage_num: '',
+				},
+				actions: [],
+				columns: [],
+				AreaForm: '',
+				pickerShow: false,
+				isEnglish: uni.getStorageSync('locale') === 'en' ? true : false,
 			}
 		},
-        computed: {
-            siderClasses() {
-            }
-        },
-        onLoad(e) {
-            if(e.orderauctionrecordid){
-                this.orderauctionrecordid = e.orderauctionrecordid
-                this.StageNumFun()
-            }
+		computed: {
+			siderClasses() {}
 		},
-		methods:{
-            sexSelect(e) {
-                this.model1.auction_goods_stage_num = e.name
-            },
-            onBack(){
-                const routeArr = getCurrentPages().map(i => i.route);
+		onLoad(e) {
+			if (e.orderauctionrecordid) {
+				this.orderauctionrecordid = e.orderauctionrecordid
+				this.StageNumFun()
+			}
+		},
+		methods: {
+			sexSelect(e) {
+				this.model1.auction_goods_stage_num = e.name
+			},
+			onBack() {
+				const routeArr = getCurrentPages().map(i => i.route);
 				if (routeArr.length > 1) {
 					uni.navigateBack();
 				} else {
@@ -133,60 +108,64 @@
 						url: '/pages/auction/auction'
 					});
 				}
-            },
-            // 获取期数
-            async StageNumFun(){
-                const url = this.$apiObj.getStageNumByUid;
-                const res = await this.$http.post(url, {"goods_id": this.orderauctionrecordid});
-                if(res.code === 1){
-                    const dataArray = Object.keys(res.data).map(id => ({
-                        id: id,
-                        name: res.data[id]
-                    }));
-                    this.actions = dataArray
-                }
-                console.log(res,this.actions);
-            },
-            // 分享
-            close() {
-                this.shareFriendShow = false;
-            },
-			async onShareClick(){
-                if (!this.value5) {
-                    uni.showToast({
-                        title: this.$t('user.Feedback.qsrnr'),
-                        icon: 'none'
-                    })
-                    return;
-                }
-                const url = this.$apiObj.SendComment;
-                const comment = this.value5;
-                const the_star = this.stareValue
-                const urlArray = this.fileList1.map(item => item.url);
-                const images = urlArray.join(',');
-                const {auction_goods_stage_num} = this.model1
-                try {
-                    const res = await this.$http.post(url, {
-                        comment,
-                        images,
-                        the_star,
-                        auction_goods_stage_num,
-                        "goods_id": this.orderauctionrecordid
-                    });
-                    // this.shareFriendShow = res.code === 1 ? true : false;
-                    if (res.code !== 1) {
-                        uni.showToast({
-                            title: res.msg,
-                            icon: 'none'
-                        });
-                    }else{
-                        this.onBack()
-                    }
-                } catch (error) {
-                    console.error("An error occurred:", error);
-                }
 			},
-			openShare(){
+			// 获取期数
+			async StageNumFun() {
+				const url = this.$apiObj.getStageNumByUid;
+				const res = await this.$http.post(url, {
+					"goods_id": this.orderauctionrecordid
+				});
+				if (res.code === 1) {
+					const dataArray = Object.keys(res.data).map(id => ({
+						id: id,
+						name: res.data[id]
+					}));
+					this.actions = dataArray
+				}
+				console.log(res, this.actions);
+			},
+			// 分享
+			close() {
+				this.shareFriendShow = false;
+			},
+			async onShareClick() {
+				if (!this.value5) {
+					uni.showToast({
+						title: this.$t('user.Feedback.qsrnr'),
+						icon: 'none'
+					})
+					return;
+				}
+				const url = this.$apiObj.SendComment;
+				const comment = this.value5;
+				const the_star = this.stareValue
+				const urlArray = this.fileList1.map(item => item.url);
+				const images = urlArray.join(',');
+				const {
+					auction_goods_stage_num
+				} = this.model1
+				try {
+					const res = await this.$http.post(url, {
+						comment,
+						images,
+						the_star,
+						auction_goods_stage_num,
+						"goods_id": this.orderauctionrecordid
+					});
+					// this.shareFriendShow = res.code === 1 ? true : false;
+					if (res.code !== 1) {
+						uni.showToast({
+							title: res.msg,
+							icon: 'none'
+						});
+					} else {
+						this.onBack()
+					}
+				} catch (error) {
+					console.error("An error occurred:", error);
+				}
+			},
+			openShare() {
 				this.shareFriendShow = false
 				uni.navigateTo({
 					url: '/pages/auction/auction'
@@ -198,7 +177,7 @@
 			// 新增图片
 			async afterRead(event) {
 				// 当设置 multiple 为 true 时, file 为数组格式，否则为对象格式
-                const message = this.$t('user.upgrade.scz')
+				const message = this.$t('user.upgrade.scz')
 				let lists = [].concat(event.file)
 				let fileListLen = this[`fileList${event.name}`].length
 				lists.map((item) => {
@@ -222,15 +201,15 @@
 			uploadFilePromise(url) {
 				return new Promise((resolve, reject) => {
 					let a = uni.uploadFile({
-						url: this.$baseUrl + 'api/Common/upload', 
+						url: this.$baseUrl + 'api/Common/upload',
 						filePath: url,
 						name: 'file',
-                        header: {
-                            token: uni.getStorageSync('token'),
-                        },  
+						header: {
+							token: uni.getStorageSync('token'),
+						},
 						success: (res) => {
-                            let responseData = JSON.parse(res.data);
-                            let fullurl = responseData.data.fullurl;
+							let responseData = JSON.parse(res.data);
+							let fullurl = responseData.data.fullurl;
 							setTimeout(() => {
 								resolve(fullurl);
 							}, 1000)
@@ -238,7 +217,7 @@
 					});
 				})
 			},
-            navClick(url) {
+			navClick(url) {
 				uni.navigateTo({
 					url
 				})
@@ -249,167 +228,189 @@
 </script>
 
 <style lang="less" scoped>
-.u-textarea--no-radius{
-    height: 500rpx;
-}
-/deep/ .u-form-item__body{
-    padding: 40rpx;
-}
-/deep/ .u-form-item__body__left{
-    width: 300rpx !important;
-}
-.u-upload__wrap__preview__image{
-    border-radius: 24rpx;
-}
-.upload-prop{
-    padding: 40rpx 20rpx 20rpx 40rpx;
-    background: #fff;
-    .u-upload__wrap__preview{
-        width: 240rpx;
-        height: 240rpx;
-    }
-}
-.upload-class{
-    width: 210rpx;
-    height: 210rpx;
-    color: #999;
-    border: 1rpx solid #ccc;
-    border-radius: 24rpx;
-    background: #F6F7F9;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    .upload-image{
-        width: 80rpx;
-        height: 80rpx;
-        margin-bottom: 36rpx;
-    }
-    .upload-pictures{
-    }
-}
-.mp-header {
-    width: 100%;
-    background: #fff;
+	.u-textarea--no-radius {
+		height: 500rpx;
+	}
 
-    .mp-header-box {
-        width: 100%;
-        height: 88rpx;
-        padding: 0 32rpx;
-        box-sizing: border-box;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-bottom: 1rpx solid rgb(204, 204, 204);
+	/deep/ .u-form-item__body {
+		padding: 40rpx;
+	}
 
-        .box-back {
-            width: 40rpx;
-            height: 40rpx;
+	/deep/ .u-form-item__body__left {
+		width: 300rpx !important;
+	}
 
-            image {
-                width: 100%;
-            }
-        }
+	/deep/ .u-upload__wrap__preview__image {
+		border-radius: 16rpx;
+		margin-right: 8rpx;
+	}
 
-        .box-title {
-            color: rgb(51, 51, 51);
-            font-size: 40rpx;
-        }
+	.upload-prop {
+		width: 686rpx;
+		padding: 48rpx 32rpx 32rpx 32rpx;
+		background: #fff;
+	}
 
-        .box-clear {
-            width: 36rpx;
-            height: 36rpx;
+	.upload-class {
+		width: 210rpx;
+		height: 210rpx;
+		color: #999;
+		border: 1rpx solid #ccc;
+		border-radius: 24rpx;
+		background: #F6F7F9;
+		overflow: hidden;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
 
-            image {
-                width: 100%;
-            }
-        }
-    }
-}
-.content{
-    background: #fff;
-    margin: 21rpx 0 0 0;
-    padding: 21rpx;
-    box-sizing: border-box;
-    overflow: hidden;
-    .start-class{
-        display: flex;
-        align-items: center;
-        span{
-            color: rgb(10, 198, 142);
-            font-size: 32rpx;
-            font-weight: 500;
-            text-align: left;
-        }
-    }
-}
-.address-fixed {
-    width: 100%;
-    background: #ffffff;
-    box-shadow: 0 0 20rpx 0 rgba(153, 153, 153, 0.1);
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    z-index: 99;
+		.upload-image {
+			width: 80rpx;
+			height: 80rpx;
+			margin-bottom: 36rpx;
+		}
 
-    .fixed-con {
-        padding: 32rpx 32rpx 64rpx 32rpx;
-        box-sizing: border-box;
-    }
-}
-// 提示
-.tishingCont {
-    width: 590rpx;
-    height: 360rpx;
-    background: #ffffff;
-    border-radius: 30rpx;
-    padding-top: 50rpx;
+		.upload-pictures {}
+	}
 
-    .title {
-        font-size: 30rpx;
-        color: #333;
-        text-align: center;
-    }
+	.mp-header {
+		width: 100%;
+		background: #fff;
 
-    .name {
-        margin-top: 40rpx;
-        font-size: 26rpx;
-        color: #999;
-        text-align: center;
+		.mp-header-box {
+			width: 100%;
+			height: 88rpx;
+			padding: 0 32rpx;
+			box-sizing: border-box;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			border-bottom: 1rpx solid rgb(204, 204, 204);
 
-        text {
-            color: rgb(255, 78, 47);
-        }
-    }
-    
-    .cont {
-        margin-top: 60rpx;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 26rpx;
-        padding: 0 50rpx;
+			.box-back {
+				width: 40rpx;
+				height: 40rpx;
 
-        .query {
-            width: 200rpx;
-            height: 80rpx;
-            line-height: 80rpx;
-            text-align: center;
-            background: #dddddd;
-            border-radius: 40rpx;
-            color: #000;
-        }
+				image {
+					width: 100%;
+				}
+			}
 
-        .btnsub {
-            width: 200rpx;
-            height: 80rpx;
-            line-height: 80rpx;
-            text-align: center;
-            background: #1DD181;
-            border-radius: 40rpx;
-            color: #fff;
-        }
-    }
-}
+			.box-title {
+				color: rgb(51, 51, 51);
+				font-size: 40rpx;
+			}
+
+			.box-clear {
+				width: 36rpx;
+				height: 36rpx;
+
+				image {
+					width: 100%;
+				}
+			}
+		}
+	}
+
+	.content {
+		background: #fff;
+		margin: 21rpx 0 0 0;
+		padding: 21rpx;
+		box-sizing: border-box;
+		overflow: hidden;
+
+		.start-class {
+			display: flex;
+			align-items: center;
+
+			span {
+				color: rgb(10, 198, 142);
+				font-size: 32rpx;
+				font-weight: 500;
+				text-align: left;
+			}
+		}
+	}
+
+	.address-fixed {
+		width: 100%;
+		height: 120rpx;
+		padding-bottom: 20rpx;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: #ffffff;
+		box-shadow: 0 0 20rpx 0 rgba(153, 153, 153, 0.1);
+		position: fixed;
+		left: 0;
+		bottom: 0;
+		z-index: 99;
+		
+		.fixed-con{
+			width: 686rpx;
+			height: 88rpx;
+			line-height: 88rpx;
+			font-size: 36rpx;
+			font-weight: bold;
+			color: rgb(255, 255, 255);
+			text-align: center;
+			background: rgb(10, 198, 142);
+			border-radius: 88rpx;
+		}
+	}
+
+	// 提示
+	.tishingCont {
+		width: 590rpx;
+		height: 360rpx;
+		background: #ffffff;
+		border-radius: 30rpx;
+		padding-top: 50rpx;
+
+		.title {
+			font-size: 30rpx;
+			color: #333;
+			text-align: center;
+		}
+
+		.name {
+			margin-top: 40rpx;
+			font-size: 26rpx;
+			color: #999;
+			text-align: center;
+
+			text {
+				color: rgb(255, 78, 47);
+			}
+		}
+
+		.cont {
+			margin-top: 60rpx;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 26rpx;
+			padding: 0 50rpx;
+
+			.query {
+				width: 200rpx;
+				height: 80rpx;
+				line-height: 80rpx;
+				text-align: center;
+				background: #dddddd;
+				border-radius: 40rpx;
+				color: #000;
+			}
+
+			.btnsub {
+				width: 200rpx;
+				height: 80rpx;
+				line-height: 80rpx;
+				text-align: center;
+				background: #1DD181;
+				border-radius: 40rpx;
+				color: #fff;
+			}
+		}
+	}
 </style>

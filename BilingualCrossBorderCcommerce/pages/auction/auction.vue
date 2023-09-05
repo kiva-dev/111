@@ -128,50 +128,40 @@
 					</view>
 				</view>
 			</view>
-			<view class="lucky-layout" @click="navClick('/pages/auction/lucky')">
-				<view class="ll-icon">
-					<image src="@/static/images/mine/lucky_icon_trophy.png" mode="widthFix"></image>
-				</view>
-				<view class="ll-text" v-if="isEnglish">
-					<view class="image">
-						<image :src="avatar" mode="aspectFill" class="image"></image>
-					</view>
-					<view class="item-right-content">
-						<!-- 	In the Joint contribution sales activities provided by{{' '}}
-						<text style="color: rgb(10, 198, 142);">{{shop_name}}</text> -->
-						<!-- ,at the price of{{' '}} -->
-						<!-- <text style="color: rgb(255, 57, 57); font-weight: bold;">
-							<image src="/static/images/kbrick/diamond.png"></image>{{pay_price}}
-						</text> -->
-						<!-- , -->
-						<text style="color: rgb(10, 198, 142);">{{nickname}}</text> &nbsp; was lucky to win a
-						{{goods_name}}
-						{{' '}}worth{{' '}}
-						<text style="color: rgb(255, 57, 57); font-weight: bold;">RM{{price}}</text>
-					</view>
-				</view>
-				<view class="ll-text" v-else>
-					<view class="image">
-						<image :src="avatar" mode="aspectFill" class="image"></image>
-					</view>
-					<view class="item-right-content">
-						<!-- 	在
-						<text style="color: rgb(10, 198, 142);">{{shop_name}}</text>
-						提供的许愿活动中，以 -->
-						<!-- <text style="color: rgb(255, 57, 57); font-weight: bold;">
-							<image src="/static/images/kbrick/diamond.png"></image>{{pay_price}}
-						</text> -->
-						<!-- 的价格， -->
-						<text style="color: rgb(10, 198, 142);">{{nickname}}</text>
-						幸运地获得了价值<text
-							style="color: rgb(255, 57, 57); font-weight: bold;">RM{{price}}</text>的{{goods_name}}
+
+			<view class="luck_list">
+				<view class="move_div">
+					<view v-for="item in LuckyList" class="lucky-layout" @click="navClick('/pages/auction/lucky')">
+						<view class="ll-icon">
+							<image src="@/static/images/mine/lucky_icon_trophy.png" mode="widthFix"></image>
+						</view>
+						<view class="ll-text" v-if="isEnglish">
+							<view class="image">
+								<image :src="item.avatar" mode="aspectFill" class="image"></image>
+							</view>
+							<view class="item-right-content">
+								<text style="color: rgb(10, 198, 142);">{{item.nickname}}</text> &nbsp; was lucky to win
+								a
+								{{item.goods_name}}
+								{{' '}}worth{{' '}}
+								<text style="color: rgb(255, 57, 57); font-weight: bold;">RM{{item.price}}</text>
+							</view>
+						</view>
+						<view class="ll-text" v-else>
+							<view class="image">
+								<image :src="item.avatar" mode="aspectFill" class="image"></image>
+							</view>
+							<view class="item-right-content">
+								<text style="color: rgb(10, 198, 142);">{{item.nickname}}</text>
+								幸运地获得了价值<text
+									style="color: rgb(255, 57, 57); font-weight: bold;">RM{{item.price}}</text>的{{item.goods_name}}
+							</view>
+						</view>
 					</view>
 				</view>
 
-				<!-- <view class="ll-right">
-					<image src="@/static/images/products/right.png" mode="widthFix"></image>
-				</view> -->
 			</view>
+
 		</view>
 
 		<!-- 商品分类 -->
@@ -959,22 +949,22 @@
 						<image src="/static/images/luck/luck-right.png" class="btn-right"></image>
 					</view>
 				</view>
-		
+
 				<view class="mode-info">
 					<image src="/static/images/kbrick/diamond.png" class="logo"></image>
-		
+
 					<view class="info-tit">
 						<view class="info-name">{{$t('new.kzzf')}}</view>
 						<view class="info-price">({{$t('new.kz')}}:<text>{{balance}}</text>)</view>
 					</view>
-		
+
 					<view class="mode-info-right" @click="showRmToKdiamond=!showRmToKdiamond">
 						<view>{{$t('new.dhfk')}}</view>
 						<image src="/static/images/kbrick/btm.png" class="top" v-show="!showRmToKdiamond"></image>
 						<image src="/static/images/kbrick/top.png" class="top" v-show="showRmToKdiamond"></image>
 					</view>
 				</view>
-		
+
 				<view class="mode-more" v-show="showRmToKdiamond">
 					<view class="tit">{{$t('new.jh')}}:</view>
 					<image src="/static/images/kbrick/diamond.png" class="logo"></image>
@@ -993,21 +983,21 @@
 						v-show="kdiamondSelect && (((shopNum*1 - balance*1) > 0 && money*1 >= shopNum*1) && !useInvite || (can_use_invite_money_rate>0 && money *1 >=useInviteRmNum && useInvite && balance*1 < shopNum*1 && useInviteRmNum>0))"
 						@click="kdiamondSelect=false"></image>
 				</view>
-		
+
 				<u-line style="width: 670rpx;margin: 32rpx auto 0 auto;"></u-line>
-		
+
 				<view class="mode-info" style="margin-top: 40rpx;">
 					<image src="/static/images/kbrick/diamond.png" class="logo"></image>
-		
+
 					<view class="info-tit">
 						<view class="info-name">({{$t('detail.pay_gift_diamond')}}: {{giftKdiamondBalance}})</view>
 					</view>
-		
+
 					<view class="bonus_price" v-show="useKdiamondBonus">
 						- {{ useInvite ? giftKdiamondBalance >= shopNum - zenjinToRmNum ? (shopNum - zenjinToRmNum).toFixed(2) : 
 						giftKdiamondBalance : giftKdiamondBalance >= shopNum ? shopNum : giftKdiamondBalance }}
 					</view>
-		
+
 					<view class="mode-info-right" v-show="giftKdiamondBalance*1 > 0">
 						<image src="/static/images/new-index/wxz.png" class="use" v-show="!useKdiamondBonus"
 							@click="useKdiamondBonus=!useKdiamondBonus">
@@ -1017,17 +1007,17 @@
 						</image>
 					</view>
 				</view>
-		
+
 				<view class="mode-info" style="margin-top: 40rpx;" v-if="can_use_invite_money_rate*1 > 0">
 					<image src="/static/images/mine/yonjin.webp" class="logo"></image>
-		
+
 					<view class="info-tit">
 						<view class="info-name">{{$t('product_info.bonus')}} ({{can_use_invite_money_rate}}%)</view>
 						<view class="info-price">({{$t('mine.Bonus')}}:<text>{{invite_money_balance}}</text>)</view>
 					</view>
-		
+
 					<view class="bonus_price" v-show="useInvite">- {{(shopNum*1 - changShopNum*1).toFixed(2)}}</view>
-		
+
 					<view class="mode-info-right" v-if="invite_money_balance*1 > 0">
 						<image src="/static/images/new-index/wxz.png" class="use" v-show="!useInvite"
 							@click="useInvite=!useInvite">
@@ -1037,9 +1027,9 @@
 						</image>
 					</view>
 				</view>
-		
+
 				<view class="mode-switch"></view>
-		
+
 				<view class="mode-bonus" v-show="useInvite || useKdiamondBonus">
 					{{isEnglish ? 'Total deduction' : '扣除金额合计'}}
 					<image src="/static/images/kbrick/diamond.png"></image>
@@ -1051,7 +1041,7 @@
 						zenjinToRmNum * 1 == shopNum ? shopNum : zenjinToRmNum)}}
 					</text>
 				</view>
-		
+
 				<view class="mode-btn" @click.stop="$noMultipleClicks(onPayClick)">{{$t('new.payment')}}
 					<image src="/static/images/kbrick/diamond.png"></image>
 					<text v-show="useInvite && !useKdiamondBonus">
@@ -1068,7 +1058,7 @@
 			</view>
 		</uni-popup>
 		<!--支付方式弹出 end-->
-		
+
 
 		<!--支付密码弹出 start-->
 		<uni-popup ref="pwdsPopup" type="center">
@@ -1346,7 +1336,7 @@
 				isLogin: false,
 				isNotReadNum: 0,
 				historyListTwo: [],
-				BellList:[], // 首页提示
+				BellList: [], // 首页提示
 				authData: []
 			}
 		},
@@ -1483,14 +1473,14 @@
 					this.authData = res.data
 				})
 			},
-			closeOverLay(e,nub){
-				console.log(e,nub,this.$refs.Bellnub[nub]);
+			closeOverLay(e, nub) {
+				console.log(e, nub, this.$refs.Bellnub[nub]);
 			},
 			getBanner(item) {
 				console.log(item.url)
 				if (item.url.indexOf('.png') !== -1 || item.url.indexOf('.jpg') !== -1) {
 					uni.navigateTo({
-						url: '/pages/active/activities?url=' + JSON.stringify(item.url) 
+						url: '/pages/active/activities?url=' + JSON.stringify(item.url)
 					})
 				} else {
 					uni.navigateTo({
@@ -1692,7 +1682,7 @@
 					pagenum: 10,
 					keyword: '',
 				}).then(res => {
-					this.luckyList = res.data.data;
+					this.LuckyList = res.data.data;
 					this.shop_name = res.data.data[0].shop_name
 					this.pay_price = res.data.data[0].pay_price
 					this.price = res.data.data[0].price
@@ -1859,7 +1849,7 @@
 			}, */
 			async onAuctionHistoryGoods() {
 				try {
-					
+
 					this.$http.post(this.$apiObj.AuctionHistoryGoods, {
 						page: 1,
 						pagenum: 2,
@@ -1943,7 +1933,7 @@
 						this.money = res.data.recharge_money_balance
 						this.balance = res.data.k_diamond_wallet
 						this.giftKdiamondBalance = res.data.temporary_k_diamond_wallet
-						
+
 						this.auction_num = (e.auction_type == 2 && e.total_least_num == 0) ? res.data.auction_num :
 							(res.data.auction_num === -1) ? e.total_least_num : (res.data.auction_num < e
 								.total_least_num) ? res.data.auction_num : e.total_least_num
@@ -2048,7 +2038,7 @@
 							}
 							uni.setStorageSync('wish_info', data)
 							// #endif
-			
+
 							setTimeout(() => {
 								uni.navigateTo({
 									url: '/pages/mine/K_brick_detail'
@@ -2058,9 +2048,9 @@
 					})
 					return
 				}
-			
+
 				//k钻加赠金
-				if (this.useInvite  && !this.kdiamondSelect) {
+				if (this.useInvite && !this.kdiamondSelect) {
 					let zj = this.shopNum * 1 * (this.can_use_invite_money_rate * 1 / 100) //最多赠金
 					let flag = zj <= this.invite_money_balance * 1
 					if (!this.authData || this.authData.length < 1) {
@@ -2077,14 +2067,14 @@
 							}
 						})
 						return
-					}else if(this.authData.status == -1){
+					} else if (this.authData.status == -1) {
 						uni.showToast({
 							title: this.$t('smrzwtg'),
 							icon: 'none',
 							duration: 3000
 						})
 						return
-					}else if(this.authData.status == 0){
+					} else if (this.authData.status == 0) {
 						uni.showToast({
 							title: this.$t('smrzshh'),
 							icon: 'none',
@@ -2149,11 +2139,11 @@
 								return
 							}
 						}
-			
+
 					}
-			
+
 				}
-			
+
 				//k钻加赠金加兑换
 				if (this.useInvite && this.kdiamondSelect) {
 					if (this.money * 1 < this.useInviteRmNum * 1) {
@@ -2164,9 +2154,9 @@
 						return
 					}
 				}
-			
+
 				if (this.kdiamondSelect) {
-			
+
 					if (this.set_paypwd != 1) {
 						uni.showToast({
 							title: this.$t('new.qszmm'),
@@ -2696,8 +2686,33 @@
 				}
 			}
 
+			.luck_list {
+				width: 716rpx;
+				height: 70rpx;
+				margin: 24rpx auto;
+				overflow: hidden;
+				
+				.move_div{
+					height: 840rpx;
+					animation: luckDh 20s linear infinite;
+				}
+			}
+
+			@keyframes luckDh {
+				0% {
+					transform: translateY(0);
+				}
+
+				50% {
+					transform: translateY(-420rpx);
+				}
+
+				100% {
+					transform: translateY(-840rpx);
+				}
+			}
+
 			.lucky-layout {
-				margin: 24rpx 32rpx 0;
 				background: rgb(255, 255, 255);
 				border-radius: 8rpx;
 				padding: 16rpx 24rpx;
@@ -2705,6 +2720,7 @@
 				display: flex;
 				justify-content: flex-start;
 				align-items: center;
+				margin-bottom: 20rpx;
 
 				.ll-icon {
 					width: 32rpx;
@@ -4448,6 +4464,7 @@
 
 			}
 		}
+
 		// 支付密码弹出 支付成功弹出
 		.pay-pwd {
 			position: relative;

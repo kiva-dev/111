@@ -5,9 +5,13 @@
 			<view class="il-container">
 				<view class="il-container-top" v-for="item in orderInfo.goods" :key="item.goods_id">
 					<view class="top-bar">
-						<view class="top-bar-shop">
+						<view class="top-bar-shop" v-if="orderInfo.buy_type != 4">
 							<image :src="orderInfo.shop_logo" mode="aspectFill"></image>
 							<p>{{orderInfo.shop_name || ''}}</p>
+						</view>
+						<view class="product_head" :style="isShopCount ? '' : 'width: 200rpx;'" v-else>
+							<image src="/static/images/mine/rule/gift_red.png"></image>
+							<view>{{$t('recharge.czhdhl')}}</view>
 						</view>
 						<view class="top-bar-status">
 							<text style="color: #FF3939;" v-if="orderInfo.status === '0'">{{$t('user.order.paid')}}</text>
@@ -51,7 +55,7 @@
 					<view class="order-lab">
 						<view class="order-lab-title">{{$t('user.order.detail.time')}}</view>
 						<view class="order-lab-right">
-							<p>{{onConversionTime(this.orderInfo.addtime) || ''}}</p>
+							<p>{{onConversionTime(orderInfo.addtime) || ''}}</p>
 						</view>
 					</view>
 					<view class="order-lab" v-if="orderInfo.express_no">
@@ -61,7 +65,7 @@
 							<image @click="onCopyText('Shunfeng544512445145416')" src="@/static/images/mine/mine_btn_copy.png" mode="widthFix"></image>
 						</view>
 					</view>
-					<view class="order-lab">
+					<view class="order-lab" v-if="orderInfo.buy_type != 4">
 						<view class="order-lab-title">{{$t('user.order.detail.total')}}</view>
 						<view class="order-lab-right">
 							<text>RM</text>
@@ -81,6 +85,7 @@
 		data() {
 			return {
 				orderInfo: '',
+				isShopCount: uni.getStorageSync('locale') === 'en' ? true : false,
 			}
 		},
 		onLoad(option) {
@@ -160,7 +165,29 @@
 								font-weight: bold;
 							}
 						}
-
+						
+						.product_head {
+							max-width: 300rpx;
+							height: 36rpx;
+							display: flex;
+							align-items: center;
+							box-sizing: border-box;
+							border: 2rpx solid rgb(255, 57, 57);
+							border-radius: 36rpx;
+							margin-left: 0rpx;
+						
+							image {
+								width: 36rpx;
+								height: 36rpx;
+							}
+						
+							view {
+								font-size: 20rpx;
+								color: rgb(255, 57, 57);
+								margin-left: 8rpx;
+							}
+						}
+						
 						.top-bar-status {
 
 							text {

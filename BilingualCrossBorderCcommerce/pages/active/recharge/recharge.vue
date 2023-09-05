@@ -16,7 +16,7 @@
 					<view class="item" v-for="item in list" :key="item.user_lucky_lottery_prize_id"
 						:style="prizeById == item.user_lucky_lottery_prize_id ?'background: linear-gradient(180.00deg, rgb(255, 157, 111),rgb(250, 243, 204) 100%);':''">
 						<image :src="item.prize_image" v-show="item.goods_id>0"></image>
-						<image :src="item.prize_image" v-show="item.goods_id==0" style="width: 40rpx;height: 40rpx;">
+						<image src="/static/images/kbrick/diamond.png" v-show="item.goods_id==0" style="width: 40rpx;height: 40rpx;">
 						</image>
 						<view class="price">RM {{item.prize_price*1}}</view>
 					</view>
@@ -79,7 +79,7 @@
 				</view>
 				<view class="info">
 					<view class="left" v-if="prizeInfo.goods_id==0">
-						<image :src="prizeInfo.prize_image"></image>
+						<image src="/static/images/kbrick/diamond.png"></image>
 						<view>{{prizeInfo.number}}</view>
 					</view>
 					<view class="left" style="padding-top: 0;height: 136rpx;" v-else>

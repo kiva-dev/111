@@ -36,7 +36,8 @@
 			<view class="item" v-for="(item,i) in list" :key="i">
 				<view class="info">
 					<view class="left">
-						<image :src="item.prize_image"></image>
+						<image :src="item.prize_image" v-if="item.raffle_item_type==1"></image>
+						<image src="/static/images/kbrick/diamond.png" v-else></image>
 					</view>
 					<view class="right">
 						<view class="right_tit">{{item.prize_name}}</view>
@@ -54,21 +55,24 @@
 				<view class="time">{{$t('recharge.winning_date')}}:
 					<text>{{$u.timeFormat(item.create_time, 'yyyy.mm.dd hh:MM:ss')}}</text>
 				</view>
-				<view class="time">{{$t('recharge.task')}}:
-					<text>{{$u.timeFormat(item.expire_time, 'yyyy.mm.dd hh:MM:ss')}}</text>
+				
+				<view class="time" v-if="item.award_time">{{$t('recharge.task')}}:
+					<text>{{$u.timeFormat(item.award_time, 'yyyy.mm.dd hh:MM:ss')}}</text>
+				</view>
+				
+				<view class="time" @click="navClick('/pages/mine/order/orderDetail?id='+item.order_no)" v-if="item.winning_status == 1">
+					{{$t('user.order.detail.number')}}:
+					<text>{{item.order_no}}</text>
+					<image src="/static/images/mine/wallet_right.png"></image>
 				</view>
 
 				<view class="btn" v-show="item.is_sure_award == 0"
 					@click="navClick('/pages/mine/K_brick_detail?data='+JSON.stringify(item))">
 					{{$t('user.grade.qwc')}}
 				</view>
-				<view class="btn1" v-show="item.is_sure_award == 1 && item.raffle_item_type == 1"
+				<view class="btn1" v-show="item.is_sure_award == 1 && item.raffle_item_type == 1 && item.winning_status == 0"
 					@click="navClick('/pages/active/recharge/submit_award?data='+JSON.stringify(item))">
 					{{$t('recharge.award')}}</view>
-				<view class="btn1" v-show="item.is_sure_award == 1 && item.raffle_item_type == 2"
-					@click="AwardKdiamond(item.h5_user_id,item.user_lucky_lottery_prize_id,item.user_lucky_lottery_record_id)">
-					{{$t('recharge.award')}}
-				</view>
 			</view>
 
 		</view>
@@ -105,7 +109,9 @@
 				this.$http.post(this.$apiObj.MyPrize).then(res => {
 					if (res.code == 1) {
 						this.list = res.data
-						this.calculate(res.data[0].expire_time)
+						if(res.data[0].is_sure_award == 0){
+							this.calculate(res.data[0].expire_time)
+						}
 					}
 				})
 			},
@@ -284,10 +290,18 @@
 				.time {
 					font-size: 24rpx;
 					color: rgb(102, 102, 102);
+					display: flex;
+					align-items: center;
 					margin: 20rpx 0 0 24rpx;
 
 					text {
 						color: rgb(51, 51, 51);
+						margin-left: 4rpx;
+					}
+					
+					image{
+						width: 24rpx;
+						height: 24rpx;
 						margin-left: 4rpx;
 					}
 				}
