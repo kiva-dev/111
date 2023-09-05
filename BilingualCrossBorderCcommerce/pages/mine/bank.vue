@@ -91,14 +91,15 @@
 				})
 			},
 			onClick(item) {
+				// else if(item.create_status == 1 && item.status == 0){
+				// 	uni.showToast({
+				// 		title: this.$t('mine.bank_tip3'),
+				// 		icon: 'none'
+				// 	})
+				// }
 				if(item.create_status != 1){
 					uni.showToast({
 						title: item.create_status == 0? this.$t('mine.bank_tip1') : this.$t('mine.bank_tip2'),
-						icon: 'none'
-					})
-				}else if(item.create_status == 1 && item.status == 0){
-					uni.showToast({
-						title: this.$t('mine.bank_tip3'),
 						icon: 'none'
 					})
 				}else{
