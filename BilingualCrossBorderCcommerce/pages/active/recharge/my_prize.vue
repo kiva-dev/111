@@ -45,9 +45,13 @@
 							</image>
 							<text>{{item.recharge_k_diamond_after_lottery * 1}}</text>
 						</view>
-						<view class="value">
+						<view class="value" v-if="item.raffle_item_type == 1">
 							<view class="value_name">{{$t('recharge.product_value')}}:</view>
 							<view class="value_num">RM <text>{{item.prize_price * 1}}</text></view>
+						</view>
+						<view class="value" v-else-if="item.raffle_item_type == 2 && item.reward_type == 2">
+							<view class="value_name">{{isShopCont ? 'Extra gift' : '加赠'}}:</view>
+							<view class="value_num"><text>{{item.prize_price}}</text></view>
 						</view>
 					</view>
 				</view>
@@ -55,12 +59,13 @@
 				<view class="time">{{$t('recharge.winning_date')}}:
 					<text>{{$u.timeFormat(item.create_time, 'yyyy.mm.dd hh:MM:ss')}}</text>
 				</view>
-				
+
 				<view class="time" v-if="item.award_time">{{$t('recharge.task')}}:
 					<text>{{$u.timeFormat(item.award_time, 'yyyy.mm.dd hh:MM:ss')}}</text>
 				</view>
-				
-				<view class="time" @click="navClick('/pages/mine/order/orderDetail?id='+item.order_no)" v-if="item.winning_status == 1">
+
+				<view class="time" @click="navClick('/pages/mine/order/orderDetail?id='+item.order_no)"
+					v-if="item.winning_status == 1">
 					{{$t('user.order.detail.number')}}:
 					<text>{{item.order_no}}</text>
 					<image src="/static/images/mine/wallet_right.png"></image>
@@ -68,11 +73,13 @@
 
 				<view class="btn" v-show="item.is_sure_award == 0"
 					@click="navClick('/pages/mine/K_brick_detail?data='+JSON.stringify(item))">
-					{{$t('user.grade.qwc')}}
+					{{$t('recharge.qcz')}}
 				</view>
-				<view class="btn1" v-show="item.is_sure_award == 1 && item.raffle_item_type == 1 && item.winning_status == 0"
+				<view class="btn1"
+					v-show="item.is_sure_award == 1 && item.raffle_item_type == 1 && item.winning_status == 0"
 					@click="navClick('/pages/active/recharge/submit_award?data='+JSON.stringify(item))">
-					{{$t('recharge.award')}}</view>
+					{{$t('recharge.award')}}
+				</view>
 			</view>
 
 		</view>
@@ -85,7 +92,8 @@
 			return {
 				timeData: {},
 				list: [],
-				countdown: 0
+				countdown: 0,
+				isShopCont: uni.getStorageSync('locale') == 'en' ? true : false
 			}
 		},
 		onShow() {
@@ -109,7 +117,7 @@
 				this.$http.post(this.$apiObj.MyPrize).then(res => {
 					if (res.code == 1) {
 						this.list = res.data
-						if(res.data[0].is_sure_award == 0){
+						if (res.data[0].is_sure_award == 0) {
 							this.calculate(res.data[0].expire_time)
 						}
 					}
@@ -298,8 +306,8 @@
 						color: rgb(51, 51, 51);
 						margin-left: 4rpx;
 					}
-					
-					image{
+
+					image {
 						width: 24rpx;
 						height: 24rpx;
 						margin-left: 4rpx;

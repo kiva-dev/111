@@ -1718,7 +1718,7 @@
 
 	"comment.all_comment":"全部",
 	"comment.images_comment":"有图",
-	"comment.featured_comment":"中拍评论",
+	"comment.featured_comment":"精选评论",
 	"comment.sharingBtn":"发布",
 	"comment.Btn":"发布评论",
 	
@@ -1766,5 +1766,6 @@
 	"recharge.tip":"完成充值即可获得奖励,限时24小时内完成任务",
 	"recharge.gxnzj":"恭喜您中奖！",
 	"recharge.czhdhl":"充值活动好礼",
-	"recharge.send_award":"提交中奖信息"
+	"recharge.send_award":"提交中奖信息",
+	"recharge.qcz":"去充值"
 }

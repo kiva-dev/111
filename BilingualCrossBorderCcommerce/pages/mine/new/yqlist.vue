@@ -36,9 +36,17 @@
 						<view class="yl-item-box">
 							<view class="yl-item-avatar">
 								<image :src="item.avatar" mode="aspectFill"></image>
+								<view v-if="item.is_real == 0">{{$t('user.mine.wsm')}}</view>
+								<view v-else-if="item.is_real == 1">{{$t('user.mine.ysm')}}</view>
 							</view>
 							<view class="yl-item-info">
 								<view class="info-name">{{item.nickname}}</view>
+								<view class="info-people" v-if="item.mobile">
+									{{isShopCont ? 'Contact Information' :'联系方式'}}:+{{item.mobile_area_code}} {{item.mobile}}
+								</view>
+								<view class="info-people" v-else>
+									{{isShopCont ? 'Contact Information' :'联系方式'}}: {{item.email}}
+								</view>
 								<view class="info-people">
 									{{$t('new.Invitations')}}：({{item.invite_count}})
 								</view>
@@ -110,7 +118,7 @@
 			}
 		},
 		onLoad(option) {
-			this.lange = uni.getStorageSync('locale');
+			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false;
 			this.level = parseInt(option.level) || 1;
 			this.cuid = parseInt(option.cuid) || 0;
 			this.memberInfo = option.info ? JSON.parse(decodeURIComponent(option.info)) : {};
@@ -265,7 +273,7 @@
 				width: 100%;
 				height: 88rpx;
 				background: rgb(255, 255, 255);
-				padding-top: 88rpx;
+				padding-top: 60rpx;
 				display: flex;
 				justify-content: center;
 				align-items: center;
@@ -410,6 +418,20 @@
 								height: 100%;
 								border-radius: 50%;
 								box-shadow: 0rpx 2rpx 4rpx rgba(190, 190, 190, 0.3);
+							}
+							
+							view{
+								position: relative;
+								width: 108rpx;
+								height: 24rpx;
+								line-height: 24rpx;
+								font-size: 16rpx;
+								color: rgb(255, 255, 255);
+								text-align: center;
+								background: rgba(0, 0, 0, 0.8);
+								border-radius: 24rpx;
+								margin: -30rpx auto 0 auto;
+								z-index: 5;
 							}
 						}
 

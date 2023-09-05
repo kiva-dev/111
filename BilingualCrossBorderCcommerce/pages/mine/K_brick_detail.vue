@@ -20,8 +20,9 @@
 				<view v-html="kdiamondxy">{{$t('new.scfl')}}</view>
 			</view>
 
-			<image :src="isShopCont ? '/static/images/mine/kdiamond_recharge.png' : '/static/images/mine/kdiamond_recharge_cn.png'" class="recharge_active"
-				@click="navCilck('/pages/active/recharge/recharge')"></image>
+			<image
+				:src="isShopCont ? '/static/images/mine/kdiamond_recharge.png' : '/static/images/mine/kdiamond_recharge_cn.png'"
+				class="recharge_active" @click="navCilck('/pages/active/recharge/recharge')"></image>
 
 			<view class="title">{{$t('new.kzcz')}}</view>
 
@@ -58,7 +59,7 @@
 
 			<template v-if="rechargeInfo.raffle_item_type">
 				<view class="recharge_info" :style="rechargeInfo.raffle_item_type == 1 ? '' : 'height: 116rpx;'">
-					<view class="tit">{{$t('recharge.gift')}}</view>
+					<view class="tit">{{isShopCont ? 'Extra gift' : '额外赠送'}}</view>
 					<view class="product">
 						<view class="left" v-if="rechargeInfo.raffle_item_type == 1">
 							<image :src="rechargeInfo.prize_image"></image>
@@ -70,7 +71,7 @@
 						</view>
 						<view class="right" :style="rechargeInfo.raffle_item_type == 1 ? '' : 'margin-left: 32rpx;'">
 							<image src="/static/images/kbrick/diamond.png"></image>
-							<view>{{rechargeNum}}</view>
+							<view>{{(rechargeNum * 1).toFixed(2)}}</view>
 						</view>
 					</view>
 				</view>
@@ -256,7 +257,9 @@
 							if (item.k_diamond == this.rechargeInfo.recharge_k_diamond_of_lottery * 1 ||
 								item.k_diamond == this.rechargeInfo.recharge_k_diamond_after_lottery * 1) {
 								this.select = i + 1
-								this.rechargeNum = item.all_money * 1 + this.rechargeInfo.number
+								this.rechargeNum = this.rechargeInfo.reward_type == 1 ? item.all_money *
+									1 + this.rechargeInfo.number : item.all_money * 1 + item.k_diamond *
+										(this.rechargeInfo.number / 100)
 							}
 						}
 
@@ -289,7 +292,9 @@
 				if (this.rechargeInfo.raffle_item_type == 1) {
 					this.rechargeNum = item.all_money * 1
 				} else {
-					this.rechargeNum = item.all_money * 1 + this.rechargeInfo.number
+					this.rechargeNum = this.rechargeInfo.reward_type == 1 ? item.all_money *
+						1 + this.rechargeInfo.number : item.all_money * 1 + item.k_diamond *
+							(this.rechargeInfo.number / 100)
 				}
 			},
 			changPay(item) {

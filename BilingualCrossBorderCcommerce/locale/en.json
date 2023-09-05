@@ -1700,7 +1700,7 @@
 	
 	"comment.all_comment":"All",
 	"comment.images_comment":"Picture",
-	"comment.featured_comment":"Selected comments",
+	"comment.featured_comment":"Featured Reviews",
 	"comment.Btn":"Post comments",
 	
 	"rule.title":"Rule Introduction",
@@ -1776,5 +1776,6 @@
 	"recharge.tip":"You will be rewarded if you complete the top-up task within 24 hours",
 	"recharge.gxnzj":"Congratulations on your win!",
 	"recharge.czhdhl":"Recharge Event Gifts",
-	"recharge.send_award":"Submit Award information"
+	"recharge.send_award":"Submit Award information",
+	"recharge.qcz":"Recharge"
 }

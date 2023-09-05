@@ -18,7 +18,7 @@
 						<image :src="item.prize_image" v-show="item.goods_id>0"></image>
 						<image src="/static/images/kbrick/diamond.png" v-show="item.goods_id==0" style="width: 40rpx;height: 40rpx;">
 						</image>
-						<view class="price">RM {{item.prize_price*1}}</view>
+						<view class="price">{{item.reward_type == 1 ? 'RM' : ''}} {{item.prize_price}}</view>
 					</view>
 				</view>
 			</view>
@@ -80,7 +80,7 @@
 				<view class="info">
 					<view class="left" v-if="prizeInfo.goods_id==0">
 						<image src="/static/images/kbrick/diamond.png"></image>
-						<view>{{prizeInfo.number}}</view>
+						<view>{{prizeInfo.reward_type == 1 ? prizeInfo.number : prizeInfo.prize_price}}</view>
 					</view>
 					<view class="left" style="padding-top: 0;height: 136rpx;" v-else>
 						<image :src="prizeInfo.prize_image" style="width: 136rpx;height: 136rpx;border-radius: 16rpx;"></image>
@@ -94,6 +94,10 @@
 						<view class="amount">{{$t('recharge.amount')}}:<image src="/static/images/kbrick/diamond.png">
 							</image>
 							<text>{{prizeInfo.recharge_k_diamond_of_lottery * 1}}</text>
+						</view>
+						<view class="value" v-if="prizeInfo.goods_id == 0 && prizeInfo.reward_type == 2">
+							<view class="value_tit">{{isShopCont ? 'Extra gift' : '加赠'}}:</view>
+							<view class="value_num"><text>{{prizeInfo.prize_price}}</text></view>
 						</view>
 					</view>
 				</view>
