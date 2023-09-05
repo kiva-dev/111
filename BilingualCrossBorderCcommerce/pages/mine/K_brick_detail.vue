@@ -20,18 +20,19 @@
 				<view v-html="kdiamondxy">{{$t('new.scfl')}}</view>
 			</view>
 
-
+			<image :src="isShopCont ? '/static/images/mine/kdiamond_recharge.png' : '/static/images/mine/kdiamond_recharge_cn.png'" class="recharge_active"
+				@click="navCilck('/pages/active/recharge/recharge')"></image>
 
 			<view class="title">{{$t('new.kzcz')}}</view>
 
 			<view class="list">
 				<view class="item"
 					:style="select==(i+1)?'height:216rpx;background: rgb(224, 242, 255);box-sizing: border-box;border: 4rpx solid rgb(27, 161, 255);':''"
-					v-for="(item,i) in list" :key="i" @click="switchCzNum(i+1)">
+					v-for="(item,i) in list" :key="i" @click="switchCzNum(i+1,item)">
 					<view class="item-tags" v-show="item.all_money">
 						<image src="/static/images/kbrick/white_bx.png"></image>
-						<text v-if="item.temporary_k_diamond *1 > 0">Free <image
-								src="/static/images/kbrick/diamond.png" style="margin-left: 4rpx;"></image> {{item.all_money*1}}</text>
+						<text v-if="item.temporary_k_diamond *1 > 0">Free <image src="/static/images/kbrick/diamond.png"
+								style="margin-left: 4rpx;"></image> {{item.all_money*1}}</text>
 						<text v-if="item.temporary_k_diamond *1 == 0">Free RM {{item.all_money*1}}</text>
 					</view>
 					<view class="item-num">
@@ -46,14 +47,35 @@
 			<view class="customize" :class="selectPayNum?'select_customize':''">
 				<image src="/static/images/kbrick/diamond.png" class="logo"></image>
 				<view class="customize-input">
-					<input type="text" v-model="payNum" @focus="selectPayNum=true;select=0"
-						:placeholder="$t('new.qtczje')" style="font-size: 24rpx;color: rgb(102, 102, 102);" />
+					<input type="text" v-model="payNum" @focus="inputChange()" :placeholder="$t('new.qtczje')"
+						style="font-size: 24rpx;color: rgb(102, 102, 102);" />
 				</view>
 				<view class="customize-right" v-show="false">
 					<image src="/static/images/kbrick/white_bx.png"></image>
 					<view>Gift RM 88</view>
 				</view>
 			</view>
+
+			<template v-if="rechargeInfo.raffle_item_type">
+				<view class="recharge_info" :style="rechargeInfo.raffle_item_type == 1 ? '' : 'height: 116rpx;'">
+					<view class="tit">{{$t('recharge.gift')}}</view>
+					<view class="product">
+						<view class="left" v-if="rechargeInfo.raffle_item_type == 1">
+							<image :src="rechargeInfo.prize_image"></image>
+							<view class="product_info">
+								<view class="name">{{rechargeInfo.prize_name}}</view>
+								<view class="value">{{$t('recharge.product_value')}}: <text>RM</text> <text
+										style="font-size: 20rpx;">{{rechargeInfo.prize_price}}</text></view>
+							</view>
+						</view>
+						<view class="right" :style="rechargeInfo.raffle_item_type == 1 ? '' : 'margin-left: 32rpx;'">
+							<image src="/static/images/kbrick/diamond.png"></image>
+							<view>{{rechargeNum}}</view>
+						</view>
+					</view>
+				</view>
+			</template>
+
 
 			<!-- <view class="info-ts-sm">{{$t('new.sxfsm')}}</view> -->
 			<view class="info-ts-sm">{{$t('new.kzsm')}}</view>
@@ -124,7 +146,7 @@
 		data() {
 			return {
 				balance: 0,
-				giftBalance:0,
+				giftBalance: 0,
 				select: 1,
 				payNum: '',
 				selectPayNum: false,
@@ -135,13 +157,19 @@
 				kdiamondxy: '',
 				infoData: [],
 				isShopCont: false,
-				phone: ''
+				phone: '',
+				rechargeInfo: {},
+				rechargeNum: 0
 			}
 		},
 		onShow() {
 			this.getPayType()
 		},
-		onLoad() {
+		onLoad(e) {
+			if (e.data) {
+				this.rechargeInfo = JSON.parse(e.data)
+				console.log(this.rechargeInfo)
+			}
 			let isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
 			this.isShopCont = isShopCont
 
@@ -180,6 +208,15 @@
 			}, 1000)
 		},
 		methods: {
+			inputChange() {
+				this.selectPayNum = true;
+				this.select = 0;
+				if (this.rechargeInfo.raffle_item_type == 1) {
+					this.rechargeNum = 0
+				} else {
+					this.rechargeNum = this.rechargeInfo.number
+				}
+			},
 			getPayType() {
 				this.$http.post(this.$apiObj.GetPayType).then(res => {
 					this.payList = res.data
@@ -208,6 +245,23 @@
 			getKdiamondList() {
 				this.$http.post(this.$apiObj.RechargeKdiamond).then(res => {
 					this.list = res.data
+					this.list.forEach((item, i) => {
+						if (this.rechargeInfo.raffle_item_type == 1) {
+							if (item.k_diamond == this.rechargeInfo.recharge_k_diamond_of_lottery * 1 ||
+								item.k_diamond == this.rechargeInfo.recharge_k_diamond_after_lottery * 1) {
+								this.select = i + 1
+								this.rechargeNum = item.all_money * 1
+							}
+						} else {
+							if (item.k_diamond == this.rechargeInfo.recharge_k_diamond_of_lottery * 1 ||
+								item.k_diamond == this.rechargeInfo.recharge_k_diamond_after_lottery * 1) {
+								this.select = i + 1
+								this.rechargeNum = item.all_money * 1 + this.rechargeInfo.number
+							}
+						}
+
+					})
+
 				})
 			},
 			onReturn() {
@@ -228,10 +282,15 @@
 					url: '/pages/mine/K_brick_detail_info'
 				})
 			},
-			switchCzNum(id) {
-				this.select = id
+			switchCzNum(id, item) {
+				this.select = id == 1 ? 2 : id
 				this.selectPayNum = false
 				this.payNum = ''
+				if (this.rechargeInfo.raffle_item_type == 1) {
+					this.rechargeNum = item.all_money * 1
+				} else {
+					this.rechargeNum = item.all_money * 1 + this.rechargeInfo.number
+				}
 			},
 			changPay(item) {
 				item.select = !item.select
@@ -445,6 +504,90 @@
 		min-height: 100vh;
 		padding-bottom: 40rpx;
 		background: rgb(248, 248, 248);
+
+		//抽奖显示区域
+		.recharge_info {
+			width: 686rpx;
+			height: 156rpx;
+			padding: 24rpx 0;
+			background: #FFF;
+			border-radius: 32rpx;
+			margin: 0 auto 32rpx auto;
+
+			.tit {
+				font-size: 24rpx;
+				font-weight: bold;
+				color: rgb(51, 51, 51);
+				margin-left: 32rpx;
+			}
+
+			.product {
+				width: 100%;
+				display: flex;
+				align-items: center;
+				margin-top: 32rpx;
+
+				.left {
+					display: flex;
+					align-items: center;
+					margin-left: 32rpx;
+					border-right: 4rpx solid rgb(204, 204, 204);
+
+					image {
+						display: block;
+						width: 88rpx;
+						height: 88rpx;
+						border-radius: 16rpx;
+					}
+
+					.product_info {
+						margin-left: 16rpx;
+						margin-right: 20rpx;
+
+						.name {
+							width: 294rpx;
+							font-size: 28rpx;
+							font-weight: bold;
+							color: rgb(51, 51, 51);
+							overflow: hidden;
+							text-overflow: ellipsis;
+							white-space: nowrap;
+						}
+
+						.value {
+							font-size: 20rpx;
+							color: rgb(102, 102, 102);
+							margin-top: 20rpx;
+
+							text {
+								font-size: 16rpx;
+								font-weight: 700;
+								color: rgb(255, 57, 57);
+							}
+
+						}
+					}
+				}
+
+				.right {
+					display: flex;
+					align-items: center;
+					margin: 0 auto;
+
+					image {
+						width: 48rpx;
+						height: 48rpx;
+					}
+
+					view {
+						font-size: 40rpx;
+						font-weight: 700;
+						color: rgb(27, 161, 255);
+
+					}
+				}
+			}
+		}
 
 		.kbrick-head {
 			position: relative;
@@ -663,6 +806,13 @@
 				height: 32rpx;
 				margin: 0 12rpx 0 32rpx;
 			}
+		}
+
+		.recharge_active {
+			display: block;
+			width: 674rpx;
+			height: 102rpx;
+			margin: 24rpx auto;
 		}
 
 		.info-ts-sm {

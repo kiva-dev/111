@@ -14,24 +14,46 @@
 			<view class="list-layout">
 				<view class="ll-item" v-for="item in orderList" :key="item.id" @click="jumpOrderDetail(item.order_no)">
 					<view class="ll-item-header">
-						<view class="header-shop">
+						<view class="header-shop" v-if="item.buy_type == 1">
 							<image :src="item.shop_logo" mode="aspectFill"></image>
 							<p>{{item.shop_name}}</p>
 						</view>
-						<view class="header-status" style="color: #FF3939;" v-if="item.status === '0'">
+						<view class="product_head" :style="isShopCount ? '' : 'width: 200rpx;'" v-else>
+							<image src="/static/images/mine/rule/gift_red.png"></image>
+							<view>{{$t('recharge.czhdhl')}}</view>
+						</view>
+						<view class="header-status" style="color: #FF3939;" v-if="item.status === '0' && item.buy_type == 1">
 							{{$t('user.order.paid')}}
 						</view>
-						<view class="header-status" style="color: #1DD181;" v-if="item.status === '2'">
+						<view class="header-status" style="color: #1DD181;" v-if="item.status === '2' && item.buy_type == 1">
 							{{$t('user.order.shipped')}}
 						</view>
-						<view class="header-status" style="color: #1DD181;" v-if="item.status === '3'">
+						<view class="header-status" style="color: #1DD181;" v-if="item.status === '3' && item.buy_type == 1">
 							{{$t('user.order.received')}}
 						</view>
-						<view class="header-status" style="color: #999999;" v-if="item.status === '5'">
+						<view class="header-status" style="color: #999999;" v-if="item.status === '5' && item.buy_type == 1">
 							{{$t('user.order.confirmed')}}
 						</view>
 						<view class="header-status" style="color: #999999;"
-							v-if="item.status === '6' || item.status === '-1' || item.status === '-2'">
+							v-if="item.status === '6' && item.buy_type == 1 || item.status === '-1' && item.buy_type == 1 || item.status === '-2' && item.buy_type == 1">
+							{{$t('user.order.closed')}}
+						</view>
+						
+						
+						<view class="header-status" style="color: #FF3939;" v-if="item.status === '0' && item.buy_type == 4">
+							{{$t('user.order.paid')}}
+						</view>
+						<view class="header-status" style="color: #1DD181;" v-if="item.status === '2' && item.buy_type == 4">
+							{{$t('user.order.shipped')}}
+						</view>
+						<view class="header-status" style="color: #1DD181;" v-if="item.status === '3' && item.buy_type == 4">
+							{{$t('user.order.received')}}
+						</view>
+						<view class="header-status" style="color: #999999;" v-if="item.status === '5' && item.buy_type == 4">
+							{{$t('user.order.confirmed')}}
+						</view>
+						<view class="header-status" style="color: #999999;"
+							v-if="item.status === '6' && item.buy_type == 4 || item.status === '-1' && item.buy_type == 4 || item.status === '-2' && item.buy_type == 4">
 							{{$t('user.order.closed')}}
 						</view>
 					</view>
@@ -51,24 +73,6 @@
 								</view>
 							</view>
 						</view>
-					</view>
-					<view class="ll-item-btns">
-						<template v-if="item.status === '0'">
-							<view class="btns-grey" @click.stop="onCancelOrder(item)">{{$t('user.order.cancel')}}</view>
-							<view class="btns-green" @click.stop="toOrderInfo(item.order_no)">
-								{{$t('user.order.payment')}}</view>
-						</template>
-						<template v-if="item.status === '2'">
-							<view class="btns-grey" @click.stop="onCancelOrder(item)">{{$t('user.order.cancel')}}</view>
-						</template>
-						<template v-if="item.status === '3'">
-							<!-- <view class="btns-grey" @click.stop="onAfterSale(item)">{{$t('user.order.sale')}}</view> -->
-							<view class="btns-green" @click.stop="onConfirmReceipt(item)">{{$t('user.order.receipt')}}
-							</view>
-						</template>
-						<!-- <template v-if="item.status === '5'">
-							<view class="btns-grey" @click.stop="onAfterSale(item)">{{$t('user.order.sale')}}</view>
-						</template> -->
 					</view>
 				</view>
 			</view>
@@ -110,20 +114,21 @@
 				],
 				tabIndex: 10, // 10全部，0待付款，2待发货，3待收货，5已完成，6交易关闭
 				page: 1,
-				pageTotal:0,
+				pageTotal: 0,
 				orderList: [],
 				scrollLeft: 0,
-				sendTit: 10
+				sendTit: 10,
+				isShopCount: uni.getStorageSync('locale') == 'en' ? true : false
 			}
 		},
 		onLoad(option) {
 			this.tabIndex = parseInt(option.tabIndex);
-			if(option.tabIndex == 6){
+			if (option.tabIndex == 6) {
 				this.sendTit = [-1, -2, 6].toString()
-			}else{
+			} else {
 				this.sendTit = parseInt(option.tabIndex);
 			}
-			
+
 			this.getOrderList();
 			setTimeout(() => {
 				if (this.tabIndex === 5 || this.tabIndex === 6) {
@@ -131,15 +136,15 @@
 				} else {
 					this.scrollLeft = 0;
 				}
-			},50)
+			}, 50)
 		},
 		onShow() {
-			if(uni.getStorageSync('sendTit') >= 0){
+			if (uni.getStorageSync('sendTit') >= 0) {
 				this.getOrderList();
 			}
 		},
 		onReachBottom() {
-			if(this.page * 10 >= this.pageTotal) return
+			if (this.page * 10 >= this.pageTotal) return
 			this.page++;
 			this.getOrderList();
 		},
@@ -149,7 +154,7 @@
 			},
 			toOrderInfo(order_no) {
 				//记录上次进入id
-				uni.setStorageSync('sendTit',this.sendTit)
+				uni.setStorageSync('sendTit', this.sendTit)
 				uni.navigateTo({
 					url: '/pages/cart/orderinfo?order_no=' + order_no
 				})
@@ -330,6 +335,28 @@
 							color: rgb(51, 51, 51);
 							font-size: 28rpx;
 							font-weight: 600;
+						}
+					}
+
+					.product_head {
+						max-width: 300rpx;
+						height: 36rpx;
+						display: flex;
+						align-items: center;
+						box-sizing: border-box;
+						border: 2rpx solid rgb(255, 57, 57);
+						border-radius: 36rpx;
+						margin-left: 0rpx;
+
+						image {
+							width: 36rpx;
+							height: 36rpx;
+						}
+
+						view {
+							font-size: 20rpx;
+							color: rgb(255, 57, 57);
+							margin-left: 8rpx;
 						}
 					}
 

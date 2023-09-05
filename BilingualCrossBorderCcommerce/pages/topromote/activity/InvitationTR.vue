@@ -64,8 +64,6 @@
 			}
 		},
 		onLoad(e) {
-			// if(e.language == 'en') this.isEnglish = true
-			// else this.isEnglish = false
 			if(e.promotion_code) uni.setStorageSync('invite_code',e.promotion_code)
 		},
         computed: {

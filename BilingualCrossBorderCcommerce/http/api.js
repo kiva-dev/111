@@ -209,5 +209,12 @@ let apiObj = {
 	
 	ProductGetAddressFree:"/Litestoregoods/getDeliveryFee",//获取商品邮费
 	EditOrderAddressByOne:"/order/editOrderAddress",//修改订单收货地址,适用于单个商品订单
+	
+	//充值送马币活动
+	PrizeList:"/Lottery/userLuckyLotteryPrizeList",//奖品列表
+	PrizeGetNum:"/Lottery/lotteryNumber",//获取抽奖次数
+	PrizeAward:"/Lottery/lottery",//获取抽奖中奖商品信息
+	MyPrize:"/Lottery/userPrize",//我的奖品
+	AwardKdiamond:"/Lottery/awardPrize",//领取虚拟k钻
 }
 export default apiObj

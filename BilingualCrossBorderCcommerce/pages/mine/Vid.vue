@@ -342,6 +342,7 @@
 				uni.navigateBack()
 			},
 			getCaption(str, state) {
+				if(!str) return
 				if (state == 1) {
 					var indexs = str.indexOf("|")
 					str = str.substring(indexs + 1, str.length);

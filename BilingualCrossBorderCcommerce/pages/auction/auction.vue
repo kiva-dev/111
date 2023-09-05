@@ -1199,12 +1199,12 @@
 
 		<customerService ref="customerService" @showContactFun="showContactFun" leftOrRight="right" />
 		<!-- 提示领奖弹窗 -->
-		<Bell ref="Bell" />
+		<!-- <Bell ref="Bell" /> -->
 		<!--赠金弹出-->
-		<Bonus></Bonus>
+		<Bonus update="true"></Bonus>
 		<!-- 更新提示 -->
 		<!-- #ifdef APP-PLUS -->
-		<Upload ref="Upload" />
+		<!-- <Upload ref="Upload" /> -->
 		<!-- #endif -->
 		<!--回到顶部-->
 		<image src="/static/images/auction/to-top.png" class="to_top" v-show="showTop" @click="toTop()"></image>

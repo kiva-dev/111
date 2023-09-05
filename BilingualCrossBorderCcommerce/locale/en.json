@@ -517,7 +517,7 @@
 	"user.vid.zjzm": "Front",
 	"user.vid.zjfm": "Reverse side",
 	"user.vid.sczj":"Holding documents",
-	"user.vid.hand_card":"Taking photo with ID card in hand",
+	"user.vid.hand_card":"Taking photos while holding ID card",
 	"user.vid.wenzi": "Please keep your ID photo clear, which must be your valid ID card; Photos shall be within 5M in png, jpg and jpeg formats.",
 	"user.vid.wtgyy": "Reason for failure",
 	"user.vid.dsh": "To be reviewed",
@@ -1628,7 +1628,7 @@
 	"mine.send_setting":"Submitted for system review",
 	"mine.bank_tip1":"Current bank card review",
 	"mine.bank_tip2":"The current bank card has not been approved",
-	"mine.banl_tip3":"The current bank card has been banned",
+	"mine.bank_tip3":"The current bank card has been banned",
 	
 	"product_info.soldout":"SOLD OUT",
 	
@@ -1757,5 +1757,24 @@
 	"task_center.kb":"Exchange for Kolibri Mall Coins",
 	"task_center.exchange":"Convertible",
 	"task_center.my_points":"My points",
-	"task_center.mall_coins":"Kolibri Mall Coins"
+	"task_center.mall_coins":"Kolibri Mall Coins",
+	
+	"recharge.kdiamond_gift":"Recharge K-Diamonds Gift",
+	"recharge.free":"Free Lottery",
+	"recharge.my_prize":"My Prize",
+	"recharge.gift":"Recharge Gift",
+	"recharge.rule1":"You can participate in a free draw to receive your top up gift before you recharge your K-diamond",
+	"recharge.rule2":"After you win a prize in the draw, complete the corresponding top-up tasks to receive rewards,including K-diamonds physical gifts, top-up cards, vouchers and more",
+	"recharge.rule3":"You can view it in the 'My Prizes' section after you claim your prize",
+	"recharge.countdown":"Countdown",
+	"recharge.amount":"Recharge amount",
+	"recharge.product_value":"Commodity value",
+	"recharge.winning_date":"Winning Date",
+	"recharge.task":"Task Completion Date",
+	"recharge.award":"Award",
+	"recharge.now":"Recharge Now",
+	"recharge.tip":"You will be rewarded if you complete the top-up task within 24 hours",
+	"recharge.gxnzj":"Congratulations on your win!",
+	"recharge.czhdhl":"Recharge Event Gifts",
+	"recharge.send_award":"Submit Award information"
 }

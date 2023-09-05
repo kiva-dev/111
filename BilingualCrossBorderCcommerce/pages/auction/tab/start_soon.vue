@@ -205,7 +205,10 @@
 
 		<!--回到顶部-->
 		<image src="/static/images/auction/to-top.png" class="to_top" v-show="showTop" @click="toTop()"></image>
-
+		
+		<!--赠金弹出-->
+		<Bonus></Bonus>
+		
 	</view>
 </template>
 

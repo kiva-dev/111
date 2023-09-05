@@ -35,12 +35,12 @@
 							</template>
 							<template v-else>
 								<view class="box-data-detail">
-									<view class="detail-container">
+									<!-- <view class="detail-container">
 										<image src="@/static/images/mine/mine_icon_integral1.png" mode="widthFix">
 										</image>
 										<span>{{totalJf || 0}}</span>
 									</view>
-									<view class="detail-dot"></view>
+									<view class="detail-dot"></view> -->
 									<view class="detail-container" @click="toCollect('goods')">
 										<span>{{collectGoodsTotal || 0}}</span>
 										<p>{{$t('mine.collected')}}</p>
@@ -84,10 +84,11 @@
 								<image src="@/static/images/mine/mine_icon_diamonds.webp" mode="widthFix"></image>
 								<p>{{(userCont.k_diamond_wallet*1 + userCont.temporary_k_diamond_wallet*1) || 0.00}}</p>
 							</view>
-							<p style="margin: 10rpx 0;">({{isShopCont ? 'Included' : '包含'}} {{userCont.temporary_k_diamond_wallet}} {{isShopCont ? 'gift diamond' : '赠送K钻'}})</p>
+							<p style="margin: 10rpx 0;">({{isShopCont ? 'Included' : '包含'}}
+								{{userCont.temporary_k_diamond_wallet}} {{isShopCont ? 'gift diamond' : '赠送K钻'}})</p>
 							<p>{{$t('mine.diamonds')}}</p>
 						</view>
-			
+
 						<view class="cc-box-amount" style="margin-top: 20rpx;">
 							<view class="rebate-num">
 								<image src="/static/images/mine/k_coins.png" mode="widthFix"></image>
@@ -98,7 +99,7 @@
 					</view>
 					<view class="cc-border"></view>
 					<view class="cc-box">
-						<view class="cc-box-rebate" >
+						<view class="cc-box-rebate">
 							<view class="rebate-num">
 								<text>RM</text>
 								<p>{{userCont.money*1 || 0.00}}</p>
@@ -124,18 +125,30 @@
 		</view>
 
 		<!--邀请返佣-->
-		<view class="ml-commission" v-if="!showInviteFriend">
+		<!-- <view class="ml-commission" v-if="!showInviteFriend">
 			<view class="ml-commission-box" @click="navClick('/pages/mine/new/commission')">
 				<p>{{$t('new.yqfy')}}</p>
 			</view>
-		</view>
-		
+		</view> -->
+
 		<!--邀请好友送马币-->
-		<view class="invite_gift" @click="navClick('/pages/mine/new/invite_friend')" v-else>
+		<!-- <view class="invite_gift" @click="navClick('/pages/mine/new/invite_friend')" v-else>
 			<view class="tit">{{$t('mine.invite_friend')}}</view>
 			<view class="info">{{$t('mine.cash_reward')}} <text>RM{{inviteFriendPrice*1}}</text></view>
+		</view> -->
+
+		<!--轮播图-->
+		<view class="auct-banner">
+			<swiper class="auct-banner-swiper" circular :autoplay="true" :interval="2000" :duration="500"
+				style="height: 232rpx;">
+				<swiper-item v-for="(item, index) in banner" :key="index">
+					<view class="swiper-image" @click="getBanner(item)">
+						<image :src="isShopCont ? item.img_en : item.img_cn" mode="aspectFill"></image>
+					</view>
+				</swiper-item>
+			</swiper>
 		</view>
-		
+
 		<!--邀请返佣-->
 		<view class="commission-info">
 			<view class="head">
@@ -232,6 +245,47 @@
 				</view>
 			</view>
 		</view>
+
+		<view class="ml-auction">
+			<view class="ml-auction-top">
+				<view class="top-name">{{$t('user.myCont.order')}}</view>
+				<view class="top-more" @click="navClick('/pages/mine/order/order?tabIndex=10')">
+					<p>{{$t('user.order.qbdd')}}</p>
+					<view class="top-more-icon">
+						<image src="@/static/images/mine/mine_icon_right.webp" mode="widthFix"></image>
+					</view>
+				</view>
+			</view>
+			<view class="ml-auction-content">
+				<scroll-view class="content-scroll" scroll-x="true" @scrolltoupper="isBottoming = false"
+					@scrolltolower="isBottoming = true">
+					<view class="content-scroll-box" @click="navClick('/pages/mine/order/order?tabIndex=0')">
+						<image src="@/static/images/mine/mine_icon_ship.png" mode="widthFix"></image>
+						<p>{{$t('user.order.daifuk')}}</p>
+					</view>
+					<view class="content-scroll-box" @click="navClick('/pages/mine/order/order?tabIndex=2')">
+						<image src="@/static/images/mine/mine_icon_receive.png" mode="widthFix"></image>
+						<p>{{$t('user.order.daifahuo')}}</p>
+					</view>
+					<view class="content-scroll-box" @click="navClick('/pages/mine/order/order?tabIndex=3')">
+						<image src="@/static/images/mine/mine_icon_confirmed.png" mode="widthFix"></image>
+						<p>{{$t('user.order.dsh')}}</p>
+					</view>
+					<view class="content-scroll-box" @click="navClick('/pages/mine/order/order?tabIndex=5')">
+						<image src="@/static/images/mine/mine_icon_completed.png" mode="widthFix"></image>
+						<p>{{$t('user.order.yiwanc')}}</p>
+					</view>
+					<view class="content-scroll-box" @click="navClick('/pages/mine/order/order?tabIndex=6')">
+						<image src="@/static/images/mine/mine_icon_after.png" mode="widthFix"></image>
+						<p>{{$t('user.order.closing')}}</p>
+					</view>
+				</scroll-view>
+			</view>
+			<view class="ml-auction-line">
+				<view class="line-bg" :style="{ left: isBottoming ? '14rpx':'0'}"></view>
+			</view>
+		</view>
+
 
 		<view class="ml-operate">
 			<view class="ml-operate-title">{{$t('new.wdfw')}}</view>
@@ -360,8 +414,8 @@
 			</view>
 		</u-popup>
 		<!--中拍弹出-->
-		<Bell/>
-		
+		<!-- <Bell/> -->
+
 		<!--赠金弹出-->
 		<Bonus></Bonus>
 	</view>
@@ -372,6 +426,7 @@
 <script src="./jssocials-1.4.0/jssocials.min.js"></script> -->
 <script>
 	import tool from "@/utils/tool.js"
+
 	function checkTokenValidity(token) {
 		const tokenArr = token.split('|');
 		const expirationTime = parseInt(tokenArr[2]) - 2;
@@ -405,9 +460,10 @@
 				inviationNum: 0, //邀请人数
 				yqUrl: '', //邀请url
 				isNotReadNum: 0,
-				isShopCont:false,
-				showInviteFriend:false,
-				inviteFriendPrice:0
+				isShopCont: false,
+				showInviteFriend: false,
+				inviteFriendPrice: 0,
+				banner: []
 			}
 		},
 		onLoad() {
@@ -419,6 +475,19 @@
 			//删除缓存临时数据
 			uni.removeStorageSync('sendTit')
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false;
+
+			this.banner = [{
+					img_en: '/static/images/mine/mine_banner_recharge_en.png',
+					img_cn: '/static/images/mine/mine_banner_recharge_cn.png',
+					url: '/pages/active/recharge/recharge'
+				},
+				{
+					img_en: '/static/images/mine/mine_banner_invite_en.png',
+					img_cn: '/static/images/mine/mine_banner_invite_cn.png',
+					url: '/pages/mine/new/invite_friend'
+				}
+			]
+
 			if (uni.getStorageSync('token')) {
 				this.getNotRead()
 				this.isLogin = true;
@@ -428,10 +497,10 @@
 				this.getCollectStore();
 				this.getInviationNum()
 			}
-			
-			this.$http.post(this.$apiObj.IndexSetting,{
+
+			this.$http.post(this.$apiObj.IndexSetting, {
 				fields: 'gift_balance_invitation_event,gift_balance_invitation_event_activity_money_withdraw'
-			}).then(res=>{
+			}).then(res => {
 				this.showInviteFriend = res.data.gift_balance_invitation_event
 				this.inviteFriendPrice = res.data.gift_balance_invitation_event_activity_money_withdraw
 			})
@@ -441,6 +510,9 @@
 			this.showConfirm = false
 		},
 		methods: {
+			getBanner(item) {
+				this.navClick(item.url)
+			},
 			handleExpiredToken() {
 				setTimeout(() => {
 					this.ws.logout();
@@ -663,14 +735,14 @@
 					})
 				}
 			},
-			toFaq(){
+			toFaq() {
 				uni.navigateTo({
-					url:'/pages/mine/faq'
+					url: '/pages/mine/faq'
 				})
 			},
-			toRule(){
+			toRule() {
 				uni.navigateTo({
-					url:'/pages/mine/new/rule'
+					url: '/pages/mine/new/rule'
 				})
 			},
 			toCollect(type) {
@@ -753,17 +825,32 @@
 </script>
 
 <style lang="less" scoped>
-	
+	.auct-banner {
+		width: 750rpx;
+		margin: 24rpx auto;
+
+		.swiper-image {
+			width: 750rpx;
+			height: 224rpx;
+
+			image {
+				width: 750rpx;
+				height: 224rpx;
+				border-radius: 24rpx;
+			}
+		}
+	}
+
 	//邀请赠送马币
-	.invite_gift{
+	.invite_gift {
 		position: relative;
 		width: 750rpx;
 		height: 224rpx;
 		background: url('/static/images/mine/invite_open.png') no-repeat;
 		background-size: 750rpx 224rpx;
 		margin: 16rpx 0;
-		
-		.tit{
+
+		.tit {
 			position: absolute;
 			top: 46rpx;
 			left: 296rpx;
@@ -773,8 +860,8 @@
 			color: rgb(255, 49, 13);
 			text-align: center;
 		}
-		
-		.info{
+
+		.info {
 			position: absolute;
 			top: 110rpx;
 			left: 232rpx;
@@ -783,14 +870,14 @@
 			font-weight: bold;
 			color: rgb(255, 255, 255);
 			text-align: center;
-			
-			text{
+
+			text {
 				font-size: 52rpx;
 				margin-left: 4rpx;
 			}
 		}
 	}
-	
+
 	//返佣
 	.commission-info {
 		width: 686rpx;
@@ -1212,11 +1299,13 @@
 							flex-direction: column;
 							justify-content: flex-end;
 							align-items: center;
+
 							p {
 								color: rgb(102, 102, 102);
 								font-size: 20rpx;
 								font-weight: 400;
 							}
+
 							.rebate-num {
 								display: flex;
 								justify-content: center;
@@ -1225,8 +1314,8 @@
 								image {
 									width: 28rpx;
 								}
-								
-								text{
+
+								text {
 									font-size: 16rpx;
 									font-weight: bold;
 								}

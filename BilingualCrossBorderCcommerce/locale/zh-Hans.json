@@ -1620,7 +1620,7 @@
 	"mine.send_setting":"已提交系统审核",
 	"mine.bank_tip1":"当前银行卡审核中",
 	"mine.bank_tip2":"当前银行卡未通过审核",
-	"mine.banl_tip3":"当前银行卡已被禁止使用",
+	"mine.bank_tip3":"当前银行卡已被禁止使用",
 	
 	"product_info.soldout":"售完",
 	"detail.success":"必中率",
@@ -1747,6 +1747,24 @@
 	"task_center.kb":"兑换 Kolibri 商城货币",
 	"task_center.exchange":"可交换",
 	"task_center.my_points":"我的积分",
-	"task_center.mall_coins":"Kolibri 商城货币"
+	"task_center.mall_coins":"Kolibri 商城货币",
 	
+	"recharge.kdiamond_gift":"充值K钻送好礼",
+	"recharge.free":"免费次数",
+	"recharge.my_prize":"我的奖品",
+	"recharge.gift":"充值好礼",
+	"recharge.rule1":"充值前您可以参加免费抽奖，领取充值礼物K-钻石",
+	"recharge.rule2":"抽奖中奖后，完成相应的充值任务即可领取奖励，包括 K-diamonds 实物礼品、充值卡、优惠券等",
+	"recharge.rule3":"领取奖品后，您可以在“我的奖品”部分查看",
+	"recharge.countdown":"倒计时",
+	"recharge.amount":"充值金额",
+	"recharge.product_value":"商品价值",
+	"recharge.winning_date":"中奖日期",
+	"recharge.task":"任务完成日期",
+	"recharge.award":"领奖",
+	"recharge.now":"立即充值",
+	"recharge.tip":"完成充值即可获得奖励,限时24小时内完成任务",
+	"recharge.gxnzj":"恭喜您中奖！",
+	"recharge.czhdhl":"充值活动好礼",
+	"recharge.send_award":"提交中奖信息"
 }

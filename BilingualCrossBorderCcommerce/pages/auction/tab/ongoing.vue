@@ -453,7 +453,11 @@
 		</uni-popup>
 		<!--支付成功弹出 end-->
 		<!-- 提示领奖弹窗 -->
-		<Bell ref="Bell" />
+		<!-- <Bell ref="Bell" /> -->
+		
+		<!--赠金弹出-->
+		<Bonus></Bonus>
+		
 		<!-- 许愿 -->
 		<view class="containerXy" v-if="list.length!=0 && showMakeaWish">
 			<view class="xy">

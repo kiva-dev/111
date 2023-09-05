@@ -94,7 +94,7 @@
 			</view>
 		</view>
 		<!-- 提示领奖弹窗 -->
-		<Bell ref="Bell" />
+		<!-- <Bell ref="Bell" /> -->
 		
 		<!--赠金弹出-->
 		<Bonus></Bonus>
