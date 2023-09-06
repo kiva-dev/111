@@ -15,13 +15,12 @@
 					</view>
 					<view class="product-info-box">
 						<view class="box-goods">{{auctionInfo.goods_name}}</view>
-						<view class="box-detail">
+						<!-- <view class="box-detail">
 							<view class="box-detail-l">
-								<p class="l-current"><text>RM</text>{{auctionInfo.auction_original_price}}</p>
-								<p class="l-original">RM{{auctionInfo.price}}</p>
+								<image src="/static/images/kbrick/diamond.png"></image>
 							</view>
 							<view class="box-detail-r">x{{auctionInfo.auction_count}}</view>
-						</view>
+						</view> -->
 					</view>
 				</view>
 			</view>
