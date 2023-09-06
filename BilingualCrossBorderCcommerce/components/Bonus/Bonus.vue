@@ -315,7 +315,6 @@
 			},
 			async getLatestWinAuction() {
 				try {
-					this.showBell = true
 					const res = await this.$http.post(this.$apiObj.LatestWinAuction);
 					const neData = res.data.list.data
 					neData.forEach(item => {
@@ -323,6 +322,7 @@
 						this.$set(item, 'showimg', imgarr[0])
 					})
 					if (neData.length > 0) {
+						this.showBell = true
 						this.newArr = neData
 						this.closeOverLay()
 					}

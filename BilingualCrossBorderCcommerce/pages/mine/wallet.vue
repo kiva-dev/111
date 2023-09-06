@@ -83,7 +83,7 @@
 			</view>
 			<view class="wallet-ul" v-if="navId===1">
 				<template v-if="MoneyList.length > 0">
-					<view class="commission-item" v-for="(item,i) in MoneyList">
+					<view class="commission-item" v-for="(item,i) in MoneyList" @click="toaWithdrawalDetail(item)">
 						<view class="ci-left">
 							<view class="ci-left-info">
 								<view class="info-tit">
@@ -97,14 +97,14 @@
 								</view>
 
 								<view class="info-time"
-									@click="navClick('/pages/mine/auctionDetail?orderNo='+item.order_no)"
+									@click.stop="navClick('/pages/mine/auctionDetail?orderNo='+item.order_no)"
 									v-if="item.order_type == 2 && item.order_no">
 									<view>{{$t('user.order.detail.number')}}</view>
 									<text>{{item.order_no}}</text>
 									<image src="/static/images/mine/wallet_right.png"></image>
 								</view>
 								<view class="info-time"
-									@click="navClick('/pages/mine/order/orderDetail?id='+item.order_no)"
+									@click.stop="navClick('/pages/mine/order/orderDetail?id='+item.order_no)"
 									v-else-if="item.order_type == 1 && item.order_no">
 									<view>{{$t('user.order.detail.number')}}</view>
 									<text>{{item.order_no}}</text>
@@ -209,6 +209,9 @@
 			this.getAllList()
 		},
 		methods: {
+			toaWithdrawalDetail(item){
+				if(item.type == 12) this.navClick('/pages/mine/withdrawal_details?id='+item.tocash_id)
+			},
 			onReturn() {
 				uni.navigateBack()
 			},

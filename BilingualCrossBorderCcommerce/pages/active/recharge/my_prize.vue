@@ -40,18 +40,20 @@
 						<image src="/static/images/kbrick/diamond.png" v-else></image>
 					</view>
 					<view class="right">
-						<view class="right_tit">{{item.prize_name}}</view>
+						<view class="right_tit">
+							{{item.prize_name}}
+							<block v-if="item.raffle_item_type == 2 && item.reward_type == 2">
+								({{isShopCont ? 'Extra gift' : '加赠'}}:{{item.prize_price}})
+							</block>
+						</view>
 						<view class="price">{{$t('recharge.amount')}}:<image src="/static/images/kbrick/diamond.png">
 							</image>
-							<text>{{item.recharge_k_diamond_after_lottery * 1}}</text>
+							<text style="margin-right: 4rpx;">{{item.recharge_k_diamond_after_lottery * 1}}</text>
+							<block>{{$t('recharge.above')}}</block>
 						</view>
 						<view class="value" v-if="item.raffle_item_type == 1">
 							<view class="value_name">{{$t('recharge.product_value')}}:</view>
 							<view class="value_num">RM <text>{{item.prize_price * 1}}</text></view>
-						</view>
-						<view class="value" v-else-if="item.raffle_item_type == 2 && item.reward_type == 2">
-							<view class="value_name">{{isShopCont ? 'Extra gift' : '加赠'}}:</view>
-							<view class="value_num"><text>{{item.prize_price}}</text></view>
 						</view>
 					</view>
 				</view>

@@ -1767,5 +1767,22 @@
 	"recharge.gxnzj":"恭喜您中奖！",
 	"recharge.czhdhl":"充值活动好礼",
 	"recharge.send_award":"提交中奖信息",
-	"recharge.qcz":"去充值"
+	"recharge.qcz":"去充值",
+	"recharge.above":"以上",
+	
+	"withdrawal.tit":"提现详情",
+	"withdrawal.order_num":"提现订单号",
+	"withdrawal.time":"提现时间",
+	"withdrawal.price":"提现金额",
+	"withdrawal.free":"提现手续费",
+	"withdrawal.card":"提现银行卡",
+	"withdrawal.voucher":"提现凭证",
+	"withdrawal.err_msg":"提现失败原因",
+	"withdrawal.yth":"提现金额已退回余额",
+	"withdrawal.tip":"温馨提示：提现需要人工审核，请耐心等待提现到账",
+	"withdrawal.ytj":"已提交",
+	"withdrawal.scz":"审查中",
+	"withdrawal.result":"提现结果",
+	"withdrawal.success":"提现成功",
+	"withdrawal.failed":"提现失败"
 }

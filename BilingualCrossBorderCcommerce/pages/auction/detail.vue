@@ -224,8 +224,7 @@
 							</view>
 							<u--text margin="6px 2px" :text="item.comment"></u--text>
 							<view class="album__urls">
-								<view class="album_url" v-for="(item,index) in item.images"
-									:key="index">
+								<view class="album_url" v-for="(item,index) in item.images" :key="index">
 									<img :src="item"></img>
 								</view>
 							</view>
@@ -456,13 +455,17 @@
 						<view class="fotterBottomRule">
 							<image :src="CaseAImageSrc" mode="widthFix"></image>
 						</view>
-						<view class="fotterBottomRule" style="margin-top:60rpx;">
+						<!-- <view class="fotterBottomRule" style="margin-top:60rpx;">
 							<image :src="CaseBImageSrc" mode="widthFix"></image>
-						</view>
+						</view> -->
 					</view>
 					<view class="conentEnd">
 						<view>{{$t('rule.announcedLuckyCode')}}</view>
 					</view>
+					<image src="/static/images/mine/rule/fqa_cn.png" class="fqa" mode="widthFix" v-show="!isShopCont">
+					</image>
+					<image src="/static/images/mine/rule/fqa_en.png" class="fqa" mode="widthFix" v-show="isShopCont">
+					</image>
 					<!-- 温馨提示 -->
 					<view class="KindTips">
 						<view class="tipsTop">{{$t('rule.Reminder')}}</view>
@@ -2361,7 +2364,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 		.close {
 			position: absolute;
-			top: 50rpx;
+			top: 20rpx;
 			right: 32rpx;
 			width: 50rpx;
 			height: 50rpx;
@@ -3079,7 +3082,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				align-items: center;
 				flex-wrap: wrap;
 				align-content: space-between;
-			
+
 				.album_url {
 					position: relative;
 					width: 180rpx;
@@ -3087,7 +3090,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					border-radius: 24rpx;
 					background: #F8F8F8;
 					margin: 0 10rpx 10rpx 10rpx;
-			
+
 					img {
 						position: absolute;
 						top: 50%;
@@ -3098,7 +3101,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						height: 160rpx;
 					}
 				}
-			
+
 			}
 
 			.start-class {
@@ -5170,6 +5173,11 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			font-size: 12px;
 			margin: 20rpx 0;
 			text-align: left;
+		}
+
+		.fqa {
+			width: 750rpx;
+			margin-left: -40rpx;
 		}
 
 		.LimitedImag {

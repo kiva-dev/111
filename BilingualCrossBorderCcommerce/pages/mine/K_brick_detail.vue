@@ -48,8 +48,8 @@
 			<view class="customize" :class="selectPayNum?'select_customize':''">
 				<image src="/static/images/kbrick/diamond.png" class="logo"></image>
 				<view class="customize-input">
-					<input type="text" v-model="payNum" @focus="inputChange()" :placeholder="$t('new.qtczje')"
-						style="font-size: 24rpx;color: rgb(102, 102, 102);" />
+					<input type="text" v-model="payNum" @focus="inputChange()" @confirm="inputConfirm()"
+						:placeholder="$t('new.qtczje')" style="font-size: 24rpx;color: rgb(102, 102, 102);" />
 				</view>
 				<view class="customize-right" v-show="false">
 					<image src="/static/images/kbrick/white_bx.png"></image>
@@ -209,14 +209,49 @@
 			}, 1000)
 		},
 		methods: {
+			inputConfirm() {
+				if (this.payNum && this.payNum * 1 < 15) {
+					uni.showToast({
+						title: this.$t('new.czjejx'),
+						icon: 'none',
+						duration: 2000
+					})
+					return
+				}
+				let num = this.payNum
+				let arr = this.list
+
+				for (var i = 0; i < arr.length; i++) {
+					if (i >= (arr.length - 1)) {
+						this.changRechargeNum(arr[i], num)
+						return
+					}
+					if (num >= arr[i].k_diamond && num < arr[i + 1].k_diamond) {
+						this.changRechargeNum(arr[i], num)
+						break;
+					}
+				}
+			},
+			//修改显示的充值赠送数量
+			changRechargeNum(item, num) {
+				//实物
+				if (this.rechargeInfo.raffle_item_type == 1) {
+					this.rechargeNum = item.all_money
+				} else {
+					if (num < this.rechargeInfo.recharge_k_diamond_of_lottery * 1 ||
+						num < this.rechargeInfo.recharge_k_diamond_after_lottery * 1) {
+						this.rechargeNum = item.all_money
+						return
+					}
+					this.rechargeNum = this.rechargeInfo.reward_type == 1 ? item.all_money *
+						1 + this.rechargeInfo.number : item.all_money * 1 + num *
+						(this.rechargeInfo.number / 100)
+				}
+			},
 			inputChange() {
 				this.selectPayNum = true;
 				this.select = 0;
-				if (this.rechargeInfo.raffle_item_type == 1) {
-					this.rechargeNum = 0
-				} else {
-					this.rechargeNum = this.rechargeInfo.number
-				}
+				this.rechargeNum = 0
 			},
 			getPayType() {
 				this.$http.post(this.$apiObj.GetPayType).then(res => {
@@ -259,7 +294,7 @@
 								this.select = i + 1
 								this.rechargeNum = this.rechargeInfo.reward_type == 1 ? item.all_money *
 									1 + this.rechargeInfo.number : item.all_money * 1 + item.k_diamond *
-										(this.rechargeInfo.number / 100)
+									(this.rechargeInfo.number / 100)
 							}
 						}
 
@@ -294,7 +329,7 @@
 				} else {
 					this.rechargeNum = this.rechargeInfo.reward_type == 1 ? item.all_money *
 						1 + this.rechargeInfo.number : item.all_money * 1 + item.k_diamond *
-							(this.rechargeInfo.number / 100)
+						(this.rechargeInfo.number / 100)
 				}
 			},
 			changPay(item) {

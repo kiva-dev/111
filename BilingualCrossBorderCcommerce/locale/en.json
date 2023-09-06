@@ -1777,5 +1777,22 @@
 	"recharge.gxnzj":"Congratulations on your win!",
 	"recharge.czhdhl":"Recharge Event Gifts",
 	"recharge.send_award":"Submit Award information",
-	"recharge.qcz":"Recharge"
+	"recharge.qcz":"Recharge",
+	"recharge.above":"Above",
+	
+	"withdrawal.tit": "Withdrawal details",
+	"withdrawal.order_num": "Withdrawal order number",
+	"withdrawal.time": "Withdrawal time",
+	"withdrawal.price": "Withdrawal amount",
+	"withdrawal.free": "Withdrawal fee",
+	"withdrawal.card": "Withdrawal bank card",
+	"withdrawal.voucher": "Withdrawal Voucher",
+	"withdrawal.err_msg": "Reason for withdrawal failure",
+	"withdrawal.yth": "The withdrawal amount has been returned to the balance",
+	"withdrawal.tip":"Warm reminder: Withdrawal requires manual review, please be patient and wait for the withdrawal to arrive",
+	"withdrawal.ytj": "Submitted",
+	"withdrawal.scz": "In Review",
+	"withdrawal.result": "Withdrawal result",
+	"withdrawal.success": "Withdrawal successful",
+	"withdrawal.failed": "Withdrawal failed"
 }

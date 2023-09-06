@@ -216,5 +216,7 @@ let apiObj = {
 	PrizeAward:"/Lottery/lottery",//获取抽奖中奖商品信息
 	MyPrize:"/Lottery/userPrize",//我的奖品
 	AwardKdiamond:"/Lottery/awardPrize",//领取虚拟k钻
+	
+	WithdrawalInfo:"/Recharge/tocashDetail",//提现详情
 }
 export default apiObj

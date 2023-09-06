@@ -16,9 +16,10 @@
 					<view class="item" v-for="item in list" :key="item.user_lucky_lottery_prize_id"
 						:style="prizeById == item.user_lucky_lottery_prize_id ?'background: linear-gradient(180.00deg, rgb(255, 157, 111),rgb(250, 243, 204) 100%);':''">
 						<image :src="item.prize_image" v-show="item.goods_id>0"></image>
-						<image src="/static/images/kbrick/diamond.png" v-show="item.goods_id==0" style="width: 40rpx;height: 40rpx;">
+						<image src="/static/images/kbrick/diamond.png" v-show="item.goods_id==0"
+							style="width: 40rpx;height: 40rpx;">
 						</image>
-						<view class="price">{{item.reward_type == 1 ? 'RM' : ''}} {{item.prize_price}}</view>
+						<view class="price">{{item.reward_type == 1 ? 'RM' : ''}} {{item.reward_type == 1 ?item.prize_price * 1 : item.prize_price}}</view>
 					</view>
 				</view>
 			</view>
@@ -83,21 +84,25 @@
 						<view>{{prizeInfo.reward_type == 1 ? prizeInfo.number : prizeInfo.prize_price}}</view>
 					</view>
 					<view class="left" style="padding-top: 0;height: 136rpx;" v-else>
-						<image :src="prizeInfo.prize_image" style="width: 136rpx;height: 136rpx;border-radius: 16rpx;"></image>
+						<image :src="prizeInfo.prize_image" style="width: 136rpx;height: 136rpx;border-radius: 16rpx;">
+						</image>
 					</view>
 					<view class="right">
-						<view class="product_name">{{prizeInfo.prize_name}}</view>
+						<view class="product_name">
+							{{prizeInfo.prize_name}}
+							<block v-if="prizeInfo.goods_id == 0 && prizeInfo.reward_type == 2">
+								({{isShopCont ? 'Extra gift' : '加赠'}}{{prizeInfo.prize_price}})
+							</block>
+						</view>
 						<view class="value" v-if="prizeInfo.goods_id > 0">
 							<view class="value_tit">{{$t('recharge.product_value')}}:</view>
 							<view class="value_num">RM<text>{{prizeInfo.prize_price * 1}}</text></view>
 						</view>
-						<view class="amount">{{$t('recharge.amount')}}:<image src="/static/images/kbrick/diamond.png">
-							</image>
-							<text>{{prizeInfo.recharge_k_diamond_of_lottery * 1}}</text>
-						</view>
-						<view class="value" v-if="prizeInfo.goods_id == 0 && prizeInfo.reward_type == 2">
-							<view class="value_tit">{{isShopCont ? 'Extra gift' : '加赠'}}:</view>
-							<view class="value_num"><text>{{prizeInfo.prize_price}}</text></view>
+						<view class="amount">
+							{{$t('recharge.amount')}}:
+							<image src="/static/images/kbrick/diamond.png"></image>
+							<text style="margin-right: 4rpx;">{{prizeInfo.recharge_k_diamond_of_lottery * 1}} </text>
+							<block>{{$t('recharge.above')}}</block>
 						</view>
 					</view>
 				</view>
@@ -106,7 +111,8 @@
 
 				<view class="winning_btn">
 					<view class="cancel" @click="showPop=false">{{$t('app.cancel')}}</view>
-					<view class="now" @click="navClick('/pages/mine/K_brick_detail?data='+JSON.stringify(prizeInfo))">{{$t('recharge.now')}}</view>
+					<view class="now" @click="navClick('/pages/mine/K_brick_detail?data='+JSON.stringify(prizeInfo))">
+						{{$t('recharge.now')}}</view>
 				</view>
 
 			</view>
@@ -126,7 +132,7 @@
 				prizeNum: 0, //抽奖次数
 				prizeById: 0, //抽奖每次跳动的Id
 				prizeInfo: {}, //中奖信息
-				isPrize: false,//是否正在抽奖
+				isPrize: false, //是否正在抽奖
 			}
 		},
 		onShow() {
@@ -142,7 +148,7 @@
 			},
 			toBack() {
 				uni.switchTab({
-					url:'/pages/mine/mine'
+					url: '/pages/mine/mine'
 				})
 			},
 			navClick(url) {
@@ -161,7 +167,7 @@
 				})
 			},
 			send() {
-				if(this.isPrize) return
+				if (this.isPrize) return
 				this.$http.post(this.$apiObj.PrizeAward).then(res => {
 					if (res.code == 1) {
 						this.prizeInfo = res.data
