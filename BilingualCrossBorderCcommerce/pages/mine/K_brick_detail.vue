@@ -58,7 +58,8 @@
 			</view>
 
 			<template v-if="rechargeInfo.raffle_item_type">
-				<view class="recharge_info" :style="rechargeInfo.raffle_item_type == 1 && showProduct ? '' : 'height: 116rpx;'">
+				<view class="recharge_info"
+					:style="rechargeInfo.raffle_item_type == 1 && showProduct ? '' : 'height: 116rpx;'">
 					<view class="tit">{{isShopCont ? 'Extra gift' : '额外赠送'}}</view>
 					<view class="product">
 						<view class="left" v-if="rechargeInfo.raffle_item_type == 1 && showProduct">
@@ -69,7 +70,8 @@
 										style="font-size: 20rpx;">{{rechargeInfo.prize_price}}</text></view>
 							</view>
 						</view>
-						<view class="right" :style="rechargeInfo.raffle_item_type == 1 && showProduct ? '' : 'margin-left: 32rpx;'">
+						<view class="right"
+							:style="rechargeInfo.raffle_item_type == 1 && showProduct ? '' : 'margin-left: 32rpx;'">
 							<image src="/static/images/kbrick/diamond.png"></image>
 							<view>{{(rechargeNum * 1).toFixed(2)}}</view>
 						</view>
@@ -211,7 +213,7 @@
 		},
 		methods: {
 			inputConfirm() {
-				if (this.payNum && this.payNum * 1 < 15) {
+				if (this.payNum && this.payNum * 1 < 15 || !this.payNum) {
 					uni.showToast({
 						title: this.$t('new.czjejx'),
 						icon: 'none',
@@ -329,12 +331,16 @@
 				})
 			},
 			switchCzNum(id, item) {
-				this.select = id == 1 ? 2 : id
+				this.select = id
 				this.selectPayNum = false
 				this.payNum = ''
 				if (this.rechargeInfo.raffle_item_type == 1) {
-					this.rechargeNum = item.all_money * 1
-					this.showProduct = true
+					if (id == 1) {
+						this.showProduct = false
+					} else {
+						this.rechargeNum = item.all_money * 1
+						this.showProduct = true
+					}
 				} else {
 					this.rechargeNum = this.rechargeInfo.reward_type == 1 ? item.all_money *
 						1 + this.rechargeInfo.number : item.all_money * 1 + item.k_diamond *
