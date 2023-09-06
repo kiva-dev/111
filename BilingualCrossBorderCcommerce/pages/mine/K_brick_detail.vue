@@ -48,7 +48,7 @@
 			<view class="customize" :class="selectPayNum?'select_customize':''">
 				<image src="/static/images/kbrick/diamond.png" class="logo"></image>
 				<view class="customize-input">
-					<input type="text" v-model="payNum" @focus="inputChange()" @confirm="inputConfirm()"
+					<input type="text" v-model="payNum" @focus="inputChange()" @blur="inputConfirm()"
 						:placeholder="$t('new.qtczje')" style="font-size: 24rpx;color: rgb(102, 102, 102);" />
 				</view>
 				<view class="customize-right" v-show="false">
