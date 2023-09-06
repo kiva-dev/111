@@ -33,7 +33,7 @@
 				</view>
 			</view>
 
-			<view class="item" v-for="(item,i) in list" :key="i">
+			<view class="item" v-for="(item,i) in list.slice(0,1)" :key="i">
 				<view class="info">
 					<view class="left">
 						<image :src="item.prize_image" v-if="item.raffle_item_type==1"></image>
@@ -86,6 +86,68 @@
 					{{$t('recharge.award')}}
 				</view>
 			</view>
+
+			<template v-if="list.length > 1">
+				<view class="prize_tit">{{$t('recharge.my_prize')}}<text></text></view>
+
+				<view class="item" v-for="(item,k) in list.slice(2,list.length)"
+					:key="item.user_lucky_lottery_record_id">
+					<view class="info">
+						<view class="left">
+							<image :src="item.prize_image" v-if="item.raffle_item_type==1"></image>
+							<image src="/static/images/kbrick/diamond.png" v-else></image>
+						</view>
+						<view class="right">
+							<view class="right_tit">
+								{{item.prize_name}}
+								<block v-if="item.raffle_item_type == 2 && item.reward_type == 2">
+									({{isShopCont ? 'Extra gift' : '加赠'}}:{{item.prize_price}})
+								</block>
+								<block v-else-if="item.raffle_item_type == 2 && item.reward_type == 1">
+									({{item.number}})
+								</block>
+							</view>
+							<view class="price">{{$t('recharge.amount')}}:<image
+									src="/static/images/kbrick/diamond.png">
+								</image>
+								<text style="margin-right: 4rpx;">{{item.recharge_k_diamond_after_lottery * 1}}</text>
+								<block>{{$t('recharge.above')}}</block>
+							</view>
+							<view class="value" v-if="item.raffle_item_type == 1">
+								<view class="value_name">{{$t('recharge.product_value')}}:</view>
+								<view class="value_num">RM <text>{{item.prize_price * 1}}</text></view>
+							</view>
+						</view>
+					</view>
+
+					<view class="time">{{$t('recharge.winning_date')}}:
+						<text>{{$u.timeFormat(item.create_time, 'yyyy.mm.dd hh:MM:ss')}}</text>
+					</view>
+
+					<view class="time" v-if="item.award_time">{{$t('recharge.task')}}:
+						<text>{{$u.timeFormat(item.award_time, 'yyyy.mm.dd hh:MM:ss')}}</text>
+					</view>
+
+					<view class="time" @click="navClick('/pages/mine/order/orderDetail?id='+item.order_no)"
+						v-if="item.winning_status == 1">
+						{{$t('user.order.detail.number')}}:
+						<text>{{item.order_no}}</text>
+						<image src="/static/images/mine/wallet_right.png"></image>
+					</view>
+
+					<view class="btn" v-show="item.is_sure_award == 0"
+						@click="navClick('/pages/mine/K_brick_detail?data='+JSON.stringify(item))">
+						{{$t('recharge.qcz')}}
+					</view>
+					<view class="btn1"
+						v-show="item.is_sure_award == 1 && item.raffle_item_type == 1 && item.winning_status == 0"
+						@click="navClick('/pages/active/recharge/submit_award?data='+JSON.stringify(item))">
+						{{$t('recharge.award')}}
+					</view>
+				</view>
+
+			</template>
+
 
 		</view>
 	</view>
@@ -159,6 +221,27 @@
 	.my_prize {
 		width: 750rpx;
 		min-height: 100vh;
+
+		.prize_tit {
+			position: relative;
+			width: 100%;
+			font-size: 28rpx;
+			font-weight: bold;
+			color: rgb(51, 51, 51);
+			text-align: center;
+			margin-bottom: 24rpx;
+			
+			text{
+				position: absolute;
+				bottom: -8rpx;
+				left: 50%;
+				transform: translate(-50%,0);
+				width: 80rpx;
+				height: 8rpx;
+				background: linear-gradient(135.00deg, rgb(255, 181, 141) 0%,rgb(255, 83, 56) 100%);
+				border-radius: 8rpx;
+			}
+		}
 
 		.top {
 			width: 750rpx;
