@@ -491,6 +491,12 @@
 					<view class="LimitedImag">
 						<image :src="limitedCaseImageSrc" mode="widthFix"></image>
 					</view>
+					<view class="LimitedImag" style="width:750rpx;margin-left: -40rpx;" v-if="isShopCont">
+						<image src="/static/images/mine/rule/fqa_en.png" mode="widthFix" style="width:750rpx;"></image>
+					</view>
+					<view class="LimitedImag" style="width:750rpx;margin-left: -40rpx;" v-else-if="!isShopCont">
+						<image src="/static/images/mine/rule/fqa_cn.png" mode="widthFix" style="width:750rpx;"></image>
+					</view>
 					<view class="conentEnd">
 						<view>{{$t('rule.announcedLuckyCode')}}</view>
 					</view>
