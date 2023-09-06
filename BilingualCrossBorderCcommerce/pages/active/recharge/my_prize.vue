@@ -45,6 +45,9 @@
 							<block v-if="item.raffle_item_type == 2 && item.reward_type == 2">
 								({{isShopCont ? 'Extra gift' : '加赠'}}:{{item.prize_price}})
 							</block>
+							<block v-else-if="item.raffle_item_type == 2 && item.reward_type == 1">
+								({{item.number}})
+							</block>
 						</view>
 						<view class="price">{{$t('recharge.amount')}}:<image src="/static/images/kbrick/diamond.png">
 							</image>
