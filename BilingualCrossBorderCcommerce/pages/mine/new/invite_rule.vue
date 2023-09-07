@@ -136,7 +136,7 @@
 				if (res.code == 1) {
 					this.userCont = res.data
 					this.code = res.data.invite_code
-					this.qrUrl = this.$baseUrl + 'pages/mine/new/new-register?invite_code=' + res.data
+					this.qrUrl = this.$baseUrl + 'pages/active/rebate?invite_code=' + res.data
 						.invite_code // ���ɶ�ά�������
 					this.createQrcode()
 				}

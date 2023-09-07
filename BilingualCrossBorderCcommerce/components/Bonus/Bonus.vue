@@ -169,6 +169,7 @@
 				version_desc_en: '',
 
 				showRecharge: false, //充值弹框，层级4
+				rechargeIsOpenOrClose: false, //充值弹窗默认关闭还是开启
 
 				showBell: false, //中拍弹框，层级5
 				onfenxingShow: false,
@@ -243,13 +244,14 @@
 			},
 			getVersion() {
 				this.$http.post(this.$apiObj.IndexSetting, {
-					fields: 'version_auction,version_auction_desc,version_auction_desc_en'
+					fields: 'version_auction,version_auction_desc,version_auction_desc_en,user_lucky_lottery_status'
 				}).then(res => {
 					if (res.code == 1) {
 						this.version = res.data.version_auction
 						this.version_desc = res.data.version_auction_desc
 						this.version_desc_en = res.data.version_auction_desc_en
-
+						this.rechargeIsOpenOrClose = res.data.user_lucky_lottery_status == 1 ? true : false
+						
 						// #ifdef H5
 						if (uni.getStorageSync('token')) {
 							this.getInfo()
@@ -293,7 +295,8 @@
 						this.show = true
 						this.price = res.data.list.data[0].money
 					} else {
-						this.getPrizeNum()
+						if(this.rechargeIsOpenOrClose) this.getPrizeNum()
+						else this.setUpMemory()
 					}
 				})
 			},

@@ -1794,5 +1794,11 @@
 	"withdrawal.scz": "In Review",
 	"withdrawal.result": "Withdrawal result",
 	"withdrawal.success": "Withdrawal successful",
-	"withdrawal.failed": "Withdrawal failed"
+	"withdrawal.failed": "Withdrawal failed",
+	
+	"active.send_code":"Send Code",
+	"active.invite_tit":"Your friend invites you to pick up the gift together!",
+	"active.xieyi": "I have read and agreed to the following agreements:",
+	"active.join":"Join Koribri Mall",
+	"active.award":"Reward RM5 and 5 platform K Coins."
 }

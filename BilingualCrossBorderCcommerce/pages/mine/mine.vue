@@ -85,7 +85,8 @@
 								<p>{{(userCont.k_diamond_wallet*1 + userCont.temporary_k_diamond_wallet*1) || 0.00}}</p>
 							</view>
 							<p style="margin: 10rpx 0;">({{isShopCont ? 'Included' : '包含'}}
-								{{userCont.temporary_k_diamond_wallet}} {{isShopCont ? 'gift diamond' : '赠送K钻'}})</p>
+								{{userCont.temporary_k_diamond_wallet}} {{isShopCont ? 'gift diamond' : '赠送K钻'}})
+							</p>
 							<p>{{$t('mine.diamonds')}}</p>
 						</view>
 
@@ -138,16 +139,19 @@
 		</view> -->
 
 		<!--轮播图-->
-		<view class="auct-banner">
-			<swiper class="auct-banner-swiper" circular :autoplay="true" :interval="2000" :duration="500"
-				style="height: 232rpx;">
-				<swiper-item v-for="(item, index) in banner" :key="index">
-					<view class="swiper-image" @click="getBanner(item)">
-						<image :src="isShopCont ? item.img_en : item.img_cn" mode="aspectFill"></image>
-					</view>
-				</swiper-item>
-			</swiper>
-		</view>
+		<template v-if="banner.length > 0">
+			<view class="auct-banner">
+				<swiper class="auct-banner-swiper" circular :autoplay="true" :interval="2000" :duration="500"
+					style="height: 232rpx;">
+					<swiper-item v-for="(item, index) in banner" :key="index">
+						<view class="swiper-image" @click="getBanner(item)">
+							<image :src="isShopCont ? item.img_en : item.img_cn" mode="aspectFill"></image>
+						</view>
+					</swiper-item>
+				</swiper>
+			</view>
+		</template>
+
 
 		<!--邀请返佣-->
 		<view class="commission-info">
@@ -476,18 +480,6 @@
 			uni.removeStorageSync('sendTit')
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false;
 
-			this.banner = [{
-					img_en: '/static/images/mine/mine_banner_recharge_en.png',
-					img_cn: '/static/images/mine/mine_banner_recharge_cn.png',
-					url: '/pages/active/recharge/recharge'
-				},
-				{
-					img_en: '/static/images/mine/mine_banner_invite_en.png',
-					img_cn: '/static/images/mine/mine_banner_invite_cn.png',
-					url: '/pages/mine/new/invite_friend'
-				}
-			]
-
 			if (uni.getStorageSync('token')) {
 				this.getNotRead()
 				this.isLogin = true;
@@ -499,10 +491,26 @@
 			}
 
 			this.$http.post(this.$apiObj.IndexSetting, {
-				fields: 'gift_balance_invitation_event,gift_balance_invitation_event_activity_money_withdraw'
+				fields: 'gift_balance_invitation_event,gift_balance_invitation_event_activity_money_withdraw,user_lucky_lottery_status'
 			}).then(res => {
 				this.showInviteFriend = res.data.gift_balance_invitation_event
 				this.inviteFriendPrice = res.data.gift_balance_invitation_event_activity_money_withdraw
+
+				let friend = {
+					img_en: '/static/images/mine/mine_banner_invite_en.png',
+					img_cn: '/static/images/mine/mine_banner_invite_cn.png',
+					url: '/pages/mine/new/invite_friend'
+				}
+				let recharge = {
+					img_en: '/static/images/mine/mine_banner_recharge_en.png',
+					img_cn: '/static/images/mine/mine_banner_recharge_cn.png',
+					url: '/pages/active/recharge/recharge'
+				}
+				
+				this.banner=[]
+				if (this.showInviteFriend == 1) this.banner.push(friend)
+				if (res.data.user_lucky_lottery_status == 1) this.banner.push(recharge)
+
 			})
 		},
 		onHide() {
