@@ -242,20 +242,25 @@
 					if (num < this.rechargeInfo.recharge_k_diamond_of_lottery * 1 ||
 						num < this.rechargeInfo.recharge_k_diamond_after_lottery * 1) {
 						this.showProduct = false
-						this.rechargeNum = item.all_money
+						this.rechargeNum = item.all_money ? item.all_money : 0
 						return
 					}
 					this.showProduct = true
-					this.rechargeNum = item.all_money
+					this.rechargeNum = item.all_money ? item.all_money : 0
 				} else {
 					if (num < this.rechargeInfo.recharge_k_diamond_of_lottery * 1 ||
 						num < this.rechargeInfo.recharge_k_diamond_after_lottery * 1) {
-						this.rechargeNum = item.all_money
+						this.rechargeNum = item.all_money ? item.all_money : 0
 						return
 					}
-					this.rechargeNum = this.rechargeInfo.reward_type == 1 ? item.all_money *
-						1 + this.rechargeInfo.number : item.all_money * 1 + num *
-						(this.rechargeInfo.number / 100)
+					if (this.rechargeInfo.reward_type == 1) {
+						this.rechargeNum = item.all_money ? item.all_money * 1 + this.rechargeInfo.number : this
+							.rechargeInfo.number
+					} else {
+						this.rechargeNum = item.all_money ? item.all_money * 1 + num *
+							(this.rechargeInfo.number / 100) : num * (this.rechargeInfo.number / 100)
+					}
+
 				}
 			},
 			inputChange() {
@@ -296,15 +301,22 @@
 							if (item.k_diamond == this.rechargeInfo.recharge_k_diamond_of_lottery * 1 ||
 								item.k_diamond == this.rechargeInfo.recharge_k_diamond_after_lottery * 1) {
 								this.select = i + 1
-								this.rechargeNum = item.all_money * 1
+								this.rechargeNum = item.all_money ? item.all_money * 1 : 0
 							}
 						} else {
 							if (item.k_diamond == this.rechargeInfo.recharge_k_diamond_of_lottery * 1 ||
 								item.k_diamond == this.rechargeInfo.recharge_k_diamond_after_lottery * 1) {
 								this.select = i + 1
-								this.rechargeNum = this.rechargeInfo.reward_type == 1 ? item.all_money *
-									1 + this.rechargeInfo.number : item.all_money * 1 + item.k_diamond *
-									(this.rechargeInfo.number / 100)
+								//无论直接送k钻还是百分比，都有可能当前档位不赠送k钻，需要做非空处理
+								if (this.rechargeInfo.reward_type == 1) {
+									this.rechargeNum = item.all_money ? item.all_money * 1 + this
+										.rechargeInfo.number : this.rechargeInfo.number
+								} else {
+									this.rechargeNum = item.all_money ? item.all_money * 1 + item
+										.k_diamond * (this.rechargeInfo.number / 100) : item.k_diamond * (
+											this.rechargeInfo.number / 100)
+								}
+
 							}
 						}
 
@@ -334,17 +346,29 @@
 				this.select = id
 				this.selectPayNum = false
 				this.payNum = ''
+				//实物
 				if (this.rechargeInfo.raffle_item_type == 1) {
 					if (id == 1) {
 						this.showProduct = false
+						this.rechargeNum = item.all_money ? item.all_money * 1 : 0
 					} else {
-						this.rechargeNum = item.all_money * 1
+						this.rechargeNum = item.all_money ? item.all_money * 1 : 0
 						this.showProduct = true
 					}
 				} else {
-					this.rechargeNum = this.rechargeInfo.reward_type == 1 ? item.all_money *
-						1 + this.rechargeInfo.number : item.all_money * 1 + item.k_diamond *
-						(this.rechargeInfo.number / 100)
+					//直接送k钻
+					if (this.rechargeInfo.reward_type == 1) {
+						if (item.k_diamond < this.rechargeInfo.recharge_k_diamond_of_lottery * 1 ||
+							item.k_diamond < this.rechargeInfo.recharge_k_diamond_after_lottery * 1) {
+							this.rechargeNum = item.all_money ? item.all_money : 0
+							return
+						}
+						this.rechargeNum = item.all_money ? item.all_money * 1 + this.rechargeInfo.number : this
+							.rechargeInfo.number
+					} else {
+						this.rechargeNum = item.all_money ? item.all_money * 1 + item.k_diamond *
+							(this.rechargeInfo.number / 100) : item.k_diamond * (this.rechargeInfo.number / 100)
+					}
 				}
 			},
 			changPay(item) {
