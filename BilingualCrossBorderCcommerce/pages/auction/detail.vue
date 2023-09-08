@@ -55,17 +55,6 @@
 							format="HH:mm:ss"></u-count-down>
 					</view>
 				</view>
-				<!-- <view class="detail-price-time" v-if="shopCont.check_status==3||shopCont.check_status==4">
-					{{$u.timeFormat(shopCont.end_time, 'yyyy/mm/dd hh:MM:ss')}} {{$t('auction.detail.yijs')}}
-				</view>
-				<view class="detail-price-time" v-else-if="shopCont.check_status==2">
-					{{$t('new.jljs')}}：
-					<u-count-down :time="(shopCont.pre_end_time*1000)" format="HH:mm:ss"></u-count-down>
-				</view>
-				<view class="detail-price-time" v-else>
-					{{$t('new.jlks')}}：<u-count-down :time="(shopCont.start_time*1000)"
-						format="HH:mm:ss"></u-count-down>
-				</view> -->
 			</view>
 			<view style="background: #fff;padding: 24rpx 0;">
 				<view class="detail-title">{{shopCont.goods_name}}</view>
@@ -134,6 +123,7 @@
 			<view class="detail-luck-star" v-else>
 				<view class="detail-luck-star-name">{{$t('xsjp')}}</view>
 			</view>
+
 			<!--参与竞拍人数-->
 			<view class="detail-canyu">
 				<view class="detail-canyu-name">
@@ -517,6 +507,10 @@
 			<view class="bottom-layout">
 
 				<view class="bl-right">
+					<view class="demo">
+						<image src="/static/demo/product_logo.png"></image>
+						<text>Demo</text>
+					</view>
 
 					<view class="bl-right-add" style="color: #FFF; background: rgb(190, 190, 190)"
 						v-if="shopCont.check_status==3||shopCont.check_status==4">
@@ -943,6 +937,78 @@
 			</view>
 		</u-popup>
 
+		<u-popup :show="showDemo" mode="bottom" bgColor="transparent">
+			<view class="show_demo">
+				<image src="/static/images/kbrick/close.png" class="close"></image>
+				<template v-if="false">
+					<view class="demo_product">
+						<view class="left">
+							<img src="/static/fxtu.png"></img>
+						</view>
+						<view class="right">
+							<view class="name">rechargeable card RM 10rechargeable card RM 10rechargeable card RM
+								10rechargeable card RM 10</view>
+							<view class="price">
+								<image src="/static/images/kbrick/diamond.png"></image>
+								<text>1.00</text>
+							</view>
+						</view>
+					</view>
+
+					<u-line style="width: 686rpx;margin: 32rpx auto;"></u-line>
+
+					<view class="num_tit">Number of snaps</view>
+
+					<view class="num_input">
+						<view class="num_bj">
+							<image src="/static/images/kbrick/jian.png"></image>
+						</view>
+						<view class="my_input">
+							<u--input  border="none" v-model="demoNum" ></u--input>
+						</view>
+						<view class="num_bj">
+							<image src="/static/images/kbrick/jia.png"></image>
+						</view>
+					</view>
+					
+					<view class="input_num">The remaining number of snaps: <text>13</text></view>
+					
+					<view class="demo_tip">The trial results are for reference only</view>
+					<view class="demo_btn">Confirm</view>
+					
+				</template>
+			
+				<template>
+					<view class="demo_info">
+						<view class="img_info">
+							<img src="/static/fxtu.png"></img>
+						</view>
+						<view class="info_price">RM10</view>
+					</view>
+					
+					<image src="/static/demo/demo_k.png" class="demo_k"></image>
+					
+					<view class="users">
+						<view class="user" v-for="item in [1,1,1,1]">
+							<image src="/static/images/me/auth1.png" class="auth"></image>
+							<view class="user_price">
+								<image src="/static/images/kbrick/diamond.png"></image>
+								<text>x5</text>
+							</view>
+						</view>
+					</view>
+					
+					<image src="/static/demo/demo_btm.png" class="demo_btm"></image>
+					
+					<template>
+						
+					</template>
+					
+				</template>
+				
+			</view>
+		</u-popup>
+
 	</view>
 </template>
 
@@ -958,6 +1024,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 	export default {
 		data() {
 			return {
+				showDemo: true, //试玩
+				demoNum:1,
 				showNoun: false, //名词解释
 				nounNum: 1,
 				useKdiamondBonus: false,
@@ -2212,10 +2280,270 @@ NoR+zv3KaEmPSHtooQIDAQAB
 	/deep/.uni-progress-bar {
 		border-radius: 9rpx !important;
 	}
-
+	
+	/deep/.uni-input-input{
+		text-align: center;
+	}
+	
 	a {
 		color: rgb(44, 44, 44);
 		text-decoration: none;
+	}
+
+	//试玩
+	.show_demo {
+		position: relative;
+		width: 750rpx;
+		padding: 32rpx 0;
+		background: #fff;
+		border-radius: 24rpx 24rpx 0 0;
+
+		.close {
+			position: absolute;
+			right: 24rpx;
+			width: 40rpx;
+			height: 40rpx;
+		}
+
+		.demo_product {
+			width: 100%;
+			display: flex;
+			align-items: center;
+
+			.left {
+				position: relative;
+				width: 200rpx;
+				height: 200rpx;
+				box-sizing: border-box;
+				border: 2rpx solid rgb(237, 237, 237);
+				border-radius: 24rpx;
+				margin: 0 24rpx 0 32rpx;
+
+				img {
+					position: absolute;
+					top: 50%;
+					left: 50%;
+					transform: translate(-50%, -50%);
+					object-fit: contain;
+					width: 90%;
+					height: 90%;
+				}
+			}
+
+			.right {
+
+				.name {
+					width: 400rpx;
+					font-size: 28rpx;
+					font-weight: 500;
+					color: rgb(51, 51, 51);
+					overflow: hidden;
+					text-overflow: ellipsis;
+					display: -webkit-box;
+					-webkit-box-orient: vertical;
+					-webkit-line-clamp: 2;
+				}
+
+				.price {
+					font-size: 40rpx;
+					font-weight: 700;
+					color: rgb(255, 57, 57);
+					display: flex;
+					align-items: center;
+					margin-top: 88rpx;
+
+					image {
+						width: 40rpx;
+						height: 40rpx;
+						margin-right: 8rpx;
+					}
+				}
+			}
+		}
+
+		.num_tit {
+			font-size: 28rpx;
+			font-weight: 600;
+			color: rgb(51, 51, 51);
+			margin-left: 32rpx;
+		}
+		
+		.num_input{
+			width: 400rpx;
+			height: 72rpx;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			background: rgb(250, 251, 253);
+			border-radius: 72rpx;
+			margin: 40rpx auto 32rpx auto;
+			
+			.num_bj{
+				position: relative;
+				width: 124rpx;
+				height: 72rpx;
+				background: rgb(241, 241, 241);
+				border-radius: 72rpx 0 0 72rpx;
+				
+				image{
+					position: absolute;
+					top: 50%;
+					left: 50%;
+					transform: translate(-50%,-50%);
+					width: 28rpx;
+					height: 28rpx;
+				}
+			}
+			
+			.num_bj:last-child{
+				border-radius: 0 72rpx 72rpx 0;
+			}
+			
+			.my_input{
+				width: 152rpx;
+			}
+		}
+		
+		.input_num{
+			width: 100%;
+			font-size: 24rpx;
+			color: rgb(153, 153, 153);
+			text-align: center;
+			margin-bottom: 200rpx;
+			
+			text{
+				font-size: 28rpx;
+				font-weight: 700;
+				color: rgb(10, 198, 142);
+				margin-left: 12rpx;
+			}
+		}
+		
+		.demo_tip{
+			width: 100%;
+			font-size: 24rpx;
+			color: rgb(102, 102, 102);
+			text-align: center;
+		}
+		
+		.demo_btn{
+			width: 686rpx;
+			height: 88rpx;
+			line-height: 88rpx;
+			font-size: 36rpx;
+			font-weight: bold;
+			color: rgb(255, 255, 255);
+			text-align: center;
+			background: rgb(10, 198, 142);
+			border-radius: 88rpx;
+			margin: 40rpx auto 0 auto;
+		}
+		
+		.demo_info{
+			width: 160rpx;
+			height: 160rpx;
+			background: rgb(225, 255, 240);
+			box-sizing: border-box;
+			border: 2rpx solid rgb(30, 203, 151);
+			border-radius: 16rpx;
+			margin: 0 auto;
+			
+			.img_info{
+				position: relative;
+				width: 160rpx;
+				height: 122rpx;
+				
+				img{
+					position: absolute;
+					top: 50%;
+					left: 50%;
+					transform: translate(-50%,-50%);
+					object-fit: contain;
+					width: 90%;
+					height: 90rpx;
+				}
+			}
+			
+			.info_price{
+				width: 160rpx;
+				height: 38rpx;
+				line-height: 38rpx;
+				font-size: 28rpx;
+				font-weight: 700;
+				color: rgb(255, 255, 255);
+				text-align: center;
+				background: rgba(10, 198, 142, 0.6);
+				border-radius: 0 0 16rpx 16rpx;
+			}
+			
+		}
+		
+		.demo_k{
+			display: block;
+			width: 590rpx;
+			height: 138rpx;
+			margin: 8rpx auto 30rpx auto;
+		}
+		
+		.users{
+			width: 590rpx;
+			display: flex;
+			align-items: center;
+			margin: 0 auto;
+			
+			.user{
+				.auth{
+					display: block;
+					width: 80rpx;
+					height: 80rpx;
+					border-radius: 50%;
+				}
+				
+				.user_price{
+					height: 28rpx;
+					font-size: 20rpx;
+					font-weight: 700;
+					color: rgb(255, 255, 255);
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					background: rgba(10, 198, 142, 0.4);
+					border-radius: 6rpx;
+					
+					image{
+						width: 24rpx;
+						height: 24rpx;
+						margin-right: 4rpx;
+					}
+				}
+				
+			}
+			
+			.user:nth-child(1){
+				margin-left: -16rpx;
+			}
+			
+			.user:nth-child(2){
+				margin-left: 140rpx;
+			}
+			
+			.user:nth-child(3){
+				margin-left: 86rpx;
+			}
+			
+			.user:nth-child(4){
+				margin-left: 80rpx;
+			}
+			
+		}
+		
+		.demo_btm{
+			display: block;
+			width: 540rpx;
+			height: 48rpx;
+			margin: 40rpx auto;
+		}
+		
 	}
 
 	//名词解释
@@ -4099,6 +4427,25 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			.bl-right {
 				display: flex;
 				align-items: center;
+
+				.demo {
+					width: 212rpx;
+					height: 88rpx;
+					font-size: 28rpx;
+					font-weight: 700;
+					color: rgb(255, 255, 255);
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					background: rgb(10, 198, 142);
+					border-radius: 88rpx;
+
+					image {
+						width: 32rpx;
+						height: 32rpx;
+						margin-right: 6rpx;
+					}
+				}
 
 				.bl-right-buy {
 					width: 212rpx;

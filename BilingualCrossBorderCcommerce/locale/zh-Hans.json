@@ -1790,5 +1790,9 @@
 	"active.invite_tit": "您的朋友邀请您一起领取礼物！",
 	"active.xieyi": "我已阅读并同意以下协议：",
 	"active.join":"加入 Koribri 商城",
-	"active.award":"奖励RM5和5个平台K币"
+	"active.award":"奖励RM5和5个平台K币",
+	"active.friend_fl":"好友充值返利",
+	"active.rmor_kdiamond":"获得现金回扣或 K-Diamonds 回扣",
+	"active.active_time":"活动时间",
+	"active.acive_rule":"活动规则"
 }

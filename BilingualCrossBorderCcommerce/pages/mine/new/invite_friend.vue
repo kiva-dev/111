@@ -17,15 +17,15 @@
 			</view>
 
 			<view class="switch">
-				<view class="switch_name" :class="select==1?'switch_select':''" @click="select = 1;getList()">
+				<view class="switch_name" :class="select==1?'switch_select':''" @click="switchSelect(1)">
 					<view>{{$t('comment.all_comment')}}</view>
 					<text v-show="select==1"></text>
 				</view>
-				<view class="switch_name" :class="select==2?'switch_select':''" @click="select = 2;getList()">
+				<view class="switch_name" :class="select==2?'switch_select':''" @click="switchSelect(2)">
 					<view>{{$t('invite.under_way')}}</view>
 					<text v-show="select==2"></text>
 				</view>
-				<view class="switch_name" :class="select==3?'switch_select':''" @click="select = 3;getList()">
+				<view class="switch_name" :class="select==3?'switch_select':''" @click="switchSelect(3)">
 					<view>{{$t('auction.yiwancheng')}}</view>
 					<text v-show="select==3"></text>
 				</view>
@@ -53,7 +53,7 @@
 			</view>
 
 		</view>
-
+		<view style="height: 40rpx;"></view>
 	</view>
 </template>
 
@@ -64,7 +64,11 @@
 				select: 1,
 				list: [],
 				total: 0,
-				isShopCont: false
+				isShopCont: false,
+				page: 1,
+				pagenum: 10,
+				totalPageNum: 0,
+				oldSelect: 1, //记录上次的选择
 			}
 		},
 		onLoad() {
@@ -80,19 +84,35 @@
 					url
 				})
 			},
+			switchSelect(id) {
+				this.select = id
+				this.oldSelect = id
+				this.page = 1
+				this.getList()
+			},
 			getList() {
 				let search;
 				if (this.select == 1) search = 'all'
 				else if (this.select == 2) search = 'progress'
 				else search = 'issued'
 				this.$http.post(this.$apiObj.MineInviteGiftRM, {
-					search
+					search,
+					page: this.page,
+					pagenum: this.pagenum
 				}).then(res => {
 					if (res.code == 1) {
 						if (this.select == 1) this.total = res.data.total
-						this.list = res.data.data
+						this.list = this.page == 1 ? res.data.data : [...this.list, ...res.data.data]
+						this.totalPageNum = res.data.total
 					}
 				})
+			}
+		},
+		onReachBottom() {
+			if (this.totalPageNum <= this.page * this.pagenum) return
+			if (this.oldSelect == this.select) {
+				this.page++
+				this.getList()
 			}
 		}
 	}
@@ -275,15 +295,15 @@
 						}
 					}
 				}
-				
-				.price{
+
+				.price {
 					position: absolute;
 					top: 118rpx;
 					right: 24rpx;
 					font-size: 24rpx;
 					color: rgb(255, 57, 57);
-					
-					text{
+
+					text {
 						font-size: 32rpx;
 						font-weight: bold;
 						margin-left: 4rpx;

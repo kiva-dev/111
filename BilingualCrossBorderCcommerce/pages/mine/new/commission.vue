@@ -37,10 +37,10 @@
 				<template v-if="moneyList && moneyList.length > 0">
 					<view class="cl-list-item" v-for="(item,i) in moneyList" :key="item.id">
 						<view class="item-left">
-							<view class="item-left-icon">
+							<!-- <view class="item-left-icon">
 								<image src="@/static/images/mine/wallet_icon_income.png" v-if="item.type==20"></image>
 								<image src="@/static/images/mine/wallet_icon_expenditure.png" v-else></image>
-							</view>
+							</view> -->
 							<view class="item-left-info">
 								<view class="info-tit">{{isShopCont ? item.memo_en : item.memo}}</view>
 								<view class="info-time">{{$filter.to_date_time(item.addtime)}}</view>
@@ -73,7 +73,8 @@
 				page: 1,
 				pagenum: 10,
 				info: {},
-				isShopCont:false
+				isShopCont:false,
+				totalPageNum:0
 			}
 		},
 		onShow() {
@@ -88,7 +89,7 @@
 					page: this.page,
 					pagenum: this.pagenum
 				}).then(res => {
-					
+					this.totalPageNum = res.data.total
 					this.moneyList = this.page == 1? res.data.data : [...this.moneyList,...res.data.data]
 				})
 			},
@@ -105,6 +106,14 @@
 					url
 				})
 			}
+		},
+		// 页面滑动到底部
+		onReachBottom() {
+			// 判断是否还有数据
+			if (this.totalPageNum <= this.page * this.pagenum) return
+			this.page++
+			this.getMoneyList()
+		
 		}
 	}
 </script>

@@ -1800,5 +1800,9 @@
 	"active.invite_tit":"Your friend invites you to pick up the gift together!",
 	"active.xieyi": "I have read and agreed to the following agreements:",
 	"active.join":"Join Koribri Mall",
-	"active.award":"Reward RM5 and 5 platform K Coins."
+	"active.award":"Reward RM5 and 5 platform K Coins.",
+	"active.friend_fl":"Friend Recharge Rebate",
+	"active.rmor_kdiamond":"Obtain Cash Rebate or K-Diamonds Rebate",
+	"active.active_time":"Activity time",
+	"active.acive_rule":"Activity Rules"
 }

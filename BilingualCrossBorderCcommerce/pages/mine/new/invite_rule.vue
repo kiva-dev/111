@@ -116,7 +116,7 @@
 				qrcodeImg: '',
 				lange: '',
 				userCont: {},
-				isShopCont: false, // ���Ļ���Ӣ��
+				isShopCont: false, 
 				info: {},
 				startTime:'',
 				endTime:'',

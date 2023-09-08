@@ -313,8 +313,8 @@
 		{
 			"path": "pages/mine/upgrade",
 			"style": {
-				"navigationBarTitleText": "%top.zhsj%",
-				"enablePullDownRefresh": false
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
 			}
 		},
 		{
