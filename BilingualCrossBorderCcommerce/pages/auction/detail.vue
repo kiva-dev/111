@@ -64,7 +64,7 @@
 			<view class="li-tags">
 				<view class="bonus" v-if="shopCont.can_use_invite_money_rate *1 > 0">
 					<image src="/static/images/new-index/$.png" class="bonus-img"></image>
-					<view class="bonus-info">{{shopCont.can_use_invite_money_rate*1}}% bonus available</view>
+					<view class="bonus-info">{{shopCont.can_use_invite_money_rate*1}}% {{$t('detail.bonus')}}</view>
 				</view>
 				<view class="li-icon" v-for="item in shopCont.tags" :key="item.tag_id">
 					<image :src="item.image" mode="widthFix"></image>

@@ -56,7 +56,7 @@
 						<view class="new-list-item-right-tags">
 							<view class="bonus" v-if="item.can_use_invite_money_rate * 1 > 0">
 								<image src="/static/images/new-index/$.png" class="bonus-img"></image>
-								<view class="bonus-info">{{item.can_use_invite_money_rate*1}}% bonus available</view>
+								<view class="bonus-info">{{item.can_use_invite_money_rate*1}}% {{$t('detail.bonus')}}</view>
 							</view>
 							<block v-for="(data,index) in item.tags" :key="data.tag_id">
 								<image :src="data.image" class="tagimg"></image>
@@ -179,7 +179,7 @@
 
 						<view class="bonus-two" style="bottom: 200rpx;" v-if="item.can_use_invite_money_rate * 1 > 0">
 							<image src="/static/images/new-index/$.png" class="bonus-img"></image>
-							<view class="bonus-info">{{item.can_use_invite_money_rate*1}}% bonus available</view>
+							<view class="bonus-info">{{item.can_use_invite_money_rate*1}}% {{$t('detail.bonus')}}</view>
 						</view>
 
 						<view class="info-tags">
@@ -239,7 +239,7 @@
 
 					<view class="bonus-two" v-if="item.can_use_invite_money_rate * 1 > 0">
 						<image src="/static/images/new-index/$.png" class="bonus-img"></image>
-						<view class="bonus-info">{{item.can_use_invite_money_rate*1}}% bonus available</view>
+						<view class="bonus-info">{{item.can_use_invite_money_rate*1}}% {{$t('detail.bonus')}}</view>
 					</view>
 
 					<view class="info_tags">

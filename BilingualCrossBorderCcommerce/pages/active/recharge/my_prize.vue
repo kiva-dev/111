@@ -184,9 +184,12 @@
 				this.$http.post(this.$apiObj.MyPrize).then(res => {
 					if (res.code == 1) {
 						this.list = res.data
-						if (res.data[0].is_sure_award == 0) {
-							this.calculate(res.data[0].expire_time)
+						if (res.data.length > 0) {
+							if (res.data[0].is_sure_award == 0) {
+								this.calculate(res.data[0].expire_time)
+							}
 						}
+
 					}
 				})
 			},
@@ -230,15 +233,15 @@
 			color: rgb(51, 51, 51);
 			text-align: center;
 			margin-bottom: 24rpx;
-			
-			text{
+
+			text {
 				position: absolute;
 				bottom: -8rpx;
 				left: 50%;
-				transform: translate(-50%,0);
+				transform: translate(-50%, 0);
 				width: 80rpx;
 				height: 8rpx;
-				background: linear-gradient(135.00deg, rgb(255, 181, 141) 0%,rgb(255, 83, 56) 100%);
+				background: linear-gradient(135.00deg, rgb(255, 181, 141) 0%, rgb(255, 83, 56) 100%);
 				border-radius: 8rpx;
 			}
 		}

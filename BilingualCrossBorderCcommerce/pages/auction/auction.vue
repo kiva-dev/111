@@ -236,7 +236,7 @@
 						<view class="new-list-item-right-tags">
 							<view class="bonus" v-if="item.can_use_invite_money_rate *1 > 0">
 								<image src="/static/images/new-index/$.png" class="bonus-img"></image>
-								<view class="bonus-info">{{item.can_use_invite_money_rate*1}}% bonus available</view>
+								<view class="bonus-info">{{item.can_use_invite_money_rate*1}}% {{$t('detail.bonus')}}</view>
 							</view>
 							<block v-for="(data,index) in item.tags" :key="data.tag_id">
 								<image :src="data.image" class="tagimg"></image>
@@ -343,7 +343,7 @@
 
 						<view class="bonus-two" v-if="item.can_use_invite_money_rate * 1 > 0">
 							<image src="/static/images/new-index/$.png" class="bonus-img"></image>
-							<view class="bonus-info">{{item.can_use_invite_money_rate*1}}% bonus available</view>
+							<view class="bonus-info">{{item.can_use_invite_money_rate*1}}% {{$t('detail.bonus')}}</view>
 						</view>
 
 						<view class="info-tags">
@@ -397,7 +397,7 @@
 
 					<view class="bonus-two" v-if="item.can_use_invite_money_rate * 1 > 0">
 						<image src="/static/images/new-index/$.png" class="bonus-img"></image>
-						<view class="bonus-info">{{item.can_use_invite_money_rate*1}}% bonus available</view>
+						<view class="bonus-info">{{item.can_use_invite_money_rate*1}}% {{$t('detail.bonus')}}</view>
 					</view>
 
 					<view class="info_jd">
@@ -520,7 +520,7 @@
 						<view class="new-list-item-right-tags">
 							<view class="bonus" v-if="item.can_use_invite_money_rate * 1 > 0">
 								<image src="/static/images/new-index/$.png" class="bonus-img"></image>
-								<view class="bonus-info">{{item.can_use_invite_money_rate*1}}% bonus available</view>
+								<view class="bonus-info">{{item.can_use_invite_money_rate*1}}% {{$t('detail.bonus')}}</view>
 							</view>
 							<block v-for="(data,index) in item.tags" :key="data.tag_id">
 								<image :src="data.image" class="tagimg"></image>
@@ -617,7 +617,7 @@
 
 						<view class="bonus-two" style="bottom: 200rpx;" v-if="item.can_use_invite_money_rate * 1 > 0">
 							<image src="/static/images/new-index/$.png" class="bonus-img"></image>
-							<view class="bonus-info">{{item.can_use_invite_money_rate*1}}% bonus available</view>
+							<view class="bonus-info">{{item.can_use_invite_money_rate*1}}% {{$t('detail.bonus')}}e</view>
 						</view>
 
 						<view class="info-tags" style="bottom: 158rpx;">
@@ -671,7 +671,7 @@
 
 					<view class="bonus-two" v-if="item.can_use_invite_money_rate * 1 > 0">
 						<image src="/static/images/new-index/$.png" class="bonus-img"></image>
-						<view class="bonus-info">{{item.can_use_invite_money_rate*1}}% bonus available</view>
+						<view class="bonus-info">{{item.can_use_invite_money_rate*1}}% {{$t('detail.bonus')}}</view>
 					</view>
 
 					<view class="info_tags">
@@ -944,7 +944,7 @@
 					v-show="(balance*1 <shopNum && !useInvite && !useKdiamondBonus) || (useInvite && !useKdiamondBonus && balance*1 < changShopNum*1) || (useKdiamondBonus && !useInvite && (shopNum - useKdiamondBonus) > balance) || (useInvite && useKdiamondBonus && (shopNum - (zenjinToRmNum + giftKdiamondBalance)) > balance )">
 					<view class="tit">{{$t('new.kzyebz')}}</view>
 					<view class="btn" @click="toRecharge()">
-						<view class="btn-tit">Purchase</view>
+						<view class="btn-tit">{{isEnglish ? 'Purchase' : '购买'}}</view>
 						<image src="/static/images/kbrick/diamond.png" class="btn-diamond"></image>
 						<image src="/static/images/luck/luck-right.png" class="btn-right"></image>
 					</view>
