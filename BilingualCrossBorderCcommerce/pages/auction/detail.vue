@@ -282,7 +282,7 @@
 				</view>
 			</view>
 			<!--猜你喜欢-->
-			<view class="guess-layout">
+			<view class="guess-layout" v-if="youLikeList.length > 0">
 				<view class="gl-title">
 					<view class="gl-title-left">
 						<image src="/static/images/new-index/detail_icon_guess.png" mode="widthFix"></image>
@@ -309,7 +309,7 @@
 				</view>
 			</view>
 			<!--热门推荐-->
-			<view class="guess-layout">
+			<view class="guess-layout" v-if="hotList.length > 0">
 				<view class="gl-title">
 					<view class="gl-title-left">
 						<image src="@/static/images/new-index/detail_icon_hot.png" mode="widthFix"></image>
@@ -516,7 +516,7 @@
 						v-if="shopCont.check_status==3||shopCont.check_status==4">
 						<p>{{$t('auction.detail.yijs')}}</p>
 					</view>
-					<view class="bl-right-add" v-else-if="shopCont.check_status==1">
+					<view class="bl-right-add" style="background: #f89b00;" v-else-if="shopCont.check_status==1">
 						<p>{{$t('auction.detail.jijks')}}</p>
 					</view>
 					<view class="bl-right-add" v-else-if="auction_num>='-1'&&auction_num!=0||shopCont.check_status==2"

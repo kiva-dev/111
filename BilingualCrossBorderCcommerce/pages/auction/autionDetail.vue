@@ -94,7 +94,7 @@
 				</view>
 			</view>
 			<!--评论-->
-			<view class="detail-comment">
+			<view class="detail-comment" v-if="false">
 				<view id="div2"></view>
 				<view class="detail-comment-head">
 					<view class="detail-comment-tit">{{$t('newDetail.pinglun')}} <span>（{{JudgeTotal}}）</span>
@@ -1044,14 +1044,13 @@ NoR+zv3KaEmPSHtooQIDAQAB
 							return commentRes.data.data;
 						});
 						const comments = await Promise.all(commentRequests);
-						this.JudgeTotal= res.data.total
+						this.JudgeTotal= res.data.total || 0
 						this.JudgeList = res.data.data;
 						this.JudgeList.forEach((item, index) => {
 							if (item.images) {
 								item.images = item.images.split(',');
 							}
 							item.luckyForumComments = comments[index];
-							console.log(item);
 						});
 					}
 				} catch (error) {
