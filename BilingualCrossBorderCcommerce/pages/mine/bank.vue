@@ -48,7 +48,7 @@
 					</view>
 					<view class="err_msg" v-show="item.create_status == -1 || item.update_status == -1">
 						{{isShopCont ? 'Reason for failure' : '失败原因'}}:
-						{{ item.create_status == -1 ? item.create_refuse_reason : item.create_refuse_reason}}
+						{{ item.create_status == -1 ? item.create_refuse_reason : item.update_refuse_reason}}
 					</view>
 				</block>
 
