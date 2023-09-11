@@ -210,7 +210,7 @@
 		},
 		methods: {
 			toaWithdrawalDetail(item){
-				if(item.type == 12) this.navClick('/pages/mine/withdrawal_details?id='+item.tocash_id)
+				if(item.type == 12 || item.type == 13) this.navClick('/pages/mine/withdrawal_details?id='+item.tocash_id)
 			},
 			onReturn() {
 				uni.navigateBack()

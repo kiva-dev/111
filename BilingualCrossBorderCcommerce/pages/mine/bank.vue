@@ -16,7 +16,7 @@
 			<view class="bank-ul">
 				<block v-for="item,k in CardList" :key="k">
 					<view class="bank-li" :class="k%3==1?'green':k%3==2?'blue':''" @click="onClick(item)"
-						:style="item.create_status!=1?'opacity: 0.8;':''">
+						:style="item.create_status == 0 || item.is_update == 1 && item.update_status == 0?'opacity: 0.8;':''">
 						<view class="li-hd">
 							<view class="hd-fl">
 								<view class="li-logo">
