@@ -109,7 +109,7 @@
 				// 		icon: 'none'
 				// 	})
 				// }
-				if (item.create_status != 1 || item.is_update == 1 && item.update_status == 0) {
+				if (item.create_status ==0 || item.is_update == 1 && item.update_status == 0) {
 					uni.showToast({
 						title: item.create_status == 0 || item.is_update == 1 && item.update_status == 0 ? this.$t(
 							'mine.bank_tip1') : this.$t('mine.bank_tip2'),
