@@ -1670,6 +1670,12 @@
 	"detail.pay_gift_diamond": "赠送K钻",
 	"detail.shipping": "收件地址",
 	"detail.noun": "名词的定义",
+	"detail.demo_num":"剩余试玩次数",
+	"detail.demo_ck":"试用结果仅供参考",
+	"detail.demo_sw":"试玩次数",
+	"detail.demo_dd":"等待其他用户参与",
+	"detail.demo_gx":"恭喜",
+	"detail.demo_luck":"成为本期的幸运星",
 
 	"bonus.gifts": "新人有好礼物",
 	"bonus.snhl": "送你一份礼物",

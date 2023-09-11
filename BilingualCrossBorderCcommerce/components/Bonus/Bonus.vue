@@ -92,10 +92,13 @@
 					</view>
 				</view>
 				<view class="imgTrumpet">
-					<view class="imgTrumpet-img">
+					<!-- <view class="imgTrumpet-img">
 						<image src="/static/Bell/trumpet.png"></image>
+					</view> -->
+					<view class="imgTrumpet-shop-img">
+						<img :src="info.showimg"></img>
 					</view>
-					<image :src="info.showimg" class="imgTrumpet-shop-img" mode="widthFix"></image>
+					<view style="height: 672rpx;"></view>
 					<view class="imgTrumpet-text">
 						{{$t('bell.gx')}}
 					</view>
@@ -486,21 +489,28 @@
 			}
 
 			.imgTrumpet {
+				width: 678rpx;
+				height: 672rpx;
+				background: url('/static/Bell/trumpet.png') no-repeat;
+				background-size: 678rpx 672rpx;
+				
 				.imgTrumpet-shop-img {
 					position: absolute;
-					top: 40%;
-					left: 50%;
+					top: 42%;
+					left: 52%;
 					transform: translate(-50%, -50%);
-					width: 360rpx;
-				}
-
-				.imgTrumpet-img {
-					width: 678rpx;
-					height: 672rpx;
-
-					image {
-						width: 678rpx;
-						height: 672rpx;
+					width: 320rpx;
+					height: 320rpx;
+					border-radius: 24rpx;
+					
+					img{
+						position: absolute;
+						top: 50%;
+						left: 50%;
+						transform: translate(-50%,-50%);
+						object-fit: contain;
+						width: 90%;
+						height: 90%;
 					}
 				}
 

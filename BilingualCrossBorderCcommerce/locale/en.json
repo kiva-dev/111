@@ -1676,6 +1676,12 @@
 	"detail.pay_gift_diamond":"Gift K-Diamonds",
 	"detail.shipping":"Shipping Address",
 	"detail.noun":"Definition of nouns",
+	"detail.demo_num":"The remaining number of snaps",
+	"detail.demo_ck":"The trial results are for reference only",
+	"detail.demo_sw":"Number of snaps",
+	"detail.demo_dd":"Waiting for other users to make wishes~",
+	"detail.demo_gx":"Congratulations!",
+	"detail.demo_luck":"Becoming the lucky star of this episode",
 	
 	"bonus.gifts":"Newcomers have good gifts",
 	"bonus.snhl":"Send you a gift",

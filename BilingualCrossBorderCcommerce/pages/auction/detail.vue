@@ -166,7 +166,7 @@
 			</view>
 			<view id="div2"></view>
 			<!--评论-->
-			<view class="detail-comment">
+			<view class="detail-comment" v-if="false">
 				<view id="div2"></view>
 				<view class="detail-comment-head">
 					<view class="detail-comment-tit">{{$t('newDetail.pinglun')}} <span>（{{judgeTotalNum}}）</span>
@@ -507,10 +507,10 @@
 			<view class="bottom-layout">
 
 				<view class="bl-right">
-					<view class="demo">
+					<!-- <view class="demo">
 						<image src="/static/demo/product_logo.png"></image>
 						<text>Demo</text>
-					</view>
+					</view> -->
 
 					<view class="bl-right-add" style="color: #FFF; background: rgb(190, 190, 190)"
 						v-if="shopCont.check_status==3||shopCont.check_status==4">
@@ -940,7 +940,7 @@
 		<u-popup :show="showDemo" mode="bottom" bgColor="transparent">
 			<view class="show_demo">
 				<image src="/static/images/kbrick/close.png" class="close"></image>
-				<template v-if="false">
+				<template v-if="demoSelect == 1">
 					<view class="demo_product">
 						<view class="left">
 							<img src="/static/fxtu.png"></img>
@@ -957,39 +957,39 @@
 
 					<u-line style="width: 686rpx;margin: 32rpx auto;"></u-line>
 
-					<view class="num_tit">Number of snaps</view>
+					<view class="num_tit">{{$t('detail.demo_sw')}}</view>
 
 					<view class="num_input">
-						<view class="num_bj">
+						<view class="num_bj" @click="demoNumChange(1)">
 							<image src="/static/images/kbrick/jian.png"></image>
 						</view>
 						<view class="my_input">
-							<u--input  border="none" v-model="demoNum" ></u--input>
+							<u--input border="none" v-model="demoNum"></u--input>
 						</view>
-						<view class="num_bj">
+						<view class="num_bj" @click="demoNumChange(2)">
 							<image src="/static/images/kbrick/jia.png"></image>
 						</view>
 					</view>
-					
-					<view class="input_num">The remaining number of snaps: <text>13</text></view>
-					
-					<view class="demo_tip">The trial results are for reference only</view>
-					<view class="demo_btn">Confirm</view>
-					
+
+					<view class="input_num">{{$t('detail.demo_num')}}: <text>{{demoMaxNum}}</text></view>
+
+					<view class="demo_tip">{{$t('detail.demo_ck')}}</view>
+					<view class="demo_btn" @click="demoSelect = 2">{{$t('auction.detail.btnsub')}}</view>
+
 				</template>
-			
-				<template>
+
+				<template v-else-if="demoSelect == 2">
 					<view class="demo_info">
 						<view class="img_info">
 							<img src="/static/fxtu.png"></img>
 						</view>
 						<view class="info_price">RM10</view>
 					</view>
-					
+
 					<image src="/static/demo/demo_k.png" class="demo_k"></image>
-					
+
 					<view class="users">
-						<view class="user" v-for="item in [1,1,1,1]">
+						<view class="user" v-for="item in demoList">
 							<image src="/static/images/me/auth1.png" class="auth"></image>
 							<view class="user_price">
 								<image src="/static/images/kbrick/diamond.png"></image>
@@ -997,14 +997,46 @@
 							</view>
 						</view>
 					</view>
-					
+
 					<image src="/static/demo/demo_btm.png" class="demo_btm"></image>
-					
-					<template>
-						
-					</template>
-					
+
+					<image src="/static/demo/demo_hg.png" class="demo_hg"></image>
+
+					<image src="/static/images/me/auth1.png" class="demo_auth"></image>
+
+					<view class="demo_star">
+						<image src="/static/images/new-index/lv-start.png"></image>
+						<view>{{$t('auction.xyzx')}}</view>
+					</view>
+
+					<!-- <view class="demo_other">{{$t('detail.demo_dd')}}</view> -->
+					<view class="demo_other">
+						{{$t('detail.demo_gx')}} <br />
+						{{$t('detail.demo_luck')}}
+					</view>
+
+					<view class="demo_only">{{$t('detail.demo_ck')}}</view>
+
 				</template>
+
+			</view>
+		</u-popup>
+
+		<u-popup :show="showBonus" mode="center" bgColor="transparent">
+			<view class="showBonus">
+				<view class="bonus_info">
+					<image src="/static/Bell/lottery.png" class="tit"></image>
+					<view class="name">rechargeable card RM 10</view>
+					<view class="product">
+						<view class="product_img">
+							<img src="/static/x.png"></img>
+						</view>
+					</view>
+					<view class="des">Congratulations ！Become the lucky star of the XXX Edition Wishing Event!</view>
+					<view class="btn">To make a wish！</view>
+					<image src="/static/images/close3.png" class="close"></image>
+					<view class="bonus_ck">{{$t('detail.demo_ck')}}</view>
+				</view>
 				
 			</view>
 		</u-popup>
@@ -1024,9 +1056,13 @@ NoR+zv3KaEmPSHtooQIDAQAB
 	export default {
 		data() {
 			return {
-				showDemo: true, //试玩
-				demoNum:1,
+				showDemo: false, //试玩
+				demoNum: 1, //试玩输入的数量
+				demoSelect: 2, //试玩现在的步骤
+				demoList: [1, 1, 1, 1],
+				demoMaxNum: 10, //试玩最大数量
 				showNoun: false, //名词解释
+				showBonus: false, //中奖
 				nounNum: 1,
 				useKdiamondBonus: false,
 				search_number: '',
@@ -1253,6 +1289,16 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			},
 		},
 		methods: {
+			//试玩数量加减
+			demoNumChange(val) {
+				//1减2加
+				if (val == 1) {
+					this.demoNum == 1 ? 1 : this.demoNum--
+				} else {
+					this.demoNum >= this.demoMaxNum ? this.demoMaxNum : this.demoNum++
+				}
+			},
+
 			//根据编号搜索指定的用户
 			sendById() {
 				// if(!this.search_number) return
@@ -2280,11 +2326,11 @@ NoR+zv3KaEmPSHtooQIDAQAB
 	/deep/.uni-progress-bar {
 		border-radius: 9rpx !important;
 	}
-	
-	/deep/.uni-input-input{
+
+	/deep/.uni-input-input {
 		text-align: center;
 	}
-	
+
 	a {
 		color: rgb(44, 44, 44);
 		text-decoration: none;
@@ -2367,8 +2413,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			color: rgb(51, 51, 51);
 			margin-left: 32rpx;
 		}
-		
-		.num_input{
+
+		.num_input {
 			width: 400rpx;
 			height: 72rpx;
 			display: flex;
@@ -2377,56 +2423,56 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			background: rgb(250, 251, 253);
 			border-radius: 72rpx;
 			margin: 40rpx auto 32rpx auto;
-			
-			.num_bj{
+
+			.num_bj {
 				position: relative;
 				width: 124rpx;
 				height: 72rpx;
 				background: rgb(241, 241, 241);
 				border-radius: 72rpx 0 0 72rpx;
-				
-				image{
+
+				image {
 					position: absolute;
 					top: 50%;
 					left: 50%;
-					transform: translate(-50%,-50%);
+					transform: translate(-50%, -50%);
 					width: 28rpx;
 					height: 28rpx;
 				}
 			}
-			
-			.num_bj:last-child{
+
+			.num_bj:last-child {
 				border-radius: 0 72rpx 72rpx 0;
 			}
-			
-			.my_input{
+
+			.my_input {
 				width: 152rpx;
 			}
 		}
-		
-		.input_num{
+
+		.input_num {
 			width: 100%;
 			font-size: 24rpx;
 			color: rgb(153, 153, 153);
 			text-align: center;
 			margin-bottom: 200rpx;
-			
-			text{
+
+			text {
 				font-size: 28rpx;
 				font-weight: 700;
 				color: rgb(10, 198, 142);
 				margin-left: 12rpx;
 			}
 		}
-		
-		.demo_tip{
+
+		.demo_tip {
 			width: 100%;
 			font-size: 24rpx;
 			color: rgb(102, 102, 102);
 			text-align: center;
 		}
-		
-		.demo_btn{
+
+		.demo_btn {
 			width: 686rpx;
 			height: 88rpx;
 			line-height: 88rpx;
@@ -2438,8 +2484,8 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			border-radius: 88rpx;
 			margin: 40rpx auto 0 auto;
 		}
-		
-		.demo_info{
+
+		.demo_info {
 			width: 160rpx;
 			height: 160rpx;
 			background: rgb(225, 255, 240);
@@ -2447,24 +2493,24 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			border: 2rpx solid rgb(30, 203, 151);
 			border-radius: 16rpx;
 			margin: 0 auto;
-			
-			.img_info{
+
+			.img_info {
 				position: relative;
 				width: 160rpx;
 				height: 122rpx;
-				
-				img{
+
+				img {
 					position: absolute;
 					top: 50%;
 					left: 50%;
-					transform: translate(-50%,-50%);
+					transform: translate(-50%, -50%);
 					object-fit: contain;
 					width: 90%;
 					height: 90rpx;
 				}
 			}
-			
-			.info_price{
+
+			.info_price {
 				width: 160rpx;
 				height: 38rpx;
 				line-height: 38rpx;
@@ -2475,31 +2521,31 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				background: rgba(10, 198, 142, 0.6);
 				border-radius: 0 0 16rpx 16rpx;
 			}
-			
+
 		}
-		
-		.demo_k{
+
+		.demo_k {
 			display: block;
 			width: 590rpx;
 			height: 138rpx;
 			margin: 8rpx auto 30rpx auto;
 		}
-		
-		.users{
+
+		.users {
 			width: 590rpx;
 			display: flex;
 			align-items: center;
 			margin: 0 auto;
-			
-			.user{
-				.auth{
+
+			.user {
+				.auth {
 					display: block;
 					width: 80rpx;
 					height: 80rpx;
 					border-radius: 50%;
 				}
-				
-				.user_price{
+
+				.user_price {
 					height: 28rpx;
 					font-size: 20rpx;
 					font-weight: 700;
@@ -2509,42 +2555,191 @@ NoR+zv3KaEmPSHtooQIDAQAB
 					justify-content: center;
 					background: rgba(10, 198, 142, 0.4);
 					border-radius: 6rpx;
-					
-					image{
+
+					image {
 						width: 24rpx;
 						height: 24rpx;
 						margin-right: 4rpx;
 					}
 				}
-				
+
 			}
-			
-			.user:nth-child(1){
+
+			.user:nth-child(1) {
 				margin-left: -16rpx;
 			}
-			
-			.user:nth-child(2){
+
+			.user:nth-child(2) {
 				margin-left: 140rpx;
 			}
-			
-			.user:nth-child(3){
+
+			.user:nth-child(3) {
 				margin-left: 86rpx;
 			}
-			
-			.user:nth-child(4){
+
+			.user:nth-child(4) {
 				margin-left: 80rpx;
 			}
-			
+
 		}
-		
-		.demo_btm{
+
+		.demo_btm {
 			display: block;
 			width: 540rpx;
 			height: 48rpx;
 			margin: 40rpx auto;
 		}
-		
+
+		.demo_hg {
+			display: block;
+			width: 60rpx;
+			height: 40rpx;
+			margin: 0 auto;
+		}
+
+		.demo_auth {
+			display: block;
+			width: 80rpx;
+			height: 80rpx;
+			border-radius: 50%;
+			margin: 0 auto 12rpx auto;
+		}
+
+		.demo_star {
+			width: 100%;
+			font-size: 32rpx;
+			font-weight: 700;
+			color: rgb(10, 198, 142);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+
+			image {
+				width: 32rpx;
+				height: 32rpx;
+				margin-right: 8rpx;
+			}
+		}
+
+		.demo_other {
+			width: 100%;
+			font-size: 28rpx;
+			font-weight: 500;
+			color: rgb(102, 102, 102);
+			text-align: center;
+			margin: 80rpx 0;
+		}
+
+		.demo_only {
+			width: 100%;
+			font-size: 24rpx;
+			color: rgb(102, 102, 102);
+			text-align: center;
+		}
+
 	}
+	
+	//试玩中奖
+	.showBonus{
+		position: relative;
+		width: 100%;
+		min-height: 100vh;
+		
+		.bonus_ck{
+			position: absolute;
+			bottom: -120rpx;
+			left: 50%;
+			transform: translate(-50%,0);
+			font-size: 24rpx;
+			color: rgb(255, 255, 255);
+			text-align: center;
+			margin-top: 80rpx;
+		}
+		
+		.bonus_info{
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%,-50%);
+			
+			.tit{
+				display: block;
+				width: 490rpx;
+				height: 260rpx;
+				margin: 0 auto;
+			}
+			
+			.name{
+				width: 100%;
+				font-size: 28rpx;
+				font-weight: 700;
+				color: rgb(255, 255, 255);
+				text-align: center;
+				margin-top: -60rpx;
+			}
+			
+			.product{
+				position: relative;
+				width: 680rpx;
+				height: 710rpx;
+				background: url('/static/Bell/trumpet.png') no-repeat;
+				background-size: 680rpx 710rpx;
+				
+				.product_img{
+					position: absolute;
+					top: 140rpx;
+					left: 53%;
+					transform: translate(-50%,0);
+					width: 320rpx;
+					height: 320rpx;
+					border-radius: 24rpx;
+					
+					img{
+						position: absolute;
+						top: 50%;
+						left: 50%;
+						transform: translate(-50%,-50%);
+						object-fit: contain;
+						width: 90%;
+						height: 90%;
+					}
+				}
+				
+
+			}
+			
+			.des{
+				width: 462rpx;
+				font-size: 24rpx;
+				color: rgb(255, 255, 255);
+				text-align: center;
+				margin: 0 auto;
+			}
+			
+			.btn{
+				width: 416rpx;
+				height: 104rpx;
+				line-height: 104rpx;
+				font-size: 32rpx;
+				font-weight: 700;
+				color: rgb(255, 255, 255);
+				text-align: center;
+				background: linear-gradient(180.00deg, rgb(245, 155, 197),rgb(252, 5, 71) 98.871%);
+				box-shadow: 4rpx 8rpx 26rpx 0 rgba(30, 123, 49, 0.21);
+				border-radius: 104rpx;
+				margin: 32rpx auto 40rpx auto;
+			}
+			
+			.close{
+				display: block;
+				width: 64rpx;
+				height: 64rpx;
+				margin: 0 auto;
+			}
+			
+		}
+	}
+	
 
 	//名词解释
 	.noun {

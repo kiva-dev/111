@@ -167,6 +167,7 @@
 			if (e.invite_code) {
 				this.isDisabled = true
 				this.invite = e.invite_code
+				uni.setStorageSync('invite_code',e.invite_code)
 				this.getInfo()
 			}
 		},

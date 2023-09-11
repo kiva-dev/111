@@ -14,31 +14,43 @@
 			</view>
 
 			<view class="bank-ul">
-				<view v-for="item,k in CardList" :key="k" class="bank-li" :class="k%3==1?'green':k%3==2?'blue':''"
-					@click="onClick(item)" :style="item.create_status!=1?'opacity: 0.8;':''">
-					<view class="li-hd">
-						<view class="hd-fl">
-							<view class="li-logo">
-								<view class="logo">
-									<image class="img" src="../../static/images/bank1.png"></image>
+				<block v-for="item,k in CardList" :key="k">
+					<view class="bank-li" :class="k%3==1?'green':k%3==2?'blue':''" @click="onClick(item)"
+						:style="item.create_status!=1?'opacity: 0.8;':''">
+						<view class="li-hd">
+							<view class="hd-fl">
+								<view class="li-logo">
+									<view class="logo">
+										<image class="img" src="../../static/images/bank1.png"></image>
+									</view>
 								</view>
+								<view class="t">{{item.bank_name}} <br />{{$t('user.bank.cxk')}}</view>
 							</view>
-							<view class="t">{{item.bank_name}} <br/>{{$t('user.bank.cxk')}}</view>
+							<view class="status"
+								v-if="item.create_status == 0 || item.is_update == 1 && item.update_status == 0">
+								<image src="/static/images/tab/start-time.png"></image>
+								<view>{{isShopCont ? 'Under Review':'审核中'}}</view>
+							</view>
+							<view class="status"
+								v-else-if="item.create_status == -1 || item.update_status == -1">
+								<image src="/static/images/mine/red_close.png"></image>
+								<view>{{isShopCont ? 'Audit Failure' : '审核失败'}}</view>
+							</view>
+
+							<button class="li-btn"
+								v-show="item.create_status == 1 && item.is_update == 0 && item.update_status != -1"
+								@click.stop="onseach(item)">{{$t('user.bank.jcbd')}}</button>
+							<button class="li-btn edit"
+								v-show="item.create_status == 1 && item.is_update == 0 && item.update_status != -1"
+								@click.stop="onEdit(item)">{{$t('user.address.edit')}}</button>
 						</view>
-						<view class="status" v-if="item.create_status == 0">
-							<image src="/static/images/tab/start-time.png"></image>
-							<view>{{isShopCont ? 'Under Review':'审核中'}}</view>
-						</view>
-						<view class="status" v-else-if="item.create_status == -1">
-							<image src="/static/images/mine/red_close.png"></image>
-							<view>{{isShopCont ? 'Audit Failure' : '审核失败'}}</view>
-						</view>
-						
-						<button class="li-btn" v-show="item.create_status == 1" @click.stop="onseach(item)">{{$t('user.bank.jcbd')}}</button>
-						<button class="li-btn edit" v-show="item.create_status == 1" @click.stop="onEdit(item)">{{$t('user.address.edit')}}</button>
+						<view class="li-bd">**** **** **** {{item.account.substr(-4)}}</view>
 					</view>
-					<view class="li-bd">**** **** **** {{item.account.substr(-4)}}</view>
-				</view>
+					<view class="err_msg" v-show="item.create_status == -1 || item.update_status == -1">
+						{{isShopCont ? 'Reason for failure' : '失败原因'}}:
+						{{ item.create_status == -1 ? item.create_refuse_reason : item.create_refuse_reason}}
+					</view>
+				</block>
 
 			</view>
 
@@ -70,7 +82,7 @@
 				id: '',
 				name: '',
 				status: '', // 实名认证
-				isShopCont:false
+				isShopCont: false
 			}
 		},
 		onShow() {
@@ -85,9 +97,9 @@
 			this.onMineBankCardList()
 		},
 		methods: {
-			onEdit(item){
+			onEdit(item) {
 				uni.navigateTo({
-					url:'/pages/mine/bindingB?data='+JSON.stringify(item)
+					url: '/pages/mine/bindingB?data=' + JSON.stringify(item)
 				})
 			},
 			onClick(item) {
@@ -97,12 +109,15 @@
 				// 		icon: 'none'
 				// 	})
 				// }
-				if(item.create_status != 1){
+				if (item.create_status != 1 || item.is_update == 1 && item.update_status == 0) {
 					uni.showToast({
-						title: item.create_status == 0? this.$t('mine.bank_tip1') : this.$t('mine.bank_tip2'),
+						title: item.create_status == 0 || item.is_update == 1 && item.update_status == 0 ? this.$t(
+							'mine.bank_tip1') : this.$t('mine.bank_tip2'),
 						icon: 'none'
 					})
-				}else{
+				} else if (item.create_status == -1 || item.update_status == -1) {
+					this.onEdit(item)
+				} else {
 					uni.setStorageSync('yhkList', item)
 					uni.showToast({
 						title: this.$t('user.bank.qhyhkcg'),
@@ -114,7 +129,7 @@
 						})
 					}, 1500);
 				}
-				
+
 			},
 			onBindClick() {
 				if (this.status) {
@@ -132,7 +147,7 @@
 			onMineBankCardList() {
 				this.$http.post(this.$apiObj.MineBankCardList).then(res => {
 					if (res.code == 1) {
-						this.CardList=res.data
+						this.CardList = res.data
 					}
 				})
 			},
@@ -210,6 +225,12 @@
 				}
 			}
 
+			.err_msg {
+				font-size: 24rpx;
+				color: red;
+				margin-top: -10rpx;
+			}
+
 			.bank-ul {
 				margin-top: 40rpx;
 
@@ -220,6 +241,8 @@
 					background-size: 100% 100%;
 					border-radius: 30rpx;
 					padding: 30rpx;
+
+
 
 					.li-hd {
 						display: flex;
@@ -251,8 +274,8 @@
 								color: #fff;
 							}
 						}
-						
-						.status{
+
+						.status {
 							position: absolute;
 							top: 48rpx;
 							right: 32rpx;
@@ -260,14 +283,14 @@
 							color: rgb(255, 255, 255);
 							display: flex;
 							align-items: center;
-							
-							image{
+
+							image {
 								width: 24rpx;
 								height: 24rpx;
 								margin-right: 4rpx;
 							}
 						}
-						
+
 						.li-btn {
 							width: 140rpx;
 							height: 55rpx;
@@ -279,8 +302,8 @@
 							font-size: 24rpx;
 							color: #fff;
 						}
-						
-						.edit{
+
+						.edit {
 							position: absolute;
 							top: 120rpx;
 							right: 32rpx;
