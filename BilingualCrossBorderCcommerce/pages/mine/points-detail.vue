@@ -12,7 +12,7 @@
 					<view>{{total || 0}}</view>
 				</view>
 				<view class="points-detail-info-txt">{{$t('new.wdjf')}}</view>
-				<view class="what"  @click="ExChangePop(total)">{{$t('Exchange_KDiamonds')}}<image src="/static/images/new-index/exchangeIcon.png"></image></view>
+				<view class="what"  @click="ExChangePop(total)">{{$t('Exchange_KCoins')}}<image src="/static/images/new-index/exchangeIcon.png"></image></view>
 			</view>
 
 			<view class="list">
