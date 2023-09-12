@@ -64,23 +64,21 @@
 		onLoad(e) {
 			if (e.data) {
 				let data = JSON.parse(e.data)
-				console.log(data)
-				if (data.create_status == 1) {
-					this.swift_code = data.swift_code
-					this.account = data.account
-					this.name = data.name
-					this.bank_name = data.bank_name
-					this.edit = true
-					this.id = data.id
-				}else{
+				if (data.create_status == -1) {
 					this.swift_code = data.audit_swift_code
 					this.account = data.audit_account
 					this.name = data.audit_name
 					this.bank_name = data.audit_bank_name
-					this.edit = true
 					this.id = data.id
+					this.edit = true
+				}else{
+					this.swift_code = data.swift_code
+					this.account = data.account
+					this.name = data.name
+					this.bank_name = data.bank_name
+					this.id = data.id
+					this.edit = true
 				}
-
 			}
 		},
 		onShow() {
