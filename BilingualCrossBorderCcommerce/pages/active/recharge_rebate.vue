@@ -2,7 +2,7 @@
 	<view class="recharge_rebate">
 		<view class="header">
 			<view class="head">
-				<image src="/static/images/auth/left.png"></image>
+				<image src="/static/images/auth/left.png" @click="toBack()"></image>
 				<view>{{$t('active.friend_fl')}}</view>
 			</view>
 
@@ -19,20 +19,19 @@
 					<image src="/static/images/recharge_rebate/rebate_right.png"></image>
 				</view>
 
-				<view class="time_info">2023.09.05 - 2023.10.05</view>
+				<view class="time_info">{{$u.timeFormat(start_time, 'yyyy/mm/dd')}} - {{$u.timeFormat(end_time, 'yyyy/mm/dd')}}</view>
 
 				<view class="rule_info">
 					<view class="rule_tit">{{$t('active.acive_rule')}}</view>
 
 					<view class="rule_des">
-						<view class="num">1.</view>
+						<!-- <view class="num">1.</view> -->
 						<view class="des">
-							Invite friends to register. After friends participate in recharging, you will receive a
-							recharge rebate
+							<u-parse :content="isShopCont ? rule_en : rule"></u-parse>
 						</view>
 					</view>
 
-					<view class="rule_des">
+					<!-- <view class="rule_des">
 						<view class="num">2.</view>
 						<view class="des">
 							The above two rebate activities will randomly receive one of them after the users you invite
@@ -46,7 +45,7 @@
 							Reward Withdrawal : Once approved, you can directly withdraw the cash rewards to your bank
 							account.
 						</view>
-					</view>
+					</view> -->
 
 				</view>
 
@@ -74,7 +73,7 @@
 
 			<view class="btm">
 				<image :src="qrcodeImg" class="link_ewm"></image>
-				
+
 				<!-- #ifdef APP-PLUS -->
 				<view class="btn" @click="capture()">{{$t('new.ljyq')}}</view>
 				<!-- #endif -->
@@ -116,7 +115,11 @@
 				qrUrl: '',
 				qrcodeImg: '',
 				showyq: false,
-				isShopCont: uni.getStorageSync('locale') == 'en' ? true : false
+				isShopCont: uni.getStorageSync('locale') == 'en' ? true : false,
+				rule: '',
+				rule_en: '',
+				start_time: '',
+				end_time: ''
 			}
 		},
 		onLoad() {
@@ -132,18 +135,21 @@
 				}
 			})
 
-			// this.$http.post(this.$apiObj.IndexSetting, {
-			// 	fields: 'gift_balance_invitation_event_activity_money_withdraw,activity_user_register_gift_k_coin,gift_balance_invitation_event_start_time,gift_balance_invitation_event_end_time'
-			// }).then(res => {
-			// 	if (res.code == 1) {
-			// 		this.price = res.data.gift_balance_invitation_event_activity_money_withdraw
-			// 		this.kCoins = res.data.activity_user_register_gift_k_coin
-			// 		this.startTime = res.data.gift_balance_invitation_event_start_time
-			// 		this.endTime = res.data.gift_balance_invitation_event_end_time
-			// 	}
-			// })
+			this.$http.post(this.$apiObj.IndexSetting, {
+				fields: 'beinvite_user_recharge_rebate_start_time,beinvite_user_recharge_rebate_end_time,beinvite_user_recharge_rebate_zh_desc,beinvite_user_recharge_rebate_en_desc'
+			}).then(res => {
+				if (res.code == 1) {
+					this.start_time = res.data.beinvite_user_recharge_rebate_start_time
+					this.end_time = res.data.beinvite_user_recharge_rebate_end_time
+					this.rule = res.data.beinvite_user_recharge_rebate_zh_desc
+					this.rule_en = res.data.beinvite_user_recharge_rebate_en_desc
+				}
+			})
 		},
 		methods: {
+			toBack(){
+				uni.navigateBack()
+			},
 			capture() {
 				this.showyq = true
 				let that = this
@@ -358,9 +364,9 @@
 
 		.info {
 			width: 750rpx;
-			height: 1296rpx;
+			// height: 1296rpx;
 			background: url('/static/images/recharge_rebate/recharge_rebate_bj.png') no-repeat;
-			background-size: 750rpx 1296rpx;
+			background-size: 750rpx 100%;
 			margin-top: -64rpx;
 
 			.rule {
@@ -423,6 +429,7 @@
 
 					.rule_des {
 						width: 574rpx;
+						// line-height: 40rpx;
 						font-size: 24rpx;
 						font-weight: 500;
 						color: rgb(51, 51, 51);

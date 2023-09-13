@@ -20,9 +20,12 @@
 				<view v-html="kdiamondxy">{{$t('new.scfl')}}</view>
 			</view>
 
-			<image
-				:src="isShopCont ? '/static/images/mine/kdiamond_recharge.png' : '/static/images/mine/kdiamond_recharge_cn.png'"
-				class="recharge_active" @click="navCilck('/pages/active/recharge/recharge')"></image>
+			<template v-if="showRechargeActive">
+				<image
+					:src="isShopCont ? '/static/images/mine/kdiamond_recharge.png' : '/static/images/mine/kdiamond_recharge_cn.png'"
+					class="recharge_active" @click="navCilck('/pages/active/recharge/recharge')"></image>
+			</template>
+
 
 			<view class="title">{{$t('new.kzcz')}}</view>
 
@@ -163,11 +166,18 @@
 				phone: '',
 				rechargeInfo: {},
 				rechargeNum: 0,
-				showProduct: true
+				showProduct: true,
+				showRechargeActive: false
 			}
 		},
 		onShow() {
 			this.getPayType()
+
+			this.$http.post(this.$apiObj.IndexSetting, {
+				fields: 'user_lucky_lottery_status'
+			}).then(res => {
+				this.showRechargeActive = res.data.user_lucky_lottery_status == 1 ? true : false
+			})
 		},
 		onLoad(e) {
 			if (e.data) {
