@@ -19,7 +19,8 @@
 					<image src="/static/images/recharge_rebate/rebate_right.png"></image>
 				</view>
 
-				<view class="time_info">{{$u.timeFormat(start_time, 'yyyy/mm/dd')}} - {{$u.timeFormat(end_time, 'yyyy/mm/dd')}}</view>
+				<view class="time_info">{{$u.timeFormat(start_time, 'yyyy/mm/dd')}} -
+					{{$u.timeFormat(end_time, 'yyyy/mm/dd')}}</view>
 
 				<view class="rule_info">
 					<view class="rule_tit">{{$t('active.acive_rule')}}</view>
@@ -50,7 +51,7 @@
 				</view>
 
 			</view>
-
+			
 			<view class="link">
 				<view class="tit">{{$t('new.yqlj')}}: </view>
 				<view class="link_info">
@@ -70,12 +71,14 @@
 			<view class="link">
 				<view class="tit">{{$t('new.yqewm')}}: </view>
 			</view>
+			
+			<view class="not_tip" v-if="!code">{{$t('active.recharge_rebate_not')}}</view>
 
 			<view class="btm">
 				<image :src="qrcodeImg" class="link_ewm"></image>
 
 				<!-- #ifdef APP-PLUS -->
-				<view class="btn" @click="capture()">{{$t('new.ljyq')}}</view>
+				<view class="btn" @click="capture()" v-show="code">{{$t('new.ljyq')}}</view>
 				<!-- #endif -->
 			</view>
 
@@ -125,15 +128,17 @@
 		onLoad() {
 			this.isShopCont = uni.getStorageSync('locale') == 'en' ? true : false
 
-			this.$http.post(this.$apiObj.MineInfo).then(res => {
-				if (res.code == 1) {
-					this.userCont = res.data
-					this.code = res.data.invite_code
-					this.qrUrl = this.$baseUrl + 'pages/active/rebate?invite_code=' + res.data
-						.invite_code
-					this.createQrcode()
-				}
-			})
+			if (uni.getStorageSync('token')) {
+				this.$http.post(this.$apiObj.MineInfo).then(res => {
+					if (res.code == 1) {
+						this.userCont = res.data
+						this.code = res.data.invite_code
+						this.qrUrl = this.$baseUrl + 'pages/active/rebate?invite_code=' + res.data
+							.invite_code
+						this.createQrcode()
+					}
+				})
+			}
 
 			this.$http.post(this.$apiObj.IndexSetting, {
 				fields: 'beinvite_user_recharge_rebate_start_time,beinvite_user_recharge_rebate_end_time,beinvite_user_recharge_rebate_zh_desc,beinvite_user_recharge_rebate_en_desc'
@@ -147,7 +152,7 @@
 			})
 		},
 		methods: {
-			toBack(){
+			toBack() {
 				uni.navigateBack()
 			},
 			capture() {
@@ -368,6 +373,17 @@
 			background: url('/static/images/recharge_rebate/recharge_rebate_bj.png') no-repeat;
 			background-size: 750rpx 100%;
 			margin-top: -64rpx;
+			
+			.not_tip{
+				position: absolute;
+				left: 32rpx;
+				bottom: 40rpx;
+				width: 686rpx;
+				font-size: 28rpx;
+				color: rgb(0, 153, 107);
+				text-align: center;
+				z-index: 5;
+			}
 
 			.rule {
 				position: relative;

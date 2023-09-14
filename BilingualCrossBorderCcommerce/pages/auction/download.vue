@@ -38,10 +38,10 @@
 		onShow() {
 			// 隐私协议等
 			this.$http.post(this.$apiObj.IndexSetting,{
-				fields:'version'
+				fields:'version_auction'
 			}).then(res => {
 				if (res.code == 1) {
-					this.version = res.data.version
+					this.version = res.data.version_auction
 				}
 			})
 		},

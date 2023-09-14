@@ -1811,5 +1811,6 @@
 	"active.friend_fl":"Friend Recharge Rebate",
 	"active.rmor_kdiamond":"Obtain Cash Rebate or K-Diamonds Rebate",
 	"active.active_time":"Activity time",
-	"active.acive_rule":"Activity Rules"
+	"active.acive_rule":"Activity Rules",
+	"active.recharge_rebate_not":"Please log in to your account to retrieve information regarding your invitation code"
 }
