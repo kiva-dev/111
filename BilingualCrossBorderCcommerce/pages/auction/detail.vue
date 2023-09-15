@@ -939,7 +939,7 @@
 
 		<u-popup :show="showDemo" mode="bottom" bgColor="transparent">
 			<view class="show_demo">
-				<image src="/static/images/kbrick/close.png" class="close" @click="showDemo = false"></image>
+				<image src="/static/images/kbrick/close.png" class="close" @click="showDemo = false;demoSelect = 1"></image>
 				<template v-if="demoSelect == 1">
 					<view class="demo_product">
 						<view class="left">
@@ -1301,7 +1301,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				} else if (val == 2) {
 					this.demoNum >= this.demoMaxNum ? this.demoMaxNum : this.demoNum++
 				} else {
-					this.demoNum > this.demoMaxNum ? this.demoNum : 0
+					this.demoNum = this.demoNum > this.demoMaxNum ? this.demoMaxNum : this.demoNum < 1 ? 1 : this.demoNum
 				}
 			},
 			getMaxDemoNum() {
