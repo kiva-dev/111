@@ -939,7 +939,8 @@
 
 		<u-popup :show="showDemo" mode="bottom" bgColor="transparent">
 			<view class="show_demo">
-				<image src="/static/images/kbrick/close.png" class="close" @click="showDemo = false;demoSelect = 1"></image>
+				<image src="/static/images/kbrick/close.png" class="close" @click="showDemo = false;demoSelect = 1">
+				</image>
 				<template v-if="demoSelect == 1">
 					<view class="demo_product">
 						<view class="left">
@@ -975,35 +976,52 @@
 					<view class="input_num">{{$t('detail.demo_num')}}: <text>{{demoMaxNum}}</text></view>
 
 					<view class="demo_tip">{{$t('detail.demo_ck')}}</view>
-					<view class="demo_btn" @click="demoSelect = 2">{{$t('auction.detail.btnsub')}}</view>
+					<view class="demo_btn" @click="sendPayDemo()">{{$t('auction.detail.btnsub')}}</view>
 
 				</template>
 
 				<template v-else-if="demoSelect == 2">
 					<view class="demo_info">
 						<view class="img_info">
-							<img src="/static/fxtu.png"></img>
+							<template v-if="shopCont.images">
+								<img :src="shopCont.images[0]"></img>
+							</template>
 						</view>
-						<view class="info_price">RM10</view>
+						<view class="info_price">RM{{shopCont.price*1}}</view>
 					</view>
 
-					<image src="/static/demo/demo_k.png" class="demo_k"></image>
+					<template v-if="demoList.length == 4">
+						<image src="/static/demo/demo_k.png" class="demo_k"></image>
 
-					<view class="users">
-						<view class="user" v-for="item in demoList">
-							<image src="/static/images/me/auth1.png" class="auth"></image>
-							<view class="user_price">
-								<image src="/static/images/kbrick/diamond.png"></image>
-								<text>x5</text>
+						<view class="users">
+							<view class="user" v-for="item in demoList">
+								<image :src="item.avatar" class="auth"></image>
+								<view class="user_price">
+									<image src="/static/images/kbrick/diamond.png"></image>
+									<text>x{{item.total_num}}</text>
+								</view>
 							</view>
 						</view>
-					</view>
+					</template>
+					<template v-else-if="demoList.length == 5">
+						<image src="/static/images/kbrick/demo_k2.png" class="demo_k"></image>
+					
+						<view class="users">
+							<view class="user2" v-for="item in demoList">
+								<image :src="item.avatar" class="auth"></image>
+								<view class="user_price">
+									<image src="/static/images/kbrick/diamond.png"></image>
+									<text>x{{item.total_num}}</text>
+								</view>
+							</view>
+						</view>
+					</template>
 
 					<image src="/static/demo/demo_btm.png" class="demo_btm"></image>
 
 					<image src="/static/demo/demo_hg.png" class="demo_hg"></image>
 
-					<image src="/static/images/me/auth1.png" class="demo_auth"></image>
+					<image :src="demoLuckStartImage" class="demo_auth"></image>
 
 					<view class="demo_star">
 						<image src="/static/images/new-index/lv-start.png"></image>
@@ -1057,10 +1075,11 @@ NoR+zv3KaEmPSHtooQIDAQAB
 	export default {
 		data() {
 			return {
+				demoLuckStartImage:'',
 				showDemo: false, //试玩
 				demoNum: 1, //试玩输入的数量
 				demoSelect: 1, //试玩现在的步骤
-				demoList: [1, 1, 1, 1],
+				demoList: [],
 				demoMaxNum: 0, //试玩最大数量
 				showNoun: false, //名词解释
 				showBonus: false, //中奖
@@ -1293,6 +1312,20 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			},
 		},
 		methods: {
+			sendPayDemo() {
+				this.$http.post(this.$apiObj.payDemo, {
+					"number": this.demoNum, //竞拍商品的数量
+					"auction_goods_id": this.id //竞拍商品的 ID
+				}).then(res => {
+					if (res.code == 1) {
+						this.demoList = res.data
+						this.demoSelect = 2
+						this.demoList.forEach(item=>{
+							if(item.winning_status == 1) this.demoLuckStartImage = item.avatar
+						})
+					}
+				})
+			},
 			//试玩数量加减
 			demoNumChange(val) {
 				//1减2加3自定义
@@ -2576,7 +2609,6 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						margin-right: 4rpx;
 					}
 				}
-
 			}
 
 			.user:nth-child(1) {
@@ -2593,6 +2625,54 @@ NoR+zv3KaEmPSHtooQIDAQAB
 
 			.user:nth-child(4) {
 				margin-left: 80rpx;
+			}
+			
+			
+			.user2 {
+				.auth {
+					display: block;
+					width: 80rpx;
+					height: 80rpx;
+					border-radius: 50%;
+				}
+			
+				.user_price {
+					height: 28rpx;
+					font-size: 20rpx;
+					font-weight: 700;
+					color: rgb(255, 255, 255);
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					background: rgba(10, 198, 142, 0.4);
+					border-radius: 6rpx;
+			
+					image {
+						width: 24rpx;
+						height: 24rpx;
+						margin-right: 4rpx;
+					}
+				}
+			}
+			
+			.user2:nth-child(1) {
+				margin-left: -16rpx;
+			}
+			
+			.user2:nth-child(2) {
+				margin-left: 86rpx;
+			}
+			
+			.user2:nth-child(3) {
+				margin-left: 56rpx;
+			}
+			
+			.user2:nth-child(4) {
+				margin-left: 40rpx;
+			}
+			
+			.user2:nth-child(5) {
+				margin-left: 40rpx;
 			}
 
 		}

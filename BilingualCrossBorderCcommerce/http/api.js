@@ -218,5 +218,7 @@ let apiObj = {
 	AwardKdiamond:"/Lottery/awardPrize",//领取虚拟k钻
 	
 	WithdrawalInfo:"/Recharge/tocashDetail",//提现详情
+	
+	payDemo:"/Trialplay/trialPlayWishingLottery",//试玩
 }
 export default apiObj
