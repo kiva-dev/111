@@ -507,10 +507,10 @@
 			<view class="bottom-layout">
 
 				<view class="bl-right">
-					<!-- <view class="demo">
+					<view class="demo" @click="showDemo = true">
 						<image src="/static/demo/product_logo.png"></image>
 						<text>Demo</text>
-					</view> -->
+					</view>
 
 					<view class="bl-right-add" style="color: #FFF; background: rgb(190, 190, 190)"
 						v-if="shopCont.check_status==3||shopCont.check_status==4">
@@ -939,18 +939,19 @@
 
 		<u-popup :show="showDemo" mode="bottom" bgColor="transparent">
 			<view class="show_demo">
-				<image src="/static/images/kbrick/close.png" class="close"></image>
+				<image src="/static/images/kbrick/close.png" class="close" @click="showDemo = false"></image>
 				<template v-if="demoSelect == 1">
 					<view class="demo_product">
 						<view class="left">
-							<img src="/static/fxtu.png"></img>
+							<template v-if="shopCont.images">
+								<img :src="shopCont.images[0]"></img>
+							</template>
 						</view>
 						<view class="right">
-							<view class="name">rechargeable card RM 10rechargeable card RM 10rechargeable card RM
-								10rechargeable card RM 10</view>
+							<view class="name">{{shopCont.goods_name}}</view>
 							<view class="price">
 								<image src="/static/images/kbrick/diamond.png"></image>
-								<text>1.00</text>
+								<text>{{shopCont.auction_price}}</text>
 							</view>
 						</view>
 					</view>
@@ -964,7 +965,7 @@
 							<image src="/static/images/kbrick/jian.png"></image>
 						</view>
 						<view class="my_input">
-							<u--input border="none" v-model="demoNum"></u--input>
+							<u--input border="none" v-model="demoNum" type="number" @blur="demoNumChange(3)"></u--input>
 						</view>
 						<view class="num_bj" @click="demoNumChange(2)">
 							<image src="/static/images/kbrick/jia.png"></image>
@@ -1037,7 +1038,7 @@
 					<image src="/static/images/close3.png" class="close"></image>
 					<view class="bonus_ck">{{$t('detail.demo_ck')}}</view>
 				</view>
-				
+
 			</view>
 		</u-popup>
 
@@ -1058,9 +1059,9 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			return {
 				showDemo: false, //试玩
 				demoNum: 1, //试玩输入的数量
-				demoSelect: 2, //试玩现在的步骤
+				demoSelect: 1, //试玩现在的步骤
 				demoList: [1, 1, 1, 1],
-				demoMaxNum: 10, //试玩最大数量
+				demoMaxNum: 0, //试玩最大数量
 				showNoun: false, //名词解释
 				showBonus: false, //中奖
 				nounNum: 1,
@@ -1198,9 +1199,12 @@ NoR+zv3KaEmPSHtooQIDAQAB
 			if (uni.getStorageSync('wish_info')) {
 				let info = uni.getStorageSync('wish_info')
 				this.id = info.goods_id
+				this.getMaxDemoNum()
 			} else {
 				this.id = e.id
+				this.getMaxDemoNum()
 			}
+
 			// 竞拍商品详情
 			this.onAuctionDetail()
 			// 某商品幸运之星
@@ -1291,14 +1295,24 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		methods: {
 			//试玩数量加减
 			demoNumChange(val) {
-				//1减2加
+				//1减2加3自定义
 				if (val == 1) {
 					this.demoNum == 1 ? 1 : this.demoNum--
-				} else {
+				} else if (val == 2) {
 					this.demoNum >= this.demoMaxNum ? this.demoMaxNum : this.demoNum++
+				} else {
+					this.demoNum > this.demoMaxNum ? this.demoNum : 0
 				}
 			},
-
+			getMaxDemoNum() {
+				this.$http.post(this.$apiObj.MineInfo, {
+					auction_goods_id: this.id
+				}).then(res => {
+					if (res.code == 1) {
+						this.demoMaxNum = res.data.auction_num
+					}
+				})
+			},
 			//根据编号搜索指定的用户
 			sendById() {
 				// if(!this.search_number) return
@@ -1603,7 +1617,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 						this.status = true
 
 						// 评价列表
-						this.getCommentList()
+						// this.getCommentList()
 						//热门推荐
 						this.getHotList()
 						//猜你喜欢
@@ -1775,7 +1789,7 @@ NoR+zv3KaEmPSHtooQIDAQAB
 								0) ? res.data.auction_num : (res.data.auction_num === -1) ? this.shopCont
 							.total_least_num : (res.data.auction_num < this.shopCont.total_least_num) ? res.data
 							.auction_num : this.shopCont.total_least_num
-						// this.auction_num = 10
+						this.demoMaxNum = this.auction_num
 						if (res.data.auction_num !== 0) {
 							if (uni.getStorageSync('wish_info')) return
 							this.qiangpaiShow = true
@@ -2638,38 +2652,38 @@ NoR+zv3KaEmPSHtooQIDAQAB
 		}
 
 	}
-	
+
 	//试玩中奖
-	.showBonus{
+	.showBonus {
 		position: relative;
 		width: 100%;
 		min-height: 100vh;
-		
-		.bonus_ck{
+
+		.bonus_ck {
 			position: absolute;
 			bottom: -120rpx;
 			left: 50%;
-			transform: translate(-50%,0);
+			transform: translate(-50%, 0);
 			font-size: 24rpx;
 			color: rgb(255, 255, 255);
 			text-align: center;
 			margin-top: 80rpx;
 		}
-		
-		.bonus_info{
+
+		.bonus_info {
 			position: absolute;
 			top: 50%;
 			left: 50%;
-			transform: translate(-50%,-50%);
-			
-			.tit{
+			transform: translate(-50%, -50%);
+
+			.tit {
 				display: block;
 				width: 490rpx;
 				height: 260rpx;
 				margin: 0 auto;
 			}
-			
-			.name{
+
+			.name {
 				width: 100%;
 				font-size: 28rpx;
 				font-weight: 700;
@@ -2677,46 +2691,46 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				text-align: center;
 				margin-top: -60rpx;
 			}
-			
-			.product{
+
+			.product {
 				position: relative;
 				width: 680rpx;
 				height: 710rpx;
 				background: url('/static/Bell/trumpet.png') no-repeat;
 				background-size: 680rpx 710rpx;
-				
-				.product_img{
+
+				.product_img {
 					position: absolute;
 					top: 140rpx;
 					left: 53%;
-					transform: translate(-50%,0);
+					transform: translate(-50%, 0);
 					width: 320rpx;
 					height: 320rpx;
 					border-radius: 24rpx;
-					
-					img{
+
+					img {
 						position: absolute;
 						top: 50%;
 						left: 50%;
-						transform: translate(-50%,-50%);
+						transform: translate(-50%, -50%);
 						object-fit: contain;
 						width: 90%;
 						height: 90%;
 					}
 				}
-				
+
 
 			}
-			
-			.des{
+
+			.des {
 				width: 462rpx;
 				font-size: 24rpx;
 				color: rgb(255, 255, 255);
 				text-align: center;
 				margin: 0 auto;
 			}
-			
-			.btn{
+
+			.btn {
 				width: 416rpx;
 				height: 104rpx;
 				line-height: 104rpx;
@@ -2724,22 +2738,22 @@ NoR+zv3KaEmPSHtooQIDAQAB
 				font-weight: 700;
 				color: rgb(255, 255, 255);
 				text-align: center;
-				background: linear-gradient(180.00deg, rgb(245, 155, 197),rgb(252, 5, 71) 98.871%);
+				background: linear-gradient(180.00deg, rgb(245, 155, 197), rgb(252, 5, 71) 98.871%);
 				box-shadow: 4rpx 8rpx 26rpx 0 rgba(30, 123, 49, 0.21);
 				border-radius: 104rpx;
 				margin: 32rpx auto 40rpx auto;
 			}
-			
-			.close{
+
+			.close {
 				display: block;
 				width: 64rpx;
 				height: 64rpx;
 				margin: 0 auto;
 			}
-			
+
 		}
 	}
-	
+
 
 	//名词解释
 	.noun {
